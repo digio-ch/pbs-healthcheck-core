@@ -1,0 +1,17 @@
+:80 {
+    tls off
+
+    fastcgi / healthcheck-core-local:9000 php {
+        except /bundles /css /img /js
+    }
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+
+    root /srv/public
+
+    log stdout
+    errors stderr
+    on startup php-fpm
+}

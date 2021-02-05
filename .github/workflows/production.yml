@@ -1,0 +1,36 @@
+name: production
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+env:
+  DOCKER_REGISTRY_URL: https://docker.pkg.github.com
+  DOCKER_REGISTRY_PATH: docker.pkg.github.com/digio-ch/pbs-healthcheck-core/healthcheck-core
+
+jobs:
+  build-prod:
+    runs-on: [self-hosted, linux, build]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to github docker packages registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u ${{ github.actor }} $DOCKER_REGISTRY_URL --password-stdin
+      - name: Build, tag and push stage/rc image
+        run: |
+          docker build -f docker/Dockerfile -t $DOCKER_REGISTRY_PATH:${GITHUB_REF#refs/*/} .
+          docker push $DOCKER_REGISTRY_PATH:${GITHUB_REF#refs/*/}
+          docker tag $DOCKER_REGISTRY_PATH:${GITHUB_REF#refs/*/} $DOCKER_REGISTRY_PATH:prod
+          docker push $DOCKER_REGISTRY_PATH:prod
+
+  dispatch_deploy:
+    needs: [build-prod]
+    runs-on: [self-hosted, linux, build]
+    steps:
+      - name: Trigger Deployment
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT_HC_DISPATCH }}
+          repository: digio-ch/pbs-healthcheck-config
+          event-type: deploy
+          client-payload: '{ "ref": "${{ github.ref }}", "app_env": "prod", "target_server": "production" }'

@@ -1,0 +1,59 @@
+group:
+  leaders: "maîtrises"
+  labels:
+    leaderOverview:
+      Group::Abteilung: "Maîtrise du Groupe"
+      Group::Biber: "Branche Castor"
+      Group::Woelfe: "Branche Louveteaux"
+      Group::Pfadi: "Branche Éclais"
+      Group::Pio: "Branche Pico"
+      Group::AbteilungsRover: "Branche Route"
+      Group::Pta: "SMT"
+      leaderType:
+        leadersOfSubGroup: "responsables"
+        leadersOfMainGroup: "maîtrise de groupe"
+      memberType:
+        members: "participant.e.s"
+        leaders: "responsables"
+    leaders:
+      Group::Biber: "Maîtrise de colonie"
+      Group::Woelfe: "Maîtrise de meute"
+      Group::Pfadi: "Maîtrise de troupe"
+      Group::Pio: "Maîtrise de poste"
+      Group::AbteilungsRover: "Maîtrise de clan"
+      Group::Pta: "Maîtrise SMT"
+    members:
+      Group::Abteilung: "Responsables"
+      Group::Biber: "Castors"
+      Group::Woelfe: "Louveteaux-louvettes"
+      Group::Pfadi: "Éclais"
+      Group::Pio: "Picos"
+      Group::AbteilungsRover: "Routiers"
+      Group::Pta: "SMT"
+
+gender:
+  female: "Féminin"
+  male: "Masculin"
+  unknown: "Inconnu"
+
+auth:
+  unauthorized: "Ta session a expiré, tu as été déconnecté.e automatiquement"
+
+api:
+  entity:
+    invite: "Invité.e.s"
+    group: "Membres"
+
+  action:
+    created: "Crée"
+    updated: "Actualisé"
+    deleted: "Supprimé"
+
+  error:
+    unknown: "Une erreur s'est produite, réessaie plus tard."
+    exists: ", {entityName} existe déjà"
+    invalidEntries: "Entrée non-valable"
+    invalidRequest: "Demande non-valable"
+    notFound: "{entityName} n'existe pas"
+
+  success: "{entityName} a réussi"

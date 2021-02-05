@@ -1,0 +1,59 @@
+group:
+  leaders: 'Leitende'
+  labels:
+    leaderOverview:
+      Group::Abteilung: 'Abteilungsleitung'
+      Group::Biber: 'Biberstufe'
+      Group::Woelfe: 'Wolfsstufe'
+      Group::Pfadi: 'Pfadistufe'
+      Group::Pio: 'Piostufe'
+      Group::AbteilungsRover: 'Roverstufe'
+      Group::Pta: 'PTA'
+      leaderType:
+        leadersOfSubGroup: 'Leitende'
+        leadersOfMainGroup: 'Abteilungsleitende'
+      memberType:
+        members: 'Teilnehmende'
+        leaders: 'Leitende'
+    leaders:
+      Group::Biber: 'Leitung Biberstufe'
+      Group::Woelfe: 'Leitung Wolfsstufe'
+      Group::Pfadi: 'Leitung Pfadistufe'
+      Group::Pio: 'Leitung Piostufe'
+      Group::AbteilungsRover: 'Leitung Roverstufe'
+      Group::Pta: 'Leitung PTA'
+    members:
+      Group::Abteilung: 'Leitende'
+      Group::Biber: 'Biber'
+      Group::Woelfe: 'Wölfe'
+      Group::Pfadi: 'Pfadis'
+      Group::Pio: 'Pios'
+      Group::AbteilungsRover: 'Rover'
+      Group::Pta: 'PTA'
+
+gender:
+  female: 'Weiblich'
+  male: 'Männlich'
+  unknown: 'Unbekannt'
+
+auth:
+  unauthorized: 'Dein Login ist abgelaufen, du wurdest automatisch ausgeloggt.'
+
+api:
+  entity:
+    invite: 'Freigabe'
+    group: 'Gruppe'
+
+  action:
+    created: 'erstellt'
+    updated: 'aktualisiert'
+    deleted: 'gelöscht'
+
+  error:
+    unknown: 'Ein Fehler ist aufgetreten, versuche es später nochmals.'
+    exists: '{entityName} existiert bereits.'
+    invalidEntries: 'Ungültige Eingaben.'
+    invalidRequest: 'Ungültige Anfrage.'
+    notFound: '{entityName} existiert nicht.'
+
+  success: '{entityName} erfolgreich {action}.'

@@ -1,0 +1,63 @@
+app_oauth:
+  path: /oauth/v2/code
+  methods: POST
+  controller: App\Controller\AuthController:login
+
+app_logout:
+  path: /logout
+  methods: GET
+  controller: App\Controller\AuthController:logout
+
+# Invite routes
+invite_create:
+  path: /groups/{groupId}/invite
+  methods: POST
+  controller: App\Controller\Api\InviteController:createInvite
+
+invite_read:
+  path: /groups/{groupId}/invite
+  methods: GET
+  controller: App\Controller\Api\InviteController:getInvites
+
+invite_delete:
+  path: /groups/{groupId}/invite/{inviteId}
+  methods: DELETE
+  controller: App\Controller\Api\InviteController:deleteInvite
+
+# Filter data routes
+filter_data:
+  path: /groups/{groupId}/filter-data
+  methods: GET
+  controller: App\Controller\Api\FilterDataController:getFilterData
+
+# Widget routes
+members_gender:
+  path: /groups/{groupId}/members-gender
+  methods: GET
+  controller: App\Controller\Api\Widget\MembersGenderController:getDemographicGroupData
+
+members_group:
+  path: /groups/{groupId}/members-group
+  methods: GET
+  controller: App\Controller\Api\Widget\MembersGroupController:getGroupMembersData
+
+demographic_camp:
+  path: /groups/{groupId}/camps
+  methods: GET
+  controller: App\Controller\Api\Widget\CampController:getDemographicCampData
+
+leader_overview:
+  path: /groups/{groupId}/leader-overview
+  methods: GET
+  controller: App\Controller\Api\Widget\LeaderOverviewController:getLeaderOverviewData
+
+members_birthyear:
+  path: /groups/{groupId}/age-group-demographic
+  methods: GET
+  controller: App\Controller\Api\Widget\MembersBirthyearController:getMembersBirthyearData
+
+members_entered_left:
+  path: /groups/{groupId}/entered-left
+  methods: GET
+  controller: App\Controller\Api\Widget\MembersEnteredLeftController:getEnteredLeftMembersData
+

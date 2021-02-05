@@ -1,0 +1,48 @@
+name: run-tests
+
+on:
+  push:
+    branches:
+      - develop
+      - stage
+      - master
+  pull_request:
+    branches:
+      - develop
+      - stage
+      - master
+    types: [closed]
+
+jobs:
+  test:
+    if: ${{ github.event_name == 'push' || github.event.pull_request.merged == true }}
+    runs-on: [self-hosted, linux, test]
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup test env
+        run: cp -f .env.test .env
+      - name: Build test image
+        run: docker-compose -f docker/docker-compose.yml build --build-arg BUILD_TEST=1 healthcheck-core
+      - name: Start compose
+        run: docker-compose -f docker/docker-compose.yml up -d
+      - name: Install dependencies
+        run: docker exec --user=$(id -u) healthcheck-core-local composer install --no-interaction --no-scripts
+      - name: Lint PSR12
+        run: docker exec --user=$(id -u) healthcheck-core-local php vendor/bin/phpcs --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/
+      - name: Setup db
+        run: docker exec --user=$(id -u) healthcheck-core-local php bin/console doctrine:schema:update --force
+      - name: Run tests
+        run: docker exec --user=$(id -u) healthcheck-core-local php bin/phpunit
+
+  cleanup-test:
+    if: always()
+    runs-on: [self-hosted, linux, test]
+    needs: [test]
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker cleanup
+        run: |
+          cp -f .env.test .env
+          docker-compose -f docker/docker-compose.yml down
+          docker image prune -f
+          docker volume prune -f

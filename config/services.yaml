@@ -1,0 +1,120 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    api_prefix: "/api/v1"
+    api_regex: "^/api/v1"
+
+    #pbs
+    import_data_dir: '%kernel.project_dir%/%env(IMPORT_TARGET_DIR)%'
+    test_data_dir: '%kernel.project_dir%/tests/data'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,Model}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+
+    # Logger
+    Digio\Logging\GelfTransportOptions:
+        arguments:
+            $host: '%env(GRAYLOG_HOST)%' # host of the graylog server to connect to
+            $port: '%env(GRAYLOG_PORT)%' # port of the input of the graylog server
+            $clientCert: '%env(GRAYLOG_CLIENT_CERT)%' # path to the certificate of this client
+            $clientKey: '%env(GRAYLOG_CLIENT_KEY)%' # path of the private key of this client
+            $ignoreError: true # whether errors in the logging library should be ignored or not
+
+    Digio\Logging\GelfLogger:
+        arguments:
+            $options: '@Digio\Logging\GelfTransportOptions'
+            $source: '%env(APP_HOST)%' # the name of the application (to filter the streams on graylog e.g. dev-api.flow.swiss)
+            $environment: '%kernel.environment%' # the kernel environment of the application
+
+
+    # Listeners
+    App\EventListener\ConsoleEventListener:
+        tags:
+            - { name: kernel.event_listener, event: console.command }
+            - { name: kernel.event_listener, event: console.terminate }
+            - { name: kernel.event_listener, event: console.error }
+
+    App\EventListener\RequestListener:
+        arguments:
+            $environment: '%kernel.environment%'
+            $projectDir: '%kernel.project_dir%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
+    App\EventListener\WidgetControllerListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller }
+
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    App\EventListener\LocaleListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 1024 }
+
+    # Commands
+    App\Command\FetchDataCommand:
+        arguments:
+            $importDirectory: '%import_data_dir%'
+
+
+    # PBS Services
+    App\Service\PbsApiService:
+        arguments:
+            $apiKey: '%env(PBS_API_KEY)%'
+            $url: '%env(PBS_DATA_URL)%'
+
+    App\Service\PbsAuthService:
+        arguments:
+            $environment: '%kernel.environment%'
+            $pbsUrl: '%env(PBS_URL)%'
+            $pbsClientId: '%env(PBS_CLIENT_ID)%'
+            $pbsClientSecret: '%env(PBS_CLIENT_SECRET)%'
+            $pbsCallbackUrl: '%env(PBS_CALLBACK_URL)%'
+            $specialAccessEmails: '%env(SPECIAL_ACCESS)%'
+
+    App\Service\Aggregator\DemographicGroupAggregator:
+        tags:
+            - { name: 'widget.aggregator', key: 'widget.demographic-group' }
+
+    App\Service\Aggregator\DemographicCampAggregator:
+        tags:
+            - { name: 'widget.aggregator', key: 'widget.demographic-camp' }
+
+    App\Service\Aggregator\LeaderOverviewAggregator:
+        tags:
+            - { name: 'widget.aggregator', key: 'widget.leader-overview' }
+
+    App\Service\Aggregator\DepartmentDemographicAggregator:
+        tags:
+            - { name: 'widget.aggregator', key: 'widget.demographic-department' }
+
+    App\Service\Aggregator\DemographicEnteredLeftAggregator:
+        tags:
+            - { name: 'widget.aggregator', key: 'widget.demographic-entered-left' }
+
+    App\Service\Aggregator\AggregatorRegistry:
+        arguments: [!tagged { tag: 'widget.aggregator', index_by: 'key' }]

@@ -1,0 +1,19 @@
+import_command:
+  path: /import
+  controller: App\Controller\DebugController:debugInsertCommand
+
+aggregate_group:
+  path: /aggregate/group
+  controller: App\Controller\DebugController:runGroupAggregator
+
+aggregate_camp:
+  path: /aggregate/camp
+  controller: App\Controller\DebugController:runCampAggregation
+
+test_logger:
+  path: /test-logger
+  controller: App\Controller\DebugController:testLogger
+
+quick_test:
+  path: /test
+  controller: App\Controller\DebugController:emptyTestRoute

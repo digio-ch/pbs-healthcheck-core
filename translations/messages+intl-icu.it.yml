@@ -1,0 +1,59 @@
+group:
+  leaders: 'Animatori'
+  labels:
+    leaderOverview:
+      Group::Abteilung: 'Animatori della sezione'
+      Group::Biber: 'Branca castori'
+      Group::Woelfe: 'Branca lupetti'
+      Group::Pfadi: 'Branca esploratori'
+      Group::Pio: 'Branca pionieri'
+      Group::AbteilungsRover: 'Branca rover'
+      Group::Pta: 'EOC'
+      leaderType:
+        leadersOfSubGroup: 'Animatori'
+        leadersOfMainGroup: 'Animatori della sezione'
+      memberType:
+        members: 'Partecipanti'
+        leaders: 'Animatori'
+    leaders:
+      Group::Biber: 'Animatori branca castori'
+      Group::Woelfe: 'Animatori branca lupetti'
+      Group::Pfadi: 'Animatori branca esploratori'
+      Group::Pio: 'Animatori branca pionieri'
+      Group::AbteilungsRover: 'Animatori branca rover'
+      Group::Pta: 'Animatori EOC'
+    members:
+      Group::Abteilung: 'Animatori'
+      Group::Biber: 'Castori'
+      Group::Woelfe: 'Lupetti'
+      Group::Pfadi: 'Esploratori'
+      Group::Pio: 'Pionieri'
+      Group::AbteilungsRover: 'Rover'
+      Group::Pta: 'EOC'
+
+gender:
+  female: 'Femminile'
+  male: 'Maschile'
+  unknown: 'Sconosciuto'
+
+auth:
+  unauthorized: 'Il tuo login è scaduto, sei stato disconnesso automaticamente.'
+
+api:
+  entity:
+    invite: 'Liberalizzazione'
+    group: 'Gruppo'
+
+  action:
+    created: 'creato'
+    updated: 'attualizzato'
+    deleted: 'cancellato'
+
+  error:
+    unknown: 'Si è verificato un errore, prova di nuovo più tardi.'
+    exists: '{entityName} esiste già.'
+    invalidEntries: 'Indicazioni non valide.'
+    invalidRequest: 'Richiesta non valida.'
+    notFound: '{entityName} non esiste.'
+
+  success: '{entityName} {action} con successo.'

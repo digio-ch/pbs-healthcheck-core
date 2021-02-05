@@ -1,0 +1,32 @@
+[
+    {
+        "label_de": "Erstellt",
+        "label_fr": "Cr\u00e9\u00e9",
+        "label_it": "Salvato",
+        "state": "created"
+    },
+    {
+        "label_de": "Best\u00e4tigt",
+        "label_fr": "Confirm\u00e9",
+        "label_it": "Confermato",
+        "state": "confirmed"
+    },
+    {
+        "label_de": "Teilnehmende erfasst",
+        "label_fr": "Participants saisis",
+        "label_it": "Partecipanti registrati",
+        "state": "assignment_closed"
+    },
+    {
+        "label_de": "Abgesagt",
+        "label_fr": "Annul\u00e9",
+        "label_it": "Annullato",
+        "state": "canceled"
+    },
+    {
+        "label_de": "Abgeschlossen",
+        "label_fr": "Cl\u00f4tur\u00e9",
+        "label_it": "Terminato",
+        "state": "closed"
+    }
+]

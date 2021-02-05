@@ -1,0 +1,240 @@
+[
+    {
+        "id": 1,
+        "validity": null,
+        "label_de": "Absolvent AL-Kurs",
+        "label_fr": "Cours RG accompli",
+        "label_it": "Superamento di Corso CSZ"
+    },
+    {
+        "id": 2,
+        "validity": null,
+        "label_de": "Absolvent Einf\u00fchrungskurs Biberstufe",
+        "label_fr": "Cours d'introduction \u00e0 la branche Castors accompli",
+        "label_it": "Superamento di Corso di introduzione alla branca Castori"
+    },
+    {
+        "id": 3,
+        "validity": null,
+        "label_de": "Absolvent Einf\u00fchrungskurs Piostufe",
+        "label_fr": "Cours d'introduction \u00e0 la branche Picos accompli",
+        "label_it": "Superamento di Corso di introduzione alla branca Pionieri"
+    },
+    {
+        "id": 4,
+        "validity": null,
+        "label_de": "Absolvent Einf\u00fchrungskurs PTA",
+        "label_fr": "Cours d'introduction SMT accompli",
+        "label_it": "Superamento di Corso SOC"
+    },
+    {
+        "id": 5,
+        "validity": null,
+        "label_de": "Absolvent Einf\u00fchrungskurs Roverstufe",
+        "label_fr": "Cours d'introduction \u00e0 la branche Route accompli",
+        "label_it": "Superamento di Corso di introduzione alla branca Rover"
+    },
+    {
+        "id": 6,
+        "validity": null,
+        "label_de": "Absolvent Elternratskurs",
+        "label_fr": "Cours de comit\u00e9 de parents accompli",
+        "label_it": "Suppramento do Corso per il Consiglio dei genitori"
+    },
+    {
+        "id": 7,
+        "validity": null,
+        "label_de": "Absolvent Futurakurs",
+        "label_fr": "Cours Futura accompli",
+        "label_it": "Superamento di Corso Futura"
+    },
+    {
+        "id": 8,
+        "validity": null,
+        "label_de": "Absolvent Gilwellkurs ",
+        "label_fr": "Cours Gilwell accompli",
+        "label_it": "Suppramento di Corso Gilwell"
+    },
+    {
+        "id": 9,
+        "validity": null,
+        "label_de": "Absolvent Leitpfadikurs",
+        "label_fr": "Cours de responsable de patrouille accompli",
+        "label_it": "Superamento di Corso Capi pattuglia"
+    },
+    {
+        "id": 10,
+        "validity": null,
+        "label_de": "Absolvent Panoramakurs ",
+        "label_fr": "Cours panorama accompli",
+        "label_it": "Superamento di Corso Panorama"
+    },
+    {
+        "id": 11,
+        "validity": null,
+        "label_de": "Absolvent Piokurs",
+        "label_fr": "Cours Picos accompli",
+        "label_it": "Superamento di Corso pionieri"
+    },
+    {
+        "id": 12,
+        "validity": null,
+        "label_de": "Absolvent Pr\u00e4seskurs",
+        "label_fr": "Cours d\u2019aum\u00f4nier accompli",
+        "label_it": "Suppramento di Corso Assistenti"
+    },
+    {
+        "id": 13,
+        "validity": null,
+        "label_de": "Absolvent Spektrumkurs",
+        "label_fr": "Cours Spectre accompli",
+        "label_it": "Superamento di Corso Spettro"
+    },
+    {
+        "id": 14,
+        "validity": null,
+        "label_de": "Absolvent \u00dcberpr\u00fcfung Mindestkenntnisse LS\/T",
+        "label_fr": "V\u00e9rification connaissance minimal SC\/T r\u00e9ussie",
+        "label_it": "Valutazione Conoscenze Minime G+S"
+    },
+    {
+        "id": 15,
+        "validity": 2,
+        "label_de": "J+S Coach",
+        "label_fr": "Coach J+S",
+        "label_it": "Coach G+S"
+    },
+    {
+        "id": 16,
+        "validity": 2,
+        "label_de": "J+S Coach Experte",
+        "label_fr": "Expert coach J+S",
+        "label_it": "Esperti coach"
+    },
+    {
+        "id": 17,
+        "validity": 2,
+        "label_de": "J+S Experte LS\/T",
+        "label_fr": "Expert J+S SC\/T",
+        "label_it": "Esperto G+S"
+    },
+    {
+        "id": 18,
+        "validity": null,
+        "label_de": "J+S Experte mit Zusatz im Sicherheitsbereich Berg",
+        "label_fr": "Expert J+S avec compl\u00e9ment domaine de s\u00e9curit\u00e9 montagne",
+        "label_it": "Esperto G+S con supplemento di sicurezza Montagne"
+    },
+    {
+        "id": 19,
+        "validity": null,
+        "label_de": "J+S Experte mit Zusatz im Sicherheitsbereich Wasser",
+        "label_fr": "Expert J+S avec compl\u00e9ment domaine de s\u00e9curit\u00e9 eau",
+        "label_it": "Esperto G+S con supplemento di sicurezza Acqua"
+    },
+    {
+        "id": 20,
+        "validity": null,
+        "label_de": "J+S Experte mit Zusatz im Sicherheitsbereich Winter",
+        "label_fr": "Expert J+S avec compl\u00e9ment domaine de s\u00e9curit\u00e9 hiver",
+        "label_it": "Esperto G+S con supplemento di sicurezza Inverno"
+    },
+    {
+        "id": 21,
+        "validity": null,
+        "label_de": "J+S Kursleiter LS\/T",
+        "label_fr": "Chef de cours J+S SC\/T",
+        "label_it": "Capo Corso G+S"
+    },
+    {
+        "id": 22,
+        "validity": null,
+        "label_de": "J+S Lagerleiter LS\/T",
+        "label_fr": "Chef de camp J+S SC\/T",
+        "label_it": "Capo campo G+S SC\/T"
+    },
+    {
+        "id": 23,
+        "validity": 2,
+        "label_de": "J+S Leiter LS\/T Jugendsport",
+        "label_fr": "Moniteur J+S SC\/T, sport des jeunes",
+        "label_it": "Monitore G+S SC\/T, sport per i giovani"
+    },
+    {
+        "id": 24,
+        "validity": 2,
+        "label_de": "J+S Leiter LS\/T Kindersport",
+        "label_fr": "Moniteur J+S SC\/T, sport des enfants",
+        "label_it": "Monitore G+S SC\/T, sport per i bambini"
+    },
+    {
+        "id": 25,
+        "validity": null,
+        "label_de": "J+S Leiter mit Zusatz im Sicherheitsbereich Berg",
+        "label_fr": "Moniteur J+S avec compl\u00e9ment domaine de s\u00e9curit\u00e9 montagne",
+        "label_it": "Monitore G+S con supplemento di sicurezza Montagne"
+    },
+    {
+        "id": 26,
+        "validity": null,
+        "label_de": "J+S Leiter mit Zusatz im Sicherheitsbereich Wasser",
+        "label_fr": "Moniteur J+S avec compl\u00e9ment domaine de s\u00e9curit\u00e9 eau",
+        "label_it": "Monitore G+S con supplemento di sicurezza Acqua"
+    },
+    {
+        "id": 27,
+        "validity": null,
+        "label_de": "J+S Leiter mit Zusatz im Sicherheitsbereich Winter",
+        "label_fr": "Moniteur J+ S avec compl\u00e9ment domaine de s\u00e9curit\u00e9 hiver",
+        "label_it": "Monitore G+S con supplemento di sicurezza Inverno"
+    },
+    {
+        "id": 28,
+        "validity": 3,
+        "label_de": "LKB",
+        "label_fr": "C\u00e0F",
+        "label_it": "CaF"
+    },
+    {
+        "id": 29,
+        "validity": null,
+        "label_de": "Zertifikat Nothilfekurs",
+        "label_fr": "Certificat Cours de sauveteur",
+        "label_it": "Certificato Corso soccorritori"
+    },
+    {
+        "id": 30,
+        "validity": null,
+        "label_de": "SLRG-Brevet Basis Pool",
+        "label_fr": "Brevet SSS Base Pool",
+        "label_it": "Brevetto SSS Base Pool"
+    },
+    {
+        "id": 31,
+        "validity": null,
+        "label_de": "SLRG-Brevet Plus Pool",
+        "label_fr": "Brevet SSS Plus Pool",
+        "label_it": "Brevetto SSS Plus Pool"
+    },
+    {
+        "id": 32,
+        "validity": null,
+        "label_de": "SLRG-Modul See",
+        "label_fr": "Module SSS Lac",
+        "label_it": "Modulo SSS Laghi"
+    },
+    {
+        "id": 33,
+        "validity": null,
+        "label_de": "SLRG-Modul Fluss",
+        "label_fr": "Module SSS Rivi\u00e8re",
+        "label_it": "Modulo SSS Fiumi"
+    },
+    {
+        "id": 34,
+        "validity": null,
+        "label_de": "BLS-AED-SRC Komplettkurs",
+        "label_fr": "Cours BLS-AED-SRC-Complet",
+        "label_it": "Corso BLS-DAE-SRC-Completo"
+    }
+]

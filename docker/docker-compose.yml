@@ -1,0 +1,64 @@
+version: "3.7"
+services:
+  healthcheck-caddy:
+    container_name: healthcheck-caddy-local
+    image: abiosoft/caddy:no-stats
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile
+    environment:
+      - ACME_AGREE=true
+    ports:
+      - "8000:80"
+    networks:
+      healthcheck-dev:
+        ipv4_address: 172.20.0.2
+
+  healthcheck-core:
+    container_name: healthcheck-core-local
+    image: healthcheck-core-local
+    build:
+      dockerfile: docker/Dockerfile
+      context: ../
+    volumes:
+      - ../:/srv
+    env_file:
+      - ../.env
+    restart: always
+    ports:
+      - "9000:9000"
+    networks:
+      healthcheck-dev:
+        ipv4_address: 172.20.0.3
+
+  healthcheck-postgresql:
+    container_name: healthcheck-postgresql-local
+    restart: always
+    image: postgres:9.6.20
+    environment:
+      - POSTGRES_USER=healthcheck-admin
+      - POSTGRES_PASSWORD=Test12345!
+      - POSTGRES_DB=healthcheck_local
+    ports:
+      - "5432:5432"
+    networks:
+      healthcheck-dev:
+        ipv4_address: 172.20.0.4
+
+  pg-admin:
+    container_name: healthcheck-pgadmin-local
+    image: zhajor/docker-phppgadmin
+    ports:
+      - "5441:80"
+    environment:
+      - DB_HOST=healthcheck-postgresql
+      - DB_PORT=5432
+    networks:
+      healthcheck-dev:
+        ipv4_address: 172.20.0.5
+
+networks:
+  healthcheck-dev:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/28

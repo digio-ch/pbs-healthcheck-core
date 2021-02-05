@@ -1,0 +1,26 @@
+[
+    {
+        "label_de": "Nicht J+S",
+        "label_fr": "Pas J+S",
+        "label_it": "Non G+S",
+        "j_s_kind": "j_s_kind_none"
+    },
+    {
+        "label_de": "J+S Kindersport",
+        "label_fr": "J+S Sport des enfants",
+        "label_it": "Sport per i bambini G+S",
+        "j_s_kind": "j_s_kind_j_s_child"
+    },
+    {
+        "label_de": "J+S Jugendsport",
+        "label_fr": "J+S Sport des jeunes",
+        "label_it": "Sport per i giovani G+S",
+        "j_s_kind": "j_s_kind_j_s_youth"
+    },
+    {
+        "label_de": "Gemischtes J+S Lager",
+        "label_fr": "J+S Camp mixte",
+        "label_it": "Campi misti G+S",
+        "j_s_kind": "j_s_kind_j_s_mixed"
+    }
+]
