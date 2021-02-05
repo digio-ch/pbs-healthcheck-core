@@ -4,6 +4,17 @@
 It consists of a postgres database, pg-admin for easy database exploration, a php-fpm container 
 and an additional caddy reverse proxy.
 
+## Links
+
+- [Documentation](docs/index.md)
+- [Contribution Guidelines](.github/contributing.md)
+- Issue Templates
+    - [Bug Report](.github/ISSUE_TEMPLATE/bug-report.md)
+    - [Feature Request](.github/ISSUE_TEMPLATE/feature-request.md)
+- PR Templates
+    - [Bug Fix](.github/PULL_REQUEST_TEMPLATE/bug-fix.md)
+    - [Feature Change](.github/PULL_REQUEST_TEMPLATE/feature-change.md)
+
 ## Getting Started
 
 This guide should help you get the project up and running locally on any machine. 
