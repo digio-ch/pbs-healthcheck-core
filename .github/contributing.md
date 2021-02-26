@@ -1,4 +1,4 @@
-# Contributing to HealthCheck
+l# Contributing to HealthCheck
 
 This document provides guidelines on how to contribute to the HealthCheck Project. 
 Make sure to read it thoroughly before trying to contribute in any way.
@@ -6,6 +6,7 @@ Make sure to read it thoroughly before trying to contribute in any way.
 ## Contents
 
 - [Communication](#communication)
+- [Project Bard and Collaboration between PBS, Digio GmbH and Contributors](#project-board-and-collaboration-between-digio-and-pbs)
 - [Reporting Bugs](#reporting-bugs)
     - [Before Submitting A Bug Report](#before-submitting-a-bug-report)
     - [How Do I Submit A (Good) Bug Report](#how-do-i-submit-a-good-bug-report)
@@ -21,6 +22,13 @@ All communication happens through GitHub Issues. If you find a bug or want to ad
 appropriate guides below: 
 - [Bug Report](#reporting-bugs)
 - [Feature Request](#requesting-features)
+
+## Project Board and collaboration between Digio and PBS 
+
+This chart defines the flow of issues and bugs in the project board. 
+Additionally, it highlights the responsible party for each stage and which action is possible to be taken next.
+
+![collaboration](../docs/assets/collaboration.png)
 
 ## Reporting Bugs
 

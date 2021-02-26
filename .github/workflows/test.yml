@@ -6,16 +6,9 @@ on:
       - develop
       - stage
       - master
-  pull_request:
-    branches:
-      - develop
-      - stage
-      - master
-    types: [closed]
 
 jobs:
   test:
-    if: ${{ github.event_name == 'push' || github.event.pull_request.merged == true }}
     runs-on: [self-hosted, linux, test]
     steps:
       - uses: actions/checkout@v2
