@@ -1,4 +1,4 @@
-l# Contributing to HealthCheck
+# Contributing to HealthCheck
 
 This document provides guidelines on how to contribute to the HealthCheck Project. 
 Make sure to read it thoroughly before trying to contribute in any way.
