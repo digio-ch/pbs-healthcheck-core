@@ -14,7 +14,10 @@ ARG BUILD_TEST
 ARG PHP_INI
 
 RUN apt-get update
-RUN apt-get install -y libpq-dev cron zip unzip
+RUN apt-get install -y libzip-dev libpq-dev cron zip unzip
+
+# add zip to php
+RUN docker-php-ext-install zip
 
 # add postgresql
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql

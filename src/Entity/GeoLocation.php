@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="hc_widget_geo_location", indexes={
+ * @ORM\Table(name="admin_geo_location", indexes={
  *     @ORM\Index(columns="zip"),
  *     @ORM\Index(columns="town"),
  *     @ORM\Index(columns="address"),
@@ -16,10 +16,16 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(columns="latitude"),
  * })
  * @ORM\Entity(repositoryClass="App\Repository\WidgetGeoLocationRepository")
- * @ORM\HasLifecycleCallbacks()
  */
-class WidgetGeoLocation extends Widget
+class GeoLocation
 {
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
     /**
      * @ORM\Column(type="integer")
      */
@@ -36,17 +42,22 @@ class WidgetGeoLocation extends Widget
     private $address;
 
     /**
-     * @ORM\Column(type="decimal")
+     * @ORM\Column(type="string")
+     */
+    private $house;
+
+    /**
+     * @ORM\Column(type="float")
      */
     private $longitude;
 
     /**
-     * @ORM\Column(type="decimal")
+     * @ORM\Column(type="float")
      */
     private $latitude;
 
     /**
-     * @ORM\OneToMany(targetEntity="Person", mappedBy="")
+     * @ORM\OneToMany(targetEntity="Person", mappedBy="geoLocation")
      */
     private $people;
 
@@ -104,6 +115,22 @@ class WidgetGeoLocation extends Widget
     }
 
     /**
+     * @return string
+     */
+    public function getHouse(): string
+    {
+        return $this->house;
+    }
+
+    /**
+     * @param string $house
+     */
+    public function setHouse(string $house): void
+    {
+        $this->house = $house;
+    }
+
+    /**
      * @return float
      */
     public function getLongitude(): float
@@ -136,7 +163,7 @@ class WidgetGeoLocation extends Widget
     }
 
     /**
-     * @return array|WidgetGeoLocation[]
+     * @return array|GeoLocation[]
      */
     public function getPeople(): array
     {

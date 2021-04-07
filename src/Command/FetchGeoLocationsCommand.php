@@ -4,24 +4,31 @@
 namespace App\Command;
 
 
-use App\DTO\Mapper\GeoAdminLocationMapper;
-use App\DTO\Model\GeoAdminLocationDTO;
-use App\Entity\Person;
-use App\Entity\WidgetGeoLocation;
+use App\Entity\GeoLocation;
 use App\Model\CommandStatistics;
 use App\Repository\PersonRepository;
 use App\Repository\WidgetGeoLocationRepository;
-use GuzzleHttp\Client;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FetchGeoLocationsCommand extends StatisticsCommand
 {
+    private const COORDINATION_EASTERN = 8;
+    private const COORDINATION_NORTHERN = 9;
+    private const ADDRESS_STREET = 13;
+    private const ADDRESS_NUMBER = 14;
+    private const ADDRESS_ZIP = 16;
+    private const ADDRESS_TOWN = 18;
+
     /** @var WidgetGeoLocationRepository $geoLocationRepository */
     private $geoLocationRepository;
 
     /** @var PersonRepository $personRepository */
     private $personRepository;
+
+    /** @var float */
+    private $stats;
 
     public function __construct(
         WidgetGeoLocationRepository $geoLocationRepository,
@@ -30,86 +37,170 @@ class FetchGeoLocationsCommand extends StatisticsCommand
         parent::__construct();
         $this->geoLocationRepository = $geoLocationRepository;
         $this->personRepository = $personRepository;
+
+        $this->stats = 0;
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): int
+    protected function configure()
     {
-        $this->downloadCurrentZip();
-    }
-
-    private function downloadCurrentZip(): void
-    {
-        file_get_contents(
-            "geo-data.zip",
-            ""
-        );
-    }
-
-    private function getGeoLocation(Person $person): WidgetGeoLocation
-    {
-        if ($person->getGeoLocation()) {
-            return $person->getGeoLocation();
-        }
-
-        $result = $this->geoLocationRepository->findOneByAddress(
-            $person->getZip(),
-            $person->getTown(),
-            $person->getAddress()
-        );
-
-        if ($result) {
-            $person->setGeoLocation($result);
-            $this->personRepository->save($person);
-            return $result;
-        }
-
-        $dto = $this->lookupAddress(
-            $person->getZip(),
-            $person->getTown(),
-            $person->getAddress()
-        );
-
-        $geoLocation = new WidgetGeoLocation();
-        $geoLocation->setZip($person->getZip());
-        $geoLocation->setTown($person->getTown());
-        $geoLocation->setAddress($person->getAddress());
-        $geoLocation->setLongitude($dto->getLongitude());
-        $geoLocation->setLatitude($dto->getLatitude());
-        $person->setGeoLocation($geoLocation);
-
-        $this->geoLocationRepository->save($geoLocation);
-
-        return $geoLocation;
+        $this
+            ->setName("app:import-geo-locations")
+            ->addArgument("overwrite", InputArgument::OPTIONAL);
     }
 
     /**
-     * @param int $zip
-     * @param string $town
-     * @param string $address
-     * @return GeoAdminLocationDTO|null
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    private function lookupAddress(int $zip, string $town, string $address): ?GeoAdminLocationDTO
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $searchText = $address . ", " . $zip . " " .$town;
-        $searchText = str_replace(" ", "%20", $searchText);
+        $start = microtime(true);
 
-        $client = new Client();
-        $response = $client->get(
-            "https://api3.geo.admin.ch/rest/services/api/SearchServer
-            ?features=ch.bfs.gebaeude_wohnungs_register
-            &type=featuresearch
-            &searchText=" . $searchText . "
-            &limit=1"
+        $overwrite = $input->getArgument("overwrite");
+        if ($overwrite) {
+            $output->writeln(['Clearing geo locations from db']);
+
+            $this->geoLocationRepository->wipe();
+        }
+
+        $output->writeln(['Start geo location import...']);
+
+        // todo re add $this->downloadCurrentZip($output);
+
+        $this->readDataContent($output);
+
+        $timeElapsed = microtime(true) - $start;
+        $this->stats = $timeElapsed;
+
+        return 0;
+    }
+
+    /**
+     * @param OutputInterface $output
+     */
+    private function downloadCurrentZip(OutputInterface $output): void
+    {
+        $output->writeln(['Downloading the most recent geo data...']);
+
+        $start = microtime(true);
+
+        file_put_contents(
+            "data/geo-data.zip",
+            file_get_contents("https://data.geo.admin.ch/ch.bfs.gebaeude_wohnungs_register/CSV/CH/CH.zip")
         );
 
-        $jsonData = json_decode($response, true);
+        $time = microtime(true) - $start;
 
-        // return the first search result
-        return count($jsonData["results"]) > 0 ? GeoAdminLocationMapper::createFromArray($jsonData["results"][0]) : null;
+        $output->writeln(['Downloaded geo data in: ' . number_format($time, 2) . ' seconds']);
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    private function readDataContent(OutputInterface $output): void
+    {
+        $file = fopen("zip://data/geo-data.zip#CH.csv","r");
+
+        $start = microtime(true);
+        $rowStart = microtime(true);
+
+        $output->writeln(['Caching geo locations in the db...']);
+
+        if ($file) {
+            $index = 0;
+
+            // skip first row
+            fgets($file);
+
+            while (!feof($file) && $index < 1200) {
+                $row = explode(';', fgets($file));
+
+                $coordination = $this->CH1903_to_WGS84(
+                    floatval($row[self::COORDINATION_EASTERN]),
+                    floatval($row[self::COORDINATION_NORTHERN]),
+                    0
+                );
+
+                $geoLocation = new GeoLocation();
+                $geoLocation->setLongitude($coordination[0]);
+                $geoLocation->setLatitude($coordination[1]);
+                $geoLocation->setAddress($row[self::ADDRESS_STREET]);
+                $geoLocation->setHouse($row[self::ADDRESS_NUMBER]);
+                $geoLocation->setZip(intval($row[self::ADDRESS_ZIP]));
+                $geoLocation->setTown($row[self::ADDRESS_TOWN]);
+
+                $this->geoLocationRepository->save($geoLocation);
+
+                $index++;
+
+                if ($index % 1000 == 0) {
+                    $rowTime = microtime(true) - $rowStart;
+                    $output->writeln(['Imported 1000 geo locations in: ' . number_format($rowTime, 2) . 's']);
+                    $rowStart = microtime(true);
+                }
+            }
+
+            $time = microtime(true) - $start;
+            $output->writeln(['Imported ' . $index . ' geo locations in: ' . number_format($time, 2) . ' seconds']);
+
+            fclose($file);
+        }
+    }
+
+    /**
+     * @param float $east
+     * @param float $north
+     * @param float $height
+     * @return array
+     */
+    private function CH1903_to_WGS84(float $east, float $north, float $height): array
+    {
+        // Convert origin to "civil" system, where Bern has coordinates 0,0.
+        $east -= 600000;
+        $north -= 200000;
+
+        // Converting CH1903+ to CH1903
+        $east -= 2E6;
+        $north -= 1E6;
+
+        // Express distances in 1000km units.
+        $east /= 1E6;
+        $north /= 1E6;
+
+        // Calculate longitude in 10000" units.
+        $lon = 2.6779094;
+        $lon += 4.728982 * $east;
+        $lon += 0.791484 * $east * $north;
+        $lon += 0.1306 * $east * $north * $north;
+        $lon -= 0.0436 * $east * $east * $east;
+
+        // Calculate latitude in 10000" units.
+        $lat = 16.9023892;
+        $lat += 3.238272 * $north;
+        $lat -= 0.270978 * $east * $east;
+        $lat -= 0.002528 * $north * $north;
+        $lat -= 0.0447 * $east * $east * $north;
+        $lat -= 0.0140 * $north * $north * $north;
+
+        // Convert height [m].
+        $height += 49.55;
+        $height -= 12.60 * $east;
+        $height -= 22.64 * $north;
+
+        // Convert longitude and latitude back in degrees.
+        $lon *= 100 / 36;
+        $lat *= 100 / 36;
+
+        return [$lon, $lat, $height];
     }
 
     public function getStats(): CommandStatistics
     {
-        // TODO: Implement getStats() method.
+        return new CommandStatistics($this->stats, '');
     }
 }

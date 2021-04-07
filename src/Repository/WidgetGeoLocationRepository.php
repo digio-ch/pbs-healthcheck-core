@@ -4,7 +4,7 @@
 namespace App\Repository;
 
 
-use App\Entity\WidgetGeoLocation;
+use App\Entity\GeoLocation;
 use Doctrine\Persistence\ManagerRegistry;
 
 class WidgetGeoLocationRepository extends AggregatedEntityRepository
@@ -15,10 +15,17 @@ class WidgetGeoLocationRepository extends AggregatedEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WidgetGeoLocation::class);
+        parent::__construct($registry, GeoLocation::class);
     }
 
-    public function findOneByAddress(int $zip, string $town, string $address): WidgetGeoLocation
+    /**
+     * @param int $zip
+     * @param string $town
+     * @param string $address
+     * @return GeoLocation
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOneByAddress(int $zip, string $town, string $address): GeoLocation
     {
         return $this->createQueryBuilder('geo')
             ->where('geo.zip == :zip')
@@ -33,13 +40,25 @@ class WidgetGeoLocationRepository extends AggregatedEntityRepository
     }
 
     /**
-     * @param WidgetGeoLocation $geoLocation
+     * @param GeoLocation $geoLocation
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function save(WidgetGeoLocation $geoLocation)
+    public function save(GeoLocation $geoLocation)
     {
         $this->getEntityManager()->persist($geoLocation);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function wipe(): void
+    {
+        foreach ($this->findAll() as $entity) {
+            $this->remove($entity);
+        }
         $this->getEntityManager()->flush();
     }
 }

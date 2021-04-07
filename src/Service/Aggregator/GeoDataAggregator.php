@@ -4,10 +4,7 @@
 namespace App\Service\Aggregator;
 
 
-use App\DTO\Mapper\GeoAdminLocationMapper;
-use App\DTO\Model\GeoAdminLocationDTO;
 use DateTime;
-use GuzzleHttp\Client;
 
 class GeoDataAggregator extends WidgetAggregator
 {

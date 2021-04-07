@@ -406,6 +406,7 @@ class ImportFromJsonCommand extends StatisticsCommand
             if (isset($c['name'])) {
                 $course->setName($c['name']);
             } else {
+                // todo remove
                 continue;
             }
 
