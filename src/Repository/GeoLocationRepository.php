@@ -7,10 +7,10 @@ namespace App\Repository;
 use App\Entity\GeoLocation;
 use Doctrine\Persistence\ManagerRegistry;
 
-class WidgetGeoLocationRepository extends AggregatedEntityRepository
+class GeoLocationRepository extends AggregatedEntityRepository
 {
     /**
-     * WidgetGeoLocationRepository constructor.
+     * GeoLocationRepository constructor.
      * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)

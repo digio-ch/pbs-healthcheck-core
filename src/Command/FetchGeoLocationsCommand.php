@@ -7,7 +7,7 @@ namespace App\Command;
 use App\Entity\GeoLocation;
 use App\Model\CommandStatistics;
 use App\Repository\PersonRepository;
-use App\Repository\WidgetGeoLocationRepository;
+use App\Repository\GeoLocationRepository;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,7 +21,7 @@ class FetchGeoLocationsCommand extends StatisticsCommand
     private const ADDRESS_ZIP = 16;
     private const ADDRESS_TOWN = 18;
 
-    /** @var WidgetGeoLocationRepository $geoLocationRepository */
+    /** @var GeoLocationRepository $geoLocationRepository */
     private $geoLocationRepository;
 
     /** @var PersonRepository $personRepository */
@@ -31,7 +31,7 @@ class FetchGeoLocationsCommand extends StatisticsCommand
     private $stats;
 
     public function __construct(
-        WidgetGeoLocationRepository $geoLocationRepository,
+        GeoLocationRepository $geoLocationRepository,
         PersonRepository $personRepository
     ) {
         parent::__construct();

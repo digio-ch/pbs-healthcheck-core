@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(columns="longitude"),
  *     @ORM\Index(columns="latitude"),
  * })
- * @ORM\Entity(repositoryClass="App\Repository\WidgetGeoLocationRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\GeoLocationRepository")
  */
 class GeoLocation
 {
