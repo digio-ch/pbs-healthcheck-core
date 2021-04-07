@@ -21,22 +21,24 @@ class GeoLocationRepository extends AggregatedEntityRepository
     /**
      * @param int $zip
      * @param string $town
-     * @param string $address
-     * @return GeoLocation
+     * @param string $street
+     * @param string $houseNumber
+     * @return GeoLocation|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findOneByAddress(int $zip, string $town, string $address): GeoLocation
+    public function findOneByAddress(int $zip, string $town, string $street, string $houseNumber): ?GeoLocation
     {
         return $this->createQueryBuilder('geo')
-            ->where('geo.zip == :zip')
-            ->andWhere('geo.town == :town')
-            ->andWhere('geo.address == :address')
+            ->where('geo.zip = :zip')
+            ->andWhere('geo.town = :town')
+            ->andWhere('geo.address = :street')
+            ->andWhere('geo.house = :house')
             ->setParameter('zip', $zip)
             ->setParameter('town', $town)
-            ->setParameter('address', $address)
+            ->setParameter('street', $street)
+            ->setParameter('house', $houseNumber)
             ->getQuery()
-            ->getOneOrNullResult()
-            ->execute();
+            ->getOneOrNullResult();
     }
 
     /**
