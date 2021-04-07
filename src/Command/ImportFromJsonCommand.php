@@ -405,6 +405,8 @@ class ImportFromJsonCommand extends StatisticsCommand
 
             if (isset($c['name'])) {
                 $course->setName($c['name']);
+            } else {
+                continue;
             }
 
             if ($c['groups']) {
@@ -460,6 +462,8 @@ class ImportFromJsonCommand extends StatisticsCommand
 
             if (isset($c['name'])) {
                 $camp->setName($c['name']);
+            } else {
+                continue;
             }
 
             $ageSportType = $this->em->getRepository(YouthSportType::class)->findOneBy(['type' => $c['j_s_kind']]);

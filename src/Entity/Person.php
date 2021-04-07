@@ -97,6 +97,12 @@ class Person
     private $qualifications;
 
     /**
+     * @ORM\ManyToOne(targetEntity="WidgetGeoLocation", inversedBy="people")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $geoLocation;
+
+    /**
      * @param int $id
      */
     public function setId(int $id)
@@ -286,5 +292,21 @@ class Person
     public function setGroup(?Group $group)
     {
         $this->group = $group;
+    }
+
+    /**
+     * @return WidgetGeoLocation|null
+     */
+    public function getGeoLocation(): ?WidgetGeoLocation
+    {
+        return $this->geoLocation;
+    }
+
+    /**
+     * @param WidgetGeoLocation $geoLocation
+     */
+    public function setGeoLocation(WidgetGeoLocation $geoLocation): void
+    {
+        $this->geoLocation = $geoLocation;
     }
 }

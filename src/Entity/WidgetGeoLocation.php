@@ -1,0 +1,145 @@
+<?php
+
+
+namespace App\Entity;
+
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="hc_widget_geo_location", indexes={
+ *     @ORM\Index(columns="zip"),
+ *     @ORM\Index(columns="town"),
+ *     @ORM\Index(columns="address"),
+ *     @ORM\Index(columns="longitude"),
+ *     @ORM\Index(columns="latitude"),
+ * })
+ * @ORM\Entity(repositoryClass="App\Repository\WidgetGeoLocationRepository")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class WidgetGeoLocation extends Widget
+{
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $zip;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $town;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="decimal")
+     */
+    private $longitude;
+
+    /**
+     * @ORM\Column(type="decimal")
+     */
+    private $latitude;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Person", mappedBy="")
+     */
+    private $people;
+
+    public function __construct()
+    {
+        $this->people = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
+    public function getZip(): int
+    {
+        return $this->zip;
+    }
+
+    /**
+     * @param int $zip
+     */
+    public function setZip(int $zip): void
+    {
+        $this->zip = $zip;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTown(): string
+    {
+        return $this->town;
+    }
+
+    /**
+     * @param string $town
+     */
+    public function setTown(string $town): void
+    {
+        $this->town = $town;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress(): string
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string $address
+     */
+    public function setAddress(string $address): void
+    {
+        $this->address = $address;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLongitude(): float
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param float $longitude
+     */
+    public function setLongitude(float $longitude): void
+    {
+        $this->longitude = $longitude;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLatitude(): float
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param float $latitude
+     */
+    public function setLatitude(float $latitude): void
+    {
+        $this->latitude = $latitude;
+    }
+
+    /**
+     * @return array|WidgetGeoLocation[]
+     */
+    public function getPeople(): array
+    {
+        return $this->people->toArray();
+    }
+}
