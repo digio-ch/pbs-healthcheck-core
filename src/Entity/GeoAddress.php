@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="admin_geo_location", indexes={
+ * @ORM\Table(name="admin_geo_address", indexes={
  *     @ORM\Index(columns="zip"),
  *     @ORM\Index(columns="town"),
  *     @ORM\Index(columns="address"),
