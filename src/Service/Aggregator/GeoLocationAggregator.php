@@ -12,13 +12,13 @@ use App\Repository\PersonRoleRepository;
 use App\Repository\WidgetGeoLocationRepository;
 use DateInterval;
 use DateTime;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class GeoLocationAggregator extends WidgetAggregator
 {
     private const NAME = 'widget.geo-location';
 
-    /** @var EntityManager $em */
+    /** @var EntityManagerInterface $em */
     private $em;
 
     /** @var GroupRepository $groupRepository */
@@ -31,7 +31,7 @@ class GeoLocationAggregator extends WidgetAggregator
     private $geoLocationRepository;
 
     public function __construct(
-        EntityManager $em,
+        EntityManagerInterface $em,
         GroupRepository $groupRepository,
         PersonRoleRepository $personRoleRepository,
         WidgetGeoLocationRepository $geoLocationRepository
@@ -125,7 +125,7 @@ class GeoLocationAggregator extends WidgetAggregator
             $widget->setCreatedAt(new \DateTimeImmutable());
             $widget->setDataPointDate(new \DateTimeImmutable($dateTime->format('Y-m-d')));
 
-            $location = $personRole->getPerson()->getGeoLocation();
+            $location = $personRole->getPerson()->getGeoAddress();
             if (!is_null($location)) {
                 $widget->setLongitude($location->getLongitude());
                 $widget->setLatitude($location->getLatitude());

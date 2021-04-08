@@ -96,7 +96,7 @@ class MapPeoplesLocationCommand extends StatisticsCommand
                 continue;
             }
 
-            $person->setGeoLocation($geoLocation);
+            $person->setGeoAddress($geoLocation);
             $this->personRepository->save($person);
 
             $mapped++;

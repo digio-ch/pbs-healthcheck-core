@@ -20,17 +20,17 @@ use Doctrine\ORM\Mapping as ORM;
 class WidgetGeoLocation extends Widget
 {
     /**
-     * @ORM\Column(type="float", nullable="true")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $longitude;
 
     /**
-     * @ORM\Column(type="float", nullable="true")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $latitude;
 
     /**
-     * @ORM\Column(type="string", nullable="true")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $label;
 

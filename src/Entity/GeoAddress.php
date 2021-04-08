@@ -57,7 +57,7 @@ class GeoAddress
     private $latitude;
 
     /**
-     * @ORM\OneToMany(targetEntity="Person", mappedBy="geoLocation")
+     * @ORM\OneToMany(targetEntity="Person", mappedBy="geoAddress")
      */
     private $people;
 
