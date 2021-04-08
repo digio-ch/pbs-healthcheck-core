@@ -20,12 +20,12 @@ use Doctrine\ORM\Mapping as ORM;
 class WidgetGeoLocation extends Widget
 {
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable="true")
      */
     private $longitude;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable="true")
      */
     private $latitude;
 
@@ -49,9 +49,9 @@ class WidgetGeoLocation extends Widget
     private $color = '#929292';
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getLongitude(): float
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
@@ -65,9 +65,9 @@ class WidgetGeoLocation extends Widget
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getLatitude(): float
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }

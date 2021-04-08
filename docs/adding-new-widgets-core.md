@@ -29,7 +29,7 @@ start coding.
 
 ## Aggregating Data
 
-Each widget has its own aggregation logic. We use a registry pattern to ease the dat import procedure. 
+Each widget has its own aggregation logic. We use a registry pattern to ease the data import procedure. 
 Check the data import docs if you haven't this is a crucial part of the application which needs to be understood.
 
 - Add a new `Aggregator` inside `src/Service/Aggregator/`.
@@ -38,7 +38,7 @@ Check the data import docs if you haven't this is a crucial part of the applicat
 - Make sure the parent constructor is called properly with all needed arguments.
 
 This will force you to implement:
- - `getName(DateTime $startDate = null)`
+ - `getName()`
  - `aggregate(DateTime $startDate = null)`
 
 Make sure you add a `private const NAME = "widget.<WIDGET_NAME>";` property to your aggregator so

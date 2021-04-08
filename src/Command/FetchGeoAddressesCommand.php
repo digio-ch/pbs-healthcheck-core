@@ -117,7 +117,7 @@ class FetchGeoAddressesCommand extends StatisticsCommand
             // skip first row
             fgets($file);
 
-            while (!feof($file) && $index < 1200) {
+            while (!feof($file)) {
                 $row = explode(';', fgets($file));
 
                 $coordination = $this->CH1903_to_WGS84(
@@ -140,7 +140,7 @@ class FetchGeoAddressesCommand extends StatisticsCommand
 
                 if ($index % 1000 == 0) {
                     $rowTime = microtime(true) - $rowStart;
-                    $output->writeln(['Imported 1000 geo locations in: ' . number_format($rowTime, 2) . 's']);
+                    $output->writeln(['Imported (additional) 1000 geo locations in: ' . number_format($rowTime, 2) . 's']);
                     $rowStart = microtime(true);
                 }
             }
