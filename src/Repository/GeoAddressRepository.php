@@ -4,18 +4,18 @@
 namespace App\Repository;
 
 
-use App\Entity\GeoLocation;
+use App\Entity\GeoAddress;
 use Doctrine\Persistence\ManagerRegistry;
 
-class GeoLocationRepository extends AggregatedEntityRepository
+class GeoAddressRepository extends AggregatedEntityRepository
 {
     /**
-     * GeoLocationRepository constructor.
+     * GeoAddressRepository constructor.
      * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, GeoLocation::class);
+        parent::__construct($registry, GeoAddress::class);
     }
 
     /**
@@ -23,10 +23,10 @@ class GeoLocationRepository extends AggregatedEntityRepository
      * @param string $town
      * @param string $street
      * @param string $houseNumber
-     * @return GeoLocation|null
+     * @return GeoAddress|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findOneByAddress(int $zip, string $town, string $street, string $houseNumber): ?GeoLocation
+    public function findOneByAddress(int $zip, string $town, string $street, string $houseNumber): ?GeoAddress
     {
         return $this->createQueryBuilder('geo')
             ->where('geo.zip = :zip')
@@ -42,11 +42,11 @@ class GeoLocationRepository extends AggregatedEntityRepository
     }
 
     /**
-     * @param GeoLocation $geoLocation
+     * @param GeoAddress $geoLocation
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function save(GeoLocation $geoLocation)
+    public function save(GeoAddress $geoLocation)
     {
         $this->getEntityManager()->persist($geoLocation);
         $this->getEntityManager()->flush();

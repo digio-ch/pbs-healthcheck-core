@@ -4,15 +4,15 @@
 namespace App\Command;
 
 
-use App\Entity\GeoLocation;
+use App\Entity\GeoAddress;
 use App\Model\CommandStatistics;
 use App\Repository\PersonRepository;
-use App\Repository\GeoLocationRepository;
+use App\Repository\GeoAddressRepository;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FetchGeoLocationsCommand extends StatisticsCommand
+class FetchGeoAddressesCommand extends StatisticsCommand
 {
     private const COORDINATION_EASTERN = 8;
     private const COORDINATION_NORTHERN = 9;
@@ -21,7 +21,7 @@ class FetchGeoLocationsCommand extends StatisticsCommand
     private const ADDRESS_ZIP = 16;
     private const ADDRESS_TOWN = 18;
 
-    /** @var GeoLocationRepository $geoLocationRepository */
+    /** @var GeoAddressRepository $geoLocationRepository */
     private $geoLocationRepository;
 
     /** @var PersonRepository $personRepository */
@@ -31,7 +31,7 @@ class FetchGeoLocationsCommand extends StatisticsCommand
     private $stats;
 
     public function __construct(
-        GeoLocationRepository $geoLocationRepository,
+        GeoAddressRepository $geoLocationRepository,
         PersonRepository $personRepository
     ) {
         parent::__construct();
@@ -44,7 +44,7 @@ class FetchGeoLocationsCommand extends StatisticsCommand
     protected function configure()
     {
         $this
-            ->setName("app:import-geo-locations")
+            ->setName("app:import-geo-addresses")
             ->addArgument("overwrite", InputArgument::OPTIONAL);
     }
 
@@ -126,7 +126,7 @@ class FetchGeoLocationsCommand extends StatisticsCommand
                     0
                 );
 
-                $geoLocation = new GeoLocation();
+                $geoLocation = new GeoAddress();
                 $geoLocation->setLongitude($coordination[0]);
                 $geoLocation->setLatitude($coordination[1]);
                 $geoLocation->setAddress($row[self::ADDRESS_STREET]);

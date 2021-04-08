@@ -7,7 +7,7 @@ namespace App\Command;
 use App\Entity\Person;
 use App\Model\CommandStatistics;
 use App\Repository\PersonRepository;
-use App\Repository\GeoLocationRepository;
+use App\Repository\GeoAddressRepository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use function Sodium\add;
@@ -17,7 +17,7 @@ class MapPeoplesLocationCommand extends StatisticsCommand
     /** @var PersonRepository $personRepository */
     private $personRepository;
 
-    /** @var GeoLocationRepository $geoLocationRepository */
+    /** @var GeoAddressRepository $geoLocationRepository */
     private $geoLocationRepository;
 
     /** @var float */
@@ -25,7 +25,7 @@ class MapPeoplesLocationCommand extends StatisticsCommand
 
     public function __construct(
         PersonRepository $personRepository,
-        GeoLocationRepository $geoLocationRepository
+        GeoAddressRepository $geoLocationRepository
     ){
         parent::__construct();
 
@@ -36,7 +36,7 @@ class MapPeoplesLocationCommand extends StatisticsCommand
     protected function configure()
     {
         $this
-            ->setName("app:map-peoples-location");
+            ->setName("app:map-peoples-address");
     }
 
     /**

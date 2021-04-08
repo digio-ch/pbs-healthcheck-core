@@ -97,7 +97,7 @@ class Person
     private $qualifications;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GeoLocation", inversedBy="people")
+     * @ORM\ManyToOne(targetEntity="GeoAddress", inversedBy="people")
      * @ORM\JoinColumn(nullable=true)
      */
     private $geoLocation;
@@ -295,17 +295,17 @@ class Person
     }
 
     /**
-     * @return GeoLocation|null
+     * @return GeoAddress|null
      */
-    public function getGeoLocation(): ?GeoLocation
+    public function getGeoLocation(): ?GeoAddress
     {
         return $this->geoLocation;
     }
 
     /**
-     * @param GeoLocation $geoLocation
+     * @param GeoAddress $geoLocation
      */
-    public function setGeoLocation(GeoLocation $geoLocation): void
+    public function setGeoLocation(GeoAddress $geoLocation): void
     {
         $this->geoLocation = $geoLocation;
     }

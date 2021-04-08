@@ -15,9 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(columns="longitude"),
  *     @ORM\Index(columns="latitude"),
  * })
- * @ORM\Entity(repositoryClass="App\Repository\GeoLocationRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\GeoAddressRepository")
  */
-class GeoLocation
+class GeoAddress
 {
     /**
      * @ORM\Id()
@@ -163,7 +163,7 @@ class GeoLocation
     }
 
     /**
-     * @return array|GeoLocation[]
+     * @return array|GeoAddress[]
      */
     public function getPeople(): array
     {
