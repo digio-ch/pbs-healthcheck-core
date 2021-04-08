@@ -50,10 +50,10 @@ class PersonRoleRepository extends ServiceEntityRepository
         $statement = $connection->executeQuery(
             "SELECT * FROM midata_person_role AS role
                 INNER JOIN midata_person AS person ON role.person_id = person.id
-                WHERE role.group_id IN ?
+                WHERE role.group_id IN (?)
                 AND role.created_at < ?
                 AND (
-                    role.deleted_at IN NULL
+                    role.deleted_at IS NULL
                     OR role.deleted_at > ?
                 );",
             [

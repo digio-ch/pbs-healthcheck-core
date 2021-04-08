@@ -5,9 +5,10 @@ namespace App\Service\Aggregator;
 
 
 use App\Entity\Group;
-use App\Entity\PersonRole;
+use App\Entity\Person;
 use App\Entity\WidgetGeoLocation;
 use App\Repository\GroupRepository;
+use App\Repository\PersonRepository;
 use App\Repository\PersonRoleRepository;
 use App\Repository\WidgetGeoLocationRepository;
 use DateInterval;
@@ -24,6 +25,9 @@ class GeoLocationAggregator extends WidgetAggregator
     /** @var GroupRepository $groupRepository */
     private $groupRepository;
 
+    /** @var PersonRepository $personRepository */
+    private $personRepository;
+
     /** @var PersonRoleRepository $personRoleRepository */
     private $personRoleRepository;
 
@@ -33,6 +37,7 @@ class GeoLocationAggregator extends WidgetAggregator
     public function __construct(
         EntityManagerInterface $em,
         GroupRepository $groupRepository,
+        PersonRepository $personRepository,
         PersonRoleRepository $personRoleRepository,
         WidgetGeoLocationRepository $geoLocationRepository
     ) {
@@ -40,6 +45,7 @@ class GeoLocationAggregator extends WidgetAggregator
 
         $this->em = $em;
         $this->groupRepository = $groupRepository;
+        $this->personRepository = $personRepository;
         $this->personRoleRepository = $personRoleRepository;
         $this->geoLocationRepository = $geoLocationRepository;
     }
@@ -117,15 +123,17 @@ class GeoLocationAggregator extends WidgetAggregator
      */
     private function createWidgetsFromData(array $data, Group $group, DateTime $dateTime)
     {
-        /** @var PersonRole $personRole */
-        foreach ($data as $personRole) {
+        foreach ($data as $singleData) {
+            /** @var Person $person */
+            $person = $this->personRepository->findOneBy(['id' => $singleData['person_id']]);
+
             $widget = new WidgetGeoLocation();
             $widget->setGroup($group);
-            $widget->setLabel($personRole->getPerson()->getAddress());
+            $widget->setLabel($person->getAddress());
             $widget->setCreatedAt(new \DateTimeImmutable());
             $widget->setDataPointDate(new \DateTimeImmutable($dateTime->format('Y-m-d')));
 
-            $location = $personRole->getPerson()->getGeoAddress();
+            $location = $person->getGeoAddress();
             if (!is_null($location)) {
                 $widget->setLongitude($location->getLongitude());
                 $widget->setLatitude($location->getLatitude());

@@ -89,9 +89,9 @@ class WidgetGeoLocation extends Widget
     }
 
     /**
-     * @param string $label
+     * @param string|null $label
      */
-    public function setLabel(string $label): void
+    public function setLabel(?string $label): void
     {
         $this->label = $label;
     }
