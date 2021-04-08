@@ -49,7 +49,7 @@ class PersonRoleRepository extends ServiceEntityRepository
         $connection = $this->_em->getConnection();
         $statement = $connection->executeQuery(
             "SELECT * FROM midata_person_role AS role
-                INNER JOIN midata_person AS person
+                INNER JOIN midata_person AS person ON role.person_id = person.id
                 WHERE role.group_id IN ?
                 AND role.created_at < ?
                 AND (
