@@ -98,7 +98,7 @@ class Person
 
     /**
      * @ORM\ManyToOne(targetEntity="GeoAddress", inversedBy="people")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $geoAddress;
 

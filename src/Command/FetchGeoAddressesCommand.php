@@ -8,6 +8,7 @@ use App\Entity\GeoAddress;
 use App\Model\CommandStatistics;
 use App\Repository\PersonRepository;
 use App\Repository\GeoAddressRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,6 +22,9 @@ class FetchGeoAddressesCommand extends StatisticsCommand
     private const ADDRESS_ZIP = 16;
     private const ADDRESS_TOWN = 18;
 
+    /** @var EntityManagerInterface $em */
+    private $em;
+
     /** @var GeoAddressRepository $geoLocationRepository */
     private $geoLocationRepository;
 
@@ -31,10 +35,13 @@ class FetchGeoAddressesCommand extends StatisticsCommand
     private $stats;
 
     public function __construct(
+        EntityManagerInterface $em,
         GeoAddressRepository $geoLocationRepository,
         PersonRepository $personRepository
     ) {
         parent::__construct();
+
+        $this->em = $em;
         $this->geoLocationRepository = $geoLocationRepository;
         $this->personRepository = $personRepository;
 
@@ -45,7 +52,7 @@ class FetchGeoAddressesCommand extends StatisticsCommand
     {
         $this
             ->setName("app:import-geo-addresses")
-            ->addArgument("overwrite", InputArgument::OPTIONAL);
+            ->addOption("overwrite", null, InputArgument::OPTIONAL, "", false);
     }
 
     /**
@@ -54,12 +61,13 @@ class FetchGeoAddressesCommand extends StatisticsCommand
      * @return int
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\Persistence\Mapping\MappingException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $start = microtime(true);
 
-        $overwrite = $input->getArgument("overwrite");
+        $overwrite = $input->getOption("overwrite");
         if ($overwrite) {
             $output->writeln(['Clearing geo locations from db']);
 
@@ -68,7 +76,7 @@ class FetchGeoAddressesCommand extends StatisticsCommand
 
         $output->writeln(['Start geo location import...']);
 
-        // todo re add $this->downloadCurrentZip($output);
+        $this->downloadCurrentZip($output);
 
         $this->readDataContent($output);
 
@@ -134,13 +142,20 @@ class FetchGeoAddressesCommand extends StatisticsCommand
                 $geoLocation->setZip(intval($row[self::ADDRESS_ZIP]));
                 $geoLocation->setTown($row[self::ADDRESS_TOWN]);
 
-                $this->geoLocationRepository->save($geoLocation);
+                $this->em->persist($geoLocation);
 
                 $index++;
 
+                // flush data every 1000 entries
                 if ($index % 1000 == 0) {
+                    $this->em->flush();
+                    $this->em->clear();
+                }
+
+                // log process every 500k entries
+                if ($index % 500000 == 0) {
                     $rowTime = microtime(true) - $rowStart;
-                    $output->writeln(['Imported (additional) 1000 geo locations in: ' . number_format($rowTime, 2) . 's']);
+                    $output->writeln(['Imported 500 thousand (additional) geo locations in: ' . number_format($rowTime, 2) . 's']);
                     $rowStart = microtime(true);
                 }
             }

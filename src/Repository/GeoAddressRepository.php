@@ -42,25 +42,24 @@ class GeoAddressRepository extends AggregatedEntityRepository
     }
 
     /**
-     * @param GeoAddress $geoLocation
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function save(GeoAddress $geoLocation)
-    {
-        $this->getEntityManager()->persist($geoLocation);
-        $this->getEntityManager()->flush();
-    }
-
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\Persistence\Mapping\MappingException
      */
     public function wipe(): void
     {
+        $em = $this->getEntityManager();
+
+        $index = 0;
         foreach ($this->findAll() as $entity) {
-            $this->remove($entity);
+            $em->remove($entity);
+
+            if ($index % 1000 == 0) {
+                $em->flush();
+                $em->clear();
+            }
         }
-        $this->getEntityManager()->flush();
+        $em->flush();
+        $em->clear();
     }
 }

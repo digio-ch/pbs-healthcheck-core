@@ -10,9 +10,8 @@ use App\Repository\PersonRepository;
 use App\Repository\GeoAddressRepository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use function Sodium\add;
 
-class MapPeoplesLocationCommand extends StatisticsCommand
+class MapPeoplesAddressesCommand extends StatisticsCommand
 {
     /** @var PersonRepository $personRepository */
     private $personRepository;
@@ -36,7 +35,7 @@ class MapPeoplesLocationCommand extends StatisticsCommand
     protected function configure()
     {
         $this
-            ->setName("app:map-peoples-address");
+            ->setName("app:map-peoples-addresses");
     }
 
     /**
