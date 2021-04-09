@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(columns={"label"}),
  *     @ORM\Index(columns={"shape"}),
  *     @ORM\Index(columns={"color"}),
+ *     @ORM\Index(columns={"group_type"}),
+ *     @ORM\Index(columns={"data_point_date"}),
  * })
  * @ORM\Entity(repositoryClass="App\Repository\WidgetGeoLocationRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -47,6 +49,11 @@ class WidgetGeoLocation extends Widget
      * default color (same gray as leader)
      */
     private $color = '#929292';
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $groupType;
 
     /**
      * @return float|null
@@ -126,5 +133,21 @@ class WidgetGeoLocation extends Widget
     public function setColor(string $color): void
     {
         $this->color = $color;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupType(): string
+    {
+        return $this->groupType;
+    }
+
+    /**
+     * @param string $groupType
+     */
+    public function setGroupType(string $groupType): void
+    {
+        $this->groupType = $groupType;
     }
 }

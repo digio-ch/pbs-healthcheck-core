@@ -19,49 +19,49 @@ class GeoLocationDTO
     private $type;
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getLongitude(): float
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
 
     /**
-     * @param float $longitude
+     * @param float|null $longitude
      */
-    public function setLongitude(float $longitude): void
+    public function setLongitude(?float $longitude): void
     {
         $this->longitude = $longitude;
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getLatitude(): float
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
 
     /**
-     * @param float $latitude
+     * @param float|null $latitude
      */
-    public function setLatitude(float $latitude): void
+    public function setLatitude(?float $latitude): void
     {
         $this->latitude = $latitude;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
     /**
-     * @param string $label
+     * @param string|null $label
      */
-    public function setLabel(string $label): void
+    public function setLabel(?string $label): void
     {
         $this->label = $label;
     }

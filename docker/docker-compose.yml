@@ -20,7 +20,7 @@ services:
       dockerfile: docker/Dockerfile
       context: ../
     volumes:
-      - ../:/srv
+      - ../:/srv:cached
     env_file:
       - ../.env
     restart: always
