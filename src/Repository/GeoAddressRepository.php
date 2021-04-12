@@ -42,24 +42,11 @@ class GeoAddressRepository extends AggregatedEntityRepository
     }
 
     /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\Persistence\Mapping\MappingException
+     * @throws \Doctrine\Persistence\Mapping\MappingException|\Doctrine\DBAL\Exception
      */
     public function wipe(): void
     {
-        $em = $this->getEntityManager();
-
-        $index = 0;
-        foreach ($this->findAll() as $entity) {
-            $em->remove($entity);
-
-            if ($index % 1000 == 0) {
-                $em->flush();
-                $em->clear();
-            }
-        }
-        $em->flush();
-        $em->clear();
+        $connection = $this->getEntityManager()->getConnection();
+        $connection->executeQuery("DELETE FROM admin_geo_address");
     }
 }

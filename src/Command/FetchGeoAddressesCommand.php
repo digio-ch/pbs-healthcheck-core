@@ -61,7 +61,7 @@ class FetchGeoAddressesCommand extends StatisticsCommand
      * @return int
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\Persistence\Mapping\MappingException
+     * @throws \Doctrine\Persistence\Mapping\MappingException|\Doctrine\DBAL\Exception
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
