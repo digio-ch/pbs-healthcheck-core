@@ -134,10 +134,17 @@ class GeoLocationAggregator extends WidgetAggregator
             /** @var Role $role */
             $role = $this->roleRepository->findOneBy(['id' => $singleData['role_id']]);
 
+            if (is_null($singleData['group_id'])) {
+                continue;
+            }
+
+            /** @var Group $roleGroup */
+            $roleGroup = $this->groupRepository->findOneBy(['id' => $singleData['group_id']]);
+
             $widget = new WidgetGeoLocation();
             $widget->setGroup($group);
             $widget->setLabel($person->getNickname());
-            $widget->setGroupType('Group::' . $role->getGroupType());
+            $widget->setGroupType($roleGroup->getGroupType()->getGroupType());
             $widget->setPersonType($this->filterPersonType($role));
             $widget->setCreatedAt(new \DateTimeImmutable());
             $widget->setDataPointDate(new \DateTimeImmutable($dateTime->format('Y-m-d')));
