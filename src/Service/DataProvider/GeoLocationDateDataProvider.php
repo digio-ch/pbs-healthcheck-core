@@ -49,6 +49,10 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
             );
 
             foreach ($geoLocations as $geoLocation) {
+                if (!in_array($geoLocation['person_type'], $peopleTypes)) {
+                    continue;
+                }
+
                 $dto = new GeoLocationDTO();
                 $dto->setLongitude($geoLocation['longitude']);
                 $dto->setLatitude($geoLocation['latitude']);

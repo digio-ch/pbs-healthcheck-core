@@ -136,8 +136,9 @@ class GeoLocationAggregator extends WidgetAggregator
 
             $widget = new WidgetGeoLocation();
             $widget->setGroup($group);
-            $widget->setLabel($person->getAddress());
+            $widget->setLabel($person->getNickname());
             $widget->setGroupType('Group::' . $role->getGroupType());
+            $widget->setPersonType($this->filterPersonType($role));
             $widget->setCreatedAt(new \DateTimeImmutable());
             $widget->setDataPointDate(new \DateTimeImmutable($dateTime->format('Y-m-d')));
 
@@ -149,5 +150,26 @@ class GeoLocationAggregator extends WidgetAggregator
 
             $this->em->persist($widget);
         }
+    }
+
+    /**
+     * @param Role $role
+     * @return string|null
+     */
+    private function filterPersonType(Role $role): ?string
+    {
+        foreach (self::$leadersRoleTypes as $leaderRole) {
+            if (trim($role->getRoleType()) !== $leaderRole) {
+                continue;
+            }
+            return 'leaders';
+        }
+        foreach (self::$memberRoleTypes as $memberRole) {
+            if (trim($role->getRoleType()) !== $memberRole) {
+                continue;
+            }
+            return 'members';
+        }
+        return null;
     }
 }

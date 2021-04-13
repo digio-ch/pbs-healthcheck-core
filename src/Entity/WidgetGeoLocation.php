@@ -12,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(columns={"latitude"}),
  *     @ORM\Index(columns={"label"}),
  *     @ORM\Index(columns={"shape"}),
- *     @ORM\Index(columns={"color"}),
  *     @ORM\Index(columns={"group_type"}),
+ *     @ORM\Index(columns={"person_type"}),
  *     @ORM\Index(columns={"data_point_date"}),
  * })
  * @ORM\Entity(repositoryClass="App\Repository\WidgetGeoLocationRepository")
@@ -45,15 +45,13 @@ class WidgetGeoLocation extends Widget
 
     /**
      * @ORM\Column(type="string")
-     *
-     * default color (same gray as leader)
-     */
-    private $color = '#929292';
-
-    /**
-     * @ORM\Column(type="string")
      */
     private $groupType;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $personType;
 
     /**
      * @return float|null
@@ -122,22 +120,6 @@ class WidgetGeoLocation extends Widget
     /**
      * @return string
      */
-    public function getColor(): string
-    {
-        return $this->color;
-    }
-
-    /**
-     * @param string $color
-     */
-    public function setColor(string $color): void
-    {
-        $this->color = $color;
-    }
-
-    /**
-     * @return string
-     */
     public function getGroupType(): string
     {
         return $this->groupType;
@@ -149,5 +131,21 @@ class WidgetGeoLocation extends Widget
     public function setGroupType(string $groupType): void
     {
         $this->groupType = $groupType;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPersonType(): ?string
+    {
+        return $this->personType;
+    }
+
+    /**
+     * @param string|null $personType
+     */
+    public function setPersonType(?string $personType): void
+    {
+        $this->personType = $personType;
     }
 }

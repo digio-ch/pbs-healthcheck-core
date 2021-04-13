@@ -119,6 +119,9 @@ class FetchGeoAddressesCommand extends StatisticsCommand
 
         $output->writeln(['Caching geo locations in the db...']);
 
+        $sqlLogger = $this->em->getConnection()->getConfiguration()->getSQLLogger();
+        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
+
         if ($file) {
             $index = 0;
 
@@ -160,11 +163,16 @@ class FetchGeoAddressesCommand extends StatisticsCommand
                 }
             }
 
+            $this->em->flush();
+            $this->em->clear();
+
             $time = microtime(true) - $start;
             $output->writeln(['Imported ' . $index . ' geo locations in: ' . number_format($time, 2) . ' seconds']);
 
             fclose($file);
         }
+
+        $this->em->getConnection()->getConfiguration()->setSQLLogger($sqlLogger);
     }
 
     /**
