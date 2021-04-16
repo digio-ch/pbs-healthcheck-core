@@ -61,3 +61,7 @@ members_entered_left:
   methods: GET
   controller: App\Controller\Api\Widget\MembersEnteredLeftController:getEnteredLeftMembersData
 
+geo_location:
+  path: /groups/{groupId}/geo-location
+  methods: GET
+  controller: App\Controller\Api\Widget\GeoLocationController::getGeoLocations

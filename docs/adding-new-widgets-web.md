@@ -68,6 +68,21 @@ private widgetData = new BehaviorSubject<Widget[]>([
 ]);
 ```
 
+Finally, you need to register your widget component inside the widget module: `src/app/widget/widget.module.ts`.
+
+```yaml
+providers: [
+    {
+      provide: 'widgets',
+      useValue: [
+        LeaderOverviewComponent,
+        ...,
+        YourWidgetComponent
+      ]
+    }
+  ]
+```
+
 ## Widget Grid
 
 All widgets are displayed in a grid, the directive `src/app/widget/components/widget-wrapper/widget-grid.directive.ts`

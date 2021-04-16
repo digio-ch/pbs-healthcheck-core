@@ -116,5 +116,9 @@ services:
         tags:
             - { name: 'widget.aggregator', key: 'widget.demographic-entered-left' }
 
+    App\Service\Aggregator\GeoLocationAggregator:
+        tags:
+            - { name: 'widget.aggregator', key: 'widget.geo-location' }
+
     App\Service\Aggregator\AggregatorRegistry:
         arguments: [!tagged { tag: 'widget.aggregator', index_by: 'key' }]

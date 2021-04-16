@@ -8,10 +8,10 @@ use App\Service\Aggregator\WidgetAggregator;
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Stopwatch\Stopwatch;
 
 class AggregateCommand extends StatisticsCommand
 {
@@ -32,8 +32,7 @@ class AggregateCommand extends StatisticsCommand
 
     public function __construct(
         EntityManagerInterface $em,
-        AggregatorRegistry $aggregatorRegistry,
-        Stopwatch $stopWatch
+        AggregatorRegistry $aggregatorRegistry
     ) {
         $this->em = $em;
         $this->aggregatorRegistry = $aggregatorRegistry;
@@ -46,6 +45,7 @@ class AggregateCommand extends StatisticsCommand
         $this
             ->setName('app:aggregate-data')
             ->setDescription('Aggregate data')
+            ->addArgument('specific', InputArgument::OPTIONAL)
             ;
     }
 
@@ -68,8 +68,14 @@ class AggregateCommand extends StatisticsCommand
 
             $aggregators =  $this->aggregatorRegistry->getAggregators();
 
+            $specific = $input->getArgument('specific');
+
             /** @var WidgetAggregator $aggregator */
             foreach ($aggregators as $aggregator) {
+                if ($specific && $aggregator->getName() !== $specific) {
+                    continue;
+                }
+
                 $start = microtime(true);
                 $aggregator->aggregate();
                 print_r($aggregator->getName() . ": " . (memory_get_usage() / 1000 / 1000) . "\n");

@@ -41,6 +41,38 @@ class PersonRoleRepository extends ServiceEntityRepository
     /**
      * @param string $date
      * @param array $groupIds
+     * @return array|PersonRole[]
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function findAllByDate(string $date, array $groupIds): array
+    {
+        $connection = $this->_em->getConnection();
+        $statement = $connection->executeQuery(
+            "SELECT * FROM midata_person_role AS role
+                INNER JOIN midata_person AS person ON role.person_id = person.id
+                WHERE role.group_id IN (?)
+                AND role.created_at < ?
+                AND (
+                    role.deleted_at IS NULL
+                    OR role.deleted_at > ?
+                );",
+            [
+                $groupIds,
+                $date,
+                $date
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+                ParameterType::STRING
+            ]
+        );
+        return $statement->fetchAll();
+    }
+
+    /**
+     * @param string $date
+     * @param array $groupIds
      * @param string $gender
      * @return array|mixed[]
      * @throws DBALException

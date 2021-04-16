@@ -97,6 +97,12 @@ class Person
     private $qualifications;
 
     /**
+     * @ORM\ManyToOne(targetEntity="GeoAddress", inversedBy="people")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    private $geoAddress;
+
+    /**
      * @param int $id
      */
     public function setId(int $id)
@@ -286,5 +292,21 @@ class Person
     public function setGroup(?Group $group)
     {
         $this->group = $group;
+    }
+
+    /**
+     * @return GeoAddress|null
+     */
+    public function getGeoAddress(): ?GeoAddress
+    {
+        return $this->geoAddress;
+    }
+
+    /**
+     * @param GeoAddress $geoAddress
+     */
+    public function setGeoAddress(GeoAddress $geoAddress): void
+    {
+        $this->geoAddress = $geoAddress;
     }
 }

@@ -77,4 +77,15 @@ class PersonRepository extends ServiceEntityRepository
 
         return $statement->fetchAll();
     }
+
+    /**
+     * @param Person $person
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save(Person $person)
+    {
+        $this->getEntityManager()->persist($person);
+        $this->getEntityManager()->flush();
+    }
 }
