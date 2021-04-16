@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Command;
-
 
 use App\Entity\GeoAddress;
 use App\Model\CommandStatistics;
@@ -107,12 +105,10 @@ class FetchGeoAddressesCommand extends StatisticsCommand
 
     /**
      * @param OutputInterface $output
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     private function readDataContent(OutputInterface $output): void
     {
-        $file = fopen("zip://data/geo-data.zip#CH.csv","r");
+        $file = fopen("zip://data/geo-data.zip#CH.csv", "r");
 
         $start = microtime(true);
         $rowStart = microtime(true);
@@ -131,7 +127,7 @@ class FetchGeoAddressesCommand extends StatisticsCommand
             while (!feof($file)) {
                 $row = explode(';', fgets($file));
 
-                $coordination = $this->CH1903_to_WGS84(
+                $coordination = $this->ch1903ToWgs84(
                     floatval($row[self::COORDINATION_EASTERN]),
                     floatval($row[self::COORDINATION_NORTHERN]),
                     0
@@ -181,7 +177,7 @@ class FetchGeoAddressesCommand extends StatisticsCommand
      * @param float $height
      * @return array
      */
-    private function CH1903_to_WGS84(float $east, float $north, float $height): array
+    private function ch1903ToWgs84(float $east, float $north, float $height): array
     {
         // Convert origin to "civil" system, where Bern has coordinates 0,0.
         $east -= 600000;

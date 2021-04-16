@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Command;
-
 
 use App\Entity\Person;
 use App\Model\CommandStatistics;
@@ -25,7 +23,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
     public function __construct(
         PersonRepository $personRepository,
         GeoAddressRepository $geoLocationRepository
-    ){
+    ) {
         parent::__construct();
 
         $this->personRepository = $personRepository;

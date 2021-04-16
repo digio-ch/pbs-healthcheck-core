@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service\Aggregator;
-
 
 use App\Entity\Group;
 use App\Entity\Person;
