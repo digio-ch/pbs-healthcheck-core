@@ -77,15 +77,16 @@ class ImportFromJsonCommand extends StatisticsCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws ConnectionException
+     * @throws ConnectionException|\Doctrine\DBAL\Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sqlLogger = $this->em->getConnection()->getConfiguration()->getSQLLogger();
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         $this->em->getConnection()->beginTransaction();
         try {
             $output->writeln(['Start importing...']);
+            $this->cleaningUpEntities($output);
             $this->importRoleTypes($output);
             $this->importGroupTypes($output);
             $this->importQualificationTypes($output);
@@ -111,6 +112,21 @@ class ImportFromJsonCommand extends StatisticsCommand
         }
 
         return 0;
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function cleaningUpEntities(OutputInterface $output)
+    {
+        $connection = $this->em->getConnection();
+
+        $connection->executeQuery("DELETE FROM midata_event_date");
+
+        $connection->executeQuery("DELETE FROM midata_event_group");
+
+        $output->writeln("cleaned some entities from the db");
     }
 
     /**
@@ -400,6 +416,7 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $metadata->setIdGenerator(new AssignedGenerator());
             }
 
+            /** @var EventType $eventType */
             $eventType = $this->em->getRepository(EventType::class)->find($c['kind_id']);
             $course->setEventType($eventType);
 
@@ -447,6 +464,15 @@ class ImportFromJsonCommand extends StatisticsCommand
         $start = microtime(true);
         $camps = JsonMachine::fromFile(sprintf('%s/camps.json', $this->params->get('import_data_dir')));
         $i = 0;
+
+        $groupData = $this->em->getRepository(Group::class)->findAll();
+        $groups = [];
+
+        /** @var Group $group */
+        foreach ($groupData as $group) {
+            $groups[$group->getId()] = $group;
+        }
+
         foreach ($camps as $c) {
             $camp = $this->em->getRepository(Camp::class)->findOneBy(['id' => $c['id']]);
             if (!$camp) {
@@ -462,13 +488,11 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $camp->setName($c['name']);
             }
 
+            /** @var YouthSportType $ageSportType */
             $ageSportType = $this->em->getRepository(YouthSportType::class)->findOneBy(['type' => $c['j_s_kind']]);
             $camp->setYouthSportType($ageSportType);
 
             if ($c['dates']) {
-                foreach ($camp->getEventDates() as $eventDate) {
-                    $this->em->remove($eventDate);
-                }
                 foreach ($c['dates'] as $date) {
                     $eventDate = new EventDate();
                     $eventDate->setEvent($camp);
@@ -479,12 +503,9 @@ class ImportFromJsonCommand extends StatisticsCommand
             }
 
             if ($c['groups']) {
-                foreach ($camp->getGroups() as $eventGroup) {
-                    $this->em->remove($eventGroup);
-                }
                 foreach ($c['groups'] as $g) {
-                    $group = $this->em->getRepository(Group::class)->find($g['id']);
-                    if ($group) {
+                    if (array_key_exists($g['id'], $groups)) {
+                        $group = $groups[$g['id']];
                         $eventGroup = new EventGroup();
                         $eventGroup->setGroup($group);
                         $eventGroup->setEvent($camp);
@@ -494,9 +515,13 @@ class ImportFromJsonCommand extends StatisticsCommand
             }
 
             $this->em->persist($camp);
-            $this->em->flush();
+            if ($i % 10) {
+                $this->em->flush();
+            }
             $i++;
         }
+        $this->em->flush();
+
         $timeElapsed = microtime(true) - $start;
         $this->stats[] = ['camps.json', $timeElapsed, $i];
         $output->writeln([sprintf('%s rows imported from camps.json', $i)]);
