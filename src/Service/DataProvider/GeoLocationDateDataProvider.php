@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service\DataProvider;
-
 
 use App\DTO\Model\GeoLocationTypeDTO;
 use App\DTO\Model\GeoLocationDTO;

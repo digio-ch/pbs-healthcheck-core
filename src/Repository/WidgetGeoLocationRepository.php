@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Repository;
-
 
 use App\Entity\WidgetGeoLocation;
 use Doctrine\DBAL\ParameterType;
@@ -39,7 +37,8 @@ class WidgetGeoLocationRepository extends AggregatedEntityRepository
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::INTEGER
-            ]);
+            ]
+        );
         return $statement->fetchAll();
     }
 }

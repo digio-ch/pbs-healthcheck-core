@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\DTO\Model;
-
 
 class GeoLocationTypeDTO
 {

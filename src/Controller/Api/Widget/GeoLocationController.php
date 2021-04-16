@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller\Api\Widget;
-
 
 use App\DTO\Model\WidgetControllerData\DateAndDateRangeRequestData;
 use App\Service\DataProvider\GeoLocationDateDataProvider;
@@ -13,8 +11,7 @@ class GeoLocationController extends WidgetController
     public function getGeoLocations(
         GeoLocationDateDataProvider $dataProvider,
         DateAndDateRangeRequestData $requestData
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $data = [];
 
         if ($requestData->getDate()) {
