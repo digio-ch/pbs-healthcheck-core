@@ -44,5 +44,3 @@ RUN chown -R www-data /srv
 COPY ./ ./
 COPY ./docker/$PHP_INI /usr/local/etc/php/conf.d/custom-php.ini
 COPY --from=dependencies /app/vendor ./vendor
-
-RUN crontab -u www-data /srv/crontab
