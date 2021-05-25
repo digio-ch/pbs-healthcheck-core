@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\DTO\Model\AddressMappingDTO;
 use App\Entity\Person;
 use App\Model\CommandStatistics;
 use App\Repository\PersonRepository;
@@ -64,13 +65,17 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $mapped = 0;
         $total = 0;
 
+        $outputFile = fopen('data/address_mapping.csv', 'w');
+        fwrite($outputFile, 'midata_address;midata_zip;midata_town;street;house_number;corrected_street;normalized_street;code;' . PHP_EOL);
+
         /** @var Person $person */
         foreach ($this->personRepository->findAll() as $person) {
             $total++;
 
-            $output->writeln(['----------------------------------------------']);
-
-            $output->writeln([$person->getAddress() . ' ' . $person->getZip() . ' ' . $person->getTown()]);
+            $addressMappingDTO = new AddressMappingDTO();
+            $addressMappingDTO->setMidataAddress($person->getAddress());
+            $addressMappingDTO->setMidataZip($person->getZip());
+            $addressMappingDTO->setMidataTown($person->getTown());
 
             // person needs a complete address for the mapping
             if (
@@ -78,7 +83,8 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
                 is_null($person->getZip()) || $person->getZip() == 0 ||
                 is_null($person->getTown()) || $person->getTown() === ''
             ) {
-                $output->writeln(['error code: 1 (missing attribute)']);
+                $addressMappingDTO->setCode(AddressMappingDTO::ERROR_MISSING_ATTRIBUTE);
+                $this->writeData($outputFile, $addressMappingDTO);
                 continue;
             }
 
@@ -86,7 +92,8 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
             $address = trim($person->getAddress());
 
             if (!preg_match('/^([\D]*[\D][\s])+(\d+[a-z]?)$/i', $address)) {
-                $output->writeln(['error code: 2 (invalid address)']);
+                $addressMappingDTO->setCode(AddressMappingDTO::ERROR_INVALID_ADDRESS);
+                $this->writeData($outputFile, $addressMappingDTO);
                 continue;
             }
 
@@ -94,13 +101,13 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
             $matches = array();
             preg_match('/(\d+[a-z]?)/i', $address, $matches);
             $houseNumber = $matches[0];
-            $output->writeln(['evaluated house number: ' . $houseNumber]);
+            $addressMappingDTO->setHouseNumber($houseNumber);
 
             // split and recombine the street
             $address = preg_replace('/(\d+[a-z]?)/i', '', $address);
-            $output->writeln(['street without number: ' . $address]);
-            $addressParts = explode(' ', trim($address));
+            $addressMappingDTO->setStreetWithoutNumber($address);
 
+            $addressParts = explode(' ', trim($address));
             $street = '';
 
             // recombine the address parts which belong to the street if the street consists out of more than 1 word
@@ -118,18 +125,19 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
                 }
                 $street = $street . ' ' . $addressParts[$i];
             }
-            $output->writeln(['corrected street: ' . $street]);
+            $addressMappingDTO->setCorrectedStreet($street);
 
-            $output->writeln(['before normalisation: ' . $street]);
             // normalising street
             $street = preg_replace('/str\.?(?!asse)/i', 'strasse', $street);
             $street = preg_replace('/((terr\.?(?!asse))|terasse)/i', 'terrasse', $street);
             $street = preg_replace('/(\(.*\))/i', '', $street);
-            $output->writeln(['after normalisation: ' . $street]);
+            $street = preg_replace('/(?![a-zäöüèéà])/i', '', $street);
+            $addressMappingDTO->setNormalizedStreet($street);
 
             // check if there is even a street remaining
             if (strlen($street) == 0) {
-                $output->writeln(['error code: 3 (no street remaining)']);
+                $addressMappingDTO->setCode(AddressMappingDTO::ERROR_NORMALIZING_ERROR);
+                $this->writeData($outputFile, $addressMappingDTO);
                 continue;
             }
 
@@ -142,10 +150,12 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
 
             // couldn't find a geo location for this persons address
             if (is_null($geoLocation) || $geoLocation === 0) {
-                $output->writeln(['error code: 4 (no geo location found)']);
+                $addressMappingDTO->setCode(AddressMappingDTO::ERROR_NO_GEO_LOCATION);
+                $this->writeData($outputFile, $addressMappingDTO);
                 continue;
             }
-            $output->writeln(['status code: 0 (mapped)']);
+            $addressMappingDTO->setCode(AddressMappingDTO::STATUS_SUCCESS);
+            $this->writeData($outputFile, $addressMappingDTO);
 
             $this->personRepository->mapGeoAddress($person->getId(), $geoLocation);
 
@@ -164,5 +174,19 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
     public function getStats(): CommandStatistics
     {
         return new CommandStatistics($this->stats, '');
+    }
+
+    private function writeData($file, AddressMappingDTO $addressMappingDTO)
+    {
+        fwrite($file, sprintf('%s;%d;%s;%s;%s;%s;%s;%s;',
+            $addressMappingDTO->getMidataAddress(),
+            $addressMappingDTO->getMidataZip(),
+            $addressMappingDTO->getMidataTown(),
+            $addressMappingDTO->getStreetWithoutNumber(),
+            $addressMappingDTO->getHouseNumber(),
+            $addressMappingDTO->getCorrectedStreet(),
+            $addressMappingDTO->getNormalizedStreet(),
+            $addressMappingDTO->getCode()
+        ) . PHP_EOL);
     }
 }
