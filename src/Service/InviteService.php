@@ -52,7 +52,7 @@ class InviteService
     {
         $inviteEntity = new Invite();
         $expirationDate = new DateTime();
-        $expirationDate->modify('+1 month');
+        $expirationDate->modify('+12 month');
 
         $inviteEntity->setEmail($inviteDTO->getEmail());
         $inviteEntity->setExpirationDate($expirationDate);

@@ -27,7 +27,7 @@ abstract class Event
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $name = '';
 
     /**
      * @ORM\OneToMany(targetEntity="EventGroup", mappedBy="event", cascade={"persist", "remove"})
