@@ -7,11 +7,9 @@ use App\Entity\Person;
 use App\Model\CommandStatistics;
 use App\Repository\PersonRepository;
 use App\Repository\GeoAddressRepository;
-use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use function GuzzleHttp\Psr7\str;
 
 class MapPeoplesAddressesCommand extends StatisticsCommand
 {
@@ -178,15 +176,19 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
 
     private function writeData($file, AddressMappingDTO $addressMappingDTO)
     {
-        fwrite($file, sprintf('%s;%d;%s;%s;%s;%s;%s;%s;',
-            $addressMappingDTO->getMidataAddress(),
-            $addressMappingDTO->getMidataZip(),
-            $addressMappingDTO->getMidataTown(),
-            $addressMappingDTO->getStreetWithoutNumber(),
-            $addressMappingDTO->getHouseNumber(),
-            $addressMappingDTO->getCorrectedStreet(),
-            $addressMappingDTO->getNormalizedStreet(),
-            $addressMappingDTO->getCode()
-        ) . PHP_EOL);
+        fwrite(
+            $file,
+            sprintf(
+                '%s;%d;%s;%s;%s;%s;%s;%s;',
+                $addressMappingDTO->getMidataAddress(),
+                $addressMappingDTO->getMidataZip(),
+                $addressMappingDTO->getMidataTown(),
+                $addressMappingDTO->getStreetWithoutNumber(),
+                $addressMappingDTO->getHouseNumber(),
+                $addressMappingDTO->getCorrectedStreet(),
+                $addressMappingDTO->getNormalizedStreet(),
+                $addressMappingDTO->getCode()
+            ) . PHP_EOL
+        );
     }
 }
