@@ -8,21 +8,17 @@ class LocaleListener
 {
     public function onKernelRequest(RequestEvent $event)
     {
-        if (!$event->getRequest()->headers->has('accept-language')) {
+        if (!$event->getRequest()->headers->has('X-Locale')) {
             return;
         }
 
-        $locale = $event->getRequest()->headers->get('accept-language');
+        $locale = $event->getRequest()->headers->get('X-Locale');
 
-        switch ($locale) {
-            case str_contains($locale, 'it'):
-                $event->getRequest()->setLocale('it');
-                break;
-            case str_contains($locale, 'fr'):
-                $event->getRequest()->setLocale('fr');
-                break;
-            default:
-                $event->getRequest()->setLocale('de');
+        if (in_array($locale, ['it', 'fr', 'de'])) {
+            $event->getRequest()->setLocale($locale);
+            return;
         }
+
+        $event->getRequest()->setLocale('de');
     }
 }
