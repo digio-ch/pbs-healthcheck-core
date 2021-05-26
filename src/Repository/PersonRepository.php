@@ -78,6 +78,18 @@ class PersonRepository extends ServiceEntityRepository
         return $statement->fetchAll();
     }
 
+    public function mapGeoAddress(int $personId, int $geoLocationId)
+    {
+        $conn = $this->_em->getConnection();
+        $statement = $conn->executeQuery(
+            "UPDATE midata_person
+            SET geo_address_id = ?
+            WHERE id = ?;",
+            [$geoLocationId, $personId],
+            [ParameterType::INTEGER, ParameterType::INTEGER]
+        );
+    }
+
     /**
      * @param Person $person
      * @throws \Doctrine\ORM\ORMException
