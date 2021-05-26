@@ -11,28 +11,28 @@ class AddressMappingDTO
     public const STATUS_SUCCESS = 'status code: 0 (mapped)';
 
     /** @var string $midataAddress */
-    private $midataAddress;
+    private $midataAddress = '';
 
     /** @var int $midataZip */
-    private $midataZip;
+    private $midataZip = 0;
 
     /** @var string $midataTown */
-    private $midataTown;
+    private $midataTown = '';
 
     /** @var string $streetWithoutNumber */
-    private $streetWithoutNumber;
+    private $streetWithoutNumber = '';
 
     /** @var string $houseNumber */
-    private $houseNumber;
+    private $houseNumber = '';
 
     /** @var string $correctedStreet */
-    private $correctedStreet;
+    private $correctedStreet = '';
 
     /** @var string $normalizedStreet */
-    private $normalizedStreet;
+    private $normalizedStreet = '';
 
     /** @var string $code */
-    private $code;
+    private $code = '';
 
     /**
      * @return string
