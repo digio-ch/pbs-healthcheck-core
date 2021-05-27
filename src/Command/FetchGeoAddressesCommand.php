@@ -65,6 +65,10 @@ class FetchGeoAddressesCommand extends StatisticsCommand
     {
         $start = microtime(true);
 
+        if (!file_exists('data')) {
+            mkdir('data');
+        }
+
         $overwrite = $input->getOption("overwrite");
         if ($overwrite) {
             $output->writeln(['Clearing geo locations from db']);
