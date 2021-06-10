@@ -31,8 +31,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         EntityManagerInterface $em,
         PersonRepository $personRepository,
         GeoAddressRepository $geoLocationRepository
-    )
-    {
+    ) {
         parent::__construct();
 
         $this->em = $em;
