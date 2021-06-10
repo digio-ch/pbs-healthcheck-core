@@ -10,8 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(columns="zip"),
  *     @ORM\Index(columns="town"),
  *     @ORM\Index(columns="address"),
- *     @ORM\Index(columns="longitude"),
- *     @ORM\Index(columns="latitude"),
+ *     @ORM\Index(columns="house"),
  * })
  * @ORM\Entity(repositoryClass="App\Repository\GeoAddressRepository")
  */
