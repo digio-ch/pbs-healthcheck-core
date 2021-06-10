@@ -39,7 +39,8 @@ class GeoAddressRepository extends AggregatedEntityRepository
             "SELECT * FROM admin_geo_address AS geo
             WHERE LOWER(geo.address) = LOWER(?)
             AND (LOWER(geo.house) = LOWER(?) OR LOWER(geo.house) = LOWER(?))
-            AND (geo.zip = ? OR LOWER(geo.town) = LOWER(?))",
+            AND (geo.zip = ? OR LOWER(geo.town) = LOWER(?))
+            LIMIT 1",
             [$street, $house, $houseNumber, $zip, $town],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, ParameterType::STRING]
         );

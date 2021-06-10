@@ -63,6 +63,10 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $mapped = 0;
         $total = 0;
 
+        if (!file_exists('data')) {
+            mkdir('data');
+        }
+
         $outputFile = fopen('data/address_mapping.csv', 'w');
         fwrite($outputFile, 'midata_address;midata_zip;midata_town;street;house_number;corrected_street;normalized_street;code;' . PHP_EOL);
 
