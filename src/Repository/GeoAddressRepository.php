@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\GeoAddress;
-use Doctrine\DBAL\ParameterType;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 class GeoAddressRepository extends AggregatedEntityRepository
@@ -27,25 +27,30 @@ class GeoAddressRepository extends AggregatedEntityRepository
      * @throws \Doctrine\DBAL\Exception
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findIdByAddress(int $zip, string $town, string $street, string $house): ?int
+    public function findIdByAddress(int $zip, string $town, string $street, string $house): ?GeoAddress
     {
         $houseNumber = $house;
         if (preg_match('/(\d+[a-z])/', $houseNumber)) {
             $houseNumber = substr($houseNumber, 0, strlen($houseNumber) - 1);
         }
 
-        $connection = $this->_em->getConnection();
-        $statement = $connection->executeQuery(
-            "SELECT * FROM admin_geo_address AS geo
-            WHERE LOWER(geo.address) = LOWER(?)
-            AND (LOWER(geo.house) = LOWER(?) OR LOWER(geo.house) = LOWER(?))
-            AND (geo.zip = ? OR LOWER(geo.town) = LOWER(?))",
-            [$street, $house, $houseNumber, $zip, $town],
-            [ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, ParameterType::STRING]
-        );
-        $id = $statement->fetchOne();
+        $query = '
+            SELECT geo.* FROM admin_geo_address AS geo
+            WHERE (geo.zip = ? OR geo.town = ?)
+                AND geo.address = ?
+                AND (geo.house = ? OR geo.house = ?)
+            LIMIT 1
+        ';
 
-        return $id ? $id : null;
+        $mapping = new ResultSetMappingBuilder($this->getEntityManager());
+        $mapping->addRootEntityFromClassMetadata(GeoAddress::class, 'geo');
+        return $this->getEntityManager()->createNativeQuery($query, $mapping)
+            ->setParameter(1, $zip)
+            ->setParameter(2, strtolower($town))
+            ->setParameter(3, strtolower($street))
+            ->setParameter(4, strtolower($house))
+            ->setParameter(5, strtolower($houseNumber))
+            ->getOneOrNullResult();
     }
 
     /**

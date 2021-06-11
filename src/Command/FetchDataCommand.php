@@ -270,7 +270,8 @@ class FetchDataCommand extends StatisticsCommand
         $details = '';
 
         foreach ($this->stats as $stat) {
-            $totalDuration += $stat[1];
+            $dur = intval($stat[1]);
+            $totalDuration += $dur;
             $totalItems += $stat[2];
             $details .= $stat[2] . ' items fetched in ' . $stat[1] . ' seconds for ' . $stat[0] . ' table.' . "\n";
         }

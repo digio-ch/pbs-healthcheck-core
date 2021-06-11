@@ -7,7 +7,9 @@ use App\Entity\Person;
 use App\Model\CommandStatistics;
 use App\Repository\PersonRepository;
 use App\Repository\GeoAddressRepository;
+use App\Service\Profiler;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -40,7 +42,8 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
     protected function configure()
     {
         $this
-            ->setName("app:map-peoples-addresses");
+            ->setName("app:map-peoples-addresses")
+            ->addOption("log-level", null, InputArgument::OPTIONAL, "", 2);
     }
 
     /**
@@ -63,101 +66,34 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $mapped = 0;
         $total = 0;
 
-        $outputFile = fopen('data/address_mapping.csv', 'w');
-        fwrite($outputFile, 'midata_address;midata_zip;midata_town;street;house_number;corrected_street;normalized_street;code;' . PHP_EOL);
+        $outputFile = null;
+        $logLevel = $input->getOption("log-level");
+        if ($logLevel > 0) {
+            if (!file_exists('data')) {
+                mkdir('data');
+            }
+
+            $outputFile = fopen('data/address_mapping.csv', 'w');
+            fwrite($outputFile, 'midata_address;midata_zip;midata_town;street;house_number;corrected_street;normalized_street;code;' . PHP_EOL);
+        }
 
         /** @var Person $person */
         foreach ($this->personRepository->findAll() as $person) {
             $total++;
 
-            $addressMappingDTO = new AddressMappingDTO();
-            $addressMappingDTO->setMidataAddress($person->getAddress());
-            $addressMappingDTO->setMidataZip($person->getZip());
-            $addressMappingDTO->setMidataTown($person->getTown());
-
-            // person needs a complete address for the mapping
-            if (
-                is_null($person->getAddress()) || $person->getAddress() === '' ||
-                is_null($person->getZip()) || $person->getZip() == 0 ||
-                is_null($person->getTown()) || $person->getTown() === ''
-            ) {
-                $addressMappingDTO->setCode(AddressMappingDTO::ERROR_MISSING_ATTRIBUTE);
-                $this->writeData($outputFile, $addressMappingDTO);
-                continue;
+            $profiler = new Profiler($output, 'person');
+            if ($this->processPerson($person, $outputFile, $output, $logLevel)) {
+                $mapped++;
             }
+            $profiler->endTimer();
 
-            // check if address has street and house number
-            $address = trim($person->getAddress());
+            if ($total % 1000 === 0) {
+                $profiler = new Profiler($output, "flush entities");
+                $this->em->flush();
+                $profiler->endTimer();
 
-            if (!preg_match('/^([\D]*[\D][\s])+(\d+[a-z]?)$/i', $address)) {
-                $addressMappingDTO->setCode(AddressMappingDTO::ERROR_INVALID_ADDRESS);
-                $this->writeData($outputFile, $addressMappingDTO);
-                continue;
+                $output->writeln(sprintf('<info>processed %d addresses</info>', $total));
             }
-
-            // read house number
-            $matches = array();
-            preg_match('/(\d+[a-z]?)/i', $address, $matches);
-            $houseNumber = $matches[0];
-            $addressMappingDTO->setHouseNumber($houseNumber);
-
-            // split and recombine the street
-            $address = preg_replace('/(\d+[a-z]?)/i', '', $address);
-            $addressMappingDTO->setStreetWithoutNumber($address);
-
-            $addressParts = explode(' ', trim($address));
-            $street = '';
-
-            // recombine the address parts which belong to the street if the street consists out of more than 1 word
-            for ($i = 0; $i < count($addressParts); $i++) {
-                $part = $addressParts[$i];
-                // remove short or invalid parts
-                if (strlen($part) <= 2 || strtolower($part) === 'les') {
-                    continue;
-                }
-
-                // don't add space if its the first address part
-                if ($street == '') {
-                    $street = $addressParts[$i];
-                    continue;
-                }
-                $street = $street . ' ' . $addressParts[$i];
-            }
-            $addressMappingDTO->setCorrectedStreet($street);
-
-            // normalising street
-            $street = preg_replace('/str\.?(?!asse)/i', 'strasse', $street);
-            $street = preg_replace('/((terr\.?(?!asse))|terasse)/i', 'terrasse', $street);
-            $street = preg_replace('/(\(.*\))/i', '', $street);
-            $street = preg_replace('/(?![a-zäöüèéà])/i', '', $street);
-            $addressMappingDTO->setNormalizedStreet($street);
-
-            // check if there is even a street remaining
-            if (strlen($street) == 0) {
-                $addressMappingDTO->setCode(AddressMappingDTO::ERROR_NORMALIZING_ERROR);
-                $this->writeData($outputFile, $addressMappingDTO);
-                continue;
-            }
-
-            $geoLocation = $this->geoLocationRepository->findIdByAddress(
-                $person->getZip(),
-                $person->getTown(),
-                $street,
-                $houseNumber
-            );
-
-            // couldn't find a geo location for this persons address
-            if (is_null($geoLocation) || $geoLocation === 0) {
-                $addressMappingDTO->setCode(AddressMappingDTO::ERROR_NO_GEO_LOCATION);
-                $this->writeData($outputFile, $addressMappingDTO);
-                continue;
-            }
-            $addressMappingDTO->setCode(AddressMappingDTO::STATUS_SUCCESS);
-            $this->writeData($outputFile, $addressMappingDTO);
-
-            $this->personRepository->mapGeoAddress($person->getId(), $geoLocation);
-
-            $mapped++;
         }
 
         $this->em->getConnection()->getConfiguration()->setSQLLogger($sqlLogger);
@@ -174,21 +110,137 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         return new CommandStatistics($this->stats, '');
     }
 
+    private function processPerson(Person $person, $outputFile, OutputInterface $output, int $logLevel): bool
+    {
+        $addressMappingDTO = new AddressMappingDTO();
+        $addressMappingDTO->setMidataAddress($person->getAddress());
+        $addressMappingDTO->setMidataZip($person->getZip());
+        $addressMappingDTO->setMidataTown($person->getTown());
+
+        // person needs a complete address for the mapping
+        if (
+            is_null($person->getAddress()) || $person->getAddress() === '' ||
+            (
+                is_null($person->getZip()) || $person->getZip() == 0 &&
+                is_null($person->getTown()) || $person->getTown() === ''
+            )
+        ) {
+            $addressMappingDTO->setCode(AddressMappingDTO::ERROR_MISSING_ATTRIBUTE);
+            $this->writeData($outputFile, $addressMappingDTO);
+            return false;
+        }
+
+        // cleanup the town
+        $town = $person->getTown() ? $person->getTown() : "";
+        $town = MapPeoplesAddressesCommand::normaliseAddress($town);
+
+        // check if address has street and house number
+        $address = trim($person->getAddress());
+
+        $profiler = new Profiler($output, "map address '" . $address . "'");
+
+        if (!preg_match('/^([\D]*[\D][\s])+(\d+[a-z]?)$/i', $address)) {
+            $addressMappingDTO->setCode(AddressMappingDTO::ERROR_INVALID_ADDRESS);
+            $this->writeData($outputFile, $addressMappingDTO);
+            $profiler->endTimer();
+            return false;
+        }
+
+        list($street, $houseNumber) = $this->mapAddress($address, $addressMappingDTO);
+
+        // check if there is even a street remaining
+        if (strlen($street) == 0) {
+            $addressMappingDTO->setCode(AddressMappingDTO::ERROR_NORMALIZING_ERROR);
+            $this->writeData($outputFile, $addressMappingDTO);
+            $profiler->endTimer();
+            return false;
+        }
+
+        $profiler->endTimer();
+
+        $profiler = new Profiler($output, "find address '" . $address . "'");
+        $geoLocation = $this->geoLocationRepository->findIdByAddress($person->getZip(), $town, $street, $houseNumber);
+        $profiler->endTimer();
+
+        // couldn't find a geo location for this persons address
+        if (!$geoLocation) {
+            $addressMappingDTO->setCode(AddressMappingDTO::ERROR_NO_GEO_LOCATION);
+            $this->writeData($outputFile, $addressMappingDTO);
+            return false;
+        }
+        $addressMappingDTO->setCode(AddressMappingDTO::STATUS_SUCCESS);
+        if ($logLevel >= 2) {
+            $this->writeData($outputFile, $addressMappingDTO);
+        }
+
+        $profiler = new Profiler($output, "persist entity '" . $address . "'");
+
+        $person->setGeoAddress($geoLocation);
+        $this->em->persist($person);
+
+        $profiler->endTimer();
+        return true;
+    }
+
+    private function mapAddress(string $address, AddressMappingDTO $addressMappingDTO)
+    {
+        // read house number
+        $matches = array();
+        preg_match('/(\d+[a-z]?)/i', preg_replace('/\s/i', '', $address), $matches);
+        $houseNumber = $matches[0];
+        $addressMappingDTO->setHouseNumber($houseNumber);
+
+        // split and recombine the street
+        $street = preg_replace('/(\d+[a-z]?)/i', '', $address);
+        $addressMappingDTO->setStreetWithoutNumber($street);
+
+        // correcting street
+        $street = preg_replace('/str\.?(?!asse)/i', 'strasse', $street);
+        $street = preg_replace('/((terr\.?(?!asse))|terasse)/i', 'terrasse', $street);
+        $street = preg_replace('/(\(.*\))/i', '', $street);
+        $addressMappingDTO->setCorrectedStreet($street);
+
+        // normalising street
+        $street = MapPeoplesAddressesCommand::normaliseAddress($street);
+        $addressMappingDTO->setNormalizedStreet($street);
+
+        return [$street, $houseNumber];
+    }
+
     private function writeData($file, AddressMappingDTO $addressMappingDTO)
     {
+        if (!$file) {
+            return;
+        }
+
         fwrite(
             $file,
             sprintf(
                 '%s;%d;%s;%s;%s;%s;%s;%s;',
-                $addressMappingDTO->getMidataAddress(),
-                $addressMappingDTO->getMidataZip(),
-                $addressMappingDTO->getMidataTown(),
-                $addressMappingDTO->getStreetWithoutNumber(),
-                $addressMappingDTO->getHouseNumber(),
-                $addressMappingDTO->getCorrectedStreet(),
-                $addressMappingDTO->getNormalizedStreet(),
-                $addressMappingDTO->getCode()
+                $addressMappingDTO->getMidataAddress() ? $addressMappingDTO->getMidataAddress() : '',
+                $addressMappingDTO->getMidataZip() ? $addressMappingDTO->getMidataZip() : '',
+                $addressMappingDTO->getMidataTown() ? $addressMappingDTO->getMidataTown() : '',
+                $addressMappingDTO->getStreetWithoutNumber() ? $addressMappingDTO->getStreetWithoutNumber() : '',
+                $addressMappingDTO->getHouseNumber() ? $addressMappingDTO->getHouseNumber() : '',
+                $addressMappingDTO->getCorrectedStreet() ? $addressMappingDTO->getCorrectedStreet() : '',
+                $addressMappingDTO->getNormalizedStreet() ? $addressMappingDTO->getNormalizedStreet() : '',
+                $addressMappingDTO->getCode() ? $addressMappingDTO->getCode() : ''
             ) . PHP_EOL
         );
+    }
+
+    public static function normaliseAddress(string $address)
+    {
+        $address = strtolower($address);
+        $address = preg_replace('/[éèêë]+/i', 'e', $address);
+        $address = preg_replace('/[àâä]+/i', 'a', $address);
+        $address = preg_replace('/[ùûü]+/i', 'u', $address);
+        $address = preg_replace('/[ç]+/i', 'c', $address);
+        $address = preg_replace('/[ïî]+/i', 'i', $address);
+
+        $address = preg_replace('/(?![a-z])/i', '', $address);
+        $address = preg_replace('/[\s]+/i', '', $address);
+
+        return utf8_encode($address);
     }
 }
