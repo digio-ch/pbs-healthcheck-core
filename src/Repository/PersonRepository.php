@@ -78,7 +78,8 @@ class PersonRepository extends ServiceEntityRepository
         return $statement->fetchAll();
     }
 
-    public function mapGeoAddress(int $personId, int $geoLocationId) {
+    public function mapGeoAddress(int $personId, int $geoLocationId)
+    {
         $conn = $this->_em->getConnection();
         $statement = $conn->executeQuery(
             "UPDATE midata_person

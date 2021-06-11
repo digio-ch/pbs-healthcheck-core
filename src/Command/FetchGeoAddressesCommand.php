@@ -65,6 +65,10 @@ class FetchGeoAddressesCommand extends StatisticsCommand
     {
         $start = microtime(true);
 
+        if (!file_exists('data')) {
+            mkdir('data');
+        }
+
         $overwrite = $input->getOption("overwrite");
         if ($overwrite) {
             $output->writeln(['Clearing geo locations from db']);
@@ -136,10 +140,10 @@ class FetchGeoAddressesCommand extends StatisticsCommand
                 $geoLocation = new GeoAddress();
                 $geoLocation->setLongitude($coordination[0]);
                 $geoLocation->setLatitude($coordination[1]);
-                $geoLocation->setAddress($row[self::ADDRESS_STREET]);
-                $geoLocation->setHouse($row[self::ADDRESS_NUMBER]);
+                $geoLocation->setAddress(strtolower($row[self::ADDRESS_STREET]));
+                $geoLocation->setHouse(strtolower($row[self::ADDRESS_NUMBER]));
                 $geoLocation->setZip(intval($row[self::ADDRESS_ZIP]));
-                $geoLocation->setTown($row[self::ADDRESS_TOWN]);
+                $geoLocation->setTown(strtolower($row[self::ADDRESS_TOWN]));
 
                 $this->em->persist($geoLocation);
 
