@@ -140,10 +140,10 @@ class FetchGeoAddressesCommand extends StatisticsCommand
                 $geoLocation = new GeoAddress();
                 $geoLocation->setLongitude($coordination[0]);
                 $geoLocation->setLatitude($coordination[1]);
-                $geoLocation->setAddress(strtolower($row[self::ADDRESS_STREET]));
+                $geoLocation->setAddress(MapPeoplesAddressesCommand::normaliseAddress($row[self::ADDRESS_STREET]));
                 $geoLocation->setHouse(strtolower($row[self::ADDRESS_NUMBER]));
                 $geoLocation->setZip(intval($row[self::ADDRESS_ZIP]));
-                $geoLocation->setTown(strtolower($row[self::ADDRESS_TOWN]));
+                $geoLocation->setTown(MapPeoplesAddressesCommand::normaliseAddress($row[self::ADDRESS_TOWN]));
 
                 $this->em->persist($geoLocation);
 

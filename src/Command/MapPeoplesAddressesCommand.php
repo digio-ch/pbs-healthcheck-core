@@ -120,13 +120,19 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         // person needs a complete address for the mapping
         if (
             is_null($person->getAddress()) || $person->getAddress() === '' ||
-            is_null($person->getZip()) || $person->getZip() == 0 ||
-            is_null($person->getTown()) || $person->getTown() === ''
+            (
+                is_null($person->getZip()) || $person->getZip() == 0 &&
+                is_null($person->getTown()) || $person->getTown() === ''
+            )
         ) {
             $addressMappingDTO->setCode(AddressMappingDTO::ERROR_MISSING_ATTRIBUTE);
             $this->writeData($outputFile, $addressMappingDTO);
             return false;
         }
+
+        // cleanup the town
+        $town = $person->getTown() ? $person->getTown() : "";
+        $town = MapPeoplesAddressesCommand::normaliseAddress($town);
 
         // check if address has street and house number
         $address = trim($person->getAddress());
@@ -153,7 +159,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $profiler->endTimer();
 
         $profiler = new Profiler($output, "find address '" . $address . "'");
-        $geoLocation = $this->geoLocationRepository->findIdByAddress($person->getZip(), $person->getTown(), $street, $houseNumber);
+        $geoLocation = $this->geoLocationRepository->findIdByAddress($person->getZip(), $town, $street, $houseNumber);
         $profiler->endTimer();
 
         // couldn't find a geo location for this persons address
@@ -180,39 +186,22 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
     {
         // read house number
         $matches = array();
-        preg_match('/(\d+[a-z]?)/i', $address, $matches);
+        preg_match('/(\d+[a-z]?)/i', preg_replace('/\s/i', '', $address), $matches);
         $houseNumber = $matches[0];
         $addressMappingDTO->setHouseNumber($houseNumber);
 
         // split and recombine the street
-        $address = preg_replace('/(\d+[a-z]?)/i', '', $address);
-        $addressMappingDTO->setStreetWithoutNumber($address);
+        $street = preg_replace('/(\d+[a-z]?)/i', '', $address);
+        $addressMappingDTO->setStreetWithoutNumber($street);
 
-        $addressParts = explode(' ', trim($address));
-        $street = '';
-
-        // recombine the address parts which belong to the street if the street consists out of more than 1 word
-        for ($i = 0; $i < count($addressParts); $i++) {
-            $part = $addressParts[$i];
-            // remove short or invalid parts
-            if (strlen($part) <= 2 || strtolower($part) === 'les') {
-                continue;
-            }
-
-            // don't add space if its the first address part
-            if ($street == '') {
-                $street = $addressParts[$i];
-                continue;
-            }
-            $street = $street . ' ' . $addressParts[$i];
-        }
-        $addressMappingDTO->setCorrectedStreet($street);
-
-        // normalising street
+        // correcting street
         $street = preg_replace('/str\.?(?!asse)/i', 'strasse', $street);
         $street = preg_replace('/((terr\.?(?!asse))|terasse)/i', 'terrasse', $street);
         $street = preg_replace('/(\(.*\))/i', '', $street);
-        $street = preg_replace('/(?![a-zäöüèéà])/i', '', $street);
+        $addressMappingDTO->setCorrectedStreet($street);
+
+        // normalising street
+        $street = MapPeoplesAddressesCommand::normaliseAddress($street);
         $addressMappingDTO->setNormalizedStreet($street);
 
         return [$street, $houseNumber];
@@ -238,5 +227,20 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
                 $addressMappingDTO->getCode() ? $addressMappingDTO->getCode() : ''
             ) . PHP_EOL
         );
+    }
+
+    public static function normaliseAddress(string $address)
+    {
+        $address = strtolower($address);
+        $address = preg_replace('/[éèêë]+/i', 'e', $address);
+        $address = preg_replace('/[àâä]+/i', 'a', $address);
+        $address = preg_replace('/[ùûü]+/i', 'u', $address);
+        $address = preg_replace('/[ç]+/i', 'c', $address);
+        $address = preg_replace('/[ïî]+/i', 'i', $address);
+
+        $address = preg_replace('/(?![a-z])/i', '', $address);
+        $address = preg_replace('/[\s]+/i', '', $address);
+
+        return utf8_encode($address);
     }
 }
