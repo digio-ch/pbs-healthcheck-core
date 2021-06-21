@@ -8,6 +8,7 @@ use App\Entity\EventDate;
 use App\Entity\Group;
 use App\Entity\PersonRole;
 use App\Entity\WidgetDemographicCamp;
+use App\Repository\DemographicCampGroupRepository;
 use App\Repository\EventDateRepository;
 use App\Repository\GroupRepository;
 use App\Repository\PersonRoleRepository;
@@ -49,25 +50,33 @@ class DemographicCampAggregator extends WidgetAggregator
     protected $widgetDemographicCampRepository;
 
     /**
+     * @var DemographicCampGroupRepository
+     */
+    protected $demographicCampGroupRepository;
+
+    /**
      * DemographicCampAggregator constructor.
      * @param EntityManagerInterface $em
      * @param PersonRoleRepository $personRoleRepository
      * @param GroupRepository $groupRepository
      * @param EventDateRepository $eventDateRepository
      * @param WidgetDemographicCampRepository $widgetDemographicCampRepository
+     * @param DemographicCampGroupRepository $demographicCampGroupRepository
      */
     public function __construct(
         EntityManagerInterface $em,
         PersonRoleRepository $personRoleRepository,
         GroupRepository $groupRepository,
         EventDateRepository $eventDateRepository,
-        WidgetDemographicCampRepository $widgetDemographicCampRepository
+        WidgetDemographicCampRepository $widgetDemographicCampRepository,
+        DemographicCampGroupRepository $demographicCampGroupRepository
     ) {
         $this->em = $em;
         $this->personRoleRepository = $personRoleRepository;
         $this->groupRepository = $groupRepository;
         $this->eventDateRepository = $eventDateRepository;
         $this->widgetDemographicCampRepository = $widgetDemographicCampRepository;
+        $this->demographicCampGroupRepository = $demographicCampGroupRepository;
         parent::__construct($groupRepository);
     }
 
@@ -155,6 +164,8 @@ class DemographicCampAggregator extends WidgetAggregator
                             new DateTimeImmutable($startPointDate->format('Y-m-d'))
                         );
                         $widgetDemographicCamp->setCampName($eventDate->getEvent()->getName());
+                        $this->em->persist($widgetDemographicCamp);
+                        $this->em->flush();
                     }
 
                     $eventStartDate = $eventDate->getStartAt();
@@ -174,6 +185,8 @@ class DemographicCampAggregator extends WidgetAggregator
                     foreach (WidgetAggregator::$typePriority as $groupType) {
                         $membersCounts = array_key_exists($groupType, $memberData) ? $memberData[$groupType] : null;
                         $leadersCounts = array_key_exists($groupType, $leaderData) ? $leaderData[$groupType] : null;
+
+                        $this->demographicCampGroupRepository->deleteAllByCampGroupAndGroupType($widgetDemographicCamp->getId(), $mainGroup->getId(), $groupType);
 
                         $demographicCampGroup = new DemographicCampGroup();
                         $demographicCampGroup->setMCount($membersCounts ? $membersCounts['m'] : 0);
