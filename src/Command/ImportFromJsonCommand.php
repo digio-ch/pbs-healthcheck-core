@@ -21,6 +21,7 @@ use App\Entity\PersonRole;
 use App\Entity\QualificationType;
 use App\Entity\Role;
 use App\Model\CommandStatistics;
+use App\Repository\PersonRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\DBALException;
@@ -38,6 +39,11 @@ class ImportFromJsonCommand extends StatisticsCommand
      * @var EntityManagerInterface
      */
     protected $em;
+
+    /**
+     * @var PersonRepository $personRepository
+     */
+    private $personRepository;
 
     /**
      * @var ParameterBagInterface
@@ -59,9 +65,10 @@ class ImportFromJsonCommand extends StatisticsCommand
      * @param EntityManagerInterface $em
      * @param ParameterBagInterface $params
      */
-    public function __construct(EntityManagerInterface $em, ParameterBagInterface $params)
+    public function __construct(EntityManagerInterface $em, PersonRepository $personRepository, ParameterBagInterface $params)
     {
         $this->em = $em;
+        $this->personRepository = $personRepository;
         $this->params = $params;
         parent::__construct();
     }
@@ -533,6 +540,8 @@ class ImportFromJsonCommand extends StatisticsCommand
      */
     private function importPeople(OutputInterface $output)
     {
+        $this->personRepository->markAllAsLeft();
+
         $start = microtime(true);
         $people = JsonMachine::fromFile(sprintf('%s/people.json', $this->params->get('import_data_dir')));
         $i = 0;
@@ -558,6 +567,8 @@ class ImportFromJsonCommand extends StatisticsCommand
             }
             if ($p['leaving_date']) {
                 $person->setLeavingDate(new DateTimeImmutable($p['leaving_date']));
+            } else {
+                $person->setLeavingDate(null);
             }
             $person->setTown($p['town']);
 
