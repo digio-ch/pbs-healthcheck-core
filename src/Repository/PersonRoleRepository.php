@@ -430,19 +430,16 @@ class PersonRoleRepository extends ServiceEntityRepository
                     INNER JOIN midata_role ON midata_person_role.role_id = midata_role.id 
                     INNER JOIN midata_person ON midata_person_role.person_id = midata_person.id
                     WHERE midata_person.birthday IS NOT NULL 
-                        AND (midata_person.leaving_date IS NULL OR midata_person.leaving_date > ?)
                         AND midata_person_role.group_id IN (?)  
                         AND (created_at < ? AND (deleted_at IS NULL or deleted_at > ?)) 
                         AND midata_role.role_type IN (?) ORDER BY year;",
             [
-                $date,
                 $groupIds,
                 $date,
                 $date,
                 array_merge(WidgetAggregator::$leadersRoleTypes, WidgetAggregator::$memberRoleTypes)
             ],
             [
-                ParameterType::STRING,
                 Connection::PARAM_INT_ARRAY,
                 ParameterType::STRING,
                 ParameterType::STRING,
