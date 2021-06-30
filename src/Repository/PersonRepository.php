@@ -90,6 +90,20 @@ class PersonRepository extends ServiceEntityRepository
         );
     }
 
+    public function markAllAsLeft()
+    {
+        $now = (new \DateTime())->format("Y-m-d H:i:s");
+
+        $conn = $this->_em->getConnection();
+        $statement = $conn->executeQuery(
+            "UPDATE midata_person
+            SET leaving_date = ?
+            WHERE leaving_date IS NULL",
+            [$now],
+            [ParameterType::STRING]
+        );
+    }
+
     /**
      * @param Person $person
      * @throws \Doctrine\ORM\ORMException

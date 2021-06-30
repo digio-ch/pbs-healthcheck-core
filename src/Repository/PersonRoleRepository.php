@@ -89,15 +89,26 @@ class PersonRoleRepository extends ServiceEntityRepository
                   INNER JOIN midata_role ON midata_person_role.role_id = midata_role.id 
                   INNER JOIN midata_person ON midata_person_role.person_id = midata_person.id
                   WHERE midata_person_role.group_id IN (?)  
+                    AND (midata_person.leaving_date IS NULL OR midata_person.leaving_date > ?)
                     AND midata_person.gender = ? 
                     AND (created_at < ? AND (deleted_at IS NULL or deleted_at > ?)) 
-                    AND midata_role.role_type IN (?);",
-            [$groupIds, $gender, $date, $date, WidgetAggregator::$memberRoleTypes],
+                    AND midata_role.role_type IN (?)
+                    AND midata_person.id not in (
+                        select midata_person.id from midata_person
+                        join midata_person_role on midata_person_role.person_id = midata_person.id
+                        join midata_role on midata_person_role.role_id = midata_role.id
+                        where midata_person.group_id in (?)
+                        and midata_role.role_type in (?)
+                    );",
+            [$groupIds, $date, $gender, $date, $date, WidgetAggregator::$memberRoleTypes, $groupIds, WidgetAggregator::$leadersRoleTypes],
             [
                 Connection::PARAM_INT_ARRAY,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
+                ParameterType::STRING,
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_INT_ARRAY,
                 Connection::PARAM_STR_ARRAY
             ]
         );
@@ -123,6 +134,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 INNER JOIN midata_role ON mpr.role_id = midata_role.id 
                 INNER JOIN midata_person ON mpr.person_id = midata_person.id
                 WHERE mpr.group_id IN (?) 
+                    AND (midata_person.leaving_date IS NULL OR midata_person.leaving_date > ?)
                     AND (mpr.created_at < ? AND (mpr.deleted_at IS NULL or mpr.deleted_at > ?)) 
                     AND midata_role.role_type IN (?);",
             [
@@ -133,6 +145,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 $groupIds,
                 $endDate,
                 $endDate,
+                $endDate,
                 array_merge(WidgetAggregator::$leadersRoleTypes, WidgetAggregator::$memberRoleTypes),
             ],
             [
@@ -141,6 +154,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_INT_ARRAY,
                 Connection::PARAM_STR_ARRAY,
                 Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 Connection::PARAM_STR_ARRAY
@@ -191,12 +205,14 @@ class PersonRoleRepository extends ServiceEntityRepository
                   INNER JOIN midata_role ON midata_person_role.role_id = midata_role.id 
                   INNER JOIN midata_person ON midata_person_role.person_id = midata_person.id
                   WHERE midata_person_role.group_id IN (?)  
+                    AND (midata_person.leaving_date IS NULL OR midata_person.leaving_date > ?)
                     AND midata_person.gender = ? 
                     AND (created_at < ? AND (deleted_at IS NULL or deleted_at > ?)) 
                     AND midata_role.role_type IN (?);",
-            [$groupIds, $gender, $date, $date, WidgetAggregator::$leaderRoleTypesByGroupType[$groupType]],
+            [$groupIds, $date, $gender, $date, $date, WidgetAggregator::$leaderRoleTypesByGroupType[$groupType]],
             [
                 Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
@@ -225,12 +241,14 @@ class PersonRoleRepository extends ServiceEntityRepository
                   INNER JOIN midata_role ON midata_person_role.role_id = midata_role.id 
                   INNER JOIN midata_person ON midata_person_role.person_id = midata_person.id
                   WHERE midata_person_role.group_id IN (?)  
+                    AND (midata_person.leaving_date IS NULL OR midata_person.leaving_date > ?)
                     AND midata_person.gender = ? 
                     AND (created_at < ? AND (deleted_at IS NULL or deleted_at > ?)) 
                     AND midata_role.role_type IN (?);",
-            [$groupIds, $gender, $date, $date, WidgetAggregator::$leadersRoleTypes],
+            [$groupIds, $date, $gender, $date, $date, WidgetAggregator::$leadersRoleTypes],
             [
                 Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
@@ -257,14 +275,16 @@ class PersonRoleRepository extends ServiceEntityRepository
                 INNER JOIN midata_person ON midata_person_role.person_id = midata_person.id
                 INNER JOIN midata_person_event ON midata_person_event.person_id = midata_person.id
                 WHERE midata_person_event.event_id = ? 
-                AND midata_person_role.group_id IN (?)
-                AND midata_role.role_type IN (?)
-                AND (midata_person_role.created_at < ? 
-                    AND (midata_person_role.deleted_at IS NULL OR midata_person_role.deleted_at > ?)
-                );",
-            [$eventId, $groupIds, WidgetAggregator::$memberRoleTypes, $date, $date],
+                    AND (midata_person.leaving_date IS NULL OR midata_person.leaving_date > ?)
+                    AND midata_person_role.group_id IN (?)
+                    AND midata_role.role_type IN (?)
+                    AND (midata_person_role.created_at < ? 
+                        AND (midata_person_role.deleted_at IS NULL OR midata_person_role.deleted_at > ?)
+                    );",
+            [$eventId, $date, $groupIds, WidgetAggregator::$memberRoleTypes, $date, $date],
             [
                 ParameterType::INTEGER,
+                ParameterType::STRING,
                 Connection::PARAM_INT_ARRAY,
                 Connection::PARAM_STR_ARRAY,
                 ParameterType::STRING,
@@ -363,6 +383,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 INNER JOIN midata_role ON mpr.role_id = midata_role.id 
                 INNER JOIN midata_person ON mpr.person_id = midata_person.id
                 WHERE mpr.group_id IN (?) 
+                    AND (midata_person.leaving_date IS NULL OR midata_person.leaving_date > ?)
                     AND (mpr.created_at < ? AND (mpr.deleted_at IS NULL or mpr.deleted_at > ?))
                     AND extract(year from midata_person.birthday) = ?
                     AND midata_role.role_type IN (?);",
@@ -374,8 +395,9 @@ class PersonRoleRepository extends ServiceEntityRepository
                 $groupIds,
                 $endDate,
                 $endDate,
+                $endDate,
                 $year,
-                array_merge(WidgetAggregator::$leadersRoleTypes, WidgetAggregator::$memberRoleTypes),
+                array_merge(WidgetAggregator::$leadersRoleTypes, WidgetAggregator::$memberRoleTypes)
             ],
             [
                 ParameterType::STRING,
@@ -383,6 +405,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_INT_ARRAY,
                 Connection::PARAM_STR_ARRAY,
                 Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
