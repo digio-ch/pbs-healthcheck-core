@@ -65,3 +65,8 @@ geo_location:
   path: /groups/{groupId}/geo-location
   methods: GET
   controller: App\Controller\Api\Widget\GeoLocationController::getGeoLocations
+
+quap_widget:
+  path: /groups/{groupId}/quap
+  methods: GET
+  controller: App\Controller\Api\Widget\QuapController::getQuapAnswers
