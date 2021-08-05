@@ -61,6 +61,11 @@ class PersonRoleRepository extends ServiceEntityRepository
                             WHERE person.person_id = p1.person_id
                             AND person.group_id IN (?)
                             AND role_type IN (?)
+                            AND person.created_at < ?
+                            AND (
+                                person.deleted_at IS NULL
+                                OR person.deleted_at > ?
+                            )
                             LIMIT 1
                     ) AS group_type,
                     CASE WHEN 
@@ -70,6 +75,11 @@ class PersonRoleRepository extends ServiceEntityRepository
                                 WHERE person.person_id = p1.person_id
                                 AND person.group_id IN (?)
                                 AND role_type IN (?)
+                                AND person.created_at < ?
+                                AND (
+                                    person.deleted_at IS NULL
+                                    OR person.deleted_at > ?
+                                )
                         ) >= 1 THEN
                         'leaders'
                     ELSE
@@ -91,8 +101,12 @@ class PersonRoleRepository extends ServiceEntityRepository
             [
                 $groupIds,
                 $groupTypes,
+                $date,
+                $date,
                 $groupIds,
                 $leaderRoles,
+                $date,
+                $date,
                 $groupIds,
                 $date,
                 $date,
@@ -101,8 +115,12 @@ class PersonRoleRepository extends ServiceEntityRepository
             [
                 Connection::PARAM_INT_ARRAY,
                 Connection::PARAM_STR_ARRAY,
+                ParameterType::STRING,
+                ParameterType::STRING,
                 Connection::PARAM_INT_ARRAY,
                 Connection::PARAM_STR_ARRAY,
+                ParameterType::STRING,
+                ParameterType::STRING,
                 Connection::PARAM_INT_ARRAY,
                 ParameterType::STRING,
                 ParameterType::STRING,
