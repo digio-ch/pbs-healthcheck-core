@@ -83,6 +83,10 @@ class PersonRoleRepository extends ServiceEntityRepository
                     AND (
                         p1.deleted_at IS NULL
                         OR p1.deleted_at > ?
+                    )
+                    AND (
+                        person.leaving_date IS NULL
+                        OR person.leaving_date > ?
                     );",
             [
                 $groupIds,
@@ -90,6 +94,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 $groupIds,
                 $leaderRoles,
                 $groupIds,
+                $date,
                 $date,
                 $date
             ],
@@ -99,6 +104,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_INT_ARRAY,
                 Connection::PARAM_STR_ARRAY,
                 Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING
             ]
