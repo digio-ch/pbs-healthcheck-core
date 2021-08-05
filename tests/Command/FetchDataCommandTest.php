@@ -25,7 +25,7 @@ class FetchDataCommandTest extends KernelTestCase
         self::bootKernel();
         $this->targetDir = self::$kernel->getContainer()->getParameter('import_data_dir');
         $this->pbsApiServiceMock = new PbsApiServiceMock();
-        $this->command = new FetchDataCommand($this->targetDir, $this->pbsApiServiceMock);
+        $this->command = new FetchDataCommand($this->targetDir, '', $this->pbsApiServiceMock);
         $this->commandTester = new CommandTester($this->command);
     }
 

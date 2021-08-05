@@ -79,7 +79,7 @@ services:
     App\Command\FetchDataCommand:
         arguments:
             $importDirectory: '%import_data_dir%'
-
+            $url: '%env(PBS_DATA_URL)%'
 
     # PBS Services
     App\Service\PbsApiService:

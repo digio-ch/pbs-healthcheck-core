@@ -32,13 +32,16 @@ class FetchDataCommand extends StatisticsCommand
     /**
      * FetchDataCommand constructor.
      * @param string $importDirectory
+     * @param string $url
      * @param PbsApiService $pbsApiService
      */
     public function __construct(
         string $importDirectory,
+        string $url,
         PbsApiService $pbsApiService
     ) {
         $this->targetDir = $importDirectory;
+        $this->url = $url;
         $this->pbsApiService = $pbsApiService;
         parent::__construct();
     }
