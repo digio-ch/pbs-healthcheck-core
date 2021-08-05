@@ -69,6 +69,9 @@ class FetchDataCommand extends StatisticsCommand
             $this->processPaginatedTable($paginatedTable);
         }
 
+        $this->io->section('Fetching geolocations');
+        $this->processGeolocations();
+
         $this->io->success('Finished fetching all table data successfully');
 
         $this->io->title('Fetch Command Stats');
@@ -199,6 +202,72 @@ class FetchDataCommand extends StatisticsCommand
 
         $timeElapsed = microtime(true) - $start;
         $this->processTableStats($filePath, $tableName, $timeElapsed, $totalItemCount, $page - 1);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    private function processGeolocations(): void
+    {
+        $start = microtime(true);
+
+        $filePath = $this->targetDir . '/geolocations.json';
+        $groupIds = $this->getAbteilungenToFetch();
+        $this->io->text('Will fetch ' . count($groupIds) . ' Abteilungen');
+        foreach ($groupIds as $groupId) {
+            $identifier = 'groups/' . $groupId . '.json';
+            $this->io->text('Fetching ' . $identifier);
+            $result = $this->pbsApiService->getApiData($identifier);
+
+            if ($result->getStatusCode() !== 200) {
+                $this->io->error([
+                    'API call for ' . $identifier . ' failed!',
+                    'HTTP status code: ' . $result->getStatusCode()
+                ]);
+                throw new Exception(
+                    'Got http status code ' . $result->getStatusCode() . ' from API. Stopped fetching data.'
+                );
+            }
+
+            $content = $result->getContent();
+            if (isset($content['groups'][0]['links']['geolocations'])) {
+                foreach ($content['groups'][0]['links']['geolocations'] as $geolocationId) {
+                    $geolocations = array_filter($content['linked']['geolocations'], function ($geolocation) use ($geolocationId) {
+                        return $geolocation['id'] === $geolocationId;
+                    });
+
+                    if (count($geolocations) === 0) {
+                        continue;
+                    }
+
+                    $geolocation = array_values($geolocations)[0];
+                    $geolocation['group_id'] = $groupId;
+                    $this->appendJsonToFile($filePath, $geolocation);
+                }
+            }
+        }
+
+        $timeElapsed = microtime(true) - $start;
+        $this->processTableStats($filePath, 'geolocations', $timeElapsed, count($groupIds));
+    }
+
+    /**
+     * Returns the ids of all Abteilung groups that we are allowed to fetch
+     * @return array
+     */
+    private function getAbteilungenToFetch(): array
+    {
+        $fileName = $this->targetDir . '/groups.json';
+        $groups = json_decode(file_get_contents($fileName), true);
+
+        $abteilungen = array_filter($groups, function ($group) {
+            return 'Group::Abteilung' === ($group['type'] ?? '');
+        });
+
+        return array_map(function ($abteilung) {
+            return $abteilung['id'];
+        }, $abteilungen);
     }
 
     /**

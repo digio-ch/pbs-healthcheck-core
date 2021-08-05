@@ -42,4 +42,20 @@ class PbsApiService
         $additionalHeaders = ['X-Token' => $this->apiKey];
         return $this->guzzleWrapper->getJson($endpoint, null, $additionalHeaders);
     }
+
+    /**
+     * @param string $tableName
+     * @param int|null $page
+     * @param int|null $itemsPerPage
+     * @return Http\CurlResponse
+     */
+    public function getApiData(string $endpoint, int $page = null, int $itemsPerPage = null)
+    {
+        $endpoint = $this->url . '/' . $endpoint;
+        if ($page !== null && $itemsPerPage !== null) {
+            $endpoint .= '?page=' . $page . '&size=' . $itemsPerPage;
+        }
+        $additionalHeaders = ['X-Token' => $this->apiKey];
+        return $this->guzzleWrapper->getJson($endpoint, null, $additionalHeaders);
+    }
 }
