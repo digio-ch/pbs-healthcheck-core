@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -77,9 +78,15 @@ class Group
      */
     private $personRoles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GeoLocation::class, mappedBy="abteilung", orphanRemoval=true)
+     */
+    private $geoLocations;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->geoLocations = new ArrayCollection();
     }
 
     /**
@@ -213,5 +220,35 @@ class Group
     public function __toString()
     {
         return (string)$this->id;
+    }
+
+    /**
+     * @return Collection|GeoLocation[]
+     */
+    public function getGeoLocations(): Collection
+    {
+        return $this->geoLocations;
+    }
+
+    public function addGeoLocation(GeoLocation $geoLocation): self
+    {
+        if (!$this->geoLocations->contains($geoLocation)) {
+            $this->geoLocations[] = $geoLocation;
+            $geoLocation->setAbteilung($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGeoLocation(GeoLocation $geoLocation): self
+    {
+        if ($this->geoLocations->removeElement($geoLocation)) {
+            // set the owning side to null (unless already changed)
+            if ($geoLocation->getAbteilung() === $this) {
+                $geoLocation->setAbteilung(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\EventGroup;
+use App\Entity\GeoLocation;
 use App\Entity\YouthSportType;
 use App\Entity\Camp;
 use App\Entity\CampState;
@@ -108,6 +109,7 @@ class ImportFromJsonCommand extends StatisticsCommand
             $this->importParticipations($output);
             $this->importQualifications($output);
             $this->importRoles($output);
+            $this->importGeoLocations($output);
 
             $this->em->getConnection()->commit();
 
@@ -132,6 +134,8 @@ class ImportFromJsonCommand extends StatisticsCommand
         $connection->executeQuery("DELETE FROM midata_event_date");
 
         $connection->executeQuery("DELETE FROM midata_event_group");
+
+        $connection->executeQuery("DELETE FROM midata_geo_location");
 
         $output->writeln("cleaned some entities from the db");
     }
@@ -756,6 +760,45 @@ class ImportFromJsonCommand extends StatisticsCommand
         $timeElapsed = microtime(true) - $start;
         $this->stats[] = ['roles.json', $timeElapsed, $i];
         $output->writeln([sprintf('%s rows imported from roles.json', $i)]);
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @throws Exception
+     */
+    private function importGeoLocations(OutputInterface $output)
+    {
+        $start = microtime(true);
+        $geoLocations = JsonMachine::fromFile(sprintf('%s/geolocations.json', $this->params->get('import_data_dir')));
+        $i = 0;
+
+        foreach ($geoLocations as $gl) {
+            $longitude = floatval($gl['long']);
+            $latitude = floatval($gl['lat']);
+            // Comparing float to 0. should be safe, even though comparing floats directly normally isn't
+            if (0. === $longitude || 0. === $latitude) {
+                // A parsed value of 0. implies that the string from the JSON was not a float
+                // because hitobito validates that the coordinates lie in Switzerland
+                continue;
+            }
+
+            /** @var Group $abteilung */
+            $abteilung = $this->em->getRepository(Group::class)->find($gl['group_id']);
+            if (!$abteilung) {
+                continue;
+            }
+
+            $geoLocation = new GeoLocation();
+            $geoLocation->setAbteilung($abteilung);
+            $geoLocation->setLongitude($longitude);
+            $geoLocation->setLatitude($latitude);
+            $this->em->persist($geoLocation);
+            $this->em->flush();
+            $i++;
+        }
+        $timeElapsed = microtime(true) - $start;
+        $this->stats[] = ['geolocations.json', $timeElapsed, $i];
+        $output->writeln([sprintf('%s rows imported from geolocations.json', $i)]);
     }
 
     public function getStats(): CommandStatistics
