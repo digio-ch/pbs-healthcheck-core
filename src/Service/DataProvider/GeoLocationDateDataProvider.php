@@ -55,7 +55,8 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
         return $result;
     }
 
-    private function mapGeoLocation($geoLocation): GeoLocationDTO {
+    private function mapGeoLocation($geoLocation): GeoLocationDTO
+    {
         $dto = new GeoLocationDTO();
         $dto->setLongitude($geoLocation['longitude']);
         $dto->setLatitude($geoLocation['latitude']);
