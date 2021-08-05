@@ -61,6 +61,40 @@ abstract class WidgetAggregator
         ],
     ];
 
+    public static $groupTypeByLeaderRoleType = [
+        'Group::Pta::Mitglied' => 'Group::Pta',
+        'Group::Abteilung::StufenleitungPta' => 'Group::Pta',
+        'Group::Pta::Einheitsleitung' => 'Group::Pta',
+        'Group::Pta::Mitleitung' => 'Group::Pta',
+
+        'Group::AbteilungsRover::Rover' => 'Group::AbteilungsRover',
+        'Group::Abteilung::StufenleitungRover' => 'Group::AbteilungsRover',
+        'Group::AbteilungsRover::Einheitsleitung' => 'Group::AbteilungsRover',
+        'Group::AbteilungsRover::Mitleitung' => 'Group::AbteilungsRover',
+
+        'Group::Pio::Pio' => 'Group::Pio',
+        'Group::Abteilung::StufenleitungPio' => 'Group::Pio',
+        'Group::Pio::Einheitsleitung' => 'Group::Pio',
+        'Group::Pio::Mitleitung' => 'Group::Pio',
+
+        'Group::Pfadi::Pfadi' => 'Group::Pfadi',
+        'Group::Pfadi::Leitpfadi' => 'Group::Pfadi',
+        'Group::Abteilung::StufenleitungPfadi' => 'Group::Pfadi',
+        'Group::Pfadi::Einheitsleitung' => 'Group::Pfadi',
+        'Group::Pfadi::Mitleitung' => 'Group::Pfadi',
+
+        'Group::Woelfe::Wolf' => 'Group::Woelfe',
+        'Group::Woelfe::Leitwolf' => 'Group::Woelfe',
+        'Group::Abteilung::StufenleitungWoelfe' => 'Group::Woelfe',
+        'Group::Woelfe::Einheitsleitung' => 'Group::Woelfe',
+        'Group::Woelfe::Mitleitung' => 'Group::Woelfe',
+
+        'Group::Biber::Biber' => 'Group::Biber',
+        'Group::Abteilung::StufenleitungBiber' => 'Group::Biber',
+        'Group::Biber::Einheitsleitung' => 'Group::Biber',
+        'Group::Biber::Mitleitung' => 'Group::Biber',
+    ];
+
     public static $leadersRoleTypes = [
         'Group::Abteilung::StufenleitungPta',
         'Group::Abteilung::StufenleitungRover',

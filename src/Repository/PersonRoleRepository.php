@@ -41,27 +41,63 @@ class PersonRoleRepository extends ServiceEntityRepository
     /**
      * @param string $date
      * @param array $groupIds
+     * @param array $groupTypes
+     * @param array $leaderRoles
      * @return array|PersonRole[]
      * @throws \Doctrine\DBAL\Exception
      */
-    public function findAllByDate(string $date, array $groupIds): array
+    public function findAllByDate(string $date, array $groupIds, array $groupTypes, array $leaderRoles): array
     {
         $connection = $this->_em->getConnection();
         $statement = $connection->executeQuery(
-            "SELECT * FROM midata_person_role AS role
-                INNER JOIN midata_person AS person ON role.person_id = person.id
-                WHERE role.group_id IN (?)
-                AND role.created_at < ?
-                AND (
-                    role.deleted_at IS NULL
-                    OR role.deleted_at > ?
-                );",
+            "SELECT DISTINCT
+                    person_id,
+                    person.nickname,
+                    geo.latitude,
+                    geo.longitude,
+                    (
+                        SELECT role_type FROM midata_person_role AS person
+                            JOIN midata_role AS role ON role_id = role.id
+                            WHERE person.person_id = p1.person_id
+                            AND person.group_id IN (?)
+                            AND role_type IN (?)
+                            LIMIT 1
+                    ) AS group_type,
+                    CASE WHEN 
+                        (
+                            SELECT COUNT(*) FROM midata_person_role AS person
+                                JOIN midata_role AS role ON role_id = role.id
+                                WHERE person.person_id = p1.person_id
+                                AND person.group_id IN (?)
+                                AND role_type IN (?)
+                        ) >= 1 THEN
+                        'leaders'
+                    ELSE
+                        'members'
+                    END AS role_type
+                    FROM midata_person_role AS p1
+                    JOIN midata_person AS person ON person.id = p1.person_id
+                    LEFT JOIN admin_geo_address AS geo ON person.geo_address_id = geo.id
+                    WHERE p1.group_id IN (?)
+                    AND p1.created_at < ?
+                    AND (
+                        p1.deleted_at IS NULL
+                        OR p1.deleted_at > ?
+                    );",
             [
+                $groupIds,
+                $groupTypes,
+                $groupIds,
+                $leaderRoles,
                 $groupIds,
                 $date,
                 $date
             ],
             [
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
                 Connection::PARAM_INT_ARRAY,
                 ParameterType::STRING,
                 ParameterType::STRING
