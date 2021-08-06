@@ -43,32 +43,37 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
             $geoLocations = $this->geoLocationRepository->findAllForDateAndGroupType(
                 $date,
                 $groupType,
-                $group->getId()
+                $group->getId(),
+                $peopleTypes
             );
 
             foreach ($geoLocations as $geoLocation) {
-                if (!in_array($geoLocation['person_type'], $peopleTypes)) {
-                    continue;
-                }
-
-                $dto = new GeoLocationDTO();
-                $dto->setLongitude($geoLocation['longitude']);
-                $dto->setLatitude($geoLocation['latitude']);
-                $dto->setLabel($geoLocation['label']);
-
-                $dtoType = new GeoLocationTypeDTO();
-                $dtoType->setShape($geoLocation['shape']);
-                $color = self::GROUP_TYPE_COLORS[$geoLocation['group_type']];
-                if ($color) {
-                    $dtoType->setColor($color);
-                }
-
-                $dto->setType($dtoType);
-
-                $result[] = $dto;
+                $result[] = $this->mapGeoLocation($geoLocation);
             }
         }
 
         return $result;
+    }
+
+    private function mapGeoLocation($geoLocation): GeoLocationDTO
+    {
+        $dto = new GeoLocationDTO();
+        $dto->setLongitude($geoLocation['longitude']);
+        $dto->setLatitude($geoLocation['latitude']);
+        $dto->setLabel($geoLocation['label']);
+
+        $dtoType = new GeoLocationTypeDTO();
+        $dtoType->setShape($geoLocation['shape']);
+        if ($geoLocation['person_type'] === 'leaders') {
+            $color = self::GROUP_TYPE_COLORS['leaders'];
+        } else {
+            $color = self::GROUP_TYPE_COLORS[$geoLocation['group_type']];
+        }
+        if ($color) {
+            $dtoType->setColor($color);
+        }
+
+        $dto->setType($dtoType);
+        return $dto;
     }
 }
