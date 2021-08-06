@@ -135,18 +135,28 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $town = MapPeoplesAddressesCommand::normaliseAddress($town);
 
         // check if address has street and house number
-        $address = trim($person->getAddress());
+        $address = preg_replace('/\s/i', '', $person->getAddress());
 
-        $profiler = new Profiler($output, "map address '" . $address . "'");
+        $profiler = new Profiler($output, "map address '" . $person->getAddress() . "'");
 
-        if (!preg_match('/^([\D]*[\D][\s])+(\d+[a-z]?)$/i', $address)) {
+        // read house number
+        $matches = array();
+        preg_match('/(\d+[a-z]?)/i', $address, $matches);
+        $houseNumber = $matches[0];
+        $addressMappingDTO->setHouseNumber($houseNumber);
+
+        // split and recombine the street
+        $street = preg_replace('/(\d+[a-z]?)/i', '', $address);
+        $addressMappingDTO->setStreetWithoutNumber($street);
+
+        if ($street == '' || $houseNumber == '') {
             $addressMappingDTO->setCode(AddressMappingDTO::ERROR_INVALID_ADDRESS);
             $this->writeData($outputFile, $addressMappingDTO);
             $profiler->endTimer();
             return false;
         }
 
-        list($street, $houseNumber) = $this->mapAddress($address, $addressMappingDTO);
+        $street = $this->mapStreet($street, $addressMappingDTO);
 
         // check if there is even a street remaining
         if (strlen($street) == 0) {
@@ -182,21 +192,11 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         return true;
     }
 
-    private function mapAddress(string $address, AddressMappingDTO $addressMappingDTO)
+    private function mapStreet(string $street, AddressMappingDTO $addressMappingDTO): string
     {
-        // read house number
-        $matches = array();
-        preg_match('/(\d+[a-z]?)/i', preg_replace('/\s/i', '', $address), $matches);
-        $houseNumber = $matches[0];
-        $addressMappingDTO->setHouseNumber($houseNumber);
-
-        // split and recombine the street
-        $street = preg_replace('/(\d+[a-z]?)/i', '', $address);
-        $addressMappingDTO->setStreetWithoutNumber($street);
-
         // correcting street
-        $street = preg_replace('/str\.?(?!asse)/i', 'strasse', $street);
-        $street = preg_replace('/((terr\.?(?!asse))|terasse)/i', 'terrasse', $street);
+        $street = preg_replace('/str\.?(?![a-z]+)/i', 'strasse', $street);
+        $street = preg_replace('/((terr\.?(?![a-z]+))|terasse)/i', 'terrasse', $street);
         $street = preg_replace('/(\(.*\))/i', '', $street);
         $addressMappingDTO->setCorrectedStreet($street);
 
@@ -204,7 +204,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $street = MapPeoplesAddressesCommand::normaliseAddress($street);
         $addressMappingDTO->setNormalizedStreet($street);
 
-        return [$street, $houseNumber];
+        return $street;
     }
 
     private function writeData($file, AddressMappingDTO $addressMappingDTO)
@@ -238,8 +238,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $address = preg_replace('/[ç]+/i', 'c', $address);
         $address = preg_replace('/[ïî]+/i', 'i', $address);
 
-        $address = preg_replace('/(?![a-z])/i', '', $address);
-        $address = preg_replace('/[\s]+/i', '', $address);
+        $address = preg_replace('/[^a-z]/i', '', $address);
 
         return utf8_encode($address);
     }
