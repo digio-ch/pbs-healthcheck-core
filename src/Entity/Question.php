@@ -11,7 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
  * Class Question
  * @package App\Entity
  * @ORM\Entity(repositoryClass=QuestionRepository::class)
- * @ORM\Table(name="quap_question")
+ * @ORM\Table(name="quap_question", uniqueConstraints={
+ *     @ORM\UniqueConstraint(
+ *          name="question_local_id",
+ *          columns={
+ *              "local_id", "aspect_id", "deleted_at"
+ *          }
+ *     )
+ * })
  */
 class Question
 {
@@ -54,6 +61,21 @@ class Question
      * @ORM\JoinColumn
      */
     private $aspect;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $deleted_at;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $local_id;
 
     public function __construct()
     {
@@ -170,6 +192,42 @@ class Question
     public function setAspect($aspect): void
     {
         $this->aspect = $aspect;
+    }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->deleted_at;
+    }
+
+    public function setDeletedAt(?\DateTimeImmutable $deleted_at): self
+    {
+        $this->deleted_at = $deleted_at;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getLocalId(): ?int
+    {
+        return $this->local_id;
+    }
+
+    public function setLocalId(int $local_id): self
+    {
+        $this->local_id = $local_id;
+
+        return $this;
     }
 
 
