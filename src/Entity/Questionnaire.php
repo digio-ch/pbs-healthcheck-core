@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\QuestionnaireRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,77 +16,60 @@ class Questionnaire
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @var int $id
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string $type
      */
     private $type;
 
     /**
      * @ORM\OneToMany(targetEntity = "WidgetQuap", mappedBy = "questionnaire")
-     *
      */
     private $widgetQuap;
 
     /**
      * @ORM\OneToMany(targetEntity = "Aspect", mappedBy = "questionnaire")
-     * @ORM\JoinColumn
      */
-    private $aspect;
+    private $aspects;
 
+    public function __construct() {
+        $this->widgetQuap = new ArrayCollection();
+        $this->aspects = new ArrayCollection();
+    }
 
-
-    public function getId(): ?int
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getType(): ?string
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    /**
+     * @param string $type
+     */
+    public function setType(string $type): void
     {
         $this->type = $type;
-
-        return $this;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getWidgetQuap()
-    {
-        return $this->widgetQuap;
-    }
-
-    /**
-     * @param mixed $widgetQuap
-     */
-    public function setWidgetQuap($widgetQuap): void
-    {
-        $this->widgetQuap = $widgetQuap;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAspect()
-    {
-        return $this->aspect;
-    }
-
-    /**
-     * @param mixed $aspect
-     */
-    public function setAspect($aspect): void
-    {
-        $this->aspect = $aspect;
-    }
-
-
-
 }
