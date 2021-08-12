@@ -16,115 +16,121 @@ class Aspect
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @var int $id
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string $name_de
      */
     private $name_de;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string $name_fr
      */
     private $name_fr;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string $name_it
      */
     private $name_it;
 
     /**
      * @ORM\OneToMany(targetEntity = "Question", mappedBy = "aspect")
-     * @ORM\JoinColumn
      */
-    private $question;
+    private $questions;
 
     /**
      * @ORM\ManyToOne(targetEntity = "Questionnaire", inversedBy = "aspect")
-     * @ORM\JoinColumn
+     * @var Questionnaire $questionnaire
      */
     private $questionnaire;
 
     public function __construct()
     {
-        $this->questionnaire = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
-
-    public function getId(): ?int
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getNameDe(): ?string
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameDe(): string
     {
         return $this->name_de;
     }
 
-    public function setNameDe(string $name_de): self
+    /**
+     * @param string $name_de
+     */
+    public function setNameDe(string $name_de): void
     {
         $this->name_de = $name_de;
-
-        return $this;
     }
 
-    public function getNameFr(): ?string
+    /**
+     * @return string
+     */
+    public function getNameFr(): string
     {
         return $this->name_fr;
     }
 
-    public function setNameFr(string $name_fr): self
+    /**
+     * @param string $name_fr
+     */
+    public function setNameFr(string $name_fr): void
     {
         $this->name_fr = $name_fr;
-
-        return $this;
     }
 
-    public function getNameIt(): ?string
+    /**
+     * @return string
+     */
+    public function getNameIt(): string
     {
         return $this->name_it;
     }
 
-    public function setNameIt(string $name_it): self
+    /**
+     * @param string $name_it
+     */
+    public function setNameIt(string $name_it): void
     {
         $this->name_it = $name_it;
-
-        return $this;
     }
 
     /**
-     * @return mixed
+     * @return Questionnaire
      */
-    public function getQuestion()
-    {
-        return $this->question;
-    }
-
-    /**
-     * @param mixed $question
-     */
-    public function setQuestion($question): void
-    {
-        $this->question = $question;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getQuestionnaire()
+    public function getQuestionnaire(): Questionnaire
     {
         return $this->questionnaire;
     }
 
     /**
-     * @param mixed $questionnaire
+     * @param Questionnaire $questionnaire
      */
-    public function setQuestionnaire($questionnaire): void
+    public function setQuestionnaire(Questionnaire $questionnaire): void
     {
         $this->questionnaire = $questionnaire;
     }
-
-
-
 }

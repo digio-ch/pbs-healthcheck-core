@@ -18,7 +18,7 @@ class WidgetQuap extends Widget
 
     /**
      * @ORM\ManyToOne(targetEntity="Questionnaire", inversedBy = "widgetQuap")
-     *
+     * @var Questionnaire $questionnaire
      */
     private $questionnaire;
 
@@ -27,22 +27,18 @@ class WidgetQuap extends Widget
      */
     private $answers;
 
-    public function __construct() {
-        $this->questionnaire = new ArrayCollection();
-    }
-
     /**
-     * @return mixed
+     * @return Questionnaire
      */
-    public function getQuestionnaire()
+    public function getQuestionnaire(): Questionnaire
     {
         return $this->questionnaire;
     }
 
     /**
-     * @param mixed $questionnaire
+     * @param Questionnaire $questionnaire
      */
-    public function setQuestionnaire($questionnaire): void
+    public function setQuestionnaire(Questionnaire $questionnaire): void
     {
         $this->questionnaire = $questionnaire;
     }
