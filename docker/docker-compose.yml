@@ -34,6 +34,8 @@ services:
     container_name: healthcheck-postgresql-local
     restart: always
     image: postgres:9.6.20
+    volumes:
+      - healthcheck-postgres-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=healthcheck-admin
       - POSTGRES_PASSWORD=Test12345!
@@ -62,3 +64,6 @@ networks:
     ipam:
       config:
         - subnet: 172.20.0.0/28
+
+volumes:
+  healthcheck-postgres-data:
