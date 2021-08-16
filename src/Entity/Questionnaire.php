@@ -21,7 +21,7 @@ class Questionnaire
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @var string $type
      */
     private $type;

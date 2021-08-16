@@ -96,6 +96,18 @@
 								"severity": 1
 							}
 						]
+					},
+					{
+						"id": 3,
+						"question_de": "Placeholder",
+						"question_fr": "",
+						"question_it": "",
+						"answer_options": "range",
+						"help": {
+							"help_de": "Falls das Betreungsangebot nicht genutzt wird deutet dies auf ein gestörtes Verhältnis oder fehlende Absprachen hin. Macht den Coach in der Abteilung bekannt, kittet das Verhältnis und klärt die Zuständigkeiten.",
+							"help_fr": "",
+							"help_it": ""
+						}
 					}
 				]
 			}
