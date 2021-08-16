@@ -32,25 +32,25 @@ class Help
     private $id;
 
     /**
-     * @ORM\Column(type = "string", length = 255)
+     * @ORM\Column(type="text")
      * @var string $help_de
      */
     private $help_de;
 
     /**
-     * @ORM\Column(type = "string", length = 255)
+     * @ORM\Column(type="text")
      * @var string $help_fr
      */
     private $help_fr;
 
     /**
-     * @ORM\Column(type = "string", length = 255)
+     * @ORM\Column(type="text")
      * @var string $help_it
      */
     private $help_it;
 
     /**
-     * @ORM\Column(type = "integer")
+     * @ORM\Column(type="integer")
      * @var int $severity
      */
     private $severity;

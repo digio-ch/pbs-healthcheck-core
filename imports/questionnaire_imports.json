@@ -1,135 +1,104 @@
-[{
+[
+	{
 		"id": 1,
 		"type": "Questionnaire::Group::Default",
-		"aspects": [{
-			"id": 1,
-			"name_de": "qwertz",
-			"name_fr": "honhonhon",
-			"name_it": "pizza",
-			"questions": [{
-					"id": 1,
-					"question_de": "Brot?",
-					"question_fr": "Baguette?",
-					"question_it": "Pasta?",
-					"answer_options": "yes_no",
-					"help": [{
-							"id": 1,
-							"help_de": "Öppis zum ässe.",
-							"help_fr": "Quelque chose à manger",
-							"help_it": "qualchosa à mangiare (oder so)",
-							"severity": 1
-						},
-						{
-							"id": 2,
-							"help_de": "nöd zum trinke",
-							"help_fr": "pas à boire",
-							"help_it": "non a bovere (oder so ähnlich)",
-							"severity": 1
-						}
-					]
-				},
-				{
-					"id": 1,
-					"question_de": "Brot?",
-					"question_fr": "Baguette?",
-					"question_it": "Pasta?",
-					"answer_options": "if you see this, then something has gone wrong while importing from json",
-					"deprecated": true,
-					"help": [{
-							"id": 1,
-							"help_de": "neu",
-							"help_fr": "nouveau",
-							"help_it": "nuovo",
-							"severity": 2
-						},
-						{
-							"id": 2,
-							"help_de": "nöd zum trinke",
-							"help_fr": "pas à boire",
-							"help_it": "non a bovere (oder so ähnlich)",
-							"severity": 1
-						}
-					]
-				}
-			]
-		}]
-	},
-	{
-		"id": 3,
-		"type": "Questionnaire::Group::Default",
-		"aspects": [{
-			"id": 1,
-			"name_de": "qwertz",
-			"name_fr": "honhonhon",
-			"name_it": "pizza",
-			"deprecated": true,
-			"questions": [{
-					"id": 1,
-					"question_de": "Brot?",
-					"question_fr": "Baguette?",
-					"question_it": "Pasta?",
-					"answer_options": "yes_no",
-					"help": [{
-							"id": 1,
-							"help_de": "Öppis zum ässe.",
-							"help_fr": "Quelque chose à manger",
-							"help_it": "qualchosa à mangiare (oder so)",
-							"severity": 1
-						},
-						{
-							"id": 2,
-							"help_de": "nöd zum trinke",
-							"help_fr": "pas à boire",
-							"help_it": "non a bovere (oder so ähnlich)",
-							"severity": 1
-						}
-					]
-				},
-				{
-					"id": 1,
-					"question_de": "Brot?",
-					"question_fr": "Baguette?",
-					"question_it": "Pasta?",
-					"answer_options": "if you see this, then something has gone wrong while importing from json",
-					"help": [{
-							"id": 1,
-							"help_de": "neu",
-							"help_fr": "nouveau",
-							"help_it": "nuovo",
-							"severity": 2
-						},
-						{
-							"id": 2,
-							"help_de": "nöd zum trinke",
-							"help_fr": "pas à boire",
-							"help_it": "non a bovere (oder so ähnlich)",
-							"severity": 1
-						}
-					]
-				},
-				{
-					"id": 2,
-					"question_de": "Brot?",
-					"question_fr": "Baguette?",
-					"question_it": "Pasta?",
-					"answer_options": "yes_no",
-					"help": [{
+		"aspects": [
+			{
+				"id": 1,
+				"name_de": "Aus- und Weiterbildung",
+				"name_fr": "",
+				"name_it": "",
+				"questions": [
+					{
 						"id": 1,
-						"help_de": "neu",
-						"help_fr": "nouveau",
-						"help_it": "nuovo",
-						"severity": 2
+						"question_de": "Das Engagement und die Kursbesuche unserer Leitenden sind längerfristig (über ein bis zwei Jahre hinaus) geplant.?",
+						"question_fr": "",
+						"question_it": "",
+						"answer_options": "range",
+						"help": [
+							{
+								"id": 1,
+								"help_de": "Wenn ihr die Kursbesuche eurer Leitenden bereits ein bis zwei Jahre im Voraus plant, könnt ihr fehlende Anerkennungen und Lücken frühzeitig erkennen. Zudem können auch die Leitenden ihre Ferien besser planen. Im Ausbildungsmodell erkennt ihr, welche Kurse für welche Leitenden geeignet sind.",
+								"help_fr": "",
+								"help_it": "",
+								"severity": 1
+							}
+						]
 					},
-						{
-							"id": 2,
-							"help_de": "nöd zum trinke",
-							"help_fr": "pas à boire",
-							"help_it": "non a bovere (oder so ähnlich)",
-							"severity": 1
-						}
-					]
-				}
-			]
-		}]
+					{
+						"id": 2,
+						"question_de": "Mindestens zwei Drittel aller Leitenden der Wolfsstufe haben einen Basis- oder Einführungskurs Wolfsstufe besucht.",
+						"question_fr": "",
+						"question_it": "",
+						"answer_options": "midata",
+						"help": [
+							{
+								"id": 1,
+								"help_de": "Im Basis- oder Einführungskurs Wolfsstufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Wolfsstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
+								"help_fr": "",
+								"help_it": "",
+								"severity": 1
+							}
+						]
+					},
+					{
+						"id": 3,
+						"question_de": "Unsere Leitenden wissen vor dem Kursbesuch, was sie im Kurs alles erleben können und was ihnen dies für ihren Pfadialltag bringt. ",
+						"question_fr": "",
+						"question_it": "",
+						"answer_options": "range",
+						"help": [
+							{
+								"id": 1,
+								"help_de": "Leitende sind motivierter für einen Kursbesuch, wenn ihnen klar ist, welche Erlebnisse sie erwarten und wie sie das Gelernte im Pfadialltag einsetzen können. Idealerweise wird dies mit ihnen schon bei der Planung der Kursbesuche besprochen.",
+								"help_fr": "",
+								"help_it": "",
+								"severity": 1
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": 2,
+				"name_de": "Betreuung der Leitenden",
+				"name_fr": "",
+				"name_it": "",
+				"questions": [
+					{
+						"id": 1,
+						"question_de": "AL und Coach machen bei uns mindestens einmal im Jahr eine Standortbestimmung, bei der sie evaluieren, was in der Abteilung gut läuft und wo wir uns weiterentwickeln können. Die Betreuung wird, z. Bsp. mit einem Betreuungskontrakt, abgesprochen und gemäss dieser Absprache durch das Jahr gelebt und ausgewertet.",
+						"question_fr": "",
+						"question_it": "",
+						"answer_options": "binary",
+						"help": [
+							{
+								"id": 1,
+								"help_de": "Ohne eine jährliche Standortbestimmung ist es schwierig, sich auf ein konkretes Vorgehen zu einigen und sich weiterzuentwickeln. Ein Betreuungskontrakt bietet eine Möglichkeit, diese Absprachen zu tätigen.",
+								"help_fr": "",
+								"help_it": "",
+								"severity": 1
+							}
+						]
+					},
+					{
+						"id": 2,
+						"question_de": "Unsere Leitenden nutzen das Betreuungsangebot unseres Coachs, wenn sie nicht weiter wissen oder eine Frage haben.",
+						"question_fr": "",
+						"question_it": "",
+						"answer_options": "range",
+						"help": [
+							{
+								"id": 1,
+								"help_de": "Falls das Betreungsangebot nicht genutzt wird deutet dies auf ein gestörtes Verhältnis oder fehlende Absprachen hin. Macht den Coach in der Abteilung bekannt, kittet das Verhältnis und klärt die Zuständigkeiten.",
+								"help_fr": "",
+								"help_it": "",
+								"severity": 1
+							}
+						]
+					}
+				]
+			}
+		]
 	}
 ]

@@ -32,36 +32,36 @@ class Question
     private $id;
 
     /**
-     * @ORM\Column(type = "string", length = 255)
+     * @ORM\Column(type="text")
      * @var string $question_de
      */
     private $question_de;
 
     /**
-     * @ORM\Column(type = "string", length = 255)
+     * @ORM\Column(type="text")
      * @var string $question_fr
      */
     private $question_fr;
 
     /**
-     * @ORM\Column(type = "string", length = 255)
+     * @ORM\Column(type="text")
      * @var string $question_it
      */
     private $question_it;
 
     /**
-     * @ORM\Column(type = "string", length = 255)
+     * @ORM\Column(type="string", length=255)
      * @var string $answer_options
      */
     private $answer_options;
 
     /**
-     * @ORM\OneToMany(targetEntity = "Help", mappedBy = "question")
+     * @ORM\OneToMany(targetEntity="Help", mappedBy="question")
      */
     private $help;
 
     /**
-     * @ORM\ManyToOne(targetEntity = "Aspect", inversedBy = "question")
+     * @ORM\ManyToOne(targetEntity="Aspect", inversedBy="question")
      * @var Aspect $aspect
      */
     private $aspect;
