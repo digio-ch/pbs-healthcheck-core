@@ -12,9 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  *     name="quap_aspect",
  *     uniqueConstraints={@ORM\UniqueConstraint(
  *          name="aspect_local_id",
- *          columns={"local_id", "questionnaire_id", "deleted_at"}
- *     )}
- * )
+ *          columns={
+ *              "local_id", "questionnaire_id"
+ *          }
+ *     )
+ * })
  */
 class Aspect
 {

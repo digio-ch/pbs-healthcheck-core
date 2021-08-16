@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\UniqueConstraint(
  *          name="help_local_id",
  *          columns={
- *              "local_id", "question_id", "deleted_at"
+ *              "local_id", "question_id"
  *          }
  *     )
  * })
