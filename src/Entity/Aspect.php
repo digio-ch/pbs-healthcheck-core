@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AspectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity(repositoryClass=AspectRepository::class)
@@ -207,5 +208,13 @@ class Aspect
     public function setDeletedAt($deletedAt): void
     {
         $this->deletedAt = $deletedAt;
+    }
+
+    /**
+     * @return PersistentCollection
+     */
+    public function getQuestions(): PersistentCollection
+    {
+        return $this->questions;
     }
 }

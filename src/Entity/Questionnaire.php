@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\QuestionnaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity(repositoryClass=QuestionnaireRepository::class)
@@ -72,4 +73,14 @@ class Questionnaire
     {
         $this->type = $type;
     }
+
+    /**
+     * @return PersistentCollection
+     */
+    public function getAspects(): PersistentCollection
+    {
+        return $this->aspects;
+    }
+
+
 }
