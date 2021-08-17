@@ -7,6 +7,7 @@ namespace App\Service\Aggregator;
 use App\Entity\Group;
 use App\Entity\WidgetQuap;
 use App\Repository\GroupRepository;
+use App\Repository\QuestionnaireRepository;
 use App\Repository\WidgetQuapRepository;
 use DateInterval;
 use DateTime;
@@ -25,16 +26,21 @@ class QuapAggregator extends WidgetAggregator
     /** @var WidgetQuapRepository $quapRepository */
     private $quapRepository;
 
+    /** @var QuestionnaireRepository $questionnaireRepository */
+    private $questionnaireRepository;
+
     public function __construct(
         EntityManagerInterface $em,
         GroupRepository $groupRepository,
-        WidgetQuapRepository $quapRepository
+        WidgetQuapRepository $quapRepository,
+        QuestionnaireRepository $questionnaireRepository
     ) {
         parent::__construct($groupRepository);
 
         $this->em = $em;
         $this->groupRepository = $groupRepository;
         $this->quapRepository = $quapRepository;
+        $this->questionnaireRepository = $questionnaireRepository;
     }
 
     /**
@@ -45,6 +51,12 @@ class QuapAggregator extends WidgetAggregator
         return self::NAME;
     }
 
+    /**
+     * @param DateTime|null $startDate
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Exception
+     */
     public function aggregate(DateTime $startDate = null)
     {
         $mainGroups = $this->groupRepository->findAllParentGroups();
@@ -76,23 +88,25 @@ class QuapAggregator extends WidgetAggregator
                 $currentQuap = $this->quapRepository->findCurrentForGroup($mainGroup->getId());
 
                 if (is_null($currentQuap)) {
-                    // $newQuap = new WidgetQuap();
-                    // $newQuap->setGroup($mainGroup);
-                    // TODO GET QUESTIONNAIRE
                     // TODO EVALUATE THE CORRET QUESTIONNAIRE FOR THIS GROUP
-                    // $newQuap->setQuestionnaire(null);
-                    // $newQuap->setAnswers('{}');
+                    $questionnaire = $this->questionnaireRepository->find(1);
 
-                    // $this->em->persist($newQuap);
-                    continue;
+                    $currentQuap = new WidgetQuap();
+                    $currentQuap->setGroup($mainGroup);
+                    $currentQuap->setQuestionnaire($questionnaire);
+                    $currentQuap->setAnswers(json_decode('{}'));
+                    $currentQuap->setCreatedAt(new \DateTimeImmutable());
                 }
 
-                // TODO IF NULL CREATE EMPTY ONE
+                $currentQuap->setDataPointDate(new \DateTimeImmutable($startPointDate->format('Y-m-d')));
+
+                $this->em->persist($currentQuap);
 
                 $newQuap = new WidgetQuap();
                 $newQuap->setGroup($currentQuap->getGroup());
                 $newQuap->setQuestionnaire($currentQuap->getQuestionnaire());
                 $newQuap->setAnswers($currentQuap->getAnswers());
+                $newQuap->setCreatedAt(new \DateTimeImmutable());
 
                 $this->em->persist($newQuap);
             }

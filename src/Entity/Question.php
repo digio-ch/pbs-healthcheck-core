@@ -233,12 +233,11 @@ class Question
     {
         $this->deletedAt = $deletedAt;
     }
-}
 
     /**
-     * @return PersistentCollection
+     * @return ArrayCollection
      */
-    public function getHelp(): PersistentCollection
+    public function getHelp(): ArrayCollection
     {
         return $this->help;
     }

@@ -211,9 +211,9 @@ class Aspect
     }
 
     /**
-     * @return PersistentCollection
+     * @return ArrayCollection
      */
-    public function getQuestions(): PersistentCollection
+    public function getQuestions(): ArrayCollection
     {
         return $this->questions;
     }

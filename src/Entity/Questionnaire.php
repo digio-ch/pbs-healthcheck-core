@@ -75,9 +75,9 @@ class Questionnaire
     }
 
     /**
-     * @return PersistentCollection
+     * @return ArrayCollection
      */
-    public function getAspects(): PersistentCollection
+    public function getAspects(): ArrayCollection
     {
         return $this->aspects;
     }
