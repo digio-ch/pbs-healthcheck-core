@@ -5,17 +5,11 @@ namespace App\DTO\Mapper;
 use App\DTO\Model\HelpDTO;
 use App\Entity\Help;
 
-class HelpMapper {
+class HelpMapper
+{
 
-    public static function createHelpFromEntity(Help $help, string $locale, \DateTime $dateTime): ?HelpDTO {
-
-        if (
-            ($help->getDeletedAt() &&
-            date_diff($dateTime, $help->getDeletedAt())->invert == 1)
-            || date_diff($dateTime, $help->getCreatedAt())->invert == 0
-        ) {
-            return null;
-        }
+    public static function createHelpFromEntity(Help $help, string $locale, \DateTime $dateTime): HelpDTO
+    {
 
         $dto = new HelpDTO();
 

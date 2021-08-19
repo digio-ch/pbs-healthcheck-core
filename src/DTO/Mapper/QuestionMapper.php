@@ -2,25 +2,17 @@
 
 namespace App\DTO\Mapper;
 
-use App\DTO\Model\HelpDTO;
 use App\DTO\Model\QuestionDTO;
 use App\Entity\Question;
 
-class QuestionMapper {
+class QuestionMapper
+{
 
-    
-    public static function createQuestionFromEntity(Question $question, string $locale, \DateTime $dateTime): ?QuestionDTO {
 
-        if (
-            ($question->getDeletedAt() &&
-            date_diff($dateTime, $question->getDeletedAt())->invert == 1)
-            || date_diff($dateTime, $question->getCreatedAt())->invert == 0
-        ) {
-            return null;
-        }
+    public static function createQuestionFromEntity(Question $question, string $locale, \DateTime $dateTime): QuestionDTO
+    {
 
         $dto = new QuestionDTO();
-        $helpDTO = new HelpDTO();
 
         $dto->setId($question->getLocalId());
         $dto->setAnswerOptions($question->getAnswerOptions());
@@ -37,11 +29,9 @@ class QuestionMapper {
                 break;
         }
 
-        foreach ($question->getHelp() as $help) {
-            $helpDTO = HelpMapper::createHelpFromEntity($help, $locale, $dateTime);
-
-            if ($helpDTO) {
-                $dto->addHelp($helpDTO);
+        if ($question->getHelp()) {
+            foreach ($question->getHelp() as $help) {
+                $dto->addHelp(HelpMapper::createHelpFromEntity($help, $locale, $dateTime));
             }
         }
 

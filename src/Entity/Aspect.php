@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AspectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 
@@ -193,10 +194,20 @@ class Aspect
     }
 
     /**
-     * @return PersistentCollection
+     * @return Collection|null
      */
-    public function getQuestions(): PersistentCollection
+    public function getQuestions(): ?Collection
     {
         return $this->questions;
     }
+
+    /**
+     * @param Collection $questions
+     */
+    public function setQuestions(Collection $questions): void
+    {
+        $this->questions = $questions;
+    }
+
+
 }

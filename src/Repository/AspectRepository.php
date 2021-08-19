@@ -19,32 +19,16 @@ class AspectRepository extends ServiceEntityRepository
         parent::__construct($registry, Aspect::class);
     }
 
-    // /**
-    //  * @return Aspect[] Returns an array of Aspect objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getExisting(int $questionnaireId, \DateTime $dateTime)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Aspect
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder("a")
+            ->where("a.questionnaire = :questionnaireId")
+            ->andWhere('((a.deleted_at IS NULL OR a.deleted_at >= :date) AND a.created_at <= :date)')
+            ->setParameter("questionnaireId", $questionnaireId)
+            ->setParameter("date", $dateTime)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
+
     }
-    */
 }

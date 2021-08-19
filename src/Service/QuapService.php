@@ -2,11 +2,16 @@
 
 namespace App\Service;
 
-use App\DTO\Mapper\QuapQuestionnaireMapper;
+use App\DTO\Mapper\QuestionnaireMapper;
 use App\Entity\Group;
+use App\Entity\Questionnaire;
 use App\Entity\WidgetQuap;
+use App\Repository\AspectRepository;
+use App\Repository\HelpRepository;
 use App\Repository\QuestionnaireRepository;
+use App\Repository\QuestionRepository;
 use App\Repository\WidgetQuapRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Exception\BadMessageException;
 
@@ -16,6 +21,21 @@ class QuapService
      * @var QuestionnaireRepository $questionnaireRepository
      */
     private $questionnaireRepository;
+
+    /**
+     * @var AspectRepository $aspectRepository
+     */
+    private $aspectRepository;
+
+    /**
+     * @var QuestionRepository $questionRepository
+     */
+    private $questionRepository;
+
+    /**
+     * @var HelpRepository $helpRepository
+     */
+    private $helpRepository;
 
     /**
      * @var WidgetQuapRepository $quapRepository
@@ -32,24 +52,40 @@ class QuapService
      * @param WidgetQuapRepository $quapRepository
      * @param EntityManagerInterface $em
      */
-    public function __construct(QuestionnaireRepository $questionnaireRepository, WidgetQuapRepository $quapRepository, EntityManagerInterface $em)
+    public function __construct(
+        QuestionnaireRepository $questionnaireRepository,
+        AspectRepository        $aspectRepository,
+        QuestionRepository      $questionRepository,
+        HelpRepository          $helpRepository,
+        WidgetQuapRepository    $quapRepository,
+        EntityManagerInterface  $em)
     {
         $this->questionnaireRepository = $questionnaireRepository;
+        $this->aspectRepository = $aspectRepository;
+        $this->questionRepository = $questionRepository;
+        $this->helpRepository = $helpRepository;
         $this->quapRepository = $quapRepository;
         $this->em = $em;
     }
 
 
-    public function getQuestionnaireDataByType(string $type, string $locale, \DateTime $dateTime): array
+    public function getQuestionnaireByType(string $type, string $locale, \DateTime $dateTime): ?Questionnaire
     {
+//        $questionnaire = $this->questionnaireRepository->findOneBy([
+//            "type" => $type
+//        ]);
 
-        $questionnaires = $this->questionnaireRepository->findBy([
-            "type" => $type
-        ]);
+        $questionnaire = $this->questionnaireRepository->findOneBy(["type" => $type]);
+        $questionnaire->setAspects(new ArrayCollection($this->aspectRepository->getExisting($questionnaire->getId(), $dateTime)));
+        foreach ($questionnaire->getAspects() as $aspect) {
+            $aspect->setQuestions(new ArrayCollection($this->questionRepository->getExisting($aspect->getId(), $dateTime)));
 
-        $aspects = QuapQuestionnaireMapper::createFromEntities($questionnaires, $locale, $dateTime);
+            foreach ($aspect->getQuestions() as $question) {
+                $question->setHelp(new ArrayCollection($this->helpRepository->getExisting($question->getId(), $dateTime)));
+            }
+        }
 
-        return $aspects;
+        return $questionnaire;
     }
 
     public function submitWidgetQuapAnswers(Group $group, array $json): WidgetQuap
