@@ -18,6 +18,7 @@ class WidgetQuap extends Widget
 
     /**
      * @ORM\ManyToOne(targetEntity="Questionnaire", inversedBy = "widgetQuap")
+     * @ORM\JoinColumn(nullable=false)
      * @var Questionnaire $questionnaire
      */
     private $questionnaire;
@@ -26,6 +27,11 @@ class WidgetQuap extends Widget
      * @ORM\Column(type = "json")
      */
     private $answers;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    protected $dataPointDate;
 
     /**
      * @return Questionnaire
@@ -58,6 +64,4 @@ class WidgetQuap extends Widget
     {
         $this->answers = $answers;
     }
-
-
 }

@@ -5,7 +5,9 @@ namespace App\Entity;
 
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * Class Question
@@ -232,4 +234,22 @@ class Question
     {
         $this->deletedAt = $deletedAt;
     }
+
+    /**
+     * @return Collection|null
+     */
+    public function getHelp(): ?Collection
+    {
+        return $this->help;
+    }
+
+    /**
+     * @param Collection $help
+     */
+    public function setHelp(Collection $help): void
+    {
+        $this->help = $help;
+    }
+
+
 }

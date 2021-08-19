@@ -70,3 +70,13 @@ quap_widget:
   path: /groups/{groupId}/quap
   methods: GET
   controller: App\Controller\Api\Widget\QuapController::getQuapAnswers
+
+quap_questionnaire:
+  path: /quap/questionnaire/{type}
+  methods: GET
+  controller: App\Controller\Api\QuapController::getQuestionnaireData
+
+quap_answers:
+  path: /groups/{id}/quap/questionnaire
+  methods: POST
+  controller: App\Controller\Api\QuapController::submitAnswers
