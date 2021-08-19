@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use App\Repository\HelpRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,14 +16,14 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\UniqueConstraint(
  *          name="help_local_id",
  *          columns={
- *              "local_id", "question_id", "deleted_at"
+ *              "severity", "question_id"
  *          }
  *     )
  * })
+ * @ORM\HasLifecycleCallbacks()
  */
 class Help
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -32,25 +33,25 @@ class Help
     private $id;
 
     /**
-     * @ORM\Column(type = "string", length = 255)
+     * @ORM\Column(type="text")
      * @var string $help_de
      */
     private $help_de;
 
     /**
-     * @ORM\Column(type = "string", length = 255)
+     * @ORM\Column(type="text")
      * @var string $help_fr
      */
     private $help_fr;
 
     /**
-     * @ORM\Column(type = "string", length = 255)
+     * @ORM\Column(type="text")
      * @var string $help_it
      */
     private $help_it;
 
     /**
-     * @ORM\Column(type = "integer")
+     * @ORM\Column(type="integer")
      * @var int $severity
      */
     private $severity;
@@ -64,21 +65,35 @@ class Help
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $deleted_at;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $created_at;
+    private $deletedAt;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpDe", orphanRemoval=true)
      */
-    private $local_id;
+    private $linksDe;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpFr", orphanRemoval=true)
+     */
+    private $linksFr;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpIt", orphanRemoval=true)
+     */
+    private $linksIt;
 
     public function __construct()
     {
         $this->question = new ArrayCollection();
+        $this->links = new ArrayCollection();
+        $this->linksDe = new ArrayCollection();
+        $this->linksFr = new ArrayCollection();
+        $this->linksIt = new ArrayCollection();
     }
 
     /**
@@ -177,43 +192,125 @@ class Help
         $this->question = $question;
     }
 
-    public function getDeletedAt(): ?\DateTimeImmutable
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
     {
-        return $this->deleted_at;
+        return $this->createdAt;
     }
 
-    public function setDeletedAt(?\DateTimeImmutable $deleted_at): self
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt): void
     {
-        $this->deleted_at = $deleted_at;
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param mixed $deletedAt
+     */
+    public function setDeletedAt($deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
+    }
+
+    /**
+     * @return Collection|Link[]
+     */
+    public function getLinksDe(): Collection
+    {
+        return $this->linksDe;
+    }
+
+    public function addLinksDe(Link $linksDe): self
+    {
+        if (!$this->linksDe->contains($linksDe)) {
+            $this->linksDe[] = $linksDe;
+            $linksDe->setHelpDe($this);
+        }
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function removeLinksDe(Link $linksDe): self
     {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(?\DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
+        if ($this->linksDe->removeElement($linksDe)) {
+            // set the owning side to null (unless already changed)
+            if ($linksDe->getHelpDe() === $this) {
+                $linksDe->setHelpDe(null);
+            }
+        }
 
         return $this;
     }
 
-    public function getLocalId(): ?int
+    /**
+     * @return Collection|Link[]
+     */
+    public function getLinksFr(): Collection
     {
-        return $this->local_id;
+        return $this->linksFr;
     }
 
-    public function setLocalId(int $local_id): self
+    public function addLinksFr(Link $linksFr): self
     {
-        $this->local_id = $local_id;
+        if (!$this->linksFr->contains($linksFr)) {
+            $this->linksFr[] = $linksFr;
+            $linksFr->setHelpFr($this);
+        }
 
         return $this;
     }
 
+    public function removeLinksFr(Link $linksFr): self
+    {
+        if ($this->linksFr->removeElement($linksFr)) {
+            // set the owning side to null (unless already changed)
+            if ($linksFr->getHelpFr() === $this) {
+                $linksFr->setHelpFr(null);
+            }
+        }
 
+        return $this;
+    }
 
+    /**
+     * @return Collection|Link[]
+     */
+    public function getLinksIt(): Collection
+    {
+        return $this->linksIt;
+    }
 
+    public function addLinksIt(Link $linksIt): self
+    {
+        if (!$this->linksIt->contains($linksIt)) {
+            $this->linksIt[] = $linksIt;
+            $linksIt->setHelpIt($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinksIt(Link $linksIt): self
+    {
+        if ($this->linksIt->removeElement($linksIt)) {
+            // set the owning side to null (unless already changed)
+            if ($linksIt->getHelpIt() === $this) {
+                $linksIt->setHelpIt(null);
+            }
+        }
+
+        return $this;
+    }
 }

@@ -14,9 +14,12 @@ use Doctrine\ORM\PersistentCollection;
  *     name="quap_aspect",
  *     uniqueConstraints={@ORM\UniqueConstraint(
  *          name="aspect_local_id",
- *          columns={"local_id", "questionnaire_id", "deleted_at"}
- *     )}
- * )
+ *          columns={
+ *              "local_id", "questionnaire_id"
+ *          }
+ *     )
+ * })
+ * @ORM\HasLifecycleCallbacks()
  */
 class Aspect
 {
@@ -27,6 +30,11 @@ class Aspect
      * @var int $id
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $local_id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -60,17 +68,12 @@ class Aspect
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $deleted_at;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $created_at;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $local_id;
+    private $deletedAt;
 
     public function __construct()
     {
@@ -157,40 +160,55 @@ class Aspect
         $this->questionnaire = $questionnaire;
     }
 
-    public function getDeletedAt(): ?\DateTimeImmutable
-    {
-        return $this->deleted_at;
-    }
-
-    public function setDeletedAt(?\DateTimeImmutable $deleted_at): self
-    {
-        $this->deleted_at = $deleted_at;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(?\DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
+    /**
+     * @return int|null
+     */
     public function getLocalId(): ?int
     {
         return $this->local_id;
     }
 
+    /**
+     * @param int $local_id
+     * @return $this
+     */
     public function setLocalId(int $local_id): self
     {
         $this->local_id = $local_id;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param mixed $deletedAt
+     */
+    public function setDeletedAt($deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
     }
 
     /**
