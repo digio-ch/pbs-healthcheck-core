@@ -25,7 +25,7 @@ class QuestionRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder("q")
             ->where("q.aspect = :aspectId")
-            ->andWhere('((q.deleted_at IS NULL OR q.deleted_at >= :date) AND q.created_at <= :date)')
+            ->andWhere('((q.deletedAt IS NULL OR q.deletedAt >= :date) AND q.createdAt <= :date)')
             ->setParameter("aspectId", $aspectId)
             ->setParameter("date", $dateTime)
             ->getQuery()

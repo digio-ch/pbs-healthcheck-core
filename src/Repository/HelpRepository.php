@@ -25,7 +25,7 @@ class HelpRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder("h")
             ->where("h.question = :questionId")
-            ->andWhere('((h.deleted_at IS NULL OR h.deleted_at >= :date) AND h.created_at <= :date)')
+            ->andWhere('((h.deletedAt IS NULL OR h.deletedAt >= :date) AND h.createdAt <= :date)')
             ->setParameter("questionId", $questionId)
             ->setParameter("date", $dateTime)
             ->getQuery()

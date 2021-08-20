@@ -24,11 +24,10 @@ class AspectRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder("a")
             ->where("a.questionnaire = :questionnaireId")
-            ->andWhere('((a.deleted_at IS NULL OR a.deleted_at >= :date) AND a.created_at <= :date)')
+            ->andWhere('((a.deletedAt IS NULL OR a.deletedAt >= :date) AND a.createdAt <= :date)')
             ->setParameter("questionnaireId", $questionnaireId)
             ->setParameter("date", $dateTime)
             ->getQuery()
             ->getResult();
-
     }
 }

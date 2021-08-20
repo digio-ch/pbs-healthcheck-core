@@ -71,10 +71,6 @@ class QuapService
 
     public function getQuestionnaireByType(string $type, string $locale, \DateTime $dateTime): ?Questionnaire
     {
-//        $questionnaire = $this->questionnaireRepository->findOneBy([
-//            "type" => $type
-//        ]);
-
         $questionnaire = $this->questionnaireRepository->findOneBy(["type" => $type]);
         $questionnaire->setAspects(new ArrayCollection($this->aspectRepository->getExisting($questionnaire->getId(), $dateTime)));
         foreach ($questionnaire->getAspects() as $aspect) {
@@ -88,7 +84,7 @@ class QuapService
         return $questionnaire;
     }
 
-    public function submitWidgetQuapAnswers(Group $group, array $json): WidgetQuap
+    public function submitAnswers(Group $group, array $json): WidgetQuap
     {
         $widgetQuap = $this->quapRepository->findOneBy([
             "dataPointDate" => null,
@@ -113,5 +109,13 @@ class QuapService
         $this->em->flush();
 
         return $widgetQuap;
+    }
+
+    public function getAnswers(Group $group, \DateTime $dateTime): WidgetQuap
+    {
+        return $this->quapRepository->findOneBy([
+            "dataPointDate" => null,
+            "group" => $group->getId()
+        ]);
     }
 }

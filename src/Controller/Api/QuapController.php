@@ -34,7 +34,6 @@ class QuapController extends AbstractController
     ): JsonResponse
     {
         $date = $request->get('date', null);
-
         $date = $date ? DateTime::createFromFormat('Y-m-d', $date) : new DateTime("now");
 
         $questionnaire = $this->quapService->getQuestionnaireByType($type, $request->getLocale(), $date);
@@ -48,10 +47,10 @@ class QuapController extends AbstractController
      * @param Group $group
      * @param Request $request
      * @return JsonResponse
-     * @ParamConverter("post")
+     * @ParamConverter("id")
      */
     public function submitAnswers(
-        Group   $group, // paramconverter
+        Group   $group,
         Request $request
     ): JsonResponse
     {
@@ -60,8 +59,21 @@ class QuapController extends AbstractController
             throw new ApiException(400, "Invalid JSON");
         }
 
-        $savedWidgetQuap = $this->quapService->submitWidgetQuapAnswers($group, $json);
+        $savedWidgetQuap = $this->quapService->submitAnswers($group, $json);
 
         return $this->json($savedWidgetQuap->getAnswers());
+    }
+
+    public function getAnswers(
+        Group   $group,
+        Request $request
+    ): JsonResponse
+    {
+        $date = $request->get('date', null);
+        $date = $date ? DateTime::createFromFormat('Y-m-d', $date) : new DateTime("now");
+
+        $widgetQuap = $this->quapService->getAnswers($group, $date);
+
+        return $this->json($widgetQuap->getAnswers());
     }
 }
