@@ -14,7 +14,7 @@ class FetchDataCommand extends StatisticsCommand
     public const STAT_TABLE_HEADERS = ['Table Name', 'Duration (s)', 'Items Fetched'];
     public const STAT_TOTAL_TABLE_HEADERS = ['Total Duration (s)', 'Total Items Fetched'];
 
-    private const PAGINATED = ['people', 'groups', 'roles', 'courses', 'camps', 'participations', 'qualifications'];
+    private const PAGINATED = ['courses', 'camps', 'participations', 'qualifications'];
     private const NOT_PAGINATED = ['group_types', 'role_types', 'participation_types', 'j_s_kinds', 'camp_states',
         'qualification_kinds', 'event_kinds'];
 

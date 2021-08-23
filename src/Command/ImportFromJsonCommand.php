@@ -101,13 +101,10 @@ class ImportFromJsonCommand extends StatisticsCommand
             $this->importYouthSportTypes($output);
             $this->importCampStates($output);
             $this->importPersonEventTypes($output);
-            $this->importGroups($output);
             $this->importCourses($output);
             $this->importCamps($output);
-            $this->importPeople($output);
             $this->importParticipations($output);
             $this->importQualifications($output);
-            $this->importRoles($output);
 
             $this->em->getConnection()->commit();
 
@@ -365,50 +362,6 @@ class ImportFromJsonCommand extends StatisticsCommand
      * @param OutputInterface $output
      * @throws Exception
      */
-    private function importGroups(OutputInterface $output)
-    {
-        $start = microtime(true);
-        $groups = JsonMachine::fromFile(sprintf('%s/groups.json', $this->params->get('import_data_dir')));
-        $i = 0;
-        foreach ($groups as $gr) {
-            $group = $this->em->getRepository(Group::class)->findOneBy(['id' => $gr['id']]);
-            if (!$group) {
-                $group = new Group();
-                $group->setId($gr['id']);
-                $metadata = $this->em->getClassMetaData(get_class($group));
-                $metadata->setIdGenerator(new AssignedGenerator());
-            }
-
-            $group->setName($gr['name']);
-            $group->setCantonId($gr['canton_id']);
-            $group->setCantonName($gr['canton_name']);
-            $group->setCreatedAt(new DateTimeImmutable($gr['created_at']));
-            if ($gr['deleted_at']) {
-                $group->setDeletedAt(new DateTimeImmutable($gr['deleted_at']));
-            }
-
-            /** @var GroupType $gt */
-            $gt = $this->em->getRepository(GroupType::class)->findOneBy(['groupType' => $gr['type']]);
-            $group->setGroupType($gt);
-
-            if ($gr['parent_id'] !== null) {
-                $pg = $this->em->getRepository(Group::class)->find($gr['parent_id']);
-                $group->setParentGroup($pg);
-            }
-
-            $this->em->persist($group);
-            $this->em->flush();
-            $i++;
-        }
-        $timeElapsed = microtime(true) - $start;
-        $this->stats[] = ['groups.json', $timeElapsed, $i];
-        $output->writeln([sprintf('%s rows imported from groups.json', $i)]);
-    }
-
-    /**
-     * @param OutputInterface $output
-     * @throws Exception
-     */
     private function importCourses(OutputInterface $output)
     {
         $start = microtime(true);
@@ -536,67 +489,6 @@ class ImportFromJsonCommand extends StatisticsCommand
 
     /**
      * @param OutputInterface $output
-     * @throws Exception
-     */
-    private function importPeople(OutputInterface $output)
-    {
-        $this->personRepository->markAllAsLeft();
-
-        $start = microtime(true);
-        $people = JsonMachine::fromFile(sprintf('%s/people.json', $this->params->get('import_data_dir')));
-        $i = 0;
-        foreach ($people as $p) {
-            $person = $this->em->getRepository(Person::class)->findOneBy(['id' => $p['id']]);
-            if (!$person) {
-                $person = new Person();
-                $person->setId($p['id']);
-                $metadata = $this->em->getClassMetaData(get_class($person));
-                $metadata->setIdGenerator(new AssignedGenerator());
-            }
-            $person->setNickname($p['name']);
-            $person->setGender($p['gender']);
-            $person->setAddress($p['address']);
-            $person->setCountry($p['country']);
-            $person->setZip(intval($p['zip_code']));
-            if ($p['birthday']) {
-                $person->setBirthday(new DateTimeImmutable($p['birthday']));
-            }
-            $person->setPbsNumber($p['pbs_number']);
-            if ($p['entry_date']) {
-                $person->setEntryDate(new DateTimeImmutable($p['entry_date']));
-            }
-            if ($p['leaving_date']) {
-                $person->setLeavingDate(new DateTimeImmutable($p['leaving_date']));
-            } else {
-                $person->setLeavingDate(null);
-            }
-            $person->setTown($p['town']);
-
-            if ($p['primary_group_id']) {
-                $group = $this->em->getRepository(Group::class)->find($p['primary_group_id']);
-                if ($group) {
-                    $person->setGroup($group);
-                }
-            }
-
-            $this->em->persist($person);
-            $i++;
-
-            if (($i % $this->batchSize) === 0) {
-                $this->em->flush();
-                $this->em->clear();
-            }
-        }
-
-        $this->em->flush();
-
-        $timeElapsed = microtime(true) - $start;
-        $this->stats[] = ['people.json', $timeElapsed, $i];
-        $output->writeln([sprintf('%s rows imported from people.json', $i)]);
-    }
-
-    /**
-     * @param OutputInterface $output
      */
     private function importParticipations(OutputInterface $output)
     {
@@ -704,58 +596,6 @@ class ImportFromJsonCommand extends StatisticsCommand
         $timeElapsed = microtime(true) - $start;
         $this->stats[] = ['qualifications.json', $timeElapsed, $i];
         $output->writeln([sprintf('%s rows imported from qualifications.json', $i)]);
-    }
-
-    /**
-     * @param OutputInterface $output
-     * @throws Exception
-     */
-    private function importRoles(OutputInterface $output)
-    {
-        $start = microtime(true);
-        $roles = JsonMachine::fromFile(sprintf('%s/roles.json', $this->params->get('import_data_dir')));
-        $i = 0;
-        foreach ($roles as $r) {
-            $personRole = $this->em->getRepository(PersonRole::class)->findOneBy(['id' => $r['id']]);
-            if (!$personRole) {
-                $personRole = new PersonRole();
-                $personRole->setId($r['id']);
-                $metadata = $this->em->getClassMetaData(get_class($personRole));
-                $metadata->setIdGenerator(new AssignedGenerator());
-            }
-            $person = $this->em->getRepository(Person::class)->find($r['person_id']);
-            if (!$person) {
-                continue;
-            }
-            $personRole->setPerson($person);
-
-            $role = $this->em->getRepository(Role::class)->getOneByRoleType($r['type']);
-            if ($role) {
-                $personRole->setRole($role);
-            }
-
-            $group = $this->em->getRepository(Group::class)->find($r['group_id']);
-            if ($group) {
-                $personRole->setGroup($group);
-            }
-
-            $personRole->setCreatedAt(new DateTimeImmutable($r['created_at']));
-            if ($r['deleted_at']) {
-                $personRole->setDeletedAt(new DateTimeImmutable($r['deleted_at']));
-            }
-
-            $this->em->persist($personRole);
-            $i++;
-
-            if (($i % $this->batchSize) === 0) {
-                $this->em->flush();
-                $this->em->clear();
-            }
-        }
-        $this->em->flush();
-        $timeElapsed = microtime(true) - $start;
-        $this->stats[] = ['roles.json', $timeElapsed, $i];
-        $output->writeln([sprintf('%s rows imported from roles.json', $i)]);
     }
 
     public function getStats(): CommandStatistics

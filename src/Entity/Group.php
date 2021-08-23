@@ -210,6 +210,15 @@ class Group
         $this->groupType = $groupType;
     }
 
+    public function addChild(Group $child): self {
+        if (!$this->children->contains($child)) {
+            $this->children[] = $child;
+            $child->setParentGroup($this);
+        }
+
+        return $this;
+    }
+
     public function __toString()
     {
         return (string)$this->id;

@@ -43,11 +43,13 @@ api:
   entity:
     invite: 'Liberalizzazione'
     group: 'Gruppo'
+    sync: 'Sincronizzazione'
 
   action:
     created: 'creato'
     updated: 'attualizzato'
     deleted: 'cancellato'
+    started: 'iniziata'
 
   error:
     unknown: 'Si è verificato un errore, prova di nuovo più tardi.'

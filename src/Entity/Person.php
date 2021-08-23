@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -87,6 +88,11 @@ class Person
     private $group;
 
     /**
+     * @ORM\OneToMany(targetEntity="PersonRole", mappedBy="person")
+     */
+    private $personRoles;
+
+    /**
      * @ORM\OneToMany(targetEntity="PersonEvent", mappedBy="person", cascade={"persist", "remove"})
      */
     private $events;
@@ -101,6 +107,11 @@ class Person
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $geoAddress;
+
+    public function __construct()
+    {
+        $this->personRoles = new ArrayCollection();
+    }
 
     /**
      * @param int $id
@@ -308,5 +319,20 @@ class Person
     public function setGeoAddress(GeoAddress $geoAddress): void
     {
         $this->geoAddress = $geoAddress;
+    }
+
+    public function addPersonRole(PersonRole $personRole): self {
+        if (!$this->personRoles->contains($personRole)) {
+            $this->personRoles[] = $personRole;
+            $personRole->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function clearPersonRoles(): self {
+        $this->personRoles = new ArrayCollection();
+
+        return $this;
     }
 }

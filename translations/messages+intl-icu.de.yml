@@ -43,11 +43,13 @@ api:
   entity:
     invite: 'Freigabe'
     group: 'Gruppe'
+    sync: 'Synchronisation'
 
   action:
     created: 'erstellt'
     updated: 'aktualisiert'
     deleted: 'gelöscht'
+    started: 'begonnen'
 
   error:
     unknown: 'Ein Fehler ist aufgetreten, versuche es später nochmals.'
