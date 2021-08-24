@@ -46,7 +46,7 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @return array|PersonRole[]
      * @throws \Doctrine\DBAL\Exception
      */
-    public function findAllByDate(string $date, array $groupIds, array $groupTypes, array $leaderRoles): array
+    public function findAllByDate(string $date, array $groupIds, array $groupTypes, array $leaderRoles, array $rolePriority): array
     {
         $connection = $this->_em->getConnection();
         $statement = $connection->executeQuery(
@@ -66,6 +66,36 @@ class PersonRoleRepository extends ServiceEntityRepository
                                 person.deleted_at IS NULL
                                 OR person.deleted_at > ?
                             )
+                            ORDER BY
+                                CASE
+                                    WHEN group_type=? THEN 1
+                                    WHEN group_type=? THEN 2
+                                    WHEN group_type=? THEN 3
+                                    WHEN group_type=? THEN 4
+                                    WHEN group_type=? THEN 5
+                                    WHEN group_type=? THEN 6
+                                    WHEN group_type=? THEN 7
+                                    WHEN group_type=? THEN 8
+                                    WHEN group_type=? THEN 9
+                                    WHEN group_type=? THEN 10
+                                    WHEN group_type=? THEN 11
+                                    WHEN group_type=? THEN 12
+                                    WHEN group_type=? THEN 13
+                                    WHEN group_type=? THEN 14
+                                    WHEN group_type=? THEN 15
+                                    WHEN group_type=? THEN 16
+                                    WHEN group_type=? THEN 17
+                                    WHEN group_type=? THEN 18
+                                    WHEN group_type=? THEN 19
+                                    WHEN group_type=? THEN 20
+                                    WHEN group_type=? THEN 21
+                                    WHEN group_type=? THEN 22
+                                    WHEN group_type=? THEN 23
+                                    WHEN group_type=? THEN 24
+                                    WHEN group_type=? THEN 25
+                                    WHEN group_type=? THEN 26
+                                    ELSE 27
+                                END
                             LIMIT 1
                     ) AS group_type,
                     CASE WHEN 
@@ -103,6 +133,32 @@ class PersonRoleRepository extends ServiceEntityRepository
                 $groupTypes,
                 $date,
                 $date,
+                $rolePriority[0],
+                $rolePriority[1],
+                $rolePriority[2],
+                $rolePriority[3],
+                $rolePriority[4],
+                $rolePriority[5],
+                $rolePriority[6],
+                $rolePriority[7],
+                $rolePriority[8],
+                $rolePriority[9],
+                $rolePriority[10],
+                $rolePriority[11],
+                $rolePriority[12],
+                $rolePriority[13],
+                $rolePriority[14],
+                $rolePriority[15],
+                $rolePriority[16],
+                $rolePriority[17],
+                $rolePriority[18],
+                $rolePriority[19],
+                $rolePriority[20],
+                $rolePriority[21],
+                $rolePriority[22],
+                $rolePriority[23],
+                $rolePriority[24],
+                $rolePriority[25],
                 $groupIds,
                 $leaderRoles,
                 $date,
@@ -115,6 +171,32 @@ class PersonRoleRepository extends ServiceEntityRepository
             [
                 Connection::PARAM_INT_ARRAY,
                 Connection::PARAM_STR_ARRAY,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 Connection::PARAM_INT_ARRAY,
