@@ -46,10 +46,10 @@ class PeopleFetcher
         $this->roleMapper = $roleMapper;
     }
 
-    public function fetchAndPersistPeople(string $groupId)
+    public function fetchAndPersistPeople(string $groupId, string $accessToken)
     {
         $i = 0;
-        foreach ($this->fetchPeople($groupId) as $person) {
+        foreach ($this->fetchPeople($groupId, $accessToken) as $person) {
             $this->em->persist($person);
             $i++;
 
@@ -61,9 +61,9 @@ class PeopleFetcher
         $this->em->flush();
     }
 
-    private function fetchPeople(string $groupId): array
+    private function fetchPeople(string $groupId, string $accessToken): array
     {
-        $peopleData = $this->pbsApiService->getApiData('/groups/'.$groupId.'/people?filters[role][kind]=with_deleted&range=layer');
+        $peopleData = $this->pbsApiService->getApiData('/groups/'.$groupId.'/people?filters[role][kind]=with_deleted&range=layer', $accessToken);
         return $this->mapJsonToPeople($peopleData);
     }
 

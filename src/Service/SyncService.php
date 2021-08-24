@@ -2,18 +2,10 @@
 
 namespace App\Service;
 
-use App\DTO\Mapper\InviteMapper;
-use App\DTO\Model\InviteDTO;
 use App\Entity\Group;
-use App\Entity\GroupType;
-use App\Entity\Invite;
-use App\Repository\InviteRepository;
 use App\Service\PbsApi\Fetcher\GroupFetcher;
 use App\Service\PbsApi\Fetcher\PeopleFetcher;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Id\AssignedGenerator;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SyncService
 {
@@ -49,9 +41,11 @@ class SyncService
      * @param Group $group
      * @return void
      */
-    public function startSync(Group $group)
+    public function startSync(Group $group, $accessToken)
     {
-        $this->groupFetcher->fetchAndPersistGroup($group->getId());
-        $this->peopleFetcher->fetchAndPersistPeople($group->getId());
+        $this->groupFetcher->fetchAndPersistGroup($group->getId(), $accessToken);
+        $this->peopleFetcher->fetchAndPersistPeople($group->getId(), $accessToken);
+
+        // TODO run aggregations here, but only for the fetched group
     }
 }

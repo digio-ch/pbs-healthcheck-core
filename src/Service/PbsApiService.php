@@ -49,11 +49,11 @@ class PbsApiService
      * @param int|null $itemsPerPage
      * @return array
      */
-    public function getApiData(string $uri)
+    public function getApiData(string $uri, string $accessToken)
     {
         $endpoint = $this->url . $uri;
         $additionalHeaders = [
-            'Authorization' => 'Bearer '. $this->accessToken(),
+            'Authorization' => 'Bearer '. $accessToken,
             'Accept' => 'application/json',
         ];
         return $this->guzzleWrapper->getJson($endpoint, null, $additionalHeaders)->getContent();

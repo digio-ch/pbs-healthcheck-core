@@ -105,11 +105,12 @@ class PbsAuthService
     /**
      * @param string $code
      * @param string $locale
+     * @param string|null $action
      * @return PbsUserDTO
      */
-    public function getUser(string $code, string $locale): PbsUserDTO
+    public function getUser(string $code, string $locale, ?string $action = null): PbsUserDTO
     {
-        $token = $this->getTokenUsingCode($code);
+        $token = $this->getTokenUsingCode($code, $action);
         $user = $this->getUserWithToken($token);
         switch ($this->environment) {
             case 'dev':
@@ -139,15 +140,17 @@ class PbsAuthService
 
     /**
      * @param string $code
+     * @param string|null $action
      * @return string
      */
-    private function getTokenUsingCode(string $code): string
+    public function getTokenUsingCode(string $code, ?string $action = null): string
     {
+        $callbackUrl = $this->pbsCallbackUrl . ($action ? '?action='.$action : '');
         $body = [
             'grant_type' => 'authorization_code',
             'client_id' => $this->pbsClientId,
             'client_secret' => $this->pbsClientSecret,
-            'redirect_uri' => $this->pbsCallbackUrl,
+            'redirect_uri' => $callbackUrl,
             'code' => $code
         ];
         $response = $this->guzzleWrapper->postJson($this->pbsUrl . '/oauth/token', json_encode($body));

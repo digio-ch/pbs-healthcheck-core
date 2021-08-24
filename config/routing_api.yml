@@ -28,7 +28,7 @@ invite_delete:
 sync_start:
   path: /groups/{groupId}/sync
   methods: POST
-  controller: App\Controller\Api\SyncController:startSync
+  controller: App\Controller\Api\SyncController::startSync
 
 # Filter data routes
 filter_data:

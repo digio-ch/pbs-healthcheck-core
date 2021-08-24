@@ -37,19 +37,19 @@ class GroupFetcher
         $this->pbsApiService = $pbsApiService;
     }
 
-    public function fetchAndPersistGroup(string $id)
+    public function fetchAndPersistGroup(string $id, string $accessToken)
     {
-        $this->em->persist($this->fetchGroup($id));
+        $this->em->persist($this->fetchGroup($id, $accessToken));
         $this->em->flush();
     }
 
-    private function fetchGroup(string $id): Group
+    private function fetchGroup(string $id, string $accessToken): Group
     {
-        $groupData = $this->pbsApiService->getApiData('/groups/'.$id);
-        return $this->mapJsonToGroup($groupData);
+        $groupData = $this->pbsApiService->getApiData('/groups/'.$id, $accessToken);
+        return $this->mapJsonToGroup($groupData, $accessToken);
     }
 
-    private function mapJsonToGroup(array $json): Group
+    private function mapJsonToGroup(array $json, string $accessToken): Group
     {
         $groupJson = $json['groups'][0] ?? [];
         $linked = $json['linked'] ?? [];
@@ -87,7 +87,7 @@ class GroupFetcher
         }
 
         foreach ($groupJson['links']['children'] ?? [] as $child) {
-            $group->addChild($this->fetchGroup($child));
+            $group->addChild($this->fetchGroup($child, $accessToken));
         }
 
         return $group;
