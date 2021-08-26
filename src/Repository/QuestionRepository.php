@@ -21,7 +21,7 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
-    public function getExisting(int $aspectId, \DateTime $dateTime)
+    public function getExisting(int $aspectId, string $dateTime)
     {
         return $this->createQueryBuilder("q")
             ->where("q.aspect = :aspectId")

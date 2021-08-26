@@ -83,7 +83,13 @@ class QuapService
         $this->em = $em;
     }
 
-    public function getQuestionnaireByType(string $type, string $locale, \DateTime $dateTime): ?Questionnaire
+    /**
+     * @param string $type
+     * @param string $locale
+     * @param string $dateTime
+     * @return Questionnaire|null
+     */
+    public function getQuestionnaireByType(string $type, string $locale, string $dateTime): ?Questionnaire
     {
         $questionnaire = $this->questionnaireRepository->findOneBy(["type" => $type]);
         $questionnaire->setAspects(new ArrayCollection($this->aspectRepository->getExisting($questionnaire->getId(), $dateTime)));
@@ -143,10 +149,15 @@ class QuapService
         return $widgetQuap;
     }
 
-    public function getAnswers(Group $group, \DateTime $dateTime): WidgetQuap
+    /**
+     * @param Group $group
+     * @param string|null $dateTime
+     * @return WidgetQuap
+     */
+    public function getAnswers(Group $group, ?\DateTimeImmutable $dateTime): WidgetQuap
     {
         return $this->quapRepository->findOneBy([
-            "dataPointDate" => null,
+            "dataPointDate" => $dateTime->setTime(0, 0),
             "group" => $group->getId()
         ]);
     }

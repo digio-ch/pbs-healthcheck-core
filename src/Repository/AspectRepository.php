@@ -19,7 +19,7 @@ class AspectRepository extends ServiceEntityRepository
         parent::__construct($registry, Aspect::class);
     }
 
-    public function getExisting(int $questionnaireId, \DateTime $dateTime)
+    public function getExisting(int $questionnaireId, string $dateTime)
     {
 
         return $this->createQueryBuilder("a")

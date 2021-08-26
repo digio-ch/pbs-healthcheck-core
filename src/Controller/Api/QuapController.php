@@ -3,14 +3,11 @@
 namespace App\Controller\Api;
 
 use App\DTO\Mapper\QuestionnaireMapper;
-use App\DTO\Model\WidgetControllerData\WidgetRequestData;
 use App\Entity\Group;
 use App\Exception\ApiException;
 use App\Service\QuapService;
-use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -33,9 +30,9 @@ class QuapController extends AbstractController
     ): JsonResponse
     {
         $date = $request->get('date', null);
-        $date = $date ? DateTime::createFromFormat('Y-m-d', $date) : new DateTime("now");
+        $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : new \DateTimeImmutable('now');
 
-        $questionnaire = $this->quapService->getQuestionnaireByType($type, $request->getLocale(), $date);
+        $questionnaire = $this->quapService->getQuestionnaireByType($type, $request->getLocale(), $date->format('Y-m-d'));
 
         $questionnaireDTO = QuestionnaireMapper::createQuestionnaireFromEntity($questionnaire, $request->getLocale());
 
@@ -69,7 +66,7 @@ class QuapController extends AbstractController
     ): JsonResponse
     {
         $date = $request->get('date', null);
-        $date = $date ? DateTime::createFromFormat('Y-m-d', $date) : new DateTime("now");
+        $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : null;
 
         $widgetQuap = $this->quapService->getAnswers($group, $date);
 

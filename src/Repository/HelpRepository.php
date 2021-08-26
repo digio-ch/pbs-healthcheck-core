@@ -21,7 +21,7 @@ class HelpRepository extends ServiceEntityRepository
         parent::__construct($registry, Help::class);
     }
 
-    public function getExisting(int $questionId, \DateTime $dateTime)
+    public function getExisting(int $questionId, string $dateTime)
     {
         return $this->createQueryBuilder("h")
             ->where("h.question = :questionId")
