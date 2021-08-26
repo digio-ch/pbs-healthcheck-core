@@ -9,7 +9,7 @@ class QuestionMapper
 {
 
 
-    public static function createQuestionFromEntity(Question $question, string $locale, \DateTime $dateTime): QuestionDTO
+    public static function createQuestionFromEntity(Question $question, string $locale): QuestionDTO
     {
 
         $dto = new QuestionDTO();
@@ -31,7 +31,7 @@ class QuestionMapper
 
         if ($question->getHelp()) {
             foreach ($question->getHelp() as $help) {
-                $dto->addHelp(HelpMapper::createHelpFromEntity($help, $locale, $dateTime));
+                $dto->addHelp(HelpMapper::createHelpFromEntity($help, $locale));
             }
         }
 

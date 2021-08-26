@@ -3,11 +3,15 @@
 namespace App\Service;
 
 use App\DTO\Mapper\QuestionnaireMapper;
+use App\Entity\Aspect;
 use App\Entity\Group;
+use App\Entity\Help;
+use App\Entity\Question;
 use App\Entity\Questionnaire;
 use App\Entity\WidgetQuap;
 use App\Repository\AspectRepository;
 use App\Repository\HelpRepository;
+use App\Repository\LinkRepository;
 use App\Repository\QuestionnaireRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\WidgetQuapRepository;
@@ -38,6 +42,11 @@ class QuapService
     private $helpRepository;
 
     /**
+     * @var LinkRepository $linkRepository
+     */
+    private $linkRepository;
+
+    /**
      * @var WidgetQuapRepository $quapRepository
      */
     private $quapRepository;
@@ -49,35 +58,58 @@ class QuapService
 
     /**
      * @param QuestionnaireRepository $questionnaireRepository
+     * @param AspectRepository $aspectRepository
+     * @param QuestionRepository $questionRepository
+     * @param HelpRepository $helpRepository
+     * @param LinkRepository $linkRepository
      * @param WidgetQuapRepository $quapRepository
      * @param EntityManagerInterface $em
      */
     public function __construct(
         QuestionnaireRepository $questionnaireRepository,
-        AspectRepository        $aspectRepository,
-        QuestionRepository      $questionRepository,
-        HelpRepository          $helpRepository,
-        WidgetQuapRepository    $quapRepository,
-        EntityManagerInterface  $em)
+        AspectRepository $aspectRepository,
+        QuestionRepository $questionRepository,
+        HelpRepository $helpRepository,
+        LinkRepository $linkRepository,
+        WidgetQuapRepository $quapRepository,
+        EntityManagerInterface $em)
     {
         $this->questionnaireRepository = $questionnaireRepository;
         $this->aspectRepository = $aspectRepository;
         $this->questionRepository = $questionRepository;
         $this->helpRepository = $helpRepository;
+        $this->linkRepository = $linkRepository;
         $this->quapRepository = $quapRepository;
         $this->em = $em;
     }
-
 
     public function getQuestionnaireByType(string $type, string $locale, \DateTime $dateTime): ?Questionnaire
     {
         $questionnaire = $this->questionnaireRepository->findOneBy(["type" => $type]);
         $questionnaire->setAspects(new ArrayCollection($this->aspectRepository->getExisting($questionnaire->getId(), $dateTime)));
+
+        /** @var Aspect $aspect */
         foreach ($questionnaire->getAspects() as $aspect) {
             $aspect->setQuestions(new ArrayCollection($this->questionRepository->getExisting($aspect->getId(), $dateTime)));
 
+            /** @var Question $question */
             foreach ($aspect->getQuestions() as $question) {
                 $question->setHelp(new ArrayCollection($this->helpRepository->getExisting($question->getId(), $dateTime)));
+
+                /** @var Help $help */
+                foreach ($question->getHelp() as $help) {
+                    switch ($locale) {
+                        case (str_contains($locale, "it")):
+                            $help->setLinksIt(new ArrayCollection($this->linkRepository->findBy([ 'helpIt' => $help])));
+                            break;
+                        case (str_contains($locale, "fr")):
+                            $help->setLinksFr(new ArrayCollection($this->linkRepository->findBy([ 'helpFr' => $help])));
+                            break;
+                        default:
+                            $help->setLinksDe(new ArrayCollection($this->linkRepository->findBy([ 'helpDe' => $help])));
+                            break;
+                    }
+                }
             }
         }
 

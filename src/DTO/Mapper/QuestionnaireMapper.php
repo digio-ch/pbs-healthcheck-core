@@ -4,12 +4,11 @@ namespace App\DTO\Mapper;
 
 use App\DTO\Model\QuestionnaireDTO;
 use App\Entity\Questionnaire;
-use DateTime;
 
 class QuestionnaireMapper
 {
 
-    public static function createQuestionnaireFromEntity(Questionnaire $questionnaire, string $locale, DateTime $dateTime): QuestionnaireDTO
+    public static function createQuestionnaireFromEntity(Questionnaire $questionnaire, string $locale): QuestionnaireDTO
     {
 
         $questionnaireDTO = new QuestionnaireDTO();
@@ -18,7 +17,7 @@ class QuestionnaireMapper
 
         if ($questionnaire->getAspects()) {
             foreach ($questionnaire->getAspects() as $aspect) {
-                $questionnaireDTO->addAspect(AspectMapper::createAspectFromEntity($aspect, $locale, $dateTime));
+                $questionnaireDTO->addAspect(AspectMapper::createAspectFromEntity($aspect, $locale));
             }
         }
 

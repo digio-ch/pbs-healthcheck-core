@@ -28,9 +28,8 @@ class QuapController extends AbstractController
     }
 
     public function getQuestionnaireData(
-        Request             $request,
-        string              $type,
-        QuestionnaireMapper $mapper
+        Request $request,
+        string $type
     ): JsonResponse
     {
         $date = $request->get('date', null);
@@ -38,7 +37,7 @@ class QuapController extends AbstractController
 
         $questionnaire = $this->quapService->getQuestionnaireByType($type, $request->getLocale(), $date);
 
-        $questionnaireDTO = QuestionnaireMapper::createQuestionnaireFromEntity($questionnaire, $request->getLocale(), $date);
+        $questionnaireDTO = QuestionnaireMapper::createQuestionnaireFromEntity($questionnaire, $request->getLocale());
 
         return $this->json($questionnaireDTO);
     }
@@ -50,7 +49,7 @@ class QuapController extends AbstractController
      * @ParamConverter("id")
      */
     public function submitAnswers(
-        Group   $group,
+        Group $group,
         Request $request
     ): JsonResponse
     {
@@ -65,7 +64,7 @@ class QuapController extends AbstractController
     }
 
     public function getAnswers(
-        Group   $group,
+        Group $group,
         Request $request
     ): JsonResponse
     {

@@ -15,6 +15,16 @@ class HelpDTO {
     private $severity;
 
     /**
+     * @var LinkDTO[] $links
+     */
+    private $links;
+
+    public function __construct()
+    {
+        $this->links = [];
+    }
+
+    /**
      * @return string
      */
     public function getHelp(): string
@@ -44,5 +54,9 @@ class HelpDTO {
     public function setSeverity(int $severity): void
     {
         $this->severity = $severity;
+    }
+
+    public function addLink(LinkDTO $linkDTO): void {
+        array_push($this->links, $linkDTO);
     }
 }

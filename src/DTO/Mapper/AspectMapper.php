@@ -4,12 +4,11 @@ namespace App\DTO\Mapper;
 
 use App\DTO\Model\AspectDTO;
 use App\Entity\Aspect;
-use DateTime;
 
 class AspectMapper
 {
 
-    public static function createAspectFromEntity(Aspect $aspect, string $locale, DateTime $dateTime): AspectDTO
+    public static function createAspectFromEntity(Aspect $aspect, string $locale): AspectDTO
     {
         $dto = new AspectDTO();
 
@@ -29,7 +28,7 @@ class AspectMapper
 
         if ($aspect->getQuestions()) {
             foreach ($aspect->getQuestions() as $question) {
-                $dto->addQuestion(QuestionMapper::createQuestionFromEntity($question, $locale, $dateTime));
+                $dto->addQuestion(QuestionMapper::createQuestionFromEntity($question, $locale));
             }
         }
         return $dto;
