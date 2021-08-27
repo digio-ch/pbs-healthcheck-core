@@ -157,7 +157,7 @@ class QuapService
     public function getAnswers(Group $group, ?\DateTimeImmutable $dateTime): WidgetQuap
     {
         return $this->quapRepository->findOneBy([
-            "dataPointDate" => $dateTime->setTime(0, 0),
+            "dataPointDate" => $dateTime !== null ? $dateTime->setTime(0, 0) : null,
             "group" => $group->getId()
         ]);
     }
