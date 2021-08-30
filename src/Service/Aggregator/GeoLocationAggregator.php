@@ -106,7 +106,8 @@ class GeoLocationAggregator extends WidgetAggregator
                     $startPointDate->format('Y-m-d'),
                     $groupIds,
                     array_merge(parent::$memberRoleTypes, parent::$leadersRoleTypes),
-                    parent::$leadersRoleTypes
+                    parent::$leadersRoleTypes,
+                    parent::$roleTypePriority
                 );
 
                 $this->createWidgetsFromData($personGroups, $mainGroup, $startPointDate);

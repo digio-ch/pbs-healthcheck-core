@@ -142,6 +142,13 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         // read house number
         $matches = array();
         preg_match('/(\d+[a-z]?)/i', $address, $matches);
+
+        if (sizeof($matches) < 1) {
+            $addressMappingDTO->setCode(AddressMappingDTO::ERROR_INVALID_ADDRESS);
+            $this->writeData($outputFile, $addressMappingDTO);
+            return false;
+        }
+
         $houseNumber = $matches[0];
         $addressMappingDTO->setHouseNumber($houseNumber);
 

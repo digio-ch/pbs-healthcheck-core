@@ -47,15 +47,20 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
                 $peopleTypes
             );
 
+            $leaders = false;
+            if ($peopleTypes === [ 'leaders' ]) {
+                $leaders = true;
+            }
+
             foreach ($geoLocations as $geoLocation) {
-                $result[] = $this->mapGeoLocation($geoLocation);
+                $result[] = $this->mapGeoLocation($geoLocation, $leaders);
             }
         }
 
         return $result;
     }
 
-    private function mapGeoLocation($geoLocation): GeoLocationDTO
+    private function mapGeoLocation($geoLocation, bool $leaders): GeoLocationDTO
     {
         $dto = new GeoLocationDTO();
         $dto->setLongitude($geoLocation['longitude']);
@@ -64,7 +69,7 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
 
         $dtoType = new GeoLocationTypeDTO();
         $dtoType->setShape($geoLocation['shape']);
-        if ($geoLocation['person_type'] === 'leaders') {
+        if ($geoLocation['person_type'] === 'leaders' && !$leaders) {
             $color = self::GROUP_TYPE_COLORS['leaders'];
         } else {
             $color = self::GROUP_TYPE_COLORS[$geoLocation['group_type']];

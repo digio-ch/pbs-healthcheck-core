@@ -46,7 +46,7 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @return array|PersonRole[]
      * @throws \Doctrine\DBAL\Exception
      */
-    public function findAllByDate(string $date, array $groupIds, array $groupTypes, array $leaderRoles): array
+    public function findAllByDate(string $date, array $groupIds, array $groupTypes, array $leaderRoles, array $rolePriority): array
     {
         $connection = $this->_em->getConnection();
         $statement = $connection->executeQuery(
@@ -66,6 +66,8 @@ class PersonRoleRepository extends ServiceEntityRepository
                                 person.deleted_at IS NULL
                                 OR person.deleted_at > ?
                             )
+                            ORDER BY
+                                array_position(ARRAY[?]::varchar[], group_type)
                             LIMIT 1
                     ) AS group_type,
                     CASE WHEN 
@@ -103,6 +105,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 $groupTypes,
                 $date,
                 $date,
+                $rolePriority,
                 $groupIds,
                 $leaderRoles,
                 $date,
@@ -117,6 +120,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_STR_ARRAY,
                 ParameterType::STRING,
                 ParameterType::STRING,
+                Connection::PARAM_STR_ARRAY,
                 Connection::PARAM_INT_ARRAY,
                 Connection::PARAM_STR_ARRAY,
                 ParameterType::STRING,
