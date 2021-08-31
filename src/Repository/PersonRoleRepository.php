@@ -43,6 +43,7 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param array $groupIds
      * @param array $groupTypes
      * @param array $leaderRoles
+     * @param array $rolePriority
      * @return array|PersonRole[]
      * @throws \Doctrine\DBAL\Exception
      */
@@ -96,6 +97,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                         p1.deleted_at IS NULL
                         OR p1.deleted_at > ?
                     )
+                    AND person.entry_date < ?
                     AND (
                         person.leaving_date IS NULL
                         OR person.leaving_date > ?
@@ -113,6 +115,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 $groupIds,
                 $date,
                 $date,
+                $date,
                 $date
             ],
             [
@@ -126,6 +129,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 ParameterType::STRING,
                 ParameterType::STRING,
                 Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING
