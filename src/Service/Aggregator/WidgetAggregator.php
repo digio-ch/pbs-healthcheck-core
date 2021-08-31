@@ -132,37 +132,42 @@ abstract class WidgetAggregator
     ];
 
     public static $roleTypePriority = [
-        'Group::Pta::Mitglied',
         'Group::Abteilung::StufenleitungPta',
         'Group::Pta::Einheitsleitung',
         'Group::Pta::Mitleitung',
+
+        'Group::Abteilung::StufenleitungPio',
+        'Group::Pio::Einheitsleitung',
+        'Group::Pio::Mitleitung',
+
+        'Group::Pfadi::Leitpfadi',
+        'Group::Abteilung::StufenleitungPfadi',
+        'Group::Pfadi::Einheitsleitung',
+        'Group::Pfadi::Mitleitung',
+
+        'Group::Woelfe::Leitwolf',
+        'Group::Abteilung::StufenleitungWoelfe',
+        'Group::Woelfe::Einheitsleitung',
+        'Group::Woelfe::Mitleitung',
+
+        'Group::Abteilung::StufenleitungBiber',
+        'Group::Biber::Einheitsleitung',
+        'Group::Biber::Mitleitung',
 
         'Group::AbteilungsRover::Rover',
         'Group::Abteilung::StufenleitungRover',
         'Group::AbteilungsRover::Einheitsleitung',
         'Group::AbteilungsRover::Mitleitung',
 
+        'Group::Pta::Mitglied',
+
         'Group::Pio::Pio',
-        'Group::Abteilung::StufenleitungPio',
-        'Group::Pio::Einheitsleitung',
-        'Group::Pio::Mitleitung',
 
         'Group::Pfadi::Pfadi',
-        'Group::Pfadi::Leitpfadi',
-        'Group::Abteilung::StufenleitungPfadi',
-        'Group::Pfadi::Einheitsleitung',
-        'Group::Pfadi::Mitleitung',
 
         'Group::Woelfe::Wolf',
-        'Group::Woelfe::Leitwolf',
-        'Group::Abteilung::StufenleitungWoelfe',
-        'Group::Woelfe::Einheitsleitung',
-        'Group::Woelfe::Mitleitung',
 
         'Group::Biber::Biber',
-        'Group::Abteilung::StufenleitungBiber',
-        'Group::Biber::Einheitsleitung',
-        'Group::Biber::Mitleitung',
     ];
 
     public static $typeOrder = [

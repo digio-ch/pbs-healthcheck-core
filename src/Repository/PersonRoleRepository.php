@@ -43,6 +43,7 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param array $groupIds
      * @param array $groupTypes
      * @param array $leaderRoles
+     * @param array $rolePriority
      * @return array|PersonRole[]
      * @throws \Doctrine\DBAL\Exception
      */
@@ -67,7 +68,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                                 OR person.deleted_at > ?
                             )
                             ORDER BY
-                                array_position(ARRAY[?]::varchar[], group_type)
+                                array_position(ARRAY[?]::varchar[], role_type)
                             LIMIT 1
                     ) AS group_type,
                     CASE WHEN 
