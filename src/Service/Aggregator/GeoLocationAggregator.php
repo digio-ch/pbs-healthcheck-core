@@ -107,6 +107,7 @@ class GeoLocationAggregator extends WidgetAggregator
                     $groupIds,
                     array_merge(parent::$memberRoleTypes, parent::$leadersRoleTypes),
                     parent::$leadersRoleTypes,
+                    parent::$memberRoleTypes,
                     parent::$roleTypePriority
                 );
 
