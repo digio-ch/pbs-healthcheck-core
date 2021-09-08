@@ -43,14 +43,17 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param array $groupIds
      * @param array $groupTypes
      * @param array $leaderRoles
+     * @param array $memberRoles
+     * @param array $rolePriority
      * @return array|PersonRole[]
      * @throws \Doctrine\DBAL\Exception
      */
-    public function findAllByDate(string $date, array $groupIds, array $groupTypes, array $leaderRoles, array $rolePriority): array
+    public function findAllByDate(string $date, array $groupIds, array $groupTypes, array $leaderRoles, array $memberRoles, array $rolePriority): array
     {
         $connection = $this->_em->getConnection();
         $statement = $connection->executeQuery(
-            "SELECT DISTINCT
+            "SELECT * FROM (
+                SELECT DISTINCT
                     person_id,
                     person.nickname,
                     geo.latitude,
@@ -67,7 +70,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                                 OR person.deleted_at > ?
                             )
                             ORDER BY
-                                array_position(ARRAY[?]::varchar[], group_type)
+                                array_position(ARRAY[?]::varchar[], role_type)
                             LIMIT 1
                     ) AS group_type,
                     CASE WHEN 
@@ -84,8 +87,22 @@ class PersonRoleRepository extends ServiceEntityRepository
                                 )
                         ) >= 1 THEN
                         'leaders'
-                    ELSE
+                    WHEN
+                    	(
+                            SELECT COUNT(*) FROM midata_person_role AS person
+                                JOIN midata_role AS role ON role_id = role.id
+                                WHERE person.person_id = p1.person_id
+                                AND person.group_id IN (?)
+                                AND role_type IN (?)
+                                AND person.created_at < ?
+                                AND (
+                                    person.deleted_at IS NULL
+                                    OR person.deleted_at > ?
+                                )
+                        ) >= 1 THEN
                         'members'
+                    ELSE
+                        NULL
                     END AS role_type
                     FROM midata_person_role AS p1
                     JOIN midata_person AS person ON person.id = p1.person_id
@@ -96,10 +113,8 @@ class PersonRoleRepository extends ServiceEntityRepository
                         p1.deleted_at IS NULL
                         OR p1.deleted_at > ?
                     )
-                    AND (
-                        person.leaving_date IS NULL
-                        OR person.leaving_date > ?
-                    );",
+                ) AS dta
+                    WHERE dta.role_type IS NOT NULL;",
             [
                 $groupIds,
                 $groupTypes,
@@ -111,7 +126,10 @@ class PersonRoleRepository extends ServiceEntityRepository
                 $date,
                 $date,
                 $groupIds,
+                $memberRoles,
                 $date,
+                $date,
+                $groupIds,
                 $date,
                 $date
             ],
@@ -126,7 +144,10 @@ class PersonRoleRepository extends ServiceEntityRepository
                 ParameterType::STRING,
                 ParameterType::STRING,
                 Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
                 ParameterType::STRING,
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
                 ParameterType::STRING,
                 ParameterType::STRING
             ]
