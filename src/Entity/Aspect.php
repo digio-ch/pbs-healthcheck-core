@@ -75,6 +75,21 @@ class Aspect
      */
     private $deletedAt;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $descriptionDe;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $descriptionFr;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $descriptionIt;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -225,6 +240,42 @@ class Aspect
     public function setQuestions(Collection $questions): void
     {
         $this->questions = $questions;
+    }
+
+    public function getDescriptionDe(): ?string
+    {
+        return $this->descriptionDe;
+    }
+
+    public function setDescriptionDe(string $descriptionDe): self
+    {
+        $this->descriptionDe = $descriptionDe;
+
+        return $this;
+    }
+
+    public function getDescriptionFr(): ?string
+    {
+        return $this->descriptionFr;
+    }
+
+    public function setDescriptionFr(string $descriptionFr): self
+    {
+        $this->descriptionFr = $descriptionFr;
+
+        return $this;
+    }
+
+    public function getDescriptionIt(): ?string
+    {
+        return $this->descriptionIt;
+    }
+
+    public function setDescriptionIt(string $descriptionIt): self
+    {
+        $this->descriptionIt = $descriptionIt;
+
+        return $this;
     }
 
 

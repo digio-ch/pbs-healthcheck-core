@@ -17,12 +17,15 @@ class AspectMapper
         switch ($locale) {
             case (str_contains($locale, "it")):
                 $dto->setName($aspect->getNameIt());
+                $dto->setDescription($aspect->getDescriptionIt());
                 break;
             case (str_contains($locale, "fr")):
                 $dto->setName($aspect->getNameFr());
+                $dto->setDescription($aspect->getDescriptionFr());
                 break;
             default:
                 $dto->setName($aspect->getNameDe());
+                $dto->setDescription($aspect->getDescriptionDe());
                 break;
         }
 

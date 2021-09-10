@@ -18,6 +18,11 @@ class AspectDTO {
     private $name;
 
     /**
+     * @var string $description
+     */
+    private $description;
+
+    /**
      * @var QuestionDTO[] $questions
      */
     private $questions;
@@ -57,6 +62,22 @@ class AspectDTO {
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
     }
 
     /**

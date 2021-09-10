@@ -144,6 +144,9 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
         $db_aspect->setNameDe($aspect["name_de"]);
         $db_aspect->setNameFr($aspect["name_fr"]);
         $db_aspect->setNameIt($aspect["name_it"]);
+        $db_aspect->setDescriptionDe($aspect["description_de"]);
+        $db_aspect->setDescriptionFr($aspect["description_fr"]);
+        $db_aspect->setDescriptionIt($aspect["description_it"]);
         $db_aspect->setQuestionnaire($questionnaire);
 
         $this->em->persist($db_aspect);
