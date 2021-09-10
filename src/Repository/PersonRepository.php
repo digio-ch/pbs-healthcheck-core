@@ -90,7 +90,8 @@ class PersonRepository extends ServiceEntityRepository
         );
     }
 
-    public function markAllAsLeft() {
+    public function markAllAsLeft()
+    {
         $now = (new \DateTime())->format("Y-m-d H:i:s");
 
         $conn = $this->_em->getConnection();
