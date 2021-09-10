@@ -20,7 +20,6 @@ final class Version20210830082933 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP SEQUENCE link_id_seq CASCADE');
         $this->addSql('CREATE SEQUENCE hc_widget_quap_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE quap_aspect_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE quap_help_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -83,7 +82,6 @@ final class Version20210830082933 extends AbstractMigration
         $this->addSql('DROP SEQUENCE quap_link_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE quap_question_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE quap_questionnaire_id_seq CASCADE');
-        $this->addSql('CREATE SEQUENCE link_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('DROP TABLE hc_widget_quap');
         $this->addSql('DROP TABLE quap_aspect');
         $this->addSql('DROP TABLE quap_help');
