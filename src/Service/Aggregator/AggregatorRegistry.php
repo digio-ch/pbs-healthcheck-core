@@ -16,18 +16,10 @@ class AggregatorRegistry
         $this->aggregators = iterator_to_array($handlers);
     }
 
-//    /**
-//     * @param WidgetAggregator $aggregator
-//     */
-//    public function add(WidgetAggregator $aggregator)
-//    {
-//        $this->aggregators[$aggregator->getName()] = $aggregator;
-//    }
-
     /**
      * @return array
      */
-    public function getAggregators()
+    public function getAggregators(): array
     {
         return $this->aggregators;
     }
