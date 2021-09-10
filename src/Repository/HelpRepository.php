@@ -21,32 +21,14 @@ class HelpRepository extends ServiceEntityRepository
         parent::__construct($registry, Help::class);
     }
 
-    // /**
-    //  * @return Help[] Returns an array of Help objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getExisting(int $questionId, string $dateTime)
     {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder("h")
+            ->where("h.question = :questionId")
+            ->andWhere('((h.deletedAt IS NULL OR h.deletedAt >= :date) AND h.createdAt <= :date)')
+            ->setParameter("questionId", $questionId)
+            ->setParameter("date", $dateTime)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Help
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

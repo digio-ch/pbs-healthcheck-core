@@ -90,7 +90,6 @@ class Help
     public function __construct()
     {
         $this->question = new ArrayCollection();
-        $this->links = new ArrayCollection();
         $this->linksDe = new ArrayCollection();
         $this->linksFr = new ArrayCollection();
         $this->linksIt = new ArrayCollection();
@@ -232,6 +231,14 @@ class Help
         return $this->linksDe;
     }
 
+    /**
+     * @param ArrayCollection $linksDe
+     */
+    public function setLinksDe(ArrayCollection $linksDe): void
+    {
+        $this->linksDe = $linksDe;
+    }
+
     public function addLinksDe(Link $linksDe): self
     {
         if (!$this->linksDe->contains($linksDe)) {
@@ -262,6 +269,14 @@ class Help
         return $this->linksFr;
     }
 
+    /**
+     * @param ArrayCollection $linksFr
+     */
+    public function setLinksFr(ArrayCollection $linksFr): void
+    {
+        $this->linksFr = $linksFr;
+    }
+
     public function addLinksFr(Link $linksFr): self
     {
         if (!$this->linksFr->contains($linksFr)) {
@@ -290,6 +305,14 @@ class Help
     public function getLinksIt(): Collection
     {
         return $this->linksIt;
+    }
+
+    /**
+     * @param ArrayCollection $linksIt
+     */
+    public function setLinksIt(ArrayCollection $linksIt): void
+    {
+        $this->linksIt = $linksIt;
     }
 
     public function addLinksIt(Link $linksIt): self

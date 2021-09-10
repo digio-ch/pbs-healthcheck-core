@@ -21,32 +21,14 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
-    // /**
-    //  * @return Questionnaire[] Returns an array of Questionnaire objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getExisting(int $aspectId, string $dateTime)
     {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder("q")
+            ->where("q.aspect = :aspectId")
+            ->andWhere('((q.deletedAt IS NULL OR q.deletedAt >= :date) AND q.createdAt <= :date)')
+            ->setParameter("aspectId", $aspectId)
+            ->setParameter("date", $dateTime)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Questionnaire
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

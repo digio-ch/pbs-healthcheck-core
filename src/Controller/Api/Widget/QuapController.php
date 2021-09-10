@@ -14,7 +14,16 @@ class QuapController extends WidgetController
         QuapDateDataProvider $dataProvider,
         DateAndDateRangeRequestData $requestData
     ): JsonResponse {
-        $data = [ 1, 2, 3 ];
+        $data = [];
+
+        if ($requestData->getDate()) {
+            $data = $dataProvider->getData(
+                $requestData->getGroup(),
+                $requestData->getDate()->format('Y-m-d'),
+                $requestData->getGroupTypes(),
+                $requestData->getPeopleTypes()
+            );
+        }
 
         return $this->json($data);
     }

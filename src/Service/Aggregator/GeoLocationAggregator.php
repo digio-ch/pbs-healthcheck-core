@@ -14,6 +14,7 @@ use App\Repository\WidgetGeoLocationRepository;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Parent_;
 
 class GeoLocationAggregator extends WidgetAggregator
 {
@@ -103,7 +104,11 @@ class GeoLocationAggregator extends WidgetAggregator
 
                 $personGroups = $this->personRoleRepository->findAllByDate(
                     $startPointDate->format('Y-m-d'),
-                    $groupIds
+                    $groupIds,
+                    array_merge(parent::$memberRoleTypes, parent::$leadersRoleTypes),
+                    parent::$leadersRoleTypes,
+                    parent::$memberRoleTypes,
+                    parent::$roleTypePriority
                 );
 
                 $this->createWidgetsFromData($personGroups, $mainGroup, $startPointDate);
@@ -126,31 +131,20 @@ class GeoLocationAggregator extends WidgetAggregator
     private function createWidgetsFromData(array $data, Group $group, DateTime $dateTime)
     {
         foreach ($data as $singleData) {
-            /** @var Person $person */
-            $person = $this->personRepository->findOneBy(['id' => $singleData['person_id']]);
-
-            /** @var Role $role */
-            $role = $this->roleRepository->findOneBy(['id' => $singleData['role_id']]);
-
-            if (is_null($singleData['group_id'])) {
+            if (is_null($singleData['group_type']) || is_null($singleData['role_type'])) {
                 continue;
             }
 
-            /** @var Group $roleGroup */
-            $roleGroup = $this->groupRepository->findOneBy(['id' => $singleData['group_id']]);
-
             $widget = new WidgetGeoLocation();
             $widget->setGroup($group);
-            $widget->setLabel($person->getNickname());
-            $widget->setGroupType($roleGroup->getGroupType()->getGroupType());
-            $widget->setPersonType($this->filterPersonType($role));
+            $widget->setLabel($singleData['nickname']);
+            $widget->setGroupType(parent::$groupTypeByLeaderRoleType[$singleData['group_type']]);
+            $widget->setPersonType($singleData['role_type']);
             $widget->setCreatedAt(new \DateTimeImmutable());
             $widget->setDataPointDate(new \DateTimeImmutable($dateTime->format('Y-m-d')));
-
-            $location = $person->getGeoAddress();
-            if (!is_null($location)) {
-                $widget->setLongitude($location->getLongitude());
-                $widget->setLatitude($location->getLatitude());
+            if (!is_null($singleData['longitude']) && !is_null($singleData['latitude'])) {
+                $widget->setLongitude($singleData['longitude']);
+                $widget->setLatitude($singleData['latitude']);
             }
 
             $this->em->persist($widget);

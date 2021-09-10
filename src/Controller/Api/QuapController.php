@@ -2,43 +2,52 @@
 
 namespace App\Controller\Api;
 
-use App\DTO\Model\WidgetControllerData\WidgetRequestData;
+use App\DTO\Mapper\QuestionnaireMapper;
 use App\Entity\Group;
 use App\Exception\ApiException;
 use App\Service\QuapService;
-use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class QuapController extends AbstractController
 {
+
+    /**
+     * @var QuapService $quapService
+     */
+    private $quapService;
+
+    public function __construct(QuapService $quapService)
+    {
+        $this->quapService = $quapService;
+    }
+
     public function getQuestionnaireData(
-        Request     $request,
-        QuapService $quapService,
-        string      $type
+        Request $request,
+        string $type
     ): JsonResponse
     {
         $date = $request->get('date', null);
+        $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : new \DateTimeImmutable('now');
 
-        $date = $date ? DateTime::createFromFormat('Y-m-d', $date) : new DateTime("now");
+        $questionnaire = $this->quapService->getQuestionnaireByType($type, $request->getLocale(), $date->format('Y-m-d'));
 
-        return $this->json($quapService->getQuestionnaireDataByType($type, $request->getLocale(), $date));
+        $questionnaireDTO = QuestionnaireMapper::createQuestionnaireFromEntity($questionnaire, $request->getLocale());
+
+        return $this->json($questionnaireDTO);
     }
 
     /**
-     * @param QuapService $quapService
      * @param Group $group
      * @param Request $request
      * @return JsonResponse
-     * @ParamConverter("post")
+     * @ParamConverter("id")
      */
     public function submitAnswers(
-        QuapService $quapService,
-        Group       $group, // paramconverter
-        Request     $request
+        Group $group,
+        Request $request
     ): JsonResponse
     {
         $json = json_decode($request->getContent(), true);
@@ -46,8 +55,21 @@ class QuapController extends AbstractController
             throw new ApiException(400, "Invalid JSON");
         }
 
-        $savedWidgetQuap = $quapService->submitWidgetQuapAnswers($group, $json);
+        $savedWidgetQuap = $this->quapService->submitAnswers($group, $json);
 
         return $this->json($savedWidgetQuap->getAnswers());
+    }
+
+    public function getAnswers(
+        Group $group,
+        Request $request
+    ): JsonResponse
+    {
+        $date = $request->get('date', null);
+        $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : null;
+
+        $widgetQuap = $this->quapService->getAnswers($group, $date);
+
+        return $this->json($widgetQuap->getAnswers());
     }
 }

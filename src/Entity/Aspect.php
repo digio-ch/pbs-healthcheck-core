@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AspectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 
@@ -73,6 +74,21 @@ class Aspect
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private $deletedAt;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $descriptionDe;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $descriptionFr;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $descriptionIt;
 
     public function __construct()
     {
@@ -211,10 +227,56 @@ class Aspect
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection|null
      */
-    public function getQuestions(): ArrayCollection
+    public function getQuestions(): ?Collection
     {
         return $this->questions;
     }
+
+    /**
+     * @param Collection $questions
+     */
+    public function setQuestions(Collection $questions): void
+    {
+        $this->questions = $questions;
+    }
+
+    public function getDescriptionDe(): ?string
+    {
+        return $this->descriptionDe;
+    }
+
+    public function setDescriptionDe(string $descriptionDe): self
+    {
+        $this->descriptionDe = $descriptionDe;
+
+        return $this;
+    }
+
+    public function getDescriptionFr(): ?string
+    {
+        return $this->descriptionFr;
+    }
+
+    public function setDescriptionFr(string $descriptionFr): self
+    {
+        $this->descriptionFr = $descriptionFr;
+
+        return $this;
+    }
+
+    public function getDescriptionIt(): ?string
+    {
+        return $this->descriptionIt;
+    }
+
+    public function setDescriptionIt(string $descriptionIt): self
+    {
+        $this->descriptionIt = $descriptionIt;
+
+        return $this;
+    }
+
+
 }

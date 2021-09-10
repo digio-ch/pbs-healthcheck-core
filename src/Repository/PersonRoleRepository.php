@@ -41,27 +41,112 @@ class PersonRoleRepository extends ServiceEntityRepository
     /**
      * @param string $date
      * @param array $groupIds
+     * @param array $groupTypes
+     * @param array $leaderRoles
+     * @param array $memberRoles
+     * @param array $rolePriority
      * @return array|PersonRole[]
      * @throws \Doctrine\DBAL\Exception
      */
-    public function findAllByDate(string $date, array $groupIds): array
+    public function findAllByDate(string $date, array $groupIds, array $groupTypes, array $leaderRoles, array $memberRoles, array $rolePriority): array
     {
         $connection = $this->_em->getConnection();
         $statement = $connection->executeQuery(
-            "SELECT * FROM midata_person_role AS role
-                INNER JOIN midata_person AS person ON role.person_id = person.id
-                WHERE role.group_id IN (?)
-                AND role.created_at < ?
-                AND (
-                    role.deleted_at IS NULL
-                    OR role.deleted_at > ?
-                );",
+            "SELECT * FROM (
+                SELECT DISTINCT
+                    person_id,
+                    person.nickname,
+                    geo.latitude,
+                    geo.longitude,
+                    (
+                        SELECT role_type FROM midata_person_role AS person
+                            JOIN midata_role AS role ON role_id = role.id
+                            WHERE person.person_id = p1.person_id
+                            AND person.group_id IN (?)
+                            AND role_type IN (?)
+                            AND person.created_at < ?
+                            AND (
+                                person.deleted_at IS NULL
+                                OR person.deleted_at > ?
+                            )
+                            ORDER BY
+                                array_position(ARRAY[?]::varchar[], role_type)
+                            LIMIT 1
+                    ) AS group_type,
+                    CASE WHEN 
+                        (
+                            SELECT COUNT(*) FROM midata_person_role AS person
+                                JOIN midata_role AS role ON role_id = role.id
+                                WHERE person.person_id = p1.person_id
+                                AND person.group_id IN (?)
+                                AND role_type IN (?)
+                                AND person.created_at < ?
+                                AND (
+                                    person.deleted_at IS NULL
+                                    OR person.deleted_at > ?
+                                )
+                        ) >= 1 THEN
+                        'leaders'
+                    WHEN
+                    	(
+                            SELECT COUNT(*) FROM midata_person_role AS person
+                                JOIN midata_role AS role ON role_id = role.id
+                                WHERE person.person_id = p1.person_id
+                                AND person.group_id IN (?)
+                                AND role_type IN (?)
+                                AND person.created_at < ?
+                                AND (
+                                    person.deleted_at IS NULL
+                                    OR person.deleted_at > ?
+                                )
+                        ) >= 1 THEN
+                        'members'
+                    ELSE
+                        NULL
+                    END AS role_type
+                    FROM midata_person_role AS p1
+                    JOIN midata_person AS person ON person.id = p1.person_id
+                    LEFT JOIN admin_geo_address AS geo ON person.geo_address_id = geo.id
+                    WHERE p1.group_id IN (?)
+                    AND p1.created_at < ?
+                    AND (
+                        p1.deleted_at IS NULL
+                        OR p1.deleted_at > ?
+                    )
+                ) AS dta
+                    WHERE dta.role_type IS NOT NULL;",
             [
+                $groupIds,
+                $groupTypes,
+                $date,
+                $date,
+                $rolePriority,
+                $groupIds,
+                $leaderRoles,
+                $date,
+                $date,
+                $groupIds,
+                $memberRoles,
+                $date,
+                $date,
                 $groupIds,
                 $date,
                 $date
             ],
             [
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                ParameterType::STRING,
+                ParameterType::STRING,
                 Connection::PARAM_INT_ARRAY,
                 ParameterType::STRING,
                 ParameterType::STRING
@@ -430,19 +515,16 @@ class PersonRoleRepository extends ServiceEntityRepository
                     INNER JOIN midata_role ON midata_person_role.role_id = midata_role.id 
                     INNER JOIN midata_person ON midata_person_role.person_id = midata_person.id
                     WHERE midata_person.birthday IS NOT NULL 
-                        AND (midata_person.leaving_date IS NULL OR midata_person.leaving_date > ?)
                         AND midata_person_role.group_id IN (?)  
                         AND (created_at < ? AND (deleted_at IS NULL or deleted_at > ?)) 
                         AND midata_role.role_type IN (?) ORDER BY year;",
             [
-                $date,
                 $groupIds,
                 $date,
                 $date,
                 array_merge(WidgetAggregator::$leadersRoleTypes, WidgetAggregator::$memberRoleTypes)
             ],
             [
-                ParameterType::STRING,
                 Connection::PARAM_INT_ARRAY,
                 ParameterType::STRING,
                 ParameterType::STRING,
