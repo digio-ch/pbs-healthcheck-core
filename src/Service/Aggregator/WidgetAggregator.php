@@ -136,6 +136,11 @@ abstract class WidgetAggregator
         'Group::Pta::Einheitsleitung',
         'Group::Pta::Mitleitung',
 
+        'Group::AbteilungsRover::Rover',
+        'Group::Abteilung::StufenleitungRover',
+        'Group::AbteilungsRover::Einheitsleitung',
+        'Group::AbteilungsRover::Mitleitung',
+
         'Group::Abteilung::StufenleitungPio',
         'Group::Pio::Einheitsleitung',
         'Group::Pio::Mitleitung',
@@ -153,11 +158,6 @@ abstract class WidgetAggregator
         'Group::Abteilung::StufenleitungBiber',
         'Group::Biber::Einheitsleitung',
         'Group::Biber::Mitleitung',
-
-        'Group::AbteilungsRover::Rover',
-        'Group::Abteilung::StufenleitungRover',
-        'Group::AbteilungsRover::Einheitsleitung',
-        'Group::AbteilungsRover::Mitleitung',
 
         'Group::Pta::Mitglied',
 
