@@ -73,6 +73,11 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
         $this->helpRepo = $helpRepo;
     }
 
+    protected function configure() {
+        $this
+            ->setName("app:import-questionnaire");
+    }
+
     public function execute(InputInterface $input, OutputInterface $output): int {
         $output->writeln("Starting import of questionnaires...");
 
@@ -87,13 +92,7 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
         }
 
         $output->writeln("Questionnaire import process has finished.");
-        $output = null;
         return 0;
-    }
-
-    protected function configure() {
-        $this
-            ->setName("app:import-questionnaire-data");
     }
 
     /**
@@ -144,9 +143,9 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
         $db_aspect->setNameDe($aspect["name_de"]);
         $db_aspect->setNameFr($aspect["name_fr"]);
         $db_aspect->setNameIt($aspect["name_it"]);
-        $db_aspect->setDescriptionDe($aspect["description_de"]);
-        $db_aspect->setDescriptionFr($aspect["description_fr"]);
-        $db_aspect->setDescriptionIt($aspect["description_it"]);
+        $db_aspect->setDescriptionDe(array_key_exists("description_de", $aspect) ? $aspect["description_de"] : "");
+        $db_aspect->setDescriptionFr(array_key_exists("description_fr", $aspect) ? $aspect["description_fr"] : "");
+        $db_aspect->setDescriptionIt(array_key_exists("description_it", $aspect) ? $aspect["description_it"] : "");
         $db_aspect->setQuestionnaire($questionnaire);
 
         $this->em->persist($db_aspect);
@@ -243,6 +242,8 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
                 $db_link->setName($link["name"]);
                 $db_link->setUrl($link["url"]);
 
+                $this->em->persist($db_link);
+
                 $db_help->addLinksDe($db_link);
             }
         }
@@ -254,6 +255,8 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
                 $db_link->setName($link["name"]);
                 $db_link->setUrl($link["url"]);
 
+                $this->em->persist($db_link);
+
                 $db_help->addLinksFr($db_link);
             }
         }
@@ -264,6 +267,8 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
                 $db_link = new Link();
                 $db_link->setName($link["name"]);
                 $db_link->setUrl($link["url"]);
+
+                $this->em->persist($db_link);
 
                 $db_help->addLinksIt($db_link);
             }
