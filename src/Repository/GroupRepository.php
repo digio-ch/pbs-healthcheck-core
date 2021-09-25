@@ -32,28 +32,6 @@ class GroupRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findParentGroupsForPerson(int $personId)
-    {
-        return $this->createQueryBuilder('g')
-            ->join('g.groupType', 'groupType')
-            ->join('g.personRoles', 'personRoles')
-            ->join('personRoles.person', 'person')
-            ->join('personRoles.role', 'role')
-            ->where('groupType.groupType = :name')
-            ->andWhere('role.roleType IN (:roleTypes)')
-            ->andWhere('person.id = :personId')
-            ->andWhere('personRoles.deletedAt IS NULL')
-            ->setParameter('name', 'Group::Abteilung', ParameterType::STRING)
-            ->setParameter(
-                'roleTypes',
-                array_merge(WidgetAggregator::$mainGroupRoleTypes, ['Group::Abteilung::Coach']),
-                Connection::PARAM_STR_ARRAY
-            )
-            ->setParameter('personId', $personId, ParameterType::INTEGER)
-            ->getQuery()
-            ->getResult();
-    }
-
     public function findAllParentGroups()
     {
         return $this->createQueryBuilder('g')

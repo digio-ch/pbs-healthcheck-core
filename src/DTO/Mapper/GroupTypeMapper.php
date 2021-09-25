@@ -14,8 +14,7 @@ class GroupTypeMapper
         $groupTypeDTO->setId($groupType->getId());
         self::setLabelForLocale($groupTypeDTO, $groupType, $locale);
         $groupTypeDTO->setGroupType($groupType->getGroupType());
-        $color = array_key_exists($groupType->getGroupType(), WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES) ?
-            WidgetDataProvider::GROUP_TYPE_COLORS[$groupType->getGroupType()] : '';
+        $color = WidgetDataProvider::GROUP_TYPE_COLORS[$groupType->getGroupType()] ?? '';
         $groupTypeDTO->setColor($color);
         return $groupTypeDTO;
     }

@@ -6,11 +6,9 @@ use App\DTO\Mapper\GroupMapper;
 use App\DTO\Mapper\PbsUserMapper;
 use App\DTO\Model\GroupDTO;
 use App\DTO\Model\PbsUserDTO;
-use App\Entity\PersonRole;
-use App\Repository\GroupRepository;
+use App\Entity\GroupType;
+use App\Repository\GroupTypeRepository;
 use App\Repository\InviteRepository;
-use App\Repository\PersonRoleRepository;
-use App\Service\Aggregator\WidgetAggregator;
 use App\Service\Http\GuzzleWrapper;
 
 class PbsAuthService
@@ -21,19 +19,14 @@ class PbsAuthService
     private $guzzleWrapper;
 
     /**
-     * @var PersonRoleRepository
-     */
-    private $personRoleRepository;
-
-    /**
      * @var InviteRepository
      */
     private $inviteRepository;
 
     /**
-     * @var GroupRepository
+     * @var GroupTypeRepository
      */
-    private $groupRepository;
+    private $groupTypeRepository;
 
     /**
      * @var string
@@ -68,8 +61,7 @@ class PbsAuthService
     /**
      * PbsAuthService constructor.
      * @param GuzzleWrapper $guzzleWrapper
-     * @param PersonRoleRepository $personRoleRepository
-     * @param GroupRepository $groupRepository
+     * @param GroupTypeRepository $groupTypeRepository
      * @param InviteRepository $inviteRepository
      * @param string $environment
      * @param string $pbsUrl
@@ -80,8 +72,7 @@ class PbsAuthService
      */
     public function __construct(
         GuzzleWrapper $guzzleWrapper,
-        PersonRoleRepository $personRoleRepository,
-        GroupRepository $groupRepository,
+        GroupTypeRepository $groupTypeRepository,
         InviteRepository $inviteRepository,
         string $environment,
         string $pbsUrl,
@@ -91,8 +82,7 @@ class PbsAuthService
         string $specialAccessEmails
     ) {
         $this->guzzleWrapper = $guzzleWrapper;
-        $this->personRoleRepository = $personRoleRepository;
-        $this->groupRepository = $groupRepository;
+        $this->groupTypeRepository = $groupTypeRepository;
         $this->inviteRepository = $inviteRepository;
         $this->environment = $environment;
         $this->pbsUrl = $pbsUrl;
@@ -112,30 +102,11 @@ class PbsAuthService
     {
         $token = $this->getTokenUsingCode($code, $action);
         $user = $this->getUserWithToken($token);
-        switch ($this->environment) {
-            case 'dev':
-                $this->processRolesForDev($user);
-                $pbsUser = PbsUserMapper::createFromArray($user);
-                $this->processGroupsForDev($pbsUser, $locale);
-                break;
-            case 'stage':
-                $this->processRolesForStage($user);
-                $pbsUser = PbsUserMapper::createFromArray($user);
-                $this->processGroupsForStage($pbsUser, $locale);
-                break;
-            default:
-                $this->processRoles($user);
-                $pbsUser = PbsUserMapper::createFromArray($user);
-                $this->processGroups($pbsUser, $locale);
-        }
 
-        $allGroups = $pbsUser->getGroups();
-        usort($allGroups, function (GroupDTO $a, GroupDTO $b) {
-            return strcmp($a->getName(), $b->getName());
-        });
-        $pbsUser->setGroups($allGroups);
+        $user['syncable_groups'] = $this->getSyncableGroups($user, $locale);
+        $user['readable_groups'] = $this->getReadableGroups($user, $locale);
 
-        return $pbsUser;
+        return PbsUserMapper::createFromArray($user);
     }
 
     /**
@@ -172,117 +143,44 @@ class PbsAuthService
     }
 
     /**
+     * The user can sync any group of the correct type, in which they have a role
+     * with enough permissions.
+     *
      * @param array $user
-     */
-    private function processRoles(array &$user)
-    {
-        $groupIds = array_unique(array_map(function ($role) {
-            return $role['group_id'];
-        }, $user['roles']));
-        $user['roles'] = [];
-
-        foreach ($groupIds as $groupId) {
-            $personRoles = $this->personRoleRepository->findRolesForPersonInGroup($groupId, $user['id']);
-
-            if (!$personRoles) {
-                continue;
-            }
-
-            /** @var PersonRole $personRole */
-            foreach ($personRoles as $personRole) {
-                $user['roles'][] = [
-                    'group_id' => $personRole->getGroup()->getId(),
-                    'group_name' => $personRole->getGroup()->getName(),
-                    'role_type' => $personRole->getRole()->getRoleType()
-                ];
-            }
-        }
-    }
-
-    /**
-     * This will add all groups to the user object where the user has a main-group leader role.
-     * Additionally, we get all groups to where the user was invited to and them to the user object as well.
-     * @param PbsUserDTO $pbsUser
      * @param string $locale
+     * @return GroupDTO[]
      */
-    private function processGroups(PbsUserDTO $pbsUser, string $locale)
+    private function getSyncableGroups(array $user, string $locale)
     {
-        $groups = $this->groupRepository->findParentGroupsForPerson($pbsUser->getId());
+        // Only keep roles that are allowed to sync a group
+        $groups = array_filter($user['roles'], function ($role) {
+            return $role['group_type'] === 'Group::Abteilung' && in_array($role['role_type'], [
+                'Group::Abteilung::Abteilungsleitung',
+                'Group::Abteilung::AbteilungsleitungStv',
+            ]);
+        });
+        // Map Midata response to DTOs
+        $groups = array_map(function ($group) use ($locale) {
+            /** @var GroupType $groupType */
+            $groupType = $this->groupTypeRepository->findOneBy(['groupType' => $group['group_type']]);
+            return GroupMapper::createFromMidataOauthProfile($group, $groupType, $locale);
+        }, $groups);
 
-        $invites = $this->inviteRepository->findAllValidByEmail($pbsUser->getEmail());
-        if ($invites) {
-            foreach ($invites as $invite) {
-                $groups[] = $invite->getGroup();
-            }
-        }
-
-        foreach ($groups as $group) {
-            $pbsUser->addGroup(GroupMapper::createFromEntity($group, $locale));
-        }
+        return array_values($groups);
     }
 
     /**
+     * All syncable groups are readable, as well as any groups for which the user has an invitation.
      * @param array $user
-     */
-    private function processRolesForStage(array &$user)
-    {
-        if (!in_array($user['email'], $this->specialAccessEmails)) {
-            $this->processRoles($user);
-            return;
-        }
-        $this->processRolesForDev($user);
-    }
-
-    /**
-     * @param PbsUserDTO $pbsUser
      * @param string $locale
+     * @return GroupDTO[]
      */
-    private function processGroupsForStage(PbsUserDTO $pbsUser, string $locale)
+    private function getReadableGroups(array $user, string $locale)
     {
-        if (!in_array($pbsUser->getEmail(), $this->specialAccessEmails)) {
-            $this->processGroups($pbsUser, $locale);
-            return;
-        }
-        $this->processGroupsForDev($pbsUser, $locale);
-    }
+        $invites = array_map(function ($invite) use ($locale) {
+            return GroupMapper::createFromEntity($invite->getGroup(), $locale);
+        }, $this->inviteRepository->findAllValidByEmail($user['email']));
 
-    /**
-     * This will assign a main-group leader role to every existing main group to the user.
-     * We do this so we can select any main-group in the front-end.
-     * @param array $user
-     */
-    private function processRolesForDev(array &$user)
-    {
-        $groups = $this->groupRepository->findAllParentGroups();
-        $user['roles'] = [];
-        foreach ($groups as $group) {
-            $user['roles'][] = [
-                'group_id' => $group->getId(),
-                'group_name' => $group->getName(),
-                'role_type' => WidgetAggregator::$mainGroupRoleTypes[0]
-            ];
-        }
-    }
-
-    /**
-     * In dev we add all main-groups to the user object so that we can select all of them in the front-end.
-     * This behaviour is only for dev, since we are working with test data from the MiData INT environment.
-     * @param PbsUserDTO $pbsUser
-     * @param string $locale
-     */
-    private function processGroupsForDev(PbsUserDTO $pbsUser, string $locale)
-    {
-        $groups = $this->groupRepository->findAllParentGroups();
-
-        $invites = $this->inviteRepository->findAllValidByEmail($pbsUser->getEmail());
-        if ($invites) {
-            foreach ($invites as $invite) {
-                $groups[] = $invite->getGroup();
-            }
-        }
-
-        foreach ($groups as $group) {
-            $pbsUser->addGroup(GroupMapper::createFromEntity($group, $locale));
-        }
+        return $user['syncable_groups'] + array_values($invites);
     }
 }
