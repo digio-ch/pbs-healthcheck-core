@@ -7,13 +7,13 @@ class GroupDTO
     /** @var int|null */
     private $id;
     /** @var string|null */
-    private $cantonName;
+    private $cantonName = null;
     /** @var string|null */
     private $name;
     /** @var string|null */
-    private $createdAt;
+    private $createdAt = null;
     /** @var string|null */
-    private $deletedAt;
+    private $deletedAt = null;
     /** @var GroupTypeDTO|null */
     private $groupType;
 

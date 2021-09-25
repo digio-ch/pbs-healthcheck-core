@@ -27,9 +27,6 @@ class GroupMapper
         $groupDTO = new GroupDTO();
         $groupDTO->setId($group['group_id']);
         $groupDTO->setName($group['group_name']);
-        $groupDTO->setCantonName('' /* TODO really needed? */ );
-        $groupDTO->setCreatedAt('' /* TODO really needed? */);
-        $groupDTO->setDeletedAt('' /* TODO really needed? */);
         $groupDTO->setGroupType(GroupTypeMapper::createGroupTypeFromEntity($groupType, $locale));
         return $groupDTO;
     }
