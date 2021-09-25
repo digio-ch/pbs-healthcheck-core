@@ -2,29 +2,17 @@
 
 namespace App\Command;
 
-use App\Entity\EventGroup;
-use App\Entity\YouthSportType;
-use App\Entity\Camp;
 use App\Entity\CampState;
-use App\Entity\Course;
-use App\Entity\Event;
-use App\Entity\EventDate;
 use App\Entity\EventType;
 use App\Entity\EventTypeQualificationType;
-use App\Entity\Group;
 use App\Entity\GroupType;
-use App\Entity\Person;
-use App\Entity\PersonEvent;
 use App\Entity\PersonEventType;
-use App\Entity\PersonQualification;
-use App\Entity\PersonRole;
 use App\Entity\QualificationType;
 use App\Entity\Role;
+use App\Entity\YouthSportType;
 use App\Model\CommandStatistics;
 use App\Repository\PersonRepository;
-use DateTimeImmutable;
 use Doctrine\DBAL\ConnectionException;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Exception;
@@ -93,7 +81,6 @@ class ImportFromJsonCommand extends StatisticsCommand
         $this->em->getConnection()->beginTransaction();
         try {
             $output->writeln(['Start importing...']);
-            $this->cleaningUpEntities($output);
             $this->importRoleTypes($output);
             $this->importGroupTypes($output);
             $this->importQualificationTypes($output);
@@ -101,10 +88,6 @@ class ImportFromJsonCommand extends StatisticsCommand
             $this->importYouthSportTypes($output);
             $this->importCampStates($output);
             $this->importPersonEventTypes($output);
-            $this->importCourses($output);
-            $this->importCamps($output);
-            $this->importParticipations($output);
-            $this->importQualifications($output);
 
             $this->em->getConnection()->commit();
 
@@ -116,21 +99,6 @@ class ImportFromJsonCommand extends StatisticsCommand
         }
 
         return 0;
-    }
-
-    /**
-     * @param OutputInterface $output
-     * @throws \Doctrine\DBAL\Exception
-     */
-    private function cleaningUpEntities(OutputInterface $output)
-    {
-        $connection = $this->em->getConnection();
-
-        $connection->executeQuery("DELETE FROM midata_event_date");
-
-        $connection->executeQuery("DELETE FROM midata_event_group");
-
-        $output->writeln("cleaned some entities from the db");
     }
 
     /**
@@ -358,245 +326,245 @@ class ImportFromJsonCommand extends StatisticsCommand
         $output->writeln([sprintf('%s rows imported from participation_types.json', $i)]);
     }
 
-    /**
-     * @param OutputInterface $output
-     * @throws Exception
-     */
-    private function importCourses(OutputInterface $output)
-    {
-        $start = microtime(true);
-        $courses = JsonMachine::fromFile(sprintf('%s/courses.json', $this->params->get('import_data_dir')));
-        $i = 0;
-        foreach ($courses as $c) {
-            $course = $this->em->getRepository(Course::class)->findOneBy(['id' => $c['id']]);
-            if (!$course) {
-                $course = new Course();
-                $course->setId($c['id']);
-                $metadata = $this->em->getClassMetaData(get_class($course));
-                $metadata->setIdGenerator(new AssignedGenerator());
-            }
-
-            /** @var EventType $eventType */
-            $eventType = $this->em->getRepository(EventType::class)->find($c['kind_id']);
-            $course->setEventType($eventType);
-
-            if (isset($c['name'])) {
-                $course->setName($c['name']);
-            }
-
-            if ($c['groups']) {
-                foreach ($c['groups'] as $g) {
-                    $group = $this->em->getRepository(Group::class)->find($g['id']);
-                    if ($group) {
-                        $eventGroup = new EventGroup();
-                        $eventGroup->setGroup($group);
-                        $eventGroup->setEvent($course);
-                        $course->addGroup($eventGroup);
-                    }
-                }
-            }
-
-            if ($c['dates']) {
-                foreach ($c['dates'] as $date) {
-                    $eventDate = new EventDate();
-                    $eventDate->setEvent($course);
-                    $eventDate->setStartAt(new DateTimeImmutable($date['start_at']));
-                    $eventDate->setEndAt(new DateTimeImmutable($date['finish_at']));
-                    $this->em->persist($eventDate);
-                }
-            }
-
-            $this->em->persist($course);
-            $this->em->flush();
-            $i++;
-        }
-        $timeElapsed = microtime(true) - $start;
-        $this->stats[] = ['courses.json', $timeElapsed, $i];
-        $output->writeln([sprintf('%s rows imported from courses.json', $i)]);
-    }
-
-    /**
-     * @param OutputInterface $output
-     * @throws Exception
-     */
-    private function importCamps(OutputInterface $output)
-    {
-        $start = microtime(true);
-        $camps = JsonMachine::fromFile(sprintf('%s/camps.json', $this->params->get('import_data_dir')));
-        $i = 0;
-
-        $groupData = $this->em->getRepository(Group::class)->findAll();
-        $groups = [];
-
-        /** @var Group $group */
-        foreach ($groupData as $group) {
-            $groups[$group->getId()] = $group;
-        }
-
-        foreach ($camps as $c) {
-            $camp = $this->em->getRepository(Camp::class)->findOneBy(['id' => $c['id']]);
-            if (!$camp) {
-                $camp = new Camp();
-                $camp->setId($c['id']);
-                $metadata = $this->em->getClassMetaData(get_class($camp));
-                $metadata->setIdGenerator(new AssignedGenerator());
-            }
-            $camp->setState($c['state']);
-            $camp->setLocation(substr($c['location'], 0, 255));
-
-            if (isset($c['name'])) {
-                $camp->setName($c['name']);
-            }
-
-            /** @var YouthSportType $ageSportType */
-            $ageSportType = $this->em->getRepository(YouthSportType::class)->findOneBy(['type' => $c['j_s_kind']]);
-            $camp->setYouthSportType($ageSportType);
-
-            if ($c['dates']) {
-                foreach ($c['dates'] as $date) {
-                    $eventDate = new EventDate();
-                    $eventDate->setEvent($camp);
-                    $eventDate->setStartAt(new DateTimeImmutable($date['start_at']));
-                    $eventDate->setEndAt(new DateTimeImmutable($date['finish_at']));
-                    $this->em->persist($eventDate);
-                }
-            }
-
-            if ($c['groups']) {
-                foreach ($c['groups'] as $g) {
-                    if (array_key_exists($g['id'], $groups)) {
-                        $group = $groups[$g['id']];
-                        $eventGroup = new EventGroup();
-                        $eventGroup->setGroup($group);
-                        $eventGroup->setEvent($camp);
-                        $camp->addGroup($eventGroup);
-                    }
-                }
-            }
-
-            $this->em->persist($camp);
-            if ($i % 10) {
-                $this->em->flush();
-            }
-            $i++;
-        }
-        $this->em->flush();
-
-        $timeElapsed = microtime(true) - $start;
-        $this->stats[] = ['camps.json', $timeElapsed, $i];
-        $output->writeln([sprintf('%s rows imported from camps.json', $i)]);
-    }
-
-    /**
-     * @param OutputInterface $output
-     */
-    private function importParticipations(OutputInterface $output)
-    {
-        $start = microtime(true);
-        $participations = JsonMachine::fromFile(
-            sprintf('%s/participations.json', $this->params->get('import_data_dir'))
-        );
-        $i = 0;
-        foreach ($participations as $participation) {
-            $personEvent = $this->em->getRepository(PersonEvent::class)->findOneBy(
-                ['id' => $participation['id']]
-            );
-            if (!$personEvent) {
-                $personEvent = new PersonEvent();
-                $personEvent->setId($participation['id']);
-                $metadata = $this->em->getClassMetaData(get_class($personEvent));
-                $metadata->setIdGenerator(new AssignedGenerator());
-            }
-            $person = $this->em->getRepository(Person::class)->find($participation['person_id']);
-            $event = $this->em->getRepository(Event::class)->find($participation['event_id']);
-            $personEvent->setQualified($participation['qualified']);
-
-            if ($participation['roles']) {
-                foreach ($participation['roles'] as $role) {
-                    $personEventType = $this->em->getRepository(PersonEventType::class)->findOneBy(
-                        ['type' => $role['type']]
-                    );
-                    if ($personEventType) {
-                        $personEvent->addPersonEventType($personEventType);
-                    }
-                }
-            }
-
-            if ($person && $event) {
-                $personEvent->setPerson($person);
-                $personEvent->setEvent($event);
-                $this->em->persist($personEvent);
-            }
-            $i++;
-
-            if (($i % $this->batchSize) === 0) {
-                $this->em->flush();
-                $this->em->clear();
-            }
-        }
-        $this->em->flush();
-
-        $timeElapsed = microtime(true) - $start;
-        $this->stats[] = ['participations.json', $timeElapsed, $i];
-        $output->writeln([sprintf('%s rows imported from participations.json', $i)]);
-    }
-
-    /**
-     * @param OutputInterface $output
-     * @throws Exception
-     */
-    private function importQualifications(OutputInterface $output)
-    {
-        $start = microtime(true);
-        $qualifications = JsonMachine::fromFile(
-            sprintf('%s/qualifications.json', $this->params->get('import_data_dir'))
-        );
-        $i = 0;
-        foreach ($qualifications as $qualification) {
-            $personQualification = $this->em->getRepository(PersonQualification::class)->findOneBy(
-                ['id' => $qualification['id']]
-            );
-            if (!$personQualification) {
-                $personQualification = new PersonQualification();
-                $personQualification->setId($qualification['id']);
-                $metadata = $this->em->getClassMetaData(get_class($personQualification));
-                $metadata->setIdGenerator(new AssignedGenerator());
-            }
-            $personQualification->setEventOrigin($qualification['origin']);
-            $personQualification->setStartAt(new DateTimeImmutable($qualification['start_at']));
-            $personQualification->setEndAt(
-                $qualification['finish_at'] ? new DateTimeImmutable($qualification['finish_at']) : null
-            );
-
-            $person = $this->em->getRepository(Person::class)->find($qualification['person_id']);
-            if (!$person) {
-                continue;
-            }
-
-            $qualificationType = $this->em->getRepository(QualificationType::class)->find(
-                $qualification['qualification_kind_id']
-            );
-
-            $personQualification->setPerson($person);
-
-            if ($qualificationType) {
-                $personQualification->setQualificationType($qualificationType);
-            }
-
-            $this->em->persist($personQualification);
-            $i++;
-
-            if (($i % $this->batchSize) === 0) {
-                $this->em->flush();
-                $this->em->clear();
-            }
-        }
-        $this->em->flush();
-
-        $timeElapsed = microtime(true) - $start;
-        $this->stats[] = ['qualifications.json', $timeElapsed, $i];
-        $output->writeln([sprintf('%s rows imported from qualifications.json', $i)]);
-    }
+//    /**
+//     * @param OutputInterface $output
+//     * @throws Exception
+//     */
+//    private function importCourses(OutputInterface $output)
+//    {
+//        $start = microtime(true);
+//        $courses = JsonMachine::fromFile(sprintf('%s/courses.json', $this->params->get('import_data_dir')));
+//        $i = 0;
+//        foreach ($courses as $c) {
+//            $course = $this->em->getRepository(Course::class)->findOneBy(['id' => $c['id']]);
+//            if (!$course) {
+//                $course = new Course();
+//                $course->setId($c['id']);
+//                $metadata = $this->em->getClassMetaData(get_class($course));
+//                $metadata->setIdGenerator(new AssignedGenerator());
+//            }
+//
+//            /** @var EventType $eventType */
+//            $eventType = $this->em->getRepository(EventType::class)->find($c['kind_id']);
+//            $course->setEventType($eventType);
+//
+//            if (isset($c['name'])) {
+//                $course->setName($c['name']);
+//            }
+//
+//            if ($c['groups']) {
+//                foreach ($c['groups'] as $g) {
+//                    $group = $this->em->getRepository(Group::class)->find($g['id']);
+//                    if ($group) {
+//                        $eventGroup = new EventGroup();
+//                        $eventGroup->setGroup($group);
+//                        $eventGroup->setEvent($course);
+//                        $course->addGroup($eventGroup);
+//                    }
+//                }
+//            }
+//
+//            if ($c['dates']) {
+//                foreach ($c['dates'] as $date) {
+//                    $eventDate = new EventDate();
+//                    $eventDate->setEvent($course);
+//                    $eventDate->setStartAt(new DateTimeImmutable($date['start_at']));
+//                    $eventDate->setEndAt(new DateTimeImmutable($date['finish_at']));
+//                    $this->em->persist($eventDate);
+//                }
+//            }
+//
+//            $this->em->persist($course);
+//            $this->em->flush();
+//            $i++;
+//        }
+//        $timeElapsed = microtime(true) - $start;
+//        $this->stats[] = ['courses.json', $timeElapsed, $i];
+//        $output->writeln([sprintf('%s rows imported from courses.json', $i)]);
+//    }
+//
+//    /**
+//     * @param OutputInterface $output
+//     * @throws Exception
+//     */
+//    private function importCamps(OutputInterface $output)
+//    {
+//        $start = microtime(true);
+//        $camps = JsonMachine::fromFile(sprintf('%s/camps.json', $this->params->get('import_data_dir')));
+//        $i = 0;
+//
+//        $groupData = $this->em->getRepository(Group::class)->findAll();
+//        $groups = [];
+//
+//        /** @var Group $group */
+//        foreach ($groupData as $group) {
+//            $groups[$group->getId()] = $group;
+//        }
+//
+//        foreach ($camps as $c) {
+//            $camp = $this->em->getRepository(Camp::class)->findOneBy(['id' => $c['id']]);
+//            if (!$camp) {
+//                $camp = new Camp();
+//                $camp->setId($c['id']);
+//                $metadata = $this->em->getClassMetaData(get_class($camp));
+//                $metadata->setIdGenerator(new AssignedGenerator());
+//            }
+//            $camp->setState($c['state']);
+//            $camp->setLocation(substr($c['location'], 0, 255));
+//
+//            if (isset($c['name'])) {
+//                $camp->setName($c['name']);
+//            }
+//
+//            /** @var YouthSportType $ageSportType */
+//            $ageSportType = $this->em->getRepository(YouthSportType::class)->findOneBy(['type' => $c['j_s_kind']]);
+//            $camp->setYouthSportType($ageSportType);
+//
+//            if ($c['dates']) {
+//                foreach ($c['dates'] as $date) {
+//                    $eventDate = new EventDate();
+//                    $eventDate->setEvent($camp);
+//                    $eventDate->setStartAt(new DateTimeImmutable($date['start_at']));
+//                    $eventDate->setEndAt(new DateTimeImmutable($date['finish_at']));
+//                    $this->em->persist($eventDate);
+//                }
+//            }
+//
+//            if ($c['groups']) {
+//                foreach ($c['groups'] as $g) {
+//                    if (array_key_exists($g['id'], $groups)) {
+//                        $group = $groups[$g['id']];
+//                        $eventGroup = new EventGroup();
+//                        $eventGroup->setGroup($group);
+//                        $eventGroup->setEvent($camp);
+//                        $camp->addGroup($eventGroup);
+//                    }
+//                }
+//            }
+//
+//            $this->em->persist($camp);
+//            if ($i % 10) {
+//                $this->em->flush();
+//            }
+//            $i++;
+//        }
+//        $this->em->flush();
+//
+//        $timeElapsed = microtime(true) - $start;
+//        $this->stats[] = ['camps.json', $timeElapsed, $i];
+//        $output->writeln([sprintf('%s rows imported from camps.json', $i)]);
+//    }
+//
+//    /**
+//     * @param OutputInterface $output
+//     */
+//    private function importParticipations(OutputInterface $output)
+//    {
+//        $start = microtime(true);
+//        $participations = JsonMachine::fromFile(
+//            sprintf('%s/participations.json', $this->params->get('import_data_dir'))
+//        );
+//        $i = 0;
+//        foreach ($participations as $participation) {
+//            $personEvent = $this->em->getRepository(PersonEvent::class)->findOneBy(
+//                ['id' => $participation['id']]
+//            );
+//            if (!$personEvent) {
+//                $personEvent = new PersonEvent();
+//                $personEvent->setId($participation['id']);
+//                $metadata = $this->em->getClassMetaData(get_class($personEvent));
+//                $metadata->setIdGenerator(new AssignedGenerator());
+//            }
+//            $person = $this->em->getRepository(Person::class)->find($participation['person_id']);
+//            $event = $this->em->getRepository(Event::class)->find($participation['event_id']);
+//            $personEvent->setQualified($participation['qualified']);
+//
+//            if ($participation['roles']) {
+//                foreach ($participation['roles'] as $role) {
+//                    $personEventType = $this->em->getRepository(PersonEventType::class)->findOneBy(
+//                        ['type' => $role['type']]
+//                    );
+//                    if ($personEventType) {
+//                        $personEvent->addPersonEventType($personEventType);
+//                    }
+//                }
+//            }
+//
+//            if ($person && $event) {
+//                $personEvent->setPerson($person);
+//                $personEvent->setEvent($event);
+//                $this->em->persist($personEvent);
+//            }
+//            $i++;
+//
+//            if (($i % $this->batchSize) === 0) {
+//                $this->em->flush();
+//                $this->em->clear();
+//            }
+//        }
+//        $this->em->flush();
+//
+//        $timeElapsed = microtime(true) - $start;
+//        $this->stats[] = ['participations.json', $timeElapsed, $i];
+//        $output->writeln([sprintf('%s rows imported from participations.json', $i)]);
+//    }
+//
+//    /**
+//     * @param OutputInterface $output
+//     * @throws Exception
+//     */
+//    private function importQualifications(OutputInterface $output)
+//    {
+//        $start = microtime(true);
+//        $qualifications = JsonMachine::fromFile(
+//            sprintf('%s/qualifications.json', $this->params->get('import_data_dir'))
+//        );
+//        $i = 0;
+//        foreach ($qualifications as $qualification) {
+//            $personQualification = $this->em->getRepository(PersonQualification::class)->findOneBy(
+//                ['id' => $qualification['id']]
+//            );
+//            if (!$personQualification) {
+//                $personQualification = new PersonQualification();
+//                $personQualification->setId($qualification['id']);
+//                $metadata = $this->em->getClassMetaData(get_class($personQualification));
+//                $metadata->setIdGenerator(new AssignedGenerator());
+//            }
+//            $personQualification->setEventOrigin($qualification['origin']);
+//            $personQualification->setStartAt(new DateTimeImmutable($qualification['start_at']));
+//            $personQualification->setEndAt(
+//                $qualification['finish_at'] ? new DateTimeImmutable($qualification['finish_at']) : null
+//            );
+//
+//            $person = $this->em->getRepository(Person::class)->find($qualification['person_id']);
+//            if (!$person) {
+//                continue;
+//            }
+//
+//            $qualificationType = $this->em->getRepository(QualificationType::class)->find(
+//                $qualification['qualification_kind_id']
+//            );
+//
+//            $personQualification->setPerson($person);
+//
+//            if ($qualificationType) {
+//                $personQualification->setQualificationType($qualificationType);
+//            }
+//
+//            $this->em->persist($personQualification);
+//            $i++;
+//
+//            if (($i % $this->batchSize) === 0) {
+//                $this->em->flush();
+//                $this->em->clear();
+//            }
+//        }
+//        $this->em->flush();
+//
+//        $timeElapsed = microtime(true) - $start;
+//        $this->stats[] = ['qualifications.json', $timeElapsed, $i];
+//        $output->writeln([sprintf('%s rows imported from qualifications.json', $i)]);
+//    }
 
     public function getStats(): CommandStatistics
     {
