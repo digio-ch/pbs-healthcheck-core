@@ -32,7 +32,7 @@ class Person
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $nickname;
 
@@ -88,7 +88,7 @@ class Person
     private $group;
 
     /**
-     * @ORM\OneToMany(targetEntity="PersonRole", mappedBy="person")
+     * @ORM\OneToMany(targetEntity="PersonRole", mappedBy="person", cascade={"persist"})
      */
     private $personRoles;
 

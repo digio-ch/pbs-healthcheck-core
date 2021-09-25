@@ -61,11 +61,11 @@ class GroupFetcher
             $metadata = $this->em->getClassMetaData(Group::class);
             $metadata->setIdGenerator(new AssignedGenerator());
         }
-        $group->setName($this->gr['name'] ?? null);
+        $group->setName($groupJson['name'] ?? null);
 
         $cantonId = $groupJson['links']['hierarchies'][1] ?? null;
         $group->setCantonId($cantonId);
-        $group->setCantonName($this->getLinked($linked, 'groups', $cantonId));
+        $group->setCantonName($this->getLinked($linked, 'groups', $cantonId)['name'] ?? null);
 
         $group->setCreatedAt(new DateTimeImmutable($groupJson['created_at']));
 
@@ -94,8 +94,8 @@ class GroupFetcher
     }
 
     private function getLinked(array $linked, string $rel, string $id) {
-        return array_filter($linked[$rel] ?? [], function($linkedEntity) use ($id) {
+        return array_values(array_filter($linked[$rel] ?? [], function($linkedEntity) use ($id) {
             return $linkedEntity['id'] === $id;
-        })[0] ?? null;
+        }))[0] ?? null;
     }
 }

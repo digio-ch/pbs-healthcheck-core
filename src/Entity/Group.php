@@ -25,7 +25,7 @@ class Group
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Group", mappedBy="parentGroup")
+     * @ORM\OneToMany(targetEntity="Group", mappedBy="parentGroup", cascade={"persist"})
      */
     private $children;
 
@@ -79,6 +79,7 @@ class Group
 
     public function __construct()
     {
+        $this->children = new ArrayCollection();
         $this->events = new ArrayCollection();
     }
 

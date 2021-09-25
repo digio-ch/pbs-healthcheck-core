@@ -110,7 +110,7 @@ class PeopleFetcher
 
             foreach ($personJson['links']['roles'] ?? [] as $roleId) {
                 $person->clearPersonRoles();
-                $person->addPersonRole($this->roleMapper->mapFromJson($this->getLinked($linked, 'roles', $roleId)));
+                $person->addPersonRole($this->roleMapper->mapFromJson($this->getLinked($linked, 'roles', $roleId), $person));
             }
 
             $people[] = $person;
@@ -120,8 +120,8 @@ class PeopleFetcher
     }
 
     private function getLinked(array $linked, string $rel, string $id) {
-        return array_filter($linked[$rel] ?? [], function($linkedEntity) use ($id) {
+        return array_values(array_filter($linked[$rel] ?? [], function($linkedEntity) use ($id) {
             return $linkedEntity['id'] === $id;
-        })[0] ?? null;
+        }))[0] ?? null;
     }
 }

@@ -7,6 +7,7 @@ use App\Entity\Group;
 use App\Entity\Invite;
 use App\Exception\ApiException;
 use App\Service\InviteService;
+use App\Service\PbsAuthService;
 use App\Service\SyncService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -32,28 +33,33 @@ class SyncController extends AbstractController
     private $translator;
 
     /**
+     * @var PbsAuthService
+     */
+    private $pbsAuthService;
+
+    /**
      * InviteController constructor.
      * @param SyncService $syncService
      * @param TranslatorInterface $translator
      */
-    public function __construct(SyncService $syncService, TranslatorInterface $translator)
+    public function __construct(SyncService $syncService, TranslatorInterface $translator, PbsAuthService $pbsAuthService)
     {
         $this->syncService = $syncService;
         $this->translator = $translator;
+        $this->pbsAuthService = $pbsAuthService;
     }
 
     /**
      * @param Request $request
-     * @param Group $group
+     * @param int $groupId
      * @param SerializerInterface $serializer
      * @param ValidatorInterface $validator
      * @return JsonResponse
      * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
-     * @IsGranted("create", subject="group")
      */
     public function startSync(
         Request $request,
-        Group $group,
+        int $groupId,
         SerializerInterface $serializer,
         ValidatorInterface $validator
     ) {
@@ -64,7 +70,8 @@ class SyncController extends AbstractController
         if ($code === null) {
             throw new BadRequestHttpException('Authorization code is missing');
         }
-        $this->syncService->startSync($group, $request->toArray()['code'] ?? '');
+        $accessToken = $this->pbsAuthService->getTokenUsingCode($code, 'sync');
+        $this->syncService->startSync($groupId, $accessToken);
         return $this->json($message, JsonResponse::HTTP_CREATED);
     }
 }

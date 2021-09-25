@@ -38,13 +38,14 @@ class SyncService
     }
 
     /**
-     * @param Group $group
+     * @param int $groupId
+     * @param $accessToken
      * @return void
      */
-    public function startSync(Group $group, $accessToken)
+    public function startSync(int $groupId, $accessToken)
     {
-        $this->groupFetcher->fetchAndPersistGroup($group->getId(), $accessToken);
-        $this->peopleFetcher->fetchAndPersistPeople($group->getId(), $accessToken);
+        $this->groupFetcher->fetchAndPersistGroup($groupId, $accessToken);
+        $this->peopleFetcher->fetchAndPersistPeople($groupId, $accessToken);
 
         // TODO run aggregations here, but only for the fetched group
     }

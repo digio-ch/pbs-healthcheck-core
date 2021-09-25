@@ -56,7 +56,7 @@ class PersonRoleMapper
      * @return PersonRole|null
      * @throws \Exception
      */
-    public function mapFromJson(array $roleJson): ?PersonRole
+    public function mapFromJson(array $roleJson, Person $person): ?PersonRole
     {
         $personRole = $this->personRoleRepository->findOneBy(['id' => $roleJson['id']]);
         if (!$personRole) {
@@ -65,20 +65,15 @@ class PersonRoleMapper
             $metadata = $this->em->getClassMetaData(get_class($personRole));
             $metadata->setIdGenerator(new AssignedGenerator());
         }
-        /** @var Person $person */
-        $person = $this->personRepository->find($roleJson['person_id']);
-        if (!$person) {
-            return null;
-        }
         $personRole->setPerson($person);
 
-        $role = $this->roleRepository->getOneByRoleType($roleJson['type']);
+        $role = $this->roleRepository->getOneByRoleType($roleJson['role_class'] ?? '');
         if ($role) {
             $personRole->setRole($role);
         }
 
         /** @var Group $group */
-        $group = $this->groupRepository->find($roleJson['group_id']);
+        $group = $this->groupRepository->find($roleJson['links']['group'] ?? '');
         if ($group) {
             $personRole->setGroup($group);
         }
