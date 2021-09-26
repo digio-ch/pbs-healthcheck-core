@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\Group;
 use App\Service\PbsApi\Fetcher\CampsFetcher;
+use App\Service\PbsApi\Fetcher\CoursesFetcher;
 use App\Service\PbsApi\Fetcher\GroupFetcher;
 use App\Service\PbsApi\Fetcher\PeopleFetcher;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,17 +30,22 @@ class SyncService
      * @var CampsFetcher
      */
     private $campsFetcher;
+    /**
+     * @var CoursesFetcher
+     */
+    private $coursesFetcher;
 
     /**
      * @param PbsApiService $pbsApiService
      */
-    public function __construct(EntityManagerInterface $em, PbsApiService $pbsApiService, GroupFetcher $groupMapper, PeopleFetcher $peopleFetcher, CampsFetcher $campsFetcher)
+    public function __construct(EntityManagerInterface $em, PbsApiService $pbsApiService, GroupFetcher $groupMapper, PeopleFetcher $peopleFetcher, CampsFetcher $campsFetcher, CoursesFetcher $coursesFetcher)
     {
         $this->em = $em;
         $this->pbsApiService = $pbsApiService;
         $this->groupFetcher = $groupMapper;
         $this->peopleFetcher = $peopleFetcher;
         $this->campsFetcher = $campsFetcher;
+        $this->coursesFetcher = $coursesFetcher;
     }
 
     /**
@@ -53,6 +58,7 @@ class SyncService
         $this->groupFetcher->fetchAndPersistGroup($groupId, $accessToken);
         $this->peopleFetcher->fetchAndPersist($groupId, $accessToken);
         $this->campsFetcher->fetchAndPersist($groupId, $accessToken);
+        $this->coursesFetcher->fetchAndPersist($groupId, $accessToken);
 
         // TODO run aggregations here, but only for the fetched group
     }
