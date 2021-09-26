@@ -22,13 +22,13 @@ class PersonEvent
 
     /**
      * @ORM\ManyToOne(targetEntity="Event", inversedBy="persons")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $event;
 
     /**
      * @ORM\ManyToOne(targetEntity="Person", inversedBy="events")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $person;
 

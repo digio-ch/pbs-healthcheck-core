@@ -24,13 +24,13 @@ class PersonRole
 
     /**
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="personRoles")
-     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $group;
 
     /**
      * @ORM\ManyToOne(targetEntity="Person")
-     * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $person;
 

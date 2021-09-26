@@ -88,4 +88,15 @@ class GroupFetcher extends AbstractFetcher
         // Not implemented because not needed
         return [];
     }
+
+    public function clean(string $groupId) {
+        $this->groupRepository
+            ->createQueryBuilder('g')
+            ->delete(Group::class, 'g')
+            ->where('g.id = :id')
+            ->setParameter('id', $groupId)
+            ->getQuery()
+            ->execute();
+        $this->em->flush();
+    }
 }

@@ -55,6 +55,11 @@ class SyncService
      */
     public function startSync(int $groupId, $accessToken)
     {
+        $this->coursesFetcher->clean($groupId);
+        $this->campsFetcher->clean($groupId);
+        $this->peopleFetcher->clean($groupId);
+        $this->groupFetcher->clean($groupId);
+
         $this->groupFetcher->fetchAndPersistGroup($groupId, $accessToken);
         $this->peopleFetcher->fetchAndPersist($groupId, $accessToken);
         $this->campsFetcher->fetchAndPersist($groupId, $accessToken);

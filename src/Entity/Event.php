@@ -36,7 +36,7 @@ abstract class Event
     private $groups;
 
     /**
-     * @ORM\OneToMany(targetEntity="PersonEvent", mappedBy="event", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PersonEvent", mappedBy="event", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $persons;
 
@@ -52,6 +52,7 @@ abstract class Event
     {
         $this->groups = new ArrayCollection();
         $this->eventDates = new ArrayCollection();
+        $this->persons = new ArrayCollection();
     }
 
     /**
@@ -141,6 +142,21 @@ abstract class Event
 
     public function clearEventDates(): self {
         $this->eventDates = new ArrayCollection();
+
+        return $this;
+    }
+
+    public function addPerson(PersonEvent $personEvent): self {
+        if (!$this->persons->contains($personEvent)) {
+            $this->persons[] = $personEvent;
+            $personEvent->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function clearPersons(): self {
+        $this->persons = new ArrayCollection();
 
         return $this;
     }

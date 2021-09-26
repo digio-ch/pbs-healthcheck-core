@@ -31,7 +31,7 @@ class Group
 
     /**
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_group_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="parent_group_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $parentGroup;
 

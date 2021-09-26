@@ -48,6 +48,8 @@ abstract class AbstractFetcher
 
     protected abstract function fetch(string $groupId, string $accessToken): array;
 
+    public abstract function clean(string $groupId);
+
     protected function getLinked(array $linked, string $rel, string $id) {
         return array_values(array_filter($linked[$rel] ?? [], function($linkedEntity) use ($id) {
             return $linkedEntity['id'] === $id;

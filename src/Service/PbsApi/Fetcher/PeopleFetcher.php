@@ -54,25 +54,25 @@ class PeopleFetcher extends AbstractFetcher
                 $metadata->setIdGenerator(new AssignedGenerator());
             }
             $person->setNickname($personJson['nickname']);
-            $person->setGender($personJson['gender']);
+            $person->setGender($personJson['gender'] ?? null);
             $person->setAddress($personJson['address']);
             $person->setCountry($personJson['country']);
             $person->setZip(intval($personJson['zip_code']));
-            if ($personJson['birthday']) {
+            if ($personJson['birthday'] ?? false) {
                 $person->setBirthday(new DateTimeImmutable($personJson['birthday']));
             }
-            $person->setPbsNumber($personJson['pbs_number']);
-            if ($personJson['entry_date']) {
+            $person->setPbsNumber($personJson['pbs_number'] ?? null);
+            if ($personJson['entry_date'] ?? false) {
                 $person->setEntryDate(new DateTimeImmutable($personJson['entry_date']));
             }
-            if ($personJson['leaving_date']) {
+            if ($personJson['leaving_date'] ?? false) {
                 $person->setLeavingDate(new DateTimeImmutable($personJson['leaving_date']));
             } else {
                 $person->setLeavingDate(null);
             }
             $person->setTown($personJson['town']);
 
-            if ($personJson['primary_group_id']) {
+            if ($personJson['primary_group_id'] ?? false) {
                 /** @var Group $group */
                 $group = $this->groupRepository->find($personJson['primary_group_id']);
                 if ($group) {
@@ -80,9 +80,6 @@ class PeopleFetcher extends AbstractFetcher
                 }
             }
 
-            // TODO this may also clear any roles of the same person in another Abteilung.
-            //   We need to import and store the same person separately for each Abteilung they're in.
-            $person->clearPersonRoles();
             foreach ($personJson['links']['roles'] ?? [] as $roleId) {
                 $person->addPersonRole($this->roleMapper->mapFromJson($this->getLinked($linked, 'roles', $roleId), $person));
             }
@@ -91,5 +88,17 @@ class PeopleFetcher extends AbstractFetcher
         }
 
         return $people;
+    }
+
+    public function clean(string $groupId) {
+        $this->personRepository
+            ->createQueryBuilder('p')
+            ->delete(Person::class, 'p')
+            // TODO add layer_id during import
+            //->where('p.layer_id = :layer_id')
+            //->setParameter('layer_id', $groupId)
+            ->getQuery()
+            ->execute();
+        $this->em->flush();
     }
 }
