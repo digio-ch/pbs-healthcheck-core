@@ -88,7 +88,7 @@ class Person
     private $group;
 
     /**
-     * @ORM\OneToMany(targetEntity="PersonRole", mappedBy="person", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="PersonRole", mappedBy="person", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $personRoles;
 

@@ -11,16 +11,8 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Id\AssignedGenerator;
 
-class PeopleFetcher
+class PeopleFetcher extends AbstractFetcher
 {
-    /**
-     * @var int
-     */
-    private $batchSize = 100;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
     /**
      * @var PersonRepository
      */
@@ -30,38 +22,18 @@ class PeopleFetcher
      */
     private $groupRepository;
     /**
-     * @var PbsApiService
-     */
-    private $pbsApiService;
-    /**
      * @var PersonRoleMapper
      */
     private $roleMapper;
 
     public function __construct(EntityManagerInterface $em, PbsApiService $pbsApiService, PersonRoleMapper $roleMapper) {
-        $this->em = $em;
+        parent::__construct($em, $pbsApiService);
         $this->personRepository = $this->em->getRepository(Person::class);
         $this->groupRepository = $this->em->getRepository(Group::class);
-        $this->pbsApiService = $pbsApiService;
         $this->roleMapper = $roleMapper;
     }
 
-    public function fetchAndPersistPeople(string $groupId, string $accessToken)
-    {
-        $i = 0;
-        foreach ($this->fetchPeople($groupId, $accessToken) as $person) {
-            $this->em->persist($person);
-            $i++;
-
-            if (($i % $this->batchSize) === 0) {
-                $this->em->flush();
-                $this->em->clear();
-            }
-        }
-        $this->em->flush();
-    }
-
-    private function fetchPeople(string $groupId, string $accessToken): array
+    protected function fetch(string $groupId, string $accessToken): array
     {
         $peopleData = $this->pbsApiService->getApiData('/groups/'.$groupId.'/people?filters[role][kind]=with_deleted&range=layer', $accessToken);
         return $this->mapJsonToPeople($peopleData);
@@ -108,8 +80,10 @@ class PeopleFetcher
                 }
             }
 
+            // TODO this may also clear any roles of the same person in another Abteilung.
+            //   We need to import and store the same person separately for each Abteilung they're in.
+            $person->clearPersonRoles();
             foreach ($personJson['links']['roles'] ?? [] as $roleId) {
-                $person->clearPersonRoles();
                 $person->addPersonRole($this->roleMapper->mapFromJson($this->getLinked($linked, 'roles', $roleId), $person));
             }
 
@@ -117,11 +91,5 @@ class PeopleFetcher
         }
 
         return $people;
-    }
-
-    private function getLinked(array $linked, string $rel, string $id) {
-        return array_values(array_filter($linked[$rel] ?? [], function($linkedEntity) use ($id) {
-            return $linkedEntity['id'] === $id;
-        }))[0] ?? null;
     }
 }

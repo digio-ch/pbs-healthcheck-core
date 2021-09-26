@@ -11,12 +11,8 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Id\AssignedGenerator;
 
-class GroupFetcher
+class GroupFetcher extends AbstractFetcher
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
     /**
      * @var GroupTypeRepository
      */
@@ -25,16 +21,11 @@ class GroupFetcher
      * @var GroupRepository
      */
     private $groupRepository;
-    /**
-     * @var PbsApiService
-     */
-    private $pbsApiService;
 
     public function __construct(EntityManagerInterface $em, PbsApiService $pbsApiService) {
-        $this->em = $em;
+        parent::__construct($em, $pbsApiService);
         $this->groupTypeRepository = $this->em->getRepository(GroupType::class);
         $this->groupRepository = $this->em->getRepository(Group::class);
-        $this->pbsApiService = $pbsApiService;
     }
 
     public function fetchAndPersistGroup(string $id, string $accessToken)
@@ -43,7 +34,7 @@ class GroupFetcher
         $this->em->flush();
     }
 
-    private function fetchGroup(string $id, string $accessToken): Group
+    protected function fetchGroup(string $id, string $accessToken): Group
     {
         $groupData = $this->pbsApiService->getApiData('/groups/'.$id, $accessToken);
         return $this->mapJsonToGroup($groupData, $accessToken);
@@ -93,9 +84,8 @@ class GroupFetcher
         return $group;
     }
 
-    private function getLinked(array $linked, string $rel, string $id) {
-        return array_values(array_filter($linked[$rel] ?? [], function($linkedEntity) use ($id) {
-            return $linkedEntity['id'] === $id;
-        }))[0] ?? null;
+    protected function fetch(string $groupId, string $accessToken): array {
+        // Not implemented because not needed
+        return [];
     }
 }

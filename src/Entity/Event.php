@@ -41,7 +41,7 @@ abstract class Event
     private $persons;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EventDate", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="App\Entity\EventDate", mappedBy="event", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $eventDates;
 
@@ -128,5 +128,20 @@ abstract class Event
     public function setEventDates(Collection $eventDates): void
     {
         $this->eventDates = $eventDates;
+    }
+
+    public function addEventDate(EventDate $eventDate): self {
+        if (!$this->eventDates->contains($eventDate)) {
+            $this->eventDates[] = $eventDate;
+            $eventDate->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function clearEventDates(): self {
+        $this->eventDates = new ArrayCollection();
+
+        return $this;
     }
 }
