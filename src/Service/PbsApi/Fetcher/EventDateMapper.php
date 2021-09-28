@@ -4,11 +4,11 @@ namespace App\Service\PbsApi\Fetcher;
 
 use App\Entity\Event;
 use App\Entity\EventDate;
+use App\Entity\Group;
 use App\Entity\PersonRole;
 use App\Repository\EventDateRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Id\AssignedGenerator;
 
 class EventDateMapper
 {
@@ -31,14 +31,13 @@ class EventDateMapper
      * @return PersonRole|null
      * @throws \Exception
      */
-    public function mapFromJson(array $dateJson, Event $event): ?EventDate
+    public function mapFromJson(array $dateJson, Event $event, Group $syncGroup): ?EventDate
     {
-        $eventDate = $this->eventDateRepository->findOneBy(['id' => $dateJson['id']]);
+        $eventDate = $this->eventDateRepository->findOneBy(['midataId' => $dateJson['id'], 'syncGroup' => $syncGroup]);
         if (!$eventDate) {
             $eventDate = new EventDate();
-            $eventDate->setId($dateJson['id']);
-            $metadata = $this->em->getClassMetaData(get_class($eventDate));
-            $metadata->setIdGenerator(new AssignedGenerator());
+            $eventDate->setMidataId($dateJson['id']);
+            $eventDate->setSyncGroup($syncGroup);
         }
         $eventDate->setEvent($event);
 

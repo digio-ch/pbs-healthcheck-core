@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="midata_event", indexes={
  *     @ORM\Index(columns={"name"})
+ * }, uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"midata_id", "sync_group_id"})
  * })
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
@@ -23,6 +25,17 @@ abstract class Event
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $midataId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Group")
+     * @ORM\JoinColumn(name="sync_group_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
+    private $syncGroup;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -69,6 +82,32 @@ abstract class Event
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMidataId()
+    {
+        return $this->midataId;
+    }
+
+    /**
+     * @param int $midataId
+     */
+    public function setMidataId(int $midataId)
+    {
+        $this->midataId = $midataId;
+    }
+
+    public function getSyncGroup(): Group
+    {
+        return $this->syncGroup;
+    }
+
+    public function setSyncGroup($syncGroup)
+    {
+        $this->syncGroup = $syncGroup;
     }
 
     /**

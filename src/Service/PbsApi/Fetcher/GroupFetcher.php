@@ -9,7 +9,6 @@ use App\Repository\GroupTypeRepository;
 use App\Service\PbsApiService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Id\AssignedGenerator;
 
 class GroupFetcher extends AbstractFetcher
 {
@@ -28,30 +27,29 @@ class GroupFetcher extends AbstractFetcher
         $this->groupRepository = $this->em->getRepository(Group::class);
     }
 
-    public function fetchAndPersistGroup(string $id, string $accessToken)
+    public function fetchAndPersistGroup(string $id, string $accessToken): Group
     {
-        $this->em->persist($this->fetchGroup($id, $accessToken));
+        $syncGroup = $this->fetchGroup($id, $accessToken);
+        $this->em->persist($syncGroup);
         $this->em->flush();
+        return $syncGroup;
     }
 
-    protected function fetchGroup(string $id, string $accessToken): Group
+    protected function fetchGroup(string $groupId, string $accessToken, ?Group $syncGroup = null): Group
     {
-        $groupData = $this->pbsApiService->getApiData('/groups/'.$id, $accessToken);
-        return $this->mapJsonToGroup($groupData, $accessToken);
+        $groupData = $this->pbsApiService->getApiData('/groups/'.$groupId, $accessToken);
+        return $this->mapJsonToGroup($groupData, $accessToken, $syncGroup);
     }
 
-    private function mapJsonToGroup(array $json, string $accessToken): Group
+    private function mapJsonToGroup(array $json, string $accessToken, ?Group $syncGroup = null): Group
     {
         $groupJson = $json['groups'][0] ?? [];
         $linked = $json['linked'] ?? [];
 
-        $group = $this->groupRepository->findOneBy(['id' => $groupJson['id']]);
-        if (!$group) {
-            $group = new Group();
-            $group->setId($groupJson['id']);
-            $metadata = $this->em->getClassMetaData(Group::class);
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
+        $group = null;
+        $group = new Group();
+        $group->setMidataId($groupJson['id']);
+        $group->setSyncGroup($syncGroup);
         $group->setName($groupJson['name'] ?? null);
 
         $cantonId = $groupJson['links']['hierarchies'][1] ?? null;
@@ -66,7 +64,7 @@ class GroupFetcher extends AbstractFetcher
         }
 
         /** @var GroupType $gt */
-        $gt = $this->groupTypeRepository->findOneBy(['groupType' => $groupJson['type']]);
+        $gt = $this->groupTypeRepository->findOneBy(['groupType' => $groupJson['group_type_class']]);
         $group->setGroupType($gt);
 
         if ($groupJson['links']['parent'] ?? false) {
@@ -78,23 +76,22 @@ class GroupFetcher extends AbstractFetcher
         }
 
         foreach ($groupJson['links']['children'] ?? [] as $child) {
-            $group->addChild($this->fetchGroup($child, $accessToken));
+            $group->addChild($this->fetchGroup($child, $accessToken, $syncGroup ?? $group));
         }
 
         return $group;
     }
 
-    protected function fetch(string $groupId, string $accessToken): array {
+    protected function fetch(Group $syncGroup, string $accessToken): array {
         // Not implemented because not needed
         return [];
     }
 
     public function clean(string $groupId) {
-        $this->groupRepository
-            ->createQueryBuilder('g')
+        $this->em->createQueryBuilder()
             ->delete(Group::class, 'g')
-            ->where('g.id = :id')
-            ->setParameter('id', $groupId)
+            ->where('g.midataId = :group_id')
+            ->setParameter('group_id', $groupId)
             ->getQuery()
             ->execute();
         $this->em->flush();

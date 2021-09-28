@@ -31,10 +31,10 @@ abstract class AbstractFetcher
         $this->pbsApiService = $pbsApiService;
     }
 
-    public function fetchAndPersist(string $groupId, string $accessToken)
+    public function fetchAndPersist(Group $syncGroup, string $accessToken)
     {
         $i = 0;
-        foreach ($this->fetch($groupId, $accessToken) as $entity) {
+        foreach ($this->fetch($syncGroup, $accessToken) as $entity) {
             $this->em->persist($entity);
             $i++;
 
@@ -46,7 +46,7 @@ abstract class AbstractFetcher
         $this->em->flush();
     }
 
-    protected abstract function fetch(string $groupId, string $accessToken): array;
+    protected abstract function fetch(Group $syncGroup, string $accessToken): array;
 
     public abstract function clean(string $groupId);
 

@@ -5,13 +5,13 @@ namespace App\Service\PbsApi\Fetcher;
 use App\Entity\Course;
 use App\Entity\EventDate;
 use App\Entity\EventType;
+use App\Entity\Group;
 use App\Repository\CourseRepository;
 use App\Repository\EventDateRepository;
 use App\Repository\EventTypeRepository;
 use App\Repository\PersonRepository;
 use App\Service\PbsApiService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Id\AssignedGenerator;
 
 class CoursesFetcher extends AbstractFetcher
 {
@@ -45,15 +45,16 @@ class CoursesFetcher extends AbstractFetcher
         $this->eventDateRepository = $eventDateRepository;
     }
 
-    protected function fetch(string $groupId, string $accessToken): array
+    protected function fetch(Group $syncGroup, string $accessToken): array
     {
+        $groupId = $syncGroup->getMidataId();
         $startDate = date('d-m-Y', strtotime('-10 years'));
         $endDate = date('d-m-Y', strtotime('+5 years'));
         $courseData = $this->pbsApiService->getApiData('/groups/'.$groupId.'/events?type=Event::Course&start_date='.$startDate.'&end_date='.$endDate, $accessToken);
-        return $this->mapJsonToCourses($courseData, $groupId, $accessToken);
+        return $this->mapJsonToCourses($courseData, $syncGroup, $accessToken);
     }
 
-    private function mapJsonToCourses(array $json, string $groupId, string $accessToken): array
+    private function mapJsonToCourses(array $json, Group $syncGroup, string $accessToken): array
     {
         $coursesJson = $json['events'] ?? [];
         $linked = $json['linked'] ?? [];
@@ -61,12 +62,11 @@ class CoursesFetcher extends AbstractFetcher
         $courses = [];
         foreach ($coursesJson as $courseJson) {
             /** @var Course $course */
-            $course = $this->courseRepository->findOneBy(['id' => $courseJson['id']]);
+            $course = $this->courseRepository->findOneBy(['midataId' => $courseJson['id'], 'syncGroup' => $syncGroup]);
             if (!$course) {
                 $course = new Course();
-                $course->setId($courseJson['id']);
-                $metadata = $this->em->getClassMetaData(get_class($course));
-                $metadata->setIdGenerator(new AssignedGenerator());
+                $course->setMidataId($courseJson['id']);
+                $course->setSyncGroup($syncGroup);
             }
             $course->setName($courseJson['name']);
 
@@ -75,11 +75,11 @@ class CoursesFetcher extends AbstractFetcher
             $course->setEventType($eventType);
 
             foreach ($courseJson['links']['dates'] ?? [] as $dateId) {
-                $course->addEventDate($this->eventDateMapper->mapFromJson($this->getLinked($linked, 'event_dates', $dateId), $course));
+                $course->addEventDate($this->eventDateMapper->mapFromJson($this->getLinked($linked, 'event_dates', $dateId), $course, $syncGroup));
             }
 
             $personEventsFetcher = new PersonEventsFetcher($this->em, $this->pbsApiService, $this->personRepository, $course);
-            $personEvents = $personEventsFetcher->fetch($groupId, $accessToken);
+            $personEvents = $personEventsFetcher->fetch($syncGroup, $accessToken);
             foreach ($personEvents as $personEvent) {
                 $course->addPerson($personEvent);
             }
@@ -91,21 +91,17 @@ class CoursesFetcher extends AbstractFetcher
     }
 
     public function clean(string $groupId) {
-        $this->eventDateRepository
-            ->createQueryBuilder('ed')
+        $this->em->createQueryBuilder()
             ->delete(EventDate::class, 'ed')
-            // TODO add layer_id during import
-            //->where('ed.layer_id = :layer_id')
-            //->setParameter('layer_id', $groupId)
+            ->where('ed.syncGroup = :sync_group_id')
+            ->setParameter('sync_group_id', $groupId)
             ->getQuery()
             ->execute();
 
-        $this->courseRepository
-            ->createQueryBuilder('c')
+        $this->em->createQueryBuilder()
             ->delete(Course::class, 'c')
-            // TODO add layer_id during import
-            //->where('c.layer_id = :layer_id')
-            //->setParameter('layer_id', $groupId)
+            ->where('c.syncGroup = :sync_group_id')
+            ->setParameter('sync_group_id', $groupId)
             ->getQuery()
             ->execute();
 

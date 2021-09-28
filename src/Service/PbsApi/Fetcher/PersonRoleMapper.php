@@ -11,7 +11,6 @@ use App\Repository\PersonRoleRepository;
 use App\Repository\RoleRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Id\AssignedGenerator;
 
 class PersonRoleMapper
 {
@@ -44,14 +43,13 @@ class PersonRoleMapper
      * @return PersonRole|null
      * @throws \Exception
      */
-    public function mapFromJson(array $roleJson, Person $person): ?PersonRole
+    public function mapFromJson(array $roleJson, Person $person, Group $syncGroup): ?PersonRole
     {
-        $personRole = $this->personRoleRepository->findOneBy(['id' => $roleJson['id']]);
+        $personRole = $this->personRoleRepository->findOneBy(['midataId' => $roleJson['id'], 'syncGroup' => $syncGroup]);
         if (!$personRole) {
             $personRole = new PersonRole();
-            $personRole->setId($roleJson['id']);
-            $metadata = $this->em->getClassMetaData(get_class($personRole));
-            $metadata->setIdGenerator(new AssignedGenerator());
+            $personRole->setMidataId($roleJson['id']);
+            $personRole->setSyncGroup($syncGroup);
         }
         $personRole->setPerson($person);
 

@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(columns={"name"}),
  *     @ORM\Index(columns={"created_at"}),
  *     @ORM\Index(columns={"deleted_at"})
+ * }, uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"midata_id", "sync_group_id"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -23,6 +25,17 @@ class Group
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $midataId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Group")
+     * @ORM\JoinColumn(name="sync_group_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     */
+    private $syncGroup;
 
     /**
      * @ORM\OneToMany(targetEntity="Group", mappedBy="parentGroup", cascade={"persist"})
@@ -97,6 +110,32 @@ class Group
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMidataId()
+    {
+        return $this->midataId;
+    }
+
+    /**
+     * @param int $midataId
+     */
+    public function setMidataId(int $midataId)
+    {
+        $this->midataId = $midataId;
+    }
+
+    public function getSyncGroup(): Group
+    {
+        return $this->syncGroup;
+    }
+
+    public function setSyncGroup($syncGroup)
+    {
+        $this->syncGroup = $syncGroup;
     }
 
     /**

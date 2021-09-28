@@ -60,10 +60,10 @@ class SyncService
         $this->peopleFetcher->clean($groupId);
         $this->groupFetcher->clean($groupId);
 
-        $this->groupFetcher->fetchAndPersistGroup($groupId, $accessToken);
-        $this->peopleFetcher->fetchAndPersist($groupId, $accessToken);
-        $this->campsFetcher->fetchAndPersist($groupId, $accessToken);
-        $this->coursesFetcher->fetchAndPersist($groupId, $accessToken);
+        $syncGroup = $this->groupFetcher->fetchAndPersistGroup($groupId, $accessToken);
+        $this->peopleFetcher->fetchAndPersist($syncGroup, $accessToken);
+        $this->campsFetcher->fetchAndPersist($syncGroup, $accessToken);
+        $this->coursesFetcher->fetchAndPersist($syncGroup, $accessToken);
 
         // TODO run aggregations here, but only for the fetched group
     }

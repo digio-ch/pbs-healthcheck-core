@@ -3,13 +3,13 @@
 namespace App\Service\PbsApi\Fetcher;
 
 use App\Entity\Event;
+use App\Entity\Group;
 use App\Entity\Person;
 use App\Entity\PersonEvent;
 use App\Repository\PersonEventRepository;
 use App\Repository\PersonRepository;
 use App\Service\PbsApiService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Id\AssignedGenerator;
 
 class PersonEventsFetcher extends AbstractFetcher
 {
@@ -33,32 +33,32 @@ class PersonEventsFetcher extends AbstractFetcher
         $this->personRepository = $personRepository;
     }
 
-    public function fetch(string $groupId, string $accessToken): array
+    public function fetch(Group $syncGroup, string $accessToken): array
     {
-        $personEvents = $this->pbsApiService->getApiData('/groups/'.$groupId.'/events/'.$this->event->getId().'/participations', $accessToken);
-        return $this->mapJsonToPersonEvents($personEvents, $this->event);
+        $groupId = $syncGroup->getMidataId();
+        $personEvents = $this->pbsApiService->getApiData('/groups/'.$groupId.'/events/'.$this->event->getMidataId().'/participations', $accessToken);
+        return $this->mapJsonToPersonEvents($personEvents, $this->event, $syncGroup);
     }
 
-    private function mapJsonToPersonEvents(array $json, Event $event): array
+    private function mapJsonToPersonEvents(array $json, Event $event, Group $syncGroup): array
     {
         $personEventsJson = $json['event_participations'] ?? [];
         $linked = $json['linked'] ?? [];
 
         $personEvents = [];
         foreach ($personEventsJson as $personEventJson) {
-            $personEvent = $this->personEventRepository->findOneBy(['id' => $personEventJson['id']]);
+            $personEvent = $this->personEventRepository->findOneBy(['midataId' => $personEventJson['id'], 'syncGroup' => $syncGroup]);
             if (!$personEvent) {
                 $personEvent = new PersonEvent();
-                $personEvent->setId($personEventJson['id']);
-                $metadata = $this->em->getClassMetaData(get_class($personEvent));
-                $metadata->setIdGenerator(new AssignedGenerator());
+                $personEvent->setMidataId($personEventJson['id']);
+                $personEvent->setSyncGroup($syncGroup);
             }
             $personEvent->setQualified($personEventJson['qualified'] ?? null);
 
             $personEvent->setEvent($event);
 
             /** @var Person $person */
-            $person = $this->personRepository->findOneBy(['id' => $personEventJson['links']['person']]);
+            $person = $this->personRepository->findOneBy(['midataId' => $personEventJson['links']['person'], 'syncGroup' => $syncGroup]);
             $personEvent->setPerson($person);
 
             $personEvents[] = $personEvent;
@@ -71,9 +71,8 @@ class PersonEventsFetcher extends AbstractFetcher
         $this->personEventRepository
             ->createQueryBuilder('pe')
             ->delete(PersonEvent::class, 'pe')
-            // TODO add layer_id during import
-            //->where('pe.layer_id = :layer_id')
-            //->setParameter('layer_id', $groupId)
+            ->where('pe.syncGroup = :sync_group_id')
+            ->setParameter('sync_group_id', $groupId)
             ->getQuery()
             ->execute();
         $this->em->flush();

@@ -9,7 +9,6 @@ use App\Repository\PersonRepository;
 use App\Service\PbsApiService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Id\AssignedGenerator;
 
 class PeopleFetcher extends AbstractFetcher
 {
@@ -33,25 +32,25 @@ class PeopleFetcher extends AbstractFetcher
         $this->roleMapper = $roleMapper;
     }
 
-    protected function fetch(string $groupId, string $accessToken): array
+    protected function fetch(Group $syncGroup, string $accessToken): array
     {
+        $groupId = $syncGroup->getMidataId();
         $peopleData = $this->pbsApiService->getApiData('/groups/'.$groupId.'/people?filters[role][kind]=with_deleted&range=layer', $accessToken);
-        return $this->mapJsonToPeople($peopleData);
+        return $this->mapJsonToPeople($peopleData, $syncGroup);
     }
 
-    private function mapJsonToPeople(array $json): array
+    private function mapJsonToPeople(array $json, Group $syncGroup): array
     {
         $peopleJson = $json['people'] ?? [];
         $linked = $json['linked'] ?? [];
 
         $people = [];
         foreach ($peopleJson as $personJson) {
-            $person = $this->personRepository->findOneBy(['id' => $personJson['id']]);
+            $person = $this->personRepository->findOneBy(['midataId' => $personJson['id'], 'syncGroup' => $syncGroup]);
             if (!$person) {
                 $person = new Person();
-                $person->setId($personJson['id']);
-                $metadata = $this->em->getClassMetaData(get_class($person));
-                $metadata->setIdGenerator(new AssignedGenerator());
+                $person->setMidataId($personJson['id']);
+                $person->setSyncGroup($syncGroup);
             }
             $person->setNickname($personJson['nickname']);
             $person->setGender($personJson['gender'] ?? null);
@@ -81,7 +80,7 @@ class PeopleFetcher extends AbstractFetcher
             }
 
             foreach ($personJson['links']['roles'] ?? [] as $roleId) {
-                $person->addPersonRole($this->roleMapper->mapFromJson($this->getLinked($linked, 'roles', $roleId), $person));
+                $person->addPersonRole($this->roleMapper->mapFromJson($this->getLinked($linked, 'roles', $roleId), $person, $syncGroup));
             }
 
             $people[] = $person;
@@ -91,12 +90,10 @@ class PeopleFetcher extends AbstractFetcher
     }
 
     public function clean(string $groupId) {
-        $this->personRepository
-            ->createQueryBuilder('p')
+        $this->em->createQueryBuilder()
             ->delete(Person::class, 'p')
-            // TODO add layer_id during import
-            //->where('p.layer_id = :layer_id')
-            //->setParameter('layer_id', $groupId)
+            ->where('p.syncGroup = :sync_group')
+            ->setParameter('sync_group', $groupId)
             ->getQuery()
             ->execute();
         $this->em->flush();
