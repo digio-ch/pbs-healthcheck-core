@@ -1,116 +1,2362 @@
 [
-	{
-		"id": 1,
-		"type": "Questionnaire::Group::Default",
-		"aspects": [
-			{
-				"id": 1,
-				"name_de": "Aus- und Weiterbildung",
-				"name_fr": "",
-				"name_it": "",
-				"questions": [
-					{
-						"id": 1,
-						"question_de": "Das Engagement und die Kursbesuche unserer Leitenden sind längerfristig (über ein bis zwei Jahre hinaus) geplant.?",
-						"question_fr": "",
-						"question_it": "",
-						"answer_options": "range",
-						"help": [
-							{
-								"id": 1,
-								"help_de": "Wenn ihr die Kursbesuche eurer Leitenden bereits ein bis zwei Jahre im Voraus plant, könnt ihr fehlende Anerkennungen und Lücken frühzeitig erkennen. Zudem können auch die Leitenden ihre Ferien besser planen. Im Ausbildungsmodell erkennt ihr, welche Kurse für welche Leitenden geeignet sind.",
-								"help_fr": "",
-								"help_it": "",
-								"severity": 1
-							}
-						]
-					},
-					{
-						"id": 2,
-						"question_de": "Mindestens zwei Drittel aller Leitenden der Wolfsstufe haben einen Basis- oder Einführungskurs Wolfsstufe besucht.",
-						"question_fr": "",
-						"question_it": "",
-						"answer_options": "midata",
-						"help": [
-							{
-								"id": 1,
-								"help_de": "Im Basis- oder Einführungskurs Wolfsstufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Wolfsstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
-								"help_fr": "",
-								"help_it": "",
-								"severity": 1
-							}
-						]
-					},
-					{
-						"id": 3,
-						"question_de": "Unsere Leitenden wissen vor dem Kursbesuch, was sie im Kurs alles erleben können und was ihnen dies für ihren Pfadialltag bringt. ",
-						"question_fr": "",
-						"question_it": "",
-						"answer_options": "range",
-						"help": [
-							{
-								"id": 1,
-								"help_de": "Leitende sind motivierter für einen Kursbesuch, wenn ihnen klar ist, welche Erlebnisse sie erwarten und wie sie das Gelernte im Pfadialltag einsetzen können. Idealerweise wird dies mit ihnen schon bei der Planung der Kursbesuche besprochen.",
-								"help_fr": "",
-								"help_it": "",
-								"severity": 1
-							}
-						]
-					}
-				]
-			},
-			{
-				"id": 2,
-				"name_de": "Betreuung der Leitenden",
-				"name_fr": "",
-				"name_it": "",
-				"questions": [
-					{
-						"id": 1,
-						"question_de": "AL und Coach machen bei uns mindestens einmal im Jahr eine Standortbestimmung, bei der sie evaluieren, was in der Abteilung gut läuft und wo wir uns weiterentwickeln können. Die Betreuung wird, z. Bsp. mit einem Betreuungskontrakt, abgesprochen und gemäss dieser Absprache durch das Jahr gelebt und ausgewertet.",
-						"question_fr": "",
-						"question_it": "",
-						"answer_options": "binary",
-						"help": [
-							{
-								"id": 1,
-								"help_de": "Ohne eine jährliche Standortbestimmung ist es schwierig, sich auf ein konkretes Vorgehen zu einigen und sich weiterzuentwickeln. Ein Betreuungskontrakt bietet eine Möglichkeit, diese Absprachen zu tätigen.",
-								"help_fr": "",
-								"help_it": "",
-								"severity": 1
-							}
-						]
-					},
-					{
-						"id": 2,
-						"question_de": "Unsere Leitenden nutzen das Betreuungsangebot unseres Coachs, wenn sie nicht weiter wissen oder eine Frage haben.",
-						"question_fr": "",
-						"question_it": "",
-						"answer_options": "range",
-						"help": [
-							{
-								"id": 1,
-								"help_de": "Falls das Betreungsangebot nicht genutzt wird deutet dies auf ein gestörtes Verhältnis oder fehlende Absprachen hin. Macht den Coach in der Abteilung bekannt, kittet das Verhältnis und klärt die Zuständigkeiten.",
-								"help_fr": "",
-								"help_it": "",
-								"severity": 1
-							}
-						]
-					},
-					{
-						"id": 3,
-						"question_de": "Placeholder",
-						"question_fr": "",
-						"question_it": "",
-						"answer_options": "range",
-						"help": {
-							"help_de": "Falls das Betreungsangebot nicht genutzt wird deutet dies auf ein gestörtes Verhältnis oder fehlende Absprachen hin. Macht den Coach in der Abteilung bekannt, kittet das Verhältnis und klärt die Zuständigkeiten.",
-							"help_fr": "",
-							"help_it": ""
-						}
-					}
-				]
-			}
-		]
-	}
+  {
+    "type": "Questionnaire::Group::Default",
+    "aspects": [
+      {
+        "questions": [
+          {
+            "id": 0,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Ausbildung in der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                },
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden ",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Ausbildung in der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                },
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden ",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Ausbildung in der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                },
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden ",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "help_de": "Wenn ihr die Kursbesuche eurer Leitenden bereits ein bis zwei Jahre im Voraus plant, könnt ihr fehlende Anerkennungen und Lücken frühzeitig erkennen. Zudem können auch die Leitenden ihre Ferien besser planen. Im Ausbildungsmodell erkennt ihr, welche Kurse für welche Leitenden geeignet sind.",
+              "help_fr": "Wenn ihr die Kursbesuche eurer Leitenden bereits ein bis zwei Jahre im Voraus plant, könnt ihr fehlende Anerkennungen und Lücken frühzeitig erkennen. Zudem können auch die Leitenden ihre Ferien besser planen. Im Ausbildungsmodell erkennt ihr, welche Kurse für welche Leitenden geeignet sind.",
+              "help_it": "Wenn ihr die Kursbesuche eurer Leitenden bereits ein bis zwei Jahre im Voraus plant, könnt ihr fehlende Anerkennungen und Lücken frühzeitig erkennen. Zudem können auch die Leitenden ihre Ferien besser planen. Im Ausbildungsmodell erkennt ihr, welche Kurse für welche Leitenden geeignet sind."
+            },
+            "question_de": "Das Engagement und die Kursbesuche unserer Leitenden sind längerfristig (über ein bis zwei Jahre hinaus) geplant.",
+            "question_fr": "Das Engagement und die Kursbesuche unserer Leitenden sind längerfristig (über ein bis zwei Jahre hinaus) geplant.",
+            "question_it": "Das Engagement und die Kursbesuche unserer Leitenden sind längerfristig (über ein bis zwei Jahre hinaus) geplant.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "help_de": "Im Basis- oder Einführungskurs Wolfsstufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Wolfsstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
+              "help_fr": "Im Basis- oder Einführungskurs Wolfsstufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Wolfsstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
+              "help_it": "Im Basis- oder Einführungskurs Wolfsstufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Wolfsstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. "
+            },
+            "question_de": "Mindestens zwei Drittel aller Leitenden der Wolfsstufe haben einen Basis- oder Einführungskurs Wolfsstufe besucht.",
+            "question_fr": "Mindestens zwei Drittel aller Leitenden der Wolfsstufe haben einen Basis- oder Einführungskurs Wolfsstufe besucht.",
+            "question_it": "Mindestens zwei Drittel aller Leitenden der Wolfsstufe haben einen Basis- oder Einführungskurs Wolfsstufe besucht.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_woelf"
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "help_de": "Im Basis- oder Einführungskurs Pfadistufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Pfadistufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
+              "help_fr": "Im Basis- oder Einführungskurs Pfadistufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Pfadistufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
+              "help_it": "Im Basis- oder Einführungskurs Pfadistufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Pfadistufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. "
+            },
+            "question_de": "Mindestens zwei Drittel aller Leitenden der Pfadistufe haben einen Basis- oder Einführungskurs Pfadistufe besucht.",
+            "question_fr": "Mindestens zwei Drittel aller Leitenden der Pfadistufe haben einen Basis- oder Einführungskurs Pfadistufe besucht.",
+            "question_it": "Mindestens zwei Drittel aller Leitenden der Pfadistufe haben einen Basis- oder Einführungskurs Pfadistufe besucht.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_pfadi"
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "help_de": "Im Basiskurs lernen die Leitenden das Grundwissen zur Planung und Durchführung von Aktivitäten. Ergänzend lernen sie im  Einführungskurs Biberstufe die Bedürfnisse der Teilnehmenden sowie die Methodik der Biberstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
+              "help_fr": "Im Basiskurs lernen die Leitenden das Grundwissen zur Planung und Durchführung von Aktivitäten. Ergänzend lernen sie im  Einführungskurs Biberstufe die Bedürfnisse der Teilnehmenden sowie die Methodik der Biberstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
+              "help_it": "Im Basiskurs lernen die Leitenden das Grundwissen zur Planung und Durchführung von Aktivitäten. Ergänzend lernen sie im  Einführungskurs Biberstufe die Bedürfnisse der Teilnehmenden sowie die Methodik der Biberstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. "
+            },
+            "question_de": "Mindestens zwei Drittel aller Leitenden der Biberstufe haben einen Basiskurs und den Einführungskurs Biberstufe besucht.",
+            "question_fr": "Mindestens zwei Drittel aller Leitenden der Biberstufe haben einen Basiskurs und den Einführungskurs Biberstufe besucht.",
+            "question_it": "Mindestens zwei Drittel aller Leitenden der Biberstufe haben einen Basiskurs und den Einführungskurs Biberstufe besucht.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_biber"
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Beschreibung Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Beschreibung Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "help_de": "Im Basiskurs lernen die Leitenden das Grundwissen zur Planung und Durchführung von Aktivitäten. Ergänzend lernen sie im Einführungskurs Piostufe die Bedürfnisse der Teilnehmenden sowie die Methodik der Piostufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen.",
+              "help_fr": "Im Basiskurs lernen die Leitenden das Grundwissen zur Planung und Durchführung von Aktivitäten. Ergänzend lernen sie im Einführungskurs Piostufe die Bedürfnisse der Teilnehmenden sowie die Methodik der Piostufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen.",
+              "help_it": "Im Basiskurs lernen die Leitenden das Grundwissen zur Planung und Durchführung von Aktivitäten. Ergänzend lernen sie im Einführungskurs Piostufe die Bedürfnisse der Teilnehmenden sowie die Methodik der Piostufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen."
+            },
+            "question_de": "Mindestens zwei Drittel aller Leitenden der Piostufe haben einen Basiskurs und den Einführungskurs Piostufe besucht.",
+            "question_fr": "Mindestens zwei Drittel aller Leitenden der Piostufe haben einen Basiskurs und den Einführungskurs Piostufe besucht.",
+            "question_it": "Mindestens zwei Drittel aller Leitenden der Piostufe haben einen Basiskurs und den Einführungskurs Piostufe besucht.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_pio"
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Beschreibung Aufbaukurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#aufbaukurse-beschreibung"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Beschreibung Aufbaukurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#aufbaukurse-beschreibung"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Beschreibung Aufbaukurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#aufbaukurse-beschreibung"
+                }
+              ],
+              "help_de": "Im Aufbaukurs lernen die Leitenden, ihre Stufe zu organisieren und den allwöchentlichen Stufenbetrieb zu meistern. Mindestens die Stufenleitenden sollten diesen absolviert haben.",
+              "help_fr": "Im Aufbaukurs lernen die Leitenden, ihre Stufe zu organisieren und den allwöchentlichen Stufenbetrieb zu meistern. Mindestens die Stufenleitenden sollten diesen absolviert haben.",
+              "help_it": "Im Aufbaukurs lernen die Leitenden, ihre Stufe zu organisieren und den allwöchentlichen Stufenbetrieb zu meistern. Mindestens die Stufenleitenden sollten diesen absolviert haben."
+            },
+            "question_de": "Die Stufenleitenden haben einen Aufbaukurs besucht.",
+            "question_fr": "Die Stufenleitenden haben einen Aufbaukurs besucht.",
+            "question_it": "Die Stufenleitenden haben einen Aufbaukurs besucht.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "group_leaders_educated"
+          },
+          {
+            "id": 6,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Beschreibung Panoramakurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#panoramakurs-beschreibung"
+                },
+                {
+                  "name": "Beschreibung AL-Kurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#al-kurs-beschreibung"
+                },
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Beschreibung Panoramakurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#panoramakurs-beschreibung"
+                },
+                {
+                  "name": "Beschreibung AL-Kurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#al-kurs-beschreibung"
+                },
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Beschreibung Panoramakurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#panoramakurs-beschreibung"
+                },
+                {
+                  "name": "Beschreibung AL-Kurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#al-kurs-beschreibung"
+                },
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "help_de": "Im Panoramakurs erhalten Leitende die Möglichkeit, sich mit sich selbst und ihrer Aufgabe in der Pfadi auseinanderzusetzen. Abteilungsleitende lernen ergänzend dazu im AL-Kurs alles Notwendige, um ihre Abteilung zu organisieren und den Abteilungsbetrieb zu meistern. Zusätzlich bietet der Kurs die wertvolle Gelegenheit, sich auf kantonaler Ebene mit anderen Abteilungsleitenden auszutauschen.",
+              "help_fr": "Im Panoramakurs erhalten Leitende die Möglichkeit, sich mit sich selbst und ihrer Aufgabe in der Pfadi auseinanderzusetzen. Abteilungsleitende lernen ergänzend dazu im AL-Kurs alles Notwendige, um ihre Abteilung zu organisieren und den Abteilungsbetrieb zu meistern. Zusätzlich bietet der Kurs die wertvolle Gelegenheit, sich auf kantonaler Ebene mit anderen Abteilungsleitenden auszutauschen.",
+              "help_it": "Im Panoramakurs erhalten Leitende die Möglichkeit, sich mit sich selbst und ihrer Aufgabe in der Pfadi auseinanderzusetzen. Abteilungsleitende lernen ergänzend dazu im AL-Kurs alles Notwendige, um ihre Abteilung zu organisieren und den Abteilungsbetrieb zu meistern. Zusätzlich bietet der Kurs die wertvolle Gelegenheit, sich auf kantonaler Ebene mit anderen Abteilungsleitenden auszutauschen."
+            },
+            "question_de": "Die Abteilungsleitenden haben den Panorama- und AL-Kurs besucht. ",
+            "question_fr": "Die Abteilungsleitenden haben den Panorama- und AL-Kurs besucht. ",
+            "question_it": "Die Abteilungsleitenden haben den Panorama- und AL-Kurs besucht. ",
+            "answer_options": "midata-binary",
+            "evaluation_function": "group_president_educated"
+          },
+          {
+            "id": 7,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Ausbildung in der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Ausbildung in der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Ausbildung in der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "help_de": "Leitende sind motivierter für einen Kursbesuch, wenn ihnen klar ist, welche Erlebnisse sie erwarten und wie sie das Gelernte im Pfadialltag einsetzen können. Idealerweise wird dies mit ihnen schon bei der Planung der Kursbesuche besprochen.",
+              "help_fr": "Leitende sind motivierter für einen Kursbesuch, wenn ihnen klar ist, welche Erlebnisse sie erwarten und wie sie das Gelernte im Pfadialltag einsetzen können. Idealerweise wird dies mit ihnen schon bei der Planung der Kursbesuche besprochen.",
+              "help_it": "Leitende sind motivierter für einen Kursbesuch, wenn ihnen klar ist, welche Erlebnisse sie erwarten und wie sie das Gelernte im Pfadialltag einsetzen können. Idealerweise wird dies mit ihnen schon bei der Planung der Kursbesuche besprochen."
+            },
+            "question_de": "Unsere Leitenden wissen vor dem Kursbesuch, was sie im Kurs alles erleben können und was ihnen dies für ihren Pfadialltag bringt. ",
+            "question_fr": "Unsere Leitenden wissen vor dem Kursbesuch, was sie im Kurs alles erleben können und was ihnen dies für ihren Pfadialltag bringt. ",
+            "question_it": "Unsere Leitenden wissen vor dem Kursbesuch, was sie im Kurs alles erleben können und was ihnen dies für ihren Pfadialltag bringt. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          }
+        ],
+        "id": 0,
+        "name_de": "Aus- und Weiterbildung",
+        "name_fr": "Aus- und Weiterbildung",
+        "name_it": "Aus- und Weiterbildung"
+      },
+      {
+        "questions": [
+          {
+            "id": 0,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "help_de": "Leitende lernen in den Kursen die Grundlagen für die Ausübung einer neuen Rolle. Damit sie von ihrer neuen Rolle gefordert aber nicht überfordert sind, sollten sie auch vor und nach dem Kurs von der Abteilung betreut werden.",
+              "help_fr": "Leitende lernen in den Kursen die Grundlagen für die Ausübung einer neuen Rolle. Damit sie von ihrer neuen Rolle gefordert aber nicht überfordert sind, sollten sie auch vor und nach dem Kurs von der Abteilung betreut werden.",
+              "help_it": "Leitende lernen in den Kursen die Grundlagen für die Ausübung einer neuen Rolle. Damit sie von ihrer neuen Rolle gefordert aber nicht überfordert sind, sollten sie auch vor und nach dem Kurs von der Abteilung betreut werden."
+            },
+            "question_de": "Vor oder nach einem Kursbesuch definieren Leitende und AL, welche Rollen die Leitenden künftig übernehmen können und sorgen dafür, dass die Leitenden in die neue Rolle eingeführt werden. ",
+            "question_fr": "Vor oder nach einem Kursbesuch definieren Leitende und AL, welche Rollen die Leitenden künftig übernehmen können und sorgen dafür, dass die Leitenden in die neue Rolle eingeführt werden. ",
+            "question_it": "Vor oder nach einem Kursbesuch definieren Leitende und AL, welche Rollen die Leitenden künftig übernehmen können und sorgen dafür, dass die Leitenden in die neue Rolle eingeführt werden. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "help_de": "Nach dem Kurs sollte mit den frisch ausgebildeten Leitenden ein Gespräch geführt und sie bei der Umsetzung ihrer definierten Ziele unterstützt werden. ",
+              "help_fr": "Nach dem Kurs sollte mit den frisch ausgebildeten Leitenden ein Gespräch geführt und sie bei der Umsetzung ihrer definierten Ziele unterstützt werden. ",
+              "help_it": "Nach dem Kurs sollte mit den frisch ausgebildeten Leitenden ein Gespräch geführt und sie bei der Umsetzung ihrer definierten Ziele unterstützt werden. "
+            },
+            "question_de": "Unsere Leitenden werden nach dem Kurs bei der Umsetzung des Gelernten und beim Erreichen ihrer im Kurs definierten Ziele betreut.",
+            "question_fr": "Unsere Leitenden werden nach dem Kurs bei der Umsetzung des Gelernten und beim Erreichen ihrer im Kurs definierten Ziele betreut.",
+            "question_it": "Unsere Leitenden werden nach dem Kurs bei der Umsetzung des Gelernten und beim Erreichen ihrer im Kurs definierten Ziele betreut.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "help_de": "Neue Ideen unterstützen eine laufende Verbesserung und Weiterentwicklung. Die Leitungsteams sollten deshalb zur Umsetzung neuer Ideen (z.B. aufgrund von Kursbesuchen) animiert und darin unterstützt werden.",
+              "help_fr": "Neue Ideen unterstützen eine laufende Verbesserung und Weiterentwicklung. Die Leitungsteams sollten deshalb zur Umsetzung neuer Ideen (z.B. aufgrund von Kursbesuchen) animiert und darin unterstützt werden.",
+              "help_it": "Neue Ideen unterstützen eine laufende Verbesserung und Weiterentwicklung. Die Leitungsteams sollten deshalb zur Umsetzung neuer Ideen (z.B. aufgrund von Kursbesuchen) animiert und darin unterstützt werden."
+            },
+            "question_de": "Unsere Leitungsteams versuchen neue Vorschläge umzusetzen, die ihre Mitglieder z.B. aufgrund von Kursbesuchen anregen.",
+            "question_fr": "Unsere Leitungsteams versuchen neue Vorschläge umzusetzen, die ihre Mitglieder z.B. aufgrund von Kursbesuchen anregen.",
+            "question_it": "Unsere Leitungsteams versuchen neue Vorschläge umzusetzen, die ihre Mitglieder z.B. aufgrund von Kursbesuchen anregen.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Alpha: Kapitel 5 | Ausbildung von Leitenden und Abteilungsleitenden",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "help_de": "Wenn Leitende einen Kurs nicht bestehen, ist dies für sie oftmals ein einschneidendes Ereignis. Damit sie trotzdem weiterhin motiviert bleiben, sollten sie unbedingt betreut und weiter gefördert werden. Besprecht mit ihnen, welche Perspektiven sie in der Abteilung auch ohne den besuchten Kurs haben und welche Aufgaben sie übernehmen können.",
+              "help_fr": "Wenn Leitende einen Kurs nicht bestehen, ist dies für sie oftmals ein einschneidendes Ereignis. Damit sie trotzdem weiterhin motiviert bleiben, sollten sie unbedingt betreut und weiter gefördert werden. Besprecht mit ihnen, welche Perspektiven sie in der Abteilung auch ohne den besuchten Kurs haben und welche Aufgaben sie übernehmen können.",
+              "help_it": "Wenn Leitende einen Kurs nicht bestehen, ist dies für sie oftmals ein einschneidendes Ereignis. Damit sie trotzdem weiterhin motiviert bleiben, sollten sie unbedingt betreut und weiter gefördert werden. Besprecht mit ihnen, welche Perspektiven sie in der Abteilung auch ohne den besuchten Kurs haben und welche Aufgaben sie übernehmen können."
+            },
+            "question_de": "Falls eine Leitungsperson von uns einen Kurs nicht besteht, wird sie weiter gefördert und es werden ihr neue Perspektiven aufgezeigt. ",
+            "question_fr": "Falls eine Leitungsperson von uns einen Kurs nicht besteht, wird sie weiter gefördert und es werden ihr neue Perspektiven aufgezeigt. ",
+            "question_it": "Falls eine Leitungsperson von uns einen Kurs nicht besteht, wird sie weiter gefördert und es werden ihr neue Perspektiven aufgezeigt. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "help_de": "Um das Amt als Coach gewissenhat ausführen zu können ist es wichtig, von den Leitern akzeptiert zu werden und sich regelmässig mit ihnen auszutauschen.",
+              "help_fr": "Um das Amt als Coach gewissenhat ausführen zu können ist es wichtig, von den Leitern akzeptiert zu werden und sich regelmässig mit ihnen auszutauschen.",
+              "help_it": "Um das Amt als Coach gewissenhat ausführen zu können ist es wichtig, von den Leitern akzeptiert zu werden und sich regelmässig mit ihnen auszutauschen."
+            },
+            "question_de": "Unser*e Coach ist in unserer Abteilung akzeptiert und unsere Leitenden stehen regelmässig in direktem Kontakt. ",
+            "question_fr": "Unser*e Coach ist in unserer Abteilung akzeptiert und unsere Leitenden stehen regelmässig in direktem Kontakt. ",
+            "question_it": "Unser*e Coach ist in unserer Abteilung akzeptiert und unsere Leitenden stehen regelmässig in direktem Kontakt. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "help_de": "Ohne eine jährliche Standortbestimmung ist es schwierig, sich auf ein konkretes Vorgehen zu einigen und sich weiterzuentwickeln. Ein Betreuungskontrakt bietet eine Möglichkeit, diese Absprachen zu tätigen.",
+              "help_fr": "Ohne eine jährliche Standortbestimmung ist es schwierig, sich auf ein konkretes Vorgehen zu einigen und sich weiterzuentwickeln. Ein Betreuungskontrakt bietet eine Möglichkeit, diese Absprachen zu tätigen.",
+              "help_it": "Ohne eine jährliche Standortbestimmung ist es schwierig, sich auf ein konkretes Vorgehen zu einigen und sich weiterzuentwickeln. Ein Betreuungskontrakt bietet eine Möglichkeit, diese Absprachen zu tätigen."
+            },
+            "question_de": "AL und Coach machen bei uns mindestens einmal im Jahr eine Standortbestimmung, bei der sie evaluieren, was in der Abteilung gut läuft und wo wir uns weiterentwickeln können. Die Betreuung wird, z. Bsp. mit einem Betreuungskontrakt, abgesprochen und gemäss dieser Absprache durch das Jahr gelebt und ausgewertet. ",
+            "question_fr": "AL und Coach machen bei uns mindestens einmal im Jahr eine Standortbestimmung, bei der sie evaluieren, was in der Abteilung gut läuft und wo wir uns weiterentwickeln können. Die Betreuung wird, z. Bsp. mit einem Betreuungskontrakt, abgesprochen und gemäss dieser Absprache durch das Jahr gelebt und ausgewertet. ",
+            "question_it": "AL und Coach machen bei uns mindestens einmal im Jahr eine Standortbestimmung, bei der sie evaluieren, was in der Abteilung gut läuft und wo wir uns weiterentwickeln können. Die Betreuung wird, z. Bsp. mit einem Betreuungskontrakt, abgesprochen und gemäss dieser Absprache durch das Jahr gelebt und ausgewertet. ",
+            "answer_options": "binary",
+            "evaluation_function": null
+          },
+          {
+            "id": 6,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "help_de": "Falls das Betreungsangebot nicht genutzt wird deutet dies auf ein gestörtes Verhältnis oder fehlende Absprachen hin. Macht den Coach in der Abteilung bekannt, kittet das Verhältnis und klärt die Zuständigkeiten.",
+              "help_fr": "Falls das Betreungsangebot nicht genutzt wird deutet dies auf ein gestörtes Verhältnis oder fehlende Absprachen hin. Macht den Coach in der Abteilung bekannt, kittet das Verhältnis und klärt die Zuständigkeiten.",
+              "help_it": "Falls das Betreungsangebot nicht genutzt wird deutet dies auf ein gestörtes Verhältnis oder fehlende Absprachen hin. Macht den Coach in der Abteilung bekannt, kittet das Verhältnis und klärt die Zuständigkeiten."
+            },
+            "question_de": "Unsere Leitenden nutzen das Betreuungsangebot unseres Coachs, wenn sie nicht weiter wissen oder eine Frage haben. ",
+            "question_fr": "Unsere Leitenden nutzen das Betreuungsangebot unseres Coachs, wenn sie nicht weiter wissen oder eine Frage haben. ",
+            "question_it": "Unsere Leitenden nutzen das Betreuungsangebot unseres Coachs, wenn sie nicht weiter wissen oder eine Frage haben. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 7,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1, 1.2 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "help_de": "Das das Betreuungsangebot nicht genutzt wird kann daran liegen, dass dieses nicht bekannt ist oder nicht vereinbart wurde. Sitzt soch mal zusammen und zeigt auf, was jeder einzelne zu bieten hat.",
+              "help_fr": "Das das Betreuungsangebot nicht genutzt wird kann daran liegen, dass dieses nicht bekannt ist oder nicht vereinbart wurde. Sitzt soch mal zusammen und zeigt auf, was jeder einzelne zu bieten hat.",
+              "help_it": "Das das Betreuungsangebot nicht genutzt wird kann daran liegen, dass dieses nicht bekannt ist oder nicht vereinbart wurde. Sitzt soch mal zusammen und zeigt auf, was jeder einzelne zu bieten hat."
+            },
+            "question_de": "Unsere Leitende und insbesondere unsere AL nutzen das Betreuungsangebot von den weiteren Betreuungspersonen unserer Abteilung (Elternrat, Präses, APV, etc.). ",
+            "question_fr": "Unsere Leitende und insbesondere unsere AL nutzen das Betreuungsangebot von den weiteren Betreuungspersonen unserer Abteilung (Elternrat, Präses, APV, etc.). ",
+            "question_it": "Unsere Leitende und insbesondere unsere AL nutzen das Betreuungsangebot von den weiteren Betreuungspersonen unserer Abteilung (Elternrat, Präses, APV, etc.). ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 8,
+            "help": {
+              "links_de": [
+                {
+                  "name": "PBS Newsletter, hier zu abonnieren",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                },
+                {
+                  "name": "Informationen J+S Lagersport/Trekking",
+                  "url": "https://www.jugendundsport.ch/de/sportarten/lagersport-trekking-uebersicht.html"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "PBS Newsletter, hier zu abonnieren",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                },
+                {
+                  "name": "Informationen J+S Lagersport/Trekking",
+                  "url": "https://www.jugendundsport.ch/de/sportarten/lagersport-trekking-uebersicht.html"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "PBS Newsletter, hier zu abonnieren",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                },
+                {
+                  "name": "Informationen J+S Lagersport/Trekking",
+                  "url": "https://www.jugendundsport.ch/de/sportarten/lagersport-trekking-uebersicht.html"
+                }
+              ],
+              "help_de": "Damit Aktivitäten und Lager den aktuellen Bestimmungen entsprechen ist es wichtig, dass Leitende über Änderungen informiert werden. News von J+S, PBS und Kantonalverbänden sind ihnen Stufengerecht weiterzugeben.",
+              "help_fr": "Damit Aktivitäten und Lager den aktuellen Bestimmungen entsprechen ist es wichtig, dass Leitende über Änderungen informiert werden. News von J+S, PBS und Kantonalverbänden sind ihnen Stufengerecht weiterzugeben.",
+              "help_it": "Damit Aktivitäten und Lager den aktuellen Bestimmungen entsprechen ist es wichtig, dass Leitende über Änderungen informiert werden. News von J+S, PBS und Kantonalverbänden sind ihnen Stufengerecht weiterzugeben."
+            },
+            "question_de": "Unsere Leitende sind über relevante Änderungen und inhaltliche Schwerpunkte der PBS, von J+S sowie des Kantonalverbandes informiert. Dies betrifft Lager aber auch das ganze Pfadijahr.",
+            "question_fr": "Unsere Leitende sind über relevante Änderungen und inhaltliche Schwerpunkte der PBS, von J+S sowie des Kantonalverbandes informiert. Dies betrifft Lager aber auch das ganze Pfadijahr.",
+            "question_it": "Unsere Leitende sind über relevante Änderungen und inhaltliche Schwerpunkte der PBS, von J+S sowie des Kantonalverbandes informiert. Dies betrifft Lager aber auch das ganze Pfadijahr.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 9,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Seite 2 der Lagerbewilligung",
+                  "url": "https://pfadi.swiss/media/files/1d/208405de-lagerbewilligung-v20161121-kaaub-lobo-de.pdf"
+                },
+                {
+                  "name": "Checklisten Prävention im Coachhandbuch und Alpha",
+                  "url": "https://pfadi.swiss/de/coachhandbuch/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Seite 2 der Lagerbewilligung",
+                  "url": "https://pfadi.swiss/media/files/1d/208405de-lagerbewilligung-v20161121-kaaub-lobo-de.pdf"
+                },
+                {
+                  "name": "Checklisten Prävention im Coachhandbuch und Alpha",
+                  "url": "https://pfadi.swiss/de/coachhandbuch/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Seite 2 der Lagerbewilligung",
+                  "url": "https://pfadi.swiss/media/files/1d/208405de-lagerbewilligung-v20161121-kaaub-lobo-de.pdf"
+                },
+                {
+                  "name": "Checklisten Prävention im Coachhandbuch und Alpha",
+                  "url": "https://pfadi.swiss/de/coachhandbuch/"
+                }
+              ],
+              "help_de": "Es ist wichtig, dass sowohl der Coach wie auch die AL das Programm, die Sicherheit und die Prävention in den Lagern beurteilen. Die AL kennen ihre Abteilung und ihre TN in gewissen Teilen besser und können so auch relevante Inputs bei der Lagerabnahme liefern.",
+              "help_fr": "Es ist wichtig, dass sowohl der Coach wie auch die AL das Programm, die Sicherheit und die Prävention in den Lagern beurteilen. Die AL kennen ihre Abteilung und ihre TN in gewissen Teilen besser und können so auch relevante Inputs bei der Lagerabnahme liefern.",
+              "help_it": "Es ist wichtig, dass sowohl der Coach wie auch die AL das Programm, die Sicherheit und die Prävention in den Lagern beurteilen. Die AL kennen ihre Abteilung und ihre TN in gewissen Teilen besser und können so auch relevante Inputs bei der Lagerabnahme liefern."
+            },
+            "question_de": "Alle unsere Lager werden bezüglich Programm, Leitung, Sicherheit, Stufengerechtigkeit, Prävention und Umsetzbarkeit von AL und Coach betreut. ",
+            "question_fr": "Alle unsere Lager werden bezüglich Programm, Leitung, Sicherheit, Stufengerechtigkeit, Prävention und Umsetzbarkeit von AL und Coach betreut. ",
+            "question_it": "Alle unsere Lager werden bezüglich Programm, Leitung, Sicherheit, Stufengerechtigkeit, Prävention und Umsetzbarkeit von AL und Coach betreut. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 10,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Seite 2 der Lagerbewilligung",
+                  "url": "https://pfadi.swiss/media/files/1d/208405de-lagerbewilligung-v20161121-kaaub-lobo-de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Seite 2 der Lagerbewilligung",
+                  "url": "https://pfadi.swiss/media/files/1d/208405de-lagerbewilligung-v20161121-kaaub-lobo-de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Seite 2 der Lagerbewilligung",
+                  "url": "https://pfadi.swiss/media/files/1d/208405de-lagerbewilligung-v20161121-kaaub-lobo-de.pdf"
+                }
+              ],
+              "help_de": "Der Coach ist für die Einhaltung der Regelungen von J+S in der Lagerbetreuung verantwortlich.",
+              "help_fr": "Der Coach ist für die Einhaltung der Regelungen von J+S in der Lagerbetreuung verantwortlich.",
+              "help_it": "Der Coach ist für die Einhaltung der Regelungen von J+S in der Lagerbetreuung verantwortlich."
+            },
+            "question_de": "Unser*e Coach ist verantwortlich, dass unsere Lager in der Planung den J+S und PBS-Anforderungen entsprechen. ",
+            "question_fr": "Unser*e Coach ist verantwortlich, dass unsere Lager in der Planung den J+S und PBS-Anforderungen entsprechen. ",
+            "question_it": "Unser*e Coach ist verantwortlich, dass unsere Lager in der Planung den J+S und PBS-Anforderungen entsprechen. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 11,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Als Stufenleitung oder als AL muss man nicht alles Wissen, es nützt aber, wenn man Personen kennt, die einem helfen können. Ansprechpersonen im Kanton können einem als Anlaufstelle dienen und helfen.",
+              "help_fr": "Als Stufenleitung oder als AL muss man nicht alles Wissen, es nützt aber, wenn man Personen kennt, die einem helfen können. Ansprechpersonen im Kanton können einem als Anlaufstelle dienen und helfen.",
+              "help_it": "Als Stufenleitung oder als AL muss man nicht alles Wissen, es nützt aber, wenn man Personen kennt, die einem helfen können. Ansprechpersonen im Kanton können einem als Anlaufstelle dienen und helfen."
+            },
+            "question_de": "Unsere Stufenleitenden und AL kennen ihre Ansprechpersonen in unserem Kantonalverband.",
+            "question_fr": "Unsere Stufenleitenden und AL kennen ihre Ansprechpersonen in unserem Kantonalverband.",
+            "question_it": "Unsere Stufenleitenden und AL kennen ihre Ansprechpersonen in unserem Kantonalverband.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 12,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Neue Ideen sowie Motivation kommen normalerweise nicht aus heiterem Himmel. Der Austausch mit anderen Leitenden kann dabei eine zentrale Rolle spielen. Plattformen und Anlässe des Kantonalverbandes bieten Möglichkeiten für einen solchen Austausch zudem kann man dort auch Bekanntschaften aus Kursbesuchen wieder aufleben lassen.",
+              "help_fr": "Neue Ideen sowie Motivation kommen normalerweise nicht aus heiterem Himmel. Der Austausch mit anderen Leitenden kann dabei eine zentrale Rolle spielen. Plattformen und Anlässe des Kantonalverbandes bieten Möglichkeiten für einen solchen Austausch zudem kann man dort auch Bekanntschaften aus Kursbesuchen wieder aufleben lassen.",
+              "help_it": "Neue Ideen sowie Motivation kommen normalerweise nicht aus heiterem Himmel. Der Austausch mit anderen Leitenden kann dabei eine zentrale Rolle spielen. Plattformen und Anlässe des Kantonalverbandes bieten Möglichkeiten für einen solchen Austausch zudem kann man dort auch Bekanntschaften aus Kursbesuchen wieder aufleben lassen."
+            },
+            "question_de": "Alle unsere Leitenden nutzen die angebotenen Plattformen unseres Kantonalverbands für den Austausch mit Leitenden aus anderen Abteilungen.",
+            "question_fr": "Alle unsere Leitenden nutzen die angebotenen Plattformen unseres Kantonalverbands für den Austausch mit Leitenden aus anderen Abteilungen.",
+            "question_it": "Alle unsere Leitenden nutzen die angebotenen Plattformen unseres Kantonalverbands für den Austausch mit Leitenden aus anderen Abteilungen.",
+            "answer_options": "range",
+            "evaluation_function": null
+          }
+        ],
+        "id": 1,
+        "name_de": "Betreuung der Leitenden",
+        "name_fr": "Betreuung der Leitenden",
+        "name_it": "Betreuung der Leitenden"
+      },
+      {
+        "questions": [
+          {
+            "id": 0,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "help_de": "Jede Abteilung muss einen Coach haben, wende dich an deinen Kantonalverband oder trage die Rolle noch in der MiData ein.",
+              "help_fr": "Jede Abteilung muss einen Coach haben, wende dich an deinen Kantonalverband oder trage die Rolle noch in der MiData ein.",
+              "help_it": "Jede Abteilung muss einen Coach haben, wende dich an deinen Kantonalverband oder trage die Rolle noch in der MiData ein."
+            },
+            "question_de": "Unsere Abteilung hat eine*n Coach. ",
+            "question_fr": "Unsere Abteilung hat eine*n Coach. ",
+            "question_it": "Unsere Abteilung hat eine*n Coach. ",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_coach"
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Kaptitel Elternrat im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                },
+                {
+                  "name": "Merkblatt zum Thema Elternrat",
+                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Kaptitel Elternrat im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                },
+                {
+                  "name": "Merkblatt zum Thema Elternrat",
+                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Kaptitel Elternrat im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                },
+                {
+                  "name": "Merkblatt zum Thema Elternrat",
+                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                }
+              ],
+              "help_de": "Der Elternrat kann eure Abteilung mit Rat und Tat unterstützen. Im Merkblatt der PBS findet ihr weitere Tipps zur Gründung eines ER sowie zu seinen Aufgaben. Falls nur die Personen in der MiData fehlen, trage diese doch noch nach.",
+              "help_fr": "Der Elternrat kann eure Abteilung mit Rat und Tat unterstützen. Im Merkblatt der PBS findet ihr weitere Tipps zur Gründung eines ER sowie zu seinen Aufgaben. Falls nur die Personen in der MiData fehlen, trage diese doch noch nach.",
+              "help_it": "Der Elternrat kann eure Abteilung mit Rat und Tat unterstützen. Im Merkblatt der PBS findet ihr weitere Tipps zur Gründung eines ER sowie zu seinen Aufgaben. Falls nur die Personen in der MiData fehlen, trage diese doch noch nach."
+            },
+            "question_de": "Unsere Abteilung hat einen Elternrat und eine definierte Person für das Präsidium.",
+            "question_fr": "Unsere Abteilung hat einen Elternrat und eine definierte Person für das Präsidium.",
+            "question_it": "Unsere Abteilung hat einen Elternrat und eine definierte Person für das Präsidium.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_parents_council"
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Kapitel APV im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Kapitel APV im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Kapitel APV im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "help_de": "Ein APV kann eure Abteilung mit Rat und Tat unterstützen. Inputs zu seinem Möglichen Aufgabenspektrum findet ihr im Betreuungsmodell.",
+              "help_fr": "Ein APV kann eure Abteilung mit Rat und Tat unterstützen. Inputs zu seinem Möglichen Aufgabenspektrum findet ihr im Betreuungsmodell.",
+              "help_it": "Ein APV kann eure Abteilung mit Rat und Tat unterstützen. Inputs zu seinem Möglichen Aufgabenspektrum findet ihr im Betreuungsmodell."
+            },
+            "question_de": "Unsere Abteilung hat einen APV und eine definierte Person für das Präsidium.",
+            "question_fr": "Unsere Abteilung hat einen APV und eine definierte Person für das Präsidium.",
+            "question_it": "Unsere Abteilung hat einen APV und eine definierte Person für das Präsidium.",
+            "answer_options": "midata-binary",
+            "evaluation_function": null
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2 und 4",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2 und 4",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2 und 4",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "help_de": "Es ist wichtig, dass jeder im Betreuungsnetzwerk seine Rollen und Aufgaben kennt, um diese zur Zufriedenheit ausführen zu können. Klärt doch die Zuständigkeiten an einem Höck, ein Betreuungskontrakt kann helfen.",
+              "help_fr": "Es ist wichtig, dass jeder im Betreuungsnetzwerk seine Rollen und Aufgaben kennt, um diese zur Zufriedenheit ausführen zu können. Klärt doch die Zuständigkeiten an einem Höck, ein Betreuungskontrakt kann helfen.",
+              "help_it": "Es ist wichtig, dass jeder im Betreuungsnetzwerk seine Rollen und Aufgaben kennt, um diese zur Zufriedenheit ausführen zu können. Klärt doch die Zuständigkeiten an einem Höck, ein Betreuungskontrakt kann helfen."
+            },
+            "question_de": "Die Betreuungspersonen unserer Abteilung kennen ihre jeweilige Rollen und Aufgaben in der Betreuung durch das Pfadijahr.",
+            "question_fr": "Die Betreuungspersonen unserer Abteilung kennen ihre jeweilige Rollen und Aufgaben in der Betreuung durch das Pfadijahr.",
+            "question_it": "Die Betreuungspersonen unserer Abteilung kennen ihre jeweilige Rollen und Aufgaben in der Betreuung durch das Pfadijahr.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2 und 4",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2 und 4",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2 und 4",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "help_de": "Es ist wichtig, dass sich die Betreuungsrollen untereinander vernetzen und gegenseitig austauschen. Der Coach soll hier dafür sorgen, dass dies geschieht. Dies kann er mit Höckteilnahmen, Telefonen oder dem gemeinsamen Ausfüllen einer Betreuungsabsprache erreichen.",
+              "help_fr": "Es ist wichtig, dass sich die Betreuungsrollen untereinander vernetzen und gegenseitig austauschen. Der Coach soll hier dafür sorgen, dass dies geschieht. Dies kann er mit Höckteilnahmen, Telefonen oder dem gemeinsamen Ausfüllen einer Betreuungsabsprache erreichen.",
+              "help_it": "Es ist wichtig, dass sich die Betreuungsrollen untereinander vernetzen und gegenseitig austauschen. Der Coach soll hier dafür sorgen, dass dies geschieht. Dies kann er mit Höckteilnahmen, Telefonen oder dem gemeinsamen Ausfüllen einer Betreuungsabsprache erreichen."
+            },
+            "question_de": "Unser*e Coach fördert die Vernetzung aller Betreuungspersonen innerhalb unserer Abteilung.",
+            "question_fr": "Unser*e Coach fördert die Vernetzung aller Betreuungspersonen innerhalb unserer Abteilung.",
+            "question_it": "Unser*e Coach fördert die Vernetzung aller Betreuungspersonen innerhalb unserer Abteilung.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Kapitel Abteilungskomitee im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Kapitel Abteilungskomitee im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Kapitel Abteilungskomitee im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "help_de": "Ohne Austausch hat man keinen Überblick über den Stand der Arbeiten der einzelnen Betreuungsrollen. Ein ganzheitlicher Blick auf den Zustand der Abteilung aller verschiedener Beteiligter kann bei der Weiterentwicklung der Abteilung helfen.",
+              "help_fr": "Ohne Austausch hat man keinen Überblick über den Stand der Arbeiten der einzelnen Betreuungsrollen. Ein ganzheitlicher Blick auf den Zustand der Abteilung aller verschiedener Beteiligter kann bei der Weiterentwicklung der Abteilung helfen.",
+              "help_it": "Ohne Austausch hat man keinen Überblick über den Stand der Arbeiten der einzelnen Betreuungsrollen. Ein ganzheitlicher Blick auf den Zustand der Abteilung aller verschiedener Beteiligter kann bei der Weiterentwicklung der Abteilung helfen."
+            },
+            "question_de": "Bei uns findet ein regelmässiger Austausch (Abteilungskomitee, Abteilungshöcks, individuelle Sitzungen, etc.) zwischen unseren Betreuungspersonen statt. ",
+            "question_fr": "Bei uns findet ein regelmässiger Austausch (Abteilungskomitee, Abteilungshöcks, individuelle Sitzungen, etc.) zwischen unseren Betreuungspersonen statt. ",
+            "question_it": "Bei uns findet ein regelmässiger Austausch (Abteilungskomitee, Abteilungshöcks, individuelle Sitzungen, etc.) zwischen unseren Betreuungspersonen statt. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 6,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.1 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.1 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.1 und 3.3",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "help_de": "Als Betreuungsperson musst du in einer Abteilung verschiedene Rollen einnehmen um diese optimal betreuen zu können. Wenn du dabei selber Aktiv in den Abteilungsalltag eingebunden bist, ist eine uneinvorgenommene Betrachtungsweise kaum möglich.",
+              "help_fr": "Als Betreuungsperson musst du in einer Abteilung verschiedene Rollen einnehmen um diese optimal betreuen zu können. Wenn du dabei selber Aktiv in den Abteilungsalltag eingebunden bist, ist eine uneinvorgenommene Betrachtungsweise kaum möglich.",
+              "help_it": "Als Betreuungsperson musst du in einer Abteilung verschiedene Rollen einnehmen um diese optimal betreuen zu können. Wenn du dabei selber Aktiv in den Abteilungsalltag eingebunden bist, ist eine uneinvorgenommene Betrachtungsweise kaum möglich."
+            },
+            "question_de": "Unsere Betreuungsrollen sind nicht in einer leitenden Position in der Abteilung tätig.",
+            "question_fr": "Unsere Betreuungsrollen sind nicht in einer leitenden Position in der Abteilung tätig.",
+            "question_it": "Unsere Betreuungsrollen sind nicht in einer leitenden Position in der Abteilung tätig.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "split_lead_coach"
+          }
+        ],
+        "id": 2,
+        "name_de": "Betreuungsnetzwerk",
+        "name_fr": "Betreuungsnetzwerk",
+        "name_it": "Betreuungsnetzwerk"
+      },
+      {
+        "questions": [
+          {
+            "id": 0,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Die Roverstufe - Bewusst Handeln",
+                  "url": "https://pfadi.swiss/media/files/7b/cudesch_roverstufenbroschuere_d_web.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Die Roverstufe - Bewusst Handeln",
+                  "url": "https://pfadi.swiss/media/files/7b/cudesch_roverstufenbroschuere_d_web.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Die Roverstufe - Bewusst Handeln",
+                  "url": "https://pfadi.swiss/media/files/7b/cudesch_roverstufenbroschuere_d_web.pdf"
+                }
+              ],
+              "help_de": "Die Leitenden sind in der Rolle der Funktionäre. Trotz oder eben wegen ihres Engagements sollen sie die Möglichkeit haben, Pfadi auch aktiv als Teilnehmende zu erleben. Dies motiviert und stärkt sie in ihrer anderen Rolle.",
+              "help_fr": "Die Leitenden sind in der Rolle der Funktionäre. Trotz oder eben wegen ihres Engagements sollen sie die Möglichkeit haben, Pfadi auch aktiv als Teilnehmende zu erleben. Dies motiviert und stärkt sie in ihrer anderen Rolle.",
+              "help_it": "Die Leitenden sind in der Rolle der Funktionäre. Trotz oder eben wegen ihres Engagements sollen sie die Möglichkeit haben, Pfadi auch aktiv als Teilnehmende zu erleben. Dies motiviert und stärkt sie in ihrer anderen Rolle."
+            },
+            "question_de": "Die Leitenden unserer Abteilung haben die Möglichkeit, sich als Rover aktiv für die Gesellschaft zu engagieren und Roverstufenaktivitäten teilzunehmen (in der Abteilung und/oder im Kantonalverband).",
+            "question_fr": "Die Leitenden unserer Abteilung haben die Möglichkeit, sich als Rover aktiv für die Gesellschaft zu engagieren und Roverstufenaktivitäten teilzunehmen (in der Abteilung und/oder im Kantonalverband).",
+            "question_it": "Die Leitenden unserer Abteilung haben die Möglichkeit, sich als Rover aktiv für die Gesellschaft zu engagieren und Roverstufenaktivitäten teilzunehmen (in der Abteilung und/oder im Kantonalverband).",
+            "answer_options": "binary",
+            "evaluation_function": null
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Um den Ansprüchen einzelner Teilnehmenden gerecht zu werden, sollten die Aktivitäten stufenweise geplant werden. Mit der Umsetzung des Stufenmodells kann ein persönlicher Fortschritt ohne Über- oder Unterforderung statt finden und die Teilnehmenden erleben Programm, das auf ihre Bedürfnisse zugeschnitten ist. ",
+              "help_fr": "Um den Ansprüchen einzelner Teilnehmenden gerecht zu werden, sollten die Aktivitäten stufenweise geplant werden. Mit der Umsetzung des Stufenmodells kann ein persönlicher Fortschritt ohne Über- oder Unterforderung statt finden und die Teilnehmenden erleben Programm, das auf ihre Bedürfnisse zugeschnitten ist. ",
+              "help_it": "Um den Ansprüchen einzelner Teilnehmenden gerecht zu werden, sollten die Aktivitäten stufenweise geplant werden. Mit der Umsetzung des Stufenmodells kann ein persönlicher Fortschritt ohne Über- oder Unterforderung statt finden und die Teilnehmenden erleben Programm, das auf ihre Bedürfnisse zugeschnitten ist. "
+            },
+            "question_de": "Die Mehrheit der Aktivitäten findet bei uns stufengetrennt statt. ",
+            "question_fr": "Die Mehrheit der Aktivitäten findet bei uns stufengetrennt statt. ",
+            "question_it": "Die Mehrheit der Aktivitäten findet bei uns stufengetrennt statt. ",
+            "answer_options": "binary",
+            "evaluation_function": null
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [
+                {
+                  "name": "PTA - die andere Art Pfadi zu machen",
+                  "url": "https://pfadi.swiss/media/files/fe/211101de_pta-leiterhandbuch_gzd_25209.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "PTA - die andere Art Pfadi zu machen",
+                  "url": "https://pfadi.swiss/media/files/fe/211101de_pta-leiterhandbuch_gzd_25209.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "PTA - die andere Art Pfadi zu machen",
+                  "url": "https://pfadi.swiss/media/files/fe/211101de_pta-leiterhandbuch_gzd_25209.pdf"
+                }
+              ],
+              "help_de": "Die Inklusion von Kindern mit einer Behinderung bietet viele Chancen. Die Kinder können gegenseitig voneinander profitieren und ihre speziellen Fähigkeiten einsetzen, ein Pfadiangebot kann für alle stattfinden. ",
+              "help_fr": "Die Inklusion von Kindern mit einer Behinderung bietet viele Chancen. Die Kinder können gegenseitig voneinander profitieren und ihre speziellen Fähigkeiten einsetzen, ein Pfadiangebot kann für alle stattfinden. ",
+              "help_it": "Die Inklusion von Kindern mit einer Behinderung bietet viele Chancen. Die Kinder können gegenseitig voneinander profitieren und ihre speziellen Fähigkeiten einsetzen, ein Pfadiangebot kann für alle stattfinden. "
+            },
+            "question_de": "In unserer Abteilung sind Kinder mit einer Behinderung inkludiert.",
+            "question_fr": "In unserer Abteilung sind Kinder mit einer Behinderung inkludiert.",
+            "question_it": "In unserer Abteilung sind Kinder mit einer Behinderung inkludiert.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Bei jeder Planung sollte der persönliche Fortschritt der Teilnehmenden berücksichtigt werden. Die Leitenden lassen die Bedürfnisse und Fähigkeiten ihrer Teilnehmenden in die Planung miteinfliessen.",
+              "help_fr": "Bei jeder Planung sollte der persönliche Fortschritt der Teilnehmenden berücksichtigt werden. Die Leitenden lassen die Bedürfnisse und Fähigkeiten ihrer Teilnehmenden in die Planung miteinfliessen.",
+              "help_it": "Bei jeder Planung sollte der persönliche Fortschritt der Teilnehmenden berücksichtigt werden. Die Leitenden lassen die Bedürfnisse und Fähigkeiten ihrer Teilnehmenden in die Planung miteinfliessen."
+            },
+            "question_de": "Der Inhalt der Aktivitäten in unseren Stufen ist an die Fähigkeiten und Fertigkeiten der Teilnehmenden angepasst, sodass diese gefordert, aber nicht überfordert werden. ",
+            "question_fr": "Der Inhalt der Aktivitäten in unseren Stufen ist an die Fähigkeiten und Fertigkeiten der Teilnehmenden angepasst, sodass diese gefordert, aber nicht überfordert werden. ",
+            "question_it": "Der Inhalt der Aktivitäten in unseren Stufen ist an die Fähigkeiten und Fertigkeiten der Teilnehmenden angepasst, sodass diese gefordert, aber nicht überfordert werden. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Der Übertritt stellt eine grosse Veränderung im Vereinsleben der Kinder dar. Ein gut vorbereiteter Übertritt wirkt vielen Unsicherheiten entgegen und verhindert, dass einzelne Kinder die Pfadi verlassen. Nach einem gelungenen Übertritt ist das Einleben in die neue Stufen besonders wichtig.",
+              "help_fr": "Der Übertritt stellt eine grosse Veränderung im Vereinsleben der Kinder dar. Ein gut vorbereiteter Übertritt wirkt vielen Unsicherheiten entgegen und verhindert, dass einzelne Kinder die Pfadi verlassen. Nach einem gelungenen Übertritt ist das Einleben in die neue Stufen besonders wichtig.",
+              "help_it": "Der Übertritt stellt eine grosse Veränderung im Vereinsleben der Kinder dar. Ein gut vorbereiteter Übertritt wirkt vielen Unsicherheiten entgegen und verhindert, dass einzelne Kinder die Pfadi verlassen. Nach einem gelungenen Übertritt ist das Einleben in die neue Stufen besonders wichtig."
+            },
+            "question_de": "Die Übertritte werden bei uns durch die Leitenden der beiden beteiligten Stufen vorbereitet.",
+            "question_fr": "Die Übertritte werden bei uns durch die Leitenden der beiden beteiligten Stufen vorbereitet.",
+            "question_it": "Die Übertritte werden bei uns durch die Leitenden der beiden beteiligten Stufen vorbereitet.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Nach dem Übertritt sind jeweils neue und unerfahren Kinder in der Stufe. Diese müssen gut und sorgfältig in den Alltag der neuen Stufe eingeführt werden.",
+              "help_fr": "Nach dem Übertritt sind jeweils neue und unerfahren Kinder in der Stufe. Diese müssen gut und sorgfältig in den Alltag der neuen Stufe eingeführt werden.",
+              "help_it": "Nach dem Übertritt sind jeweils neue und unerfahren Kinder in der Stufe. Diese müssen gut und sorgfältig in den Alltag der neuen Stufe eingeführt werden."
+            },
+            "question_de": "Die Teilnehmenden werden in der Zeit nach ihrem Übertritt speziell betreut und unterstützt (z.B. separate Aktivitäten, Götti/Gotti-System).",
+            "question_fr": "Die Teilnehmenden werden in der Zeit nach ihrem Übertritt speziell betreut und unterstützt (z.B. separate Aktivitäten, Götti/Gotti-System).",
+            "question_it": "Die Teilnehmenden werden in der Zeit nach ihrem Übertritt speziell betreut und unterstützt (z.B. separate Aktivitäten, Götti/Gotti-System).",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 6,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                }
+              ],
+              "help_de": "Leitpfadis sollen die Möglichkeit haben, gut betreut Fähnliaktivitäten zu planen, durchzuführen und am Schluss auch auszuwerten. Fähnliaktivitäten hinterlassen bleibende Erinnerungen und unterstützen den persönlichen Fortschritt der Leitpfadis.",
+              "help_fr": "Leitpfadis sollen die Möglichkeit haben, gut betreut Fähnliaktivitäten zu planen, durchzuführen und am Schluss auch auszuwerten. Fähnliaktivitäten hinterlassen bleibende Erinnerungen und unterstützen den persönlichen Fortschritt der Leitpfadis.",
+              "help_it": "Leitpfadis sollen die Möglichkeit haben, gut betreut Fähnliaktivitäten zu planen, durchzuführen und am Schluss auch auszuwerten. Fähnliaktivitäten hinterlassen bleibende Erinnerungen und unterstützen den persönlichen Fortschritt der Leitpfadis."
+            },
+            "question_de": "Die Leitpfadis organisieren einmal pro Quartal / Lager selbst eine Fähnliaktivität und werden dabei von einer Leitungsperson eng betreut.",
+            "question_fr": "Die Leitpfadis organisieren einmal pro Quartal / Lager selbst eine Fähnliaktivität und werden dabei von einer Leitungsperson eng betreut.",
+            "question_it": "Die Leitpfadis organisieren einmal pro Quartal / Lager selbst eine Fähnliaktivität und werden dabei von einer Leitungsperson eng betreut.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 7,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                }
+              ],
+              "help_de": "Der Entwicklungsstand der einzelnen Leitpfadis unterscheidet sich von Person zu Person. Manche sind bereits sehr selbstständig und verantwortungsbewusst, andere sind noch stark mit sich selbst beschäftigt. Es ist deshalb wichtig, die Aufgaben und der Verantwortungsbereich jedes Leitpfadis individuell den Fähigkeiten anzupassen.",
+              "help_fr": "Der Entwicklungsstand der einzelnen Leitpfadis unterscheidet sich von Person zu Person. Manche sind bereits sehr selbstständig und verantwortungsbewusst, andere sind noch stark mit sich selbst beschäftigt. Es ist deshalb wichtig, die Aufgaben und der Verantwortungsbereich jedes Leitpfadis individuell den Fähigkeiten anzupassen.",
+              "help_it": "Der Entwicklungsstand der einzelnen Leitpfadis unterscheidet sich von Person zu Person. Manche sind bereits sehr selbstständig und verantwortungsbewusst, andere sind noch stark mit sich selbst beschäftigt. Es ist deshalb wichtig, die Aufgaben und der Verantwortungsbereich jedes Leitpfadis individuell den Fähigkeiten anzupassen."
+            },
+            "question_de": "Die Fähnliaktivitäten, welche unsere Leitpfadis organisieren, sind (insbesondere bei Fähnliausflügen und Fähnliübernachtungen) an die Kompetenz und das Alter der Leitpfadis und der Fähnlimitglieder angepasst.",
+            "question_fr": "Die Fähnliaktivitäten, welche unsere Leitpfadis organisieren, sind (insbesondere bei Fähnliausflügen und Fähnliübernachtungen) an die Kompetenz und das Alter der Leitpfadis und der Fähnlimitglieder angepasst.",
+            "question_it": "Die Fähnliaktivitäten, welche unsere Leitpfadis organisieren, sind (insbesondere bei Fähnliausflügen und Fähnliübernachtungen) an die Kompetenz und das Alter der Leitpfadis und der Fähnlimitglieder angepasst.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 8,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Die Piostufe - Zäme Wyter",
+                  "url": "https://pfadi.swiss/media/files/03/cudesch_piobroschuere_low_de-1.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Die Piostufe - Zäme Wyter",
+                  "url": "https://pfadi.swiss/media/files/03/cudesch_piobroschuere_low_de-1.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Die Piostufe - Zäme Wyter",
+                  "url": "https://pfadi.swiss/media/files/03/cudesch_piobroschuere_low_de-1.pdf"
+                }
+              ],
+              "help_de": "Piostufenaktivitäten werden in Form von Unternehmungen geplant. Diese Form kommt dem Bedürfnis der Teilnehmenden nach Mitbestimmung und Verantwortung nach, bietet Raum für das Umsetzen von kreativen Ideen und fördert den Fortschritt der ganzen Equipe.",
+              "help_fr": "Piostufenaktivitäten werden in Form von Unternehmungen geplant. Diese Form kommt dem Bedürfnis der Teilnehmenden nach Mitbestimmung und Verantwortung nach, bietet Raum für das Umsetzen von kreativen Ideen und fördert den Fortschritt der ganzen Equipe.",
+              "help_it": "Piostufenaktivitäten werden in Form von Unternehmungen geplant. Diese Form kommt dem Bedürfnis der Teilnehmenden nach Mitbestimmung und Verantwortung nach, bietet Raum für das Umsetzen von kreativen Ideen und fördert den Fortschritt der ganzen Equipe."
+            },
+            "question_de": "Unsere Piostufenaktivitäten sind in Unternehmungen eingebettet und orientieren sich an den Visionen der Equipe.",
+            "question_fr": "Unsere Piostufenaktivitäten sind in Unternehmungen eingebettet und orientieren sich an den Visionen der Equipe.",
+            "question_it": "Unsere Piostufenaktivitäten sind in Unternehmungen eingebettet und orientieren sich an den Visionen der Equipe.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 9,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Persönlicher Fortschritt fördern",
+                  "url": "https://pfadi.swiss/media/files/5d/208101depf-dossier.pdf"
+                },
+                {
+                  "name": "Spezialitäten Pfadistufe",
+                  "url": "https://pfadi.swiss/media/files/e9/200101de_faltblatt_spez.pdf"
+                },
+                {
+                  "name": "Biberbilderbuch und Hilfsmittel zur Umsetzung der Symbolik",
+                  "url": "https://pfadi.swiss/media/files/80/biber_karten_de_rz.pdf"
+                },
+                {
+                  "name": "Spezialitäten Wolfsstufe und Die Spur (Spezialiäten im Downloadbereich Pfadistufe",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/?search=&c=1&c=11"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Persönlicher Fortschritt fördern",
+                  "url": "https://pfadi.swiss/media/files/5d/208101depf-dossier.pdf"
+                },
+                {
+                  "name": "Spezialitäten Pfadistufe",
+                  "url": "https://pfadi.swiss/media/files/e9/200101de_faltblatt_spez.pdf"
+                },
+                {
+                  "name": "Biberbilderbuch und Hilfsmittel zur Umsetzung der Symbolik",
+                  "url": "https://pfadi.swiss/media/files/80/biber_karten_de_rz.pdf"
+                },
+                {
+                  "name": "Spezialitäten Wolfsstufe und Die Spur (Spezialiäten im Downloadbereich Pfadistufe",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/?search=&c=1&c=11"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Persönlicher Fortschritt fördern",
+                  "url": "https://pfadi.swiss/media/files/5d/208101depf-dossier.pdf"
+                },
+                {
+                  "name": "Spezialitäten Pfadistufe",
+                  "url": "https://pfadi.swiss/media/files/e9/200101de_faltblatt_spez.pdf"
+                },
+                {
+                  "name": "Biberbilderbuch und Hilfsmittel zur Umsetzung der Symbolik",
+                  "url": "https://pfadi.swiss/media/files/80/biber_karten_de_rz.pdf"
+                },
+                {
+                  "name": "Spezialitäten Wolfsstufe und Die Spur (Spezialiäten im Downloadbereich Pfadistufe",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/?search=&c=1&c=11"
+                }
+              ],
+              "help_de": "Der persönliche Fortschritt ist eine Methode aus den Pfadigrundlagen und unterstützt die ganzheitliche Entwicklung unserer Teilnehmenden. Verschiedene stufenspezifische Hilfsmittel bieten eine Grundlage zur Förderung des persönlichen Fortschritts im Pfadialltag.",
+              "help_fr": "Der persönliche Fortschritt ist eine Methode aus den Pfadigrundlagen und unterstützt die ganzheitliche Entwicklung unserer Teilnehmenden. Verschiedene stufenspezifische Hilfsmittel bieten eine Grundlage zur Förderung des persönlichen Fortschritts im Pfadialltag.",
+              "help_it": "Der persönliche Fortschritt ist eine Methode aus den Pfadigrundlagen und unterstützt die ganzheitliche Entwicklung unserer Teilnehmenden. Verschiedene stufenspezifische Hilfsmittel bieten eine Grundlage zur Förderung des persönlichen Fortschritts im Pfadialltag."
+            },
+            "question_de": "An unseren Aktivitäten arbeiten wir mit den stufenspezifischen Hilfsmitteln (Etappen, Spezialitäten, Zündstoff etc.) am persönlichen Fortschritt unserer Teilnehmenden.",
+            "question_fr": "An unseren Aktivitäten arbeiten wir mit den stufenspezifischen Hilfsmitteln (Etappen, Spezialitäten, Zündstoff etc.) am persönlichen Fortschritt unserer Teilnehmenden.",
+            "question_it": "An unseren Aktivitäten arbeiten wir mit den stufenspezifischen Hilfsmitteln (Etappen, Spezialitäten, Zündstoff etc.) am persönlichen Fortschritt unserer Teilnehmenden.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 10,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Neben den klassischen Ausbildungskursen werden auch Ausbildungen in spezifischen Fachthemen angeboten. Die Anforderungen an die Leitenden im Pfadialltag sind gross. Nutzen sie Angebote für weiterführende Ausbildungen, fühlen sie sich besser vorbereitet für herausfordernde Situationen und verstehen interessante Zusammenhänge. Gleichzeitig lernen sie Leitende aus anderen Abteilungen kennen und profitieren von einer Vernetzung über die Abteilung hinaus.",
+              "help_fr": "Neben den klassischen Ausbildungskursen werden auch Ausbildungen in spezifischen Fachthemen angeboten. Die Anforderungen an die Leitenden im Pfadialltag sind gross. Nutzen sie Angebote für weiterführende Ausbildungen, fühlen sie sich besser vorbereitet für herausfordernde Situationen und verstehen interessante Zusammenhänge. Gleichzeitig lernen sie Leitende aus anderen Abteilungen kennen und profitieren von einer Vernetzung über die Abteilung hinaus.",
+              "help_it": "Neben den klassischen Ausbildungskursen werden auch Ausbildungen in spezifischen Fachthemen angeboten. Die Anforderungen an die Leitenden im Pfadialltag sind gross. Nutzen sie Angebote für weiterführende Ausbildungen, fühlen sie sich besser vorbereitet für herausfordernde Situationen und verstehen interessante Zusammenhänge. Gleichzeitig lernen sie Leitende aus anderen Abteilungen kennen und profitieren von einer Vernetzung über die Abteilung hinaus."
+            },
+            "question_de": "Unsere Leitenden nehmen an den, neben den Kursen angebotenen, kantonalen Anlässen teil, um ihre Kompetenzen in der Stufenmethodik und weiteren Programmthemen (Prävention, Diversität und Inklusion, etc.) zu erweitern. ",
+            "question_fr": "Unsere Leitenden nehmen an den, neben den Kursen angebotenen, kantonalen Anlässen teil, um ihre Kompetenzen in der Stufenmethodik und weiteren Programmthemen (Prävention, Diversität und Inklusion, etc.) zu erweitern. ",
+            "question_it": "Unsere Leitenden nehmen an den, neben den Kursen angebotenen, kantonalen Anlässen teil, um ihre Kompetenzen in der Stufenmethodik und weiteren Programmthemen (Prävention, Diversität und Inklusion, etc.) zu erweitern. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 11,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Die Hilfsmittel der jeweiligen Stufe unterstützten die Leitenden in ihrer Arbeit, weisen auf Stolpersteine hin und geben entsprechende Tipps.",
+              "help_fr": "Die Hilfsmittel der jeweiligen Stufe unterstützten die Leitenden in ihrer Arbeit, weisen auf Stolpersteine hin und geben entsprechende Tipps.",
+              "help_it": "Die Hilfsmittel der jeweiligen Stufe unterstützten die Leitenden in ihrer Arbeit, weisen auf Stolpersteine hin und geben entsprechende Tipps."
+            },
+            "question_de": "Alle unsere Leitenden nutzen die bestehenden Hilfsmittel ihrer Stufe (Stufenmethodik-Broschüren, Factsheets, Pfadiprofil, etc.).",
+            "question_fr": "Alle unsere Leitenden nutzen die bestehenden Hilfsmittel ihrer Stufe (Stufenmethodik-Broschüren, Factsheets, Pfadiprofil, etc.).",
+            "question_it": "Alle unsere Leitenden nutzen die bestehenden Hilfsmittel ihrer Stufe (Stufenmethodik-Broschüren, Factsheets, Pfadiprofil, etc.).",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 12,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "",
+              "help_fr": "",
+              "help_it": ""
+            },
+            "question_de": "Innerhalb unserer Abteilung haben wir Verhaltensregeln zum Umgang miteinander aufgestellt (z.B. wie wir Körperkontaktspielen umgehen, wie die Schlafsituation im Lager geregelt wird, wer wen berühren darf etc.).",
+            "question_fr": "Innerhalb unserer Abteilung haben wir Verhaltensregeln zum Umgang miteinander aufgestellt (z.B. wie wir Körperkontaktspielen umgehen, wie die Schlafsituation im Lager geregelt wird, wer wen berühren darf etc.).",
+            "question_it": "Innerhalb unserer Abteilung haben wir Verhaltensregeln zum Umgang miteinander aufgestellt (z.B. wie wir Körperkontaktspielen umgehen, wie die Schlafsituation im Lager geregelt wird, wer wen berühren darf etc.).",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 13,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "",
+              "help_fr": "",
+              "help_it": ""
+            },
+            "question_de": "Für das Aufstellen der Verhaltensregeln zum Umgang miteinander haben wir unser Betreuungsnetzwerk miteinbezogen.",
+            "question_fr": "Für das Aufstellen der Verhaltensregeln zum Umgang miteinander haben wir unser Betreuungsnetzwerk miteinbezogen.",
+            "question_it": "Für das Aufstellen der Verhaltensregeln zum Umgang miteinander haben wir unser Betreuungsnetzwerk miteinbezogen.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 14,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "",
+              "help_fr": "",
+              "help_it": ""
+            },
+            "question_de": "In unserer Abteilung schaffen die Leitenden aktiv die Möglichkeit für Teilnehmende Rückmeldungen zu geben (z.B. Briefkasten, Gruppenstunden etc.)",
+            "question_fr": "In unserer Abteilung schaffen die Leitenden aktiv die Möglichkeit für Teilnehmende Rückmeldungen zu geben (z.B. Briefkasten, Gruppenstunden etc.)",
+            "question_it": "In unserer Abteilung schaffen die Leitenden aktiv die Möglichkeit für Teilnehmende Rückmeldungen zu geben (z.B. Briefkasten, Gruppenstunden etc.)",
+            "answer_options": "range",
+            "evaluation_function": null
+          }
+        ],
+        "id": 3,
+        "name_de": "Stufengerechtes Programm",
+        "name_fr": "Stufengerechtes Programm",
+        "name_it": "Stufengerechtes Programm"
+      },
+      {
+        "questions": [
+          {
+            "id": 0,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Mit der Umsetzung des Stufenmodells kann die Abteilung den Bedürfnissen aller Teilnehmenden gerecht werden. Gleichzeitig fördert sie so eine nachhaltige Struktur und kann Nachwuchsproblemen vorbeugen. ",
+              "help_fr": "Mit der Umsetzung des Stufenmodells kann die Abteilung den Bedürfnissen aller Teilnehmenden gerecht werden. Gleichzeitig fördert sie so eine nachhaltige Struktur und kann Nachwuchsproblemen vorbeugen. ",
+              "help_it": "Mit der Umsetzung des Stufenmodells kann die Abteilung den Bedürfnissen aller Teilnehmenden gerecht werden. Gleichzeitig fördert sie so eine nachhaltige Struktur und kann Nachwuchsproblemen vorbeugen. "
+            },
+            "question_de": "Wir haben die Alter für die Stufenübertritte definiert und diese stimmen mit den im Stufenmodell festgelegten Altersgrenzen überein. ",
+            "question_fr": "Wir haben die Alter für die Stufenübertritte definiert und diese stimmen mit den im Stufenmodell festgelegten Altersgrenzen überein. ",
+            "question_it": "Wir haben die Alter für die Stufenübertritte definiert und diese stimmen mit den im Stufenmodell festgelegten Altersgrenzen überein. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Die Stufen mit ihrer Methodik richten sich nach den Bedürfnissen ihren Teilnehmenden. Diese verändern sich u.a. mit dem Alter. Nach vier Jahren ändern sich diese Bedürfnisse so stark, dass sich einen Wechsel in eine andere Stufe mit anderer Methodik anbietet. Nur so können die Teilnehmenden ein Pfadiprogramm geniessen, das ihrer Entwicklung und Bedrüfnissen entsprechen.",
+              "help_fr": "Die Stufen mit ihrer Methodik richten sich nach den Bedürfnissen ihren Teilnehmenden. Diese verändern sich u.a. mit dem Alter. Nach vier Jahren ändern sich diese Bedürfnisse so stark, dass sich einen Wechsel in eine andere Stufe mit anderer Methodik anbietet. Nur so können die Teilnehmenden ein Pfadiprogramm geniessen, das ihrer Entwicklung und Bedrüfnissen entsprechen.",
+              "help_it": "Die Stufen mit ihrer Methodik richten sich nach den Bedürfnissen ihren Teilnehmenden. Diese verändern sich u.a. mit dem Alter. Nach vier Jahren ändern sich diese Bedürfnisse so stark, dass sich einen Wechsel in eine andere Stufe mit anderer Methodik anbietet. Nur so können die Teilnehmenden ein Pfadiprogramm geniessen, das ihrer Entwicklung und Bedrüfnissen entsprechen."
+            },
+            "question_de": "Bis auf die Roverstufe sind alle Teilnehmenden maximal 4 Jahre Mitglied der selben Stufe.",
+            "question_fr": "Bis auf die Roverstufe sind alle Teilnehmenden maximal 4 Jahre Mitglied der selben Stufe.",
+            "question_it": "Bis auf die Roverstufe sind alle Teilnehmenden maximal 4 Jahre Mitglied der selben Stufe.",
+            "answer_options": "binary",
+            "evaluation_function": null
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                }
+              ],
+              "help_de": "Leitpfadis sind die ältesten Teilnehmenden der Pfadistufe. Sie sollen unter Betreuung räumlich und zeitlich begrenzte Verantwortung für ihr Fähnli übernehmen und so einen persönlichen Fortschritt erzielen können. Ihr Bedürfnis bereits mitzubestimmen und Verantwortung zu tragen wird so abgedeckt.",
+              "help_fr": "Leitpfadis sind die ältesten Teilnehmenden der Pfadistufe. Sie sollen unter Betreuung räumlich und zeitlich begrenzte Verantwortung für ihr Fähnli übernehmen und so einen persönlichen Fortschritt erzielen können. Ihr Bedürfnis bereits mitzubestimmen und Verantwortung zu tragen wird so abgedeckt.",
+              "help_it": "Leitpfadis sind die ältesten Teilnehmenden der Pfadistufe. Sie sollen unter Betreuung räumlich und zeitlich begrenzte Verantwortung für ihr Fähnli übernehmen und so einen persönlichen Fortschritt erzielen können. Ihr Bedürfnis bereits mitzubestimmen und Verantwortung zu tragen wird so abgedeckt."
+            },
+            "question_de": "Die Leitpfadis sind bei uns zwischen 13 und 14 Jahre alt. ",
+            "question_fr": "Die Leitpfadis sind bei uns zwischen 13 und 14 Jahre alt. ",
+            "question_it": "Die Leitpfadis sind bei uns zwischen 13 und 14 Jahre alt. ",
+            "answer_options": "midata-binary",
+            "evaluation_function": "age_leitpfadi"
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Die Piostufe - Zäme Wyter",
+                  "url": "https://pfadi.swiss/media/files/03/cudesch_piobroschuere_low_de-1.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Die Piostufe - Zäme Wyter",
+                  "url": "https://pfadi.swiss/media/files/03/cudesch_piobroschuere_low_de-1.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Die Piostufe - Zäme Wyter",
+                  "url": "https://pfadi.swiss/media/files/03/cudesch_piobroschuere_low_de-1.pdf"
+                }
+              ],
+              "help_de": "In der Piostufe erleben die Teilnehmenden eine grosse Entwicklung. Diese Entwicklung braucht Zeit und die volle Aufmerksamkeit. Dies geliengt am besten, wenn keine weiteren Pfadiverpflichtungen und -Gefässe für Ablenkung sorgen.",
+              "help_fr": "In der Piostufe erleben die Teilnehmenden eine grosse Entwicklung. Diese Entwicklung braucht Zeit und die volle Aufmerksamkeit. Dies geliengt am besten, wenn keine weiteren Pfadiverpflichtungen und -Gefässe für Ablenkung sorgen.",
+              "help_it": "In der Piostufe erleben die Teilnehmenden eine grosse Entwicklung. Diese Entwicklung braucht Zeit und die volle Aufmerksamkeit. Dies geliengt am besten, wenn keine weiteren Pfadiverpflichtungen und -Gefässe für Ablenkung sorgen."
+            },
+            "question_de": "Unsere Pios gehören nicht gleichzeitig einer anderen Stufe an. ",
+            "question_fr": "Unsere Pios gehören nicht gleichzeitig einer anderen Stufe an. ",
+            "question_it": "Unsere Pios gehören nicht gleichzeitig einer anderen Stufe an. ",
+            "answer_options": "binary",
+            "evaluation_function": null
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Factsheet Einführung Biberstufe",
+                  "url": "https://pfadi.swiss/media/files/2f/212401de-umsetzungpfadiprofil-factsheetbiberstufe-v20100921-proko.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Factsheet Einführung Biberstufe",
+                  "url": "https://pfadi.swiss/media/files/2f/212401de-umsetzungpfadiprofil-factsheetbiberstufe-v20100921-proko.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Factsheet Einführung Biberstufe",
+                  "url": "https://pfadi.swiss/media/files/2f/212401de-umsetzungpfadiprofil-factsheetbiberstufe-v20100921-proko.pdf"
+                }
+              ],
+              "help_de": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind. Die Biberstufe ist dabei eine gute Möglichkeit, den Nachwuchs in der Abteilung zu gewährleisten. ",
+              "help_fr": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind. Die Biberstufe ist dabei eine gute Möglichkeit, den Nachwuchs in der Abteilung zu gewährleisten. ",
+              "help_it": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind. Die Biberstufe ist dabei eine gute Möglichkeit, den Nachwuchs in der Abteilung zu gewährleisten. "
+            },
+            "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Biberstufe zu erleben.",
+            "question_fr": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Biberstufe zu erleben.",
+            "question_it": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Biberstufe zu erleben.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_biber"
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind.",
+              "help_fr": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind.",
+              "help_it": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind."
+            },
+            "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Wolfsstufe zu erleben.",
+            "question_fr": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Wolfsstufe zu erleben.",
+            "question_it": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Wolfsstufe zu erleben.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_woelf"
+          },
+          {
+            "id": 6,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind.",
+              "help_fr": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind.",
+              "help_it": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind."
+            },
+            "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Pfadistufe zu erleben.",
+            "question_fr": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Pfadistufe zu erleben.",
+            "question_it": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Pfadistufe zu erleben.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pfadi"
+          },
+          {
+            "id": 7,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Factsheet Einführung Biberstufe",
+                  "url": "https://pfadi.swiss/media/files/2f/212401de-umsetzungpfadiprofil-factsheetbiberstufe-v20100921-proko.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Factsheet Einführung Biberstufe",
+                  "url": "https://pfadi.swiss/media/files/2f/212401de-umsetzungpfadiprofil-factsheetbiberstufe-v20100921-proko.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Factsheet Einführung Biberstufe",
+                  "url": "https://pfadi.swiss/media/files/2f/212401de-umsetzungpfadiprofil-factsheetbiberstufe-v20100921-proko.pdf"
+                }
+              ],
+              "help_de": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind. Die Piostufe bietet für die Jugendlichen in einer Zeit der Umbrüche eine verlässliche Konstante. Sie hilft den Ausstieg aus der Pfadi zu verhindern und führt die Jugendlichen gleichzeitig an die selbsständige Programmgestaltung heran.",
+              "help_fr": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind. Die Piostufe bietet für die Jugendlichen in einer Zeit der Umbrüche eine verlässliche Konstante. Sie hilft den Ausstieg aus der Pfadi zu verhindern und führt die Jugendlichen gleichzeitig an die selbsständige Programmgestaltung heran.",
+              "help_it": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind. Die Piostufe bietet für die Jugendlichen in einer Zeit der Umbrüche eine verlässliche Konstante. Sie hilft den Ausstieg aus der Pfadi zu verhindern und führt die Jugendlichen gleichzeitig an die selbsständige Programmgestaltung heran."
+            },
+            "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Piostufe zu erleben.",
+            "question_fr": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Piostufe zu erleben.",
+            "question_it": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Piostufe zu erleben.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pio"
+          },
+          {
+            "id": 8,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind.",
+              "help_fr": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind.",
+              "help_it": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind."
+            },
+            "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Roverstufe zu erleben.",
+            "question_fr": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Roverstufe zu erleben.",
+            "question_it": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Roverstufe zu erleben.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_rover"
+          },
+          {
+            "id": 9,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Die Roverstufe - Bewusst Handeln",
+                  "url": "https://pfadi.swiss/media/files/7b/cudesch_roverstufenbroschuere_d_web.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Die Roverstufe - Bewusst Handeln",
+                  "url": "https://pfadi.swiss/media/files/7b/cudesch_roverstufenbroschuere_d_web.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Die Roverstufe - Bewusst Handeln",
+                  "url": "https://pfadi.swiss/media/files/7b/cudesch_roverstufenbroschuere_d_web.pdf"
+                }
+              ],
+              "help_de": "Mit den verschiedenen Rollen ermöglicht die Roverstufe den Rovern, sich in der Pfadi und der Gesellschaft zu engagieren und altersgerecht Pfadi zu erleben. Entsprechend ihrer Bedürfnisse und Fähigkeiten finden die Mitglieder der Roverstufe ihre Rolle und erleben dadurch ihren persönlichen Fortschritt.",
+              "help_fr": "Mit den verschiedenen Rollen ermöglicht die Roverstufe den Rovern, sich in der Pfadi und der Gesellschaft zu engagieren und altersgerecht Pfadi zu erleben. Entsprechend ihrer Bedürfnisse und Fähigkeiten finden die Mitglieder der Roverstufe ihre Rolle und erleben dadurch ihren persönlichen Fortschritt.",
+              "help_it": "Mit den verschiedenen Rollen ermöglicht die Roverstufe den Rovern, sich in der Pfadi und der Gesellschaft zu engagieren und altersgerecht Pfadi zu erleben. Entsprechend ihrer Bedürfnisse und Fähigkeiten finden die Mitglieder der Roverstufe ihre Rolle und erleben dadurch ihren persönlichen Fortschritt."
+            },
+            "question_de": "Alle Funktionen der Roverstufe (Funktionär*in, Ressource, Teilnehmer*in) werden in unserer Abteilung gelebt. ",
+            "question_fr": "Alle Funktionen der Roverstufe (Funktionär*in, Ressource, Teilnehmer*in) werden in unserer Abteilung gelebt. ",
+            "question_it": "Alle Funktionen der Roverstufe (Funktionär*in, Ressource, Teilnehmer*in) werden in unserer Abteilung gelebt. ",
+            "answer_options": "binary",
+            "evaluation_function": null
+          },
+          {
+            "id": 10,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Die Roverstufe - Bewusst Handeln",
+                  "url": "https://pfadi.swiss/media/files/7b/cudesch_roverstufenbroschuere_d_web.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Die Roverstufe - Bewusst Handeln",
+                  "url": "https://pfadi.swiss/media/files/7b/cudesch_roverstufenbroschuere_d_web.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Die Roverstufe - Bewusst Handeln",
+                  "url": "https://pfadi.swiss/media/files/7b/cudesch_roverstufenbroschuere_d_web.pdf"
+                }
+              ],
+              "help_de": "Die Leitenden sind in der Rolle der Funktionäre. Trotz oder eben wegen ihres Engagements sollen sie nicht vergessen auch Pfadi aktiv als Teilnehmende zu erleben. Dies motiviert sie und stärkt sie in ihrer anderen Rolle.",
+              "help_fr": "Die Leitenden sind in der Rolle der Funktionäre. Trotz oder eben wegen ihres Engagements sollen sie nicht vergessen auch Pfadi aktiv als Teilnehmende zu erleben. Dies motiviert sie und stärkt sie in ihrer anderen Rolle.",
+              "help_it": "Die Leitenden sind in der Rolle der Funktionäre. Trotz oder eben wegen ihres Engagements sollen sie nicht vergessen auch Pfadi aktiv als Teilnehmende zu erleben. Dies motiviert sie und stärkt sie in ihrer anderen Rolle."
+            },
+            "question_de": "Alle unsere Leitenden sind Mitglieder der Roverstufe. ",
+            "question_fr": "Alle unsere Leitenden sind Mitglieder der Roverstufe. ",
+            "question_it": "Alle unsere Leitenden sind Mitglieder der Roverstufe. ",
+            "answer_options": "midata-binary",
+            "evaluation_function": "all_leaders_member"
+          },
+          {
+            "id": 11,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                }
+              ],
+              "help_de": "In der Wolfsstufe haben die Leitenden eine wichtige Vorbildfunktion und sind Vertrauensperson für die Eltern, ihnen kommt eine anspruchsvolle Betreuungsaufgabe zu. In der Pfadistufe ist der Altersunterschied zwischen Leiter*innen und den ältesten Teilnehmenden klein, entsprechend muss ihnen ihre Vorbildfunktion besonders bewusst sein. Es ist wichtig, dass sie ein Gleichgewicht zwischen in ihren Rolle als Freund*in und Vorbild finden. Damit dies gelingt sollten Leitende dieser beiden Stufen mindestens 17-jähig sein.",
+              "help_fr": "In der Wolfsstufe haben die Leitenden eine wichtige Vorbildfunktion und sind Vertrauensperson für die Eltern, ihnen kommt eine anspruchsvolle Betreuungsaufgabe zu. In der Pfadistufe ist der Altersunterschied zwischen Leiter*innen und den ältesten Teilnehmenden klein, entsprechend muss ihnen ihre Vorbildfunktion besonders bewusst sein. Es ist wichtig, dass sie ein Gleichgewicht zwischen in ihren Rolle als Freund*in und Vorbild finden. Damit dies gelingt sollten Leitende dieser beiden Stufen mindestens 17-jähig sein.",
+              "help_it": "In der Wolfsstufe haben die Leitenden eine wichtige Vorbildfunktion und sind Vertrauensperson für die Eltern, ihnen kommt eine anspruchsvolle Betreuungsaufgabe zu. In der Pfadistufe ist der Altersunterschied zwischen Leiter*innen und den ältesten Teilnehmenden klein, entsprechend muss ihnen ihre Vorbildfunktion besonders bewusst sein. Es ist wichtig, dass sie ein Gleichgewicht zwischen in ihren Rolle als Freund*in und Vorbild finden. Damit dies gelingt sollten Leitende dieser beiden Stufen mindestens 17-jähig sein."
+            },
+            "question_de": "Alle unsere Leitenden der Wolfs- und der Pfadistufe sind mindestens 17-jährig. ",
+            "question_fr": "Alle unsere Leitenden der Wolfs- und der Pfadistufe sind mindestens 17-jährig. ",
+            "question_it": "Alle unsere Leitenden der Wolfs- und der Pfadistufe sind mindestens 17-jährig. ",
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_age_woelf_pfadi"
+          },
+          {
+            "id": 12,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Die Piostufe - Zäme Wyter",
+                  "url": "https://pfadi.swiss/media/files/03/cudesch_piobroschuere_low_de-1.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Die Piostufe - Zäme Wyter",
+                  "url": "https://pfadi.swiss/media/files/03/cudesch_piobroschuere_low_de-1.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                },
+                {
+                  "name": "Die Piostufe - Zäme Wyter",
+                  "url": "https://pfadi.swiss/media/files/03/cudesch_piobroschuere_low_de-1.pdf"
+                }
+              ],
+              "help_de": "Die Erfahrung anderer Stufen hilft den Leitenden die Equipe zu organisieren. Ein nicht zu kleiner Altersunterschied hilft der Equipenleitung Herausforderungen leichter anzunehmen und insbesondere die mehr betreuende Funktion als Leitung einer Equipe wahrzunehmen.",
+              "help_fr": "Die Erfahrung anderer Stufen hilft den Leitenden die Equipe zu organisieren. Ein nicht zu kleiner Altersunterschied hilft der Equipenleitung Herausforderungen leichter anzunehmen und insbesondere die mehr betreuende Funktion als Leitung einer Equipe wahrzunehmen.",
+              "help_it": "Die Erfahrung anderer Stufen hilft den Leitenden die Equipe zu organisieren. Ein nicht zu kleiner Altersunterschied hilft der Equipenleitung Herausforderungen leichter anzunehmen und insbesondere die mehr betreuende Funktion als Leitung einer Equipe wahrzunehmen."
+            },
+            "question_de": "Die Stufenleitenden der Piostufe sind mindestens 19-jährig.",
+            "question_fr": "Die Stufenleitenden der Piostufe sind mindestens 19-jährig.",
+            "question_it": "Die Stufenleitenden der Piostufe sind mindestens 19-jährig.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_age_pio"
+          },
+          {
+            "id": 13,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Die Biberstufe ist oftmals der erste Kontakt der Eltern mit der Pfadi. Eine erfahrene Ansprechsperson vermittelt Sicherheit gegenüber den Eltern. Kinder in der Biberstufe sind noch klein und in vielen Bereichen brauchen sie viel Betreuung, Unterstüzung und Aufsicht. Die Leitenden, insbesondere die Stufenleitung, müssen viel Verantwortung übernehmen. ",
+              "help_fr": "Die Biberstufe ist oftmals der erste Kontakt der Eltern mit der Pfadi. Eine erfahrene Ansprechsperson vermittelt Sicherheit gegenüber den Eltern. Kinder in der Biberstufe sind noch klein und in vielen Bereichen brauchen sie viel Betreuung, Unterstüzung und Aufsicht. Die Leitenden, insbesondere die Stufenleitung, müssen viel Verantwortung übernehmen. ",
+              "help_it": "Die Biberstufe ist oftmals der erste Kontakt der Eltern mit der Pfadi. Eine erfahrene Ansprechsperson vermittelt Sicherheit gegenüber den Eltern. Kinder in der Biberstufe sind noch klein und in vielen Bereichen brauchen sie viel Betreuung, Unterstüzung und Aufsicht. Die Leitenden, insbesondere die Stufenleitung, müssen viel Verantwortung übernehmen. "
+            },
+            "question_de": "Die Stufenleitenden der Biberstufe sind mindestens 20-jährig.",
+            "question_fr": "Die Stufenleitenden der Biberstufe sind mindestens 20-jährig.",
+            "question_it": "Die Stufenleitenden der Biberstufe sind mindestens 20-jährig.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_age_biber"
+          },
+          {
+            "id": 14,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "nicht: zwei Stufenleitungen/AL und Stufenleitung",
+              "help_fr": "nicht: zwei Stufenleitungen/AL und Stufenleitung",
+              "help_it": "nicht: zwei Stufenleitungen/AL und Stufenleitung"
+            },
+            "question_de": "Bei uns ist keine Person für mehr als eine Stufe verantwortlich.",
+            "question_fr": "Bei uns ist keine Person für mehr als eine Stufe verantwortlich.",
+            "question_it": "Bei uns ist keine Person für mehr als eine Stufe verantwortlich.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "no_double_roles"
+          },
+          {
+            "id": 15,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_fr": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_it": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen."
+            },
+            "question_de": "Bei uns ist für die Biberstufe mind. eine Person als Biberstufenleiter*in bestimmt.",
+            "question_fr": "Bei uns ist für die Biberstufe mind. eine Person als Biberstufenleiter*in bestimmt.",
+            "question_it": "Bei uns ist für die Biberstufe mind. eine Person als Biberstufenleiter*in bestimmt.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_biber"
+          },
+          {
+            "id": 16,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_fr": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_it": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen."
+            },
+            "question_de": "Bei uns ist mind. eine Person als Wolfsstufenleiter*in bestimmt.",
+            "question_fr": "Bei uns ist mind. eine Person als Wolfsstufenleiter*in bestimmt.",
+            "question_it": "Bei uns ist mind. eine Person als Wolfsstufenleiter*in bestimmt.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_woelf"
+          },
+          {
+            "id": 17,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_fr": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_it": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen."
+            },
+            "question_de": "Bei uns ist mind. eine Person als Pfadistufenleiter*in bestimmt.",
+            "question_fr": "Bei uns ist mind. eine Person als Pfadistufenleiter*in bestimmt.",
+            "question_it": "Bei uns ist mind. eine Person als Pfadistufenleiter*in bestimmt.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_pfadi"
+          },
+          {
+            "id": 18,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_fr": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_it": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen."
+            },
+            "question_de": "Bei uns ist mind. eine Person als Piosstufenleiter*in bestimmt.",
+            "question_fr": "Bei uns ist mind. eine Person als Piosstufenleiter*in bestimmt.",
+            "question_it": "Bei uns ist mind. eine Person als Piosstufenleiter*in bestimmt.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_pio"
+          },
+          {
+            "id": 19,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_fr": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_it": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen."
+            },
+            "question_de": "Bei uns ist mind. eine Person als Roverstufenleiter*in bestimmt.",
+            "question_fr": "Bei uns ist mind. eine Person als Roverstufenleiter*in bestimmt.",
+            "question_it": "Bei uns ist mind. eine Person als Roverstufenleiter*in bestimmt.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_rover"
+          },
+          {
+            "id": 20,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_fr": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen.",
+              "help_it": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet sie auch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfniss der Teilnehmenden aus verschiedenen Stufen."
+            },
+            "question_de": "Bei uns ist mind. eine Person für die PTA verantwortlich und nimmt die Funktion als Ansprechsperson wahr.",
+            "question_fr": "Bei uns ist mind. eine Person für die PTA verantwortlich und nimmt die Funktion als Ansprechsperson wahr.",
+            "question_it": "Bei uns ist mind. eine Person für die PTA verantwortlich und nimmt die Funktion als Ansprechsperson wahr.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_pta"
+          },
+          {
+            "id": 21,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                },
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                },
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Factsheet Leitpfadi",
+                  "url": "https://pfadi.swiss/media/files/39/213002de-factsheet_leitpfadi-20191029-vl-de.pdf"
+                },
+                {
+                  "name": "Die Pfadistufe - Allzeit Bereit",
+                  "url": "https://pfadi.swiss/media/files/3c/52297_pfadibewegung_pfadistufenbroschure_de.pdf"
+                },
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Leitpfadis sind die ältesten Teilnehmenden der Pfadistufe. Sie sollen unter Betreuung räumlich und zeitlich begrenzte Verantwortung für ihr Fähnli nehmen und so einen persönlichen Fortschritt erzielen. Ihr Bedürfnis bereits mitzubestimmen und Verantwortung zu tragen wird so abgedeckt.",
+              "help_fr": "Leitpfadis sind die ältesten Teilnehmenden der Pfadistufe. Sie sollen unter Betreuung räumlich und zeitlich begrenzte Verantwortung für ihr Fähnli nehmen und so einen persönlichen Fortschritt erzielen. Ihr Bedürfnis bereits mitzubestimmen und Verantwortung zu tragen wird so abgedeckt.",
+              "help_it": "Leitpfadis sind die ältesten Teilnehmenden der Pfadistufe. Sie sollen unter Betreuung räumlich und zeitlich begrenzte Verantwortung für ihr Fähnli nehmen und so einen persönlichen Fortschritt erzielen. Ihr Bedürfnis bereits mitzubestimmen und Verantwortung zu tragen wird so abgedeckt."
+            },
+            "question_de": "In unserer Abteilung gibt es Leitpfadis.",
+            "question_fr": "In unserer Abteilung gibt es Leitpfadis.",
+            "question_it": "In unserer Abteilung gibt es Leitpfadis.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_leipfi"
+          },
+          {
+            "id": 22,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Die Methoden bilden das Grundgerüst für das Pfadileben und beschreiben, wie wir unsere Aktivitäten als Pfadi gestalten. Zusammen mit den Beziehungen, dem inhaltlichen Grundgerüst, unterstützen unsere Aktivitäten eine ganzheitliche Entwicklung der Teilnehmenden. Die Umsetzung im Alltag ist nicht immer gleich intiuitiv, eine regelmässige Auseinandersetzung schafft ein Bewusstsein für die Grundlagen.",
+              "help_fr": "Die Methoden bilden das Grundgerüst für das Pfadileben und beschreiben, wie wir unsere Aktivitäten als Pfadi gestalten. Zusammen mit den Beziehungen, dem inhaltlichen Grundgerüst, unterstützen unsere Aktivitäten eine ganzheitliche Entwicklung der Teilnehmenden. Die Umsetzung im Alltag ist nicht immer gleich intiuitiv, eine regelmässige Auseinandersetzung schafft ein Bewusstsein für die Grundlagen.",
+              "help_it": "Die Methoden bilden das Grundgerüst für das Pfadileben und beschreiben, wie wir unsere Aktivitäten als Pfadi gestalten. Zusammen mit den Beziehungen, dem inhaltlichen Grundgerüst, unterstützen unsere Aktivitäten eine ganzheitliche Entwicklung der Teilnehmenden. Die Umsetzung im Alltag ist nicht immer gleich intiuitiv, eine regelmässige Auseinandersetzung schafft ein Bewusstsein für die Grundlagen."
+            },
+            "question_de": "Alle Leitungsteams unserer Stufen setzen sich regelmässig damit auseinander, wie sie die Methoden im Pfadialltag umsetzen und die Beziehungen in ihren Programmen abdecken können. ",
+            "question_fr": "Alle Leitungsteams unserer Stufen setzen sich regelmässig damit auseinander, wie sie die Methoden im Pfadialltag umsetzen und die Beziehungen in ihren Programmen abdecken können. ",
+            "question_it": "Alle Leitungsteams unserer Stufen setzen sich regelmässig damit auseinander, wie sie die Methoden im Pfadialltag umsetzen und die Beziehungen in ihren Programmen abdecken können. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 23,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Werden im Pfadiprogramm alle Beziehungen und die Methoden angesprochen, ist das Programm ausgewogen und fördert die ganzheitliche Entwicklung der Teilnehmenden.",
+              "help_fr": "Werden im Pfadiprogramm alle Beziehungen und die Methoden angesprochen, ist das Programm ausgewogen und fördert die ganzheitliche Entwicklung der Teilnehmenden.",
+              "help_it": "Werden im Pfadiprogramm alle Beziehungen und die Methoden angesprochen, ist das Programm ausgewogen und fördert die ganzheitliche Entwicklung der Teilnehmenden."
+            },
+            "question_de": "Sämtliche Methoden werden in den Jahres- respektive Quartalsprogrammen unserer Stufen und in all unseren Lagern ausgewogen angewendet.",
+            "question_fr": "Sämtliche Methoden werden in den Jahres- respektive Quartalsprogrammen unserer Stufen und in all unseren Lagern ausgewogen angewendet.",
+            "question_it": "Sämtliche Methoden werden in den Jahres- respektive Quartalsprogrammen unserer Stufen und in all unseren Lagern ausgewogen angewendet.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 24,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Werden im Pfadiprogramm alle Beziehungen und die Methoden angesprochen, ist das Programm ausgewogen und fördert die ganzheitliche Entwicklung der Teilnehmenden.",
+              "help_fr": "Werden im Pfadiprogramm alle Beziehungen und die Methoden angesprochen, ist das Programm ausgewogen und fördert die ganzheitliche Entwicklung der Teilnehmenden.",
+              "help_it": "Werden im Pfadiprogramm alle Beziehungen und die Methoden angesprochen, ist das Programm ausgewogen und fördert die ganzheitliche Entwicklung der Teilnehmenden."
+            },
+            "question_de": "Alle Beziehungen werden in den Jahres- respektive Quartalsprogrammen unserer Stufen und in all unseren Lagern ausgewogen angesprochen.",
+            "question_fr": "Alle Beziehungen werden in den Jahres- respektive Quartalsprogrammen unserer Stufen und in all unseren Lagern ausgewogen angesprochen.",
+            "question_it": "Alle Beziehungen werden in den Jahres- respektive Quartalsprogrammen unserer Stufen und in all unseren Lagern ausgewogen angesprochen.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 25,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/media/files/31/pfadiprofil_de.pdf"
+                }
+              ],
+              "help_de": "Sprache bildet Realität ab. Die Kommunikation mit den Begriffen aus dem Pfadiprofil fördert dessen Umsetzung.",
+              "help_fr": "Sprache bildet Realität ab. Die Kommunikation mit den Begriffen aus dem Pfadiprofil fördert dessen Umsetzung.",
+              "help_it": "Sprache bildet Realität ab. Die Kommunikation mit den Begriffen aus dem Pfadiprofil fördert dessen Umsetzung."
+            },
+            "question_de": "Alle unsere Leitenden kommunizieren mit den Begriffen aus dem Pfadiprofil (Stufenbezeichnungen, Aktivitäten anstatt Übungen, etc.).",
+            "question_fr": "Alle unsere Leitenden kommunizieren mit den Begriffen aus dem Pfadiprofil (Stufenbezeichnungen, Aktivitäten anstatt Übungen, etc.).",
+            "question_it": "Alle unsere Leitenden kommunizieren mit den Begriffen aus dem Pfadiprofil (Stufenbezeichnungen, Aktivitäten anstatt Übungen, etc.).",
+            "answer_options": "range",
+            "evaluation_function": null
+          }
+        ],
+        "id": 4,
+        "name_de": "Umsetzung Pfadiprofil",
+        "name_fr": "Umsetzung Pfadiprofil",
+        "name_it": "Umsetzung Pfadiprofil"
+      },
+      {
+        "questions": [],
+        "id": 5,
+        "name_de": "Werbung",
+        "name_fr": "Werbung",
+        "name_it": "Werbung"
+      },
+      {
+        "questions": [],
+        "id": 6,
+        "name_de": "Austausch und Zusammenarbeit mit externen Partnern",
+        "name_fr": "Austausch und Zusammenarbeit mit externen Partnern",
+        "name_it": "Austausch und Zusammenarbeit mit externen Partnern"
+      },
+      {
+        "questions": [],
+        "id": 7,
+        "name_de": "Auswertungskultur",
+        "name_fr": "Auswertungskultur",
+        "name_it": "Auswertungskultur"
+      },
+      {
+        "questions": [],
+        "id": 8,
+        "name_de": "Programmattraktivität",
+        "name_fr": "Programmattraktivität",
+        "name_it": "Programmattraktivität"
+      },
+      {
+        "questions": [],
+        "id": 9,
+        "name_de": "Erfüllung Mitgliederbedürfnisse",
+        "name_fr": "Erfüllung Mitgliederbedürfnisse",
+        "name_it": "Erfüllung Mitgliederbedürfnisse"
+      },
+      {
+        "questions": [],
+        "id": 10,
+        "name_de": "Mitgliederzufriedenheit",
+        "name_fr": "Mitgliederzufriedenheit",
+        "name_it": "Mitgliederzufriedenheit"
+      },
+      {
+        "questions": [],
+        "id": 11,
+        "name_de": "Image",
+        "name_fr": "Image",
+        "name_it": "Image"
+      },
+      {
+        "questions": [],
+        "id": 12,
+        "name_de": "Mitgliederzahl",
+        "name_fr": "Mitgliederzahl",
+        "name_it": "Mitgliederzahl"
+      },
+      {
+        "questions": [],
+        "id": 13,
+        "name_de": "Qualität im Leitungsteam",
+        "name_fr": "Qualität im Leitungsteam",
+        "name_it": "Qualität im Leitungsteam"
+      },
+      {
+        "questions": [],
+        "id": 14,
+        "name_de": "Motivation Leitende",
+        "name_fr": "Motivation Leitende",
+        "name_it": "Motivation Leitende"
+      },
+      {
+        "questions": [],
+        "id": 15,
+        "name_de": "Ressourcen",
+        "name_fr": "Ressourcen",
+        "name_it": "Ressourcen"
+      }
+    ]
+  }
 ]
