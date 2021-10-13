@@ -8,7 +8,6 @@ use App\Entity\Question;
 class QuestionMapper
 {
 
-
     public static function createQuestionFromEntity(Question $question, string $locale): QuestionDTO
     {
 

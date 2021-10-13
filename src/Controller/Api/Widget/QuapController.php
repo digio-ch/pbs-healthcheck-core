@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller\Api\Widget;
-
 
 use App\DTO\Model\WidgetControllerData\DateAndDateRangeRequestData;
 use App\Service\DataProvider\QuapDateDataProvider;

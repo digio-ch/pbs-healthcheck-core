@@ -36,5 +36,4 @@ class AspectMapper
         }
         return $dto;
     }
-
 }

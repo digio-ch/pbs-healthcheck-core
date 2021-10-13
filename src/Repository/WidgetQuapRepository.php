@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Repository;
-
 
 use App\Entity\WidgetQuap;
 use Doctrine\Persistence\ManagerRegistry;

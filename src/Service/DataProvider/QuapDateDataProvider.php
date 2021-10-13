@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service\DataProvider;
-
 
 use App\Entity\Group;
 use App\Repository\GroupRepository;

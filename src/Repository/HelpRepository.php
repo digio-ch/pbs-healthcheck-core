@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Repository;
-
 
 use App\Entity\Help;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

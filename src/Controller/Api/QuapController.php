@@ -27,8 +27,7 @@ class QuapController extends AbstractController
     public function getQuestionnaireData(
         Request $request,
         string $type
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $date = $request->get('date', null);
         $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : new \DateTimeImmutable('now');
 
@@ -48,8 +47,7 @@ class QuapController extends AbstractController
     public function submitAnswers(
         Group $group,
         Request $request
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $json = json_decode($request->getContent(), true);
         if (is_null($json)) {
             throw new ApiException(400, "Invalid JSON");
@@ -63,8 +61,7 @@ class QuapController extends AbstractController
     public function getAnswers(
         Group $group,
         Request $request
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $date = $request->get('date', null);
         $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : null;
 

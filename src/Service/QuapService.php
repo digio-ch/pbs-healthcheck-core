@@ -72,8 +72,8 @@ class QuapService
         HelpRepository $helpRepository,
         LinkRepository $linkRepository,
         WidgetQuapRepository $quapRepository,
-        EntityManagerInterface $em)
-    {
+        EntityManagerInterface $em
+    ) {
         $this->questionnaireRepository = $questionnaireRepository;
         $this->aspectRepository = $aspectRepository;
         $this->questionRepository = $questionRepository;
@@ -130,7 +130,6 @@ class QuapService
         ]);
 
         if (!$widgetQuap) {
-
             // TODO get correct questionnaire
             $questionnaire = $this->questionnaireRepository->find(1);
 

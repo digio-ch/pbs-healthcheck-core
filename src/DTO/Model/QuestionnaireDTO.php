@@ -2,8 +2,6 @@
 
 namespace App\DTO\Model;
 
-use App\Entity\Aspect;
-
 class QuestionnaireDTO
 {
     /**

@@ -17,7 +17,8 @@ use JsonMachine\JsonMachine;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportQuestionnairesCommand extends StatisticsCommand {
+class ImportQuestionnairesCommand extends StatisticsCommand
+{
 
     /**
      * @var EntityManagerInterface $em
@@ -73,16 +74,18 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
         $this->helpRepo = $helpRepo;
     }
 
-    protected function configure() {
+    protected function configure()
+    {
         $this
             ->setName("app:import-questionnaire");
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): int {
+    public function execute(InputInterface $input, OutputInterface $output): int
+    {
         $output->writeln("Starting import of questionnaires...");
 
         if (!file_exists($this->pathToJson)) {
-            $output->writeln("No data to import. File at ".$this->pathToJson." not found.");
+            $output->writeln("No data to import. File at " . $this->pathToJson . " not found.");
             return 1;
         }
 
@@ -122,7 +125,8 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
         }
     }
 
-    private function importAspect($aspect, Questionnaire $questionnaire, $isDeprecated = false) {
+    private function importAspect($aspect, Questionnaire $questionnaire, $isDeprecated = false)
+    {
         $db_aspect = $this->aspectRepo->findOneBy([
             "questionnaire" => $questionnaire->getId(),
             "local_id" => $aspect["id"]
@@ -163,7 +167,8 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
         }
     }
 
-    private function importQuestion($question, Aspect $aspect, $isDeprecated){
+    private function importQuestion($question, Aspect $aspect, $isDeprecated)
+    {
         $db_question = $this->questionRepo->findOneBy([
             "aspect" => $aspect->getId(),
             "local_id" => $question["id"]
@@ -208,7 +213,8 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
         }
     }
 
-    private function importHelp($helpItem, Question $question, $isDeprecated) {
+    private function importHelp($helpItem, Question $question, $isDeprecated)
+    {
         $db_help = $this->helpRepo->findOneBy([
             "question" => $question->getId(),
             "severity" => array_key_exists("severity", $helpItem) ? $helpItem["severity"] : 1
@@ -278,7 +284,8 @@ class ImportQuestionnairesCommand extends StatisticsCommand {
         $this->em->flush();
     }
 
-    public function getStats(): CommandStatistics {
+    public function getStats(): CommandStatistics
+    {
         return new CommandStatistics(0, '');
     }
 }

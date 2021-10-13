@@ -2,10 +2,8 @@
 
 namespace App\DTO\Model;
 
-use App\Entity\Question;
-use Doctrine\Common\Collections\ArrayCollection;
-
-class AspectDTO {
+class AspectDTO
+{
 
     /**
      * @var int $id
@@ -96,7 +94,8 @@ class AspectDTO {
         $this->questions = $questions;
     }
 
-    public function addQuestion(QuestionDTO $questionDTO) {
+    public function addQuestion(QuestionDTO $questionDTO)
+    {
         array_push($this->questions, $questionDTO);
     }
 }

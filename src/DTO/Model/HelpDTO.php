@@ -2,7 +2,8 @@
 
 namespace App\DTO\Model;
 
-class HelpDTO {
+class HelpDTO
+{
 
     /**
      * @var string $help
@@ -56,7 +57,8 @@ class HelpDTO {
         $this->severity = $severity;
     }
 
-    public function addLink(LinkDTO $linkDTO): void {
+    public function addLink(LinkDTO $linkDTO): void
+    {
         array_push($this->links, $linkDTO);
     }
 }

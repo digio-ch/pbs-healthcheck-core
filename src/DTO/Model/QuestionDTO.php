@@ -2,7 +2,8 @@
 
 namespace App\DTO\Model;
 
-class QuestionDTO {
+class QuestionDTO
+{
 
     /**
      * @var int $id
@@ -93,7 +94,8 @@ class QuestionDTO {
         $this->help = $help;
     }
 
-    public function addHelp(HelpDTO $helpDTO): void {
+    public function addHelp(HelpDTO $helpDTO): void
+    {
         array_push($this->help, $helpDTO);
     }
 }
