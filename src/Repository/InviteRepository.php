@@ -37,8 +37,10 @@ class InviteRepository extends ServiceEntityRepository
             ->join('invite.group', 'g')
             ->where('invite.email = :email')
             ->andWhere('g.id = :groupId')
+            ->andWhere('invite.expirationDate > :now')
             ->setParameter('email', $email)
             ->setParameter('groupId', $groupId)
+            ->setParameter('now', new \DateTime())
             ->getQuery()
             ->getResult();
     }
