@@ -90,6 +90,7 @@ class SyncController extends AbstractController
         ValidatorInterface $validator
     ) {
         $this->syncService->clearAllData($groupId);
+        $this->syncService->clearAllAggregatedData($groupId);
         return $this->json(null);
     }
 }

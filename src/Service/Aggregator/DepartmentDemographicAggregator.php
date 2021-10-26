@@ -69,9 +69,10 @@ class DepartmentDemographicAggregator extends WidgetAggregator
      * @param DateTime|null $startDate
      * @throws Exception
      */
-    public function aggregate(DateTime $startDate = null)
+    public function aggregate(string $groupId, DateTime $startDate = null)
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        /** @var Group $mainGroup */
+        $mainGroup = $this->groupRepository->find($groupId);
 
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);
         $maxDate = new DateTime();
@@ -85,42 +86,38 @@ class DepartmentDemographicAggregator extends WidgetAggregator
                 $startPointDate = clone $maxDate;
             }
 
-            foreach ($mainGroups as $mainGroup) {
-                $this->deleteLastPeriod($this->widgetDemographicDepartmentRepository, $mainGroup->getId());
+            $this->deleteLastPeriod($this->widgetDemographicDepartmentRepository, $mainGroup->getId());
 
-                $existingData = $this->getAllDataPointDates(
-                    $this->widgetDemographicDepartmentRepository,
-                    $mainGroup->getId()
-                );
-                if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
-                    continue;
-                }
+            $existingData = $this->getAllDataPointDates(
+                $this->widgetDemographicDepartmentRepository,
+                $mainGroup->getId()
+            );
+            if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
+                continue;
+            }
 
-                $mainGroup = $this->groupRepository->findOneBy(['id' => $mainGroup->getId()]);
-                $subGroupIds = $this->groupRepository->findAllRelevantSubGroupIdsByParentGroupId($mainGroup->getId());
-                $allIds = array_merge($subGroupIds, [$mainGroup->getId()]);
+            $mainGroup = $this->groupRepository->findOneBy(['id' => $mainGroup->getId()]);
+            $subGroupIds = $this->groupRepository->findAllRelevantSubGroupIdsByParentGroupId($mainGroup->getId());
+            $allIds = array_merge($subGroupIds, [$mainGroup->getId()]);
 
-                $birthYears = $this->personRoleRepository->findBirthYearsForDepartment(
+            $birthYears = $this->personRoleRepository->findBirthYearsForDepartment(
+                $startPointDate->format('Y-m-d'),
+                $allIds
+            );
+            if (!$birthYears) {
+                continue;
+            }
+
+            foreach ($birthYears as $year) {
+                $results = $this->personRoleRepository->findAllByYearWithRoleCountInGroup(
                     $startPointDate->format('Y-m-d'),
+                    $year,
                     $allIds
                 );
-                if (!$birthYears) {
-                    continue;
-                }
-
-                foreach ($birthYears as $year) {
-                    $results = $this->personRoleRepository->findAllByYearWithRoleCountInGroup(
-                        $startPointDate->format('Y-m-d'),
-                        $year,
-                        $allIds
-                    );
-                    $data = $this->processPersonIdsAndRoles($results, $allIds, $startPointDate->format('Y-m-d'));
-                    $this->createWidgetsFromData($data, $year, $mainGroup, $startPointDate);
-                }
-
-                $this->em->flush();
-                $this->em->clear();
+                $data = $this->processPersonIdsAndRoles($results, $allIds, $startPointDate->format('Y-m-d'));
+                $this->createWidgetsFromData($data, $year, $mainGroup, $startPointDate);
             }
+
             $this->em->flush();
             $this->em->clear();
         }

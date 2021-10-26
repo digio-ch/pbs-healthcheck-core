@@ -10,6 +10,7 @@ use App\Repository\CourseRepository;
 use App\Repository\EventDateRepository;
 use App\Repository\EventTypeRepository;
 use App\Repository\PersonRepository;
+use App\Service\Aggregator\WidgetAggregator;
 use App\Service\PbsApiService;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -48,7 +49,7 @@ class CoursesFetcher extends AbstractFetcher
     protected function fetch(Group $syncGroup, string $accessToken): array
     {
         $groupId = $syncGroup->getMidataId();
-        $startDate = date('d-m-Y', strtotime('-10 years'));
+        $startDate = date('d-m-Y', strtotime(WidgetAggregator::AGGREGATION_START_DATE));
         $endDate = date('d-m-Y', strtotime('+5 years'));
         $courseData = $this->pbsApiService->getApiData('/groups/'.$groupId.'/events?type=Event::Course&start_date='.$startDate.'&end_date='.$endDate, $accessToken);
         return $this->mapJsonToCourses($courseData, $syncGroup, $accessToken);

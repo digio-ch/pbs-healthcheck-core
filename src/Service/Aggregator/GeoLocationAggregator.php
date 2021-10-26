@@ -70,9 +70,10 @@ class GeoLocationAggregator extends WidgetAggregator
      * @throws \Doctrine\DBAL\DBALException
      * @throws \Exception
      */
-    public function aggregate(DateTime $startDate = null): void
+    public function aggregate(string $groupId, DateTime $startDate = null)
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        /** @var Group $mainGroup */
+        $mainGroup = $this->groupRepository->find($groupId);
 
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);
         $maxDate = new DateTime();
@@ -86,33 +87,30 @@ class GeoLocationAggregator extends WidgetAggregator
                 $startPointDate = clone $maxDate;
             }
 
-            /** @var Group $mainGroup */
-            foreach ($mainGroups as $mainGroup) {
-                $this->deleteLastPeriod($this->geoLocationRepository, $mainGroup->getId());
+            $this->deleteLastPeriod($this->geoLocationRepository, $mainGroup->getId());
 
-                $existingData = $this->getAllDataPointDates(
-                    $this->geoLocationRepository,
-                    $mainGroup->getId()
-                );
-                if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
-                    continue;
-                }
-
-                $mainGroup = $this->groupRepository->findOneBy(['id' => $mainGroup->getId()]);
-                $subGroupIds = $this->groupRepository->findAllRelevantSubGroupIdsByParentGroupId($mainGroup->getId());
-                $groupIds = array_merge($subGroupIds, [$mainGroup->getId()]);
-
-                $personGroups = $this->personRoleRepository->findAllByDate(
-                    $startPointDate->format('Y-m-d'),
-                    $groupIds,
-                    array_merge(parent::$memberRoleTypes, parent::$leadersRoleTypes),
-                    parent::$leadersRoleTypes,
-                    parent::$memberRoleTypes,
-                    parent::$roleTypePriority
-                );
-
-                $this->createWidgetsFromData($personGroups, $mainGroup, $startPointDate);
+            $existingData = $this->getAllDataPointDates(
+                $this->geoLocationRepository,
+                $mainGroup->getId()
+            );
+            if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
+                continue;
             }
+
+            $mainGroup = $this->groupRepository->findOneBy(['id' => $mainGroup->getId()]);
+            $subGroupIds = $this->groupRepository->findAllRelevantSubGroupIdsByParentGroupId($mainGroup->getId());
+            $groupIds = array_merge($subGroupIds, [$mainGroup->getId()]);
+
+            $personGroups = $this->personRoleRepository->findAllByDate(
+                $startPointDate->format('Y-m-d'),
+                $groupIds,
+                array_merge(parent::$memberRoleTypes, parent::$leadersRoleTypes),
+                parent::$leadersRoleTypes,
+                parent::$memberRoleTypes,
+                parent::$roleTypePriority
+            );
+
+            $this->createWidgetsFromData($personGroups, $mainGroup, $startPointDate);
 
             $this->em->flush();
             $this->em->clear();

@@ -10,6 +10,7 @@ use App\Repository\CampRepository;
 use App\Repository\EventDateRepository;
 use App\Repository\PersonRepository;
 use App\Repository\YouthSportTypeRepository;
+use App\Service\Aggregator\WidgetAggregator;
 use App\Service\PbsApiService;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -48,7 +49,7 @@ class CampsFetcher extends AbstractFetcher
     protected function fetch(Group $syncGroup, string $accessToken): array
     {
         $groupId = $syncGroup->getMidataId();
-        $startDate = date('d-m-Y', strtotime('-10 years'));
+        $startDate = date('d-m-Y', strtotime(WidgetAggregator::AGGREGATION_START_DATE));
         $endDate = date('d-m-Y', strtotime('+5 years'));
         $campData = $this->pbsApiService->getApiData('/groups/'.$groupId.'/events?type=Event::Camp&start_date='.$startDate.'&end_date='.$endDate, $accessToken);
         return $this->mapJsonToCamps($campData, $syncGroup, $accessToken);

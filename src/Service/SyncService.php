@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Service\Aggregator\AggregatorRegistry;
+use App\Service\Aggregator\WidgetAggregator;
 use App\Service\PbsApi\Fetcher\CampsFetcher;
 use App\Service\PbsApi\Fetcher\CoursesFetcher;
 use App\Service\PbsApi\Fetcher\GroupFetcher;
@@ -36,9 +38,14 @@ class SyncService
     private $coursesFetcher;
 
     /**
+     * @var AggregatorRegistry
+     */
+    protected $aggregatorRegistry;
+
+    /**
      * @param PbsApiService $pbsApiService
      */
-    public function __construct(EntityManagerInterface $em, PbsApiService $pbsApiService, GroupFetcher $groupMapper, PeopleFetcher $peopleFetcher, CampsFetcher $campsFetcher, CoursesFetcher $coursesFetcher)
+    public function __construct(EntityManagerInterface $em, PbsApiService $pbsApiService, GroupFetcher $groupMapper, PeopleFetcher $peopleFetcher, CampsFetcher $campsFetcher, CoursesFetcher $coursesFetcher, AggregatorRegistry $aggregatorRegistry)
     {
         $this->em = $em;
         $this->pbsApiService = $pbsApiService;
@@ -46,6 +53,7 @@ class SyncService
         $this->peopleFetcher = $peopleFetcher;
         $this->campsFetcher = $campsFetcher;
         $this->coursesFetcher = $coursesFetcher;
+        $this->aggregatorRegistry = $aggregatorRegistry;
     }
 
     /**
@@ -64,7 +72,12 @@ class SyncService
         $this->campsFetcher->fetchAndPersist($syncGroup, $accessToken);
         $this->coursesFetcher->fetchAndPersist($syncGroup, $accessToken);
 
-        // TODO run aggregations here, but only for the fetched group
+        // Finally, run the aggregations for this group
+        // This runs only the necessary delta since the last aggregation, except after a fresh opt-in
+        /** @var WidgetAggregator $aggregator */
+        foreach ($this->aggregatorRegistry->getAggregators() as $aggregator) {
+            $aggregator->aggregate($syncGroup->getId());
+        }
     }
 
     /**
@@ -78,5 +91,15 @@ class SyncService
         $this->campsFetcher->clean($groupId);
         $this->peopleFetcher->clean($groupId);
         $this->groupFetcher->clean($groupId);
+    }
+
+    /**
+     * @param int $groupId
+     * @param $accessToken
+     * @return void
+     */
+    public function clearAllAggregatedData(int $groupId)
+    {
+        // TODO implement this
     }
 }
