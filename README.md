@@ -66,8 +66,8 @@ Make sure you execute all the migrations so the schema and tables are in sync wi
 
 #### Import Data
 
-To run the import you can execute the `run-import.sh` script inside the healthcheck-core service container. 
-Notice: This might take a while to finish.
+To manually run the nightly import of all non-personal data, you can execute the `run-import.sh` script inside the
+healthcheck-core service container.
 
 `docker exec healthcheck-core-local ./run-import.sh`
 

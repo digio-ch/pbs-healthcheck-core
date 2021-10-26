@@ -196,7 +196,7 @@ abstract class WidgetAggregator
 
     abstract public function getName();
 
-    abstract public function aggregate(DateTime $startDate = null);
+    abstract public function aggregate(string $groupId, DateTime $startDate = null);
 
     public function groupSubGroupsByGroupType(array $subGroups)
     {

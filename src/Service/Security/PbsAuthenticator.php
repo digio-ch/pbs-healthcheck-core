@@ -97,7 +97,7 @@ class PbsAuthenticator extends AbstractGuardAuthenticator
             return null;
         }
 
-        return $this->pbsAuthService->getUser($credentials['code'], $this->request->getLocale());
+        return $this->pbsAuthService->getUser($credentials['code'], $this->request->getLocale(), $credentials['action'] ?? null);
     }
 
     /**

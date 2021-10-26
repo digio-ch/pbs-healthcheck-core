@@ -96,6 +96,8 @@ services:
             $pbsCallbackUrl: '%env(PBS_CALLBACK_URL)%'
             $specialAccessEmails: '%env(SPECIAL_ACCESS)%'
 
+    App\Service\SyncService: ~
+
     App\Service\Aggregator\DemographicGroupAggregator:
         tags:
             - { name: 'widget.aggregator', key: 'widget.demographic-group' }

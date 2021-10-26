@@ -17,7 +17,7 @@ class PbsUserMapper
             $user['email'],
             $user['first_name'],
             $user['last_name'],
-            $user['nickname']
+            $user['nickname'] ?? ''
         );
 
         $pbsUser->setGender($user['gender'] ?? '');
@@ -27,10 +27,8 @@ class PbsUserMapper
         $pbsUser->setTown($user['town'] ?? '');
         $pbsUser->setZipCode($user['zip_code'] ?? '');
         $pbsUser->setCorrespondenceLanguage($user['correspondence_language'] ?? '');
-
-        foreach ($user['roles'] ?? [] as $role) {
-            $pbsUser->addPersonRole(PbsRoleMapper::createFromArray($role));
-        }
+        $pbsUser->setSyncableGroups($user['syncable_groups'] ?? []);
+        $pbsUser->setReadableGroups($user['readable_groups'] ?? []);
 
         return $pbsUser;
     }

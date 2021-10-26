@@ -80,9 +80,10 @@ class DemographicEnteredLeftAggregator extends WidgetAggregator
      * @param DateTime|null $startDate
      * @throws DBALException
      */
-    public function aggregate(DateTime $startDate = null)
+    public function aggregate(string $groupId, DateTime $startDate = null)
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        /** @var Group $mainGroup */
+        $mainGroup = $this->groupRepository->find($groupId);
 
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);
         $maxDate = new DateTime();
@@ -99,55 +100,53 @@ class DemographicEnteredLeftAggregator extends WidgetAggregator
                 $startPointDate = clone $maxDate;
             }
 
-            /** @var Group $mainGroup */
-            foreach ($mainGroups as $mainGroup) {
-                $this->deleteLastPeriod($this->widgetDemographicEnteredLeftRepository, $mainGroup->getId());
+            $this->deleteLastPeriod($this->widgetDemographicEnteredLeftRepository, $mainGroup->getId());
 
-                $existingData = $this->getAllDataPointDates(
-                    $this->widgetDemographicEnteredLeftRepository,
-                    $mainGroup->getId()
-                );
-                if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
-                    continue;
-                }
-
-                $mainGroup = $this->groupRepository->findOneBy(['id' => $mainGroup->getId()]);
-                $allSubGroupIds = $this->groupRepository->findAllRelevantSubGroupIdsByParentGroupId(
-                    $mainGroup->getId()
-                );
-                $allGroupIds = array_merge($allSubGroupIds, [$mainGroup->getId()]);
-
-                $newPeople = $this->personRoleRepository->findAllNewPeopleByIdsAndGroup(
-                    $allGroupIds,
-                    $prevPointDate->format('Y-m-d'),
-                    $startPointDate->format('Y-m-d')
-                );
-                $processedNewByGroupTypePeopleTypeAndGender = $this->processNewPersonsForGroup(
-                    $newPeople,
-                    $prevPointDate->format('Y-m-d'),
-                    $startPointDate->format('Y-m-d'),
-                    $allGroupIds
-                );
-
-                $leftPeople = $this->personRoleRepository->findAllLeftPeopleByIdsAndGroup(
-                    $allGroupIds,
-                    $prevPointDate->format('Y-m-d'),
-                    $startPointDate->format('Y-m-d')
-                );
-                $processedLeftByGroupTypePeopleTypeAndGender = $this->processLeftPersonsForGroup(
-                    $leftPeople,
-                    $allGroupIds,
-                    $prevPointDate,
-                    $startPointDate
-                );
-
-                $this->processDataForGroup(
-                    $processedNewByGroupTypePeopleTypeAndGender,
-                    $processedLeftByGroupTypePeopleTypeAndGender,
-                    $mainGroup,
-                    $startPointDate->format('Y-m-d')
-                );
+            $existingData = $this->getAllDataPointDates(
+                $this->widgetDemographicEnteredLeftRepository,
+                $mainGroup->getId()
+            );
+            if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
+                continue;
             }
+
+            $mainGroup = $this->groupRepository->findOneBy(['id' => $mainGroup->getId()]);
+            $allSubGroupIds = $this->groupRepository->findAllRelevantSubGroupIdsByParentGroupId(
+                $mainGroup->getId()
+            );
+            $allGroupIds = array_merge($allSubGroupIds, [$mainGroup->getId()]);
+
+            $newPeople = $this->personRoleRepository->findAllNewPeopleByIdsAndGroup(
+                $allGroupIds,
+                $prevPointDate->format('Y-m-d'),
+                $startPointDate->format('Y-m-d')
+            );
+            $processedNewByGroupTypePeopleTypeAndGender = $this->processNewPersonsForGroup(
+                $newPeople,
+                $prevPointDate->format('Y-m-d'),
+                $startPointDate->format('Y-m-d'),
+                $allGroupIds
+            );
+
+            $leftPeople = $this->personRoleRepository->findAllLeftPeopleByIdsAndGroup(
+                $allGroupIds,
+                $prevPointDate->format('Y-m-d'),
+                $startPointDate->format('Y-m-d')
+            );
+            $processedLeftByGroupTypePeopleTypeAndGender = $this->processLeftPersonsForGroup(
+                $leftPeople,
+                $allGroupIds,
+                $prevPointDate,
+                $startPointDate
+            );
+
+            $this->processDataForGroup(
+                $processedNewByGroupTypePeopleTypeAndGender,
+                $processedLeftByGroupTypePeopleTypeAndGender,
+                $mainGroup,
+                $startPointDate->format('Y-m-d')
+            );
+
             $this->em->flush();
             $this->em->clear();
         }

@@ -7,7 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="midata_person_event")
+ * @ORM\Table(name="midata_person_event", uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"midata_id", "sync_group_id"})
+ * })
  * @ORM\Entity(repositoryClass="App\Repository\PersonEventRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -21,14 +23,25 @@ class PersonEvent
     private $id;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $midataId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Group")
+     * @ORM\JoinColumn(name="sync_group_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
+    private $syncGroup;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Event", inversedBy="persons")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $event;
 
     /**
      * @ORM\ManyToOne(targetEntity="Person", inversedBy="events")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $person;
 
@@ -68,6 +81,32 @@ class PersonEvent
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMidataId()
+    {
+        return $this->midataId;
+    }
+
+    /**
+     * @param int $midataId
+     */
+    public function setMidataId(int $midataId)
+    {
+        $this->midataId = $midataId;
+    }
+
+    public function getSyncGroup(): Group
+    {
+        return $this->syncGroup;
+    }
+
+    public function setSyncGroup($syncGroup)
+    {
+        $this->syncGroup = $syncGroup;
     }
 
     /**

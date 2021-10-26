@@ -24,6 +24,16 @@ invite_delete:
   methods: DELETE
   controller: App\Controller\Api\InviteController:deleteInvite
 
+# Sync routes
+sync_start:
+  path: /groups/{groupId}/sync
+  methods: POST
+  controller: App\Controller\Api\SyncController::startSync
+opt_out:
+  path: /groups/{groupId}/optOut
+  methods: POST
+  controller: App\Controller\Api\SyncController::optOut
+
 # Filter data routes
 filter_data:
   path: /groups/{groupId}/filter-data

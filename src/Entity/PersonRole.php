@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="midata_person_role", indexes={
  *     @ORM\Index(columns={"created_at"}),
  *     @ORM\Index(columns={"deleted_at"})
+ * }, uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"midata_id", "sync_group_id"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\PersonRoleRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -23,14 +25,25 @@ class PersonRole
     private $id;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $midataId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Group")
+     * @ORM\JoinColumn(name="sync_group_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
+    private $syncGroup;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="personRoles")
-     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $group;
 
     /**
      * @ORM\ManyToOne(targetEntity="Person")
-     * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $person;
 
@@ -69,6 +82,32 @@ class PersonRole
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMidataId()
+    {
+        return $this->midataId;
+    }
+
+    /**
+     * @param int $midataId
+     */
+    public function setMidataId(int $midataId)
+    {
+        $this->midataId = $midataId;
+    }
+
+    public function getSyncGroup(): Group
+    {
+        return $this->syncGroup;
+    }
+
+    public function setSyncGroup($syncGroup)
+    {
+        $this->syncGroup = $syncGroup;
     }
 
     /**

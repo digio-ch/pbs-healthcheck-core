@@ -21,4 +21,13 @@ class GroupMapper
         $groupDTO->setGroupType(GroupTypeMapper::createGroupTypeFromEntity($group->getGroupType(), $locale));
         return $groupDTO;
     }
+
+    public static function createFromMidataOauthProfile(array $group, GroupType $groupType, string $locale): GroupDTO
+    {
+        $groupDTO = new GroupDTO();
+        $groupDTO->setId($group['group_id']);
+        $groupDTO->setName($group['group_name']);
+        $groupDTO->setGroupType(GroupTypeMapper::createGroupTypeFromEntity($groupType, $locale));
+        return $groupDTO;
+    }
 }

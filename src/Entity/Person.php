@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(columns={"birthday"}),
  *     @ORM\Index(columns={"entry_date"}),
  *     @ORM\Index(columns={"leaving_date"})
+ * }, uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"midata_id", "sync_group_id"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -31,7 +34,18 @@ class Person
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
+     */
+    private $midataId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Group")
+     * @ORM\JoinColumn(name="sync_group_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
+    private $syncGroup;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $nickname;
 
@@ -87,6 +101,11 @@ class Person
     private $group;
 
     /**
+     * @ORM\OneToMany(targetEntity="PersonRole", mappedBy="person", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $personRoles;
+
+    /**
      * @ORM\OneToMany(targetEntity="PersonEvent", mappedBy="person", cascade={"persist", "remove"})
      */
     private $events;
@@ -102,6 +121,11 @@ class Person
      */
     private $geoAddress;
 
+    public function __construct()
+    {
+        $this->personRoles = new ArrayCollection();
+    }
+
     /**
      * @param int $id
      */
@@ -116,6 +140,32 @@ class Person
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMidataId()
+    {
+        return $this->midataId;
+    }
+
+    /**
+     * @param int $midataId
+     */
+    public function setMidataId(int $midataId)
+    {
+        $this->midataId = $midataId;
+    }
+
+    public function getSyncGroup(): Group
+    {
+        return $this->syncGroup;
+    }
+
+    public function setSyncGroup($syncGroup)
+    {
+        $this->syncGroup = $syncGroup;
     }
 
     /**
@@ -308,5 +358,20 @@ class Person
     public function setGeoAddress(GeoAddress $geoAddress): void
     {
         $this->geoAddress = $geoAddress;
+    }
+
+    public function addPersonRole(PersonRole $personRole): self {
+        if (!$this->personRoles->contains($personRole)) {
+            $this->personRoles[] = $personRole;
+            $personRole->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function clearPersonRoles(): self {
+        $this->personRoles = new ArrayCollection();
+
+        return $this;
     }
 }

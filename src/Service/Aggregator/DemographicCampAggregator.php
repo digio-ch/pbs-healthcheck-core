@@ -93,9 +93,10 @@ class DemographicCampAggregator extends WidgetAggregator
      * @throws DBALException
      * @throws Exception
      */
-    public function aggregate(DateTime $startDate = null)
+    public function aggregate(string $groupId, DateTime $startDate = null)
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        /** @var Group $mainGroup */
+        $mainGroup = $this->groupRepository->find($groupId);
 
         $maxDate = new DateTime();
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);
@@ -113,95 +114,92 @@ class DemographicCampAggregator extends WidgetAggregator
             $prevMonth = clone $startPointDate;
             $prevMonth->modify('first day of last month');
 
-            /** @var Group $mainGroup */
-            foreach ($mainGroups as $mainGroup) {
-                $this->deleteLastPeriod($this->widgetDemographicCampRepository, $mainGroup->getId());
+            $this->deleteLastPeriod($this->widgetDemographicCampRepository, $mainGroup->getId());
 
-                $existingData = $this->getAllDataPointDates(
-                    $this->widgetDemographicCampRepository,
-                    $mainGroup->getId()
-                );
-                if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
+            $existingData = $this->getAllDataPointDates(
+                $this->widgetDemographicCampRepository,
+                $mainGroup->getId()
+            );
+            if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
+                continue;
+            }
+
+            $subGroupIds = $this->groupRepository->findAllRelevantSubGroupIdsByParentGroupId($mainGroup->getId());
+            $allGroupIds = array_merge($subGroupIds, [$mainGroup->getId()]);
+            $eventDates = $this->eventDateRepository->getAllForPeriodAndSubgroups(
+                $prevMonth->format('Y-m-d 00:00:00'),
+                $startPointDate->format(
+                    'Y-m-d 00:00:00'
+                ),
+                $allGroupIds
+            );
+
+            if (!$eventDates) {
+                continue;
+            }
+
+            /** @var EventDate $eventDate */
+            foreach ($eventDates as $eventDate) {
+                if (!$eventDate->getEvent() instanceof Camp) {
+                    continue;
+                }
+                /** @var Camp $camp */
+                $camp = $eventDate->getEvent();
+                if ($camp->getState() && $camp->getState() === 'canceled') {
                     continue;
                 }
 
-                $subGroupIds = $this->groupRepository->findAllRelevantSubGroupIdsByParentGroupId($mainGroup->getId());
-                $allGroupIds = array_merge($subGroupIds, [$mainGroup->getId()]);
-                $eventDates = $this->eventDateRepository->getAllForPeriodAndSubgroups(
-                    $prevMonth->format('Y-m-d 00:00:00'),
-                    $startPointDate->format(
-                        'Y-m-d 00:00:00'
-                    ),
-                    $allGroupIds
-                );
+                $widgetDemographicCamp = $this->widgetDemographicCampRepository->findOneBy([
+                    'dataPointDate' => new DateTimeImmutable($startPointDate->format('Y-m-d')),
+                    'campName' => $eventDate->getEvent()->getName(),
+                    'startDate' => new DateTimeImmutable($eventDate->getStartAt()->format('Y-m-d'))
+                ]);
 
-                if (!$eventDates) {
-                    continue;
-                }
-
-                /** @var EventDate $eventDate */
-                foreach ($eventDates as $eventDate) {
-                    if (!$eventDate->getEvent() instanceof Camp) {
-                        continue;
-                    }
-                    /** @var Camp $camp */
-                    $camp = $eventDate->getEvent();
-                    if ($camp->getState() && $camp->getState() === 'canceled') {
-                        continue;
-                    }
-
-                    $widgetDemographicCamp = $this->widgetDemographicCampRepository->findOneBy([
-                        'dataPointDate' => new DateTimeImmutable($startPointDate->format('Y-m-d')),
-                        'campName' => $eventDate->getEvent()->getName(),
-                        'startDate' => new DateTimeImmutable($eventDate->getStartAt()->format('Y-m-d'))
-                    ]);
-
-                    if (!$widgetDemographicCamp) {
-                        $widgetDemographicCamp = new WidgetDemographicCamp();
-                        $widgetDemographicCamp->setStartDate($eventDate->getStartAt());
-                        $widgetDemographicCamp->setCreatedAt(new DateTimeImmutable());
-                        $widgetDemographicCamp->setDataPointDate(
-                            new DateTimeImmutable($startPointDate->format('Y-m-d'))
-                        );
-                        $widgetDemographicCamp->setCampName($eventDate->getEvent()->getName());
-                        $this->em->persist($widgetDemographicCamp);
-                        $this->em->flush();
-                    }
-
-                    $eventStartDate = $eventDate->getStartAt();
-                    $memberParticipantIds = $this->personRoleRepository->getMemberParticipants(
-                        $allGroupIds,
-                        $eventDate->getEvent()->getId(),
-                        $eventStartDate->format('Y-m-d')
+                if (!$widgetDemographicCamp) {
+                    $widgetDemographicCamp = new WidgetDemographicCamp();
+                    $widgetDemographicCamp->setStartDate($eventDate->getStartAt());
+                    $widgetDemographicCamp->setCreatedAt(new DateTimeImmutable());
+                    $widgetDemographicCamp->setDataPointDate(
+                        new DateTimeImmutable($startPointDate->format('Y-m-d'))
                     );
-                    $leaderParticipantIds = $this->personRoleRepository->getLeaderParticipants(
-                        $allGroupIds,
-                        $eventDate->getEvent()->getId(),
-                        $eventStartDate->format('Y-m-d')
-                    );
-                    $memberData = $this->processPersonIds($memberParticipantIds, $eventStartDate);
-                    $leaderData = $this->processPersonIds($leaderParticipantIds, $eventStartDate);
-
-                    foreach (WidgetAggregator::$typePriority as $groupType) {
-                        $membersCounts = array_key_exists($groupType, $memberData) ? $memberData[$groupType] : null;
-                        $leadersCounts = array_key_exists($groupType, $leaderData) ? $leaderData[$groupType] : null;
-
-                        $this->demographicCampGroupRepository->deleteAllByCampGroupAndGroupType($widgetDemographicCamp->getId(), $mainGroup->getId(), $groupType);
-
-                        $demographicCampGroup = new DemographicCampGroup();
-                        $demographicCampGroup->setMCount($membersCounts ? $membersCounts['m'] : 0);
-                        $demographicCampGroup->setFCount($membersCounts ? $membersCounts['w'] : 0);
-                        $demographicCampGroup->setUCount($membersCounts ? $membersCounts['u'] : 0);
-                        $demographicCampGroup->setMCountLeader($leadersCounts ? $leadersCounts['m'] : 0);
-                        $demographicCampGroup->setFCountLeader($leadersCounts ? $leadersCounts['w'] : 0);
-                        $demographicCampGroup->setUCountLeader($leadersCounts ? $leadersCounts['u'] : 0);
-                        $demographicCampGroup->setDemographicCamp($widgetDemographicCamp);
-                        $demographicCampGroup->setGroupType($groupType);
-                        $demographicCampGroup->setGroup($mainGroup);
-                        $this->em->persist($demographicCampGroup);
-                    }
+                    $widgetDemographicCamp->setCampName($eventDate->getEvent()->getName());
                     $this->em->persist($widgetDemographicCamp);
+                    $this->em->flush();
                 }
+
+                $eventStartDate = $eventDate->getStartAt();
+                $memberParticipantIds = $this->personRoleRepository->getMemberParticipants(
+                    $allGroupIds,
+                    $eventDate->getEvent()->getId(),
+                    $eventStartDate->format('Y-m-d')
+                );
+                $leaderParticipantIds = $this->personRoleRepository->getLeaderParticipants(
+                    $allGroupIds,
+                    $eventDate->getEvent()->getId(),
+                    $eventStartDate->format('Y-m-d')
+                );
+                $memberData = $this->processPersonIds($memberParticipantIds, $eventStartDate);
+                $leaderData = $this->processPersonIds($leaderParticipantIds, $eventStartDate);
+
+                foreach (WidgetAggregator::$typePriority as $groupType) {
+                    $membersCounts = array_key_exists($groupType, $memberData) ? $memberData[$groupType] : null;
+                    $leadersCounts = array_key_exists($groupType, $leaderData) ? $leaderData[$groupType] : null;
+
+                    $this->demographicCampGroupRepository->deleteAllByCampGroupAndGroupType($widgetDemographicCamp->getId(), $mainGroup->getId(), $groupType);
+
+                    $demographicCampGroup = new DemographicCampGroup();
+                    $demographicCampGroup->setMCount($membersCounts ? $membersCounts['m'] : 0);
+                    $demographicCampGroup->setFCount($membersCounts ? $membersCounts['w'] : 0);
+                    $demographicCampGroup->setUCount($membersCounts ? $membersCounts['u'] : 0);
+                    $demographicCampGroup->setMCountLeader($leadersCounts ? $leadersCounts['m'] : 0);
+                    $demographicCampGroup->setFCountLeader($leadersCounts ? $leadersCounts['w'] : 0);
+                    $demographicCampGroup->setUCountLeader($leadersCounts ? $leadersCounts['u'] : 0);
+                    $demographicCampGroup->setDemographicCamp($widgetDemographicCamp);
+                    $demographicCampGroup->setGroupType($groupType);
+                    $demographicCampGroup->setGroup($mainGroup);
+                    $this->em->persist($demographicCampGroup);
+                }
+                $this->em->persist($widgetDemographicCamp);
             }
         }
         $this->em->flush();

@@ -84,9 +84,10 @@ class LeaderOverviewAggregator extends WidgetAggregator
      * @throws DBALException
      * @throws Exception
      */
-    public function aggregate(DateTime $startDate = null)
+    public function aggregate(string $groupId, DateTime $startDate = null)
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        /** @var Group $mainGroup */
+        $mainGroup = $this->groupRepository->find($groupId);
 
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);
         $maxDate = new DateTime();
@@ -100,59 +101,54 @@ class LeaderOverviewAggregator extends WidgetAggregator
                 $startPointDate = clone $maxDate;
             }
 
-            /** @var Group $mainGroup */
-            foreach ($mainGroups as $mainGroup) {
-                $this->deleteLastPeriod($this->widgetLeaderOverviewRepository, $mainGroup->getId());
+            $this->deleteLastPeriod($this->widgetLeaderOverviewRepository, $mainGroup->getId());
 
-                $existingData = $this->getAllDataPointDates(
-                    $this->widgetLeaderOverviewRepository,
-                    $mainGroup->getId()
-                );
-                if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
-                    continue;
-                }
-
-                $mainGroup = $this->groupRepository->findOneBy(['id' => $mainGroup->getId()]);
-                $subGroups = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($mainGroup->getId());
-                $subGroupsByType = $this->groupSubGroupsByGroupType($subGroups);
-                foreach ($subGroupsByType as $groupsAndType) {
-                    $groupType = $groupsAndType['group_type'];
-                    $groupIds = $groupsAndType['groups'];
-                    $mCount = $this->personRoleRepository->findMemberCountForPeriodByGenderGroupTypeAndGroupIds(
-                        $startPointDate->format('Y-m-d'),
-                        $groupIds,
-                        'm'
-                    );
-                    $fCount = $this->personRoleRepository->findMemberCountForPeriodByGenderGroupTypeAndGroupIds(
-                        $startPointDate->format('Y-m-d'),
-                        $groupIds,
-                        'w'
-                    );
-                    $uCount = $this->personRoleRepository->findMemberCountForPeriodByGenderGroupTypeAndGroupIds(
-                        $startPointDate->format('Y-m-d'),
-                        $groupIds
-                    );
-                    $widget = new WidgetLeaderOverview();
-                    $widget->setGroup($mainGroup);
-                    $widget->setGroupType($groupType);
-                    $widget->setMCount($mCount[0]);
-                    $widget->setFCount($fCount[0]);
-                    $widget->setUCount($uCount[0]);
-                    $widget->setCreatedAt(new DateTimeImmutable());
-                    $widget->setDataPointDate(new DateTimeImmutable($startPointDate->format('Y-m-d')));
-
-                    $this->aggregateLeadersData($mainGroup, $startPointDate, $groupType, $groupIds, $widget);
-                    $this->em->persist($widget);
-                }
-
-                $allSubGroupIds = [];
-                foreach ($subGroups as $group) {
-                    $allSubGroupIds[] = $group['id'];
-                }
-                $this->aggregateDataForMainGroup($mainGroup, $startPointDate, $allSubGroupIds);
-                $this->em->flush();
-                $this->em->clear();
+            $existingData = $this->getAllDataPointDates(
+                $this->widgetLeaderOverviewRepository,
+                $mainGroup->getId()
+            );
+            if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
+                continue;
             }
+
+            $mainGroup = $this->groupRepository->findOneBy(['id' => $mainGroup->getId()]);
+            $subGroups = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($mainGroup->getId());
+            $subGroupsByType = $this->groupSubGroupsByGroupType($subGroups);
+            foreach ($subGroupsByType as $groupsAndType) {
+                $groupType = $groupsAndType['group_type'];
+                $groupIds = $groupsAndType['groups'];
+                $mCount = $this->personRoleRepository->findMemberCountForPeriodByGenderGroupTypeAndGroupIds(
+                    $startPointDate->format('Y-m-d'),
+                    $groupIds,
+                    'm'
+                );
+                $fCount = $this->personRoleRepository->findMemberCountForPeriodByGenderGroupTypeAndGroupIds(
+                    $startPointDate->format('Y-m-d'),
+                    $groupIds,
+                    'w'
+                );
+                $uCount = $this->personRoleRepository->findMemberCountForPeriodByGenderGroupTypeAndGroupIds(
+                    $startPointDate->format('Y-m-d'),
+                    $groupIds
+                );
+                $widget = new WidgetLeaderOverview();
+                $widget->setGroup($mainGroup);
+                $widget->setGroupType($groupType);
+                $widget->setMCount($mCount[0]);
+                $widget->setFCount($fCount[0]);
+                $widget->setUCount($uCount[0]);
+                $widget->setCreatedAt(new DateTimeImmutable());
+                $widget->setDataPointDate(new DateTimeImmutable($startPointDate->format('Y-m-d')));
+
+                $this->aggregateLeadersData($mainGroup, $startPointDate, $groupType, $groupIds, $widget);
+                $this->em->persist($widget);
+            }
+
+            $allSubGroupIds = [];
+            foreach ($subGroups as $group) {
+                $allSubGroupIds[] = $group['id'];
+            }
+            $this->aggregateDataForMainGroup($mainGroup, $startPointDate, $allSubGroupIds);
             $this->em->flush();
             $this->em->clear();
         }

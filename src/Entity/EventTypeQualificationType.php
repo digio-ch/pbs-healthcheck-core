@@ -25,7 +25,7 @@ class EventTypeQualificationType
     private $eventType;
 
     /**
-     * @ORM\ManyToOne(targetEntity="QualificationTYpe")
+     * @ORM\ManyToOne(targetEntity="QualificationType")
      * @ORM\JoinColumn(name="qualification_type_id", referencedColumnName="id")
      */
     private $qualificationType;

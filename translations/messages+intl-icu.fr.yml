@@ -43,11 +43,13 @@ api:
   entity:
     invite: "Invité.e.s"
     group: "Membres"
+    sync: "Synchronisation"
 
   action:
     created: "Crée"
     updated: "Actualisé"
     deleted: "Supprimé"
+    started: "démarré"
 
   error:
     unknown: "Une erreur s'est produite, réessaie plus tard."

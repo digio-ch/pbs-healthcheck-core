@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(columns={"name"}),
  *     @ORM\Index(columns={"created_at"}),
  *     @ORM\Index(columns={"deleted_at"})
+ * }, uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"midata_id", "sync_group_id"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -25,13 +27,24 @@ class Group
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Group", mappedBy="parentGroup")
+     * @ORM\Column(type="integer")
+     */
+    private $midataId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Group")
+     * @ORM\JoinColumn(name="sync_group_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     */
+    private $syncGroup;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Group", mappedBy="parentGroup", cascade={"persist"})
      */
     private $children;
 
     /**
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_group_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="parent_group_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $parentGroup;
 
@@ -79,6 +92,7 @@ class Group
 
     public function __construct()
     {
+        $this->children = new ArrayCollection();
         $this->events = new ArrayCollection();
     }
 
@@ -96,6 +110,32 @@ class Group
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMidataId()
+    {
+        return $this->midataId;
+    }
+
+    /**
+     * @param int $midataId
+     */
+    public function setMidataId(int $midataId)
+    {
+        $this->midataId = $midataId;
+    }
+
+    public function getSyncGroup(): Group
+    {
+        return $this->syncGroup;
+    }
+
+    public function setSyncGroup($syncGroup)
+    {
+        $this->syncGroup = $syncGroup;
     }
 
     /**
@@ -208,6 +248,15 @@ class Group
     public function setGroupType(?GroupType $groupType)
     {
         $this->groupType = $groupType;
+    }
+
+    public function addChild(Group $child): self {
+        if (!$this->children->contains($child)) {
+            $this->children[] = $child;
+            $child->setParentGroup($this);
+        }
+
+        return $this;
     }
 
     public function __toString()

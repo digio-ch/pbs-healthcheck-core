@@ -34,6 +34,10 @@ class PbsUserDTO implements UserInterface
     private $roles;
     /** @var array|GroupDTO[] */
     private $groups;
+    /** @var array */
+    private $syncableGroups;
+    /** @var array */
+    private $readableGroups;
 
     /**
      * PbsUserDTO constructor.
@@ -167,6 +171,22 @@ class PbsUserDTO implements UserInterface
     }
 
     /**
+     * @return array
+     */
+    public function getSyncableGroups(): array
+    {
+        return $this->syncableGroups;
+    }
+
+    /**
+     * @return array
+     */
+    public function getReadableGroups(): array
+    {
+        return $this->readableGroups;
+    }
+
+    /**
      * @param string $birthday
      */
     public function setBirthday(string $birthday): void
@@ -246,6 +266,22 @@ class PbsUserDTO implements UserInterface
     public function addGroup(GroupDTO $group)
     {
         $this->groups[] = $group;
+    }
+
+    /**
+     * @param array $syncableGroups
+     */
+    public function setSyncableGroups(array $syncableGroups): void
+    {
+        $this->syncableGroups = $syncableGroups;
+    }
+
+    /**
+     * @param array $readableGroups
+     */
+    public function setReadableGroups(array $readableGroups): void
+    {
+        $this->readableGroups = $readableGroups;
     }
 
     /**
