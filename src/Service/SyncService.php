@@ -55,16 +55,28 @@ class SyncService
      */
     public function startSync(int $groupId, $accessToken)
     {
-        $this->coursesFetcher->clean($groupId);
-        $this->campsFetcher->clean($groupId);
-        $this->peopleFetcher->clean($groupId);
-        $this->groupFetcher->clean($groupId);
+        // First, clear all data we have on this Abteilung
+        $this->clearAllData($groupId);
 
+        // Then, fetch and persist the most up-to-date data
         $syncGroup = $this->groupFetcher->fetchAndPersistGroup($groupId, $accessToken);
         $this->peopleFetcher->fetchAndPersist($syncGroup, $accessToken);
         $this->campsFetcher->fetchAndPersist($syncGroup, $accessToken);
         $this->coursesFetcher->fetchAndPersist($syncGroup, $accessToken);
 
         // TODO run aggregations here, but only for the fetched group
+    }
+
+    /**
+     * @param int $groupId
+     * @param $accessToken
+     * @return void
+     */
+    public function clearAllData(int $groupId)
+    {
+        $this->coursesFetcher->clean($groupId);
+        $this->campsFetcher->clean($groupId);
+        $this->peopleFetcher->clean($groupId);
+        $this->groupFetcher->clean($groupId);
     }
 }

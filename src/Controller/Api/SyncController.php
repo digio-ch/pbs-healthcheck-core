@@ -74,4 +74,22 @@ class SyncController extends AbstractController
         $this->syncService->startSync($groupId, $accessToken);
         return $this->json($message, JsonResponse::HTTP_CREATED);
     }
+
+    /**
+     * @param Request $request
+     * @param int $groupId
+     * @param SerializerInterface $serializer
+     * @param ValidatorInterface $validator
+     * @return JsonResponse
+     * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
+     */
+    public function optOut(
+        Request $request,
+        int $groupId,
+        SerializerInterface $serializer,
+        ValidatorInterface $validator
+    ) {
+        $this->syncService->clearAllData($groupId);
+        return $this->json(null);
+    }
 }
