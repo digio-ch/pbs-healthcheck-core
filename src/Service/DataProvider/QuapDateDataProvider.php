@@ -28,6 +28,10 @@ class QuapDateDataProvider extends WidgetDataProvider
 
     public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes)
     {
-        return $this->quapService->getAnswers($group, \DateTimeImmutable::createFromFormat('Y-m-d', $date))->getAnswers();
+        $today = new \DateTime();
+
+        $date = ($today->format('Y-m-d') === $date) ? null : \DateTimeImmutable::createFromFormat('Y-m-d', $date);
+
+        return $this->quapService->getAnswers($group, $date)->getAnswers();
     }
 }
