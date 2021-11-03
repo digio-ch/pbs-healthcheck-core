@@ -57,6 +57,14 @@ class HelpDTO
         $this->severity = $severity;
     }
 
+    /**
+     * @return LinkDTO[]
+     */
+    public function getLinks(): array
+    {
+        return $this->links;
+    }
+
     public function addLink(LinkDTO $linkDTO): void
     {
         array_push($this->links, $linkDTO);
