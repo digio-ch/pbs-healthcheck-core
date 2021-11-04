@@ -61,7 +61,7 @@ class Question
     private $answer_options;
 
     /**
-     * @ORM\OneToMany(targetEntity="Help", mappedBy="question")
+     * @ORM\OneToMany(targetEntity="Help", mappedBy="question", cascade={"persist"})
      */
     private $help;
 
@@ -87,9 +87,9 @@ class Question
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

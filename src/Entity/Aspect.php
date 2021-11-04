@@ -54,12 +54,12 @@ class Aspect
     private $name_it;
 
     /**
-     * @ORM\OneToMany(targetEntity = "Question", mappedBy = "aspect")
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="aspect", cascade={"persist"})
      */
     private $questions;
 
     /**
-     * @ORM\ManyToOne(targetEntity = "Questionnaire", inversedBy = "aspect")
+     * @ORM\ManyToOne(targetEntity="Questionnaire", inversedBy="aspect")
      * @var Questionnaire $questionnaire
      */
     private $questionnaire;
@@ -95,9 +95,9 @@ class Aspect
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

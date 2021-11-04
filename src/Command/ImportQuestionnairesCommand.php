@@ -116,10 +116,7 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         $this->em->flush();
 
         foreach ($aspects as $aspect) {
-            $isDeprecated = false;
-            if (array_key_exists("deprecated", $aspect)) {
-                $isDeprecated = $aspect["deprecated"];
-            }
+            $isDeprecated = $aspect["deprecated"] ?? false;
 
             $this->importAspect($aspect, $db_questionnaire, $isDeprecated);
         }
@@ -152,27 +149,27 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         $db_aspect->setDescriptionIt(array_key_exists("description_it", $aspect) ? $aspect["description_it"] : "");
         $db_aspect->setQuestionnaire($questionnaire);
 
-        $this->em->persist($db_aspect);
-        $this->em->flush();
-
         $questions = $aspect["questions"];
 
         foreach ($questions as $question) {
-            $questionIsDeprecated = $isDeprecated;
-            if (array_key_exists("deprecated", $question)) {
-                $questionIsDeprecated = $question["deprecated"];
-            }
+            $questionIsDeprecated = $question["deprecated"] ?? false;
 
             $this->importQuestion($question, $db_aspect, $questionIsDeprecated);
         }
+
+        $this->em->persist($db_aspect);
+        $this->em->flush();
     }
 
     private function importQuestion($question, Aspect $aspect, $isDeprecated)
     {
-        $db_question = $this->questionRepo->findOneBy([
-            "aspect" => $aspect->getId(),
-            "local_id" => $question["id"]
-        ]);
+        $db_question = null;
+        if ($aspect->getId() !== null) {
+            $db_question = $this->questionRepo->findOneBy([
+                "aspect" => $aspect->getId(),
+                "local_id" => $question["id"]
+            ]);
+        }
 
         if (!$db_question) {
             $db_question = new Question();
@@ -193,7 +190,6 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         $db_question->setAspect($aspect);
 
         $this->em->persist($db_question);
-        $this->em->flush();
 
         $help = $question["help"];
 
@@ -215,10 +211,13 @@ class ImportQuestionnairesCommand extends StatisticsCommand
 
     private function importHelp($helpItem, Question $question, $isDeprecated)
     {
-        $db_help = $this->helpRepo->findOneBy([
-            "question" => $question->getId(),
-            "severity" => array_key_exists("severity", $helpItem) ? $helpItem["severity"] : 1
-        ]);
+        $db_help = null;
+        if ($question->getId() !== null) {
+            $db_help = $this->helpRepo->findOneBy([
+                "question" => $question->getId(),
+                "severity" => array_key_exists("severity", $helpItem) ? $helpItem["severity"] : 1
+            ]);
+        }
 
         if (!$db_help) {
             $db_help = new Help();
@@ -281,7 +280,6 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         }
 
         $this->em->persist($db_help);
-        $this->em->flush();
     }
 
     public function getStats(): CommandStatistics

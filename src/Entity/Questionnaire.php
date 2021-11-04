@@ -28,12 +28,12 @@ class Questionnaire
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity = "WidgetQuap", mappedBy = "questionnaire")
+     * @ORM\OneToMany(targetEntity="WidgetQuap", mappedBy="questionnaire")
      */
     private $widgetQuap;
 
     /**
-     * @ORM\OneToMany(targetEntity = "Aspect", mappedBy = "questionnaire")
+     * @ORM\OneToMany(targetEntity="Aspect", mappedBy="questionnaire", cascade={"persist"})
      */
     private $aspects;
 

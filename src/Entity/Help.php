@@ -72,17 +72,17 @@ class Help
     private $deletedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpDe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpDe", cascade={"persist"}, orphanRemoval=true)
      */
     private $linksDe;
 
     /**
-     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpFr", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpFr", cascade={"persist"}, orphanRemoval=true)
      */
     private $linksFr;
 
     /**
-     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpIt", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpIt", cascade={"persist"}, orphanRemoval=true)
      */
     private $linksIt;
 
