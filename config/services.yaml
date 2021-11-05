@@ -120,5 +120,9 @@ services:
         tags:
             - { name: 'widget.aggregator', key: 'widget.geo-location' }
 
+    App\Service\Aggregator\QuapAggregator:
+        tags:
+            - { name: 'widget.aggregator', key: 'feature.quap' }
+
     App\Service\Aggregator\AggregatorRegistry:
         arguments: [!tagged { tag: 'widget.aggregator', index_by: 'key' }]
