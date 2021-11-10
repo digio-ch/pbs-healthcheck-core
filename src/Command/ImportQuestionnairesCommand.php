@@ -187,6 +187,23 @@ class ImportQuestionnairesCommand extends StatisticsCommand
             return;
         }
 
+        $requestedAnswerOptions = $question["answer_options"];
+        $currentAnswerOptions = $db_question->getAnswerOptions();
+        if ($currentAnswerOptions !== $requestedAnswerOptions) {
+            // allow the switch between midata and non midata answer options
+            if (
+                ($requestedAnswerOptions === Question::ANSWER_OPTION_BINARY && $currentAnswerOptions === Question::ANSWER_OPTION_MIDATA_BINARY) ||
+                ($requestedAnswerOptions === Question::ANSWER_OPTION_MIDATA_BINARY && $currentAnswerOptions === Question::ANSWER_OPTION_BINARY)
+            ) {
+                $db_question->setAnswerOptions($requestedAnswerOptions);
+            } else if (
+                ($requestedAnswerOptions === Question::ANSWER_OPTION_RANGE && $currentAnswerOptions === Question::ANSWER_OPTION_MIDATA_RANGE) ||
+                ($requestedAnswerOptions === Question::ANSWER_OPTION_MIDATA_RANGE && $currentAnswerOptions === Question::ANSWER_OPTION_RANGE)
+            ) {
+                $db_question->setAnswerOptions($requestedAnswerOptions);
+            }
+        }
+
         $db_question->setQuestionDe($question["question_de"]);
         $db_question->setQuestionFr($question["question_fr"]);
         $db_question->setQuestionIt($question["question_it"]);
