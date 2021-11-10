@@ -23,6 +23,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Question
 {
+    const ANSWER_OPTION_BINARY = 'binary';
+    const ANSWER_OPTION_MIDATA_BINARY = 'midata-binary';
+    const ANSWER_OPTION_RANGE = 'range';
+    const ANSWER_OPTION_MIDATA_RANGE = 'midata-range';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
