@@ -17,59 +17,97 @@ and an additional caddy reverse proxy.
 
 ## Getting Started
 
-This guide should help you get the project up and running locally on any machine. 
+This guide should help you get the project up and running locally on any machine. For more information on the application, read the application docs in [`doc/index.md`](docs/index.md).
+
+It is highly recommended that you run this application with Docker and docker-compose as described here. We will not provide any additional guides for running the application without Docker or with local php/postgres installations.
 
 ### Prerequisites
-1. Read the application docs to get an understanding of how things work, you can find them in `doc/index.md`.
-2. Make sure your docker installation is up to date so that it supports docker-compose version 3.7 syntax.
-3. You will need to request access to the MiData testing/integration environment in order to run the data import 
-   procedure and authenticate with OAuth 2.0. 
-4. Make sure port 8000, 5432, 5441 and 9000 are not in use
+You need Git and Docker installed on your system. Docker needs to be up-to-date so it supports at least docker-compose version 3.7.
 
-### Docker Setup
+Make sure ports 4200, 5432, 5441, 8000 and 9000 are not in use on your machine.
 
-The whole HealthCheck application is dockerized, so it can be run independent of the host platform. 
-Additionally, you do not need to install anything (php, postgres, ...) everything will run inside the containers. 
-It is highly recommended that you run this application with docker and docker-compose we will not provide any additional 
-guides for running the application without docker or with local php/postgres installations.
+### Step 1: Get necessary credentials from MiData test environment
+* [x] Go to https://pbs.puzzle.ch
+* [x] Log in as an admin using `hussein_kohlmann@hitobito.example.com` with password `hito42bito`
+* [x] Go to Einstellungen (in the left side navigation) -> OAuth-Applikationen -> HealthCheck - Testsystem (https://pbs.puzzle.ch/de/oauth/applications/19 - or create a new OAuth application with email, name and with_roles scopes and with http://localhost:4200/callback as the callback URI).
+  * :arrow_right: The "Uid" value will be referenced as `[1]` in environment.ts and .env below.
+  * :arrow_right: The "Secret" value will be referenced as `[2]` in .env below.
+* [x] Go to Pfadibewegung Schweiz -> Einstellungen (the tab on the top right) -> API-Keys -> HealthCheck - Testsystem (https://pbs.puzzle.ch/de/groups/1/service_tokens/45 or create a new service token with HealthCheck permission).
+  * :arrow_right: The "Token" value will be referenced as `[3]` in .env below.
 
-#### Build & Start Services
-
-First you need to set up the environment. To do this you can simply copy the dist env file: `cp .env.dist .env`.
-Make sure to add the needed environment variables to the newly created file (`.env`). 
-If you are not sure which ones you need I recommend reading the docs starting from `doc/index.md`.
-
-Run the following commands to start the docker-compose services/containers.
-
-```shell script
-docker-compose -f docker/docker-compose.yml build --build-arg BUILD_TEST=1 healthcheck-core
-docker-compose -f docker/docker-compose.yml up -d
+### Step 2: Get the frontend up and running
+* [x] Open a console (bash or a Terminal or something similar) and type the following commands:
+```bash
+# Download the frontend code
+git clone https://github.com/digio-ch/pbs-healthcheck-web
+# Go to the downloaded code
+cd pbs-healthcheck-web
 ```
 
-You can add some arguments for building the dockerfile for the healthcheck-core service. `BUILD_DEBUG=1` will add 
-xdebug to it to ease development/debugging and `BUILD_TEST=1` will add composer to the image.
+* [x] Edit src/environments/environment.ts and fill in the following info:
+```
+    clientId: '[1]', // insert the value as described above, between the '' quotes
+```
 
-If you are gettings any docker network errors make sure that the subnet defined inside the `docker/docker-compose.yml`
-does not conflict with any of your existing networks:
+* [x] Again in the console, run the following commands:
+```bash
+# Build and start the frontend container
+docker-compose -f docker/docker-compose.yml up -d
+# Install third-party software that's needed into the container
+docker exec healthcheck-web-local yarn install
+# Start the web server process inside the container
+docker exec healthcheck-web-local yarn run start --host 0.0.0.0
+```
 
-#### Install Dependencies
+### Step 3: Get the backend up and running and import data from MiData test environment
+* [x] Open a separate new console for the backend, keeping the first one running
+* [x] Run the following commands:
+```bash
+# Download the backend code
+git clone https://github.com/digio-ch/pbs-healthcheck-core
+# Go to the downloaded code
+cd pbs-healthcheck-core
+```
+* [x] Create a copy of .env.dist and name it .env (a period and env, all lower case)
+* [x] Edit the new .env file and fill in the following info in the corresponding sections:
+```
+# OAuth 2.0
+PBS_URL=https://pbs.puzzle.ch
+PBS_CLIENT_ID=[1] (insert the value from pbs.puzzle.ch as described above, this time without any quotes)
+PBS_CLIENT_SECRET=[2] (insert the value from pbs.puzzle.ch as described above, this time without any quotes)
+PBS_CALLBACK_URL=http://localhost:4200/callback
+SPECIAL_ACCESS=
 
-This command will only work if you added the `BUILD_TEST=1` build argument since composer is needed to add dependencies.
+# PBS
+PBS_API_KEY=[3] (insert the value from pbs.puzzle.ch as described above, this time without any quotes)
+PBS_DATA_URL=https://pbs.puzzle.ch
+```
+* [x] Again in the backend console, run the following commands:
+```bash
+# Build the backend container with some special needed options
+docker-compose -f docker/docker-compose.yml build --build-arg BUILD_TEST=1 healthcheck-core
+# Start the backend container and the database and other useful services
+docker-compose -f docker/docker-compose.yml up -d
+# Install third-party software that's needed into the container
+docker exec healthcheck-core-local composer install --no-interaction --no-scripts
+# Set up the database structure
+docker exec healthcheck-core-local php bin/console doctrine:migrations:migrate -n
+```
+* [x] In a browser, go to https://pbs.puzzle.ch and log out, then log in as an AL using `letizia_wilhelm@hitobito.example.com` with password `hito42bito`
+* [x] Edit an Abteilung where you have an AL role and activate the HealthCheck Opt-In flag (if it isn't already activated)
+* [x] In the second (backend) console, run the following command to manually trigger the nightly import. This will import all opted-in Abteilungen and might take a few minutes, especially the aggregations.
+```bash
+docker exec healthcheck-core-local ./run-import.sh
+```
+* [x] Go to http://localhost:4200 and click the "Anmelden via MiData" button.
 
-`docker exec healthcheck-core-local composer install --no-interaction --no-scripts`
+### More info
 
-#### Set-Up Database
+#### Docker build
 
-Make sure you execute all the migrations so the schema and tables are in sync with the entities:
+The backend docker build also accepts an argument `BUILD_DEBUG=1`, which will add xdebug to it to ease development/debugging. `BUILD_TEST=1` will add composer to the image, which is required in the steps outlined above.
 
-`docker exec healthcheck-core-local php bin/console doctrine:migrations:migrate -n`
-
-#### Import Data
-
-To run the import you can execute the `run-import.sh` script inside the healthcheck-core service container. 
-Notice: This might take a while to finish.
-
-`docker exec healthcheck-core-local ./run-import.sh`
+If you are gettings any docker network errors make sure that the subnet defined inside the `docker/docker-compose.yml` does not conflict with any of your existing networks.
 
 #### Code Format Checking
 
@@ -79,9 +117,7 @@ We use the PSR-12 PHP standard. You can check your code using the following comm
 
 #### Running Tests
 
-To run tests locally make sure to use the `env.test` instead of the created `.env`. You can do that by replacing the
-contents of the `.env` file with the contents of the `.env.test` file. You will need to completely stop and 
-restart the healthcheck-core service container in order for the changes to take effect.
+To run tests locally make sure to use the `env.test` instead of the created `.env`. You can do that by replacing the contents of the `.env` file with the contents of the `.env.test` file. You will need to completely stop and restart the healthcheck-core service container in order for the changes to take effect.
 
 Once you are up and running with the new env run:
 
