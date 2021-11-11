@@ -101,6 +101,13 @@ docker exec healthcheck-core-local ./run-import.sh
 ```
 * [x] Go to http://localhost:4200 and click the "Anmelden via MiData" button.
 
+### After you're done: Stopping the containers
+* [x] In the frontend console, press <kbd>Ctrl</kbd> + <kbd>C</kbd>
+* [x] In the frontend console, run `docker-compose -f docker/docker-compose.yml down`
+* [x] In the backend console, run `docker-compose -f docker/docker-compose.yml down`
+
+You can then close both consoles.
+
 ### More info
 
 #### Docker build
