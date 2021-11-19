@@ -21,8 +21,10 @@ use App\Entity\PersonRole;
 use App\Entity\QualificationType;
 use App\Entity\Role;
 use App\Model\CommandStatistics;
+use App\Model\LogMessage\SimpleLogMessage;
 use App\Repository\PersonRepository;
 use DateTimeImmutable;
+use Digio\Logging\GelfLogger;
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,6 +47,9 @@ class ImportFromJsonCommand extends StatisticsCommand
      */
     private $personRepository;
 
+    /** @var GelfLogger $gelfLogger */
+    private $gelfLogger;
+
     /**
      * @var ParameterBagInterface
      */
@@ -63,12 +68,19 @@ class ImportFromJsonCommand extends StatisticsCommand
     /**
      * ImportFromJson constructor.
      * @param EntityManagerInterface $em
+     * @param PersonRepository $personRepository
+     * @param GelfLogger $gelfLogger
      * @param ParameterBagInterface $params
      */
-    public function __construct(EntityManagerInterface $em, PersonRepository $personRepository, ParameterBagInterface $params)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        PersonRepository $personRepository,
+        GelfLogger $gelfLogger,
+        ParameterBagInterface $params
+    ) {
         $this->em = $em;
         $this->personRepository = $personRepository;
+        $this->gelfLogger = $gelfLogger;
         $this->params = $params;
         parent::__construct();
     }
@@ -742,9 +754,11 @@ class ImportFromJsonCommand extends StatisticsCommand
             $personRole->setCreatedAt(new DateTimeImmutable($r['created_at']));
             if ($r['deleted_at']) {
                 $deletedAt = new DateTimeImmutable($r['deleted_at']);
-                if ($deletedAt > new DateTimeImmutable('1000-01-01T00:00:00+00:00')) {
-                    $personRole->setDeletedAt(new DateTimeImmutable($r['deleted_at']));
+                if ($deletedAt < new DateTimeImmutable('0001-01-01T00:00:00+00:00')) {
+                    $this->gelfLogger->warning(new SimpleLogMessage('person_role entity with invalid deleted_at date skipped'));
+                    continue;
                 }
+                $personRole->setDeletedAt(new DateTimeImmutable($r['deleted_at']));
             }
 
             $this->em->persist($personRole);
