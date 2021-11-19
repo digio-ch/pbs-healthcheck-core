@@ -741,7 +741,10 @@ class ImportFromJsonCommand extends StatisticsCommand
 
             $personRole->setCreatedAt(new DateTimeImmutable($r['created_at']));
             if ($r['deleted_at']) {
-                $personRole->setDeletedAt(new DateTimeImmutable($r['deleted_at']));
+                $deletedAt = new DateTimeImmutable($r['deleted_at']);
+                if ($deletedAt > new DateTimeImmutable('1000-01-01T00:00:00+00:00')) {
+                    $personRole->setDeletedAt(new DateTimeImmutable($r['deleted_at']));
+                }
             }
 
             $this->em->persist($personRole);
