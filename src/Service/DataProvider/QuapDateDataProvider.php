@@ -2,6 +2,7 @@
 
 namespace App\Service\DataProvider;
 
+use App\DTO\Model\AnswersDTO;
 use App\Entity\Group;
 use App\Repository\GroupRepository;
 use App\Repository\GroupTypeRepository;
@@ -26,12 +27,12 @@ class QuapDateDataProvider extends WidgetDataProvider
         $this->quapService = $quapService;
     }
 
-    public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes)
+    public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes): AnswersDTO
     {
         $today = new \DateTime();
 
         $date = ($today->format('Y-m-d') === $date) ? null : \DateTimeImmutable::createFromFormat('Y-m-d', $date);
 
-        return $this->quapService->getAnswers($group, $date)->getAnswers();
+        return $this->quapService->getAnswers($group, $date);
     }
 }

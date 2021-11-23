@@ -93,6 +93,7 @@ class QuapAggregator extends WidgetAggregator
                     $currentQuap->setGroup($mainGroup);
                     $currentQuap->setQuestionnaire($questionnaire);
                     $currentQuap->setAnswers(json_decode('{}'));
+                    $currentQuap->setComputedAnswers(json_decode('{}'));
                     $currentQuap->setCreatedAt(new \DateTimeImmutable());
                 }
 
@@ -104,6 +105,7 @@ class QuapAggregator extends WidgetAggregator
                 $newQuap->setGroup($currentQuap->getGroup());
                 $newQuap->setQuestionnaire($currentQuap->getQuestionnaire());
                 $newQuap->setAnswers($currentQuap->getAnswers());
+                $newQuap->setComputedAnswers($currentQuap->getComputedAnswers());
                 $newQuap->setCreatedAt(new \DateTimeImmutable());
 
                 $this->em->persist($newQuap);

@@ -31,7 +31,7 @@ class Question
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type = "integer")
+     * @ORM\Column(type="integer")
      * @var int $id
      */
     private $id;
@@ -64,6 +64,12 @@ class Question
      * @var string $answer_options
      */
     private $answer_options;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string|null $evaluation_function
+     */
+    private $evaluation_function;
 
     /**
      * @ORM\OneToMany(targetEntity="Help", mappedBy="question", cascade={"persist"})
@@ -169,6 +175,22 @@ class Question
     public function setAnswerOptions(string $answer_options): void
     {
         $this->answer_options = $answer_options;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEvaluationFunction(): ?string
+    {
+        return $this->evaluation_function;
+    }
+
+    /**
+     * @param string|null $evaluation_function
+     */
+    public function setEvaluationFunction(?string $evaluation_function): void
+    {
+        $this->evaluation_function = $evaluation_function;
     }
 
     /**

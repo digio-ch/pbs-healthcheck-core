@@ -77,7 +77,7 @@ class ImportQuestionnairesCommand extends StatisticsCommand
     protected function configure()
     {
         $this
-            ->setName("app:import-questionnaire");
+            ->setName("app:quap:import-questionnaire");
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int

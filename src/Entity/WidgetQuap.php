@@ -23,9 +23,14 @@ class WidgetQuap extends Widget
     private $questionnaire;
 
     /**
-     * @ORM\Column(type = "json")
+     * @ORM\Column(type="json")
      */
     private $answers;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $computed_answers;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
@@ -62,5 +67,21 @@ class WidgetQuap extends Widget
     public function setAnswers($answers): void
     {
         $this->answers = $answers;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComputedAnswers()
+    {
+        return $this->computed_answers;
+    }
+
+    /**
+     * @param mixed $computed_answers
+     */
+    public function setComputedAnswers($computed_answers): void
+    {
+        $this->computed_answers = $computed_answers;
     }
 }

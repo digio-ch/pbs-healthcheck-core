@@ -21,7 +21,6 @@ class AspectRepository extends ServiceEntityRepository
 
     public function getExisting(int $questionnaireId, string $dateTime)
     {
-
         return $this->createQueryBuilder("a")
             ->where("a.questionnaire = :questionnaireId")
             ->andWhere('((a.deletedAt IS NULL OR a.deletedAt >= :date) AND a.createdAt <= :date)')

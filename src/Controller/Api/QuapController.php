@@ -65,8 +65,8 @@ class QuapController extends AbstractController
         $date = $request->get('date', null);
         $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : null;
 
-        $widgetQuap = $this->quapService->getAnswers($group, $date);
+        $answers = $this->quapService->getAnswers($group, $date);
 
-        return $this->json($widgetQuap->getAnswers());
+        return $this->json($answers);
     }
 }

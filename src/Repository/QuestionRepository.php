@@ -19,6 +19,14 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
+    public function findEvaluable(): array
+    {
+        return $this->createQueryBuilder("q")
+            ->where("q.evaluation_function IS NOT NULL")
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getExisting(int $aspectId, string $dateTime)
     {
         return $this->createQueryBuilder("q")
