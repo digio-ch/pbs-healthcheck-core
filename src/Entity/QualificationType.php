@@ -11,6 +11,17 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class QualificationType
 {
+    public const ABSOLVENT_AL = 1;
+    public const ABSOLVENT_EINFUEHRUNGSKURS_BIBER = 2;
+    public const ABSOLVENT_EINFUEHRUNGSKURS_PIO = 3;
+    public const ABSOLVENT_EINFUEHRUNGSKURS_PTA = 4;
+    public const ABSOLVENT_EINFUEHRUNGSKURS_ROVER = 5;
+    public const ABSOLVENT_PANORAMAKURS = 10;
+    public const JS_COACH = 15;
+    public const JS_LAGERLEITER = 22;
+    public const JS_LEITER_JUGENDSPORT = 23;
+    public const JS_LEITER_KINDERSPORT = 24;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

@@ -28,6 +28,13 @@ class Question
     const ANSWER_OPTION_RANGE = 'range';
     const ANSWER_OPTION_MIDATA_RANGE = 'midata-range';
 
+    const ANSWER_NOT_ANSWERED = 0;
+    const ANSWER_FULLY_APPLIES = 1;
+    const ANSWER_PARTIALLY_APPLIES = 2;
+    const ANSWER_SOMEWHAT_APPLIES = 3;
+    const ANSWER_DONT_APPLIES = 4;
+    const ANSWER_NOT_RELEVANT = 5;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

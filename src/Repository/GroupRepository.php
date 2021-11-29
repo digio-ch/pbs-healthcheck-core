@@ -122,6 +122,29 @@ class GroupRepository extends ServiceEntityRepository
         return $query->fetchAll(FetchMode::COLUMN);
     }
 
+    public function findAllSubGroupIdsByParentGroupId(int $groupId)
+    {
+        $conn = $this->_em->getConnection();
+        $query = $conn->executeQuery(
+            "
+            WITH RECURSIVE tree AS (
+              SELECT g.id FROM midata_group as g
+              INNER JOIN
+                  midata_group_type as gt ON g.group_type_id = gt.id
+              WHERE parent_group_id = ?
+              UNION ALL
+              SELECT g.id FROM midata_group as g
+              INNER JOIN tree ON g.parent_group_id = tree.id
+              INNER JOIN
+                  midata_group_type as gt ON g.group_type_id = gt.id
+              WHERE g.parent_group_id = tree.id
+            ) SELECT * FROM tree;",
+            [ $groupId ],
+            [ ParameterType::STRING ]
+        );
+        return $query->fetchAll(FetchMode::COLUMN);
+    }
+
     /**
      * @param string $parentGroupId
      * @param array|string[] $subGroupTypes
