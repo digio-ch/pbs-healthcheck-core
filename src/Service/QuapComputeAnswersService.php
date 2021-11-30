@@ -9,7 +9,6 @@ use App\Entity\Question;
 use App\Entity\Role;
 use App\Repository\GroupRepository;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -147,102 +146,96 @@ class QuapComputeAnswersService
 
     private function hasPercentage(array $groupIds, array $leaderRoles, array $qualificationIds): int
     {
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT (CASE
-                        WHEN count_member >= 1 THEN ((100 / count_member * count_recognition) >= 66)
-                        ELSE FALSE
-                    END) AS result FROM (
-                    SELECT count(DISTINCT midata_person_role.person_id) AS count_member FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type IN (?)
-                    ) AS count_member, (
-                    SELECT count(DISTINCT midata_person_role.person_id) AS count_recognition FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type IN (?)
-                        AND midata_person_qualification.qualification_type_id IN (?)
-                    ) AS count_recognition;
-                ",
-                [
-                    $groupIds,
-                    $leaderRoles,
-                    $groupIds,
-                    $leaderRoles,
-                    $qualificationIds
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                    Connection::PARAM_INT_ARRAY
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT (CASE
+                    WHEN count_member >= 1 THEN ((100 / count_member * count_recognition) >= 66)
+                    ELSE FALSE
+                END) AS result FROM (
+                SELECT count(DISTINCT midata_person_role.person_id) AS count_member FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type IN (?)
+                ) AS count_member, (
+                SELECT count(DISTINCT midata_person_role.person_id) AS count_recognition FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type IN (?)
+                    AND midata_person_qualification.qualification_type_id IN (?)
+                ) AS count_recognition;
+            ",
+            [
+                $groupIds,
+                $leaderRoles,
+                $groupIds,
+                $leaderRoles,
+                $qualificationIds
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_INT_ARRAY
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
     private function hasPercentageComplex(array $groupIds, array $leaderRoles, array $mainQualificationIds, array $additionalQualificationIds): int
     {
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT (CASE
-                        WHEN count_member >= 1 THEN ((100 / count_member * count_recognition) >= 66)
-                        ELSE FALSE
-                    END) AS result FROM (
-                    SELECT count(DISTINCT midata_person_role.person_id) AS count_member FROM midata_person_role
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT (CASE
+                    WHEN count_member >= 1 THEN ((100 / count_member * count_recognition) >= 66)
+                    ELSE FALSE
+                END) AS result FROM (
+                SELECT count(DISTINCT midata_person_role.person_id) AS count_member FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type IN (?)
+                ) AS count_member, (
+                SELECT count(id_1.id) AS count_recognition FROM (
+                    SELECT DISTINCT midata_person_role.person_id AS id FROM midata_person_role
                         JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                        JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                         WHERE midata_person_role.group_id IN (?)
                         AND midata_role.role_type IN (?)
-                    ) AS count_member, (
-                    SELECT count(id_1.id) AS count_recognition FROM (
+                        AND midata_person_qualification.qualification_type_id IN (?)) AS id_1
+                    JOIN (
                         SELECT DISTINCT midata_person_role.person_id AS id FROM midata_person_role
                             JOIN midata_role ON midata_person_role.role_id = midata_role.id
                             JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                             WHERE midata_person_role.group_id IN (?)
                             AND midata_role.role_type IN (?)
-                            AND midata_person_qualification.qualification_type_id IN (?)) AS id_1
-                        JOIN (
-                            SELECT DISTINCT midata_person_role.person_id AS id FROM midata_person_role
-                                JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                                JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
-                                WHERE midata_person_role.group_id IN (?)
-                                AND midata_role.role_type IN (?)
-                                AND midata_person_qualification.qualification_type_id IN (?)) AS id_2
-                        ON id_1.id = id_2.id
-                    ) AS count_recognition;
-                ",
-                [
-                    $groupIds,
-                    $leaderRoles,
-                    $groupIds,
-                    $leaderRoles,
-                    $mainQualificationIds,
-                    $groupIds,
-                    $leaderRoles,
-                    $additionalQualificationIds
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                    Connection::PARAM_INT_ARRAY
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+                            AND midata_person_qualification.qualification_type_id IN (?)) AS id_2
+                    ON id_1.id = id_2.id
+                ) AS count_recognition;
+            ",
+            [
+                $groupIds,
+                $leaderRoles,
+                $groupIds,
+                $leaderRoles,
+                $mainQualificationIds,
+                $groupIds,
+                $leaderRoles,
+                $additionalQualificationIds
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_INT_ARRAY
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
@@ -250,41 +243,38 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT id_leader = id_educated AS result FROM (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_leader FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type IN (?)
-                    ) AS id_leader, (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type IN (?)
-                        AND midata_person_qualification.qualification_type_id = ?
-                    ) AS id_educated;
-                ",
-                [
-                    $groupIds,
-                    Role::DEPARTMENT_LEADER_ROLES,
-                    $groupIds,
-                    Role::DEPARTMENT_LEADER_ROLES,
-                    QualificationType::JS_LAGERLEITER,
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                    ParameterType::INTEGER,
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT id_leader = id_educated AS result FROM (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_leader FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type IN (?)
+                ) AS id_leader, (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type IN (?)
+                    AND midata_person_qualification.qualification_type_id = ?
+                ) AS id_educated;
+            ",
+            [
+                $groupIds,
+                Role::DEPARTMENT_LEADER_ROLES,
+                $groupIds,
+                Role::DEPARTMENT_LEADER_ROLES,
+                QualificationType::JS_LAGERLEITER,
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                ParameterType::INTEGER,
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
@@ -292,54 +282,51 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT (id_president = id_educated_1) AND (id_president = id_educated_2) AS result FROM (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_president FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type IN (?)
-                    ) AS id_president, (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated_1 FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type IN (?)
-                        AND midata_person_qualification.qualification_type_id = ?
-                    ) AS id_educated_1, (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated_2 FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type IN (?)
-                        AND midata_person_qualification.qualification_type_id = ?
-                    ) AS id_educated_2;
-                ",
-                [
-                    $groupIds,
-                    Role::DEPARTMENT_PRESIDENT_ROLES,
-                    $groupIds,
-                    Role::DEPARTMENT_PRESIDENT_ROLES,
-                    QualificationType::ABSOLVENT_AL,
-                    $groupIds,
-                    Role::DEPARTMENT_PRESIDENT_ROLES,
-                    QualificationType::ABSOLVENT_PANORAMAKURS,
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                    ParameterType::INTEGER,
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                    ParameterType::INTEGER,
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT (id_president = id_educated_1) AND (id_president = id_educated_2) AS result FROM (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_president FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type IN (?)
+                ) AS id_president, (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated_1 FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type IN (?)
+                    AND midata_person_qualification.qualification_type_id = ?
+                ) AS id_educated_1, (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated_2 FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type IN (?)
+                    AND midata_person_qualification.qualification_type_id = ?
+                ) AS id_educated_2;
+            ",
+            [
+                $groupIds,
+                Role::DEPARTMENT_PRESIDENT_ROLES,
+                $groupIds,
+                Role::DEPARTMENT_PRESIDENT_ROLES,
+                QualificationType::ABSOLVENT_AL,
+                $groupIds,
+                Role::DEPARTMENT_PRESIDENT_ROLES,
+                QualificationType::ABSOLVENT_PANORAMAKURS,
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                ParameterType::INTEGER,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                ParameterType::INTEGER,
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
@@ -354,37 +341,34 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT count_parents_council >= 1 AND count_president_parents_council >= 1 FROM (
-                    SELECT count(DISTINCT midata_person_role.person_id) AS count_parents_council FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                    ) AS count_parents_council, (
-                    SELECT count(DISTINCT midata_person_role.person_id) AS count_president_parents_council FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                    ) AS count_president_parents_council
-                ",
-                [
-                    $groupIds,
-                    Role::PARENTS_COUNCIL_MEMBER,
-                    $groupIds,
-                    Role::PARENTS_COUNCIL_PRESIDENT,
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT count_parents_council >= 1 AND count_president_parents_council >= 1 FROM (
+                SELECT count(DISTINCT midata_person_role.person_id) AS count_parents_council FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ) AS count_parents_council, (
+                SELECT count(DISTINCT midata_person_role.person_id) AS count_president_parents_council FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ) AS count_president_parents_council
+            ",
+            [
+                $groupIds,
+                Role::PARENTS_COUNCIL_MEMBER,
+                $groupIds,
+                Role::PARENTS_COUNCIL_PRESIDENT,
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
@@ -406,43 +390,40 @@ class QuapComputeAnswersService
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT count_leitpfadi = count_count_leitpfadi_age FROM (
-                    SELECT count(DISTINCT midata_person_role.person_id) AS count_leitpfadi FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                    ) AS count_leitpfadi, (
-                    SELECT count(DISTINCT midata_person_role.person_id) AS count_count_leitpfadi_age FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        JOIN midata_person ON midata_person_role.person_id = midata_person.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                        AND midata_person.birthday > ?::date AND midata_person.birthday < ?::date
-                    ) AS count_count_leitpfadi_age
-                ",
-                [
-                    $groupIds,
-                    Role::PFADI_LEITPFADI,
-                    $groupIds,
-                    Role::PFADI_LEITPFADI,
-                    $minDate->format('Y-m-d'),
-                    $maxDate->format('Y-m-d'),
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                    ParameterType::STRING,
-                    ParameterType::STRING,
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT count_leitpfadi = count_count_leitpfadi_age FROM (
+                SELECT count(DISTINCT midata_person_role.person_id) AS count_leitpfadi FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ) AS count_leitpfadi, (
+                SELECT count(DISTINCT midata_person_role.person_id) AS count_count_leitpfadi_age FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    JOIN midata_person ON midata_person_role.person_id = midata_person.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                    AND midata_person.birthday > ?::date AND midata_person.birthday < ?::date
+                ) AS count_count_leitpfadi_age
+            ",
+            [
+                $groupIds,
+                Role::PFADI_LEITPFADI,
+                $groupIds,
+                Role::PFADI_LEITPFADI,
+                $minDate->format('Y-m-d'),
+                $maxDate->format('Y-m-d'),
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
@@ -488,25 +469,22 @@ class QuapComputeAnswersService
 
     private function hasGroup(array $groupIds, int $groupTypeId): int
     {
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT count(DISTINCT id) > 0 FROM midata_group
-                    WHERE midata_group.id IN (?)
-                    AND midata_group.group_type_id = ?
-                ",
-                [
-                    $groupIds,
-                    $groupTypeId,
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::INTEGER,
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT count(DISTINCT id) > 0 FROM midata_group
+                WHERE midata_group.id IN (?)
+                AND midata_group.group_type_id = ?
+            ",
+            [
+                $groupIds,
+                $groupTypeId,
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::INTEGER,
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
@@ -514,46 +492,43 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT ids_leader @> array_cat(ids_rover_leader, ids_rover) FROM (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_leader FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type IN (?)
-                    ) AS ids_leader, (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover_leader FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                    ) AS ids_rover_leader, (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover FROM midata_person_role
-                        JOIN midata_group ON midata_person_role.group_id = midata_group.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_group.group_type_id = ?
-                    ) AS ids_rover;
-                ",
-                [
-                    $groupIds,
-                    Role::LEADER_ROLES,
-                    $groupIds,
-                    Role::DEPARTMENT_LEADER_ROVER,
-                    $groupIds,
-                    GroupType::ROVER,
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::INTEGER,
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT ids_leader @> array_cat(ids_rover_leader, ids_rover) FROM (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_leader FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type IN (?)
+                ) AS ids_leader, (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover_leader FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ) AS ids_rover_leader, (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover FROM midata_person_role
+                    JOIN midata_group ON midata_person_role.group_id = midata_group.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_group.group_type_id = ?
+                ) AS ids_rover;
+            ",
+            [
+                $groupIds,
+                Role::LEADER_ROLES,
+                $groupIds,
+                Role::DEPARTMENT_LEADER_ROVER,
+                $groupIds,
+                GroupType::ROVER,
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::INTEGER,
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
@@ -601,31 +576,28 @@ class QuapComputeAnswersService
 
     private function leaderAge(array $groupIds, array $leaderRoles, string $date): int
     {
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT bool_and(birthday < ?::date) FROM midata_person
-                    WHERE midata_person.id IN (
-                        SELECT DISTINCT midata_person_role.person_id FROM midata_person_role
-                            JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                            WHERE midata_person_role.group_id IN (?)
-                            AND midata_role.role_type IN (?)
-                    )
-                ",
-                [
-                    $date,
-                    $groupIds,
-                    $leaderRoles,
-                ],
-                [
-                    ParameterType::STRING,
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT bool_and(birthday < ?::date) FROM midata_person
+                WHERE midata_person.id IN (
+                    SELECT DISTINCT midata_person_role.person_id FROM midata_person_role
+                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                        WHERE midata_person_role.group_id IN (?)
+                        AND midata_role.role_type IN (?)
+                )
+            ",
+            [
+                $date,
+                $groupIds,
+                $leaderRoles,
+            ],
+            [
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
@@ -633,79 +605,76 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT 
-                    (NOT (ids_biber && ids_woelfe) AND NOT (ids_biber && ids_pfadi) AND NOT (ids_biber && ids_pio) AND NOT (ids_biber && ids_rover) AND NOT (ids_biber && ids_pta)) AND
-                    (NOT (ids_woelfe && ids_pfadi) AND NOT (ids_woelfe && ids_pio) AND NOT (ids_woelfe && ids_rover) AND NOT (ids_woelfe && ids_pta)) AND
-                    (NOT (ids_pfadi && ids_pio) AND NOT (ids_pfadi && ids_rover) AND NOT (ids_pfadi && ids_pta)) AND
-                    (NOT (ids_pio && ids_rover) AND NOT (ids_pio && ids_pta)) AND
-                    (NOT (ids_rover && ids_pta))
-                    FROM (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_biber FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                    ) AS ids_biber, (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_woelfe FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                    ) AS ids_woelfe, (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pfadi FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                    ) AS ids_pfadi, (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pio FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                    ) AS ids_pio, (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                    ) AS ids_rover, (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pta FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                    ) AS ids_pta;
-                ",
-                [
-                    $groupIds,
-                    Role::DEPARTMENT_LEADER_BIBER,
-                    $groupIds,
-                    Role::DEPARTMENT_LEADER_WOELFE,
-                    $groupIds,
-                    Role::DEPARTMENT_LEADER_PFADI,
-                    $groupIds,
-                    Role::DEPARTMENT_LEADER_PIO,
-                    $groupIds,
-                    Role::DEPARTMENT_LEADER_ROVER,
-                    $groupIds,
-                    Role::DEPARTMENT_LEADER_PTA,
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT 
+                (NOT (ids_biber && ids_woelfe) AND NOT (ids_biber && ids_pfadi) AND NOT (ids_biber && ids_pio) AND NOT (ids_biber && ids_rover) AND NOT (ids_biber && ids_pta)) AND
+                (NOT (ids_woelfe && ids_pfadi) AND NOT (ids_woelfe && ids_pio) AND NOT (ids_woelfe && ids_rover) AND NOT (ids_woelfe && ids_pta)) AND
+                (NOT (ids_pfadi && ids_pio) AND NOT (ids_pfadi && ids_rover) AND NOT (ids_pfadi && ids_pta)) AND
+                (NOT (ids_pio && ids_rover) AND NOT (ids_pio && ids_pta)) AND
+                (NOT (ids_rover && ids_pta))
+                FROM (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_biber FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ) AS ids_biber, (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_woelfe FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ) AS ids_woelfe, (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pfadi FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ) AS ids_pfadi, (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pio FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ) AS ids_pio, (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ) AS ids_rover, (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pta FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ) AS ids_pta;
+            ",
+            [
+                $groupIds,
+                Role::DEPARTMENT_LEADER_BIBER,
+                $groupIds,
+                Role::DEPARTMENT_LEADER_WOELFE,
+                $groupIds,
+                Role::DEPARTMENT_LEADER_PFADI,
+                $groupIds,
+                Role::DEPARTMENT_LEADER_PIO,
+                $groupIds,
+                Role::DEPARTMENT_LEADER_ROVER,
+                $groupIds,
+                Role::DEPARTMENT_LEADER_PTA,
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
@@ -760,26 +729,23 @@ class QuapComputeAnswersService
 
     private function hasRole(array $groupIds, string $role): int
     {
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT count(DISTINCT midata_person_role.person_id) >= 1 FROM midata_person_role
-                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                    WHERE midata_person_role.group_id IN (?)
-                    AND midata_role.role_type = ?
-                ",
-                [
-                    $groupIds,
-                    $role,
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT count(DISTINCT midata_person_role.person_id) >= 1 FROM midata_person_role
+                JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                WHERE midata_person_role.group_id IN (?)
+                AND midata_role.role_type = ?
+            ",
+            [
+                $groupIds,
+                $role,
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
@@ -787,37 +753,34 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT (NOT (ids_coach && ids_leader)) FROM (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_coach FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type = ?
-                    ) AS ids_coach, (
-                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_leader FROM midata_person_role
-                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
-                        WHERE midata_person_role.group_id IN (?)
-                        AND midata_role.role_type IN (?)
-                    ) AS ids_leader;
-                ",
-                [
-                    $groupIds,
-                    Role::DEPARTMENT_COACH,
-                    $groupIds,
-                    Role::LEADER_ROLES,
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::STRING,
-                    Connection::PARAM_INT_ARRAY,
-                    Connection::PARAM_STR_ARRAY,
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT (NOT (ids_coach && ids_leader)) FROM (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_coach FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ) AS ids_coach, (
+                SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_leader FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type IN (?)
+                ) AS ids_leader;
+            ",
+            [
+                $groupIds,
+                Role::DEPARTMENT_COACH,
+                $groupIds,
+                Role::LEADER_ROLES,
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+                Connection::PARAM_INT_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+            ]
+        )->fetchOne();
+
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
