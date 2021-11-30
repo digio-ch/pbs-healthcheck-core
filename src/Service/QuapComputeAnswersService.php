@@ -78,6 +78,8 @@ class QuapComputeAnswersService
                 return $this->leaderPfadi($group);
             case 'leader_pio':
                 return $this->leaderPio($group);
+            case 'leader_rover':
+                return $this->leaderRover($group);
             case 'leader_pta':
                 return $this->leaderPta($group);
             case 'has_leitpfadi':

@@ -4,7 +4,6 @@ namespace App\Command;
 
 use App\Entity\Group;
 use App\Entity\Question;
-use App\Entity\WidgetQuap;
 use App\Helper\QuapAnswerStackHelper;
 use App\Repository\GroupRepository;
 use App\Repository\QuestionRepository;

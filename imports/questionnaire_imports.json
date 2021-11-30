@@ -905,7 +905,7 @@
             "question_de": "Unsere Abteilung hat einen APV und eine definierte Person für das Präsidium.",
             "question_fr": "Notre groupe a une AdA et une personne définie pour sa présidence.",
             "question_it": "La nostra sezione ha un gruppo anziani scout e il suo rispettivo presidente",
-            "answer_options": "midata-binary",
+            "answer_options": "binary",
             "evaluation_function": null
           },
           {
@@ -2175,7 +2175,7 @@
             "question_fr": "Au sein de notre groupe, il y a des responsables de patrouille. ",
             "question_it": "Nella nostra sezione ci sono capi pattuglia ",
             "answer_options": "midata-binary",
-            "evaluation_function": "has_leipfi"
+            "evaluation_function": "has_leitpfadi"
           },
           {
             "id": 22,
