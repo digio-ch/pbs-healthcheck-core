@@ -13,7 +13,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AutomaticallyAnswerQuestionsCommand extends Command
+class ComputeAnswersCommand extends Command
 {
     /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
@@ -44,7 +44,7 @@ class AutomaticallyAnswerQuestionsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName("app:quap:automatically-answer-questions");
+            ->setName("app:quap:compute-answers");
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
