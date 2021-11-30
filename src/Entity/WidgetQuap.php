@@ -30,7 +30,7 @@ class WidgetQuap extends Widget
     /**
      * @ORM\Column(type="json")
      */
-    private $computed_answers;
+    private $computedAnswers;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
@@ -74,14 +74,14 @@ class WidgetQuap extends Widget
      */
     public function getComputedAnswers()
     {
-        return $this->computed_answers;
+        return $this->computedAnswers;
     }
 
     /**
-     * @param mixed $computed_answers
+     * @param mixed $computedAnswers
      */
-    public function setComputedAnswers($computed_answers): void
+    public function setComputedAnswers($computedAnswers): void
     {
-        $this->computed_answers = $computed_answers;
+        $this->computedAnswers = $computedAnswers;
     }
 }

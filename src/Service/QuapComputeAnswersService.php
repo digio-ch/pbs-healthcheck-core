@@ -16,10 +16,10 @@ use Doctrine\ORM\EntityManagerInterface;
 class QuapComputeAnswersService
 {
     /** @var GroupRepository $groupRepository */
-    private $groupRepository;
+    private GroupRepository $groupRepository;
 
     /** @var EntityManagerInterface $em */
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(
         GroupRepository $groupRepository,
@@ -191,7 +191,10 @@ class QuapComputeAnswersService
         try {
             $result = $this->em->getConnection()->executeQuery(
                 "
-                SELECT ((100 / count_member * count_recognition) >= 66) AS result FROM (
+                SELECT (CASE
+                        WHEN count_member >= 1 THEN ((100 / count_member * count_recognition) >= 66)
+                        ELSE FALSE
+                    END) AS result FROM (
                     SELECT count(DISTINCT midata_person_role.person_id) AS count_member FROM midata_person_role
                         JOIN midata_role ON midata_person_role.role_id = midata_role.id
                         WHERE midata_person_role.group_id IN (?)
@@ -290,7 +293,7 @@ class QuapComputeAnswersService
         try {
             $result = $this->em->getConnection()->executeQuery(
                 "
-                SELECT (id_president = id_educated_1) AND (id_leader = id_educated_2) AS result FROM (
+                SELECT (id_president = id_educated_1) AND (id_president = id_educated_2) AS result FROM (
                     SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_president FROM midata_person_role
                         JOIN midata_role ON midata_person_role.role_id = midata_role.id
                         WHERE midata_person_role.group_id IN (?)
@@ -392,12 +395,12 @@ class QuapComputeAnswersService
         // 05. 05. 2008 // 13 yo, 13 today    // today - 13y
         $now = new \DateTime('now');
 
-        $minDuration = new \DateInterval('15Y');
+        $minDuration = new \DateInterval('P15Y');
         $minDuration->invert = 1;
-        $oneDay = new \DateInterval('1D');
+        $oneDay = new \DateInterval('P1D');
         $minDate = $now->add($minDuration)->add($oneDay);
 
-        $maxDuration = new \DateInterval('13Y');
+        $maxDuration = new \DateInterval('P13Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 
@@ -558,7 +561,7 @@ class QuapComputeAnswersService
 
         $now = new \DateTime('now');
 
-        $maxDuration = new \DateInterval('17Y');
+        $maxDuration = new \DateInterval('P17Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 
@@ -574,7 +577,7 @@ class QuapComputeAnswersService
 
         $now = new \DateTime('now');
 
-        $maxDuration = new \DateInterval('19Y');
+        $maxDuration = new \DateInterval('P19Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 
@@ -587,7 +590,7 @@ class QuapComputeAnswersService
 
         $now = new \DateTime('now');
 
-        $maxDuration = new \DateInterval('20Y');
+        $maxDuration = new \DateInterval('P20Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 

@@ -32,4 +32,10 @@ class WidgetQuapRepository extends AggregatedEntityRepository
         }
         return null;
     }
+
+    public function save(WidgetQuap $widgetQuap): void
+    {
+        $this->getEntityManager()->persist($widgetQuap);
+        $this->getEntityManager()->flush();
+    }
 }
