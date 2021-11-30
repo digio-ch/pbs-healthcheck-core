@@ -87,8 +87,8 @@
             "question_de": "Mindestens zwei Drittel aller Leitenden der Wolfsstufe haben einen Basis- oder Einführungskurs Wolfsstufe besucht.",
             "question_fr": "Au moins deux tiers des responsables de la branche Louveteaux ont suivi un cours de base ou un cours d'introduction Louveteaux. ",
             "question_it": "Almeno due terzi degli animatori della branca lupetti hanno frequentato un corso base o un corso di introduzione alla branca lupetti.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_woelf"
           },
           {
             "id": 2,
@@ -130,8 +130,8 @@
             "question_de": "Mindestens zwei Drittel aller Leitenden der Pfadistufe haben einen Basis- oder Einführungskurs Pfadistufe besucht.",
             "question_fr": "Au moins deux tiers des responsables de la branche Eclais ont suivi un cours de base ou un cours d'introduction Eclais. ",
             "question_it": "Almeno due terzi degli animatori della branca esploratori hanno frequentato un corso base o un corso di introduzione alla branca esploratori.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_pfadi"
           },
           {
             "id": 3,
@@ -173,8 +173,8 @@
             "question_de": "Mindestens zwei Drittel aller Leitenden der Biberstufe haben einen Basiskurs und den Einführungskurs Biberstufe besucht.",
             "question_fr": "Au moins deux tiers des responsables de la branche Castors ont suivi un cours de base ou un cours d'introduction Castors. ",
             "question_it": "Almeno due terzi degli animatori della branca castori hanno frequentato un corso base o un corso di introduzione alla branca castori.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_biber"
           },
           {
             "id": 4,
@@ -216,8 +216,8 @@
             "question_de": "Mindestens zwei Drittel aller Leitenden der Piostufe haben einen Basiskurs und den Einführungskurs Piostufe besucht.",
             "question_fr": "Au moins deux tiers des responsables de la branche Picos ont suivi un cours de base ou un cours d'introduction Picos. ",
             "question_it": "Almeno due terzi degli animatori della branca pionieri hanno frequentato un corso base o un corso di introduzione alla branca pionieri.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_pio"
           },
           {
             "id": 5,
@@ -247,8 +247,8 @@
             "question_de": "Die Stufenleitenden haben einen Aufbaukurs besucht.",
             "question_fr": "Les responsables de branche ont suivi un cours de perfectionnement.",
             "question_it": "I capi branca hanno seguito un corso campo.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "group_leaders_educated"
           },
           {
             "id": 6,
@@ -302,8 +302,8 @@
             "question_de": "Die Abteilungsleitenden haben den Panorama- und AL-Kurs besucht. ",
             "question_fr": "Les responsables de groupe ont participé au cours Panorama et au cours de RG.",
             "question_it": "I capi sezione hanno seguito il corso panorama e il corso capi sezione. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "group_president_educated"
           },
           {
             "id": 7,
@@ -831,8 +831,8 @@
             "question_de": "Unsere Abteilung hat eine*n Coach. ",
             "question_fr": "Notre groupe a un·e coach. ",
             "question_it": "La nostra sezione ha un coach. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_coach"
           },
           {
             "id": 1,
@@ -874,8 +874,8 @@
             "question_de": "Unsere Abteilung hat einen Elternrat und eine definierte Person für das Präsidium.",
             "question_fr": "Notre groupe a un comité de parents et une personne définie pour sa présidence.",
             "question_it": "La nostra sezione ha un consiglio dei genitori/comitato e il suo rispettivo presidente. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_parents_council"
           },
           {
             "id": 2,
@@ -1065,8 +1065,8 @@
             "question_de": "Unsere Betreuungsrollen sind nicht in einer leitenden Position in der Abteilung tätig.",
             "question_fr": "Les personnes encadrant notre groupe n'occupent pas une position de responsable dans le groupe. ",
             "question_it": "Le figure d'accompagnamento nella nostra sezione non ricoprono altri ruoli come animatori. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "split_lead_coach"
           }
         ],
         "id": 2,
@@ -1634,8 +1634,8 @@
             "question_de": "Die Leitpfadis sind bei uns zwischen 13 und 14 Jahre alt. ",
             "question_fr": "Nos responsables de patrouille ont entre 13 et 14 ans. ",
             "question_it": "I capi pattuglia hanno tra i 13 e i 14 anni. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "age_leitpfadi"
           },
           {
             "id": 3,
@@ -1700,8 +1700,8 @@
             "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Biberstufe zu erleben.",
             "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Castors.",
             "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca castori. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_biber"
           },
           {
             "id": 5,
@@ -1731,8 +1731,8 @@
             "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Wolfsstufe zu erleben.",
             "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Louveteaux.",
             "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca lupetti. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_woelf"
           },
           {
             "id": 6,
@@ -1762,8 +1762,8 @@
             "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Pfadistufe zu erleben.",
             "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Eclais.",
             "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca esploratori. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pfadi"
           },
           {
             "id": 7,
@@ -1797,8 +1797,8 @@
             "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Piostufe zu erleben.",
             "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Picos.",
             "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca pionieri. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pio"
           },
           {
             "id": 8,
@@ -1828,8 +1828,8 @@
             "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Roverstufe zu erleben.",
             "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Route.",
             "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca rover.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_rover"
           },
           {
             "id": 9,
@@ -1890,8 +1890,8 @@
             "question_de": "Alle unsere Leitenden sind Mitglieder der Roverstufe. ",
             "question_fr": "Tous·tes nos responsables sont membres de la branche Route. ",
             "question_it": "Tutti i nostri animatori sono membri della branca rover. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "all_leaders_member"
           },
           {
             "id": 11,
@@ -1933,8 +1933,8 @@
             "question_de": "Alle unsere Leitenden der Wolfs- und der Pfadistufe sind mindestens 17-jährig. ",
             "question_fr": "Tous·tes nos responsables des branches Louveteaux et Eclais sont âgé·e·s d'au moins 17 ans. ",
             "question_it": "Tutti i nostri animatori della branca lupetti e della branca esploratori hanno almeno 17 anni. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_age_woelf_pfadi"
           },
           {
             "id": 12,
@@ -1976,8 +1976,8 @@
             "question_de": "Die Stufenleitenden der Piostufe sind mindestens 19-jährig.",
             "question_fr": "Les responsables de branche des Picos sont âgés d'au moins 19 ans.",
             "question_it": "Gli animatori della branca pionieri hanno almeno 19 anni.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_age_pio"
           },
           {
             "id": 13,
@@ -2007,8 +2007,8 @@
             "question_de": "Die Stufenleitenden der Biberstufe sind mindestens 20-jährig.",
             "question_fr": "Les responsables de branche des Castors sont âgés d'au moins 20 ans.",
             "question_it": "Gli animatori della branca castori hanno almeno 20 anni.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_age_biber"
           },
           {
             "id": 14,
@@ -2023,8 +2023,8 @@
             "question_de": "Bei uns ist keine Person für mehr als eine Stufe verantwortlich.",
             "question_fr": "Chez nous, personne n'est responsable de plus d'une branche.",
             "question_it": "Nella nostra sezione nessuno è responsabile in più di una branca.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "no_double_roles"
           },
           {
             "id": 15,
@@ -2039,8 +2039,8 @@
             "question_de": "Bei uns ist für die Biberstufe mind. eine Person als Biberstufenleiter*in bestimmt.",
             "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Castors.",
             "question_it": "Almeno una persona della nostra sezione è designata capo branca castori.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_biber"
           },
           {
             "id": 16,
@@ -2055,8 +2055,8 @@
             "question_de": "Bei uns ist mind. eine Person als Wolfsstufenleiter*in bestimmt.",
             "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Louveteaux.",
             "question_it": "Almeno una persona della nostra sezione è designata capo branca lupetti.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_woelf"
           },
           {
             "id": 17,
@@ -2071,8 +2071,8 @@
             "question_de": "Bei uns ist mind. eine Person als Pfadistufenleiter*in bestimmt.",
             "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Eclais.",
             "question_it": "Almeno una persona della nostra sezione è designata capo branca esploratori.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_pfadi"
           },
           {
             "id": 18,
@@ -2087,8 +2087,8 @@
             "question_de": "Bei uns ist mind. eine Person als Piosstufenleiter*in bestimmt.",
             "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Picos.",
             "question_it": "Almeno una persona della nostra sezione è designata capo branca pionieri.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_pio"
           },
           {
             "id": 19,
@@ -2103,8 +2103,8 @@
             "question_de": "Bei uns ist mind. eine Person als Roverstufenleiter*in bestimmt.",
             "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Route.",
             "question_it": "Almeno una persona della nostra sezione è designata capo branca Rover.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_rover"
           },
           {
             "id": 20,
@@ -2119,8 +2119,8 @@
             "question_de": "Bei uns ist mind. eine Person für die PTA verantwortlich und nimmt die Funktion als Ansprechsperson wahr.",
             "question_fr": "Au moins une personne est responsable des SMT et assure le rôle de personne de contact.",
             "question_it": "Almeno una persona della nostra sezione è responsabile degli SOC e assume la funzione di persona di contatto.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "leader_pta"
           },
           {
             "id": 21,
@@ -2174,8 +2174,8 @@
             "question_de": "In unserer Abteilung gibt es Leitpfadis.",
             "question_fr": "Au sein de notre groupe, il y a des responsables de patrouille. ",
             "question_it": "Nella nostra sezione ci sono capi pattuglia ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_leitpfadi"
           },
           {
             "id": 22,

@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\DTO\Mapper\AnswersMapper;
 use App\DTO\Mapper\QuestionnaireMapper;
+use App\DTO\Model\AnswersDTO;
 use App\Entity\Aspect;
 use App\Entity\Group;
 use App\Entity\Help;
@@ -150,14 +152,16 @@ class QuapService
 
     /**
      * @param Group $group
-     * @param string|null $dateTime
-     * @return WidgetQuap
+     * @param \DateTimeImmutable|null $dateTime
+     * @return AnswersDTO
      */
-    public function getAnswers(Group $group, ?\DateTimeImmutable $dateTime): WidgetQuap
+    public function getAnswers(Group $group, ?\DateTimeImmutable $dateTime): AnswersDTO
     {
-        return $this->quapRepository->findOneBy([
+        $widgetQuap = $this->quapRepository->findOneBy([
             "dataPointDate" => $dateTime !== null ? $dateTime->setTime(0, 0) : null,
             "group" => $group->getId()
         ]);
+
+        return AnswersMapper::mapAnswers($widgetQuap);
     }
 }

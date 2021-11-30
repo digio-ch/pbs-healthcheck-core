@@ -13,6 +13,79 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Role
 {
+    public const LEADER_ROLES = [
+        ...self::LEADER_ROLES_PTA,
+        ...self::LEADER_ROLES_ROVER,
+        ...self::LEADER_ROLES_WOELFE,
+        ...self::LEADER_ROLES_PFADI,
+        ...self::LEADER_ROLES_BIBER,
+        ...self::LEADER_ROLES_PIO,
+    ];
+
+    public const DEPARTMENT_LEADER_PTA = 'Group::Abteilung::StufenleitungPta';
+    public const DEPARTMENT_LEADER_ROVER = 'Group::Abteilung::StufenleitungRover';
+    public const DEPARTMENT_LEADER_PIO = 'Group::Abteilung::StufenleitungPio';
+    public const DEPARTMENT_LEADER_PFADI = 'Group::Abteilung::StufenleitungPfadi';
+    public const DEPARTMENT_LEADER_WOELFE = 'Group::Abteilung::StufenleitungWoelfe';
+    public const DEPARTMENT_LEADER_BIBER = 'Group::Abteilung::StufenleitungBiber';
+
+    public const DEPARTMENT_LEADER_ROLES = [
+        self::DEPARTMENT_LEADER_PTA,
+        self::DEPARTMENT_LEADER_ROVER,
+        self::DEPARTMENT_LEADER_PIO,
+        self::DEPARTMENT_LEADER_PFADI,
+        self::DEPARTMENT_LEADER_WOELFE,
+        self::DEPARTMENT_LEADER_BIBER,
+    ];
+
+    public const DEPARTMENT_PRESIDENT_ROLES = [
+        'Group::Abteilung::Abteilungsleitung',
+        'Group::Abteilung::AbteilungsleitungStv',
+    ];
+
+    public const DEPARTMENT_COACH = 'Group::Abteilung::Coach';
+
+    public const LEADER_ROLES_PTA = [
+        self::DEPARTMENT_LEADER_PTA,
+        'Group::Pta::Einheitsleitung',
+        'Group::Pta::Mitleitung',
+    ];
+
+    public const LEADER_ROLES_ROVER = [
+        self::DEPARTMENT_LEADER_ROVER,
+        'Group::AbteilungsRover::Einheitsleitung',
+        'Group::AbteilungsRover::Mitleitung',
+    ];
+
+    public const LEADER_ROLES_WOELFE = [
+        self::DEPARTMENT_LEADER_WOELFE,
+        'Group::Woelfe::Einheitsleitung',
+        'Group::Woelfe::Mitleitung',
+    ];
+
+    public const LEADER_ROLES_PFADI = [
+        self::DEPARTMENT_LEADER_PFADI,
+        'Group::Pfadi::Einheitsleitung',
+        'Group::Pfadi::Mitleitung',
+    ];
+
+    public const LEADER_ROLES_BIBER = [
+        self::DEPARTMENT_LEADER_BIBER,
+        'Group::Biber::Einheitsleitung',
+        'Group::Biber::Mitleitung',
+    ];
+
+    public const LEADER_ROLES_PIO = [
+        self::DEPARTMENT_LEADER_PIO,
+        'Group::Pio::Einheitsleitung',
+        'Group::Pio::Mitleitung',
+    ];
+
+    public const PFADI_LEITPFADI = 'Group::Pfadi::Leitpfadi';
+
+    public const PARENTS_COUNCIL_MEMBER = 'Group::Elternrat::Mitglied';
+    public const PARENTS_COUNCIL_PRESIDENT = 'Group::Elternrat::Praesidium';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

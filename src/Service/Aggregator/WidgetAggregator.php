@@ -118,7 +118,7 @@ abstract class WidgetAggregator
 
     public static $mainGroupRoleTypes = [
         'Group::Abteilung::Abteilungsleitung',
-        'Group::Abteilung::AbteilungsleitungStv'
+        'Group::Abteilung::AbteilungsleitungStv',
     ];
 
     public static $typePriority = [

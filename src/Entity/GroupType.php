@@ -11,6 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class GroupType
 {
+    public const BIBER = 8;
+    public const WOELFE = 9;
+    public const PFADI = 10;
+    public const PIO = 11;
+    public const ROVER = 12;
+    public const PTA = 13;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
