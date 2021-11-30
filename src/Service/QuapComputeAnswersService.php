@@ -392,7 +392,7 @@ class QuapComputeAnswersService
 
         $result = $this->em->getConnection()->executeQuery(
             "
-            SELECT count_leitpfadi = count_count_leitpfadi_age FROM (
+            SELECT count_leitpfadi = count_count_leitpfadi_age AND count_leitpfadi >= 1 FROM (
                 SELECT count(DISTINCT midata_person_role.person_id) AS count_leitpfadi FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)

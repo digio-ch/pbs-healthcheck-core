@@ -194,6 +194,8 @@ class ImportQuestionnairesCommand extends StatisticsCommand
 
         if ($question['evaluation_function']) {
             $dbQuestion->setEvaluationFunction($question['evaluation_function']);
+        } else {
+            $dbQuestion->setEvaluationFunction(null);
         }
 
         $dbQuestion->setQuestionDe($question['question_de']);
