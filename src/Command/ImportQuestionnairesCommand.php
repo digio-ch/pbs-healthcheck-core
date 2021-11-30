@@ -184,7 +184,7 @@ class ImportQuestionnairesCommand extends StatisticsCommand
                 ($requestedAnswerOptions === Question::ANSWER_OPTION_MIDATA_BINARY && $currentAnswerOptions === Question::ANSWER_OPTION_BINARY)
             ) {
                 $dbQuestion->setAnswerOptions($requestedAnswerOptions);
-            } else if (
+            } elseif (
                 ($requestedAnswerOptions === Question::ANSWER_OPTION_RANGE && $currentAnswerOptions === Question::ANSWER_OPTION_MIDATA_RANGE) ||
                 ($requestedAnswerOptions === Question::ANSWER_OPTION_MIDATA_RANGE && $currentAnswerOptions === Question::ANSWER_OPTION_RANGE)
             ) {
