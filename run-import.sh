@@ -9,3 +9,4 @@ set -e
 /usr/local/bin/php /srv/bin/console app:map-peoples-addresses
 /usr/local/bin/php /srv/bin/console app:quap:import-questionnaire
 /usr/local/bin/php /srv/bin/console app:aggregate-data
+/usr/local/bin/php /srv/bin/console app:quap:compute-answers
