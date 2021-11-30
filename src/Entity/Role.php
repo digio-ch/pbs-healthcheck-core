@@ -43,6 +43,8 @@ class Role
         'Group::Abteilung::AbteilungsleitungStv',
     ];
 
+    public const DEPARTMENT_COACH = 'Group::Abteilung::Coach';
+
     public const LEADER_ROLES_PTA = [
         self::DEPARTMENT_LEADER_PTA,
         'Group::Pta::Einheitsleitung',

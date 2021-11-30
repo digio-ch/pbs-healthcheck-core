@@ -60,7 +60,8 @@ class AutomaticallyAnswerQuestionsCommand extends Command
             /** @var Question $question */
             foreach ($questions as $question) {
                 $helper->setAnswer($question->getAspect()->getId(), $question->getId(), $this->quapComputeAnswersService->computeAnswer($question->getEvaluationFunction(), $group));
-                $this->evaluateQuestion($group, $question, $helper);
+                $result = $this->quapComputeAnswersService->computeAnswer($question->getEvaluationFunction(), $group);
+                $helper->setAnswer($question->getAspect()->getId(), $question->getId(), $result);
             }
         }
 

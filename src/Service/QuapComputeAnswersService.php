@@ -70,6 +70,20 @@ class QuapComputeAnswersService
                 return $this->leaderAgeBiber($group);
             case 'no_double_roles':
                 return $this->noDoubleRoles($group);
+            case 'leader_biber':
+                return $this->leaderBiber($group);
+            case 'leader_woelf':
+                return $this->leaderWoelf($group);
+            case 'leader_pfadi':
+                return $this->leaderPfadi($group);
+            case 'leader_pio':
+                return $this->leaderPio($group);
+            case 'leader_pta':
+                return $this->leaderPta($group);
+            case 'has_leitpfadi':
+                return $this->hasLeitpfadi($group);
+            case 'split_lead_coach':
+                return $this->splitLeadCoach($group);
             default:
                 return Question::ANSWER_NOT_ANSWERED;
         }
@@ -134,7 +148,10 @@ class QuapComputeAnswersService
         try {
             $result = $this->em->getConnection()->executeQuery(
                 "
-                SELECT ((100 / count_member * count_recognition) >= 66) AS result FROM (
+                SELECT (CASE
+                        WHEN count_member >= 1 THEN ((100 / count_member * count_recognition) >= 66)
+                        ELSE FALSE
+                    END) AS result FROM (
                     SELECT count(DISTINCT midata_person_role.person_id) AS count_member FROM midata_person_role
                         JOIN midata_role ON midata_person_role.role_id = midata_role.id
                         WHERE midata_person_role.group_id IN (?)
@@ -325,27 +342,7 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        try {
-            $result = $this->em->getConnection()->executeQuery(
-                "
-                SELECT count(DISTINCT midata_person_role.person_id) >= 1 FROM midata_person_role
-                    JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
-                    WHERE midata_person_role.group_id IN (?)
-                    AND midata_person_qualification.qualification_type_id = ?
-                ",
-                [
-                    $groupIds,
-                    QualificationType::JS_COACH,
-                ],
-                [
-                    Connection::PARAM_INT_ARRAY,
-                    ParameterType::INTEGER,
-                ]
-            )->fetchOne();
-        } catch (Exception $e) {
-            return Question::ANSWER_DONT_APPLIES;
-        }
-        return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
+        return $this->hasRole($groupIds, Role::DEPARTMENT_COACH);
     }
 
     private function hasParentsCouncil(Group $group): int
@@ -699,6 +696,118 @@ class QuapComputeAnswersService
                     ParameterType::STRING,
                     Connection::PARAM_INT_ARRAY,
                     ParameterType::STRING,
+                ]
+            )->fetchOne();
+        } catch (Exception $e) {
+            return Question::ANSWER_DONT_APPLIES;
+        }
+        return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
+    }
+
+    private function leaderBiber(Group $group): int
+    {
+        $groupIds = $this->getGroupIds($group);
+
+        return $this->hasRole($groupIds, Role::DEPARTMENT_LEADER_BIBER);
+    }
+
+    private function leaderWoelf(Group $group): int
+    {
+        $groupIds = $this->getGroupIds($group);
+
+        return $this->hasRole($groupIds, Role::DEPARTMENT_LEADER_WOELFE);
+    }
+
+    private function leaderPfadi(Group $group): int
+    {
+        $groupIds = $this->getGroupIds($group);
+
+        return $this->hasRole($groupIds, Role::DEPARTMENT_LEADER_PFADI);
+    }
+
+    private function leaderPio(Group $group): int
+    {
+        $groupIds = $this->getGroupIds($group);
+
+        return $this->hasRole($groupIds, Role::DEPARTMENT_LEADER_PIO);
+    }
+
+    private function leaderRover(Group $group): int
+    {
+        $groupIds = $this->getGroupIds($group);
+
+        return $this->hasRole($groupIds, Role::DEPARTMENT_LEADER_ROVER);
+    }
+
+    private function leaderPta(Group $group): int
+    {
+        $groupIds = $this->getGroupIds($group);
+
+        return $this->hasRole($groupIds, Role::DEPARTMENT_LEADER_PTA);
+    }
+
+    private function hasLeitpfadi(Group $group): int
+    {
+        $groupIds = $this->getGroupIds($group);
+
+        return $this->hasRole($groupIds, Role::PFADI_LEITPFADI);
+    }
+
+    private function hasRole(array $groupIds, string $role): int
+    {
+        try {
+            $result = $this->em->getConnection()->executeQuery(
+                "
+                SELECT count(DISTINCT midata_person_role.person_id) >= 1 FROM midata_person_role
+                    JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                    WHERE midata_person_role.group_id IN (?)
+                    AND midata_role.role_type = ?
+                ",
+                [
+                    $groupIds,
+                    $role,
+                ],
+                [
+                    Connection::PARAM_INT_ARRAY,
+                    ParameterType::STRING,
+                ]
+            )->fetchOne();
+        } catch (Exception $e) {
+            return Question::ANSWER_DONT_APPLIES;
+        }
+        return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
+    }
+
+    private function splitLeadCoach(Group $group): int
+    {
+        $groupIds = $this->getGroupIds($group);
+
+        try {
+            $result = $this->em->getConnection()->executeQuery(
+                "
+                SELECT (NOT (ids_coach && ids_leader)) FROM (
+                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_coach FROM midata_person_role
+                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                        WHERE midata_person_role.group_id IN (?)
+                        AND midata_role.role_type = ?
+                    ) AS ids_coach, (
+                    SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_leader FROM midata_person_role
+                        JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                        WHERE midata_person_role.group_id IN (?)
+                        AND midata_role.role_type IN (?)
+                    ) AS ids_leader;
+                ",
+                [
+                    $groupIds,
+                    Role::DEPARTMENT_COACH,
+                    $groupIds,
+                    Role::LEADER_ROLES,
+                ],
+                [
+                    Connection::PARAM_INT_ARRAY,
+                    ParameterType::STRING,
+                    Connection::PARAM_INT_ARRAY,
+                    Connection::PARAM_STR_ARRAY,
                 ]
             )->fetchOne();
         } catch (Exception $e) {
