@@ -96,7 +96,6 @@ class QuapComputeAnswersService
             $this->getGroupIds($group),
             ROLE::LEADER_ROLES_WOELFE,
             [
-                // TODO Absolvent Einführungskurs Wolf
                 QualificationType::JS_LEITER_KINDERSPORT,
             ]
         );
@@ -108,7 +107,6 @@ class QuapComputeAnswersService
             $this->getGroupIds($group),
             ROLE::LEADER_ROLES_PFADI,
             [
-                // TODO Absolvent Einführungskurs Pfadi
                 QualificationType::JS_LEITER_JUGENDSPORT,
             ]
         );
@@ -149,7 +147,7 @@ class QuapComputeAnswersService
         $result = $this->em->getConnection()->executeQuery(
             "
             SELECT (CASE
-                    WHEN count_member >= 1 THEN ((100 / count_member * count_recognition) >= 66)
+                    WHEN count_member >= 1 THEN ((100::float / count_member * count_recognition) >= 66)
                     ELSE FALSE
                 END) AS result FROM (
                 SELECT count(DISTINCT midata_person_role.person_id) AS count_member FROM midata_person_role
@@ -189,7 +187,7 @@ class QuapComputeAnswersService
         $result = $this->em->getConnection()->executeQuery(
             "
             SELECT (CASE
-                    WHEN count_member >= 1 THEN ((100 / count_member * count_recognition) >= 66)
+                    WHEN count_member >= 1 THEN ((100::float / count_member * count_recognition) >= 66)
                     ELSE FALSE
                 END) AS result FROM (
                 SELECT count(DISTINCT midata_person_role.person_id) AS count_member FROM midata_person_role
