@@ -23,7 +23,7 @@ services:
       - ../:/srv:cached
     env_file:
       - ../.env
-    restart: always
+    restart: unless-stopped
     ports:
       - "9000:9000"
     networks:
@@ -32,12 +32,14 @@ services:
 
   healthcheck-postgresql:
     container_name: healthcheck-postgresql-local
-    restart: always
     image: postgres:9.6.20
+    volumes:
+      - healthcheck-postgres-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=healthcheck-admin
       - POSTGRES_PASSWORD=Test12345!
       - POSTGRES_DB=healthcheck_local
+    restart: unless-stopped
     ports:
       - "5432:5432"
     networks:
@@ -47,11 +49,12 @@ services:
   pg-admin:
     container_name: healthcheck-pgadmin-local
     image: zhajor/docker-phppgadmin
-    ports:
-      - "5441:80"
     environment:
       - DB_HOST=healthcheck-postgresql
       - DB_PORT=5432
+    restart: unless-stopped
+    ports:
+      - "5441:80"
     networks:
       healthcheck-dev:
         ipv4_address: 172.20.0.5
@@ -62,3 +65,6 @@ networks:
     ipam:
       config:
         - subnet: 172.20.0.0/28
+
+volumes:
+  healthcheck-postgres-data:
