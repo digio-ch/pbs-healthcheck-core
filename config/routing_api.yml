@@ -82,6 +82,11 @@ quap_submit_answers:
   methods: POST
   controller: App\Controller\Api\QuapController::submitAnswers
 
+quap_change_access:
+  path: /groups/{id}/quap/questionnaire
+  methods: PATCH
+  controller: App\Controller\Api\QuapController::setAccess
+
 quap_get_answers:
   path: /groups/{id}/quap/questionnaire
   methods: GET

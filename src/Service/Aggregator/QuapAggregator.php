@@ -100,10 +100,7 @@ class QuapAggregator extends WidgetAggregator
                             $questionnaireType = Questionnaire::TYPE_DEPARTMENT;
                             break;
                     }
-                    $questionnaire = $this->questionnaireRepository->findBy(['type' => $questionnaireType]);
-                    if (is_array($questionnaire)) {
-                        $questionnaire = $questionnaire[0];
-                    }
+                    $questionnaire = $this->questionnaireRepository->findOneBy(['type' => $questionnaireType]);
 
                     $currentQuap = new WidgetQuap();
                     $currentQuap->setGroup($mainGroup);
@@ -122,6 +119,7 @@ class QuapAggregator extends WidgetAggregator
                 $newQuap->setQuestionnaire($currentQuap->getQuestionnaire());
                 $newQuap->setAnswers($currentQuap->getAnswers());
                 $newQuap->setComputedAnswers($currentQuap->getComputedAnswers());
+                $newQuap->setAllowAccess($currentQuap->getAllowAccess());
                 $newQuap->setCreatedAt(new \DateTimeImmutable());
 
                 $this->em->persist($newQuap);

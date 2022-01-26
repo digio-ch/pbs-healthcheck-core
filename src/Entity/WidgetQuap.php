@@ -38,6 +38,12 @@ class WidgetQuap extends Widget
     protected $dataPointDate;
 
     /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     * @var bool $allowAccess
+     */
+    private bool $allowAccess = false;
+
+    /**
      * @return Questionnaire
      */
     public function getQuestionnaire(): Questionnaire
@@ -83,5 +89,21 @@ class WidgetQuap extends Widget
     public function setComputedAnswers($computedAnswers): void
     {
         $this->computedAnswers = $computedAnswers;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAllowAccess(): bool
+    {
+        return $this->allowAccess;
+    }
+
+    /**
+     * @param bool $allowAccess
+     */
+    public function setAllowAccess(bool $allowAccess): void
+    {
+        $this->allowAccess = $allowAccess;
     }
 }

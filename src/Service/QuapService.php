@@ -11,6 +11,7 @@ use App\Entity\Help;
 use App\Entity\Question;
 use App\Entity\Questionnaire;
 use App\Entity\WidgetQuap;
+use App\Exception\ApiException;
 use App\Repository\AspectRepository;
 use App\Repository\HelpRepository;
 use App\Repository\LinkRepository;
@@ -132,17 +133,29 @@ class QuapService
         ]);
 
         if (!$widgetQuap) {
-            // TODO get correct questionnaire
-            $questionnaire = $this->questionnaireRepository->find(1);
-
-
-            $widgetQuap = new WidgetQuap();
-            $widgetQuap->setQuestionnaire($questionnaire);
-            $widgetQuap->setGroup($group);
-            $widgetQuap->setCreatedAt(new \DateTimeImmutable("now"));
+            throw new ApiException(400, "Something went wrong please try again later");
         }
 
         $widgetQuap->setAnswers($json);
+
+        $this->em->persist($widgetQuap);
+        $this->em->flush();
+
+        return $widgetQuap;
+    }
+
+    public function updateAllowAccess(Group $group, bool $allowAccess): WidgetQuap
+    {
+        $widgetQuap = $this->quapRepository->findOneBy([
+            "dataPointDate" => null,
+            "group" => $group->getId()
+        ]);
+
+        if (!$widgetQuap) {
+            throw new ApiException(400, "Something went wrong please try again later");
+        }
+
+        $widgetQuap->setAllowAccess($allowAccess);
 
         $this->em->persist($widgetQuap);
         $this->em->flush();

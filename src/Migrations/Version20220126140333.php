@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220126091719 extends AbstractMigration
+final class Version20220126140333 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -26,7 +26,7 @@ final class Version20220126091719 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN hc_widget_date.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN hc_widget_date.data_point_date IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('ALTER TABLE hc_widget_date ADD CONSTRAINT FK_CA07161CFE54D947 FOREIGN KEY (group_id) REFERENCES midata_group (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE hc_widget_quap ALTER computed_answers DROP DEFAULT');
+        $this->addSql('ALTER TABLE hc_widget_quap ADD allow_access BOOLEAN DEFAULT \'false\' NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -35,6 +35,6 @@ final class Version20220126091719 extends AbstractMigration
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('DROP SEQUENCE hc_widget_date_id_seq CASCADE');
         $this->addSql('DROP TABLE hc_widget_date');
-        $this->addSql('ALTER TABLE hc_widget_quap ALTER computed_answers SET DEFAULT \'[]\'');
+        $this->addSql('ALTER TABLE hc_widget_quap DROP allow_access');
     }
 }

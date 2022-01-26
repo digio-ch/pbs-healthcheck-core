@@ -58,6 +58,26 @@ class QuapController extends AbstractController
         return $this->json($savedWidgetQuap->getAnswers());
     }
 
+    /**
+     * @param Group $group
+     * @param Request $request
+     * @return void
+     * @ParamConverter("id")
+     */
+    public function setAccess(
+        Group $group,
+        Request $request
+    ): JsonResponse {
+        $payload = json_decode($request->getContent(), true);
+        if (!isset($payload['allow_access'])) {
+            throw new ApiException(400, "Invalid request body");
+        }
+
+        $widget = $this->quapService->updateAllowAccess($group, $payload['allow_access']);
+
+        return $this->json($widget->getAnswers());
+    }
+
     public function getAnswers(
         Group $group,
         Request $request

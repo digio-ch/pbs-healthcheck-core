@@ -96,10 +96,6 @@ services:
             $pbsCallbackUrl: '%env(PBS_CALLBACK_URL)%'
             $specialAccessEmails: '%env(SPECIAL_ACCESS)%'
 
-    App\Service\Aggregator\DateAggregator:
-        tags:
-            - { name: 'widget.aggregator', key: 'general.date' }
-
     App\Service\Aggregator\DemographicGroupAggregator:
         tags:
             - { name: 'widget.aggregator', key: 'widget.demographic-group' }
@@ -127,6 +123,11 @@ services:
     App\Service\Aggregator\QuapAggregator:
         tags:
             - { name: 'widget.aggregator', key: 'widget.quap' }
+
+    # This must be the last aggregator
+    App\Service\Aggregator\DateAggregator:
+        tags:
+            - { name: 'widget.aggregator', key: 'general.date' }
 
     App\Service\Aggregator\AggregatorRegistry:
         arguments: [!tagged { tag: 'widget.aggregator', index_by: 'key' }]
