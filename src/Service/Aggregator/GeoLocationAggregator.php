@@ -72,7 +72,7 @@ class GeoLocationAggregator extends WidgetAggregator
      */
     public function aggregate(DateTime $startDate = null): void
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        $mainGroups = $this->groupRepository->findAllDepartmentalParentGroups();
 
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);
         $maxDate = new DateTime();

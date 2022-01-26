@@ -51,7 +51,7 @@ class ComputeAnswersCommand extends Command
     {
         $output->writeln('Computing automated questions...');
 
-        $groups = $this->groupRepository->findAllParentGroups();
+        $groups = $this->groupRepository->findAllDepartmentalParentGroups();
         $questions = $this->questionRepository->findEvaluable();
 
         /** @var Group $group */

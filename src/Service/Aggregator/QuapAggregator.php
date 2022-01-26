@@ -3,6 +3,8 @@
 namespace App\Service\Aggregator;
 
 use App\Entity\Group;
+use App\Entity\GroupType;
+use App\Entity\Questionnaire;
 use App\Entity\WidgetQuap;
 use App\Repository\GroupRepository;
 use App\Repository\QuestionnaireRepository;
@@ -16,16 +18,16 @@ class QuapAggregator extends WidgetAggregator
     private const NAME = 'feature.quap';
 
     /** @var EntityManagerInterface $em */
-    private $em;
+    private EntityManagerInterface $em;
 
     /** @var GroupRepository $groupRepository */
-    private $groupRepository;
+    private GroupRepository $groupRepository;
 
     /** @var WidgetQuapRepository $quapRepository */
-    private $quapRepository;
+    private WidgetQuapRepository $quapRepository;
 
     /** @var QuestionnaireRepository $questionnaireRepository */
-    private $questionnaireRepository;
+    private QuestionnaireRepository $questionnaireRepository;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -57,7 +59,10 @@ class QuapAggregator extends WidgetAggregator
      */
     public function aggregate(DateTime $startDate = null)
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        $mainGroups = $this->groupRepository->findParentGroups([
+            'Group::Abteilung',
+            'Group::Kantonalverband',
+        ]);
 
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);
         $maxDate = new DateTime();
@@ -86,8 +91,19 @@ class QuapAggregator extends WidgetAggregator
                 $currentQuap = $this->quapRepository->findCurrentForGroup($mainGroup->getId());
 
                 if (is_null($currentQuap)) {
-                    // TODO EVALUATE THE CORRET QUESTIONNAIRE FOR THIS GROUP
-                    $questionnaire = $this->questionnaireRepository->find(1);
+                    switch ($mainGroup->getGroupType()->getId()) {
+                        case GroupType::CANTON:
+                            $questionnaireType = Questionnaire::TYPE_CANTON;
+                            break;
+                        case GroupType::DEPARTMENT:
+                        default:
+                            $questionnaireType = Questionnaire::TYPE_DEPARTMENT;
+                            break;
+                    }
+                    $questionnaire = $this->questionnaireRepository->findBy(['type' => $questionnaireType]);
+                    if (is_array($questionnaire)) {
+                        $questionnaire = $questionnaire[0];
+                    }
 
                     $currentQuap = new WidgetQuap();
                     $currentQuap->setGroup($mainGroup);

@@ -2421,5 +2421,219 @@
         "description_it": "Per essere in grado di svolgere i suoi compiti, una sezione dipende dalle risorse, che includono risorse materiali, umane e finanziarie. Più risorse ha una sezione, più variegate possono essere le attività offerte. Nello scoutismo, questi mezzi sono spesso direttamente correlati al numero di attivi."
       }
     ]
+  },
+  {
+    "type": "Questionnaire::Group::Canton",
+    "aspects": [
+      {
+        "questions": [
+          {
+            "id": 0,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Ausbildung in der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                },
+                {
+                  "name": "Alpha, Kapitel 5 (Ausbildung von Leitenden und Abteilungsleitenden)",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                }
+              ],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Eine vorzeitige Planung der Kursbesuche der Leitenden (z.B. bereits ein bis zwei Jahre im Voraus) erlaubt es,  fehlende Anerkennungen und Lücken frühzeitig zu erkennen. Zudem können auch die Leitenden ihre Ferien besser planen. Welche Kurse für wen geeignet sind, erklärt das Ausbildungsmodell.",
+              "help_fr": "Une planification anticipée de la participation des responsables aux cours (par exemple, un à deux ans à l'avance) permet d'identifier suffisamment tôt les connaissances manquantes et les lacunes. De plus, les responsables peuvent également mieux planifier leurs vacances. Le modèle de formation explique quels cours conviennent à qui.",
+              "help_it": "Una pianificazione anticipata delle iscrizioni degli animatori (ad esempio con uno o due anni di anticipo) consente di individuare tempestivamente le lacune e i riconoscimenti mancanti. Inoltre, anche gli animatori possono pianificare meglio le loro vacanze. Il modello di formazione spiega quali corsi sono adatti a chi."
+            },
+            "question_de": "Das Engagement und die Kursbesuche unserer Leitenden sind längerfristig (über ein bis zwei Jahre hinaus) geplant.",
+            "question_fr": "L'engagement et la participation aux cours de nos responsables sont planifiés à long terme (sur un à deux ans).",
+            "question_it": "L’impegno e la partecipazione (ruolo) dei nostri animatori vengono pianificati a lungo termine (oltre uno o due anni).",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Im Basis- oder Einführungskurs Wolfsstufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Wolfsstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
+              "help_fr": "Dans le cours de base ou d'introduction Louveteaux, les responsables se familiarisent avec les besoins et la méthodologie de la branche Louveteaux. Cela leur permet de planifier et de réaliser des activités adaptées à la branche. ",
+              "help_it": "Al corso base o al corso di introduzione alla branca lupetti, le akele apprendono le esigenze e la metodologia della branca lupetti. Ciò consente loro di pianificare e realizzare attività in base alla propria branca."
+            },
+            "question_de": "Mindestens zwei Drittel aller Leitenden der Wolfsstufe haben einen Basis- oder Einführungskurs Wolfsstufe besucht.",
+            "question_fr": "Au moins deux tiers des responsables de la branche Louveteaux ont suivi un cours de base ou un cours d'introduction Louveteaux. ",
+            "question_it": "Almeno due terzi degli animatori della branca lupetti hanno frequentato un corso base o un corso di introduzione alla branca lupetti.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_woelf"
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Im Basis- oder Einführungskurs Pfadistufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Pfadistufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
+              "help_fr": "Dans le cours de base ou d'introduction Eclais, les responsables se familiarisent avec les besoins et la méthodologie de la branche Eclais. Cela leur permet de planifier et de réaliser des activités adaptées à la branche. ",
+              "help_it": "Al corso base o al corso di introduzione alla branca esploratori, gli animatori apprendono le esigenze e la metodologia della branca esploratori. Ciò consente loro di pianificare e realizzare attività in base alla propria branca."
+            },
+            "question_de": "Mindestens zwei Drittel aller Leitenden der Pfadistufe haben einen Basis- oder Einführungskurs Pfadistufe besucht.",
+            "question_fr": "Au moins deux tiers des responsables de la branche Eclais ont suivi un cours de base ou un cours d'introduction Eclais. ",
+            "question_it": "Almeno due terzi degli animatori della branca esploratori hanno frequentato un corso base o un corso di introduzione alla branca esploratori.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_pfadi"
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Im Basiskurs lernen die Leitenden das Grundwissen zur Planung und Durchführung von Aktivitäten. Ergänzend lernen sie im Einführungskurs Biberstufe die Bedürfnisse ihrer Teilnehmenden sowie die Methodik der Biberstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
+              "help_fr": "Dans le cours de base, les responsables se familiarisent avec la planification et le déroulement des activités. En complément, dans le cours d'introduction à la branche Castors, ils se familiarisent avec les besoins et la méthodologie de la branche Castors. Cela leur permet de planifier et de réaliser des activités adaptées à la branche. ",
+              "help_it": "Al corso base gli animatori apprendono le nozioni di base per pianificare e realizzare le attività. Inoltre, durante il corso di introduzione alla branca castori imparano a conoscere le esigenze dei loro partecipanti e la metodologia della branca castori. Ciò consente loro di pianificare e realizzare attività in base alla propria branca."
+            },
+            "question_de": "Mindestens zwei Drittel aller Leitenden der Biberstufe haben einen Basiskurs und den Einführungskurs Biberstufe besucht.",
+            "question_fr": "Au moins deux tiers des responsables de la branche Castors ont suivi un cours de base ou un cours d'introduction Castors. ",
+            "question_it": "Almeno due terzi degli animatori della branca castori hanno frequentato un corso base o un corso di introduzione alla branca castori.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_biber"
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Basiskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                },
+                {
+                  "name": "Einführungskurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                }
+              ],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Im Basiskurs lernen die Leitenden das Grundwissen zur Planung und Durchführung von Aktivitäten. Ergänzend lernen sie im Einführungskurs Piostufe die Bedürfnisse ihrer Teilnehmenden sowie die Methodik der Piostufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen.",
+              "help_fr": "Dans le cours de base, les responsables se familiarisent avec la planification et le déroulement des activités. En complément, dans le cours d'introduction à la branche Picos, ils se familiarisent avec les besoins et la méthodologie de la branche Picos. Cela leur permet de planifier et de réaliser des activités adaptées à la branche.  ",
+              "help_it": "Al corso base gli animatori apprendono le nozioni di base per pianificare e realizzare le attività. Inoltre, durante il corso di introduzione alla branca pionieri imparano a conoscere le esigenze dei loro partecipanti e la metodologia della branca pionieri. Ciò consente loro di pianificare e realizzare attività in base alla propria branca."
+            },
+            "question_de": "Mindestens zwei Drittel aller Leitenden der Piostufe haben einen Basiskurs und den Einführungskurs Piostufe besucht.",
+            "question_fr": "Au moins deux tiers des responsables de la branche Picos ont suivi un cours de base ou un cours d'introduction Picos. ",
+            "question_it": "Almeno due terzi degli animatori della branca pionieri hanno frequentato un corso base o un corso di introduzione alla branca pionieri.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_percentage_pio"
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Aufbaukurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#aufbaukurse-beschreibung"
+                }
+              ],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Im Aufbaukurs lernen die Leitenden, ihre Stufe zu organisieren und den allwöchentlichen Stufenbetrieb zu meistern. Mindestens die Stufenleitenden sollten diesen absolviert haben.",
+              "help_fr": "Dans le cours de perfectionnement, les responsables apprennent à organiser leur branche et à gérer son fonctionnement hebdomadaire. Les responsables de branche au moins doivent avoir suivi ce cours.",
+              "help_it": "Durante il corso campo, gli animatori imparano a gestire la propria branca e a padroneggiarne il funzionamento settimanale della branca. Almeno i capi branca dovrebbero aver seguito il corso."
+            },
+            "question_de": "Die Stufenleitenden haben einen Aufbaukurs besucht.",
+            "question_fr": "Les responsables de branche ont suivi un cours de perfectionnement.",
+            "question_it": "I capi branca hanno seguito un corso campo.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "group_leaders_educated"
+          },
+          {
+            "id": 6,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Panoramakurs",
+                  "url": "https://pfadi.swiss/de/ausbildung/#panoramakurs-beschreibung"
+                }
+              ],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Im Panoramakurs erhalten Leitenden die Möglichkeit, sich mit sich selbst und ihrer Aufgabe in der Pfadi auseinanderzusetzen. Abteilungsleitende lernen im AL-Kurs ergänzend dazu alles Notwendige, um ihre Abteilung zu organisieren und den Abteilungsbetrieb zu meistern. Zusätzlich bietet der Kurs eine wertvolle Gelegenheit, sich auf kantonaler Ebene mit anderen Abteilungsleitenden auszutauschen.",
+              "help_fr": "Le cours Panorama donne aux responsables l'occasion de s'interroger sur eux·elles-mêmes et sur leur rôle dans le scoutisme. En complément, dans le cadre du cours de RG, on apprend tout ce qu'il faut savoir pour organiser un groupe et gérer son fonctionnement. De plus, ce cours offre une occasion privilégiée d'échanger avec d'autres responsables de groupe au niveau cantonal.",
+              "help_it": "Il corso panorama offre agli animatori l’opportunità di confrontarsi con sé stessi e con il proprio ruolo nello scoutismo. I capi sezione apprendono durante il corso CSZ tutto ciò che è necessario per gestire la propria sezione e padroneggiare il funzionamento della sezione. Il corso offre inoltre una preziosa opportunità di scambio a livello cantonale con altri capi sezione."
+            },
+            "question_de": "Die Abteilungsleitenden haben den Panorama- und AL-Kurs besucht. ",
+            "question_fr": "Les responsables de groupe ont participé au cours Panorama et au cours de RG.",
+            "question_it": "I capi sezione hanno seguito il corso panorama e il corso capi sezione. ",
+            "answer_options": "midata-binary",
+            "evaluation_function": "group_president_educated"
+          },
+          {
+            "id": 7,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Ausbildung in der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Formation dans le scoutisme",
+                  "url": "https://pfadi.swiss/fr/formation-encadrement/formation/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Formazione nello scoutismo",
+                  "url": "https://pfadi.swiss/it/formazione-accompagnamento/formazione/"
+                }
+              ],
+              "help_de": "Leitende sind motivierter für einen Kursbesuch, wenn ihnen klar ist, welche Erlebnisse sie erwarten und wie sie das Gelernte im Pfadialltag einsetzen können. Idealerweise wird dies mit ihnen schon bei der Planung der Kursbesuche besprochen.",
+              "help_fr": "Les responsables sont plus motivés à suivre un cours s'ils·elles savent clairement ce à quoi ils·elles peuvent s'attendre à découvrir et comment ils·elles peuvent utiliser ce qu'ils·elles ont appris dans leur quotidien scout. L'idéal serait d'en discuter avec eux·elles lors de la planification des cours.",
+              "help_it": "Gli animatori sono più motivati a frequentare un corso quando sono consapevoli delle esperienze che possono acquisire e di come utilizzare ciò che hanno imparato nelle attività scout. Idealmente, ciò viene discusso con loro già al momento della pianificazione delle iscrizioni ai corsi."
+            },
+            "question_de": "Unsere Leitenden wissen vor dem Kursbesuch, was sie im Kurs alles erleben können und was ihnen dies für ihren Pfadialltag bringt. ",
+            "question_fr": "Avant de suivre un cours, nos responsables savent ce qu'ils·elles vont découvrir et ce que cela va leur apporter dans leur quotidien scout. ",
+            "question_it": "Prima di partecipare a un corso, gli animatori sanno cosa aspettarsi dal corso e cosa può offrire loro per lo svolgimento delle attività scout abituali.",
+            "answer_options": "range",
+            "evaluation_function": null
+          }
+        ],
+        "id": 0,
+        "name_de": "Aus- und Weiterbildung",
+        "name_fr": "Formation initiale et continue ",
+        "name_it": "Formazione di base e continua ",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      }
+    ]
   }
 ]

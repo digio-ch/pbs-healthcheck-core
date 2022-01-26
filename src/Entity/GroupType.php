@@ -11,6 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class GroupType
 {
+    public const FEDERATION = 1;
+    public const CANTON = 2;
+    public const DEPARTMENT = 7;
+
     public const BIBER = 8;
     public const WOELFE = 9;
     public const PFADI = 10;

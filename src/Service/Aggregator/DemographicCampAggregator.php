@@ -95,7 +95,7 @@ class DemographicCampAggregator extends WidgetAggregator
      */
     public function aggregate(DateTime $startDate = null)
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        $mainGroups = $this->groupRepository->findAllDepartmentalParentGroups();
 
         $maxDate = new DateTime();
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);

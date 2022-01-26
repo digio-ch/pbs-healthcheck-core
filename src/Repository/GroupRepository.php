@@ -58,12 +58,36 @@ class GroupRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllParentGroups()
+    public function findAllDepartmentalParentGroups()
     {
         return $this->createQueryBuilder('g')
             ->join('g.groupType', 'groupType')
             ->where('groupType.groupType = :name')
             ->setParameter('name', 'Group::Abteilung')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllParentGroups()
+    {
+        return $this->createQueryBuilder('g')
+            ->join('g.groupType', 'groupType')
+            ->where('groupType.groupType IN (:names)')
+            ->setParameter('names', [
+                'Group::Abteilung',
+                'Group::Kantonalverband',
+                'Group::Bund',
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findParentGroups(array $parents)
+    {
+        return $this->createQueryBuilder('g')
+            ->join('g.groupType', 'groupType')
+            ->where('groupType.groupType IN (:names)')
+            ->setParameter('names', $parents)
             ->getQuery()
             ->getResult();
     }

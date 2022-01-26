@@ -13,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Questionnaire
 {
+    public const TYPE_DEPARTMENT = 'Questionnaire::Group::Default';
+    public const TYPE_CANTON = 'Questionnaire::Group::Canton';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
