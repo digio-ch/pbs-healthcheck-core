@@ -39,11 +39,15 @@ class GroupRepository extends ServiceEntityRepository
             ->join('g.personRoles', 'personRoles')
             ->join('personRoles.person', 'person')
             ->join('personRoles.role', 'role')
-            ->where('groupType.groupType = :name')
+            ->where('groupType.groupType IN (:names)')
             ->andWhere('role.roleType IN (:roleTypes)')
             ->andWhere('person.id = :personId')
             ->andWhere('personRoles.deletedAt IS NULL')
-            ->setParameter('name', 'Group::Abteilung', ParameterType::STRING)
+            ->setParameter('names', [
+                'Group::Abteilung',
+                'Group::Kantonalverband',
+                'Group::Bund',
+            ], Connection::PARAM_STR_ARRAY)
             ->setParameter(
                 'roleTypes',
                 array_merge(WidgetAggregator::$mainGroupRoleTypes, ['Group::Abteilung::Coach']),
