@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class QuapAggregator extends WidgetAggregator
 {
-    private const NAME = 'feature.quap';
+    private const NAME = 'widget.quap';
 
     /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;

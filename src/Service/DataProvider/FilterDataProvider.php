@@ -4,37 +4,30 @@ namespace App\Service\DataProvider;
 
 use App\DTO\Mapper\FilterDataMapper;
 use App\DTO\Model\FilterDataDTO;
-use App\Exception\ApiException;
 use App\Repository\GroupRepository;
 use App\Repository\GroupTypeRepository;
-use App\Repository\WidgetDemographicGroupRepository;
+use App\Repository\WidgetDateRepository;
 use App\Service\Aggregator\WidgetAggregator;
 
 class FilterDataProvider
 {
-    /**
-     * @var GroupRepository
-     */
-    private $groupRepository;
+    /** @var GroupRepository $groupRepository */
+    private GroupRepository $groupRepository;
 
-    /**
-     * @var GroupTypeRepository
-     */
-    private $groupTypeRepository;
+    /** @var GroupTypeRepository $groupTypeRepository */
+    private GroupTypeRepository $groupTypeRepository;
 
-    /**
-     * @var WidgetDemographicGroupRepository
-     */
-    private $widgetDemographicGroupRepository;
+    /** @var WidgetDateRepository $widgetDateRepository */
+    private WidgetDateRepository $widgetDateRepository;
 
     public function __construct(
         GroupRepository $groupRepository,
         GroupTypeRepository $groupTypeRepository,
-        WidgetDemographicGroupRepository $widgetDemographicGroupRepository
+        WidgetDateRepository $widgetDateRepository
     ) {
         $this->groupRepository = $groupRepository;
         $this->groupTypeRepository = $groupTypeRepository;
-        $this->widgetDemographicGroupRepository = $widgetDemographicGroupRepository;
+        $this->widgetDateRepository = $widgetDateRepository;
     }
 
     /***
@@ -46,8 +39,9 @@ class FilterDataProvider
     {
         $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroup($groupId);
         $this->sortParentGroupTypes($groupTypes);
+
         $subGroups = $this->groupRepository->getAllSubGroupsByGroupId($groupId);
-        $dates = $this->widgetDemographicGroupRepository->findDataPointDatesByGroupIds(
+        $dates = $this->widgetDateRepository->findDataPointDatesByGroupIds(
             array_merge([$groupId], $subGroups)
         );
 

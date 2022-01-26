@@ -92,7 +92,11 @@ class WidgetControllerListener
         $date = $request->get('date', null);
 
         $groupId = $request->get('groupId');
-        $group = $this->groupRepository->findOneByIdAndType($groupId, 'Group::Abteilung');
+        $group = $this->groupRepository->findOneByIdAndType($groupId, [
+            'Group::Abteilung',
+            'Group::Kantonalverband',
+            'Group::Bund',
+        ]);
         if (!$group) {
             $entity = $this->translator->trans('api.entity.group');
             $message = $this->translator->trans('api.error.notFound', ['entityName' => $entity]);
@@ -146,8 +150,8 @@ class WidgetControllerListener
         }
 
         $data->setGroup($group);
-        $data->setGroupTypes($groupTypes);
-        $data->setPeopleTypes($peopleTypes);
+        $data->setGroupTypes($groupTypes ?? []);
+        $data->setPeopleTypes($peopleTypes ?? []);
         return $data;
     }
 

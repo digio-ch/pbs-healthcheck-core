@@ -113,13 +113,13 @@ class GroupRepository extends ServiceEntityRepository
         return $statement->fetchAll(FetchMode::COLUMN);
     }
 
-    public function findOneByIdAndType(int $groupId, string $type)
+    public function findOneByIdAndType(int $groupId, array $types)
     {
         return $this->createQueryBuilder('g')
             ->join('g.groupType', 'groupType')
-            ->where('groupType.groupType = :type')
+            ->where('groupType.groupType IN (:types)')
             ->andWhere('g.id = :groupId')
-            ->setParameter('type', $type)
+            ->setParameter('types', $types)
             ->setParameter('groupId', $groupId)
             ->getQuery()
             ->getOneOrNullResult();

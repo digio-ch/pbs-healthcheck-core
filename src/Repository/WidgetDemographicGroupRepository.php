@@ -20,18 +20,6 @@ class WidgetDemographicGroupRepository extends AggregatedEntityRepository
         parent::__construct($registry, WidgetDemographicGroup::class);
     }
 
-    public function findDataPointDatesByGroupIds($groups)
-    {
-        return $this->createQueryBuilder('wdc')
-            ->select('wdc.dataPointDate')
-            ->distinct(true)
-            ->where('wdc.group IN (:groups)')
-            ->addOrderBy('wdc.dataPointDate', 'DESC')
-            ->setParameter('groups', $groups)
-            ->getQuery()
-            ->getArrayResult();
-    }
-
     // members-group date queries
 
     /**
