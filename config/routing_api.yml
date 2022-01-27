@@ -71,6 +71,11 @@ quap_widget:
   methods: GET
   controller: App\Controller\Api\Widget\QuapController::getQuapAnswers
 
+quap_widget_overview:
+  path: /groups/{groupId}/quap-overview
+  methods: GET
+  controller: App\Controller\Api\Widget\QuapOverviewController::getOverview
+
 # QUAP routes
 quap_questionnaire:
   path: /quap/questionnaire/{type}

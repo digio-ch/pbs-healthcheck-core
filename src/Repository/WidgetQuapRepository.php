@@ -20,17 +20,32 @@ class WidgetQuapRepository extends AggregatedEntityRepository
 
     public function findCurrentForGroup(int $groupId): ?WidgetQuap
     {
-        $data = $this->createQueryBuilder('quap')
+        return $this->createQueryBuilder('quap')
             ->andWhere('quap.dataPointDate IS NULL')
             ->andWhere('quap.group = :groupId')
             ->setParameter('groupId', $groupId)
             ->setMaxResults(1)
             ->getQuery()
-            ->getResult();
-        if (sizeof($data) > 0) {
-            return $data[0];
+            ->getOneOrNullResult();
+    }
+
+    public function findAllAnswers(array $groupIds, ?\DateTimeImmutable $date): array
+    {
+        $query = $this->createQueryBuilder('quap')
+            ->andWhere('quap.group IN (:groupIds)')
+            ->andWhere('quap.allowAccess = TRUE')
+            ->setParameter('groupIds', $groupIds);
+
+        if (is_null($date)) {
+            $query = $query
+                ->andWhere('quap.dataPointDate IS NULL');
+        } else {
+            $query = $query
+                ->andWhere('quap.dataPointDate = :date')
+                ->setParameter('date', $date);
         }
-        return null;
+
+        return $query->getQuery()->getResult();
     }
 
     public function save(WidgetQuap $widgetQuap): void

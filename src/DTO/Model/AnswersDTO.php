@@ -5,10 +5,10 @@ namespace App\DTO\Model;
 class AnswersDTO
 {
     /** @var array $answers */
-    private $answers;
+    private array $answers;
 
     /** @var array $computed_answers */
-    private $computed_answers;
+    private array $computed_answers;
 
     /**
      * @return array

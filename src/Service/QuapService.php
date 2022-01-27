@@ -5,14 +5,17 @@ namespace App\Service;
 use App\DTO\Mapper\AnswersMapper;
 use App\DTO\Mapper\QuestionnaireMapper;
 use App\DTO\Model\AnswersDTO;
+use App\DTO\Model\ExtendedAnswersDTO;
 use App\Entity\Aspect;
 use App\Entity\Group;
+use App\Entity\GroupType;
 use App\Entity\Help;
 use App\Entity\Question;
 use App\Entity\Questionnaire;
 use App\Entity\WidgetQuap;
 use App\Exception\ApiException;
 use App\Repository\AspectRepository;
+use App\Repository\GroupRepository;
 use App\Repository\HelpRepository;
 use App\Repository\LinkRepository;
 use App\Repository\QuestionnaireRepository;
@@ -24,40 +27,29 @@ use http\Exception\BadMessageException;
 
 class QuapService
 {
-    /**
-     * @var QuestionnaireRepository $questionnaireRepository
-     */
-    private $questionnaireRepository;
+    /** @var QuestionnaireRepository $questionnaireRepository */
+    private QuestionnaireRepository $questionnaireRepository;
 
-    /**
-     * @var AspectRepository $aspectRepository
-     */
-    private $aspectRepository;
+    /** @var AspectRepository $aspectRepository */
+    private AspectRepository $aspectRepository;
 
-    /**
-     * @var QuestionRepository $questionRepository
-     */
-    private $questionRepository;
+    /** @var QuestionRepository $questionRepository */
+    private QuestionRepository $questionRepository;
 
-    /**
-     * @var HelpRepository $helpRepository
-     */
-    private $helpRepository;
+    /** @var HelpRepository $helpRepository */
+    private HelpRepository $helpRepository;
 
-    /**
-     * @var LinkRepository $linkRepository
-     */
-    private $linkRepository;
+    /** @var LinkRepository $linkRepository */
+    private LinkRepository $linkRepository;
 
-    /**
-     * @var WidgetQuapRepository $quapRepository
-     */
-    private $quapRepository;
+    /** @var WidgetQuapRepository $quapRepository */
+    private WidgetQuapRepository $quapRepository;
 
-    /**
-     * @var EntityManagerInterface $em
-     */
-    private $em;
+    /** @var GroupRepository $groupRepository */
+    private GroupRepository $groupRepository;
+
+    /** @var EntityManagerInterface $em */
+    private EntityManagerInterface $em;
 
     /**
      * @param QuestionnaireRepository $questionnaireRepository
@@ -176,5 +168,50 @@ class QuapService
         ]);
 
         return AnswersMapper::mapAnswers($widgetQuap);
+    }
+
+    public function getAnswersForSubdepartments(Group $group, ?\DateTimeImmutable $date): array
+    {
+        $parentGroupType = $group->getGroupType()->getId();
+        $groupTypes = null;
+        if ($parentGroupType === GroupType::CANTON) {
+            $groupTypes = [
+                'Group::Abteilung',
+            ];
+        } elseif ($parentGroupType === GroupType::FEDERATION) {
+            $groupTypes = [
+                'Group::Kantonalverband',
+            ];
+        }
+
+        $subdepartments = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($group->getId(), $groupTypes);
+        if (!$subdepartments) {
+            $subdepartments = [];
+        }
+
+        $ids = [];
+        foreach ($subdepartments as $group) {
+            $ids[] = $group['id'];
+        }
+
+        $answers = $this->quapRepository->findAllAnswers($ids, $date !== null ? $date->setTime(0, 0) : null);
+
+        $dtos = [];
+        /** @var WidgetQuap $answer */
+        foreach ($answers as $answer) {
+            $answerGroup = $answer->getGroup();
+
+            $dto = new ExtendedAnswersDTO();
+            $dto->setAnswers($answer->getAnswers());
+            $dto->setComputedAnswers($answer->getComputedAnswers());
+            $dto->setGroupId($answerGroup->getId());
+            $dto->setGroupName($answerGroup->getName());
+            $dto->setGroupTypeId($answerGroup->getGroupType()->getId());
+            $dto->setGroupType($answerGroup->getGroupType()->getGroupType());
+
+            $dtos[] = $dto;
+        }
+
+        return $dtos;
     }
 }
