@@ -205,4 +205,16 @@ class GroupRepository extends ServiceEntityRepository
         );
         return $query->fetchAll();
     }
+
+    public function findAllDepartmentsFromCanton(int $cantonId): array
+    {
+        return $this->createQueryBuilder('g')
+            ->join('g.groupType', 'gt')
+            ->where('g.cantonId = :cantonId')
+            ->andWhere('gt.groupType = :groupType')
+            ->setParameter('cantonId', $cantonId)
+            ->setParameter('groupType', 'Group::Abteilung')
+            ->getQuery()
+            ->getArrayResult();
+    }
 }

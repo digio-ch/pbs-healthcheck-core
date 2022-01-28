@@ -67,6 +67,7 @@ class QuapService
         HelpRepository $helpRepository,
         LinkRepository $linkRepository,
         WidgetQuapRepository $quapRepository,
+        GroupRepository $groupRepository,
         EntityManagerInterface $em
     ) {
         $this->questionnaireRepository = $questionnaireRepository;
@@ -75,6 +76,7 @@ class QuapService
         $this->helpRepository = $helpRepository;
         $this->linkRepository = $linkRepository;
         $this->quapRepository = $quapRepository;
+        $this->groupRepository = $groupRepository;
         $this->em = $em;
     }
 
@@ -173,20 +175,13 @@ class QuapService
     public function getAnswersForSubdepartments(Group $group, ?\DateTimeImmutable $date): array
     {
         $parentGroupType = $group->getGroupType()->getId();
-        $groupTypes = null;
-        if ($parentGroupType === GroupType::CANTON) {
-            $groupTypes = [
-                'Group::Abteilung',
-            ];
-        } elseif ($parentGroupType === GroupType::FEDERATION) {
-            $groupTypes = [
-                'Group::Kantonalverband',
-            ];
-        }
 
-        $subdepartments = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($group->getId(), $groupTypes);
-        if (!$subdepartments) {
-            $subdepartments = [];
+        $subdepartments = [];
+        if ($parentGroupType === GroupType::CANTON) {
+            $subdepartments = $this->groupRepository->findAllDepartmentsFromCanton($group->getId());
+        } elseif ($parentGroupType === GroupType::FEDERATION) {
+            // TODO adjust for federation
+            $subdepartments = $this->groupRepository->findAllDepartmentsFromCanton($group->getId());
         }
 
         $ids = [];
@@ -194,7 +189,7 @@ class QuapService
             $ids[] = $group['id'];
         }
 
-        $answers = $this->quapRepository->findAllAnswers($ids, $date !== null ? $date->setTime(0, 0) : null);
+        $answers = $this->quapRepository->findAllAnswers($ids, $date !== null ? $date->format('Y-m-d') : null);
 
         $dtos = [];
         /** @var WidgetQuap $answer */

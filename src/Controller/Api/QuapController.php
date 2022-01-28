@@ -73,9 +73,9 @@ class QuapController extends AbstractController
             throw new ApiException(400, "Invalid request body");
         }
 
-        $widget = $this->quapService->updateAllowAccess($group, $payload['allow_access']);
+        $this->quapService->updateAllowAccess($group, $payload['allow_access']);
 
-        return $this->json($widget->getAnswers());
+        return $this->json([], JsonResponse::HTTP_NO_CONTENT);
     }
 
     public function getAnswers(
@@ -88,5 +88,17 @@ class QuapController extends AbstractController
         $answers = $this->quapService->getAnswers($group, $date);
 
         return $this->json($answers);
+    }
+
+    public function getAnswersForSubdepartments(
+        Group $group,
+        Request $request
+    ): JsonResponse {
+        $date = $request->get('date', null);
+        $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : null;
+
+        $response = $this->quapService->getAnswersForSubdepartments($group, $date);
+
+        return $this->json($response);
     }
 }

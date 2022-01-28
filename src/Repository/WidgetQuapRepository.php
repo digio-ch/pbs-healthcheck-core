@@ -29,12 +29,11 @@ class WidgetQuapRepository extends AggregatedEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findAllAnswers(array $groupIds, ?\DateTimeImmutable $date): array
+    public function findAllAnswers(array $groupIds, ?string $date): array
     {
         $query = $this->createQueryBuilder('quap')
             ->andWhere('quap.group IN (:groupIds)')
-            ->andWhere('quap.allowAccess = TRUE')
-            ->setParameter('groupIds', $groupIds);
+            ->andWhere('quap.allowAccess = TRUE');
 
         if (is_null($date)) {
             $query = $query
@@ -45,7 +44,10 @@ class WidgetQuapRepository extends AggregatedEntityRepository
                 ->setParameter('date', $date);
         }
 
-        return $query->getQuery()->getResult();
+        return $query
+            ->setParameter('groupIds', $groupIds)
+            ->getQuery()
+            ->getResult();
     }
 
     public function save(WidgetQuap $widgetQuap): void

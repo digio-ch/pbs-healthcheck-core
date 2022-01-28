@@ -96,3 +96,8 @@ quap_get_answers:
   path: /groups/{id}/quap/questionnaire
   methods: GET
   controller: App\Controller\Api\QuapController::getAnswers
+
+quap_get_answers_for_subdepartments:
+  path: /groups/{id}/quap/subdepartments
+  methods: GET
+  controller: App\Controller\Api\QuapController::getAnswersForSubdepartments
