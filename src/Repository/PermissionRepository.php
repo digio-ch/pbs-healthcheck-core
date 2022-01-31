@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\Invite;
+use App\Entity\Permission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Invite|null find($id, $lockMode = null, $lockVersion = null)
- * @method Invite|null findOneBy(array $criteria, array $orderBy = null)
- * @method Invite[]    findAll()
- * @method Invite[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Permission|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Permission|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Permission[]    findAll()
+ * @method Permission[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class InviteRepository extends ServiceEntityRepository
+class PermissionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Invite::class);
+        parent::__construct($registry, Permission::class);
     }
 
-    public function save(Invite $invite)
+    public function save(Permission $invite)
     {
         $this->_em->persist($invite);
         $this->_em->flush();
     }
 
-    public function remove(Invite $invite)
+    public function remove(Permission $invite)
     {
         $this->_em->remove($invite);
         $this->_em->flush();

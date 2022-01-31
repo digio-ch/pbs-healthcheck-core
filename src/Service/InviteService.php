@@ -5,26 +5,24 @@ namespace App\Service;
 use App\DTO\Mapper\InviteMapper;
 use App\DTO\Model\InviteDTO;
 use App\Entity\Group;
-use App\Entity\Invite;
-use App\Repository\InviteRepository;
+use App\Entity\Permission;
+use App\Repository\PermissionRepository;
 use DateTime;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class InviteService
 {
 
-    /**
-     * @var InviteRepository
-     */
-    private $inviteRepository;
+    /** @var PermissionRepository $permissionRepository */
+    private PermissionRepository $permissionRepository;
 
     /**
      * InviteService constructor.
-     * @param InviteRepository $inviteRepository
+     * @param PermissionRepository $permissionRepository
      */
-    public function __construct(InviteRepository $inviteRepository)
+    public function __construct(PermissionRepository $permissionRepository)
     {
-        $this->inviteRepository = $inviteRepository;
+        $this->permissionRepository = $permissionRepository;
     }
 
     /**
@@ -34,7 +32,7 @@ class InviteService
      */
     public function inviteExists(Group $group, string $email): bool
     {
-        $result = $this->inviteRepository->findAllByGroupIdAndEmail($email, $group->getId());
+        $result = $this->permissionRepository->findAllByGroupIdAndEmail($email, $group->getId());
 
         if (!$result) {
             return false;
@@ -50,7 +48,7 @@ class InviteService
      */
     public function createInvite(Group $group, InviteDTO $inviteDTO)
     {
-        $inviteEntity = new Invite();
+        $inviteEntity = new Permission();
         $expirationDate = new DateTime();
         $expirationDate->modify('+12 month');
 
@@ -58,7 +56,7 @@ class InviteService
         $inviteEntity->setExpirationDate($expirationDate);
         $inviteEntity->setGroup($group);
 
-        $this->inviteRepository->save($inviteEntity);
+        $this->permissionRepository->save($inviteEntity);
 
         return InviteMapper::createFromEntity($inviteEntity);
     }
@@ -69,7 +67,7 @@ class InviteService
      */
     public function getAllInvites(Group $group)
     {
-        $invites = $this->inviteRepository->findByGroupId($group->getId());
+        $invites = $this->permissionRepository->findByGroupId($group->getId());
         if (!$invites) {
             return [];
         }
@@ -81,14 +79,14 @@ class InviteService
     }
 
     /**
-     * @param Invite $invite
+     * @param Permission $invite
      * @param Group $group
      */
-    public function deleteInvite(Invite $invite, Group $group)
+    public function deleteInvite(Permission $invite, Group $group)
     {
         if ($invite->getGroup()->getId() !== $group->getId()) {
             throw new NotFoundHttpException("Invite for current group not found");
         }
-        $this->inviteRepository->remove($invite);
+        $this->permissionRepository->remove($invite);
     }
 }

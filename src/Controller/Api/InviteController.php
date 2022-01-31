@@ -4,7 +4,7 @@ namespace App\Controller\Api;
 
 use App\DTO\Model\InviteDTO;
 use App\Entity\Group;
-use App\Entity\Invite;
+use App\Entity\Permission;
 use App\Exception\ApiException;
 use App\Service\InviteService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -99,13 +99,13 @@ class InviteController extends AbstractController
 
     /**
      * @param Group $group
-     * @param Invite $invite
+     * @param Permission $invite
      * @return JsonResponse
      * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
      * @ParamConverter(name="invite", options={"mapping":{"inviteId":"id"}})
      * @IsGranted("delete", subject="group")
      */
-    public function deleteInvite(Group $group, Invite $invite)
+    public function deleteInvite(Group $group, Permission $invite)
     {
         $this->inviteService->deleteInvite($invite, $group);
         $action = $this->translator->trans('api.action.deleted');
