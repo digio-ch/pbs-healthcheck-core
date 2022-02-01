@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Permission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -29,6 +30,15 @@ class PermissionRepository extends ServiceEntityRepository
     {
         $this->_em->remove($invite);
         $this->_em->flush();
+    }
+
+    public function findByPersonGroupAndPermission(int $groupId, int $personId, int $permissionTypeId): ?Permission
+    {
+        return $this->findOneBy([
+            'group' => $groupId,
+            'person' => $personId,
+            'permissionType' => $permissionTypeId,
+        ]);
     }
 
     public function findAllByGroupIdAndEmail(string $email, int $groupId)
@@ -72,32 +82,28 @@ class PermissionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // /**
-    //  * @return Invite[] Returns an array of Invite objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function insertPermission(int $groupId, int $permissionTypeId, \DateTimeImmutable $expirationDate, ?int $personId,  ?string $email): void
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $conn = $this->_em->getConnection();
+        $conn->executeStatement(
+            "INSERT INTO hc_permission
+                    (id, person_id, permission_type_id, group_id, email, expiration_date)
+                    VALUES
+                    (nextval('hc_permission_id_seq'), ?, ?, ?, ?, ?);",
+            [
+                $personId,
+                $permissionTypeId,
+                $groupId,
+                $email,
+                $expirationDate->format('Y-m-d'),
+            ],
+            [
+                ParameterType::INTEGER,
+                ParameterType::INTEGER,
+                ParameterType::INTEGER,
+                ParameterType::STRING,
+                ParameterType::STRING,
+            ]
+        );
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Invite
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

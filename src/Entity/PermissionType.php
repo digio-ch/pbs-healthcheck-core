@@ -10,6 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PermissionType
 {
+    public const OWNER = 1;
+    public const EDITOR = 2;
+    public const VIEWER = 3;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

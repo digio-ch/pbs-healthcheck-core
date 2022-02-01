@@ -34,6 +34,10 @@ final class Version20220131124047 extends AbstractMigration
         $this->addSql('ALTER TABLE hc_permission ADD CONSTRAINT FK_ECCD2277F25D6DC4 FOREIGN KEY (permission_type_id) REFERENCES hc_permission_type (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE hc_permission ADD CONSTRAINT FK_ECCD2277FE54D947 FOREIGN KEY (group_id) REFERENCES midata_group (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
 
+        $this->addSql('ALTER TABLE hc_permission ALTER expiration_date TYPE TIMESTAMP(0) WITHOUT TIME ZONE');
+        $this->addSql('ALTER TABLE hc_permission ALTER expiration_date DROP DEFAULT');
+        $this->addSql('COMMENT ON COLUMN hc_permission.expiration_date IS \'(DC2Type:datetime_immutable)\'');
+
         $this->addSql("
             INSERT INTO hc_permission_type (id, key, name_de, name_fr, name_it)
                 VALUES

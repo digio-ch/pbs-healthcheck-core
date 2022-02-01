@@ -24,7 +24,7 @@ class Permission
      * @ORM\ManyToOne(targetEntity="App\Entity\Person")
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id", nullable=true)
      */
-    private ?int $person = null;
+    private ?Person $person = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true, options={"default": null})
@@ -44,7 +44,7 @@ class Permission
     private Group $group;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $expirationDate;
 
@@ -54,17 +54,17 @@ class Permission
     }
 
     /**
-     * @return int|null
+     * @return Person|null
      */
-    public function getPerson(): ?int
+    public function getPerson(): ?Person
     {
         return $this->person;
     }
 
     /**
-     * @param int|null $person
+     * @param Person|null $person
      */
-    public function setPerson(?int $person): void
+    public function setPerson(?Person $person): void
     {
         $this->person = $person;
     }
@@ -113,12 +113,12 @@ class Permission
         $this->group = $group;
     }
 
-    public function getExpirationDate(): ?\DateTimeInterface
+    public function getExpirationDate(): ?\DateTimeImmutable
     {
         return $this->expirationDate;
     }
 
-    public function setExpirationDate(\DateTimeInterface $expirationDate): self
+    public function setExpirationDate(\DateTimeImmutable $expirationDate): self
     {
         $this->expirationDate = $expirationDate;
 

@@ -7,7 +7,6 @@ use App\DTO\Model\InviteDTO;
 use App\Entity\Group;
 use App\Entity\Permission;
 use App\Repository\PermissionRepository;
-use DateTime;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class InviteService
@@ -49,8 +48,7 @@ class InviteService
     public function createInvite(Group $group, InviteDTO $inviteDTO)
     {
         $inviteEntity = new Permission();
-        $expirationDate = new DateTime();
-        $expirationDate->modify('+12 month');
+        $expirationDate = (new \DateTimeImmutable())->add(new \DateInterval('P12M'));
 
         $inviteEntity->setEmail($inviteDTO->getEmail());
         $inviteEntity->setExpirationDate($expirationDate);

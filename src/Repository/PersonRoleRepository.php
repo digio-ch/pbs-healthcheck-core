@@ -700,4 +700,28 @@ class PersonRoleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllPersonInGroupByRole(array $groupTypes, array $roleTypes): array
+    {
+        $conn = $this->_em->getConnection();
+        $statement = $conn->executeQuery(
+            "SELECT DISTINCT midata_person_role.person_id, midata_person_role.group_id
+                FROM midata_person_role
+                JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                JOIN midata_group ON midata_person_role.group_id = midata_group.id
+                JOIN midata_group_type ON midata_group.group_type_id = midata_group_type.id
+                WHERE midata_group_type.group_type IN (?)
+                    AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL;",
+            [
+                $groupTypes,
+                $roleTypes,
+            ],
+            [
+                Connection::PARAM_STR_ARRAY,
+                Connection::PARAM_STR_ARRAY,
+            ]
+        );
+        return $statement->fetchAll();
+    }
 }
