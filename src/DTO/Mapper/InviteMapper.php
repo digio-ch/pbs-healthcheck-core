@@ -9,16 +9,17 @@ use App\Entity\Permission;
 class InviteMapper
 {
     /**
-     * @param Permission $invite
+     * @param Permission $permission
      * @return InviteDTO
      */
-    public static function createFromEntity(Permission $invite): InviteDTO
+    public static function createFromEntity(Permission $permission): InviteDTO
     {
         $inviteDTO = new InviteDTO();
-        $inviteDTO->setId($invite->getId());
-        $inviteDTO->setEmail($invite->getEmail());
-        $inviteDTO->setGroupName($invite->getGroup()->getName());
-        $inviteDTO->setExpirationDate($invite->getExpirationDate()->format('Y-m-d'));
+        $inviteDTO->setId($permission->getId());
+        $inviteDTO->setEmail($permission->getEmail());
+        $inviteDTO->setGroupName($permission->getGroup()->getName());
+        $inviteDTO->setExpirationDate($permission->getExpirationDate()->format('Y-m-d'));
+        $inviteDTO->setPermissionType($permission->getPermissionType()->getKey());
 
         return $inviteDTO;
     }

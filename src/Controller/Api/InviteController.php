@@ -54,7 +54,7 @@ class InviteController extends AbstractController
         Group $group,
         SerializerInterface $serializer,
         ValidatorInterface $validator
-    ) {
+    ): JsonResponse {
         try {
             /** @var InviteDTO $inviteDTO */
             $inviteDTO = $serializer->deserialize($request->getContent(), InviteDTO::class, 'json', [
@@ -92,7 +92,7 @@ class InviteController extends AbstractController
      * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
      * @IsGranted("view", subject="group")
      */
-    public function getInvites(Group $group)
+    public function getInvites(Group $group): JsonResponse
     {
         return $this->json($this->inviteService->getAllInvites($group));
     }
@@ -105,7 +105,7 @@ class InviteController extends AbstractController
      * @ParamConverter(name="invite", options={"mapping":{"inviteId":"id"}})
      * @IsGranted("delete", subject="group")
      */
-    public function deleteInvite(Group $group, Permission $invite)
+    public function deleteInvite(Group $group, Permission $invite): JsonResponse
     {
         $this->inviteService->deleteInvite($invite, $group);
         $action = $this->translator->trans('api.action.deleted');

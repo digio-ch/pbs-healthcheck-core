@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
+use App\Repository\PermissionTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="hc_permission_type")
  * @ORM\Entity()
+ * @ORM\Entity(repositoryClass=PermissionTypeRepository::class)
  */
 class PermissionType
 {

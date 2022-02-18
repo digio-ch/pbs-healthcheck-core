@@ -6,7 +6,10 @@ use App\DTO\Mapper\InviteMapper;
 use App\DTO\Model\InviteDTO;
 use App\Entity\Group;
 use App\Entity\Permission;
+use App\Exception\ApiException;
 use App\Repository\PermissionRepository;
+use App\Repository\PermissionTypeRepository;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class InviteService
@@ -14,6 +17,8 @@ class InviteService
 
     /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
+
+    private PermissionTypeRepository $permissionTypeRepository;
 
     /**
      * InviteService constructor.
@@ -45,25 +50,31 @@ class InviteService
      * @param InviteDTO $inviteDTO
      * @return InviteDTO
      */
-    public function createInvite(Group $group, InviteDTO $inviteDTO)
+    public function createInvite(Group $group, InviteDTO $inviteDTO): InviteDTO
     {
-        $inviteEntity = new Permission();
+        $permission = new Permission();
         $expirationDate = (new \DateTimeImmutable())->add(new \DateInterval('P12M'));
 
-        $inviteEntity->setEmail($inviteDTO->getEmail());
-        $inviteEntity->setExpirationDate($expirationDate);
-        $inviteEntity->setGroup($group);
+        $permissionType = $this->permissionTypeRepository->findOneBy(['key' => $inviteDTO->getPermissionType()]);
+        if (is_null($permissionType)) {
+            throw new ApiException(Response::HTTP_BAD_REQUEST, 'invalid permission type');
+        }
 
-        $this->permissionRepository->save($inviteEntity);
+        $permission->setEmail($inviteDTO->getEmail());
+        $permission->setExpirationDate($expirationDate);
+        $permission->setGroup($group);
+        $permission->setPermissionType($permissionType);
 
-        return InviteMapper::createFromEntity($inviteEntity);
+        $this->permissionRepository->save($permission);
+
+        return InviteMapper::createFromEntity($permission);
     }
 
     /**
      * @param Group $group
      * @return array
      */
-    public function getAllInvites(Group $group)
+    public function getAllInvites(Group $group): array
     {
         $invites = $this->permissionRepository->findByGroupId($group->getId());
         if (!$invites) {
