@@ -19,8 +19,8 @@ class InviteDTO
     /** @var string $groupName */
     private string $groupName;
 
-    /** @var string $expirationDate */
-    private string $expirationDate;
+    /** @var ?string $expirationDate */
+    private ?string $expirationDate;
 
     /** @var string $permissionType */
     private string $permissionType;
@@ -74,17 +74,17 @@ class InviteDTO
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getExpirationDate(): string
+    public function getExpirationDate(): ?string
     {
         return $this->expirationDate;
     }
 
     /**
-     * @param string $expirationDate
+     * @param ?string $expirationDate
      */
-    public function setExpirationDate(string $expirationDate): void
+    public function setExpirationDate(?string $expirationDate): void
     {
         $this->expirationDate = $expirationDate;
     }

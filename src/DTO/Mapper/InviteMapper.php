@@ -18,7 +18,7 @@ class InviteMapper
         $inviteDTO->setId($permission->getId());
         $inviteDTO->setEmail($permission->getEmail());
         $inviteDTO->setGroupName($permission->getGroup()->getName());
-        $inviteDTO->setExpirationDate($permission->getExpirationDate()->format('Y-m-d'));
+        $inviteDTO->setExpirationDate($permission->getExpirationDate() ? $permission->getExpirationDate()->format('Y-m-d') : null);
         $inviteDTO->setPermissionType($permission->getPermissionType()->getKey());
 
         return $inviteDTO;

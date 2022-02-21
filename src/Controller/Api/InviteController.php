@@ -6,8 +6,8 @@ use App\DTO\Model\InviteDTO;
 use App\Entity\Group;
 use App\Entity\Permission;
 use App\Exception\ApiException;
-use App\Service\InviteService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Service\PermissionService;
+use App\Service\Security\PermissionVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,7 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class InviteController extends AbstractController
 {
     /**
-     * @var InviteService
+     * @var PermissionService
      */
     private $inviteService;
 
@@ -31,10 +31,10 @@ class InviteController extends AbstractController
 
     /**
      * InviteController constructor.
-     * @param InviteService $inviteService
+     * @param PermissionService $inviteService
      * @param TranslatorInterface $translator
      */
-    public function __construct(InviteService $inviteService, TranslatorInterface $translator)
+    public function __construct(PermissionService $inviteService, TranslatorInterface $translator)
     {
         $this->inviteService = $inviteService;
         $this->translator = $translator;
@@ -47,7 +47,6 @@ class InviteController extends AbstractController
      * @param ValidatorInterface $validator
      * @return JsonResponse
      * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
-     * @IsGranted("create", subject="group")
      */
     public function createInvite(
         Request $request,
@@ -55,6 +54,8 @@ class InviteController extends AbstractController
         SerializerInterface $serializer,
         ValidatorInterface $validator
     ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
+
         try {
             /** @var InviteDTO $inviteDTO */
             $inviteDTO = $serializer->deserialize($request->getContent(), InviteDTO::class, 'json', [
@@ -90,10 +91,11 @@ class InviteController extends AbstractController
      * @param Group $group
      * @return JsonResponse
      * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
-     * @IsGranted("view", subject="group")
      */
     public function getInvites(Group $group): JsonResponse
     {
+        $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
+
         return $this->json($this->inviteService->getAllInvites($group));
     }
 
@@ -103,10 +105,11 @@ class InviteController extends AbstractController
      * @return JsonResponse
      * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
      * @ParamConverter(name="invite", options={"mapping":{"inviteId":"id"}})
-     * @IsGranted("delete", subject="group")
      */
     public function deleteInvite(Group $group, Permission $invite): JsonResponse
     {
+        $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
+
         $this->inviteService->deleteInvite($invite, $group);
         $action = $this->translator->trans('api.action.deleted');
         $entity = $this->translator->trans('api.entity.invite');

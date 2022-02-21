@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Group;
 use App\Entity\Permission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ParameterType;
@@ -43,11 +44,11 @@ class PermissionRepository extends ServiceEntityRepository
 
     public function findAllByGroupIdAndEmail(string $email, int $groupId)
     {
-        return $this->createQueryBuilder('invite')
-            ->join('invite.group', 'g')
-            ->where('invite.email = :email')
+        return $this->createQueryBuilder('permission')
+            ->join('permission.group', 'g')
+            ->where('permission.email = :email')
             ->andWhere('g.id = :groupId')
-            ->andWhere('invite.expirationDate > :now')
+            ->andWhere('permission.expirationDate > :now')
             ->setParameter('email', $email)
             ->setParameter('groupId', $groupId)
             ->setParameter('now', new \DateTime())
@@ -57,10 +58,14 @@ class PermissionRepository extends ServiceEntityRepository
 
     public function findByGroupId(int $groupId)
     {
-        return $this->createQueryBuilder('invite')
-            ->join('invite.group', 'g')
+        $query = $this->createQueryBuilder('permission');
+        return $query
+            ->join('permission.group', 'g')
             ->where('g.id = :groupId')
-            ->andWhere('invite.expirationDate > :now')
+            ->andWhere($query->expr()->orX(
+                $query->expr()->gt('permission.expirationDate', ':now'),
+                $query->expr()->isNull('permission.expirationDate')
+            ))
             ->setParameter('groupId', $groupId)
             ->setParameter('now', new \DateTime())
             ->getQuery()
@@ -73,9 +78,13 @@ class PermissionRepository extends ServiceEntityRepository
      */
     public function findAllValidByEmail(string $email)
     {
-        return $this->createQueryBuilder('invite')
-            ->where('invite.email = :email')
-            ->andWhere('invite.expirationDate > :now')
+        $query = $this->createQueryBuilder('permission');
+        return $query
+            ->where('permission.email = :email')
+            ->andWhere($query->expr()->orX(
+                $query->expr()->gt('permission.expirationDate', ':now'),
+                $query->expr()->isNull('permission.expirationDate')
+            ))
             ->setParameter('email', $email)
             ->setParameter('now', new \DateTime())
             ->getQuery()
@@ -105,5 +114,36 @@ class PermissionRepository extends ServiceEntityRepository
                 ParameterType::STRING,
             ]
         );
+    }
+
+    /**
+     * @param Group $group
+     * @param int $id
+     * @param string $email
+     * @return Permission|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findHighestByIdOrEmail(Group $group, int $id, string $email): ?Permission
+    {
+        $query = $this->createQueryBuilder('permission');
+
+        return $query
+            ->where('permission.group = :group')
+            ->andWhere($query->expr()->orX(
+                $query->expr()->eq('permission.person', ':person'),
+                $query->expr()->eq('permission.email', ':email')
+            ))
+            ->andWhere($query->expr()->orX(
+                $query->expr()->gt('permission.expirationDate', ':now'),
+                $query->expr()->isNull('permission.expirationDate')
+            ))
+            ->orderBy('permission.permissionType')
+            ->setMaxResults(1)
+            ->setParameter('group', $group->getId())
+            ->setParameter('person', $id)
+            ->setParameter('email', $email)
+            ->setParameter('now', new \DateTime())
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

@@ -55,5 +55,6 @@ api:
     invalidEntries: 'Ungültige Eingaben.'
     invalidRequest: 'Ungültige Anfrage.'
     notFound: '{entityName} existiert nicht.'
+    accessDenied: 'Unzureichende Berechtigung diese aktion auszuführen'
 
   success: '{entityName} erfolgreich {action}.'

@@ -55,5 +55,6 @@ api:
     invalidEntries: "Entrée non-valable"
     invalidRequest: "Demande non-valable"
     notFound: "{entityName} n'existe pas"
+    accessDenied: 'Autorisation insuffisante pour mener à bien cette action'
 
   success: "{entityName} a réussi"

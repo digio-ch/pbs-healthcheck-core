@@ -44,9 +44,9 @@ class Permission
     private Group $group;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private \DateTimeImmutable $expirationDate;
+    private ?\DateTimeImmutable $expirationDate;
 
     public function getId(): ?int
     {
