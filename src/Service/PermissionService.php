@@ -26,10 +26,14 @@ class PermissionService
     /**
      * InviteService constructor.
      * @param PermissionRepository $permissionRepository
+     * @param PermissionTypeRepository $permissionTypeRepository
      */
-    public function __construct(PermissionRepository $permissionRepository)
-    {
+    public function __construct(
+        PermissionRepository $permissionRepository,
+        PermissionTypeRepository $permissionTypeRepository
+    ) {
         $this->permissionRepository = $permissionRepository;
+        $this->permissionTypeRepository = $permissionTypeRepository;
     }
 
     /**

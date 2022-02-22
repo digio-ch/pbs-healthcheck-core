@@ -5,17 +5,19 @@ namespace App\DTO\Model;
 class GroupDTO
 {
     /** @var int|null */
-    private $id;
+    private ?int $id;
     /** @var string|null */
-    private $cantonName;
+    private ?string $cantonName;
     /** @var string|null */
-    private $name;
+    private ?string $name;
     /** @var string|null */
-    private $createdAt;
+    private ?string $createdAt;
     /** @var string|null */
-    private $deletedAt;
+    private ?string $deletedAt;
     /** @var GroupTypeDTO|null */
-    private $groupType;
+    private ?GroupTypeDTO $groupType;
+    /** @var string $permissionType */
+    private string $permissionType;
 
     /**
      * GroupDTO constructor.
@@ -107,7 +109,7 @@ class GroupDTO
     /**
      * @return GroupTypeDTO
      */
-    public function getGroupType()
+    public function getGroupType(): ?GroupTypeDTO
     {
         return $this->groupType;
     }
@@ -118,5 +120,21 @@ class GroupDTO
     public function setGroupType(GroupTypeDTO $groupType): void
     {
         $this->groupType = $groupType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPermissionType(): string
+    {
+        return $this->permissionType;
+    }
+
+    /**
+     * @param string $permissionType
+     */
+    public function setPermissionType(string $permissionType): void
+    {
+        $this->permissionType = $permissionType;
     }
 }

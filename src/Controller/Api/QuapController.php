@@ -6,6 +6,7 @@ use App\DTO\Mapper\QuestionnaireMapper;
 use App\Entity\Group;
 use App\Exception\ApiException;
 use App\Service\QuapService;
+use App\Service\Security\PermissionVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,10 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 class QuapController extends AbstractController
 {
 
-    /**
-     * @var QuapService $quapService
-     */
-    private $quapService;
+    /** @var QuapService $quapService */
+    private QuapService $quapService;
 
     public function __construct(QuapService $quapService)
     {
@@ -48,6 +47,8 @@ class QuapController extends AbstractController
         Group $group,
         Request $request
     ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR, $group);
+
         $json = json_decode($request->getContent(), true);
         if (is_null($json)) {
             throw new ApiException(400, "Invalid JSON");
@@ -68,6 +69,8 @@ class QuapController extends AbstractController
         Group $group,
         Request $request
     ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
+
         $payload = json_decode($request->getContent(), true);
         if (!isset($payload['allow_access'])) {
             throw new ApiException(400, "Invalid request body");
@@ -82,6 +85,8 @@ class QuapController extends AbstractController
         Group $group,
         Request $request
     ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+
         $date = $request->get('date', null);
         $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : null;
 
@@ -94,6 +99,8 @@ class QuapController extends AbstractController
         Group $group,
         Request $request
     ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+
         $date = $request->get('date', null);
         $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : null;
 

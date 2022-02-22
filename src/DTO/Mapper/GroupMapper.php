@@ -10,7 +10,7 @@ use App\Service\DataProvider\WidgetDataProvider;
 
 class GroupMapper
 {
-    public static function createFromEntity(Group $group, string $locale): GroupDTO
+    public static function createFromEntity(Group $group, string $locale, string $permissionType): GroupDTO
     {
         $groupDTO = new GroupDTO();
         $groupDTO->setId($group->getId());
@@ -19,6 +19,7 @@ class GroupMapper
         $groupDTO->setCreatedAt($group->getCreatedAt()->format('Y-m-d'));
         $groupDTO->setDeletedAt($group->getDeletedAt() ? $group->getDeletedAt()->format('Y-m-d') : null);
         $groupDTO->setGroupType(GroupTypeMapper::createGroupTypeFromEntity($group->getGroupType(), $locale));
+        $groupDTO->setPermissionType($permissionType);
         return $groupDTO;
     }
 }

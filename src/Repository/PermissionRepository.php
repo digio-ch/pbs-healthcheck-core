@@ -73,18 +73,23 @@ class PermissionRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int $id
      * @param string $email
      * @return int|mixed|string
      */
-    public function findAllValidByEmail(string $email)
+    public function findAllValidByIdOrEmail(int $id, string $email)
     {
         $query = $this->createQueryBuilder('permission');
         return $query
-            ->where('permission.email = :email')
+            ->where($query->expr()->orX(
+                $query->expr()->eq('permission.person', ':person'),
+                $query->expr()->eq('permission.email', ':email')
+            ))
             ->andWhere($query->expr()->orX(
                 $query->expr()->gt('permission.expirationDate', ':now'),
                 $query->expr()->isNull('permission.expirationDate')
             ))
+            ->setParameter('person', $id)
             ->setParameter('email', $email)
             ->setParameter('now', new \DateTime())
             ->getQuery()

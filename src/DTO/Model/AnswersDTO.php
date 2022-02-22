@@ -10,6 +10,9 @@ class AnswersDTO
     /** @var array $computed_answers */
     private array $computed_answers;
 
+    /** @var bool $share_access */
+    private bool $share_access;
+
     /**
      * @return array
      */
@@ -40,5 +43,21 @@ class AnswersDTO
     public function setComputedAnswers(array $computed_answers): void
     {
         $this->computed_answers = $computed_answers;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShareAccess(): bool
+    {
+        return $this->share_access;
+    }
+
+    /**
+     * @param bool $share_access
+     */
+    public function setShareAccess(bool $share_access): void
+    {
+        $this->share_access = $share_access;
     }
 }

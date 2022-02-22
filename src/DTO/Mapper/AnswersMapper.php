@@ -12,6 +12,7 @@ class AnswersMapper
         $dto = new AnswersDTO();
         $dto->setAnswers($widgetQuap->getAnswers());
         $dto->setComputedAnswers($widgetQuap->getComputedAnswers());
+        $dto->setShareAccess($widgetQuap->getAllowAccess());
         return $dto;
     }
 }
