@@ -5,6 +5,7 @@ namespace App\Controller\Api\Widget;
 use App\DTO\Model\WidgetControllerData\DateAndDateRangeRequestData;
 use App\Service\DataProvider\MembersGenderDateRangeDataProvider;
 use App\Service\DataProvider\MembersGenderDateDataProvider;
+use App\Service\Security\PermissionVoter;
 use Doctrine\DBAL\DBALException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,7 +22,9 @@ class MembersGenderController extends WidgetController
         DateAndDateRangeRequestData $requestData,
         MembersGenderDateDataProvider $membersGenderDateDataProvider,
         MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider
-    ) {
+    ): Response {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $requestData->getGroup());
+
         $data = [];
 
         if ($requestData->getDate()) {

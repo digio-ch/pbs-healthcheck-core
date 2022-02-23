@@ -96,7 +96,7 @@ class PermissionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function insertPermission(int $groupId, int $permissionTypeId, \DateTimeImmutable $expirationDate, ?int $personId,  ?string $email): void
+    public function insertPermission(int $groupId, int $permissionTypeId, ?\DateTimeImmutable $expirationDate, ?int $personId,  ?string $email): void
     {
         $conn = $this->_em->getConnection();
         $conn->executeStatement(
@@ -109,7 +109,7 @@ class PermissionRepository extends ServiceEntityRepository
                 $permissionTypeId,
                 $groupId,
                 $email,
-                $expirationDate->format('Y-m-d'),
+                $expirationDate ? $expirationDate->format('Y-m-d') : null,
             ],
             [
                 ParameterType::INTEGER,
@@ -150,5 +150,23 @@ class PermissionRepository extends ServiceEntityRepository
             ->setParameter('now', new \DateTime())
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function endAllOpenPermissions(): void
+    {
+        $now = new \DateTimeImmutable();
+
+        $conn = $this->_em->getConnection();
+        $conn->executeStatement(
+            "UPDATE hc_permission
+                    SET expiration_date = ?
+                    WHERE expiration_date IS NULL;",
+            [
+                $now->format('Y-m-d'),
+            ],
+            [
+                ParameterType::STRING,
+            ]
+        );
     }
 }

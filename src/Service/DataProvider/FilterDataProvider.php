@@ -4,6 +4,7 @@ namespace App\Service\DataProvider;
 
 use App\DTO\Mapper\FilterDataMapper;
 use App\DTO\Model\FilterDataDTO;
+use App\Entity\Group;
 use App\Repository\GroupRepository;
 use App\Repository\GroupTypeRepository;
 use App\Repository\WidgetDateRepository;
@@ -31,18 +32,18 @@ class FilterDataProvider
     }
 
     /***
-     * @param int $groupId
+     * @param Group $group
      * @param string $locale
      * @return FilterDataDTO
      */
-    public function getData(int $groupId, string $locale): FilterDataDTO
+    public function getData(Group $group, string $locale): FilterDataDTO
     {
-        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroup($groupId);
+        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroup($group->getId());
         $this->sortParentGroupTypes($groupTypes);
 
-        $subGroups = $this->groupRepository->getAllSubGroupsByGroupId($groupId);
+        $subGroups = $this->groupRepository->getAllSubGroupsByGroupId($group->getId());
         $dates = $this->widgetDateRepository->findDataPointDatesByGroupIds(
-            array_merge([$groupId], $subGroups)
+            array_merge([$group->getId()], $subGroups)
         );
 
         $dateStrings = [];

@@ -5,6 +5,7 @@ namespace App\Controller\Api\Widget;
 use App\DTO\Model\WidgetControllerData\DateAndDateRangeRequestData;
 use App\Service\DataProvider\MembersGroupDateRangeDataProvider;
 use App\Service\DataProvider\MembersGroupDateDataProvider;
+use App\Service\Security\PermissionVoter;
 use Doctrine\DBAL\DBALException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -21,7 +22,9 @@ class MembersGroupController extends WidgetController
         MembersGroupDateRangeDataProvider $membersGroupDateRangeDataProvider,
         MembersGroupDateDataProvider $membersGroupDateDataProvider,
         DateAndDateRangeRequestData $requestData
-    ) {
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $requestData->getGroup());
+
         $data = [];
 
         if ($requestData->getDate()) {

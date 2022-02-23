@@ -6,63 +6,47 @@ use App\DTO\Mapper\GroupMapper;
 use App\DTO\Mapper\PbsUserMapper;
 use App\DTO\Model\GroupDTO;
 use App\DTO\Model\PbsUserDTO;
+use App\Entity\Group;
+use App\Entity\Permission;
+use App\Entity\PermissionType;
 use App\Entity\PersonRole;
 use App\Repository\GroupRepository;
-use App\Repository\InviteRepository;
+use App\Repository\PermissionRepository;
 use App\Repository\PersonRoleRepository;
 use App\Service\Aggregator\WidgetAggregator;
 use App\Service\Http\GuzzleWrapper;
+use function GuzzleHttp\Promise\all;
 
 class PbsAuthService
 {
-    /**
-     * @var GuzzleWrapper
-     */
-    private $guzzleWrapper;
+    /** @var GuzzleWrapper $guzzleWrapper */
+    private GuzzleWrapper $guzzleWrapper;
 
-    /**
-     * @var PersonRoleRepository
-     */
-    private $personRoleRepository;
+    /** @var PersonRoleRepository $personRoleRepository */
+    private PersonRoleRepository $personRoleRepository;
 
-    /**
-     * @var InviteRepository
-     */
-    private $inviteRepository;
+    /** @var PermissionRepository $permissionRepository */
+    private PermissionRepository $permissionRepository;
 
-    /**
-     * @var GroupRepository
-     */
-    private $groupRepository;
+    /** @var GroupRepository $groupRepository */
+    private GroupRepository $groupRepository;
 
-    /**
-     * @var string
-     */
-    private $environment;
+    /** @var string $environment */
+    private string $environment;
 
-    /**
-     * @var string
-     */
-    private $pbsUrl;
+    /** @var string $pbsUrl */
+    private string $pbsUrl;
 
-    /**
-     * @var string
-     */
-    private $pbsClientId;
+    /** @var string $pbsClientId */
+    private string $pbsClientId;
 
-    /**
-     * @var string
-     */
-    private $pbsClientSecret;
+    /** @var string $pbsClientSecret */
+    private string $pbsClientSecret;
 
-    /**
-     * @var string
-     */
-    private $pbsCallbackUrl;
+    /** @var string $pbsCallbackUrl */
+    private string $pbsCallbackUrl;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] $specialAccessEmails */
     private $specialAccessEmails;
 
     /**
@@ -70,7 +54,7 @@ class PbsAuthService
      * @param GuzzleWrapper $guzzleWrapper
      * @param PersonRoleRepository $personRoleRepository
      * @param GroupRepository $groupRepository
-     * @param InviteRepository $inviteRepository
+     * @param PermissionRepository $permissionRepository
      * @param string $environment
      * @param string $pbsUrl
      * @param string $pbsClientId
@@ -79,21 +63,21 @@ class PbsAuthService
      * @param string $specialAccessEmails
      */
     public function __construct(
-        GuzzleWrapper $guzzleWrapper,
+        GuzzleWrapper        $guzzleWrapper,
         PersonRoleRepository $personRoleRepository,
-        GroupRepository $groupRepository,
-        InviteRepository $inviteRepository,
-        string $environment,
-        string $pbsUrl,
-        string $pbsClientId,
-        string $pbsClientSecret,
-        string $pbsCallbackUrl,
-        string $specialAccessEmails
+        GroupRepository      $groupRepository,
+        PermissionRepository $permissionRepository,
+        string               $environment,
+        string               $pbsUrl,
+        string               $pbsClientId,
+        string               $pbsClientSecret,
+        string               $pbsCallbackUrl,
+        string               $specialAccessEmails
     ) {
         $this->guzzleWrapper = $guzzleWrapper;
         $this->personRoleRepository = $personRoleRepository;
         $this->groupRepository = $groupRepository;
-        $this->inviteRepository = $inviteRepository;
+        $this->permissionRepository = $permissionRepository;
         $this->environment = $environment;
         $this->pbsUrl = $pbsUrl;
         $this->pbsClientId = $pbsClientId;
@@ -204,17 +188,39 @@ class PbsAuthService
      */
     private function processGroups(PbsUserDTO $pbsUser, string $locale)
     {
-        $groups = $this->groupRepository->findParentGroupsForPerson($pbsUser->getId());
+        $groupMapping = [];
 
-        $invites = $this->inviteRepository->findAllValidByEmail($pbsUser->getEmail());
-        if ($invites) {
-            foreach ($invites as $invite) {
-                $groups[] = $invite->getGroup();
+        $permissions = $this->permissionRepository->findAllValidByIdOrEmail($pbsUser->getId(), $pbsUser->getEmail());
+        if ($permissions) {
+            foreach ($permissions as $permission) {
+                assert($permission instanceof Permission);
+
+                $group = $permission->getGroup();
+                $index = $group->getId();
+
+                if (isset($groupMapping[$index])) {
+                    /** @var PermissionType $currentPermissionType */
+                    $currentPermissionType = $groupMapping[$index]['permissionType'];
+
+                    if ($currentPermissionType->getId() < $permission->getId()) {
+                        continue;
+                    }
+                }
+
+                $groupMapping[$index] = [
+                    'group' => $permission->getGroup(),
+                    'permissionType' => $permission->getPermissionType(),
+                ];
             }
         }
 
-        foreach ($groups as $group) {
-            $pbsUser->addGroup(GroupMapper::createFromEntity($group, $locale));
+        foreach ($groupMapping as $mapping) {
+            /** @var Group $group */
+            $group = $mapping['group'];
+            /** @var PermissionType $permissionType */
+            $permissionType = $mapping['permissionType'];
+
+            $pbsUser->addGroup(GroupMapper::createFromEntity($group, $locale, $permissionType->getKey()));
         }
     }
 
@@ -250,7 +256,7 @@ class PbsAuthService
      */
     private function processRolesForDev(array &$user)
     {
-        $groups = $this->groupRepository->findAllParentGroups();
+        $groups = $this->groupRepository->findAllDepartmentalParentGroups();
         $user['roles'] = [];
         foreach ($groups as $group) {
             $user['roles'][] = [
@@ -269,17 +275,10 @@ class PbsAuthService
      */
     private function processGroupsForDev(PbsUserDTO $pbsUser, string $locale)
     {
-        $groups = $this->groupRepository->findAllParentGroups();
-
-        $invites = $this->inviteRepository->findAllValidByEmail($pbsUser->getEmail());
-        if ($invites) {
-            foreach ($invites as $invite) {
-                $groups[] = $invite->getGroup();
-            }
-        }
+        $groups = $this->groupRepository->findAllDepartmentalParentGroups();
 
         foreach ($groups as $group) {
-            $pbsUser->addGroup(GroupMapper::createFromEntity($group, $locale));
+            $pbsUser->addGroup(GroupMapper::createFromEntity($group, $locale, 'owner'));
         }
     }
 }

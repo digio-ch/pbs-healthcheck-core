@@ -40,8 +40,11 @@ class ComputePermissionsCommand extends StatisticsCommand
         $start = microtime(true);
         $output->writeln('Computing peoples default permissions...');
 
+        $this->permissionRepository->endAllOpenPermissions();
+
         $coaches = $this->personRoleRepository->findAllPersonInGroupByRole([
             'Group::Abteilung',
+            'Group::Region',
             'Group::Kantonalverband',
             'Group::Bund',
         ], [
@@ -49,74 +52,52 @@ class ComputePermissionsCommand extends StatisticsCommand
             'Group::Region::Coach',
             'Group::Kantonalverband::Coach',
             'Group::Bund::Coach',
-            'Group::Bund::GrossanlassCoach',
         ]);
-
-        foreach ($coaches as $coach) {
-            $personId = $coach['person_id'];
-            $groupId = $coach['group_id'];
-
-            $expirationDate = (new \DateTimeImmutable())->add(new \DateInterval('P1M'));
-
-            $permission = $this->permissionRepository->findByPersonGroupAndPermission(
-                $groupId,
-                $personId,
-                PermissionType::VIEWER
-            );
-            if (!is_null($permission)) {
-                $permission->setExpirationDate($expirationDate);
-                $this->permissionRepository->save($permission);
-                continue;
-            }
-
-            $this->permissionRepository->insertPermission(
-                $groupId,
-                PermissionType::VIEWER,
-                $expirationDate,
-                $personId,
-                null
-            );
-        }
+        $this->assignPermissionToRoles($coaches, PermissionType::VIEWER);
 
         $leaders = $this->personRoleRepository->findAllPersonInGroupByRole([
             'Group::Abteilung',
+            'Group::Region',
             'Group::Kantonalverband',
             'Group::Bund',
         ], [
             'Group::Abteilung::Abteilungsleitung',
             'Group::Abteilung::AbteilungsleitungStv',
+            'Group::Region::Regionalleitung',
             'Group::Kantonalverband::Kantonsleitung',
         ]);
+        $this->assignPermissionToRoles($leaders, PermissionType::OWNER);
 
-        foreach ($leaders as $leader) {
-            $personId = $leader['person_id'];
-            $groupId = $leader['group_id'];
+        $output->writeln('finished computing all default permissions.');
+        $this->totalDuration = microtime(true) - $start;
+        return 0;
+    }
 
-            $expirationDate = (new \DateTimeImmutable())->add(new \DateInterval('P5D'));
+    private function assignPermissionToRoles(array $roles, int $permissionType)
+    {
+        foreach ($roles as $role) {
+            $personId = $role['person_id'];
+            $groupId = $role['group_id'];
 
             $permission = $this->permissionRepository->findByPersonGroupAndPermission(
                 $groupId,
                 $personId,
-                PermissionType::OWNER
+                $permissionType
             );
             if (!is_null($permission)) {
-                $permission->setExpirationDate($expirationDate);
+                $permission->setExpirationDate(null);
                 $this->permissionRepository->save($permission);
                 continue;
             }
 
             $this->permissionRepository->insertPermission(
                 $groupId,
-                PermissionType::OWNER,
-                $expirationDate,
+                $permissionType,
+                null,
                 $personId,
                 null
             );
         }
-
-        $output->writeln('finished computing all default permissions.');
-        $this->totalDuration = microtime(true) - $start;
-        return 0;
     }
 
     public function getStats(): CommandStatistics

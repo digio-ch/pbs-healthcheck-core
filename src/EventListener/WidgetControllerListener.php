@@ -94,6 +94,7 @@ class WidgetControllerListener
         $groupId = $request->get('groupId');
         $group = $this->groupRepository->findOneByIdAndType($groupId, [
             'Group::Abteilung',
+            'Group::Region',
             'Group::Kantonalverband',
             'Group::Bund',
         ]);

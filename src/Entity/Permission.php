@@ -118,7 +118,7 @@ class Permission
         return $this->expirationDate;
     }
 
-    public function setExpirationDate(\DateTimeImmutable $expirationDate): self
+    public function setExpirationDate(?\DateTimeImmutable $expirationDate): self
     {
         $this->expirationDate = $expirationDate;
 

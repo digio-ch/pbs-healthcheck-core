@@ -4,6 +4,7 @@ namespace App\Controller\Api\Widget;
 
 use App\DTO\Model\WidgetControllerData\DateAndDateRangeRequestData;
 use App\Service\DataProvider\QuapSubdepartmentDateDataProvider;
+use App\Service\Security\PermissionVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class QuapOverviewController extends WidgetController
@@ -12,6 +13,8 @@ class QuapOverviewController extends WidgetController
         QuapSubdepartmentDateDataProvider $dataProvider,
         DateAndDateRangeRequestData $requestData
     ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $requestData->getGroup());
+
         $data = [];
 
         if ($requestData->getDate()) {

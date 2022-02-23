@@ -4,6 +4,7 @@ namespace App\Controller\Api\Widget;
 
 use App\DTO\Model\WidgetControllerData\DateRangeRequestData;
 use App\Service\DataProvider\MembersEnteredLeftDateRangeDataProvider;
+use App\Service\Security\PermissionVoter;
 use Doctrine\DBAL\DBALException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -18,7 +19,9 @@ class MembersEnteredLeftController extends WidgetController
     public function getEnteredLeftMembersData(
         DateRangeRequestData $requestData,
         MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
-    ) {
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $requestData->getGroup());
+
         $data = $membersEnteredLeftDateRangeDataProvider->getData(
             $requestData->getGroup(),
             $requestData->getFrom()->format('Y-m-d'),

@@ -4,6 +4,7 @@ namespace App\Controller\Api\Widget;
 
 use App\DTO\Model\WidgetControllerData\DateAndDateRangeRequestData;
 use App\Service\DataProvider\GeoLocationDateDataProvider;
+use App\Service\Security\PermissionVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GeoLocationController extends WidgetController
@@ -12,6 +13,8 @@ class GeoLocationController extends WidgetController
         GeoLocationDateDataProvider $dataProvider,
         DateAndDateRangeRequestData $requestData
     ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $requestData->getGroup());
+
         $data = [];
 
         if ($requestData->getDate()) {
