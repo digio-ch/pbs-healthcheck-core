@@ -15,7 +15,6 @@ use App\Repository\PermissionRepository;
 use App\Repository\PersonRoleRepository;
 use App\Service\Aggregator\WidgetAggregator;
 use App\Service\Http\GuzzleWrapper;
-use function GuzzleHttp\Promise\all;
 
 class PbsAuthService
 {
@@ -63,16 +62,16 @@ class PbsAuthService
      * @param string $specialAccessEmails
      */
     public function __construct(
-        GuzzleWrapper        $guzzleWrapper,
+        GuzzleWrapper $guzzleWrapper,
         PersonRoleRepository $personRoleRepository,
-        GroupRepository      $groupRepository,
+        GroupRepository $groupRepository,
         PermissionRepository $permissionRepository,
-        string               $environment,
-        string               $pbsUrl,
-        string               $pbsClientId,
-        string               $pbsClientSecret,
-        string               $pbsCallbackUrl,
-        string               $specialAccessEmails
+        string $environment,
+        string $pbsUrl,
+        string $pbsClientId,
+        string $pbsClientSecret,
+        string $pbsCallbackUrl,
+        string $specialAccessEmails
     ) {
         $this->guzzleWrapper = $guzzleWrapper;
         $this->personRoleRepository = $personRoleRepository;

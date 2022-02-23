@@ -10,4 +10,5 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="hc_widget_date")
  */
 class WidgetDate extends Widget
-{}
+{
+}

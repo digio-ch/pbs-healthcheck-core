@@ -34,9 +34,9 @@ class InviteCommand extends Command
      * @param ValidatorInterface $validator
      */
     public function __construct(
-        GroupRepository      $groupRepository,
+        GroupRepository $groupRepository,
         PermissionRepository $permissionRepository,
-        ValidatorInterface   $validator
+        ValidatorInterface $validator
     ) {
         $this->groupRepository = $groupRepository;
         $this->permissionRepository = $permissionRepository;

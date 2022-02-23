@@ -96,7 +96,7 @@ class PermissionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function insertPermission(int $groupId, int $permissionTypeId, ?\DateTimeImmutable $expirationDate, ?int $personId,  ?string $email): void
+    public function insertPermission(int $groupId, int $permissionTypeId, ?\DateTimeImmutable $expirationDate, ?int $personId, ?string $email): void
     {
         $conn = $this->_em->getConnection();
         $conn->executeStatement(
