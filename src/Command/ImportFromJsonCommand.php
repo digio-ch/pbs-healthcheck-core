@@ -776,11 +776,23 @@ class ImportFromJsonCommand extends StatisticsCommand
                 }
             });
             if (null === $matchingImportedPerson) {
+                foreach($this->em->getRepository(PersonRole::class)->findBy(['person' => $p->getId()]) as $personRole) {
+                    $this->em->remove($personRole);
+                }
+
+                foreach($this->em->getRepository(PersonEvent::class)->findBy(['person' => $p->getId()]) as $personEvent) {
+                    $this->em->remove($personEvent);
+                }
+
+                foreach($this->em->getRepository(PersonQualification::class)->findBy(['person' => $p->getId()]) as $personQualification) {
+                    $this->em->remove($personQualification);
+                }
+
                 $this->em->remove($p);
-                // TODO manually remove non-cascade-deleted entities which transitively reference midata_person
+
+                $this->em->flush();
             }
         }
-        $this->em->flush();
 
         $timeElapsed = microtime(true) - $start;
         $this->stats[] = ['people.json', $timeElapsed, $i];
