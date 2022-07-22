@@ -108,6 +108,7 @@ class ImportFromJsonCommand extends StatisticsCommand
             $this->importParticipations($output);
             $this->importQualifications($output);
             $this->importRoles($output);
+            $this->cleanUpDeletedPeople($output);
 
             $this->em->getConnection()->commit();
 
@@ -756,6 +757,34 @@ class ImportFromJsonCommand extends StatisticsCommand
         $timeElapsed = microtime(true) - $start;
         $this->stats[] = ['roles.json', $timeElapsed, $i];
         $output->writeln([sprintf('%s rows imported from roles.json', $i)]);
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @throws Exception
+     */
+    private function cleanUpDeletedPeople(OutputInterface $output)
+    {
+        $start = microtime(true);
+        $jsonPeople = JsonMachine::fromFile(sprintf('%s/people.json', $this->params->get('import_data_dir')));
+        $i = 0;
+        foreach ($this->em->getRepository(Person::class)->findAll() as $p) {
+            $matchingImportedPerson = null;
+            iterator_apply($jsonPeople->getIterator(), function($jsonPerson) use ($p, &$matchingImportedPerson) {
+                if (($jsonPerson['id'] ?? null) === $p->getId()) {
+                    $matchingImportedPerson = $jsonPerson;
+                }
+            });
+            if (null === $matchingImportedPerson) {
+                $this->em->remove($p);
+                // TODO manually remove non-cascade-deleted entities which transitively reference midata_person
+            }
+        }
+        $this->em->flush();
+
+        $timeElapsed = microtime(true) - $start;
+        $this->stats[] = ['people.json', $timeElapsed, $i];
+        $output->writeln([sprintf('%s rows imported from people.json', $i)]);
     }
 
     public function getStats(): CommandStatistics
