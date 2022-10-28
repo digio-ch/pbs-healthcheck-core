@@ -2,10 +2,10 @@
 
 namespace App\Command;
 
-use App\Entity\security\PermissionType;
+use App\Entity\Security\PermissionType;
 use App\Model\CommandStatistics;
-use App\Repository\PermissionRepository;
-use App\Repository\PersonRoleRepository;
+use App\Repository\Midata\PersonRoleRepository;
+use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

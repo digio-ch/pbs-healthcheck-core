@@ -4,9 +4,9 @@ namespace App\Service;
 
 use App\DTO\Model\LeaderDTO;
 use App\DTO\Model\QualificationDTO;
-use App\Entity\aggregated\AggregatedLeaderOverviewQualification;
-use App\Entity\midata\QualificationType;
-use App\Repository\QualificationTypeRepository;
+use App\Entity\Aggregated\AggregatedLeaderOverviewQualification;
+use App\Entity\Midata\QualificationType;
+use App\Repository\Midata\QualificationTypeRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class QualificationProcessor

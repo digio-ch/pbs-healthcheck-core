@@ -4,22 +4,22 @@ namespace App\Service\DataProvider;
 
 use App\DTO\Model\GeoLocationDTO;
 use App\DTO\Model\GeoLocationTypeDTO;
-use App\Entity\midata\Group;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
-use App\Repository\WidgetGeoLocationRepository;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedGeoLocationRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GeoLocationDateDataProvider extends WidgetDataProvider
 {
-    /** @var WidgetGeoLocationRepository $geoLocationRepository */
+    /** @var AggregatedGeoLocationRepository $geoLocationRepository */
     private $geoLocationRepository;
 
     public function __construct(
-        GroupRepository $groupRepository,
-        GroupTypeRepository $groupTypeRepository,
-        WidgetGeoLocationRepository $geoLocationRepository,
-        TranslatorInterface $translator
+        GroupRepository                 $groupRepository,
+        GroupTypeRepository             $groupTypeRepository,
+        AggregatedGeoLocationRepository $geoLocationRepository,
+        TranslatorInterface             $translator
     ) {
         parent::__construct($groupRepository, $groupTypeRepository, $translator);
 

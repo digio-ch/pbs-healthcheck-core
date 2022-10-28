@@ -2,20 +2,20 @@
 
 namespace App\DataFixtures\Aggregator;
 
-use App\Entity\midata\Camp;
-use App\Entity\midata\Event;
-use App\Entity\midata\EventDate;
-use App\Entity\midata\EventGroup;
-use App\Entity\midata\Group;
-use App\Entity\midata\GroupType;
-use App\Entity\midata\Person;
-use App\Entity\midata\PersonEvent;
-use App\Entity\midata\PersonEventType;
-use App\Entity\midata\PersonQualification;
-use App\Entity\midata\PersonRole;
-use App\Entity\midata\QualificationType;
-use App\Entity\midata\Role;
-use App\Entity\midata\YouthSportType;
+use App\Entity\Midata\Camp;
+use App\Entity\Midata\Event;
+use App\Entity\Midata\EventDate;
+use App\Entity\Midata\EventGroup;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\GroupType;
+use App\Entity\Midata\Person;
+use App\Entity\Midata\PersonEvent;
+use App\Entity\Midata\PersonEventType;
+use App\Entity\Midata\PersonQualification;
+use App\Entity\Midata\PersonRole;
+use App\Entity\Midata\QualificationType;
+use App\Entity\Midata\Role;
+use App\Entity\Midata\YouthSportType;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\Id\AssignedGenerator;

@@ -2,12 +2,12 @@
 
 namespace App\Service;
 
-use App\Entity\midata\Group;
-use App\Entity\midata\GroupType;
-use App\Entity\midata\QualificationType;
-use App\Entity\midata\Role;
-use App\Entity\quap\Question;
-use App\Repository\GroupRepository;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\GroupType;
+use App\Entity\Midata\QualificationType;
+use App\Entity\Midata\Role;
+use App\Entity\Quap\Question;
+use App\Repository\Midata\GroupRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;

@@ -8,7 +8,7 @@ use App\DTO\Model\WidgetControllerData\DateRangeRequestData;
 use App\DTO\Model\WidgetControllerData\DateRequestData;
 use App\DTO\Model\WidgetControllerData\WidgetRequestData;
 use App\Exception\ApiException;
-use App\Repository\GroupRepository;
+use App\Repository\Midata\GroupRepository;
 use App\Service\DataProvider\WidgetDataProvider;
 use DateTime;
 use ReflectionClass;

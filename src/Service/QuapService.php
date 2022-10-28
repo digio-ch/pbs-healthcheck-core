@@ -5,21 +5,21 @@ namespace App\Service;
 use App\DTO\Mapper\AnswersMapper;
 use App\DTO\Model\AnswersDTO;
 use App\DTO\Model\ExtendedAnswersDTO;
-use App\Entity\aggregated\AggregatedQuap;
-use App\Entity\midata\Group;
-use App\Entity\midata\GroupType;
-use App\Entity\quap\Aspect;
-use App\Entity\quap\Help;
-use App\Entity\quap\Question;
-use App\Entity\quap\Questionnaire;
+use App\Entity\Aggregated\AggregatedQuap;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\GroupType;
+use App\Entity\Quap\Aspect;
+use App\Entity\Quap\Help;
+use App\Entity\Quap\Question;
+use App\Entity\Quap\Questionnaire;
 use App\Exception\ApiException;
-use App\Repository\AspectRepository;
-use App\Repository\GroupRepository;
-use App\Repository\HelpRepository;
-use App\Repository\LinkRepository;
-use App\Repository\QuestionnaireRepository;
-use App\Repository\QuestionRepository;
-use App\Repository\WidgetQuapRepository;
+use App\Repository\Aggregated\AggregatedQuapRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Quap\AspectRepository;
+use App\Repository\Quap\HelpRepository;
+use App\Repository\Quap\LinkRepository;
+use App\Repository\Quap\QuestionnaireRepository;
+use App\Repository\Quap\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -40,8 +40,8 @@ class QuapService
     /** @var LinkRepository $linkRepository */
     private LinkRepository $linkRepository;
 
-    /** @var WidgetQuapRepository $quapRepository */
-    private WidgetQuapRepository $quapRepository;
+    /** @var AggregatedQuapRepository $quapRepository */
+    private AggregatedQuapRepository $quapRepository;
 
     /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
@@ -55,18 +55,18 @@ class QuapService
      * @param QuestionRepository $questionRepository
      * @param HelpRepository $helpRepository
      * @param LinkRepository $linkRepository
-     * @param WidgetQuapRepository $quapRepository
+     * @param AggregatedQuapRepository $quapRepository
      * @param EntityManagerInterface $em
      */
     public function __construct(
-        QuestionnaireRepository $questionnaireRepository,
-        AspectRepository $aspectRepository,
-        QuestionRepository $questionRepository,
-        HelpRepository $helpRepository,
-        LinkRepository $linkRepository,
-        WidgetQuapRepository $quapRepository,
-        GroupRepository $groupRepository,
-        EntityManagerInterface $em
+        QuestionnaireRepository  $questionnaireRepository,
+        AspectRepository         $aspectRepository,
+        QuestionRepository       $questionRepository,
+        HelpRepository           $helpRepository,
+        LinkRepository           $linkRepository,
+        AggregatedQuapRepository $quapRepository,
+        GroupRepository          $groupRepository,
+        EntityManagerInterface   $em
     ) {
         $this->questionnaireRepository = $questionnaireRepository;
         $this->aspectRepository = $aspectRepository;

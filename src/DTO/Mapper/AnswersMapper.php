@@ -3,7 +3,7 @@
 namespace App\DTO\Mapper;
 
 use App\DTO\Model\AnswersDTO;
-use App\Entity\aggregated\AggregatedQuap;
+use App\Entity\Aggregated\AggregatedQuap;
 
 class AnswersMapper
 {

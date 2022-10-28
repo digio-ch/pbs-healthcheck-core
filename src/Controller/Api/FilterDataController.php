@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\midata\Group;
+use App\Entity\Midata\Group;
 use App\Service\DataProvider\FilterDataProvider;
 use App\Service\Security\PermissionVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;

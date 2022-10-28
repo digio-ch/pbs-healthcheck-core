@@ -2,16 +2,16 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\aggregated\AggregatedLeaderOverviewLeader;
-use App\Entity\aggregated\AggregatedLeaderOverviewQualification;
-use App\Entity\aggregated\AggregatedLeaderOverview;
-use App\Entity\midata\Group;
-use App\Entity\midata\PersonQualification;
-use App\Entity\midata\QualificationType;
-use App\Repository\GroupRepository;
-use App\Repository\PersonQualificationRepository;
-use App\Repository\PersonRoleRepository;
-use App\Repository\WidgetLeaderOverviewRepository;
+use App\Entity\Aggregated\AggregatedLeaderOverview;
+use App\Entity\Aggregated\AggregatedLeaderOverviewLeader;
+use App\Entity\Aggregated\AggregatedLeaderOverviewQualification;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\PersonQualification;
+use App\Entity\Midata\QualificationType;
+use App\Repository\Aggregated\AggregatedLeaderOverviewRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\PersonQualificationRepository;
+use App\Repository\Midata\PersonRoleRepository;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -44,7 +44,7 @@ class LeaderOverviewAggregator extends WidgetAggregator
     protected $personQualificationRepository;
 
     /**
-     * @var WidgetLeaderOverviewRepository
+     * @var AggregatedLeaderOverviewRepository
      */
     protected $widgetLeaderOverviewRepository;
 
@@ -53,15 +53,15 @@ class LeaderOverviewAggregator extends WidgetAggregator
      * @param EntityManagerInterface $em
      * @param PersonRoleRepository $personRoleRepository
      * @param GroupRepository $groupRepository
-     * @param WidgetLeaderOverviewRepository $widgetLeaderOverviewRepository
+     * @param AggregatedLeaderOverviewRepository $widgetLeaderOverviewRepository
      * @param PersonQualificationRepository $personQualificationRepository
      */
     public function __construct(
-        EntityManagerInterface $em,
-        PersonRoleRepository $personRoleRepository,
-        GroupRepository $groupRepository,
-        WidgetLeaderOverviewRepository $widgetLeaderOverviewRepository,
-        PersonQualificationRepository $personQualificationRepository
+        EntityManagerInterface             $em,
+        PersonRoleRepository               $personRoleRepository,
+        GroupRepository                    $groupRepository,
+        AggregatedLeaderOverviewRepository $widgetLeaderOverviewRepository,
+        PersonQualificationRepository      $personQualificationRepository
     ) {
         $this->em = $em;
         $this->personRoleRepository = $personRoleRepository;

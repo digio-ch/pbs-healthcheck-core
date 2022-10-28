@@ -3,8 +3,8 @@
 namespace App\Controller\Api;
 
 use App\DTO\Model\InviteDTO;
-use App\Entity\midata\Group;
-use App\Entity\security\Permission;
+use App\Entity\Midata\Group;
+use App\Entity\Security\Permission;
 use App\Exception\ApiException;
 use App\Service\PermissionService;
 use App\Service\Security\PermissionVoter;

@@ -2,9 +2,9 @@
 
 namespace App\Command;
 
-use App\Entity\security\Permission;
-use App\Repository\GroupRepository;
-use App\Repository\PermissionRepository;
+use App\Entity\Security\Permission;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

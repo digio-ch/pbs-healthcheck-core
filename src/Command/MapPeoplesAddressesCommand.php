@@ -3,10 +3,10 @@
 namespace App\Command;
 
 use App\DTO\Model\AddressMappingDTO;
-use App\Entity\midata\Person;
+use App\Entity\Midata\Person;
 use App\Model\CommandStatistics;
-use App\Repository\GeoAddressRepository;
-use App\Repository\PersonRepository;
+use App\Repository\Admin\GeoAddressRepository;
+use App\Repository\Midata\PersonRepository;
 use App\Service\Profiler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;

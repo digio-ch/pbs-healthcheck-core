@@ -4,10 +4,10 @@ namespace App\Service\DataProvider;
 
 use App\DTO\Model\LineChartDataDTO;
 use App\DTO\Model\LineChartDataPointDTO;
-use App\Entity\midata\Group;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
-use App\Repository\WidgetDemographicGroupRepository;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Exception;
@@ -16,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class MembersGroupDateRangeDataProvider extends WidgetDataProvider
 {
     /**
-     * @var WidgetDemographicGroupRepository
+     * @var AggregatedDemographicGroupRepository
      */
     protected $widgetDemographicGroupRepository;
 
@@ -25,13 +25,13 @@ class MembersGroupDateRangeDataProvider extends WidgetDataProvider
      * @param GroupRepository $groupRepository
      * @param GroupTypeRepository $groupTypeRepository
      * @param TranslatorInterface $translator
-     * @param WidgetDemographicGroupRepository $widgetDemographicGroupRepository
+     * @param AggregatedDemographicGroupRepository $widgetDemographicGroupRepository
      */
     public function __construct(
         GroupRepository $groupRepository,
         GroupTypeRepository $groupTypeRepository,
         TranslatorInterface $translator,
-        WidgetDemographicGroupRepository $widgetDemographicGroupRepository
+        AggregatedDemographicGroupRepository $widgetDemographicGroupRepository
     ) {
         $this->groupRepository = $groupRepository;
         $this->widgetDemographicGroupRepository = $widgetDemographicGroupRepository;

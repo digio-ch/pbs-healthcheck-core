@@ -2,14 +2,14 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\aggregated\AggregatedGeoLocation;
-use App\Entity\midata\Group;
-use App\Entity\midata\Role;
-use App\Repository\GroupRepository;
-use App\Repository\PersonRepository;
-use App\Repository\PersonRoleRepository;
-use App\Repository\RoleRepository;
-use App\Repository\WidgetGeoLocationRepository;
+use App\Entity\Aggregated\AggregatedGeoLocation;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\Role;
+use App\Repository\Aggregated\AggregatedGeoLocationRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\PersonRepository;
+use App\Repository\Midata\PersonRoleRepository;
+use App\Repository\Midata\RoleRepository;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +33,7 @@ class GeoLocationAggregator extends WidgetAggregator
     /** @var RoleRepository $roleRepository */
     private $roleRepository;
 
-    /** @var WidgetGeoLocationRepository $geoLocationRepository */
+    /** @var AggregatedGeoLocationRepository $geoLocationRepository */
     private $geoLocationRepository;
 
     public function __construct(
@@ -42,7 +42,7 @@ class GeoLocationAggregator extends WidgetAggregator
         PersonRepository $personRepository,
         PersonRoleRepository $personRoleRepository,
         RoleRepository $roleRepository,
-        WidgetGeoLocationRepository $geoLocationRepository
+        AggregatedGeoLocationRepository $geoLocationRepository
     ) {
         parent::__construct($groupRepository);
 

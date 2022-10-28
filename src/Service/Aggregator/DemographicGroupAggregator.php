@@ -2,11 +2,11 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\aggregated\AggregatedDemographicGroup;
-use App\Entity\midata\Group;
-use App\Repository\GroupRepository;
-use App\Repository\PersonRoleRepository;
-use App\Repository\WidgetDemographicGroupRepository;
+use App\Entity\Aggregated\AggregatedDemographicGroup;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\PersonRoleRepository;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -23,7 +23,7 @@ class DemographicGroupAggregator extends WidgetAggregator
     protected $em;
 
     /**
-     * @var WidgetDemographicGroupRepository
+     * @var AggregatedDemographicGroupRepository
      */
     protected $widgetDemographicGroupRepository;
 
@@ -38,10 +38,10 @@ class DemographicGroupAggregator extends WidgetAggregator
     protected $groupRepository;
 
     public function __construct(
-        EntityManagerInterface $em,
-        WidgetDemographicGroupRepository $widgetDemographicGroupRepository,
-        PersonRoleRepository $personRoleRepository,
-        GroupRepository $groupRepository
+        EntityManagerInterface               $em,
+        AggregatedDemographicGroupRepository $widgetDemographicGroupRepository,
+        PersonRoleRepository                 $personRoleRepository,
+        GroupRepository                      $groupRepository
     ) {
         $this->em = $em;
         $this->widgetDemographicGroupRepository = $widgetDemographicGroupRepository;

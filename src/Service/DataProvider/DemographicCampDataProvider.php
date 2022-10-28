@@ -4,24 +4,24 @@ namespace App\Service\DataProvider;
 
 use App\DTO\Model\BarChartBarDataDTO;
 use App\DTO\Model\BarChartDataDTO;
-use App\Entity\aggregated\AggregatedDemographicCamp;
-use App\Entity\midata\Group;
-use App\Repository\DemographicCampGroupRepository;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
-use App\Repository\WidgetDemographicCampRepository;
+use App\Entity\Aggregated\AggregatedDemographicCamp;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedDemographicCampGroupRepository;
+use App\Repository\Aggregated\AggregatedDemographicCampRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
 use Doctrine\DBAL\DBALException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DemographicCampDataProvider extends WidgetDataProvider
 {
     /**
-     * @var WidgetDemographicCampRepository
+     * @var AggregatedDemographicCampRepository
      */
     protected $widgetDemographicCampRepository;
 
     /**
-     * @var DemographicCampGroupRepository
+     * @var AggregatedDemographicCampGroupRepository
      */
     protected $demographicCampGroupRepository;
 
@@ -30,15 +30,15 @@ class DemographicCampDataProvider extends WidgetDataProvider
      * @param GroupRepository $groupRepository
      * @param GroupTypeRepository $groupTypeRepository
      * @param TranslatorInterface $translator
-     * @param WidgetDemographicCampRepository $widgetDemographicCampRepository
-     * @param DemographicCampGroupRepository $demographicCampGroupRepository
+     * @param AggregatedDemographicCampRepository $widgetDemographicCampRepository
+     * @param AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
      */
     public function __construct(
-        GroupRepository $groupRepository,
-        GroupTypeRepository $groupTypeRepository,
-        TranslatorInterface $translator,
-        WidgetDemographicCampRepository $widgetDemographicCampRepository,
-        DemographicCampGroupRepository $demographicCampGroupRepository
+        GroupRepository                          $groupRepository,
+        GroupTypeRepository                      $groupTypeRepository,
+        TranslatorInterface                      $translator,
+        AggregatedDemographicCampRepository      $widgetDemographicCampRepository,
+        AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
     ) {
         $this->widgetDemographicCampRepository = $widgetDemographicCampRepository;
         $this->groupRepository = $groupRepository;

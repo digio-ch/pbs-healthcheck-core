@@ -2,17 +2,17 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\aggregated\AggregatedDemographicCampGroup;
-use App\Entity\aggregated\AggregatedDemographicCamp;
-use App\Entity\midata\Camp;
-use App\Entity\midata\EventDate;
-use App\Entity\midata\Group;
-use App\Entity\midata\PersonRole;
-use App\Repository\DemographicCampGroupRepository;
-use App\Repository\EventDateRepository;
-use App\Repository\GroupRepository;
-use App\Repository\PersonRoleRepository;
-use App\Repository\WidgetDemographicCampRepository;
+use App\Entity\Aggregated\AggregatedDemographicCamp;
+use App\Entity\Aggregated\AggregatedDemographicCampGroup;
+use App\Entity\Midata\Camp;
+use App\Entity\Midata\EventDate;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\PersonRole;
+use App\Repository\Aggregated\AggregatedDemographicCampGroupRepository;
+use App\Repository\Aggregated\AggregatedDemographicCampRepository;
+use App\Repository\Midata\EventDateRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\PersonRoleRepository;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -45,12 +45,12 @@ class DemographicCampAggregator extends WidgetAggregator
     protected $eventDateRepository;
 
     /**
-     * @var WidgetDemographicCampRepository
+     * @var AggregatedDemographicCampRepository
      */
     protected $widgetDemographicCampRepository;
 
     /**
-     * @var DemographicCampGroupRepository
+     * @var AggregatedDemographicCampGroupRepository
      */
     protected $demographicCampGroupRepository;
 
@@ -60,16 +60,16 @@ class DemographicCampAggregator extends WidgetAggregator
      * @param PersonRoleRepository $personRoleRepository
      * @param GroupRepository $groupRepository
      * @param EventDateRepository $eventDateRepository
-     * @param WidgetDemographicCampRepository $widgetDemographicCampRepository
-     * @param DemographicCampGroupRepository $demographicCampGroupRepository
+     * @param AggregatedDemographicCampRepository $widgetDemographicCampRepository
+     * @param AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
      */
     public function __construct(
-        EntityManagerInterface $em,
-        PersonRoleRepository $personRoleRepository,
-        GroupRepository $groupRepository,
-        EventDateRepository $eventDateRepository,
-        WidgetDemographicCampRepository $widgetDemographicCampRepository,
-        DemographicCampGroupRepository $demographicCampGroupRepository
+        EntityManagerInterface                   $em,
+        PersonRoleRepository                     $personRoleRepository,
+        GroupRepository                          $groupRepository,
+        EventDateRepository                      $eventDateRepository,
+        AggregatedDemographicCampRepository      $widgetDemographicCampRepository,
+        AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
     ) {
         $this->em = $em;
         $this->personRoleRepository = $personRoleRepository;

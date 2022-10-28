@@ -2,13 +2,13 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\aggregated\AggregatedDemographicEnteredLeft;
-use App\Entity\midata\Group;
-use App\Entity\midata\PersonRole;
-use App\Repository\GroupRepository;
-use App\Repository\PersonRepository;
-use App\Repository\PersonRoleRepository;
-use App\Repository\WidgetDemographicEnteredLeftRepository;
+use App\Entity\Aggregated\AggregatedDemographicEnteredLeft;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\PersonRole;
+use App\Repository\Aggregated\AggregatedDemographicEnteredLeftRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\PersonRepository;
+use App\Repository\Midata\PersonRoleRepository;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -26,7 +26,7 @@ class DemographicEnteredLeftAggregator extends WidgetAggregator
     protected $em;
 
     /**
-     * @var WidgetDemographicEnteredLeftRepository
+     * @var AggregatedDemographicEnteredLeftRepository
      */
     protected $widgetDemographicEnteredLeftRepository;
 
@@ -48,17 +48,17 @@ class DemographicEnteredLeftAggregator extends WidgetAggregator
     /**
      * DemographicEnteredLeftAggregator constructor.
      * @param EntityManagerInterface $em
-     * @param WidgetDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository
+     * @param AggregatedDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository
      * @param PersonRoleRepository $personRoleRepository
      * @param GroupRepository $groupRepository
      * @param PersonRepository $personRepository
      */
     public function __construct(
-        EntityManagerInterface $em,
-        WidgetDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository,
-        PersonRoleRepository $personRoleRepository,
-        GroupRepository $groupRepository,
-        PersonRepository $personRepository
+        EntityManagerInterface                     $em,
+        AggregatedDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository,
+        PersonRoleRepository                       $personRoleRepository,
+        GroupRepository                            $groupRepository,
+        PersonRepository                           $personRepository
     ) {
         $this->em = $em;
         $this->widgetDemographicEnteredLeftRepository = $widgetDemographicEnteredLeftRepository;

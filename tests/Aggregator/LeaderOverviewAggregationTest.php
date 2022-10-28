@@ -3,10 +3,10 @@
 namespace App\Tests\Aggregator;
 
 use App\DataFixtures\Aggregator\LeaderOverviewAggregatorTestFixtures;
-use App\Entity\aggregated\AggregatedLeaderOverviewLeader;
-use App\Entity\aggregated\AggregatedLeaderOverviewQualification;
-use App\Entity\aggregated\AggregatedLeaderOverview;
-use App\Repository\WidgetLeaderOverviewRepository;
+use App\Entity\Aggregated\AggregatedLeaderOverview;
+use App\Entity\Aggregated\AggregatedLeaderOverviewLeader;
+use App\Entity\Aggregated\AggregatedLeaderOverviewQualification;
+use App\Repository\Aggregated\AggregatedLeaderOverviewRepository;
 use App\Service\Aggregator\LeaderOverviewAggregator;
 use App\Tests\AggregatorTestCase;
 use DateTime;
@@ -42,7 +42,7 @@ class LeaderOverviewAggregationTest extends AggregatorTestCase
     public function testAggregate()
     {
         $this->aggregator->aggregate(new DateTime('2020-01-01'));
-        /** @var WidgetLeaderOverviewRepository $repository */
+        /** @var AggregatedLeaderOverviewRepository $repository */
         $repository = $this->em->getRepository(AggregatedLeaderOverview::class);
         foreach ($this->getExpectedResults() as $date => $groups) {
             foreach ($groups as $groupName => $leader) {

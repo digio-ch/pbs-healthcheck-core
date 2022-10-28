@@ -3,7 +3,7 @@
 namespace App\DTO\Mapper;
 
 use App\DTO\Model\QuestionDTO;
-use App\Entity\quap\Question;
+use App\Entity\Quap\Question;
 
 class QuestionMapper
 {

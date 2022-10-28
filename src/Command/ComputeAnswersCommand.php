@@ -2,13 +2,13 @@
 
 namespace App\Command;
 
-use App\Entity\midata\Group;
-use App\Entity\quap\Question;
+use App\Entity\Midata\Group;
+use App\Entity\Quap\Question;
 use App\Helper\QuapAnswerStackHelper;
 use App\Model\CommandStatistics;
-use App\Repository\GroupRepository;
-use App\Repository\QuestionRepository;
-use App\Repository\WidgetQuapRepository;
+use App\Repository\Aggregated\AggregatedQuapRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Quap\QuestionRepository;
 use App\Service\QuapComputeAnswersService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,8 +18,8 @@ class ComputeAnswersCommand extends StatisticsCommand
     /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
-    /** @var WidgetQuapRepository $quapRepository */
-    private WidgetQuapRepository $quapRepository;
+    /** @var AggregatedQuapRepository $quapRepository */
+    private AggregatedQuapRepository $quapRepository;
 
     /** @var QuestionRepository $questionRepository */
     private QuestionRepository $questionRepository;
@@ -30,9 +30,9 @@ class ComputeAnswersCommand extends StatisticsCommand
     private float $totalDuration = 0;
 
     public function __construct(
-        GroupRepository $groupRepository,
-        WidgetQuapRepository $quapRepository,
-        QuestionRepository $questionRepository,
+        GroupRepository           $groupRepository,
+        AggregatedQuapRepository  $quapRepository,
+        QuestionRepository        $questionRepository,
         QuapComputeAnswersService $quapComputeAnswersService
     ) {
         parent::__construct();

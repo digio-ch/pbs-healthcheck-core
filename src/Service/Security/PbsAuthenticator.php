@@ -2,7 +2,7 @@
 
 namespace App\Service\Security;
 
-use App\Repository\GroupRepository;
+use App\Repository\Midata\GroupRepository;
 use App\Service\PbsAuthService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

@@ -3,9 +3,9 @@
 namespace App\Service\Security;
 
 use App\DTO\Model\PbsUserDTO;
-use App\Entity\midata\Group;
-use App\Entity\security\PermissionType;
-use App\Repository\PermissionRepository;
+use App\Entity\Midata\Group;
+use App\Entity\Security\PermissionType;
+use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 

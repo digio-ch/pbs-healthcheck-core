@@ -5,17 +5,17 @@ namespace App\Service\DataProvider;
 use App\DTO\Model\BarChartBarDataDTO;
 use App\DTO\Model\BarChartDataDTO;
 use App\DTO\Model\ExcludeUnknownGenderChartDTO;
-use App\Entity\midata\Group;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
-use App\Repository\WidgetDemographicDepartmentRepository;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedDemographicDepartmentRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
 use Doctrine\DBAL\DBALException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MembersBirthyearDateDataProvider extends WidgetDataProvider
 {
     /**
-     * @var WidgetDemographicDepartmentRepository
+     * @var AggregatedDemographicDepartmentRepository
      */
     protected $widgetDemographicDepartmentRepository;
 
@@ -24,13 +24,13 @@ class MembersBirthyearDateDataProvider extends WidgetDataProvider
      * @param GroupRepository $groupRepository
      * @param GroupTypeRepository $groupTypeRepository
      * @param TranslatorInterface $translator
-     * @param WidgetDemographicDepartmentRepository $widgetDemographicDepartmentRepository
+     * @param AggregatedDemographicDepartmentRepository $widgetDemographicDepartmentRepository
      */
     public function __construct(
         GroupRepository $groupRepository,
         GroupTypeRepository $groupTypeRepository,
         TranslatorInterface $translator,
-        WidgetDemographicDepartmentRepository $widgetDemographicDepartmentRepository
+        AggregatedDemographicDepartmentRepository $widgetDemographicDepartmentRepository
     ) {
         $this->widgetDemographicDepartmentRepository = $widgetDemographicDepartmentRepository;
         $this->groupRepository = $groupRepository;

@@ -2,9 +2,9 @@
 
 namespace App\Service\DataProvider;
 
-use App\Entity\midata\Group;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
+use App\Entity\Midata\Group;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
 use App\Service\QuapService;
 use Symfony\Contracts\Translation\TranslatorInterface;
 

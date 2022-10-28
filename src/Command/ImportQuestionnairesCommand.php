@@ -2,16 +2,16 @@
 
 namespace App\Command;
 
-use App\Entity\quap\Aspect;
-use App\Entity\quap\Help;
-use App\Entity\quap\Link;
-use App\Entity\quap\Question;
-use App\Entity\quap\Questionnaire;
+use App\Entity\Quap\Aspect;
+use App\Entity\Quap\Help;
+use App\Entity\Quap\Link;
+use App\Entity\Quap\Question;
+use App\Entity\Quap\Questionnaire;
 use App\Model\CommandStatistics;
-use App\Repository\AspectRepository;
-use App\Repository\HelpRepository;
-use App\Repository\QuestionnaireRepository;
-use App\Repository\QuestionRepository;
+use App\Repository\Quap\AspectRepository;
+use App\Repository\Quap\HelpRepository;
+use App\Repository\Quap\QuestionnaireRepository;
+use App\Repository\Quap\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JsonMachine\JsonMachine;
 use Symfony\Component\Console\Input\InputInterface;

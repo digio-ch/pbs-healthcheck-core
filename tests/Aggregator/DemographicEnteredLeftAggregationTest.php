@@ -3,8 +3,8 @@
 namespace App\Tests\Aggregator;
 
 use App\DataFixtures\Aggregator\DemographicEnteredLeftAggregatorTestFixtures;
-use App\Entity\aggregated\AggregatedDemographicEnteredLeft;
-use App\Repository\WidgetDemographicEnteredLeftRepository;
+use App\Entity\Aggregated\AggregatedDemographicEnteredLeft;
+use App\Repository\Aggregated\AggregatedDemographicEnteredLeftRepository;
 use App\Service\Aggregator\DemographicEnteredLeftAggregator;
 use App\Tests\AggregatorTestCase;
 use DateTimeImmutable;
@@ -38,7 +38,7 @@ class DemographicEnteredLeftAggregationTest extends AggregatorTestCase
     public function testAggregate()
     {
         $this->aggregator->aggregate(new \DateTime('2020-01-01'));
-        /** @var WidgetDemographicEnteredLeftRepository $repository */
+        /** @var AggregatedDemographicEnteredLeftRepository $repository */
         $repository = $this->em->getRepository(AggregatedDemographicEnteredLeft::class);
         foreach ($this->getExpectedResults() as $date => $values) {
             foreach ($values as $name => $data) {

@@ -4,13 +4,13 @@ namespace App\Service\DataProvider;
 
 use App\DTO\Model\LeaderDTO;
 use App\DTO\Model\LeaderOverviewDTO;
-use App\Entity\aggregated\AggregatedLeaderOverviewLeader;
-use App\Entity\midata\Group;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
-use App\Repository\LeaderOverviewLeaderRepository;
-use App\Repository\LeaderOverviewQualificationRepository;
-use App\Repository\WidgetLeaderOverviewRepository;
+use App\Entity\Aggregated\AggregatedLeaderOverviewLeader;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedLeaderOverviewLeaderRepository;
+use App\Repository\Aggregated\AggregatedLeaderOverviewQualificationRepository;
+use App\Repository\Aggregated\AggregatedLeaderOverviewRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
 use App\Service\Aggregator\WidgetAggregator;
 use App\Service\QualificationProcessor;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -18,17 +18,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
 {
     /**
-     * @var WidgetLeaderOverviewRepository
+     * @var AggregatedLeaderOverviewRepository
      */
     protected $widgetLeaderOverviewRepository;
 
     /**
-     * @var LeaderOverviewLeaderRepository
+     * @var AggregatedLeaderOverviewLeaderRepository
      */
     protected $leaderOverviewLeaderRepository;
 
     /**
-     * @var LeaderOverviewQualificationRepository
+     * @var AggregatedLeaderOverviewQualificationRepository
      */
     protected $leaderOverviewQualificationRepository;
 
@@ -42,19 +42,19 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
      * @param GroupRepository $groupRepository
      * @param GroupTypeRepository $groupTypeRepository
      * @param TranslatorInterface $translator
-     * @param WidgetLeaderOverviewRepository $widgetLeaderOverviewRepository
-     * @param LeaderOverviewLeaderRepository $leaderOverviewLeaderRepository
-     * @param LeaderOverviewQualificationRepository $leaderOverviewQualificationRepository
+     * @param AggregatedLeaderOverviewRepository $widgetLeaderOverviewRepository
+     * @param AggregatedLeaderOverviewLeaderRepository $leaderOverviewLeaderRepository
+     * @param AggregatedLeaderOverviewQualificationRepository $leaderOverviewQualificationRepository
      * @param QualificationProcessor $qualificationProcessor
      */
     public function __construct(
-        GroupRepository $groupRepository,
-        GroupTypeRepository $groupTypeRepository,
-        TranslatorInterface $translator,
-        WidgetLeaderOverviewRepository $widgetLeaderOverviewRepository,
-        LeaderOverviewLeaderRepository $leaderOverviewLeaderRepository,
-        LeaderOverviewQualificationRepository $leaderOverviewQualificationRepository,
-        QualificationProcessor $qualificationProcessor
+        GroupRepository                                 $groupRepository,
+        GroupTypeRepository                             $groupTypeRepository,
+        TranslatorInterface                             $translator,
+        AggregatedLeaderOverviewRepository              $widgetLeaderOverviewRepository,
+        AggregatedLeaderOverviewLeaderRepository        $leaderOverviewLeaderRepository,
+        AggregatedLeaderOverviewQualificationRepository $leaderOverviewQualificationRepository,
+        QualificationProcessor                          $qualificationProcessor
     ) {
         $this->groupRepository = $groupRepository;
         $this->widgetLeaderOverviewRepository = $widgetLeaderOverviewRepository;

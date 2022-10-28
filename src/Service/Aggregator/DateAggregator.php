@@ -2,10 +2,10 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\aggregated\AggregatedDate;
-use App\Entity\midata\Group;
-use App\Repository\GroupRepository;
-use App\Repository\WidgetDateRepository;
+use App\Entity\Aggregated\AggregatedDate;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedDateRepository;
+use App\Repository\Midata\GroupRepository;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,13 +20,13 @@ class DateAggregator extends WidgetAggregator
     /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
-    /** @var WidgetDateRepository $widgetDateRepository */
-    private WidgetDateRepository $widgetDateRepository;
+    /** @var AggregatedDateRepository $widgetDateRepository */
+    private AggregatedDateRepository $widgetDateRepository;
 
     public function __construct(
         EntityManagerInterface $em,
         GroupRepository $groupRepository,
-        WidgetDateRepository $widgetDateRepository
+        AggregatedDateRepository $widgetDateRepository
     ) {
         parent::__construct($groupRepository);
 

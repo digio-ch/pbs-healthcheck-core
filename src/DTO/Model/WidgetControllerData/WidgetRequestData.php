@@ -2,7 +2,7 @@
 
 namespace App\DTO\Model\WidgetControllerData;
 
-use App\Entity\midata\Group;
+use App\Entity\Midata\Group;
 
 class WidgetRequestData
 {

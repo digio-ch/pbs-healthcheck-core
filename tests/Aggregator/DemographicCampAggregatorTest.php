@@ -3,9 +3,9 @@
 namespace App\Tests\Aggregator;
 
 use App\DataFixtures\Aggregator\DemographicCampAggregatorTestFixtures;
-use App\Entity\aggregated\AggregatedDemographicCampGroup;
-use App\Entity\aggregated\AggregatedDemographicCamp;
-use App\Repository\WidgetDemographicCampRepository;
+use App\Entity\Aggregated\AggregatedDemographicCamp;
+use App\Entity\Aggregated\AggregatedDemographicCampGroup;
+use App\Repository\Aggregated\AggregatedDemographicCampRepository;
 use App\Service\Aggregator\DemographicCampAggregator;
 use App\Tests\AggregatorTestCase;
 use DateTimeImmutable;
@@ -39,7 +39,7 @@ class DemographicCampAggregatorTest extends AggregatorTestCase
     public function testAggregate()
     {
         $this->aggregator->aggregate(new \DateTime('2020-01-01'));
-        /** @var WidgetDemographicCampRepository $repository */
+        /** @var AggregatedDemographicCampRepository $repository */
         $repository = $this->em->getRepository(AggregatedDemographicCamp::class);
         foreach ($this->getExpectedResult() as $date => $events) {
             foreach ($events as $event) {

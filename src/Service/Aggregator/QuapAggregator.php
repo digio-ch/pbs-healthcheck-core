@@ -2,13 +2,13 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\aggregated\AggregatedQuap;
-use App\Entity\midata\Group;
-use App\Entity\midata\GroupType;
-use App\Entity\quap\Questionnaire;
-use App\Repository\GroupRepository;
-use App\Repository\QuestionnaireRepository;
-use App\Repository\WidgetQuapRepository;
+use App\Entity\Aggregated\AggregatedQuap;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\GroupType;
+use App\Entity\Quap\Questionnaire;
+use App\Repository\Aggregated\AggregatedQuapRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Quap\QuestionnaireRepository;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,17 +23,17 @@ class QuapAggregator extends WidgetAggregator
     /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
-    /** @var WidgetQuapRepository $quapRepository */
-    private WidgetQuapRepository $quapRepository;
+    /** @var AggregatedQuapRepository $quapRepository */
+    private AggregatedQuapRepository $quapRepository;
 
     /** @var QuestionnaireRepository $questionnaireRepository */
     private QuestionnaireRepository $questionnaireRepository;
 
     public function __construct(
-        EntityManagerInterface $em,
-        GroupRepository $groupRepository,
-        WidgetQuapRepository $quapRepository,
-        QuestionnaireRepository $questionnaireRepository
+        EntityManagerInterface   $em,
+        GroupRepository          $groupRepository,
+        AggregatedQuapRepository $quapRepository,
+        QuestionnaireRepository  $questionnaireRepository
     ) {
         parent::__construct($groupRepository);
 

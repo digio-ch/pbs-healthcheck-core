@@ -2,11 +2,11 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\aggregated\AggregatedDemographicDepartment;
-use App\Entity\midata\Group;
-use App\Repository\GroupRepository;
-use App\Repository\PersonRoleRepository;
-use App\Repository\WidgetDemographicDepartmentRepository;
+use App\Entity\Aggregated\AggregatedDemographicDepartment;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedDemographicDepartmentRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\PersonRoleRepository;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -23,7 +23,7 @@ class DepartmentDemographicAggregator extends WidgetAggregator
     protected $em;
 
     /**
-     * @var WidgetDemographicDepartmentRepository
+     * @var AggregatedDemographicDepartmentRepository
      */
     protected $widgetDemographicDepartmentRepository;
 
@@ -40,15 +40,15 @@ class DepartmentDemographicAggregator extends WidgetAggregator
     /**
      * DepartmentDemographicAggregator constructor.
      * @param EntityManagerInterface $em
-     * @param WidgetDemographicDepartmentRepository $widgetDemographicDepartmentRepository
+     * @param AggregatedDemographicDepartmentRepository $widgetDemographicDepartmentRepository
      * @param PersonRoleRepository $personRoleRepository
      * @param GroupRepository $groupRepository
      */
     public function __construct(
-        EntityManagerInterface $em,
-        WidgetDemographicDepartmentRepository $widgetDemographicDepartmentRepository,
-        PersonRoleRepository $personRoleRepository,
-        GroupRepository $groupRepository
+        EntityManagerInterface                    $em,
+        AggregatedDemographicDepartmentRepository $widgetDemographicDepartmentRepository,
+        PersonRoleRepository                      $personRoleRepository,
+        GroupRepository                           $groupRepository
     ) {
         $this->em = $em;
         $this->widgetDemographicDepartmentRepository = $widgetDemographicDepartmentRepository;
