@@ -75,6 +75,7 @@ class GroupRepository extends ServiceEntityRepository
             ->where('groupType.groupType IN (:names)')
             ->setParameter('names', [
                 'Group::Abteilung',
+                'Group::Region',
                 'Group::Kantonalverband',
                 'Group::Bund',
             ])

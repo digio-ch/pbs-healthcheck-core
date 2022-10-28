@@ -96,6 +96,14 @@ services:
             $pbsCallbackUrl: '%env(PBS_CALLBACK_URL)%'
             $specialAccessEmails: '%env(SPECIAL_ACCESS)%'
 
+
+    # Permissions
+    App\Service\Security\PermissionVoter:
+        arguments:
+            $environment: '%kernel.environment%'
+            $specialAccessEmails: '%env(SPECIAL_ACCESS)%'
+
+
     App\Service\Aggregator\DemographicGroupAggregator:
         tags:
             - { name: 'widget.aggregator', key: 'widget.demographic-group' }

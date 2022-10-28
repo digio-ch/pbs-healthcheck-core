@@ -255,7 +255,7 @@ class PbsAuthService
      */
     private function processRolesForDev(array &$user)
     {
-        $groups = $this->groupRepository->findAllDepartmentalParentGroups();
+        $groups = $this->groupRepository->findAllParentGroups();
         $user['roles'] = [];
         foreach ($groups as $group) {
             $user['roles'][] = [
@@ -274,7 +274,7 @@ class PbsAuthService
      */
     private function processGroupsForDev(PbsUserDTO $pbsUser, string $locale)
     {
-        $groups = $this->groupRepository->findAllDepartmentalParentGroups();
+        $groups = $this->groupRepository->findAllParentGroups();
 
         foreach ($groups as $group) {
             $pbsUser->addGroup(GroupMapper::createFromEntity($group, $locale, 'owner'));

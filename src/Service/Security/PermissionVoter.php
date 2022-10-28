@@ -18,10 +18,22 @@ class PermissionVoter extends Voter
     /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
 
+    /** @var string $environment */
+    private string $environment;
+
+    /** @var array|string[] $specialAccess */
+    private array $specialAccessEmails;
+
     public function __construct(
-        PermissionRepository $permissionRepository
+        PermissionRepository $permissionRepository,
+
+        string $environment,
+        string $specialAccessEmails
     ) {
         $this->permissionRepository = $permissionRepository;
+
+        $this->environment = $environment;
+        $this->specialAccessEmails = explode(',', $specialAccessEmails);
     }
 
     protected function supports(string $attribute, $subject)
@@ -42,6 +54,14 @@ class PermissionVoter extends Voter
         $user = $token->getUser();
         assert($user instanceof PbsUserDTO);
         assert($subject instanceof Group);
+
+        // allow access if user in special email list and environment is either dev or stage
+        if (
+            in_array($this->environment, ['dev', 'stage']) &&
+            in_array($user->getEmail(), $this->specialAccessEmails)
+        ) {
+            return true;
+        }
 
         $permission = $this->permissionRepository->findHighestByIdOrEmail($subject, $user->getId(), $user->getEmail());
         if (is_null($permission)) {

@@ -61,6 +61,7 @@ class QuapAggregator extends WidgetAggregator
     {
         $mainGroups = $this->groupRepository->findParentGroups([
             'Group::Abteilung',
+            'Group::Region',
             'Group::Kantonalverband',
         ]);
 
