@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\PermissionType;
+use App\Entity\security\PermissionType;
 use App\Model\CommandStatistics;
 use App\Repository\PermissionRepository;
 use App\Repository\PersonRoleRepository;

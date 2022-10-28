@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\PersonQualification;
+use App\Entity\midata\PersonQualification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;

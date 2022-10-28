@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\GeoAddress;
+use App\Entity\admin\GeoAddress;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 

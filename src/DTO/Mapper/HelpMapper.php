@@ -3,7 +3,7 @@
 namespace App\DTO\Mapper;
 
 use App\DTO\Model\HelpDTO;
-use App\Entity\Help;
+use App\Entity\quap\Help;
 
 class HelpMapper
 {

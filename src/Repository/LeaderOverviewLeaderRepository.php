@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\LeaderOverviewLeader;
+use App\Entity\aggregated\AggregatedLeaderOverviewLeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,7 +14,7 @@ class LeaderOverviewLeaderRepository extends ServiceEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, LeaderOverviewLeader::class);
+        parent::__construct($registry, AggregatedLeaderOverviewLeader::class);
     }
 
     public function findAllByGroupTypeAndDate(int $mainGroupId, string $groupType, string $date)

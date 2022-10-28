@@ -4,7 +4,7 @@ namespace App\Service\DataProvider;
 
 use App\DTO\Model\BarChartBarDataDTO;
 use App\DTO\Model\BarChartDataDTO;
-use App\Entity\Group;
+use App\Entity\midata\Group;
 use App\Repository\GroupRepository;
 use App\Repository\GroupTypeRepository;
 use App\Repository\WidgetDemographicEnteredLeftRepository;

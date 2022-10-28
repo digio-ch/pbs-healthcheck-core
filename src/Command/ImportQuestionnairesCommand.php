@@ -2,11 +2,11 @@
 
 namespace App\Command;
 
-use App\Entity\Aspect;
-use App\Entity\Help;
-use App\Entity\Link;
-use App\Entity\Question;
-use App\Entity\Questionnaire;
+use App\Entity\quap\Aspect;
+use App\Entity\quap\Help;
+use App\Entity\quap\Link;
+use App\Entity\quap\Question;
+use App\Entity\quap\Questionnaire;
 use App\Model\CommandStatistics;
 use App\Repository\AspectRepository;
 use App\Repository\HelpRepository;

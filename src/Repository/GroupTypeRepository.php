@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\GroupType;
+use App\Entity\midata\GroupType;
 use App\Service\DataProvider\WidgetDataProvider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;

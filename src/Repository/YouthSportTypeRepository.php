@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\YouthSportType;
+use App\Entity\midata\YouthSportType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

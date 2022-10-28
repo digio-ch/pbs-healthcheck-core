@@ -2,10 +2,9 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Group;
-use App\Entity\Person;
-use App\Entity\Role;
-use App\Entity\WidgetGeoLocation;
+use App\Entity\aggregated\AggregatedGeoLocation;
+use App\Entity\midata\Group;
+use App\Entity\midata\Role;
 use App\Repository\GroupRepository;
 use App\Repository\PersonRepository;
 use App\Repository\PersonRoleRepository;
@@ -14,7 +13,6 @@ use App\Repository\WidgetGeoLocationRepository;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Parent_;
 
 class GeoLocationAggregator extends WidgetAggregator
 {
@@ -135,7 +133,7 @@ class GeoLocationAggregator extends WidgetAggregator
                 continue;
             }
 
-            $widget = new WidgetGeoLocation();
+            $widget = new AggregatedGeoLocation();
             $widget->setGroup($group);
             $widget->setLabel($singleData['nickname']);
             $widget->setGroupType(parent::$groupTypeByLeaderRoleType[$singleData['group_type']]);

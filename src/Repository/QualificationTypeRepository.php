@@ -2,11 +2,10 @@
 
 namespace App\Repository;
 
-use App\Entity\QualificationType;
+use App\Entity\midata\QualificationType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 class QualificationTypeRepository extends ServiceEntityRepository

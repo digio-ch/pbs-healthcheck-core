@@ -3,7 +3,7 @@
 namespace App\DTO\Mapper;
 
 use App\DTO\Model\LinkDTO;
-use App\Entity\Link;
+use App\Entity\quap\Link;
 
 class LinkMapper
 {

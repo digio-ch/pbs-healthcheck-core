@@ -2,12 +2,6 @@
 
 namespace App\Service\Security;
 
-use App\DTO\Mapper\GroupMapper;
-use App\DTO\Mapper\PbsUserMapper;
-use App\DTO\Model\PbsRoleDTO;
-use App\Entity\Group;
-use App\Entity\PersonRole;
-use App\Exception\ApiException;
 use App\Repository\GroupRepository;
 use App\Service\PbsAuthService;
 use Symfony\Component\HttpFoundation\JsonResponse;

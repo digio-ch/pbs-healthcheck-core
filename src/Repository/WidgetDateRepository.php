@@ -2,14 +2,14 @@
 
 namespace App\Repository;
 
-use App\Entity\WidgetDate;
+use App\Entity\aggregated\AggregatedDate;
 use Doctrine\Persistence\ManagerRegistry;
 
 class WidgetDateRepository extends AggregatedEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WidgetDate::class);
+        parent::__construct($registry, AggregatedDate::class);
     }
 
     public function findDataPointDatesByGroupIds($groups)

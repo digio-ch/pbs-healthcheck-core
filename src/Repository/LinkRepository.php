@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Link;
+use App\Entity\quap\Link;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

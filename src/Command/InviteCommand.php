@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\Permission;
+use App\Entity\security\Permission;
 use App\Repository\GroupRepository;
 use App\Repository\PermissionRepository;
 use Symfony\Component\Console\Command\Command;

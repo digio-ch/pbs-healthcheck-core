@@ -2,9 +2,9 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Group;
-use App\Entity\PersonRole;
-use App\Entity\WidgetDemographicEnteredLeft;
+use App\Entity\aggregated\AggregatedDemographicEnteredLeft;
+use App\Entity\midata\Group;
+use App\Entity\midata\PersonRole;
 use App\Repository\GroupRepository;
 use App\Repository\PersonRepository;
 use App\Repository\PersonRoleRepository;
@@ -170,7 +170,7 @@ class DemographicEnteredLeftAggregator extends WidgetAggregator
         string $currentDate
     ) {
         foreach (WidgetAggregator::$typePriority as $groupType) {
-            $widget = new WidgetDemographicEnteredLeft();
+            $widget = new AggregatedDemographicEnteredLeft();
             $widget->setGroup($mainGroup);
             $widget->setGroupType($groupType);
 

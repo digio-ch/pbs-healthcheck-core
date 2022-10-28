@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\LeaderOverviewQualification;
+use App\Entity\aggregated\AggregatedLeaderOverviewQualification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,6 +14,6 @@ class LeaderOverviewQualificationRepository extends ServiceEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, LeaderOverviewQualification::class);
+        parent::__construct($registry, AggregatedLeaderOverviewQualification::class);
     }
 }

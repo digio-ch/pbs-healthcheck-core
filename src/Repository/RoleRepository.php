@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Role;
+use App\Entity\midata\Role;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Aspect;
+use App\Entity\quap\Aspect;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -3,8 +3,8 @@
 namespace App\Tests\Aggregator;
 
 use App\DataFixtures\Aggregator\DemographicCampAggregatorTestFixtures;
-use App\Entity\DemographicCampGroup;
-use App\Entity\WidgetDemographicCamp;
+use App\Entity\aggregated\AggregatedDemographicCampGroup;
+use App\Entity\aggregated\AggregatedDemographicCamp;
 use App\Repository\WidgetDemographicCampRepository;
 use App\Service\Aggregator\DemographicCampAggregator;
 use App\Tests\AggregatorTestCase;
@@ -40,7 +40,7 @@ class DemographicCampAggregatorTest extends AggregatorTestCase
     {
         $this->aggregator->aggregate(new \DateTime('2020-01-01'));
         /** @var WidgetDemographicCampRepository $repository */
-        $repository = $this->em->getRepository(WidgetDemographicCamp::class);
+        $repository = $this->em->getRepository(AggregatedDemographicCamp::class);
         foreach ($this->getExpectedResult() as $date => $events) {
             foreach ($events as $event) {
                 $camp = $repository->findOneBy([
@@ -68,9 +68,9 @@ class DemographicCampAggregatorTest extends AggregatorTestCase
         }
     }
 
-    private function findGroupForId(WidgetDemographicCamp $camp, int $id, string $groupType)
+    private function findGroupForId(AggregatedDemographicCamp $camp, int $id, string $groupType)
     {
-        /** @var DemographicCampGroup $dcg */
+        /** @var AggregatedDemographicCampGroup $dcg */
         foreach ($camp->getDemographicCampGroups()->getValues() as $dcg) {
             if ($dcg->getGroup()->getId() === $id && $dcg->getGroupType() === $groupType) {
                 return $dcg;

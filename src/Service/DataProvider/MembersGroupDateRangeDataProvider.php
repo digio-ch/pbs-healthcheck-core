@@ -4,15 +4,13 @@ namespace App\Service\DataProvider;
 
 use App\DTO\Model\LineChartDataDTO;
 use App\DTO\Model\LineChartDataPointDTO;
-use App\Entity\Group;
-use App\Exception\ApiException;
+use App\Entity\midata\Group;
 use App\Repository\GroupRepository;
 use App\Repository\GroupTypeRepository;
 use App\Repository\WidgetDemographicGroupRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Exception;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MembersGroupDateRangeDataProvider extends WidgetDataProvider

@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\DemographicCampGroup;
-use App\Entity\WidgetDemographicCamp;
+use App\Entity\aggregated\AggregatedDemographicCampGroup;
+use App\Entity\aggregated\AggregatedDemographicCamp;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
@@ -15,17 +15,17 @@ class DemographicCampGroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, DemographicCampGroup::class);
+        parent::__construct($registry, AggregatedDemographicCampGroup::class);
     }
 
     /**
-     * @param WidgetDemographicCamp $camp
+     * @param AggregatedDemographicCamp $camp
      * @param int $mainGroupId
      * @param string $groupType
      * @return array|false|mixed
      * @throws DBALException
      */
-    public function getMembersCountByCampAndGroupType(WidgetDemographicCamp $camp, int $mainGroupId, string $groupType)
+    public function getMembersCountByCampAndGroupType(AggregatedDemographicCamp $camp, int $mainGroupId, string $groupType)
     {
         $conn = $this->_em->getConnection();
         $statement = $conn->executeQuery(
@@ -41,13 +41,13 @@ class DemographicCampGroupRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param WidgetDemographicCamp $camp
+     * @param AggregatedDemographicCamp $camp
      * @param int $mainGroupId
      * @param string $groupType
      * @return array|false|mixed
      * @throws DBALException
      */
-    public function getLeadersCountByCampAndGroupType(WidgetDemographicCamp $camp, int $mainGroupId, string $groupType)
+    public function getLeadersCountByCampAndGroupType(AggregatedDemographicCamp $camp, int $mainGroupId, string $groupType)
     {
         $conn = $this->_em->getConnection();
         $statement = $conn->executeQuery(
@@ -63,16 +63,16 @@ class DemographicCampGroupRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param WidgetDemographicCamp $camp
+     * @param AggregatedDemographicCamp $camp
      * @param int $mainGroupId
      * @param array $groupTypes
      * @return array|false|mixed
      * @throws DBALException
      */
     public function getAdditionalLeadersCountByCampAndGroupTypes(
-        WidgetDemographicCamp $camp,
-        int $mainGroupId,
-        array $groupTypes
+        AggregatedDemographicCamp $camp,
+        int                       $mainGroupId,
+        array                     $groupTypes
     ) {
         $conn = $this->_em->getConnection();
         $statement = $conn->executeQuery(

@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\PersonRole;
+use App\Entity\midata\PersonRole;
 use App\Service\Aggregator\WidgetAggregator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;

@@ -2,10 +2,10 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Group;
-use App\Entity\GroupType;
-use App\Entity\Questionnaire;
-use App\Entity\WidgetQuap;
+use App\Entity\aggregated\AggregatedQuap;
+use App\Entity\midata\Group;
+use App\Entity\midata\GroupType;
+use App\Entity\quap\Questionnaire;
 use App\Repository\GroupRepository;
 use App\Repository\QuestionnaireRepository;
 use App\Repository\WidgetQuapRepository;
@@ -103,7 +103,7 @@ class QuapAggregator extends WidgetAggregator
                     }
                     $questionnaire = $this->questionnaireRepository->findOneBy(['type' => $questionnaireType]);
 
-                    $currentQuap = new WidgetQuap();
+                    $currentQuap = new AggregatedQuap();
                     $currentQuap->setGroup($mainGroup);
                     $currentQuap->setQuestionnaire($questionnaire);
                     $currentQuap->setAnswers(json_decode('{}'));
@@ -115,7 +115,7 @@ class QuapAggregator extends WidgetAggregator
 
                 $this->em->persist($currentQuap);
 
-                $newQuap = new WidgetQuap();
+                $newQuap = new AggregatedQuap();
                 $newQuap->setGroup($currentQuap->getGroup());
                 $newQuap->setQuestionnaire($currentQuap->getQuestionnaire());
                 $newQuap->setAnswers($currentQuap->getAnswers());

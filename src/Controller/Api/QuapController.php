@@ -3,7 +3,7 @@
 namespace App\Controller\Api;
 
 use App\DTO\Mapper\QuestionnaireMapper;
-use App\Entity\Group;
+use App\Entity\midata\Group;
 use App\Exception\ApiException;
 use App\Service\QuapService;
 use App\Service\Security\PermissionVoter;

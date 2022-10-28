@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\EventType;
+use App\Entity\midata\EventType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

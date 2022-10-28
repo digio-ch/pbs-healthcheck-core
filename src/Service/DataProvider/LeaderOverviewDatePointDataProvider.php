@@ -4,13 +4,8 @@ namespace App\Service\DataProvider;
 
 use App\DTO\Model\LeaderDTO;
 use App\DTO\Model\LeaderOverviewDTO;
-use App\DTO\Model\QualificationDTO;
-use App\Entity\Group;
-use App\Entity\LeaderOverviewLeader;
-use App\Entity\LeaderOverviewQualification;
-use App\Entity\PersonQualification;
-use App\Entity\WidgetLeaderOverview;
-use App\Exception\ApiException;
+use App\Entity\aggregated\AggregatedLeaderOverviewLeader;
+use App\Entity\midata\Group;
 use App\Repository\GroupRepository;
 use App\Repository\GroupTypeRepository;
 use App\Repository\LeaderOverviewLeaderRepository;
@@ -18,9 +13,6 @@ use App\Repository\LeaderOverviewQualificationRepository;
 use App\Repository\WidgetLeaderOverviewRepository;
 use App\Service\Aggregator\WidgetAggregator;
 use App\Service\QualificationProcessor;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
@@ -125,7 +117,7 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
         LeaderOverviewDTO $leaderOverviewDTO
     ) {
         $leaders = $this->leaderOverviewLeaderRepository->findAllByGroupTypeAndDate($mainGroupId, $groupType, $date);
-        /** @var LeaderOverviewLeader $leader */
+        /** @var AggregatedLeaderOverviewLeader $leader */
         foreach ($leaders as $leader) {
             $leaderDTO = new LeaderDTO();
             $leaderDTO->setName($leader->getName());

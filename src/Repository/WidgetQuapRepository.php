@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\WidgetQuap;
+use App\Entity\aggregated\AggregatedQuap;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method WidgetQuap|null find($id, $lockMode = null, $lockVersion = null)
- * @method WidgetQuap|null findOneBy(array $criteria, array $orderBy = null)
- * @method WidgetQuap[]    findAll()
- * @method WidgetQuap[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method AggregatedQuap|null find($id, $lockMode = null, $lockVersion = null)
+ * @method AggregatedQuap|null findOneBy(array $criteria, array $orderBy = null)
+ * @method AggregatedQuap[]    findAll()
+ * @method AggregatedQuap[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class WidgetQuapRepository extends AggregatedEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WidgetQuap::class);
+        parent::__construct($registry, AggregatedQuap::class);
     }
 
-    public function findCurrentForGroup(int $groupId): ?WidgetQuap
+    public function findCurrentForGroup(int $groupId): ?AggregatedQuap
     {
         return $this->createQueryBuilder('quap')
             ->andWhere('quap.dataPointDate IS NULL')
@@ -50,7 +50,7 @@ class WidgetQuapRepository extends AggregatedEntityRepository
             ->getResult();
     }
 
-    public function save(WidgetQuap $widgetQuap): void
+    public function save(AggregatedQuap $widgetQuap): void
     {
         $this->getEntityManager()->persist($widgetQuap);
         $this->getEntityManager()->flush();

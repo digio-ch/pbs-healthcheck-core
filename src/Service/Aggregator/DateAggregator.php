@@ -2,8 +2,8 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Group;
-use App\Entity\WidgetDate;
+use App\Entity\aggregated\AggregatedDate;
+use App\Entity\midata\Group;
 use App\Repository\GroupRepository;
 use App\Repository\WidgetDateRepository;
 use DateInterval;
@@ -68,7 +68,7 @@ class DateAggregator extends WidgetAggregator
                     continue;
                 }
 
-                $widget = new WidgetDate();
+                $widget = new AggregatedDate();
                 $widget->setGroup($mainGroup);
                 $widget->setCreatedAt(new \DateTimeImmutable());
                 $widget->setDataPointDate(new \DateTimeImmutable($startPointDate->format('Y-m-d')));

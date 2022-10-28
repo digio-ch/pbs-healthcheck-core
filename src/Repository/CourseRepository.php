@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Course;
+use App\Entity\midata\Course;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

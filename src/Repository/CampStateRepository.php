@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\CampState;
+use App\Entity\midata\CampState;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

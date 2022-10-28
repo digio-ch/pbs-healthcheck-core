@@ -2,8 +2,8 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Group;
-use App\Entity\WidgetDemographicDepartment;
+use App\Entity\aggregated\AggregatedDemographicDepartment;
+use App\Entity\midata\Group;
 use App\Repository\GroupRepository;
 use App\Repository\PersonRoleRepository;
 use App\Repository\WidgetDemographicDepartmentRepository;
@@ -139,7 +139,7 @@ class DepartmentDemographicAggregator extends WidgetAggregator
     private function createWidgetsFromData(array $data, string $year, Group $mainGroup, DateTime $startPointDate)
     {
         foreach ($data as $groupType => $personTypeAndCountsByGender) {
-            $widget = new WidgetDemographicDepartment();
+            $widget = new AggregatedDemographicDepartment();
             $widget->setGroup($mainGroup);
             $widget->setGroupType($groupType);
             $widget->setBirthyear(intval($year));

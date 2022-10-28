@@ -3,7 +3,7 @@
 namespace App\DTO\Mapper;
 
 use App\DTO\Model\GroupTypeDTO;
-use App\Entity\GroupType;
+use App\Entity\midata\GroupType;
 use App\Service\DataProvider\WidgetDataProvider;
 
 class GroupTypeMapper

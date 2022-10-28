@@ -2,12 +2,12 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Camp;
-use App\Entity\DemographicCampGroup;
-use App\Entity\EventDate;
-use App\Entity\Group;
-use App\Entity\PersonRole;
-use App\Entity\WidgetDemographicCamp;
+use App\Entity\aggregated\AggregatedDemographicCampGroup;
+use App\Entity\aggregated\AggregatedDemographicCamp;
+use App\Entity\midata\Camp;
+use App\Entity\midata\EventDate;
+use App\Entity\midata\Group;
+use App\Entity\midata\PersonRole;
 use App\Repository\DemographicCampGroupRepository;
 use App\Repository\EventDateRepository;
 use App\Repository\GroupRepository;
@@ -157,7 +157,7 @@ class DemographicCampAggregator extends WidgetAggregator
                     ]);
 
                     if (!$widgetDemographicCamp) {
-                        $widgetDemographicCamp = new WidgetDemographicCamp();
+                        $widgetDemographicCamp = new AggregatedDemographicCamp();
                         $widgetDemographicCamp->setStartDate($eventDate->getStartAt());
                         $widgetDemographicCamp->setCreatedAt(new DateTimeImmutable());
                         $widgetDemographicCamp->setDataPointDate(
@@ -188,7 +188,7 @@ class DemographicCampAggregator extends WidgetAggregator
 
                         $this->demographicCampGroupRepository->deleteAllByCampGroupAndGroupType($widgetDemographicCamp->getId(), $mainGroup->getId(), $groupType);
 
-                        $demographicCampGroup = new DemographicCampGroup();
+                        $demographicCampGroup = new AggregatedDemographicCampGroup();
                         $demographicCampGroup->setMCount($membersCounts ? $membersCounts['m'] : 0);
                         $demographicCampGroup->setFCount($membersCounts ? $membersCounts['w'] : 0);
                         $demographicCampGroup->setUCount($membersCounts ? $membersCounts['u'] : 0);

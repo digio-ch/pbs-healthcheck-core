@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\WidgetLeaderOverview;
+use App\Entity\aggregated\AggregatedLeaderOverview;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,7 +15,7 @@ class WidgetLeaderOverviewRepository extends AggregatedEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WidgetLeaderOverview::class);
+        parent::__construct($registry, AggregatedLeaderOverview::class);
     }
 
     /**

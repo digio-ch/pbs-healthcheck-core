@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\WidgetDemographicGroup;
+use App\Entity\aggregated\AggregatedDemographicGroup;
 use App\Service\DataProvider\WidgetDataProvider;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
@@ -17,7 +17,7 @@ class WidgetDemographicGroupRepository extends AggregatedEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WidgetDemographicGroup::class);
+        parent::__construct($registry, AggregatedDemographicGroup::class);
     }
 
     // members-group date queries

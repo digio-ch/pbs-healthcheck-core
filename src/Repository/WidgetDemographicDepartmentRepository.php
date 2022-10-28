@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\WidgetDemographicDepartment;
+use App\Entity\aggregated\AggregatedDemographicDepartment;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,7 +15,7 @@ class WidgetDemographicDepartmentRepository extends AggregatedEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WidgetDemographicDepartment::class);
+        parent::__construct($registry, AggregatedDemographicDepartment::class);
     }
 
     /**

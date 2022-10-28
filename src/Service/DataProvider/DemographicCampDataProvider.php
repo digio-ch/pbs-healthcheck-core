@@ -4,14 +4,13 @@ namespace App\Service\DataProvider;
 
 use App\DTO\Model\BarChartBarDataDTO;
 use App\DTO\Model\BarChartDataDTO;
-use App\Entity\Group;
-use App\Entity\WidgetDemographicCamp;
+use App\Entity\aggregated\AggregatedDemographicCamp;
+use App\Entity\midata\Group;
 use App\Repository\DemographicCampGroupRepository;
 use App\Repository\GroupRepository;
 use App\Repository\GroupTypeRepository;
 use App\Repository\WidgetDemographicCampRepository;
 use Doctrine\DBAL\DBALException;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DemographicCampDataProvider extends WidgetDataProvider
@@ -69,7 +68,7 @@ class DemographicCampDataProvider extends WidgetDataProvider
             return $result;
         }
 
-        /** @var WidgetDemographicCamp $event */
+        /** @var AggregatedDemographicCamp $event */
         foreach ($events as $event) {
             $barChart = new BarChartDataDTO();
             $barChart->setName(
@@ -113,16 +112,16 @@ class DemographicCampDataProvider extends WidgetDataProvider
 
     /**
      * @param BarChartDataDTO $barChart
-     * @param WidgetDemographicCamp $event
+     * @param AggregatedDemographicCamp $event
      * @param int $mainGroupId
      * @param array $groupTypes
      * @throws DBALException
      */
     private function getMembersData(
-        BarChartDataDTO $barChart,
-        WidgetDemographicCamp $event,
-        int $mainGroupId,
-        array $groupTypes
+        BarChartDataDTO           $barChart,
+        AggregatedDemographicCamp $event,
+        int                       $mainGroupId,
+        array                     $groupTypes
     ) {
         foreach ($groupTypes as $type) {
             $sum = $this->demographicCampGroupRepository->getMembersCountByCampAndGroupType(
@@ -143,16 +142,16 @@ class DemographicCampDataProvider extends WidgetDataProvider
 
     /**
      * @param BarChartDataDTO $barChart
-     * @param WidgetDemographicCamp $event
+     * @param AggregatedDemographicCamp $event
      * @param int $mainGroupId
      * @param array $groupTypes
      * @throws DBALException
      */
     private function getLeadersData(
-        BarChartDataDTO $barChart,
-        WidgetDemographicCamp $event,
-        int $mainGroupId,
-        array $groupTypes
+        BarChartDataDTO           $barChart,
+        AggregatedDemographicCamp $event,
+        int                       $mainGroupId,
+        array                     $groupTypes
     ) {
         foreach ($groupTypes as $type) {
             $sum = $this->demographicCampGroupRepository->getLeadersCountByCampAndGroupType(
@@ -173,16 +172,16 @@ class DemographicCampDataProvider extends WidgetDataProvider
 
     /**
      * @param BarChartDataDTO $barChart
-     * @param WidgetDemographicCamp $event
+     * @param AggregatedDemographicCamp $event
      * @param int $mainGroupId
      * @param array $groupTypes
      * @throws DBALException
      */
     private function getAdditionalLeadersData(
-        BarChartDataDTO $barChart,
-        WidgetDemographicCamp $event,
-        int $mainGroupId,
-        array $groupTypes
+        BarChartDataDTO           $barChart,
+        AggregatedDemographicCamp $event,
+        int                       $mainGroupId,
+        array                     $groupTypes
     ) {
         $leaders = $this->demographicCampGroupRepository->getAdditionalLeadersCountByCampAndGroupTypes(
             $event,

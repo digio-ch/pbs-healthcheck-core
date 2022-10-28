@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Help;
+use App\Entity\quap\Help;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

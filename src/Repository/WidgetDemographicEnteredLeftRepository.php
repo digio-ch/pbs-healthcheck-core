@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\WidgetDemographicEnteredLeft;
+use App\Entity\aggregated\AggregatedDemographicEnteredLeft;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\ParameterType;
@@ -16,7 +16,7 @@ class WidgetDemographicEnteredLeftRepository extends AggregatedEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WidgetDemographicEnteredLeft::class);
+        parent::__construct($registry, AggregatedDemographicEnteredLeft::class);
     }
 
     /**

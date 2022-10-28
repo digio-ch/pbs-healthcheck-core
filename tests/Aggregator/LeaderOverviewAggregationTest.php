@@ -3,9 +3,9 @@
 namespace App\Tests\Aggregator;
 
 use App\DataFixtures\Aggregator\LeaderOverviewAggregatorTestFixtures;
-use App\Entity\LeaderOverviewLeader;
-use App\Entity\LeaderOverviewQualification;
-use App\Entity\WidgetLeaderOverview;
+use App\Entity\aggregated\AggregatedLeaderOverviewLeader;
+use App\Entity\aggregated\AggregatedLeaderOverviewQualification;
+use App\Entity\aggregated\AggregatedLeaderOverview;
 use App\Repository\WidgetLeaderOverviewRepository;
 use App\Service\Aggregator\LeaderOverviewAggregator;
 use App\Tests\AggregatorTestCase;
@@ -43,7 +43,7 @@ class LeaderOverviewAggregationTest extends AggregatorTestCase
     {
         $this->aggregator->aggregate(new DateTime('2020-01-01'));
         /** @var WidgetLeaderOverviewRepository $repository */
-        $repository = $this->em->getRepository(WidgetLeaderOverview::class);
+        $repository = $this->em->getRepository(AggregatedLeaderOverview::class);
         foreach ($this->getExpectedResults() as $date => $groups) {
             foreach ($groups as $groupName => $leader) {
                 $leaderOverview = $repository->findOneBy([
@@ -52,7 +52,7 @@ class LeaderOverviewAggregationTest extends AggregatorTestCase
                  ]);
 
                 $this->em->refresh($leaderOverview);
-                /** @var LeaderOverviewLeader $leaderOverviewLeader */
+                /** @var AggregatedLeaderOverviewLeader $leaderOverviewLeader */
                 $leaderOverviewLeader = $leaderOverview->getLeaders()->first();
 
                 $this->em->refresh($leaderOverviewLeader);
@@ -68,7 +68,7 @@ class LeaderOverviewAggregationTest extends AggregatorTestCase
     private function assertQualifications(Collection $qualifications, array $expectedQualifications)
     {
         foreach ($expectedQualifications as $expectedQualification) {
-            $q = $qualifications->filter(function (LeaderOverviewQualification $item) use ($expectedQualification) {
+            $q = $qualifications->filter(function (AggregatedLeaderOverviewQualification $item) use ($expectedQualification) {
                 return $item->getQualificationType()->getId() === $expectedQualification['type_id'];
             })->first();
             $this->assertNotFalse($q);

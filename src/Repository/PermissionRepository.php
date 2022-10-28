@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Group;
-use App\Entity\Permission;
+use App\Entity\midata\Group;
+use App\Entity\security\Permission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;

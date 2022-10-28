@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Camp;
+use App\Entity\midata\Camp;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Camp;
-use App\Entity\EventDate;
+use App\Entity\midata\Camp;
+use App\Entity\midata\EventDate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;

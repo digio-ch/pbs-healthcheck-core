@@ -3,16 +3,15 @@
 namespace App\Service;
 
 use App\DTO\Mapper\AnswersMapper;
-use App\DTO\Mapper\QuestionnaireMapper;
 use App\DTO\Model\AnswersDTO;
 use App\DTO\Model\ExtendedAnswersDTO;
-use App\Entity\Aspect;
-use App\Entity\Group;
-use App\Entity\GroupType;
-use App\Entity\Help;
-use App\Entity\Question;
-use App\Entity\Questionnaire;
-use App\Entity\WidgetQuap;
+use App\Entity\aggregated\AggregatedQuap;
+use App\Entity\midata\Group;
+use App\Entity\midata\GroupType;
+use App\Entity\quap\Aspect;
+use App\Entity\quap\Help;
+use App\Entity\quap\Question;
+use App\Entity\quap\Questionnaire;
 use App\Exception\ApiException;
 use App\Repository\AspectRepository;
 use App\Repository\GroupRepository;
@@ -23,7 +22,6 @@ use App\Repository\QuestionRepository;
 use App\Repository\WidgetQuapRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Exception\BadMessageException;
 
 class QuapService
 {
@@ -119,7 +117,7 @@ class QuapService
         return $questionnaire;
     }
 
-    public function submitAnswers(Group $group, array $json): WidgetQuap
+    public function submitAnswers(Group $group, array $json): AggregatedQuap
     {
         $widgetQuap = $this->quapRepository->findOneBy([
             "dataPointDate" => null,
@@ -138,7 +136,7 @@ class QuapService
         return $widgetQuap;
     }
 
-    public function updateAllowAccess(Group $group, bool $allowAccess): WidgetQuap
+    public function updateAllowAccess(Group $group, bool $allowAccess): AggregatedQuap
     {
         $widgetQuap = $this->quapRepository->findOneBy([
             "dataPointDate" => null,
@@ -192,7 +190,7 @@ class QuapService
         $answers = $this->quapRepository->findAllAnswers($ids, $date !== null ? $date->format('Y-m-d') : null);
 
         $dtos = [];
-        /** @var WidgetQuap $answer */
+        /** @var AggregatedQuap $answer */
         foreach ($answers as $answer) {
             $answerGroup = $answer->getGroup();
 

@@ -2,9 +2,9 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\PersonRole;
-use App\Repository\GroupRepository;
+use App\Entity\midata\PersonRole;
 use App\Repository\AggregatedEntityRepository;
+use App\Repository\GroupRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\ORMException;

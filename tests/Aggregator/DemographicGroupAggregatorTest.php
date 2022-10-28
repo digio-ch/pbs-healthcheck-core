@@ -3,7 +3,7 @@
 namespace App\Tests\Aggregator;
 
 use App\DataFixtures\Aggregator\DemographicGroupAggregatorTestFixtures;
-use App\Entity\WidgetDemographicGroup;
+use App\Entity\aggregated\AggregatedDemographicGroup;
 use App\Repository\WidgetDemographicGroupRepository;
 use App\Service\Aggregator\DemographicGroupAggregator;
 use App\Tests\AggregatorTestCase;
@@ -39,7 +39,7 @@ class DemographicGroupAggregatorTest extends AggregatorTestCase
     {
         $this->aggregator->aggregate(new \DateTime('2020-01-01'));
         /** @var WidgetDemographicGroupRepository $repository */
-        $repository = $this->em->getRepository(WidgetDemographicGroup::class);
+        $repository = $this->em->getRepository(AggregatedDemographicGroup::class);
         foreach ($this->getExpectedResult() as $date => $values) {
             $item = $repository->findOneBy([
                'dataPointDate' => new DateTimeImmutable($date),

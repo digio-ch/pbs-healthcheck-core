@@ -3,7 +3,7 @@
 namespace App\Service\DataProvider;
 
 use App\DTO\Model\AnswersDTO;
-use App\Entity\Group;
+use App\Entity\midata\Group;
 use App\Repository\GroupRepository;
 use App\Repository\GroupTypeRepository;
 use App\Service\QuapService;

@@ -3,8 +3,7 @@
 namespace App\DTO\Mapper;
 
 use App\DTO\Model\InviteDTO;
-use App\Entity\Group;
-use App\Entity\Permission;
+use App\Entity\security\Permission;
 
 class InviteMapper
 {

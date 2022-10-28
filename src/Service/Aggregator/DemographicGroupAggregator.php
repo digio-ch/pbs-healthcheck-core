@@ -2,15 +2,14 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Group;
-use App\Entity\WidgetDemographicGroup;
+use App\Entity\aggregated\AggregatedDemographicGroup;
+use App\Entity\midata\Group;
 use App\Repository\GroupRepository;
 use App\Repository\PersonRoleRepository;
 use App\Repository\WidgetDemographicGroupRepository;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 
@@ -121,7 +120,7 @@ class DemographicGroupAggregator extends WidgetAggregator
     private function createWidgetsFromData(array $data, Group $mainGroup, DateTime $startPointDate)
     {
         foreach ($data as $groupType => $personTypeAndCountsByGender) {
-            $widget = new WidgetDemographicGroup();
+            $widget = new AggregatedDemographicGroup();
             $widget->setGroup($mainGroup);
             $widget->setGroupType($groupType);
             $widget->setMCount($personTypeAndCountsByGender['members']['m']);

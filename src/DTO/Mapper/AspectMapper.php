@@ -3,7 +3,7 @@
 namespace App\DTO\Mapper;
 
 use App\DTO\Model\AspectDTO;
-use App\Entity\Aspect;
+use App\Entity\quap\Aspect;
 
 class AspectMapper
 {

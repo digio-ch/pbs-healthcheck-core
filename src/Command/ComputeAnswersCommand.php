@@ -2,8 +2,8 @@
 
 namespace App\Command;
 
-use App\Entity\Group;
-use App\Entity\Question;
+use App\Entity\midata\Group;
+use App\Entity\quap\Question;
 use App\Helper\QuapAnswerStackHelper;
 use App\Model\CommandStatistics;
 use App\Repository\GroupRepository;

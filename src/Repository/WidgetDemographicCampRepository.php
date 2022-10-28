@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Group;
-use App\Entity\WidgetDemographicCamp;
+use App\Entity\aggregated\AggregatedDemographicCamp;
+use App\Entity\midata\Group;
 use Doctrine\Persistence\ManagerRegistry;
 
 class WidgetDemographicCampRepository extends AggregatedEntityRepository
@@ -14,7 +14,7 @@ class WidgetDemographicCampRepository extends AggregatedEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WidgetDemographicCamp::class);
+        parent::__construct($registry, AggregatedDemographicCamp::class);
     }
 
     /**
