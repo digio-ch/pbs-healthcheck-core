@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="midata_event_group")
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
 class EventGroup

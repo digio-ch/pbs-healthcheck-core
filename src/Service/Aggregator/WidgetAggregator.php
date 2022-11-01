@@ -343,18 +343,18 @@ abstract class WidgetAggregator
     protected function deleteLastPeriod(AggregatedEntityRepository $repository, int $mainGroupId): void
     {
         $to = new DateTime();
-        $from = clone $to;
-        $from->modify('first day of this month');
+        $to->setTime(0, 0);
 
-        // If it's the first day delete last day of last month
+        // default from first day of month (without the first day)
+        $from = new DateTime();
+        $from->modify('first day of this month');
+        $from->setTime(23, 59, 59, 999);
+
+        // If it's the first day delete from last day of last month (with the last day of the month)
         if ($to->format('j') == 1) {
-            $to->modify('last day of last month');
-            $to->setTime(23,59, 59, 999);
             $from->modify('last day of last month');
             $from->setTime(0,0);
         }
-
-
 
         $data = $repository->createQueryBuilder('w')
             ->join('w.group', 'g')

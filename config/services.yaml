@@ -82,12 +82,12 @@ services:
 
 
     # PBS Services
-    App\Service\PbsApiService:
+    App\Service\Pbs\PbsApiService:
         arguments:
             $apiKey: '%env(PBS_API_KEY)%'
             $url: '%env(PBS_DATA_URL)%'
 
-    App\Service\PbsAuthService:
+    App\Service\Pbs\PbsAuthService:
         arguments:
             $environment: '%kernel.environment%'
             $pbsUrl: '%env(PBS_URL)%'
