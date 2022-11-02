@@ -3,7 +3,7 @@
 namespace App\Service\Security;
 
 use App\Repository\Midata\GroupRepository;
-use App\Service\PbsAuthService;
+use App\Service\Pbs\PbsAuthService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;

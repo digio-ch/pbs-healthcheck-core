@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Pbs;
 
 use App\DTO\Mapper\GroupMapper;
 use App\DTO\Mapper\PbsUserMapper;

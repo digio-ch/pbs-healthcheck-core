@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Pbs;
 
+use App\Service\Http;
 use App\Service\Http\GuzzleWrapper;
 
 class PbsApiService
