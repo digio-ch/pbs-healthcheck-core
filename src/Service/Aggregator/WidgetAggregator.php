@@ -342,15 +342,16 @@ abstract class WidgetAggregator
      */
     protected function deleteLastPeriod(AggregatedEntityRepository $repository, int $mainGroupId): void
     {
-        $currentDate = new DateTime();
-        $firstOfMonth = clone $currentDate;
-        $firstOfMonth->modify('first day of this month');
+        $to = new DateTime();
+        $from = clone $to;
+        $from->modify('first day of this month');
 
-        // If its the first day delete last day of last month
-        if ($currentDate->format('j') == 1) {
-            $currentDate->setTime(0,0);
-            $firstOfMonth->modify('last day of last month');
-            $firstOfMonth->setTime(0,0);
+        // If it's the first day delete last day of last month
+        if ($to->format('j') == 1) {
+            $to->modify('last day of last month');
+            $to->setTime(23,59, 59, 999);
+            $from->modify('last day of last month');
+            $from->setTime(0,0);
         }
 
 
@@ -361,8 +362,8 @@ abstract class WidgetAggregator
             ->andWhere('w.dataPointDate >= :from')
             ->andWhere('w.dataPointDate <= :to')
             ->setParameter('groupId', $mainGroupId)
-            ->setParameter('from', $firstOfMonth->format('Y-m-d'))
-            ->setParameter('to', $currentDate->format('Y-m-d'))
+            ->setParameter('from', $from->format('Y-m-d'))
+            ->setParameter('to', $to->format('Y-m-d'))
             ->getQuery()
             ->getResult();
 
