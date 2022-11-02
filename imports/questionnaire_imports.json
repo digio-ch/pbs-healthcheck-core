@@ -2432,24 +2432,30 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Ausbildung in der Pfadi",
-                  "url": "https://pfadi.swiss/de/ausbildung/"
-                },
-                {
-                  "name": "Alpha, Kapitel 5 (Ausbildung von Leitenden und Abteilungsleitenden)",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/258/alpha-hilfsmittel-fur-abteilungsleitende/"
+                  "name": "Kapitel Coach im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
                 }
               ],
-              "links_fr": [],
-              "links_it": [],
-              "help_de": "Eine vorzeitige Planung der Kursbesuche der Leitenden (z.B. bereits ein bis zwei Jahre im Voraus) erlaubt es,  fehlende Anerkennungen und Lücken frühzeitig zu erkennen. Zudem können auch die Leitenden ihre Ferien besser planen. Welche Kurse für wen geeignet sind, erklärt das Ausbildungsmodell.",
-              "help_fr": "Une planification anticipée de la participation des responsables aux cours (par exemple, un à deux ans à l'avance) permet d'identifier suffisamment tôt les connaissances manquantes et les lacunes. De plus, les responsables peuvent également mieux planifier leurs vacances. Le modèle de formation explique quels cours conviennent à qui.",
-              "help_it": "Una pianificazione anticipata delle iscrizioni degli animatori (ad esempio con uno o due anni di anticipo) consente di individuare tempestivamente le lacune e i riconoscimenti mancanti. Inoltre, anche gli animatori possono pianificare meglio le loro vacanze. Il modello di formazione spiega quali corsi sono adatti a chi."
+              "links_fr": [
+                {
+                  "name": "Kapitel Coach im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Kapitel Coach im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "help_de": "Jede Abteilung muss durch eine*n Coach mit einer gültigen Anerkennung betreut werden. Die Daten der Coachkurse sind in der MiData. ",
+              "help_fr": "Chaque groupe doit être encadré par un·e coach disposant d'une reconnaissance valable. Les dates pour les cours coachs sont disponibles sur MiData. ",
+              "help_it": "Ogni sezione deve essere accompagnata da un/a coach G+S con un riconoscimento valido. Le date dei corsi coach si trovano su MiData."
             },
-            "question_de": "Das Engagement und die Kursbesuche unserer Leitenden sind längerfristig (über ein bis zwei Jahre hinaus) geplant.",
-            "question_fr": "L'engagement et la participation aux cours de nos responsables sont planifiés à long terme (sur un à deux ans).",
-            "question_it": "L’impegno e la partecipazione (ruolo) dei nostri animatori vengono pianificati a lungo termine (oltre uno o due anni).",
-            "answer_options": "range",
+            "question_de": "Alle unsere Abteilungen werden durch einen Coach mit der nötigen Anerkennung der PBS und J+S betreut.",
+            "question_fr": "Tous nos groupes sont encadrés par un·e coach ayant la reconnaissance nécessaire du MSdS et de J+S.",
+            "question_it": "Tutte le nostre sezioni sono accompagnate da un/a coach in possesso dei riconoscimenti MSS e G+S necessari.",
+            "answer_options": "binary",
             "evaluation_function": null
           },
           {
@@ -2457,145 +2463,663 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Basiskurs",
-                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
-                },
-                {
-                  "name": "Einführungskurs",
-                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
                 }
               ],
-              "links_fr": [],
-              "links_it": [],
-              "help_de": "Im Basis- oder Einführungskurs Wolfsstufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Wolfsstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
-              "help_fr": "Dans le cours de base ou d'introduction Louveteaux, les responsables se familiarisent avec les besoins et la méthodologie de la branche Louveteaux. Cela leur permet de planifier et de réaliser des activités adaptées à la branche. ",
-              "help_it": "Al corso base o al corso di introduzione alla branca lupetti, le akele apprendono le esigenze e la metodologia della branca lupetti. Ciò consente loro di pianificare e realizzare attività in base alla propria branca."
+              "links_fr": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "help_de": "Je weniger Abteilungen ein Coach betreut, desto mehr Zeit kann in die Betreuung investiert werden. Aus diesem Grund empfiehlt die PBS bis auf wenige Ausnahmen die Betreuung von nur einer Abteilung pro Coach.",
+              "help_fr": "Plus le nombre de groupes encadrés par un·e coach est faible, plus il·elle peut consacrer du temps à l'encadrement de celui-ci. C'est pourquoi le MSdS recommande, à quelques exceptions près, que chaque coach ne s'occupe que d'un seul groupe.",
+              "help_it": "Meno sezioni accompagna un/a solo/a coach, più lui/lei potrà dedicare tempo all'accompagnamento. Per questo motivo il MSS raccomanda, salvo qualche eccezione, che ogni coach si occupi di una sola sezione."
             },
-            "question_de": "Mindestens zwei Drittel aller Leitenden der Wolfsstufe haben einen Basis- oder Einführungskurs Wolfsstufe besucht.",
-            "question_fr": "Au moins deux tiers des responsables de la branche Louveteaux ont suivi un cours de base ou un cours d'introduction Louveteaux. ",
-            "question_it": "Almeno due terzi degli animatori della branca lupetti hanno frequentato un corso base o un corso di introduzione alla branca lupetti.",
-            "answer_options": "midata-binary",
-            "evaluation_function": "has_percentage_woelf"
+            "question_de": "Damit alle unsere Abteilung umfänglich und nahe betreut werden können, stellen wir sicher, bzw. streben an, dass alle unsere Coaches nur eine Abteilung betreuen.",
+            "question_fr": "Afin que tous nos groupes puissent bénéficier d'un encadrement complet et personnalisé, nous veillons à ce que tou·te·s nos coachs ne s'occupent que d'un seul groupe.",
+            "question_it": "Affinché tutte le nostre sezioni possano beneficiare di un accompagnamento completo e personalizzato, facciamo in modo che tutti/e i/le nostri/e coach si occupino di una sola sezione.",
+            "answer_options": "range",
+            "evaluation_function": null
           },
           {
             "id": 2,
             "help": {
               "links_de": [
                 {
-                  "name": "Basiskurs",
-                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
-                },
-                {
-                  "name": "Einführungskurs",
-                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
                 }
               ],
-              "links_fr": [],
-              "links_it": [],
-              "help_de": "Im Basis- oder Einführungskurs Pfadistufe lernen die Leitenden die Bedürfnisse sowie die Methodik der Pfadistufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
-              "help_fr": "Dans le cours de base ou d'introduction Eclais, les responsables se familiarisent avec les besoins et la méthodologie de la branche Eclais. Cela leur permet de planifier et de réaliser des activités adaptées à la branche. ",
-              "help_it": "Al corso base o al corso di introduzione alla branca esploratori, gli animatori apprendono le esigenze e la metodologia della branca esploratori. Ciò consente loro di pianificare e realizzare attività in base alla propria branca."
+              "links_fr": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "help_de": "Betreuung kann nur funktionieren, wenn Abteilung und Coaches ihre Funktion ausüben können. Am besten wird die Zusammenarbeit einmal pro Jahr mit AL und Coach thematisiert.",
+              "help_fr": "L'encadrement ne peut fonctionner que si le groupe et le·la coach peuvent exercer respectivement leur fonction. Idéalement, une collaboration devrait être abordée une fois par an avec le·la RG et le·la coach.",
+              "help_it": "L'accompagnamento può funzionare solo se la sezione e i/le coach possono esercitare la loro funzione. Idealmente, la collaborazione dovrebbe essere discussa una volta all'anno tra CSZ e coach."
             },
-            "question_de": "Mindestens zwei Drittel aller Leitenden der Pfadistufe haben einen Basis- oder Einführungskurs Pfadistufe besucht.",
-            "question_fr": "Au moins deux tiers des responsables de la branche Eclais ont suivi un cours de base ou un cours d'introduction Eclais. ",
-            "question_it": "Almeno due terzi degli animatori della branca esploratori hanno frequentato un corso base o un corso di introduzione alla branca esploratori.",
-            "answer_options": "midata-binary",
-            "evaluation_function": "has_percentage_pfadi"
+            "question_de": "Unsere Abteilungen und Coaches sind mit der gegenseitigen Zuteilung zufrieden.",
+            "question_fr": "Nos groupes et nos coachs sont satisfaits de l'attribution mutuelle.",
+            "question_it": "Le nostre sezioni e i/le nostri/e coach sono soddisfatti/e dell'abbinamento sezione-coach.",
+            "answer_options": "range",
+            "evaluation_function": null
           },
           {
             "id": 3,
             "help": {
               "links_de": [
                 {
-                  "name": "Basiskurs",
-                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
-                },
-                {
-                  "name": "Einführungskurs",
-                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 5.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
                 }
               ],
+              "links_fr": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 5.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 5.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                }
+              ],
+              "help_de": "Gegenseitiges Vertrauen wächst mit der Zeit. Eine umfassende Betreuung kann daher nur über einen längeren Zeitraum erreicht werden und Coaches sollten ihre Abteilungen über mehrere Jahre betreuen.",
+              "help_fr": "La confiance mutuelle se développe avec le temps. Un suivi global ne peut donc être obtenu que sur une longue période et les coachs ont donc intérêt à suivre leurs groupes pendant plusieurs années.",
+              "help_it": "La fiducia reciproca si sviluppa nel tempo. Un accompagnamento completo può quindi essere raggiunto solo in un periodo di tempo più lungo e i/le coach dovrebbero poter seguire le loro sezioni per più anni."
+            },
+            "question_de": "Unsere Coaches betreuen die ihnen zugeteilten Abteilung über mehrere Jahre hinweg.",
+            "question_fr": "Nos coachs s'occupent du groupe qui leur est attribué pendant plusieurs années.",
+            "question_it": "I/Le nostri/e coach si occupano di una sezione a loro assegnata per più anni.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [],
               "links_fr": [],
               "links_it": [],
-              "help_de": "Im Basiskurs lernen die Leitenden das Grundwissen zur Planung und Durchführung von Aktivitäten. Ergänzend lernen sie im Einführungskurs Biberstufe die Bedürfnisse ihrer Teilnehmenden sowie die Methodik der Biberstufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen. ",
-              "help_fr": "Dans le cours de base, les responsables se familiarisent avec la planification et le déroulement des activités. En complément, dans le cours d'introduction à la branche Castors, ils se familiarisent avec les besoins et la méthodologie de la branche Castors. Cela leur permet de planifier et de réaliser des activités adaptées à la branche. ",
-              "help_it": "Al corso base gli animatori apprendono le nozioni di base per pianificare e realizzare le attività. Inoltre, durante il corso di introduzione alla branca castori imparano a conoscere le esigenze dei loro partecipanti e la metodologia della branca castori. Ciò consente loro di pianificare e realizzare attività in base alla propria branca."
+              "help_de": "Eine funktionierende Nachfolgeplanung ist zentral für die Sicherstellung der Übergabe einer Abteilung. Mit einer sauberen Übergabe lässt sich ein grosser Know-How-Verlust verhindern.",
+              "help_fr": "Une planification efficace pour une succession de coachs est essentielle pour assurer la bonne transmission d'un groupe. Une bonne transmission permet d'éviter une perte de savoir-faire et d'informations.",
+              "help_it": "Una pianificazione efficace della successione dei/delle coach è essenziale per assicurare una buona transizione delle sezioni. Una buona transizione permette di evitare una perdita di competenze e informazioni."
             },
-            "question_de": "Mindestens zwei Drittel aller Leitenden der Biberstufe haben einen Basiskurs und den Einführungskurs Biberstufe besucht.",
-            "question_fr": "Au moins deux tiers des responsables de la branche Castors ont suivi un cours de base ou un cours d'introduction Castors. ",
-            "question_it": "Almeno due terzi degli animatori della branca castori hanno frequentato un corso base o un corso di introduzione alla branca castori.",
-            "answer_options": "midata-binary",
-            "evaluation_function": "has_percentage_biber"
+            "question_de": "Eine zweckmässige Kontrolle und Nachfolgeplanung stellt sicher, dass bei uns die Betreuung auf Abteilungsebene funktioniert.",
+            "question_fr": "Un suivi et une planification appropriés pour un changement de coachs garantissent le bon fonctionnement de l'encadrement des groupes.",
+            "question_it": "Seguire e pianificare in modo appropriato la successione dei/delle coach garantisce il buon funzionamento dell'accompagnamento delle sezioni.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Die Umsetzung des Pfadiprofils kann eine grosse Herausforderung darstellen. Unterstützung dafür finden die Leitenden unter anderem auf der kantonalen Ebene. Damit sie diese einfordern können, müssen die Vertretenden des KV die individuellen Herausforderungen der Abteilungen kennen. Nur so kann der KV sein Angebot oder seine Unterstützung auf die Abteilungen ausrichten.",
+              "help_fr": "La mise en œuvre du Profil du scoutisme peut représenter un grand défi. Pour ce faire, les responsables peuvent trouver du soutien, entre autres, au niveau cantonal. Afin de pouvoir les soutenir, les représentant·e·s de l'AC doivent connaître les défis individuels des groupes. Ce n'est qu'ainsi que l'AC peut orienter son soutien ou son offre vers les groupes.",
+              "help_it": "La messa in atto del Profilo dello scoutismo può rappresentare una grande sfida. Per fare ciò, i/le capi/e possono trovare sostegno, tra le altre cose, anche a livello cantonale. Per poterli/le sostenere, i/le rappresentanti dell'AC devono conoscere le sfide delle singole sezioni. Solo così l'AC può adattare il suo sostegno o la sua offerta alle sezioni."
+            },
+            "question_de": "Alle Leitenden auf kantonaler Ebene wissen, wo unsere Abteilungen den grössten Unterstützungsbedarf bei der Umsetzung des Pfadiprofils haben.",
+            "question_fr": "Tou·te·s les responsables du niveau cantonal savent où nos groupes ont le plus besoin de soutien pour la mise en œuvre du Profil du scoutisme.",
+            "question_it": "Per quanto concerne l'attuazione del Profilo dello Scoutismo, tutti/e i/le responsabili a livello cantonale sanno dove le nostre sezioni hanno bisogno di essere sostenute maggiormente.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 6,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Die Umsetzung des Pfadiprofils kann eine grosse Herausforderung darstellen. Unterstützung dafür finden die Leitenden unter anderem auf der kantonalen Ebene. Damit sie diese einfordern können, müssen die Vertretenden des KV die individuellen Herausforderungen der Abteilungen kennen. Nur so kann der KV sein Angebot oder seine Unterstützung auf die Abteilungen ausrichten.",
+              "help_fr": "La mise en œuvre du Profil du scoutisme peut représenter un grand défi. Pour ce faire, les responsables peuvent trouver du soutien, entre autres, au niveau cantonal. Afin de pouvoir les soutenir, les représentant·e·s de l'AC doivent connaître les défis individuels des groupes. Ce n'est qu'ainsi que l'AC peut orienter son soutien ou son offre vers les groupes.",
+              "help_it": "La messa in atto del Profilo dello scoutismo può rappresentare una grande sfida. Per fare ciò, i/le capi/e possono trovare sostegno, tra le altre cose, anche a livello cantonale. Per poterli/le sostenere, i/le rappresentanti dell'AC devono conoscere le sfide delle singole sezioni. Solo così l'AC può adattare il suo sostegno o la sua offerta alle sezioni."
+            },
+            "question_de": "Alle Leitenden auf kantonaler Ebene bieten unseren Abteilungen Unterstützung bei der Umsetzung des Pfadiprofils an.",
+            "question_fr": "Tou·te·s les responsables du niveau cantonal offrent leur soutien à nos groupes pour la mise en œuvre du Profil du scoutisme.",
+            "question_it": "Tutti/e i/le responsabili a livello cantonale offrono il loro sostegno alle nostre sezioni per la messa in atto del Profilo dello scoutismo. ",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 7,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Themen aus den Fachbereichen betreffen alle Abteilungen und stellen grosse Herausforderungen dar. Unterstützung finden die Leitenden unter anderem auf der kantonalen Ebene. Nur wenn der KV seine Unterstützung aktiv anbietet, sind sich die Abteilungen dieser Möglichkeit bewusst und nutzen diese auch.",
+              "help_fr": "Certains thèmes liés à des domaines spécifiques concernent tous les groupes et représentent des difficultés majeures. Les responsables trouvent du soutien, entre autres, au niveau cantonal. Ce n'est que lorsque l'AC propose activement son soutien que les groupes sont conscients de cette possibilité et en profitent.",
+              "help_it": "Certi temi legati ad ambiti specifici concernono tutte le sezioni e rappresentano difficoltà maggiori. I/Le capi/e trovano sostegno anche a livello cantonale. Solo se l'AC offre attivamente il suo supporto le sezioni saranno consapevoli di questa possibilità e ne approfitteranno."
+            },
+            "question_de": "Unsere kantonalen Verantwortlichen bieten den Leitenden in unseren Abteilungen ihre Unterstützung bei Fragen und Problemen in ihrem Fachbereich an.",
+            "question_fr": "Nos responsables cantonaux·ales offrent leur soutien aux responsables de nos groupes en cas de questions ou de problèmes relevant de leur domaine de compétence.",
+            "question_it": "I/Le nostri/e responsabili cantonali offrono il loro sostegno ai/alle responsabili delle nostre sezioni in caso di dubbi o problemi legati al loro ambito di competenza.",
+            "answer_options": "range",
+            "evaluation_function": null
+          }
+        ],
+        "id": 0,
+        "name_de": "Abteilungsbetreuung",
+        "name_fr": "Encadrement des groupes",
+        "name_it": "Accompagnamento delle sezioni",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [
+          {
+            "id": 0,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "help_de": "Der Austausch über die Betreuungsrollen hilft, die eigene Rolle zu hinterfragen und persönliche Fortschritte zu machen. Ein Anlass auf kantonaler Ebene kann Gelegenheiten zum Austausch bieten. Zudem erfährt der Kantonalverband so den Stand der Umsetzung des Betreuungsmodells in den Abteilungen.",
+              "help_fr": "L'échange entre les personnes qui encadrent nos groupes les aide à remettre en question leur propre rôle et à faire des progrès personnels. Un événement au niveau cantonal peut offrir des occasions d'échange. De plus, cela permet à l'association cantonale de savoir où en est la mise en œuvre du modèle d'encadrement au sein des groupes.",
+              "help_it": "Lo scambio tra persone che si occupano di accompagnamento nelle nostre sezioni aiuta a mettere in discussione il proprio ruolo e a progredire personalmente. Un evento a livello cantonale può offrire occasioni di scambio. Inoltre, permette all'associazione cantonale di sapere a che punto si trova la messa in atto del modello di accompagnamento all'interno delle sezioni."
+            },
+            "question_de": "In unserem Jahresprogramm ist ein Anlass/ sind Anlässe enthalten, an dem sich unsere Betreuungsrollen über ihre Erfahrungen in der Ganzjahresbetreuung austauschen können und ihre Kompetenzen in diesem Bereich erweitern können. ",
+            "question_fr": "Notre programme annuel comprend un ou plusieurs événements permettant aux personnes qui encadrent nos groupes d'échanger leurs expériences dans ce domaine et de développer leurs compétences. ",
+            "question_it": "Il nostro programma annuale comprende uno o più eventi che permettono alle figure di accompagnamento nelle sezioni i di scambiare le loro esperienze in questo ambito e di sviluppare le loro competenze.",
+            "answer_options": "binary",
+            "evaluation_function": null
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Kapitel Coach im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                },
+                {
+                  "name": "Kapitel Weiterbildung Coach im Ausbildungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/f6/300708de-ausbildungsmodell_2020-20200519-akom.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Kapitel Coach im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                },
+                {
+                  "name": "Kapitel Weiterbildung Coach im Ausbildungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/f6/300708de-ausbildungsmodell_2020-20200519-akom.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Kapitel Coach im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                },
+                {
+                  "name": "Kapitel Weiterbildung Coach im Ausbildungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/f6/300708de-ausbildungsmodell_2020-20200519-akom.pdf"
+                }
+              ],
+              "help_de": "Coaches können ihre Funktion nur längerfristig qualitativ zufriedenstellend ausüben, wenn sie Weiterbildungen besuchen und ihre Anerkennung erneuern können. Für die Ausrichtung dieser Coach MF sind die Betreuungsverantwortlichen der KV zuständig.",
+              "help_fr": "Les coachs ne peuvent exercer leur fonction de manière satisfaisante et qualitative à long terme que s'ils·elles suivent des formations continues et peuvent renouveler leur reconnaissance. Ce sont les responsables de l'encadrement des AC qui sont chargé·e·s d'orienter les personnes intéressés pour le MP-Coach.",
+              "help_it": "I/Le coach possono esercitare la loro funzione in maniera soddisfacente e in modo qualitativamente valido solo se seguono formazioni continue e hanno la possibilità di rinfrescare le loro conoscenze. Sono i/le responsabili dell'accompagnamento delle AC che sono incaricati/e di organizzare attività di formazione per coach."
+            },
+            "question_de": "Unsere Betreuungsverantwortlichen stellen die Weiterbildungsangebote für die Coaches sicher.",
+            "question_fr": "Nos responsables de l'encadrement assurent des offres de formation continue pour les coachs.",
+            "question_it": "I/Le responsabili dell'accompagnamento assicurano offerte di formazione continua per i/le coach.",
+            "answer_options": "binary",
+            "evaluation_function": null
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2.",
+                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                },
+                {
+                  "name": "Beispiel eines Betreuungskontraktes",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                }
+              ],
+              "help_de": "Ein Betreuungskontrakt hilft der Abteilung und dem*der Coach das gegenseitige Betreungsjahr abzusprechen und sich Ziele zu setzen. Dieses Hilfsmittel wird den Coaches auch im Coachkurs vorgestellt. Jeder Kantonalverband hat seine Eigenheiten, daher kann es helfen, einen eigenen Kontrakt bereitzustellen.",
+              "help_fr": "Un contrat d'encadrement aide le groupe et le coach à se mettre d'accord sur les objectifs d'encadrement de l'année. Cet outil devrait être présenté aux coachs lors du cours de coachs. Chaque association cantonale a ses propres particularités, c'est pourquoi il peut être utile de mettre à disposition un contrat personnalisé.",
+              "help_it": "Un contatto di accompagnamento aiuta la sezione e il/la coach a mettersi d'accordo sugli obiettivi dell'accompagnamento per l'anno a venire. Questo strumento dovrebbe essere presentato ai/alle coach durante un corso coach. Ogni associazione cantonale ha le sue peculiarità; per questo motivo può essere utile mettere a disposizione un contratto personalizzato."
+            },
+            "question_de": "Unseren Abteilungen und Betreuungsrollen stehen Hilfsmittel des KV zur Verfügung, um einen Betreuungskontrakt abschliessen zu können. Diese Hilfsmittel sind den Betreuungspersonen bekannt und werden genutzt.",
+            "question_fr": "Nos groupes et les personnes qui les encadrent disposent des outils de l'AC pour conclure un contrat d'encadrement. Ces outils sont connus et utilisés par les personnes qui encadrent les groupes.",
+            "question_it": "Le sezioni e le persone che le accompagnano dispongono degli strumenti dell'AC per concludere un contratto di accompagnamento. Questi strumenti sono conosciuti e utilizzati dalle persone che accompagnano le sezioni.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [
+                {
+                  "name": "PBS Newsletter, hier zu abonnieren",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                },
+                {
+                  "name": "Informationen J+S Lagersport/Trekking",
+                  "url": "https://www.jugendundsport.ch/de/sportarten/lagersport-trekking-uebersicht.html"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "PBS Newsletter, hier zu abonnieren",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                },
+                {
+                  "name": "Informationen J+S Lagersport/Trekking",
+                  "url": "https://www.jugendundsport.ch/de/sportarten/lagersport-trekking-uebersicht.html"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "PBS Newsletter, hier zu abonnieren",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                },
+                {
+                  "name": "Informationen J+S Lagersport/Trekking",
+                  "url": "https://www.jugendundsport.ch/de/sportarten/lagersport-trekking-uebersicht.html"
+                }
+              ],
+              "help_de": "Damit Aktivitäten und Lager den aktuellen Bestimmungen entsprechen, müssen Coaches über Änderungen informiert werden. News von J+S, PBS und Kantonalverband sind ihnen stufengerecht weiterzugeben.",
+              "help_fr": "Pour que les activités et les camps soient conformes aux directives actuelles, les coachs doivent être informé·e·s des changements. Les nouvelles de J+S, du MSdS et de l'association cantonale doivent leur être transmises en fonction de leur branche.",
+              "help_it": "Affinché le attività e i campi siano conformi alle direttive attuali, i/le coach devono essere informati/e dei cambiamenti. Le novità di G+S, del MSS e dell'associazione cantonale devono essere trasmesse loro in funzione della branca."
+            },
+            "question_de": "Unsere Betreuungsrollen sind über die Änderungen, Neuerungen und inhaltliche Schwerpunkte der PBS, J+S und des KV informiert und engagieren sich für deren Umsetzung in ihren betreuten Abteilungen. Dies betrifft Lager sowie das ganze Pfadijahr.",
+            "question_fr": "Les personnes qui encadrent les groupes sont informées des changements, des nouveautés et des thèmes principaux du MSdS, de J+S et de l'AC et s'engagent à les mettre en œuvre dans les groupes qu'elles encadrent. Ceci concerne les camps ainsi que toute l'année scoute.",
+            "question_it": "Le persone che accompagnano le sezioni sono informate sui cambiamenti, le novità e i temi principali del MSS, di G+S e dell'AC, e si impegnano a metterli in atto nelle sezioni che accompagnano. Tutto ciò concerne sia i campi sia le attività di tutto l'anno.",
+            "answer_options": "range",
+            "evaluation_function": null
           },
           {
             "id": 4,
             "help": {
               "links_de": [
                 {
-                  "name": "Basiskurs",
-                  "url": "https://pfadi.swiss/de/ausbildung/#basiskurse-beschreibung"
+                  "name": "Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
                 },
                 {
-                  "name": "Einführungskurs",
-                  "url": "https://pfadi.swiss/de/ausbildung/#ek-stufen-beschreibung"
+                  "name": "Merkblatt zum Thema Elternrat",
+                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                },
+                {
+                  "name": "Beispiel eines Pflichtenhefts",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/425/pflichtenheft-coach-lu/"
                 }
               ],
-              "links_fr": [],
-              "links_it": [],
-              "help_de": "Im Basiskurs lernen die Leitenden das Grundwissen zur Planung und Durchführung von Aktivitäten. Ergänzend lernen sie im Einführungskurs Piostufe die Bedürfnisse ihrer Teilnehmenden sowie die Methodik der Piostufe kennen. Dies ermöglicht ihnen, stufengerechte Aktivitäten zu planen und durchzuführen.",
-              "help_fr": "Dans le cours de base, les responsables se familiarisent avec la planification et le déroulement des activités. En complément, dans le cours d'introduction à la branche Picos, ils se familiarisent avec les besoins et la méthodologie de la branche Picos. Cela leur permet de planifier et de réaliser des activités adaptées à la branche.  ",
-              "help_it": "Al corso base gli animatori apprendono le nozioni di base per pianificare e realizzare le attività. Inoltre, durante il corso di introduzione alla branca pionieri imparano a conoscere le esigenze dei loro partecipanti e la metodologia della branca pionieri. Ciò consente loro di pianificare e realizzare attività in base alla propria branca."
+              "links_fr": [
+                {
+                  "name": "Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                },
+                {
+                  "name": "Merkblatt zum Thema Elternrat",
+                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                },
+                {
+                  "name": "Beispiel eines Pflichtenhefts",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/425/pflichtenheft-coach-lu/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                },
+                {
+                  "name": "Merkblatt zum Thema Elternrat",
+                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                },
+                {
+                  "name": "Beispiel eines Pflichtenhefts",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/425/pflichtenheft-coach-lu/"
+                }
+              ],
+              "help_de": "Jeder Kantonalverband hat seine Eigenheiten, daher kann es helfen, den Betreuungsrollen ein eigenes Betreuungskonzept bereitzustellen. In diesem können die Anlässe, Termine und Aufgaben der Rollen im Kantonalverband genau geregelt werden.",
+              "help_fr": "Chaque association cantonale a ses propres particularités, c'est pourquoi il peut être utile de mettre à disposition des personnes chargées de l'encadrement un concept d'encadrement spécifique. Ce dernier permet de définir précisément les événements, les dates et les devoirs des rôles d'encadrement au sein de l'association cantonale.",
+              "help_it": "Ogni associazione cantonale ha le sue particolarità; per questo motivo può essere utile mettere a disposizione delle persone incaricate dell'accompagnamento un concetto di accompagnamento ad hoc. Questo permette di definire precisamente gli eventi, le date e i compiti dei ruoli che hanno a che fare con l'accompagnamento all'interno dell'associazione cantonale."
             },
-            "question_de": "Mindestens zwei Drittel aller Leitenden der Piostufe haben einen Basiskurs und den Einführungskurs Piostufe besucht.",
-            "question_fr": "Au moins deux tiers des responsables de la branche Picos ont suivi un cours de base ou un cours d'introduction Picos. ",
-            "question_it": "Almeno due terzi degli animatori della branca pionieri hanno frequentato un corso base o un corso di introduzione alla branca pionieri.",
-            "answer_options": "midata-binary",
-            "evaluation_function": "has_percentage_pio"
+            "question_de": "Wir haben ein kantonales Betreuungskonzept, das die Betreuungsrollen und deren Aufgaben in unserem Kantonalverband definiert. Den Betreuungspersonen ist dieses Konzept (oder zumindest ihre Rolle gem. BMod) bekannt und es stehen Unterstützungsangebote für die Einführung fehlender Betreuungsrollen zur Verfügung.",
+            "question_fr": "Nous avons un concept cantonal d'encadrement qui définit les rôles d'encadrement et leurs devoirs dans notre association cantonale. Ce concept (ou du moins les rôles définis dans le modèle d'encadrement) est connu des personnes chargées de l'encadrement. De plus, il existe des offres de soutien pour l'introduction des rôles d'encadrement manquants.",
+            "question_it": "Abbiamo un concetto cantonale di accompagnamento che definisce i ruoli di accompagnamento e i loro doveri all'interno della nostra associazione cantonale. Questo concetto (o almeno i ruoli definiti nel modello d'accompagnamento) è conosciuto dalle persone incaricate dell'accompagnamento. Inoltre, esistono offerte di aiuto per l'introduzione dei ruoli di accompagnamento mancanti.",
+            "answer_options": "range",
+            "evaluation_function": null
           },
           {
             "id": 5,
             "help": {
               "links_de": [
                 {
-                  "name": "Aufbaukurs",
-                  "url": "https://pfadi.swiss/de/ausbildung/#aufbaukurse-beschreibung"
+                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
                 }
               ],
+              "links_fr": [
+                {
+                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "help_de": "Für jede Rolle im Betreuungsnetzwerk sollte eine verantwortliche Person auf kantonaler Ebene definiert sein. Die Vernetzung kann über Anlässe, Mail oder Telefon erfolgen und hilft dem Kantonalverband, sich einen Überblick über die Abteilungen zu verschaffen.",
+              "help_fr": "Pour chaque rôle du réseau d'encadrement, une personne responsable devrait être définie au niveau cantonal. La mise en contact peut se faire lors d'événements, par mail ou par téléphone et aide l'association cantonale à avoir une vue d'ensemble des groupes.",
+              "help_it": "Per ogni ruolo del settore accompagnamento, dovrebbe essere definita a livello cantonale una persona responsabile. La messa in contatto può avvenire in occasione di eventi, per e-mail o telefono e aiuta l'associazione cantonale ad avere una vista d'insieme delle sezioni."
+            },
+            "question_de": "Die definierten Kontaktpersonen auf kantonaler Ebene halten bei uns einen zweckmässigen Kontakt zu den entsprechenden Betreuungspersonen auf Ebene Abteilung und fördern die Vernetzung der gleichen Funktionen (Selbsthilfedimension).",
+            "question_fr": "Les personnes de contact du niveau cantonal maintiennent un contact adéquat avec les personnes qui encadrent les groupes et facilitent la mise en relation des personnes qui occupent les mêmes rôles (dimension d'entraide).",
+            "question_it": "Le persone di contatto a livello cantonale mantengono un contatto adatto con le persone che accompagnano le sezioni e facilitano la messa in relazione delle persone che occupano degli stessi ruoli (dimensione dell'aiuto reciproco).",
+            "answer_options": "range",
+            "evaluation_function": null
+          }
+        ],
+        "id": 1,
+        "name_de": "Unterstützung Betreuende",
+        "name_fr": "Soutien pour les rôles d’encadrement ",
+        "name_it": "Supporto per i ruoli dell'accompagnamento",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [
+          {
+            "id": 0,
+            "help": {
+              "links_de": [],
               "links_fr": [],
               "links_it": [],
-              "help_de": "Im Aufbaukurs lernen die Leitenden, ihre Stufe zu organisieren und den allwöchentlichen Stufenbetrieb zu meistern. Mindestens die Stufenleitenden sollten diesen absolviert haben.",
-              "help_fr": "Dans le cours de perfectionnement, les responsables apprennent à organiser leur branche et à gérer son fonctionnement hebdomadaire. Les responsables de branche au moins doivent avoir suivi ce cours.",
-              "help_it": "Durante il corso campo, gli animatori imparano a gestire la propria branca e a padroneggiarne il funzionamento settimanale della branca. Almeno i capi branca dovrebbero aver seguito il corso."
+              "help_de": "Stufengerechtes Pfadiprogramm fördert die Teilnehmenden entsprechend ihren Fähigkeiten und Bedürfnissen. Stufengerechte Anlässe sind deshalb erfolgreicher.",
+              "help_fr": "Un programme scout adapté à chaque branche stimule les participant·e·s selon leurs capacités et leurs besoins. Les événements adaptés à chaque branche ont donc davantage de succès.",
+              "help_it": "Un programma scout adatto ad ogni branca stimola i/le partecipanti secondo le loro capacità e i loro bisogni. Gli eventi adatti ad ogni branca riscuotono quindi maggiore successo."
             },
-            "question_de": "Die Stufenleitenden haben einen Aufbaukurs besucht.",
-            "question_fr": "Les responsables de branche ont suivi un cours de perfectionnement.",
-            "question_it": "I capi branca hanno seguito un corso campo.",
-            "answer_options": "midata-binary",
-            "evaluation_function": "group_leaders_educated"
+            "question_de": "Die von uns angebotenen Anlässe (kantonale Wochenenden, Lager, etc.) sind stufengerecht. ",
+            "question_fr": "Les événements que nous proposons (week-ends cantonaux, camps, etc.) sont adaptés aux différentes branches. ",
+            "question_it": "Gli eventi che proponiamo (week-end cantonali, campi, ecc.) sono adatti alle diverse branche.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Viele Aspekte der Stufenmethodiken werden bereits in den Ausbildungskursen abgedeckt. Die Bedürfnisse der Leitenden können sich je nach Situation und Erfahrungen verändern. Ein Austausch oder eine thematische/stufenspezifische Weiterbildungen kann eine vertiefte Auseinandersetzung mit Themen aus bereits besuchten Kursen oder Neues bieten.",
+              "help_fr": "De nombreux aspects des méthodologies de branche sont déjà couverts par les cours de formation. Les besoins des responsables peuvent évoluer en fonction de leur situation et de leurs expériences. Un échange ou une formation continue spécifique à un thème ou à une branche peut permettre d'approfondir des thèmes abordés dans les cours déjà suivis ou de découvrir de nouvelles choses.",
+              "help_it": "Numerosi aspetti del metodo di branca sono già stati affrontati durante i corsi di formazione. I bisogni dei/delle capi/e possono evolvere in funzione della loro situazione e delle loro esperienze. Uno scambio o una formazione continua specifica su un tema o una branca può permettere l'approfondimento di temi toccati durante i corsi, o di scoprire cose nuove."
+            },
+            "question_de": "Die Leitenden unserer Abteilungen haben über die Kurse hinaus die Möglichkeit, sich zu Themen ihrer Stufe (Grundlagen, Stufenmethodik, etc.) auszutauschen und ihre Kompetenzen in diesem Bereich zu erweitern. ",
+            "question_fr": "En plus des cours, les responsables de nos groupes ont la possibilité d'échanger sur des thèmes relatifs à leur branche (fondements, méthodologie des branches, etc.) et de développer leurs compétences dans ce domaine. ",
+            "question_it": "Oltre ai corsi, i/le capi/e delle nostre sezioni hanno la possibilità di scambiarsi su temi relativi alla loro branca (fondamenti, metodo delle branche, ecc.) e di sviluppare le loro competenze in quest'ambito.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Eine ganzheitliche Entwicklung der Teilnehmenden kann nur erreicht werden, wenn sie entsprechend ihrer Bedürfnisse gefördert werden und eine Auseinandersetzung mit Rollenbildern in die Programmgestaltung miteinfliesst. Die Leitenden sollten in dieser Aufgabe durch Austausch und Weiterbildung gefördert werden.",
+              "help_fr": "Un développement global des participant·e·s ne peut être atteint que s'ils·elles sont stimulé·e·s en fonction de leurs besoins et qu'une réflexion sur les rôles modèles est intégrée dans la conception du programme. Les responsables devraient être soutenu·e·s dans cette tâche par des échanges et des formations continues.",
+              "help_it": "Uno sviluppo globale dei/delle partecipanti può essere raggiunto solo se questi/e vengono sostenuti/e in funzione dei loro bisogni e viene integrata nella preparazione del programma una riflessione sui ruoli modello. I/Le capi/e devono essere sostenuti/e in questo compito attraverso lo scambio e la formazione continua."
+            },
+            "question_de": "Die Leitenden unserer Abteilungen haben über die Kurse hinaus die Möglichkeit sich auszutauschen, wie in ihren Aktivitäten die Teilnehmenden unabhängig von ihrem bei der Geburt zugewiesenen Geschlecht als geschlechteruntypisch geltende Fähigkeiten und Fertigkeiten erwerben können.",
+            "question_fr": "Au-delà des cours, les responsables de nos groupes ont la possibilité d'échanger sur la manière dont leurs activités permettent aux participant·e·s d'acquérir des connaissances et des aptitudes sur le genre, quel que soit le sexe qui leur a été attribué à la naissance.",
+            "question_it": "Al di là dei corsi, i/le capi/e delle nostre sezioni hanno l'opportunità di condividere come nelle loro attività permettono ai/alle partecipanti di acquisire conoscenze e attitudini di genere, indipendentemente dal genere a loro assegnato alla nascita.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/fe/212902de_pbs_haltungspapier-diversitat_und_inklusion-v20190726-de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/fe/212902de_pbs_haltungspapier-diversitat_und_inklusion-v20190726-de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/fe/212902de_pbs_haltungspapier-diversitat_und_inklusion-v20190726-de.pdf"
+                }
+              ],
+              "help_de": "Damit ein von Verständnis und Wertschätzung geprägtes Zusammenleben gelingt, müssen sich die Leitenden der bereits bestehenden Diversität bewusst werden. Durch die aktive Auseinandersetzung mit dieser Diversität lernen sie, offen für Andere zu sein, Vorurteile abzubauen und das Pfadiprogramm an den verschiedenen Bedürfnissen auszurichten.",
+              "help_fr": "Pour parvenir à une collaboration marquée par la tolérance et le respect, les responsables doivent prendre conscience de la diversité existante. En se confrontant activement à cette diversité, ils·elles apprennent à être ouvert·e·s aux autres, à surmonter les préjugés et à adapter le programme scout aux différents besoins.",
+              "help_it": "Per arrivare a una collaborazione fondata sulla tolleranza e il rispetto, i/le capi/e devono prendere coscienza delle diversità che esistono. Confrontandosi attivamente con questa diversità, imparano a essere apert/ie con gli altri, a ridurre i pregiudizi e ad adattare il programma scout ai differenti bisogni."
+            },
+            "question_de": "Die Leitenden unserer Abteilungen haben über die Kurse hinaus die Möglichkeit, sich über das Thema Diversität und Inklusion auszutauschen und ihre Kompetenzen in diesem Bereich zu erweitern. ",
+            "question_fr": "Au-delà des cours, les responsables de nos groupes ont la possibilité d'échanger sur le thème de la diversité et de l'inclusion et ainsi de développer leurs compétences dans ce domaine. ",
+            "question_it": "Al di là dei corsi, i/le capi/e delle nostre sezioni hanno la possibilità di scambiarsi sui temi di diversità e inclusione e di sviluppare così le loro competenze in quest'ambito.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/e2/211401de-pbs-haltungspapier_gesundheitsfoerderung-v10-20160210-ka_progr-de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/e2/211401de-pbs-haltungspapier_gesundheitsfoerderung-v10-20160210-ka_progr-de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/e2/211401de-pbs-haltungspapier_gesundheitsfoerderung-v10-20160210-ka_progr-de.pdf"
+                }
+              ],
+              "help_de": "Es ist eine anspruchsvolle Aufgabe, die Teilnehmenden in ihrem körperlichen Wohlbefinden und seelischem Gleichgewicht zu fördern. Die Leitenden sollten deshalb in dieser Aufgabe durch Austausch und Weiterbildung unterstützt werden.",
+              "help_fr": "C'est une tâche exigeante de favoriser le bien-être physique et la santé mentale des participant·e·s. Les responsables devraient être soutenu·e·s dans cette tâche par des échanges et des formations continues.",
+              "help_it": "Favorire il benessere fisico e la salute mentale dei/delle partecipanti è un compito impegnativo. I/Le capi dovrebbero quindi essere sostenuti/e in questo compito attraverso lo scambio e la formazione continua."
+            },
+            "question_de": "Die Leitenden unserer Abteilungen haben über die Kurse hinaus die Möglichkeit, sich über die stufengerechte Förderung des psychischen, physischen und sozialen Wohlbefindens ihrer Teilnehmenden auszutauschen und ihre Kompetenzen in diesem Bereich zu erweitern.",
+            "question_fr": "Au-delà des cours, les responsables de nos groupes ont la possibilité d'échanger sur la promotion du bien-être mental, physique et social de leurs participant·e·s en fonction de leur branche et de développer leurs compétences dans ce domaine.",
+            "question_it": "Al di là dei corsi, i/le capi/e delle nostre sezioni hanno la possibilità di avere scambi sulla promozione del benessere mentale, fisico e sociale dei/delle loro partecipanti in funzione della loro branca e di sviluppare le loro competenze in quest'ambito.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/23/211701de-pbs-haltungspapier_suchtmittel-v10-20160210-te_progr-de.pdf"
+                },
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/148/haltungspapier-sexuelle-ausbeutung-in-der-pfadi/"
+                },
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/d6/211501de-pbs-haltungspapier_gewalt_in_pbs-v10-20160210-ka_progr-de.pdf"
+                },
+                {
+                  "name": "Kapitel 8 Leiten - bewusst handeln",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/444/leiten-bewusst-handeln/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/23/211701de-pbs-haltungspapier_suchtmittel-v10-20160210-te_progr-de.pdf"
+                },
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/148/haltungspapier-sexuelle-ausbeutung-in-der-pfadi/"
+                },
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/d6/211501de-pbs-haltungspapier_gewalt_in_pbs-v10-20160210-ka_progr-de.pdf"
+                },
+                {
+                  "name": "Kapitel 8 Leiten - bewusst handeln",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/444/leiten-bewusst-handeln/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/23/211701de-pbs-haltungspapier_suchtmittel-v10-20160210-te_progr-de.pdf"
+                },
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/148/haltungspapier-sexuelle-ausbeutung-in-der-pfadi/"
+                },
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/d6/211501de-pbs-haltungspapier_gewalt_in_pbs-v10-20160210-ka_progr-de.pdf"
+                },
+                {
+                  "name": "Kapitel 8 Leiten - bewusst handeln",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/444/leiten-bewusst-handeln/"
+                }
+              ],
+              "help_de": "In der Pfadi sollen Menschen zu verantwortungsbewussten Erwachsenen heranwachsen. In ihrer Präventionsarbeit fördern die Leitenden ein gewaltfreies Umfeld, leben eine offene Gesprächs- und Streitkultur und sind achtsam im Bezug auf sexuelle Äusserungen in der Sprache und Handlungen. Zusätzlich thematisieren sie im Programm regelmässig den Umgang mit Suchtmitteln (z.B. in Kurs- und Lagerregeln). Die Leitenden sollten dabei durch Austausch und Weiterbildung unterstützt werden (z.B. mit dem Kurs \"präventives Handeln im Jugendverband\", angeboten über Voila oder direkt beim KV).\n",
+              "help_fr": "Dans le scoutisme, les personnes sont amenées à devenir des adultes responsables. Dans leur travail de prévention, les responsables favorisent un environnement sans violence, sont ouvert·e·s au dialogue et aux remarques et sont attentif·ive·s aux connotations sexuelles dans le langage et les actes. De plus, ils·elles abordent régulièrement le thème de la consommation de substances addictives au sein du programme (p. ex. dans les règles des cours et des camps). Les responsables devraient être soutenu·e·s dans cette tâche par des échanges et des formations continues (par ex. grâce au cours \"la promotion de la santé et la prévention primaire des dépendances dans les associations de jeunesse\", proposé par Voila ou directement auprès de l'AC).",
+              "help_it": "Nello scoutismo, le persone sono chiamate a crescere e diventare adulti/e responsabili. Nel loro lavoro di prevenzione, i/le capi/e favoriscono un ambiente non violento, vivono una cultura di dialogo e confronto aperta e sono attenti alle connotazioni sessuali nel linguaggio e nelle azioni. Inoltre, affrontano regolarmente il tema del consumo di sostanze che creano dipendenza all'interno del programma (per es. nelle regole dei corsi e dei campi). I/Le capi/e dovrebbero essere sostenuti/e in questo compito tramite lo scambio e la formazione continua (per es. grazie al corso \"promozione della salute e prevenzione primaria delle dipendenze nelle associazioni giovanili\" proposto da Voila o direttamente dall'AC)."
+            },
+            "question_de": "Die Leitenden unserer Abteilungen haben über die Kurse hinaus die Möglichkeit, sich über ihre Verantwortung bei der Suchtmittel- und Gewaltprävention, sowie bei der Prävention sexueller Ausbeutung auszutauschen und ihre Kompetenzen in diesem Bereich zu erweitern.",
+            "question_fr": "Au-delà des cours, les responsables de nos groupes ont la possibilité d'échanger sur leurs responsabilités face à la prévention des addictions, de la violence et des abus sexuels et de développer leurs compétences dans ce domaine.",
+            "question_it": "Al di là dei corsi, i/le capi/e delle nostre sezioni hanno la possibilità di avere scambi sulle loro responsabilità per quanto concerne la prevenzione delle dipendenze, della violenza e degli abusi sessuali e di sviluppare le loro competenze in quest'ambito.",
+            "answer_options": "range",
+            "evaluation_function": null
           },
           {
             "id": 6,
             "help": {
               "links_de": [
                 {
-                  "name": "Panoramakurs",
-                  "url": "https://pfadi.swiss/de/ausbildung/#panoramakurs-beschreibung"
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/f3/214701de_haltungspapier_umwelt__nachhaltigkeit_vst20210410_de.pdf"
                 }
               ],
-              "links_fr": [],
-              "links_it": [],
-              "help_de": "Im Panoramakurs erhalten Leitenden die Möglichkeit, sich mit sich selbst und ihrer Aufgabe in der Pfadi auseinanderzusetzen. Abteilungsleitende lernen im AL-Kurs ergänzend dazu alles Notwendige, um ihre Abteilung zu organisieren und den Abteilungsbetrieb zu meistern. Zusätzlich bietet der Kurs eine wertvolle Gelegenheit, sich auf kantonaler Ebene mit anderen Abteilungsleitenden auszutauschen.",
-              "help_fr": "Le cours Panorama donne aux responsables l'occasion de s'interroger sur eux·elles-mêmes et sur leur rôle dans le scoutisme. En complément, dans le cadre du cours de RG, on apprend tout ce qu'il faut savoir pour organiser un groupe et gérer son fonctionnement. De plus, ce cours offre une occasion privilégiée d'échanger avec d'autres responsables de groupe au niveau cantonal.",
-              "help_it": "Il corso panorama offre agli animatori l’opportunità di confrontarsi con sé stessi e con il proprio ruolo nello scoutismo. I capi sezione apprendono durante il corso CSZ tutto ciò che è necessario per gestire la propria sezione e padroneggiare il funzionamento della sezione. Il corso offre inoltre una preziosa opportunità di scambio a livello cantonale con altri capi sezione."
+              "links_fr": [
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/f3/214701de_haltungspapier_umwelt__nachhaltigkeit_vst20210410_de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Haltungspapier",
+                  "url": "https://pfadi.swiss/media/files/f3/214701de_haltungspapier_umwelt__nachhaltigkeit_vst20210410_de.pdf"
+                }
+              ],
+              "help_de": "Als Jugendverband ist die Pfadi Sprachrohr derjenigen Generation, die von den ökologischen und den damit verbundenen gesellschaftlichen Veränderungen besonders stark betroffen ist. Entsprechend sollten diese Veränderungen und Handlungsansätze im Programm thematisiert werden. Die Leitenden müssen durch Austausch und Weiterbildung in dieser Arbeit unterstützt werden.",
+              "help_fr": "En tant qu'association de jeunesse, le scoutisme est le porte-parole d'une génération qui est particulièrement touchée par les changements climatiques et les changements sociaux qui y sont liés. En conséquence, ces changements et les possibilités d'action devraient être abordés au sein du programme. Les responsables devraient être soutenu·e·s dans cette tâche par des échanges et des formations continues.",
+              "help_it": "In quanto associazione giovanile, lo scoutismo è portavoce di una generazione particolarmente toccata dai cambiamenti climatici e dai relativi cambiamenti sociali. Di conseguenza, questi cambiamenti e le possibilità di azione dovrebbero essere affrontati all'interno del programma. I/Le capi/e dovrebbero essere sostenuti/e in questo compito grazie allo scambio e la formazione continua. "
             },
-            "question_de": "Die Abteilungsleitenden haben den Panorama- und AL-Kurs besucht. ",
-            "question_fr": "Les responsables de groupe ont participé au cours Panorama et au cours de RG.",
-            "question_it": "I capi sezione hanno seguito il corso panorama e il corso capi sezione. ",
-            "answer_options": "midata-binary",
-            "evaluation_function": "group_president_educated"
+            "question_de": "Die Leitenden unserer Abteilung haben über die Kurse hinaus die Möglichkeit, sich über Umweltthemen auszutauschen und ihre Kompetenzen in diesem Bereich zu erweitern.",
+            "question_fr": "Au-delà des cours, les responsables de notre groupe ont la possibilité d'échanger sur les questions environnementales et de développer leurs compétences dans ce domaine.",
+            "question_it": "Al di là dei corsi, i/le capi/e delle nostre sezioni  hanno la possibilità di avere scambi sulle questioni ambientali e di sviluppare le loro competenze in quest'ambito.",
+            "answer_options": "range",
+            "evaluation_function": null
           },
           {
             "id": 7,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "In der ehrenamtlichen Vereinsarbeit schlagen sich Wertschätzung und Anerkennung nicht in einer Entlöhnung nieder. Zeichen des Danks und der Anerkennung sind aber für alle Menschen wichtig und haben einen grossen Einfluss auf deren Motivation. Der KV sollte sich somit auch auf seiner Ebene etwas für seine Mitglieder überlegen.",
+              "help_fr": "Dans le travail associatif bénévole, la valorisation et la reconnaissance ne se traduisent pas par une rémunération. Pourtant, les signes de remerciement et de reconnaissance sont importants pour tou·te·s les individus et ont une grande influence sur leur motivation. L'AC devrait donc aussi réfléchir à sa manière de remercier ses membres.",
+              "help_it": "Nell'ambito del lavoro associativo di volontariato, la valorizzazione e la riconoscenza non vengono remunerate. Sono perciò di fondamentale importanza i segni di ringraziamento e di riconoscenza nei confronti di tutti e influenzano enormemente la loro motivazione. L'AC dovrebbe dunque riflettere su come ringraziare i/le suoi/sue collaboratori/trici."
+            },
+            "question_de": "Für die Leitenden unserer Abteilungen bestehen Anlässe oder andere Formen der Danksagung für Ihr grosses ehrenamtliches Engagement in der Jugendarbeit.",
+            "question_fr": "Pour les responsables de nos groupes, il existe des événements ou d'autres formes de remerciement pour leur grand engagement bénévole en faveur de la jeunesse.",
+            "question_it": "Per i/le capi/e delle nostre sezioni, esistono eventi o altre forme di ringraziamento per il loro grande impegno di volontariato a favore della gioventù.",
+            "answer_options": "range",
+            "evaluation_function": null
+          }
+        ],
+        "id": 2,
+        "name_de": "Anlassangebot",
+        "name_fr": "Offre d’événements ",
+        "name_it": "Offerta di eventi",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [
+          {
+            "id": 0,
             "help": {
               "links_de": [
                 {
@@ -2605,31 +3129,1003 @@
               ],
               "links_fr": [
                 {
-                  "name": "Formation dans le scoutisme",
-                  "url": "https://pfadi.swiss/fr/formation-encadrement/formation/"
+                  "name": "Ausbildung in der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Formazione nello scoutismo",
-                  "url": "https://pfadi.swiss/it/formazione-accompagnamento/formazione/"
+                  "name": "Ausbildung in der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
                 }
               ],
-              "help_de": "Leitende sind motivierter für einen Kursbesuch, wenn ihnen klar ist, welche Erlebnisse sie erwarten und wie sie das Gelernte im Pfadialltag einsetzen können. Idealerweise wird dies mit ihnen schon bei der Planung der Kursbesuche besprochen.",
-              "help_fr": "Les responsables sont plus motivés à suivre un cours s'ils·elles savent clairement ce à quoi ils·elles peuvent s'attendre à découvrir et comment ils·elles peuvent utiliser ce qu'ils·elles ont appris dans leur quotidien scout. L'idéal serait d'en discuter avec eux·elles lors de la planification des cours.",
-              "help_it": "Gli animatori sono più motivati a frequentare un corso quando sono consapevoli delle esperienze che possono acquisire e di come utilizzare ciò che hanno imparato nelle attività scout. Idealmente, ciò viene discusso con loro già al momento della pianificazione delle iscrizioni ai corsi."
+              "help_de": "Die Teilnahme an weiterführenden Kursen bietet fachliche Aus- und Weiterbildung, ermöglicht einen Austausch und stärkt die Motivation der Leitenden.",
+              "help_fr": "La participation à des cours de perfectionnement offre une formation spécifique et continue, permet un échange et renforce la motivation des responsables.",
+              "help_it": "La partecipazione ai corsi di perfezionamento offre una formazione specifica e continua, consente uno scambio e rinforza la motivazione dei/delle capi/e. "
             },
-            "question_de": "Unsere Leitenden wissen vor dem Kursbesuch, was sie im Kurs alles erleben können und was ihnen dies für ihren Pfadialltag bringt. ",
-            "question_fr": "Avant de suivre un cours, nos responsables savent ce qu'ils·elles vont découvrir et ce que cela va leur apporter dans leur quotidien scout. ",
-            "question_it": "Prima di partecipare a un corso, gli animatori sanno cosa aspettarsi dal corso e cosa può offrire loro per lo svolgimento delle attività scout abituali.",
+            "question_de": "Im Hinblick auf ihren persönlichen Fortschritt motivieren wir unsere erfahrenen Leitenden in den Abteilungen und auf Kantonsebene immer wieder aktiv für die Teilnahme an AL- und Bundeskursen (insbesondere Panorama-, Coach-, Top-, Spektrum- und Gilwellkurs). ",
+            "question_fr": "En vue de leur progression personnelle, nous motivons toujours activement les responsables expérimentés de nos groupes et du canton à participer aux cours de RG et fédéraux (notamment les cours Panorama, Coach, Top, Spectre et Gilwell).   ",
+            "question_it": "In vista della loro progressione personale, motiviamo sempre attivamente i/le responsabili più esperti/e delle nostre sezioni a partecipare ai corsi CSZ e federali (in particolare i corsi Panorama, Coach, Top, Spettro e Gilwell).",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                },
+                {
+                  "name": "Terminkalender der PBS",
+                  "url": "https://pfadi.swiss/de/kalender-news/agenda/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                },
+                {
+                  "name": "Terminkalender der PBS",
+                  "url": "https://pfadi.swiss/de/kalender-news/agenda/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                },
+                {
+                  "name": "Terminkalender der PBS",
+                  "url": "https://pfadi.swiss/de/kalender-news/agenda/"
+                }
+              ],
+              "help_de": "Alle Aufgaben eines Betreuungsveranwortlichen fressen Zeit. Es müssen Voraussetzungen geschaffen werden, dass die Person genügend Ressourcen hat, diese Aufgabe auch korrekt ausfüllen zu können. Eine Doppelfunktion ist daher genau zu prüfen. An der Betreuungskonferenz der PBS werden jeweils die relevanten Themen für die Aufgabe besprochen.",
+              "help_fr": "Toutes les tâches du·de la responsable de l'encadrement prennent du temps. Il faut veiller à ce que la personne dispose de suffisamment de ressources pour pouvoir remplir correctement ces devoirs. Une double fonction doit donc être étudiée soigneusement. Lors de la conférence sur l'encadrement du MSdS, des thèmes pertinents pour cette fonction sont abordés.",
+              "help_it": "Tutti i compiti del/della responsabile dell'accompagnamento richiedono tempo. È necessario prestare attenzione al fatto che questa persona disponga di sufficienti risorse per poter assolvere correttamente i suoi doveri. Una doppia funzione deve quindi essere valutata con attenzione. I temi pertinenti a questa funzione vengono affrontati durante la conferenza sull'accompagnamento del MSS."
+            },
+            "question_de": "Unser*e Betreuungsverantwortliche*r hat keine Doppelfunktion (z.B. Ausbildung) und nimmt an der jährlichen Betreuungskonferenz der PBS teil.",
+            "question_fr": "Notre responsable de l'encadrement n'a pas de double fonction (par ex. formation) et participe à la conférence annuelle sur l'encadrement du MSdS.",
+            "question_it": "Il/La nostro/a responsabile dell'accompagnamento non ha doppie funzioni (per es. formazione) e partecipa alla conferenza annuale sull'accompagnamento del MSS.",
+            "answer_options": "binary",
+            "evaluation_function": null
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Eine Vernetzung im Kantonalverband ist wichtig, damit der*die Betreuungsveranwortliche jeweils alle Informationen hat, um die Personen im Betreuungsnetzwerk mit den notwendigen Informationen zu versorgen. Ein Einbezug in die Kantonalleitung wird empfohlen.",
+              "help_fr": "Une collaboration au sein de l'association cantonale est importante, afin que le·la responsable de l'encadrement dispose systématiquement de toutes les informations nécessaires à fournir aux personnes du réseau d'encadrement. Une implication dans la maîtrise cantonale est recommandée.",
+              "help_it": "Una collaborazione all'interno dell'associazione cantonale è importante perché il/la responsabile dell'accompagnamento disponga sistematicamente di tutte le informazioni necessarie per fornire le giuste risorse d'accompagnamento. È raccomandato un coinvolgimento nella direzione cantonale."
+            },
+            "question_de": "Unser*e Betreuungsverantwortliche*r ist mit anderen Stellen im KV vernetzt, insbesondere mit den verantwortlichen Personen für das Programm und die Ausbildung.",
+            "question_fr": "Notre responsable de l'encadrement est en contact avec les autres postes de l'AC, en particulier avec les personnes responsables du programme et de la formation.",
+            "question_it": "Il/La nostro/a responsabile dell'accompagnamento è in contatto con gli altri ruoli dell'AC, in particolare con i/le responsabili del programma e della formazione.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
+                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                }
+              ],
+              "help_de": "Um alle Aufgaben einer Betreuungsverantwortlichen (inkl. dem Anbieten von Weiterbildungen) wahrnehmen zu können, ist der Besuch des Coach-Expertenkurses notwendig. Die Daten für den Kurs finden sich auf der MiData. Die Erfahrung im Betreuuen einer Abteilung hilft, die Probleme der aktuellen Betreuungsrollen zu verstehen.",
+              "help_fr": "Pour pouvoir assumer toutes les tâches d'un·e responsable de l'encadrement (y compris proposer des formations continues), il est nécessaire de suivre le cours d’expert·e·s coachs. Les dates de ce cours sont disponibles sur MiData. De plus, avoir de l'expérience dans l'encadrement d'un groupe aide à comprendre les problèmes des différentes personnes qui encadrent actuellement nos groupes.",
+              "help_it": "Per poter assumere tutti i compiti di responsabile dell'accompagnamento (compreso quello di proporre corsi di formazione continua), è necessario seguire il corso esperti coach. Le date di questo corso sono disponibili su MiData. Inoltre, avere esperienza nell'accompagnamento di una sezione aiuta a comprendere i problemi delle differenti persone che accompagnano attualmente le nostre sezioni."
+            },
+            "question_de": "Unser*e Betreuungsverantwortliche*r hat einen Coach-Expertenkurs besucht und verfügt über Erfahrung in der Betreuung einer Abteilung. ",
+            "question_fr": "Notre responsable de l'encadrement a suivi un cours d’expert·e·s coachs et a de l'expérience dans l'encadrement d'un groupe. ",
+            "question_it": "Il/La nostro/a responsabile dell'accompagnamento ha seguito un corso esperto-coach e ha l'esperienza necessaria per accompagnare una sezione.",
+            "answer_options": "binary",
+            "evaluation_function": null
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Die Umsetzung des Pfadiprofils ist ein laufender Prozess, viele Abteilungen stecken noch mittendrin. Den Leitenden auf kantonaler Ebene kommt eine wichtige Rolle in der Unterstützung dieses Prozesses zu. Kennen sie die damit verbunden Herausforderungen, können sie die Abteilungen gezielter unterstützen. Die aktive Weiterbildung ist dafür zentral.",
+              "help_fr": "La mise en œuvre du Profil du scoutisme est un processus en cours, de nombreux groupes sont encore en train de s'y atteler. Les responsables du niveau cantonal ont un rôle important à jouer dans le soutien de ce processus. S'ils·elles connaissent les défis qui y sont liés, ils·elles peuvent soutenir les groupes de manière plus ciblée. La formation continue est essentielle pour y parvenir.",
+              "help_it": "L'attuazione del Profilo dello scoutismo è un processo continuo; molte sezioni ci stanno ancora provando. I/Le responsabili a livello cantonale giocano un ruolo importante nel sostegno di questo processo. Se conoscono le sfide legate all'implementazione, possono sostenere le sezioni in maniera più mirata. La formazione continua è essenziale per ottenere ciò. "
+            },
+            "question_de": "Alle Leitenden auf kantonaler Ebene sind sich den aktuellen Herausforderungen im Bezug auf die Umsetzung des Pfadiprofils im Kanton bewusst.",
+            "question_fr": "Tou·te·s les responsables du niveau cantonal sont conscient·e·s des défis actuels en ce qui concerne la mise en œuvre du Profil du scoutisme dans le canton.",
+            "question_it": "Tutti/e i/le responsabili a livello cantonale sono consapevoli delle sfide attuali per ciò che concerne l'attuazione del Profilo dello scoutismo a livello cantonale.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Sprache bildet Realität ab. Die Kommunikation mit den Begriffen aus dem Pfadiprofil fördert dessen Umsetzung.",
+              "help_fr": "Le langage reflète la réalité. La communication avec le vocabulaire du Profil du scoutisme favorise sa mise en œuvre.",
+              "help_it": "La lingua riflette la realtà. La comunicazione con il lessico del Profilo dello scoutismo ne favorisce la sua attuazione."
+            },
+            "question_de": "Alle Leitenden auf kantonaler Ebene kommunizieren mit den Begriffen aus dem Pfadiprofil.",
+            "question_fr": "Tou·te·s les responsables du niveau cantonal communiquent avec le vocabulaire du Profil du scoutisme.",
+            "question_it": "Tutti/e i/le capi/e a livello cantonale comunicano usando il lessico del Profilo dello scoutismo.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 6,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Ein Netzwerk unter den kantonalen Verantwortlichen und den Verantwortlichen auf Budesebene kann aktuelle Fragestellungen und entsprechende Bedürfnisse abdecken.",
+              "help_fr": "Un réseau entre les responsables cantonaux·ales et les responsables au niveau fédéral peut permettre de répondre aux questions actuelles et aux besoins correspondants.",
+              "help_it": "Una rete tra i/le responsabili cantonali e i/le responsabili a livello federale può permettere di rispondere ai problemi attuali e ai bisogni che ne conseguono."
+            },
+            "question_de": "Unsere kantonalen Verantwortlichen kennen ihre Ansprechpersonen in der Programmkommission der PBS. ",
+            "question_fr": "Nos responsables cantonaux·ales connaissent leurs personnes de contact au sein de la Commission Programme du MSdS. ",
+            "question_it": "I/Le nostri/e responsabili cantonali conoscono le loro persone di contatto all'interno della Commissione Programma del MSS",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 7,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Die Plattformen bieten Austausch und Mitgestaltungsmöglichkeiten zu aktuellen Themen. ",
+              "help_fr": "Les plateformes offrent des possibilités d'échange et de réflexion sur des thèmes d'actualité. ",
+              "help_it": "Le piattaforme offrono possibilità di scambio e di riflessione su temi d'attualità."
+            },
+            "question_de": "Unsere kantonalen Verantwortlichen nutzen die Plattformen der PBS (Programmznacht, Programmkonferenz, PiCoord etc.) für den interkantonalen Austausch.",
+            "question_fr": "Nos responsables cantonaux utilisent les plateformes du MSdS (souper du programme, conférence du programme, PiCoord, etc.) pour l'échange intercantonal.",
+            "question_it": "I/Le nostri/e responsabili cantonali utilizzano le piattaforme del MSS (cena programma, conferenza programma, PiCoord, ecc.) per lo scambio tra cantoni.",
             "answer_options": "range",
             "evaluation_function": null
           }
         ],
-        "id": 0,
-        "name_de": "Aus- und Weiterbildung",
-        "name_fr": "Formation initiale et continue ",
-        "name_it": "Formazione di base e continua ",
+        "id": 3,
+        "name_de": "Aus- und Weiterbildung der Funktionär*innen",
+        "name_fr": "Formation et formation continue des fonctionnaires  ",
+        "name_it": "Formazione di base e continua dei funzionari",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [
+          {
+            "id": 0,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Kantonsleiter*in zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable cantonal·e doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile cantonale."
+            },
+            "question_de": "Abfrage Rolle Kantonsleiter*in (2 Personen)",
+            "question_fr": "Consultation sur le rôle de responsable cantonal·e (2 personnes)",
+            "question_it": "Consultazione sul ruolo del/della responsabile cantonale (due persone)",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_leader"
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Präsident*in zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de président·e doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di presidente/presidentessa cantonale."
+            },
+            "question_de": "Abfrage Rolle Präsident*in",
+            "question_fr": "Consultation sur le rôle de président·e",
+            "question_it": "Consultazione sul ruolo del/della presidente/presidentessa",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_president"
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Biberstufe zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable de la branche Castors doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della branca Castori."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Biberstufe",
+            "question_fr": "Consultation sur le rôle de responsable de la branche Castors",
+            "question_it": "Consultazione sul ruolo del/della responsabile della branca Castori",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_biber_v"
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Wolfsstufe zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable de la branche Louveteaux doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della branca Lupetti."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Wolfsstufe",
+            "question_fr": "Consultation sur le rôle de responsable de la branche Louveteaux",
+            "question_it": "Consultazione sul ruolo del/della responsabile della branca Lupetti.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_wolf_v"
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Pfadistufe zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable de la branche Eclais doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della branca Esploratori."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Pfadistufe",
+            "question_fr": "Consultation sur le rôle de responsable de la branche Eclais",
+            "question_it": "Consultazione sul ruolo del/della responsabile della branca Esploratori",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pfadi_v"
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Piostufe zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable de la branche Picos doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della branca Pionieri."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Piostufe",
+            "question_fr": "Consultation sur le rôle de responsable de la branche Picos",
+            "question_it": "Consultazione sul ruolo del/della responsabile della branca Pionieri",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pio_v"
+          },
+          {
+            "id": 6,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Roverstufe zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable de la branche Route doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData.  Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della branca Rover."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Roverstufe",
+            "question_fr": "Consultation sur le rôle de responsable de la branche Route",
+            "question_it": "Consultazione sul ruolo del/della responsabile della branca Rover",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_rover_v"
+          },
+          {
+            "id": 7,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Pfadi Trotz Allem zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable des Scouts Malgré Tout doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData.  Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile degli Scout ad Ogni Costo."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Pfadi Trotz Allem",
+            "question_fr": "Consultation sur le rôle de responsable des Scouts Malgré Tout",
+            "question_it": "Consultazione sul ruolo del/della responsabile degli Scout ad Ogni Costo",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pta_v"
+          },
+          {
+            "id": 8,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Ausbildung zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable de la formation doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della formazione."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Ausbildung",
+            "question_fr": "Consultation sur le rôle de responsable de la formation",
+            "question_it": "Consultazione sul ruolo del/della responsabile della formazione",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_education_v"
+          },
+          {
+            "id": 9,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Betreuung zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable de l'encadrement doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile dell'accompagnamento."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Betreuung",
+            "question_fr": "Consultation sur le rôle de responsable de l'encadrement",
+            "question_it": "Consultazione sul ruolo del/della responsabile dell'accompagnamento",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_coach_v"
+          },
+          {
+            "id": 10,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Diversität und Inklusion zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable de la diversité et de l'inclusion doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della diversità e dell'inclusione."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Diversität und Inklusion",
+            "question_fr": "Consultation sur le rôle de responsable de la diversité et de l'inclusion ",
+            "question_it": "Consultazione sul ruolo del/della responsabile della diversità e dell'inclusione",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_diversity_v"
+          },
+          {
+            "id": 11,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Internationales zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable international·e doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile internazionale."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Internationales",
+            "question_fr": "Consultation sur le rôle de responsable international·e",
+            "question_it": "Consultazione sul ruolo del/della responsabile internazionale",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_international_v"
+          },
+          {
+            "id": 12,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Krisenteam zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable de la cellule de crise doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della cellula di crisi."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Krisenteam",
+            "question_fr": "Consultation sur le rôle de responsable de la cellule de crise",
+            "question_it": "Consultazione sul ruolo del/della responsabile della cellula di crisi",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_crisis_v"
+          },
+          {
+            "id": 13,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r PR zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable des relations publiques doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData.  Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile delle pubbliche relazioni."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r PR",
+            "question_fr": "Consultation sur le rôle de responsable des relations publiques",
+            "question_it": "Consultazione sul ruolo del/della responsabile delle pubbliche relazioni",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pr_v"
+          },
+          {
+            "id": 14,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Prävention zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable de la prévention doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della prevenzione."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Prävention",
+            "question_fr": "Consultation sur le rôle de responsable de la prévention",
+            "question_it": "Consultazione sul ruolo del/della responsabile della prevenzione",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_prevention_v"
+          },
+          {
+            "id": 15,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Programm zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable du programme doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile del programma."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Programm",
+            "question_fr": "Consultation sur le rôle de responsable du programme",
+            "question_it": "Consultazione sul ruolo del/della responsabile del programma.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_program_v"
+          },
+          {
+            "id": 16,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Informationen aus der Bundesebene werden an die Kantonalverbände basierend auf die in der MiData vergebenen Rollen verschickt. Um den Informationsfluss sicherzustellen, soll die Rolle als Verantwortliche*r Nachhaltigkeit und Umwelt zugewiesen werden.",
+              "help_fr": "Les informations provenant du niveau fédéral sont envoyées aux associations cantonales en se basant sur les rôles attribués dans MiData. Afin de garantir le flux d'informations, le rôle de responsable de la durabilité et de l'environnement doit être attribué.",
+              "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della sostenibilità e dell'ambiente."
+            },
+            "question_de": "Abfrage Rolle Verantwortliche*r Nachhaltigkeit und Umwelt",
+            "question_fr": "Consultation sur le rôle de responsable de la durabilité et de l'environnement",
+            "question_it": "Consultazione sul ruolo del/della responsabile della sostenibilità e dell'ambiente.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_sustainability_v"
+          }
+        ],
+        "id": 4,
+        "name_de": "Besetzung der Gremien",
+        "name_fr": "Composition des comités",
+        "name_it": "Composizione degli organi",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [
+          {
+            "id": 0,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Ausbildungsmodell",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Ausbildungsmodell",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Ausbildungsmodell",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                }
+              ],
+              "help_de": "Damit die kantonalen Kurse die Kursinhalte erfolgreich vermitteln können und in der gesamten Schweiz gleichwertig sind, sollten gemäss Ausbildungsmodell der PBS durchgeführt werden.",
+              "help_fr": "Pour que les cours cantonaux parviennent à transmettre leurs contenus et soient identiques dans toute la Suisse, ils devraient être organisés selon le modèle de formation du MSdS. ",
+              "help_it": "Affinché tutti i corsi cantonali riescano a trasmettere i loro contenuti e siano identici in tutta la Svizzera, dovrebbero essere organizzati secondo il modello di formazione del MSS."
+            },
+            "question_de": "Die Struktur, die Rahmenbedingungen und der Inhalt der von uns organisierten Vorbasiskurse entsprechen dem Ausbildungsmodell.",
+            "question_fr": "La structure, le contexte et le contenu des cours préalable au cours de base que nous organisons respectent le modèle de formation.",
+            "question_it": "La struttura, il contesto e il contenuto dei corsi che organizziamo precedenti al corso base rispettano il modello di formazione.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Ausbildungsmodell",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Ausbildungsmodell",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Ausbildungsmodell",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                }
+              ],
+              "help_de": "Damit die kantonalen Kurse die Kursinhalte erfolgreich vermitteln können und in der gesamten Schweiz gleichwertig sind, sollten gemäss Ausbildungsmodell der PBS durchgeführt werden.",
+              "help_fr": "Pour que les cours cantonaux parviennent à transmettre leurs contenus et soient identiques dans toute la Suisse, ils devraient être organisés selon le modèle de formation du MSdS. ",
+              "help_it": "Affinché tutti i corsi cantonali riescano a trasmettere i loro contenuti e siano identici in tutta la Svizzera, dovrebbero essere organizzati secondo il modello di formazione del MSS."
+            },
+            "question_de": "Der Inhalt und die Rahmenbedingungen der von uns organisierten Basiskurse, Aufbaukurse und Einführungskurse Stufenmethodik entsprechen dem Ausbildungsmodell.",
+            "question_fr": "Le contenu et le cadre des cours de base, des cours de perfectionnement et des cours d'introduction aux méthodologies de branche que nous organisons respectent le modèle de formation.",
+            "question_it": "Il contenuto e la struttura dei corsi base, campo, e dei corsi di introduzione ai metodi di branca che organizziamo rispettano il modello di formazione.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Ausbildung in  der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Ausbildung in  der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Ausbildung in  der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "help_de": "Folgende in der Regel (inter)kantonal organisierten Kurse werden zurzeit in eurem KV nicht angeboten:\n...\n[auflisten anhand Abfrage]\n...",
+              "help_fr": "Les cours suivants, qui sont normalement organisés au niveau (inter)cantonal, ne sont actuellement pas proposés au sein de votre AC :\n...\n[énumérer à l'aide de la consultation]\n…",
+              "help_it": "I corsi seguenti, che sono normalmente organizzati a livello (inter)cantonale, non sono attualmente proposti in seno alla vostra AC: ... [elencare grazie alla consultazione] ..."
+            },
+            "question_de": "In Zusammenarbeit mit anderen Kantonalverbänden bieten wir unseren Leitenden alle im Ausbildungsmodell vorgesehenen kantonalen Kurse an.",
+            "question_fr": "En collaboration avec d'autres associations cantonales, nous proposons à nos responsables tous les cours cantonaux figurant dans le modèle de formation.",
+            "question_it": "In collaborazione con altre associazioni cantonali, proponiamo ai/alle nostri/e capi/e tutti i corsi cantonali che figurano nel modello di formazione.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Ausbildung in  der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Ausbildung in  der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Ausbildung in  der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "help_de": "Damit die Abteilungen die Kursbesuche ihrer Leitenden planen können, müssen die AL und Coaches das kantonale und nationale Kursangebot kennen. Sie sollten auf mögliche Kurse hingewiesen und bei der Suche nach Kursen betreut werden.",
+              "help_fr": "Pour que les groupes puissent planifier la participation de leurs responsables aux cours, les RG et les coachs doivent connaître l'offre des cours cantonaux et nationaux. Il faudrait leur indiquer les cours disponibles et les conseiller dans leur recherche de cours.",
+              "help_it": "Affinché le sezioni possano pianificare la partecipazione dei/delle loro capi/e ai corsi, i/le CSZ e i/le coach devono conoscere l'offerta dei corsi cantonali e nazionali. Bisognerebbe indicare loro i corsi disponibili e consigliarli nella loro ricerca di corsi."
+            },
+            "question_de": "Unsere AL und Coaches kennen das kantonale und nationale Kursangebot und wissen, wo sie Informationen dazu erhalten. ",
+            "question_fr": "Nos RG et nos coachs connaissent l'offre des cours cantonaux et nationaux et savent où trouver des informations à ce sujet. ",
+            "question_it": "I/Le nostri/e CSZ e i/le nostri/e coach conoscono l'offerta dei corsi cantonali e nazionali e sanno dove trovare le informazioni in merito.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Ausbildung in  der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Ausbildung in  der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Ausbildung in  der Pfadi",
+                  "url": "https://pfadi.swiss/de/ausbildung/"
+                }
+              ],
+              "help_de": "Wenn Kurse direkt bei den jeweiligen Zielgruppen beworben werdet, sind sie bekannter und mehr Personen werden motiviert, geeignete Kurse zu besuchen.",
+              "help_fr": "Si les cours sont annoncés directement auprès des groupes cibles concernés, ils seront plus populaires et un plus grand nombre de personnes seront motivées à suivre le cours.",
+              "help_it": "Se i corsi vengono comunicati direttamente ai gruppi target interessati, saranno più popolari e ci saranno più persone interessate a seguire il corso."
+            },
+            "question_de": "Wir bewerben das Kursangebot zielgruppengerecht.",
+            "question_fr": "Nous faisons de la publicité pour l'offre de cours en fonction de nos groupes cibles.",
+            "question_it": "Pubblicizziamo i corsi offerti in modo adeguato al gruppo target.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Kursauswertung",
+                  "url": "https://pfadi.swiss/media/files/46/310904de-kursauswertung_pbs-20190125-akom-tschagon.pdf"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Kursauswertung",
+                  "url": "https://pfadi.swiss/media/files/46/310904de-kursauswertung_pbs-20190125-akom-tschagon.pdf"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Kursauswertung",
+                  "url": "https://pfadi.swiss/media/files/46/310904de-kursauswertung_pbs-20190125-akom-tschagon.pdf"
+                }
+              ],
+              "help_de": "Kursleitungen und Bertreuer*innen kennen die durchgeführten Kurse und das kantonale Kursangebot in der Regel sehr gut. Sie können wertvolle Hinweise und Rückmeldungen geben, um die Kurse laufend weiterzuentwickeln und das Kursangebot an die Bedürfnisse anzupassen.",
+              "help_fr": "Les responsables de cours et les conseiller·ère·s connaissent en général très bien les cours proposés et l'offre des cours cantonaux. Ils·elles peuvent apporter des conseils et des feed-backs utiles afin d'améliorer continuellement les cours et d'adapter l'offre de cours aux besoins.",
+              "help_it": "I/Le responsabili di corso e i/le consiglieri/e conoscono in generale molto bene i corsi proposti e l'offerta dei corsi cantonali. Possono dare consigli e feedback utili per migliorare continuamente i corsi e adattare l'offerta di corsi ai bisogni."
+            },
+            "question_de": "Wir geben unseren Kursleitungen und Betreuer*innen die Möglichkeit uns Hinweise zu geben, wie unsere Kurse und unser Kursangebot weiterentwickelt werden können.",
+            "question_fr": "Nous donnons la possibilité à nos responsables de cours et à nos conseiller·ère·s de nous donner des pistes sur la manière dont nos cours et notre offre de cours peuvent être améliorés.",
+            "question_it": "Diamo la possibilità ai/alle nostri/e responsabili di corso e ai/alle nostri/e coach di darci delle indicazioni su come i nostri corsi e la nostra offerta di corsi possano essere migliorati.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 6,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "In den kantonalen Kursen werden viele Inhalte für den Pfadialltag vermittelt. Die Abteilungen können in regelmässigen Auswertungen wertvolle Rückmeldungen zur Weiterentwicklung der Kursinhalte geben.",
+              "help_fr": "Les cours cantonaux permettent de transmettre de nombreux contenus utiles pour le quotidien scout. Lors de bilans réguliers, les groupes peuvent donner de précieux feed-backs pour l'amélioration du contenu des cours.",
+              "help_it": "I corsi cantonali permettono di trasmettere numerosi contenuti utili per la quotidianità delle attività scout. Grazie a bilanci regolari, le sezioni possono dare preziosi feedback per migliorare i contenuti dei corsi."
+            },
+            "question_de": "Zur Weiterentwicklung unserer Kurse werten wir mit unseren Abteilungen regelmässig aus, inwiefern die vermittelten Kursinhalte im Pfadialltag umgesetzt werden konnten. ",
+            "question_fr": "Pour améliorer nos cours, nous analysons régulièrement avec nos groupes dans quelle mesure le contenu des cours a pu être mis en pratique dans le quotidien scout. ",
+            "question_it": "Per migliorare i nostri corsi, analizziamo regolarmente con le nostre sezioni in quale misura il contenuto dei corsi ha potuto essere messo in pratica nella quotidianità delle attività scout.",
+            "answer_options": "range",
+            "evaluation_function": null
+          }
+        ],
+        "id": 5,
+        "name_de": "Kursangebot",
+        "name_fr": "Offre de cours ",
+        "name_it": "Offerta di corsi",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [
+          {
+            "id": 0,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Ausbildungsmodell",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Ausbildungsmodell",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Ausbildungsmodell",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                }
+              ],
+              "help_de": "Damit die Vorbasiskurse gut betreut werden können, sollten Coaches von Leitpfadi- und Piokursen Erfahrung als Mitleiter*in und Coaches von Futurakursen Erfahrung als Expert*in von Kursen auf kantonaler Ebene haben.",
+              "help_fr": "Pour que les cours préalables au cours de base puissent être bien encadrés, les coachs des cours de responsable de patrouille et des cours Picos devraient avoir de l'expérience en tant que formateur·trice adjoint·e et les coachs des cours Futura devraient avoir de l'expérience en tant qu'expert·e des cours du niveau cantonal.",
+              "help_it": "Affinché i corsi che precedono il corso base possano essere ben accompagnati, i/le coach dei corsi CP e dei corsi Pio dovrebbero avere l'esperienza di formatori/trici aggiunti/e e i/le coach dei corsi futura dovrebbero avere l'esperienza di esperti/e di corsi a livello cantonale."
+            },
+            "question_de": "Alle unsere Vorbasiskurse haben eine*n Coach, die*der über Ausbildungserfahrung verfügt.",
+            "question_fr": "Tous nos cours préalables au cours de base sont encadrés par un·e coach qui a de l'expérience dans le domaine de la formation.",
+            "question_it": "Tutti i nostri corsi che precedono il corso base sono accompagnati da un/a coach che ha esperienza nell'ambito della formazione.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 1,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Damit die Qualität der Vorbasiskurse gewährleistet werden kann, sollten die Coaches diese aktiv betreuen und dem Kursteam jederzeit beratend zur Seite stehen. ",
+              "help_fr": "Afin de garantir la qualité des cours préalables au cours de base, les coachs devraient les encadrer activement et être à disposition de l'équipe de cours pour les conseiller. ",
+              "help_it": "Per garantire la qualità dei corsi che precedono il corso base, i/le coach dovrebbero accompagnare attivamente ed essere a disposizione dell'équipe per consigliarla."
+            },
+            "question_de": "Alle Coaches unserer Vorbasiskurse betreuen die jeweiligen Kurse aktiv.",
+            "question_fr": "Tou·te·s les coachs de nos cours préalables au cours de base encadrent activement chacun de ces cours.",
+            "question_it": "Tutti/e i/le coach dei nostri corsi che precedono il corso base supervisionano attivamente i rispettivi corsi.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 2,
+            "help": {
+              "links_de": [
+                {
+                  "name": "LKB Konzept",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/67/lkb-konzept/"
+                },
+                {
+                  "name": "Checkliste Kursbetreuung",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/61/checkliste-kursbetreuung-fur-lkbs/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "LKB Konzept",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/67/lkb-konzept/"
+                },
+                {
+                  "name": "Checkliste Kursbetreuung",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/61/checkliste-kursbetreuung-fur-lkbs/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "LKB Konzept",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/67/lkb-konzept/"
+                },
+                {
+                  "name": "Checkliste Kursbetreuung",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/61/checkliste-kursbetreuung-fur-lkbs/"
+                }
+              ],
+              "help_de": "Damit die Qualität der BSV Kurse gewährleistet werden kann, sollten die LKB diese aktiv betreuen und dem Kursteam jederzeit beratend zur Seite stehen. ",
+              "help_fr": "Pour que la qualité des cours de l'OFAS puisse être garantie, les CàF devraient les encadrer activement et être à disposition de l'équipe de cours pour les conseiller. ",
+              "help_it": "Perché la qualità dei corsi UFAS possa essere garantita, i/le CaF dovrebbero accompagnare attivamente e essere a disposizione dell'équipe del corso per consigliarla."
+            },
+            "question_de": "Alle LKB unserer BSV Kurse betreuen die jeweiligen Kurse aktiv.",
+            "question_fr": "Tou·te·s les CàF de nos cours de l'OFAS encadrent activement les cours concernés.",
+            "question_it": "Tutti/e i/le CaF dei nostri corsi UFAS accompagnano attivamente questi corsi.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 3,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Damit langfristig (über ein bis zwei Jahre hinaus) für alle kantonalen Kurse genügend Kursleitende, Experten, LKB und Coaches zu verfügen stehen, müssen die zur Verfügung stehenden Personen bekannt sein. Geeignete Personen sollten zudem für die Teilnahme an weiterführenden Kursen (z.B. Topkurs, LKB Kurs) motiviert werden. Idealerweise wird dies gemeinsam mit den Hauptleitenden der Kurse geplant.",
+              "help_fr": "Afin de disposer à long terme (au-delà d'un ou deux ans) d'un nombre suffisant de chef·fe·s de cours, d'expert·e·s, de CàF et de coachs pour tous les cours cantonaux, les personnes disponibles doivent être connues. De plus, ces personnes devraient être motivées à participer à des cours plus avancés (p. ex. cours Top, cours CàF). Dans l'idéal, ces mesures devraient être planifiées en collaboration avec les chef·fe·s de cours.",
+              "help_it": "Per poter disporre a lungo termine (oltre a un anno o due) di un numero sufficiente di capi/e corso, di esperti/e, di CaF e di coach per tutti i corsi cantonali, è necessario identificare le persone disponibili. Inoltre, queste perone dovrebbero essere motivate a partecipare a corsi più avanzati (per es. corso Top, corso CaF). Idealmente, queste misure dovrebbero essere pianificate in collaborazione con i/le capi/e corso."
+            },
+            "question_de": "Wir haben konkrete Massnahmen definiert, um langfristig (über ein bis zwei Jahre hinaus) für alle von uns organisierten Kurse über genügend Kursleitende, Experten, LKB und Coaches zu verfügen und setzen diese laufend um. ",
+            "question_fr": "Nous avons établi des mesures concrètes afin de disposer à long terme (au-delà d'un ou deux ans) d'un nombre suffisant de chef·fe·s de cours, d'expert·e·s, de CàF et de coachs pour tous les cours que nous organisons et nous les mettons en œuvre.",
+            "question_it": "Abbiamo stabilito e mettiamo in atto delle misure concrete per disporre a lungo termine (oltre a uno o due anni) di un numero sufficiente di capi/e corso, di esperti/e, di CaF e di coach per tutti i corsi che organizziamo.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 4,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Damit in jedem Team genügend erfahrene Personen vertreten sind, werden die Leitenden mit Kursleitungserfahrung ausgeglichen auf alle Kursleitungen verteilt.",
+              "help_fr": "Afin qu'il y ait suffisamment de personnes expérimentées dans chaque équipe de cours, les responsables ayant de l'expérience dans la maîtrise de cours sont réparti·e·s de manière équilibrée parmi tou·te·s les chef·fe·s de cours.",
+              "help_it": "Affinché ci sia un numero sufficiente di persone con esperienza in ogni équipe di corso, i/le responsabili che hanno esperienza nella direzione di corsi sono ripartite in maniera equilibrata tra tutti/e i/le capi/e corso."
+            },
+            "question_de": "Die Leitenden mit Kursleitungserfahrung sind unter unseren Kursleitungen ausgeglichen verteilt.",
+            "question_fr": "Les responsables ayant de l'expérience dans la maîtrise de cours sont réparti·e·s de manière équilibrée parmi nos chef·fe·s de cours.",
+            "question_it": "I/Le responsabili che hanno esperienza nella direzione di corsi vengono ripartiti/e in maniera equilibrata tra i/le nostri/e capi/e corso.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Indem alle Kursteams laufend neue Teammitglieder aufnehmen, wird der Fortbestand der Teams und die Weitergabe des entsprechenden Know-Hows sichergestellt.",
+              "help_fr": "En accueillant en permanence de nouveaux·elles membres dans toutes les équipes de cours, la durabilité des équipes et la transmission du savoir-faire sont assurées.",
+              "help_it": "Accogliendo nuovi membri in tutte le équipe di corso, la sostenibilità delle équipe e la trasmissione delle competenze è assicurata."
+            },
+            "question_de": "Unsere Kursleitungen bemühen sich darum, Leitenden in ihr Team einzugliedern, welche bis anhin noch keinen Kurs mitgeleitet haben und sich für diese Tätigkeit eignen respektive dafür empfohlen wurden. ",
+            "question_fr": "Nos chef·fe·s de cours veillent à intégrer dans leur équipe les responsables qui n'ont pas encore animé de cours et qui ont les qualités requises pour le faire ou qui ont été recommandé·e·s. ",
+            "question_it": "I/Le nostri/e capi/e corsi sono attenti/e ad integrare nelle loro equipe i/le responsabili che non hanno ancora animato corsi e che hanno le qualità richieste per farlo o che sono stati/e raccomandati/e.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 6,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Ausbildungskurse Planen Durchführen und Auswerten",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/56/ausbildungskurse-planen-durchfuhren-und-auswerten/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Ausbildungskurse Planen Durchführen und Auswerten",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/56/ausbildungskurse-planen-durchfuhren-und-auswerten/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Ausbildungskurse Planen Durchführen und Auswerten",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/56/ausbildungskurse-planen-durchfuhren-und-auswerten/"
+                }
+              ],
+              "help_de": "Kurse sollen nicht nur den Teilnehmenden, sondern auch den Mitleitenden die Möglichkeit bieten, Kompetenzen zu erwerben und zu erweitern. Es sollten daher Rahmenbedingungen für den persönlichen Fortschritt aller Teammitglieder geschaffen werden.",
+              "help_fr": "Les cours devraient permettre non seulement aux participant·e·s, mais aussi aux formateur·trice·s, d'acquérir et de développer des compétences. Il faudrait donc mettre en place un environnement propice aux progrès personnels de tou·te·s les membres de l'équipe de formation.",
+              "help_it": "I corsi dovrebbero permettere non solo ai/alle partecipanti ma anche ai/alle formatori/trici di acquisire e sviluppare competenze. Sarebbe dunque necessario creare un ambiente propizio per la progressione personale di tutti i membri dell'équipe di formazione."
+            },
+            "question_de": "Im Rahmen der Planung, Durchführung und Auswertung des Kurses sorgen unsere Kursleitungen für den persönlichen Fortschritt aller im Team.",
+            "question_fr": "Dans le cadre de la planification, de la réalisation et de l'évaluation du cours, nos chef·fe·s de cours veillent aux progrès personnels de tou·te·s les membres de l'équipe.",
+            "question_it": "Nell'ambito della pianificazione, della realizzazione e della valutazione del corso, i/le nostri/e capi/e corso seguono la progressione personale di tutti i membri della loro equipe.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 7,
+            "help": {
+              "links_de": [
+                {
+                  "name": "PBS-Newsletter",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "PBS-Newsletter",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "PBS-Newsletter",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                }
+              ],
+              "help_de": "Damit Vorbasiskurse optimal geplant und durchgeführt werden können, sollten die Kursleitungen und Coaches durch den Kanton betreut werden und alle notwendigen Hilfsmittel und Informationen erhalten. Die PBS informiert über das Akom aktuell (wird an alle Ausbildungsverantwortlichen und Kantonsleitende versendet) und den Ausbildungsnewsletter.",
+              "help_fr": "Pour que les cours préalables au cours de base puissent être planifiés et organisés de manière optimale, les chef·fe·s de cours et les coachs devraient être encadré·e·s par le canton et recevoir tous les supports et informations nécessaires. Le MSdS fournit des informations grâce à l'Actualité CoFor (envoyé à tous les responsables de formation et aux responsables cantonaux) et à la newsletter de la formation.",
+              "help_it": "Affinché i corsi che precedono il corso base possano essere pianificati e organizzati in maniera ottimale, i/le capi/e corso e i/le coach dovrebbero essere accompagnati/e dal cantone e ricevere tutti i supporti e le informazioni necessarie. Il MSS fornisce delle informazioni grazie all'Attualità CoFor (inviata a tutti/e i/le responsabili della formazione e ai/alle responsabili cantonali) e alla newsletter della formazione."
+            },
+            "question_de": "Die Kursleitungen und Coaches unserer Vorbasiskurse werden durch den Kantonalverband betreut und erhalten alle notwendigen Hilfsmittel und Informationen.",
+            "question_fr": "Les chef·fe·s de cours et les coachs de nos cours préalables au cours de base sont encadré·e·s par l'association cantonale et reçoivent tous les supports et informations nécessaires.",
+            "question_it": "I/Le capi/e corso e i/le coach dei corsi precedenti al corso base sono accompagnati/e dall'associazione cantonale e ricevono tutti gli strumenti e le informazioni necessarie.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 8,
+            "help": {
+              "links_de": [
+                {
+                  "name": "PBS-Newsletter",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "PBS-Newsletter",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "PBS-Newsletter",
+                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                }
+              ],
+              "help_de": "Damit BSV Kurse optimal geplant und durchgeführt werden können, sollten die Kursleitungen und LKB durch den Kanton betreut werden und alle notwendigen Hilfsmittel und Informationen erhalten. Die PBS informiert über das Akom aktuell (wird an alle Ausbildungsverantwortlichen und Kantonsleitende versendet) und den Ausbildungsnewsletter.",
+              "help_fr": "Pour que les cours de l'OFAS puissent être planifiés et organisés de manière optimale, les chef·fe·s de cours et les CàF devraient être encadré·e·s par le canton et recevoir tous les supports et informations nécessaires. Le MSdS fournit des informations grâce à l'Actualité CoFor (envoyé à tous les responsables de formation et aux responsables cantonaux) et à la newsletter de la formation. ",
+              "help_it": "Affinché i corsi UFAS possano essere pianificati e organizzati in maniera ottimale, i/le capi/e corso e i/le CaF dovrebbero essere accompagnati/e dal cantone e ricevere tutti i supporti e le informazioni necessarie. Il MSS fornisce delle informazioni grazie all'Attualità CoFor (inviata a tutti/e i/le responsabili della formazione e ai/alle responsabili cantonali) e alla newsletter della formazione."
+            },
+            "question_de": "Die Kursleitungen und Coaches unserer BSV Kurse werden durch den Kanton betreut und erhalten alle notwendigen Hilfsmittel und Informationen.",
+            "question_fr": "Les chef·fe·s de cours et les coachs de nos cours de l'OFAS sont encadré·e·s par le canton et reçoivent tous les supports et informations nécessaires.",
+            "question_it": "I/le capi/e corso e i coach dei corsi dell'UFAS sono accompagnati/e dal cantone e ricevono tutti i supporti e le informazioni necessarie.",
+            "answer_options": "range",
+            "evaluation_function": null
+          }
+        ],
+        "id": 6,
+        "name_de": "Kursbetreuung",
+        "name_fr": "Encadrement des cours ",
+        "name_it": "Accompagnamento dei corsi",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 7,
+        "name_de": "Gesundheit Abteilungen",
+        "name_fr": "Santé des groupes",
+        "name_it": "Stato di salute delle sezioni",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 8,
+        "name_de": "Mitgliederzahlen",
+        "name_fr": "Nombre de participant·e·s",
+        "name_it": "Numero di membri ",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 9,
+        "name_de": "Image des KV",
+        "name_fr": "Image de l’AC",
+        "name_it": "Immagine dell’AC ",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 10,
+        "name_de": "Motivation Engagement KV",
+        "name_fr": "Motivation et engagement de l’AC",
+        "name_it": "Motivazione e impegno dell’AC",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 11,
+        "name_de": "Qualität auf kantonaler Ebene",
+        "name_fr": "Qualité au niveau cantonal",
+        "name_it": "Qualità a livello cantonale ",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 12,
+        "name_de": "Dank und Anerkennung von und für die kantonale Ebene",
+        "name_fr": "Remerciement et reconnaissance de et pour le niveau cantonal ",
+        "name_it": "Ringraziamenti e riconoscimento da e per il livello cantonale",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 13,
+        "name_de": "Ausgebildete Leiter*innen",
+        "name_fr": "Responsables formé·e·s ",
+        "name_it": "Capi formati ",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 14,
+        "name_de": "Vernetzung Abteilungen",
+        "name_fr": "Mise en contact des groupes ",
+        "name_it": "Contatti tra sezioni",
         "description_de": "",
         "description_fr": "",
         "description_it": ""
