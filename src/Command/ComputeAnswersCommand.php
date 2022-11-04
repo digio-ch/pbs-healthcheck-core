@@ -9,7 +9,7 @@ use App\Model\CommandStatistics;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Quap\QuestionRepository;
-use App\Service\QuapComputeAnswersService;
+use App\Service\Apps\Quap\QuapComputeAnswersService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

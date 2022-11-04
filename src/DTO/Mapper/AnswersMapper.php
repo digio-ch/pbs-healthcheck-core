@@ -2,7 +2,7 @@
 
 namespace App\DTO\Mapper;
 
-use App\DTO\Model\AnswersDTO;
+use App\DTO\Model\Apps\Quap\AnswersDTO;
 use App\Entity\Aggregated\AggregatedQuap;
 
 class AnswersMapper

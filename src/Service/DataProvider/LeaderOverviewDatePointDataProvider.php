@@ -2,8 +2,8 @@
 
 namespace App\Service\DataProvider;
 
-use App\DTO\Model\LeaderDTO;
-use App\DTO\Model\LeaderOverviewDTO;
+use App\DTO\Model\Apps\Widgets\LeaderDTO;
+use App\DTO\Model\Apps\Widgets\LeaderOverviewDTO;
 use App\Entity\Aggregated\AggregatedLeaderOverviewLeader;
 use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedLeaderOverviewLeaderRepository;

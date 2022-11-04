@@ -2,7 +2,7 @@
 
 namespace App\DTO\Mapper;
 
-use App\DTO\Model\HelpDTO;
+use App\DTO\Model\Apps\Quap\HelpDTO;
 use App\Entity\Quap\Help;
 
 class HelpMapper

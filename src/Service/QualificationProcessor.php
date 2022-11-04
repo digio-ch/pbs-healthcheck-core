@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\DTO\Model\LeaderDTO;
-use App\DTO\Model\QualificationDTO;
+use App\DTO\Model\Apps\Widgets\LeaderDTO;
+use App\DTO\Model\Apps\Widgets\QualificationDTO;
 use App\Entity\Aggregated\AggregatedLeaderOverviewQualification;
 use App\Entity\Midata\QualificationType;
 use App\Repository\Midata\QualificationTypeRepository;

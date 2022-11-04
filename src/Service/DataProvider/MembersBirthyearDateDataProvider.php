@@ -2,9 +2,9 @@
 
 namespace App\Service\DataProvider;
 
-use App\DTO\Model\BarChartBarDataDTO;
-use App\DTO\Model\BarChartDataDTO;
-use App\DTO\Model\ExcludeUnknownGenderChartDTO;
+use App\DTO\Model\Apps\Widgets\ExcludeUnknownGenderChartDTO;
+use App\DTO\Model\Charts\BarChartBarDataDTO;
+use App\DTO\Model\Charts\BarChartDataDTO;
 use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicDepartmentRepository;
 use App\Repository\Midata\GroupRepository;

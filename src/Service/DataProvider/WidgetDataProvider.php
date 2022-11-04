@@ -2,10 +2,10 @@
 
 namespace App\Service\DataProvider;
 
-use App\DTO\Model\BarChartBarDataDTO;
-use App\DTO\Model\LeaderOverviewDTO;
-use App\DTO\Model\LineChartDataDTO;
-use App\DTO\Model\PieChartDataDTO;
+use App\DTO\Model\Apps\Widgets\LeaderOverviewDTO;
+use App\DTO\Model\Charts\BarChartBarDataDTO;
+use App\DTO\Model\Charts\LineChartDataDTO;
+use App\DTO\Model\Charts\PieChartDataDTO;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use Doctrine\DBAL\DBALException;

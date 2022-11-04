@@ -3,7 +3,7 @@
 namespace App\Service\DataProvider;
 
 use App\DTO\Mapper\FilterDataMapper;
-use App\DTO\Model\FilterDataDTO;
+use App\DTO\Model\Apps\Widgets\FilterDataDTO;
 use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDateRepository;
 use App\Repository\Midata\GroupRepository;

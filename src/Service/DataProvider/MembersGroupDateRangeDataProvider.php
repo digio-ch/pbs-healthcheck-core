@@ -2,8 +2,8 @@
 
 namespace App\Service\DataProvider;
 
-use App\DTO\Model\LineChartDataDTO;
-use App\DTO\Model\LineChartDataPointDTO;
+use App\DTO\Model\Charts\LineChartDataDTO;
+use App\DTO\Model\Charts\LineChartDataPointDTO;
 use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use App\Repository\Midata\GroupRepository;

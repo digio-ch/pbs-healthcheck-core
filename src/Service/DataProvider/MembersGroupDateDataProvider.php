@@ -2,7 +2,7 @@
 
 namespace App\Service\DataProvider;
 
-use App\DTO\Model\PieChartDataDTO;
+use App\DTO\Model\Charts\PieChartDataDTO;
 use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use App\Repository\Midata\GroupRepository;

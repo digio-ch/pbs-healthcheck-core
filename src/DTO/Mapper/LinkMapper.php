@@ -2,7 +2,7 @@
 
 namespace App\DTO\Mapper;
 
-use App\DTO\Model\LinkDTO;
+use App\DTO\Model\Apps\Quap\LinkDTO;
 use App\Entity\Quap\Link;
 
 class LinkMapper

@@ -2,7 +2,7 @@
 
 namespace App\DTO\Mapper;
 
-use App\DTO\Model\FilterDataDTO;
+use App\DTO\Model\Apps\Widgets\FilterDataDTO;
 
 class FilterDataMapper
 {

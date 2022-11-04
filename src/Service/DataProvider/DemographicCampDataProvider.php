@@ -2,8 +2,8 @@
 
 namespace App\Service\DataProvider;
 
-use App\DTO\Model\BarChartBarDataDTO;
-use App\DTO\Model\BarChartDataDTO;
+use App\DTO\Model\Charts\BarChartBarDataDTO;
+use App\DTO\Model\Charts\BarChartDataDTO;
 use App\Entity\Aggregated\AggregatedDemographicCamp;
 use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicCampGroupRepository;

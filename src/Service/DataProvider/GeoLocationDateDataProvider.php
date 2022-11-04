@@ -2,8 +2,8 @@
 
 namespace App\Service\DataProvider;
 
-use App\DTO\Model\GeoLocationDTO;
-use App\DTO\Model\GeoLocationTypeDTO;
+use App\DTO\Model\Apps\Widgets\GeoLocationDTO;
+use App\DTO\Model\Apps\Widgets\GeoLocationTypeDTO;
 use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedGeoLocationRepository;
 use App\Repository\Midata\GroupRepository;
