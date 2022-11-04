@@ -78,7 +78,7 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         }
 
         // Remove all links
-        $this->em->getConnection()->executeQuery('DELETE FROM quap_link');
+        $this->em->getConnection()->executeQuery('DELETE FROM hc_quap_link');
 
         $questionnaires = JsonMachine::fromFile($this->pathToJson);
         foreach ($questionnaires as $questionnaire) {

@@ -19,6 +19,7 @@ final class Version20221028131503 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
+        $this->addSql('ALTER TABLE hc_widget_demographic_group RENAME TO hc_aggregated_demographic_group;');
         $this->addSql('ALTER TABLE hc_widget_demographic_camp RENAME TO hc_aggregated_demographic_camp;');
         $this->addSql('ALTER TABLE hc_demographic_camp_group RENAME TO hc_aggregated_demographic_camp_group;');
         $this->addSql('ALTER TABLE hc_widget_demographic_department RENAME TO hc_aggregated_demographic_department;');
@@ -37,6 +38,7 @@ final class Version20221028131503 extends AbstractMigration
         $this->addSql('ALTER TABLE hc_permission_type RENAME TO hc_security_permission_type;');
         $this->addSql('ALTER TABLE hc_permission RENAME TO hc_security_permission;');
 
+        $this->addSql('ALTER SEQUENCE hc_widget_demographic_group_id_seq RENAME TO hc_aggregated_demographic_group_id_seq;');
         $this->addSql('ALTER SEQUENCE hc_widget_demographic_camp_id_seq RENAME TO hc_aggregated_demographic_camp_id_seq;');
         $this->addSql('ALTER SEQUENCE hc_demographic_camp_group_id_seq RENAME TO hc_aggregated_demographic_camp_group_id_seq;');
         $this->addSql('ALTER SEQUENCE hc_widget_demographic_department_id_seq RENAME TO hc_aggregated_demographic_department_id_seq;');
@@ -58,6 +60,7 @@ final class Version20221028131503 extends AbstractMigration
 
     public function down(Schema $schema) : void
     {
+        $this->addSql('ALTER TABLE hc_aggregated_demographic_group RENAME TO hc_widget_demographic_group;');
         $this->addSql('ALTER TABLE hc_aggregated_demographic_camp RENAME TO hc_widget_demographic_camp;');
         $this->addSql('ALTER TABLE hc_aggregated_demographic_camp_group RENAME TO hc_demographic_camp_group;');
         $this->addSql('ALTER TABLE hc_aggregated_demographic_department RENAME TO hc_widget_demographic_department;');
@@ -76,6 +79,7 @@ final class Version20221028131503 extends AbstractMigration
         $this->addSql('ALTER TABLE hc_security_permission_type RENAME TO hc_permission_type;');
         $this->addSql('ALTER TABLE hc_security_permission RENAME TO hc_permission;');
 
+        $this->addSql('ALTER SEQUENCE hc_aggregated_demographic_group_id_seq RENAME TO hc_widget_demographic_group_id_seq;');
         $this->addSql('ALTER SEQUENCE hc_aggregated_demographic_camp_id_seq RENAME TO hc_widget_demographic_camp_id_seq;');
         $this->addSql('ALTER SEQUENCE hc_aggregated_demographic_camp_group_id_seq RENAME TO hc_demographic_camp_group_id_seq;');
         $this->addSql('ALTER SEQUENCE hc_aggregated_demographic_department_id_seq RENAME TO hc_widget_demographic_department_id_seq;');
