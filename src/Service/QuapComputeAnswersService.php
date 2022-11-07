@@ -85,6 +85,40 @@ class QuapComputeAnswersService
                 return $this->hasLeitpfadi($group);
             case 'split_lead_coach':
                 return $this->splitLeadCoach($group);
+            case 'has_leader':
+                return $this->hasLeader($group);
+            case 'has_president':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_PRESIDENT);
+            case 'has_biber_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_BIBERSTUFE_V);
+            case 'has_wolf_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_WOLFSTUFE_V);
+            case 'has_pfadi_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_PFADISTUFE_V);
+            case 'has_pio_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_PIOSTUFE_V);
+            case 'has_rover_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_ROVERSTUFE_V);
+            case 'has_pta_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_PFADI_TROTZ_ALLEM_V);
+            case 'has_education_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_AUSBILDUNG_V);
+            case 'has_coach_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_BETREUUNG_V);
+            case 'has_diversity_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_INTEGRATION_V);
+            case 'has_international_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_INTERNATIONALES_V);
+            case 'has_crisis_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_KRISENTEAM_V);
+            case 'has_pr_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_PR_V);
+            case 'has_prevention_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_PRAEVENTION_SEXUELLER_AUSBEUTNG_V);
+            case 'has_program_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_PROGRAMM_V);
+            case 'has_sustainability_v':
+                return $this->hasRoleWrapper($group, Role::CANTONAL_NACHHALTIGKEIT_V);
             default:
                 return Question::ANSWER_NOT_ANSWERED;
         }
@@ -725,6 +759,26 @@ class QuapComputeAnswersService
         return $this->hasRole($groupIds, Role::PFADI_LEITPFADI);
     }
 
+
+    /**
+     * TODO Check if this really works as intended
+     * I think this should work, as long as has_leader is only called by Questionnaires of the type Cantonal
+     * Since all of the groups that have the questionnaire Cantonal and call has_leader are cantonal groups.
+     * Please double check tho, since Tamino told me i need to also include a check for Departamental Groups.
+     */
+    private function hasLeader(Group $group): int
+    {
+        $groupIds = $this->getGroupIds($group);
+        //$role = $group->getGroupType()->getId() == GroupType::CANTON ? :'b';
+        return $this->hasNumRole($groupIds, Role::CANTONAL_LEADER, 2);
+    }
+
+    private function hasRoleWrapper(Group $group, string $role): int
+    {
+        $groupIds = $this->getGroupIds($group);
+        return $this->hasRole($groupIds, $role);
+    }
+
     private function hasRole(array $groupIds, string $role): int
     {
         $result = $this->em->getConnection()->executeQuery(
@@ -745,6 +799,28 @@ class QuapComputeAnswersService
         )->fetchOne();
 
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
+    }
+
+    private function hasNumRole(array $groupIds, string $role, int $count): int
+    {
+        $result = $this->em->getConnection()->executeQuery(
+            "
+            SELECT count(DISTINCT midata_person_role.person_id) FROM midata_person_role
+                JOIN midata_role ON midata_person_role.role_id = midata_role.id
+                WHERE midata_person_role.group_id IN (?)
+                AND midata_role.role_type = ?
+            ",
+            [
+                $groupIds,
+                $role,
+            ],
+            [
+                Connection::PARAM_INT_ARRAY,
+                ParameterType::STRING,
+            ]
+        )->fetchOne();
+
+        return $result >= $count ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
     private function splitLeadCoach(Group $group): int
@@ -781,6 +857,7 @@ class QuapComputeAnswersService
 
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
+
 
     private function getGroupIds(Group $group): array
     {

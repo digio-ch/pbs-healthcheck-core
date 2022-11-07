@@ -22,12 +22,39 @@ class Role
         ...self::LEADER_ROLES_PIO,
     ];
 
+
+
     public const DEPARTMENT_LEADER_PTA = 'Group::Abteilung::StufenleitungPta';
     public const DEPARTMENT_LEADER_ROVER = 'Group::Abteilung::StufenleitungRover';
     public const DEPARTMENT_LEADER_PIO = 'Group::Abteilung::StufenleitungPio';
     public const DEPARTMENT_LEADER_PFADI = 'Group::Abteilung::StufenleitungPfadi';
     public const DEPARTMENT_LEADER_WOELFE = 'Group::Abteilung::StufenleitungWoelfe';
     public const DEPARTMENT_LEADER_BIBER = 'Group::Abteilung::StufenleitungBiber';
+
+    public const CANTONAL_LEADER = 'Group::Kantonalverband::Kantonsleitung';
+    public const CANTONAL_PRESIDENT = 'Group::Kantonalverband::Praesidium';
+    public const CANTONAL_BIBERSTUFE_V = 'Group::Kantonalverband::VerantwortungBiberstufe';
+    public const CANTONAL_WOLFSTUFE_V = 'Group::Kantonalverband::VerantwortungWolfstufe';
+    public const CANTONAL_PFADISTUFE_V = 'Group::Kantonalverband::VerantwortungPfadistufe';
+    public const CANTONAL_PIOSTUFE_V = 'Group::Kantonalverband::VerantwortungPiostufe';
+    public const CANTONAL_ROVERSTUFE_V = 'Group::Kantonalverband::VerantwortungRoverstufe';
+    public const CANTONAL_PFADI_TROTZ_ALLEM_V = 'Group::Kantonalverband::VerantwortungPfadiTrotzAllem';
+    public const CANTONAL_ABTEILUNGEN_V = 'Group::Kantonalverband::VerantwortungAbteilungen';
+    public const CANTONAL_ANIMATION_SPIRITUELLE_V = 'Group::Kantonalverband::VerantwortungAnimationSpirituelle';
+    public const CANTONAL_AUSBILDUNG_V = 'Group::Kantonalverband::VerantwortungAusbildung';
+    public const CANTONAL_BETREUUNG_V = 'Group::Kantonalverband::VerantwortungBetreuung';
+    public const CANTONAL_INTEGRATION_V = 'Group::Kantonalverband::VerantwortungIntegration';
+    public const CANTONAL_INTERNATIONALES_V = 'Group::Kantonalverband::VerantwortungInternationales';
+    public const CANTONAL_SUCHTPRAEVENTIONSPROGRAMM_V = 'Group::Kantonalverband::VerantwortungSuchtpraeventionsprogramm';
+    public const CANTONAL_KANTONSARCHIV_V = 'Group::Kantonalverband::VerantwortungKantonsarchiv';
+    public const CANTONAL_KRISENTEAM_V = 'Group::Kantonalverband::VerantwortungKrisenteam';
+    public const CANTONAL_LAGERMELDUNG_V = 'Group::Kantonalverband::VerantwortungLagermeldung';
+    public const CANTONAL_LAGERPLAETZE_V = 'Group::Kantonalverband::VerantwortungLagerplaetze';
+    public const CANTONAL_MATERIALVERKAUFSSTELLE_V = 'Group::Kantonalverband::VerantwortungMaterialverkaufsstelle';
+    public const CANTONAL_PR_V = 'Group::Kantonalverband::VerantwortungPr';
+    public const CANTONAL_PRAEVENTION_SEXUELLER_AUSBEUTNG_V = 'Group::Kantonalverband::VerantwortungPraeventionSexuellerAusbeutung';
+    public const CANTONAL_PROGRAMM_V = 'Group::Kantonalverband::VerantwortungProgramm';
+    public const CANTONAL_NACHHALTIGKEIT_V = 'Group::Kantonalverband::VerantwortungNachhaltigkeit';
 
     public const DEPARTMENT_LEADER_ROLES = [
         self::DEPARTMENT_LEADER_PTA,
