@@ -54,11 +54,13 @@ class ComputeAnswersCommand extends StatisticsCommand
         $start = microtime(true);
         $output->writeln('Computing automated questions...');
 
-        $groups = $this->groupRepository->findAllDepartmentalParentGroups();
-        $questions = $this->questionRepository->findEvaluable();
+        $groups = $this->groupRepository->findAllDepartmentalAndRegionalAndCantonalGroups();
 
         /** @var Group $group */
         foreach ($groups as $group) {
+            $questionnaire = $this->quapRepository->getQuestionnaireByGroup($group);
+            $questions = $this->questionRepository->findEvaluableByQuestionnaire($questionnaire);
+
             $widgetQuap = $this->quapRepository->findCurrentForGroup($group->getId());
             $helper = new QuapAnswerStackHelper([]);
 

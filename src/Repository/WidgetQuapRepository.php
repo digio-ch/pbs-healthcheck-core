@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Group;
+use App\Entity\Questionnaire;
 use App\Entity\WidgetQuap;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -54,5 +56,18 @@ class WidgetQuapRepository extends AggregatedEntityRepository
     {
         $this->getEntityManager()->persist($widgetQuap);
         $this->getEntityManager()->flush();
+    }
+
+    public function getQuestionnaireByGroup(Group $group): Questionnaire
+    {
+        $qr = $this->createQueryBuilder('w')
+            ->join('w.group', 'g')
+            ->where('g.id = :groupID')
+            ->setParameter('groupID', $group->getId())
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+
+        return $qr[0]->getQuestionnaire();
     }
 }
