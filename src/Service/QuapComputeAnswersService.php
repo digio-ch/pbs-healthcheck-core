@@ -759,13 +759,6 @@ class QuapComputeAnswersService
         return $this->hasRole($groupIds, Role::PFADI_LEITPFADI);
     }
 
-
-    /**
-     * TODO Check if this really works as intended
-     * I think this should work, as long as has_leader is only called by Questionnaires of the type Cantonal
-     * Since all of the groups that have the questionnaire Cantonal and call has_leader are cantonal groups.
-     * Please double check tho, since Tamino told me i need to also include a check for Departamental Groups.
-     */
     private function hasLeader(Group $group): int
     {
         $groupIds = $this->getGroupIds($group);
