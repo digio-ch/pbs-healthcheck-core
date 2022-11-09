@@ -30,10 +30,10 @@ class QuapAggregator extends WidgetAggregator
     private QuestionnaireRepository $questionnaireRepository;
 
     public function __construct(
-        EntityManagerInterface   $em,
-        GroupRepository          $groupRepository,
+        EntityManagerInterface $em,
+        GroupRepository $groupRepository,
         AggregatedQuapRepository $quapRepository,
-        QuestionnaireRepository  $questionnaireRepository
+        QuestionnaireRepository $questionnaireRepository
     ) {
         parent::__construct($groupRepository);
 

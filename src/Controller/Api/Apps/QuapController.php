@@ -27,6 +27,44 @@ class QuapController extends AbstractController
     }
 
     /**
+     * @param Group $group
+     * @return JsonResponse
+     *
+     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
+     */
+    public function getPreview(
+        Group $group
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+
+        $data = $this->quapService->getAnswers(
+            $group,
+            null
+        );
+
+        return $this->json($data);
+    }
+
+    /**
+     * @param Group $group
+     * @return JsonResponse
+     *
+     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
+     */
+    public function getDepartmentPreview(
+        Group $group
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+
+        $data = $this->quapService->getAnswersForSubdepartments(
+            $group,
+            null
+        );
+
+        return $this->json($data);
+    }
+
+    /**
      * @param OptionalDateRequestData $dateRequestData
      * @return JsonResponse
      * @throws \Exception

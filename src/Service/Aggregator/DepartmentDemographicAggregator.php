@@ -45,10 +45,10 @@ class DepartmentDemographicAggregator extends WidgetAggregator
      * @param GroupRepository $groupRepository
      */
     public function __construct(
-        EntityManagerInterface                    $em,
+        EntityManagerInterface $em,
         AggregatedDemographicDepartmentRepository $widgetDemographicDepartmentRepository,
-        PersonRoleRepository                      $personRoleRepository,
-        GroupRepository                           $groupRepository
+        PersonRoleRepository $personRoleRepository,
+        GroupRepository $groupRepository
     ) {
         $this->em = $em;
         $this->widgetDemographicDepartmentRepository = $widgetDemographicDepartmentRepository;

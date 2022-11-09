@@ -1,4 +1,9 @@
 
+preview:
+  path: /preview
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\MembersGroupController:getPreview
+
 filter:
   path: /filter
   methods: GET

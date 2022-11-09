@@ -48,13 +48,13 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
      * @param QualificationProcessor $qualificationProcessor
      */
     public function __construct(
-        GroupRepository                                 $groupRepository,
-        GroupTypeRepository                             $groupTypeRepository,
-        TranslatorInterface                             $translator,
-        AggregatedLeaderOverviewRepository              $widgetLeaderOverviewRepository,
-        AggregatedLeaderOverviewLeaderRepository        $leaderOverviewLeaderRepository,
+        GroupRepository $groupRepository,
+        GroupTypeRepository $groupTypeRepository,
+        TranslatorInterface $translator,
+        AggregatedLeaderOverviewRepository $widgetLeaderOverviewRepository,
+        AggregatedLeaderOverviewLeaderRepository $leaderOverviewLeaderRepository,
         AggregatedLeaderOverviewQualificationRepository $leaderOverviewQualificationRepository,
-        QualificationProcessor                          $qualificationProcessor
+        QualificationProcessor $qualificationProcessor
     ) {
         $this->groupRepository = $groupRepository;
         $this->widgetLeaderOverviewRepository = $widgetLeaderOverviewRepository;

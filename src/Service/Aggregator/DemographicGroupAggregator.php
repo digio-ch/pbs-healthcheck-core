@@ -38,10 +38,10 @@ class DemographicGroupAggregator extends WidgetAggregator
     protected $groupRepository;
 
     public function __construct(
-        EntityManagerInterface               $em,
+        EntityManagerInterface $em,
         AggregatedDemographicGroupRepository $widgetDemographicGroupRepository,
-        PersonRoleRepository                 $personRoleRepository,
-        GroupRepository                      $groupRepository
+        PersonRoleRepository $personRoleRepository,
+        GroupRepository $groupRepository
     ) {
         $this->em = $em;
         $this->widgetDemographicGroupRepository = $widgetDemographicGroupRepository;

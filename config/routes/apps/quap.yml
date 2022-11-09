@@ -1,4 +1,14 @@
 
+preview:
+  path: /preview
+  methods: GET
+  controller: App\Controller\Api\Apps\QuapController::getPreview
+
+department_preview:
+  path: /subdepartments/preview
+  methods: GET
+  controller: App\Controller\Api\Apps\QuapController::getDepartmentPreview
+
 answers:
   path: /answers
   methods: GET

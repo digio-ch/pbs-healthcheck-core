@@ -57,11 +57,11 @@ class LeaderOverviewAggregator extends WidgetAggregator
      * @param PersonQualificationRepository $personQualificationRepository
      */
     public function __construct(
-        EntityManagerInterface             $em,
-        PersonRoleRepository               $personRoleRepository,
-        GroupRepository                    $groupRepository,
+        EntityManagerInterface $em,
+        PersonRoleRepository $personRoleRepository,
+        GroupRepository $groupRepository,
         AggregatedLeaderOverviewRepository $widgetLeaderOverviewRepository,
-        PersonQualificationRepository      $personQualificationRepository
+        PersonQualificationRepository $personQualificationRepository
     ) {
         $this->em = $em;
         $this->personRoleRepository = $personRoleRepository;

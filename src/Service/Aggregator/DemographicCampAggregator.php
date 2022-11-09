@@ -64,11 +64,11 @@ class DemographicCampAggregator extends WidgetAggregator
      * @param AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
      */
     public function __construct(
-        EntityManagerInterface                   $em,
-        PersonRoleRepository                     $personRoleRepository,
-        GroupRepository                          $groupRepository,
-        EventDateRepository                      $eventDateRepository,
-        AggregatedDemographicCampRepository      $widgetDemographicCampRepository,
+        EntityManagerInterface $em,
+        PersonRoleRepository $personRoleRepository,
+        GroupRepository $groupRepository,
+        EventDateRepository $eventDateRepository,
+        AggregatedDemographicCampRepository $widgetDemographicCampRepository,
         AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
     ) {
         $this->em = $em;
