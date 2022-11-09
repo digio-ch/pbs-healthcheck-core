@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="midata_event_type_qualification_type")
  * @ORM\HasLifecycleCallbacks()
+ * @ORM\Entity()
  */
 class EventTypeQualificationType
 {
