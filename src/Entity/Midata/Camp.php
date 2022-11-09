@@ -14,7 +14,7 @@ class Camp extends Event
     /**
      * @ORM\Column(type="string", length=512, nullable=true)
      */
-    private CampRepository $location;
+    private $location;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
