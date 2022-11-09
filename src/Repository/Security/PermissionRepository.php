@@ -103,7 +103,7 @@ class PermissionRepository extends ServiceEntityRepository
             "INSERT INTO hc_security_permission
                     (id, person_id, permission_type_id, group_id, email, expiration_date)
                     VALUES
-                    (nextval('hc_permission_id_seq'), ?, ?, ?, ?, ?);",
+                    (nextval('hc_security_permission_id_seq'), ?, ?, ?, ?, ?);",
             [
                 $personId,
                 $permissionTypeId,
