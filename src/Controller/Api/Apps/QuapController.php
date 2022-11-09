@@ -38,7 +38,7 @@ class QuapController extends AbstractController
 
         $data = $this->quapService->getAnswers(
             $dateRequestData->getGroup(),
-            is_null($dateRequestData->getDate()) ? null : new \DateTimeImmutable($dateRequestData->getDate())
+            is_null($dateRequestData->getDate()) ? null : \DateTimeImmutable::createFromMutable($dateRequestData->getDate())
         );
 
         return $this->json($data);
