@@ -3,8 +3,8 @@
 namespace App\Tests\Aggregator;
 
 use App\DataFixtures\Aggregator\DemographicDepartmentAggregatorTestFixtures;
-use App\Entity\WidgetDemographicDepartment;
-use App\Repository\WidgetDemographicDepartmentRepository;
+use App\Entity\Aggregated\AggregatedDemographicDepartment;
+use App\Repository\Aggregated\AggregatedDemographicDepartmentRepository;
 use App\Service\Aggregator\DepartmentDemographicAggregator;
 use App\Tests\AggregatorTestCase;
 use DateTimeImmutable;
@@ -38,8 +38,8 @@ class DemographicDepartmentAggregationTest extends AggregatorTestCase
     public function testAggregate()
     {
         $this->aggregator->aggregate(new \DateTime('2020-01-01'));
-        /** @var WidgetDemographicDepartmentRepository $repository */
-        $repository = $this->em->getRepository(WidgetDemographicDepartment::class);
+        /** @var AggregatedDemographicDepartmentRepository $repository */
+        $repository = $this->em->getRepository(AggregatedDemographicDepartment::class);
         foreach ($this->getExpectedResults() as $date => $birthyearData) {
             foreach ($birthyearData as $year => $groupData) {
                 foreach ($groupData as $name => $values) {

@@ -2,11 +2,11 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Group;
-use App\Entity\WidgetDemographicDepartment;
-use App\Repository\GroupRepository;
-use App\Repository\PersonRoleRepository;
-use App\Repository\WidgetDemographicDepartmentRepository;
+use App\Entity\Aggregated\AggregatedDemographicDepartment;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedDemographicDepartmentRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\PersonRoleRepository;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -23,7 +23,7 @@ class DepartmentDemographicAggregator extends WidgetAggregator
     protected $em;
 
     /**
-     * @var WidgetDemographicDepartmentRepository
+     * @var AggregatedDemographicDepartmentRepository
      */
     protected $widgetDemographicDepartmentRepository;
 
@@ -40,15 +40,15 @@ class DepartmentDemographicAggregator extends WidgetAggregator
     /**
      * DepartmentDemographicAggregator constructor.
      * @param EntityManagerInterface $em
-     * @param WidgetDemographicDepartmentRepository $widgetDemographicDepartmentRepository
+     * @param AggregatedDemographicDepartmentRepository $widgetDemographicDepartmentRepository
      * @param PersonRoleRepository $personRoleRepository
      * @param GroupRepository $groupRepository
      */
     public function __construct(
-        EntityManagerInterface $em,
-        WidgetDemographicDepartmentRepository $widgetDemographicDepartmentRepository,
-        PersonRoleRepository $personRoleRepository,
-        GroupRepository $groupRepository
+        EntityManagerInterface                    $em,
+        AggregatedDemographicDepartmentRepository $widgetDemographicDepartmentRepository,
+        PersonRoleRepository                      $personRoleRepository,
+        GroupRepository                           $groupRepository
     ) {
         $this->em = $em;
         $this->widgetDemographicDepartmentRepository = $widgetDemographicDepartmentRepository;
@@ -71,7 +71,7 @@ class DepartmentDemographicAggregator extends WidgetAggregator
      */
     public function aggregate(DateTime $startDate = null)
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        $mainGroups = $this->groupRepository->findAllDepartmentalParentGroups();
 
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);
         $maxDate = new DateTime();
@@ -139,7 +139,7 @@ class DepartmentDemographicAggregator extends WidgetAggregator
     private function createWidgetsFromData(array $data, string $year, Group $mainGroup, DateTime $startPointDate)
     {
         foreach ($data as $groupType => $personTypeAndCountsByGender) {
-            $widget = new WidgetDemographicDepartment();
+            $widget = new AggregatedDemographicDepartment();
             $widget->setGroup($mainGroup);
             $widget->setGroupType($groupType);
             $widget->setBirthyear(intval($year));

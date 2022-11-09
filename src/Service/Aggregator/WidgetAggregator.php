@@ -2,9 +2,9 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\PersonRole;
-use App\Repository\GroupRepository;
-use App\Repository\AggregatedEntityRepository;
+use App\Entity\Midata\PersonRole;
+use App\Repository\Aggregated\AggregatedEntityRepository;
+use App\Repository\Midata\GroupRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\ORMException;
@@ -118,7 +118,7 @@ abstract class WidgetAggregator
 
     public static $mainGroupRoleTypes = [
         'Group::Abteilung::Abteilungsleitung',
-        'Group::Abteilung::AbteilungsleitungStv'
+        'Group::Abteilung::AbteilungsleitungStv',
     ];
 
     public static $typePriority = [
@@ -342,24 +342,28 @@ abstract class WidgetAggregator
      */
     protected function deleteLastPeriod(AggregatedEntityRepository $repository, int $mainGroupId): void
     {
-        $currentDate = new DateTime();
+        $to = new DateTime();
+        $to->setTime(0, 0);
 
-        // return if it's the first since we aggregate for first date of month and don't want this to be deleted
-        if ($currentDate->format('j') == 1) {
-            return;
+        // default from first day of month (without the first day)
+        $from = new DateTime();
+        $from->modify('first day of this month');
+        $from->setTime(23, 59, 59, 999);
+
+        // If it's the first day delete from last day of last month (with the last day of the month)
+        if ($to->format('j') == 1) {
+            $from->modify('last day of last month');
+            $from->setTime(0,0);
         }
-
-        $firstOfMonth = clone $currentDate;
-        $firstOfMonth->modify('first day of this month');
 
         $data = $repository->createQueryBuilder('w')
             ->join('w.group', 'g')
             ->where('g.id = :groupId')
-            ->andWhere('w.dataPointDate > :from')
+            ->andWhere('w.dataPointDate >= :from')
             ->andWhere('w.dataPointDate <= :to')
             ->setParameter('groupId', $mainGroupId)
-            ->setParameter('from', $firstOfMonth->format('Y-m-d'))
-            ->setParameter('to', $currentDate->format('Y-m-d'))
+            ->setParameter('from', $from->format('Y-m-d'))
+            ->setParameter('to', $to->format('Y-m-d'))
             ->getQuery()
             ->getResult();
 

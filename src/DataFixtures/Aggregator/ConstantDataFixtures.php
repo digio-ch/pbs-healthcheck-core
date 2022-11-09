@@ -2,14 +2,14 @@
 
 namespace App\DataFixtures\Aggregator;
 
-use App\Entity\CampState;
-use App\Entity\EventType;
-use App\Entity\EventTypeQualificationType;
-use App\Entity\GroupType;
-use App\Entity\PersonEventType;
-use App\Entity\QualificationType;
-use App\Entity\Role;
-use App\Entity\YouthSportType;
+use App\Entity\Midata\CampState;
+use App\Entity\Midata\EventType;
+use App\Entity\Midata\EventTypeQualificationType;
+use App\Entity\Midata\GroupType;
+use App\Entity\Midata\PersonEventType;
+use App\Entity\Midata\QualificationType;
+use App\Entity\Midata\Role;
+use App\Entity\Midata\YouthSportType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\ORM\Id\AssignedGenerator;

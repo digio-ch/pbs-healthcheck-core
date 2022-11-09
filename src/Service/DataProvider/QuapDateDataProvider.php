@@ -2,18 +2,17 @@
 
 namespace App\Service\DataProvider;
 
-use App\Entity\Group;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
-use App\Service\QuapService;
+use App\DTO\Model\Apps\Quap\AnswersDTO;
+use App\Entity\Midata\Group;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
+use App\Service\Apps\Quap\QuapService;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class QuapDateDataProvider extends WidgetDataProvider
 {
-    /**
-     * @var QuapService $quapService
-     */
-    private $quapService;
+    /** @var QuapService $quapService */
+    private QuapService $quapService;
 
     public function __construct(
         GroupRepository $groupRepository,
@@ -26,12 +25,12 @@ class QuapDateDataProvider extends WidgetDataProvider
         $this->quapService = $quapService;
     }
 
-    public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes)
+    public function getData(Group $group, string $date): AnswersDTO
     {
         $today = new \DateTime();
 
         $date = ($today->format('Y-m-d') === $date) ? null : \DateTimeImmutable::createFromFormat('Y-m-d', $date);
 
-        return $this->quapService->getAnswers($group, $date)->getAnswers();
+        return $this->quapService->getAnswers($group, $date);
     }
 }

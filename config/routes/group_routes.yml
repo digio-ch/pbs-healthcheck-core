@@ -1,0 +1,28 @@
+
+# Permission routes
+invite_create:
+  path: /invite
+  methods: POST
+  controller: App\Controller\Api\InviteController:createInvite
+
+invite_read:
+  path: /invite
+  methods: GET
+  controller: App\Controller\Api\InviteController:getInvites
+
+invite_delete:
+  path: /invite/{inviteId}
+  methods: DELETE
+  controller: App\Controller\Api\InviteController:deleteInvite
+
+# Filter data routes
+filter_data:
+  path: /date-filter
+  methods: GET
+  controller: App\Controller\Api\DateFilterController:getDateFilterData
+
+# App routes
+apps:
+  resource: "app_routes.yml"
+  prefix: /app
+  name_prefix: app_

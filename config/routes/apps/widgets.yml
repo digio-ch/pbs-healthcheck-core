@@ -1,0 +1,40 @@
+
+filter:
+  path: /filter
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\FilterController:getFilterData
+
+members_gender:
+  path: /members-gender
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\MembersGenderController:getDemographicGroupData
+
+members_group:
+  path: /members-group
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\MembersGroupController:getGroupMembersData
+
+demographic_camp:
+  path: /camps
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\CampController:getDemographicCampData
+
+leader_overview:
+  path: /leader-overview
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\LeaderOverviewController:getLeaderOverviewData
+
+members_birthyear:
+  path: /age-group-demographic
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\MembersBirthyearController:getMembersBirthyearData
+
+members_entered_left:
+  path: /entered-left
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\MembersEnteredLeftController:getEnteredLeftMembersData
+
+geo_location:
+  path: /geo-location
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\GeoLocationController::getGeoLocations

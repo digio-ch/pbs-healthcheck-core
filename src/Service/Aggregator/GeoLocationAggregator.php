@@ -2,19 +2,17 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Group;
-use App\Entity\Person;
-use App\Entity\Role;
-use App\Entity\WidgetGeoLocation;
-use App\Repository\GroupRepository;
-use App\Repository\PersonRepository;
-use App\Repository\PersonRoleRepository;
-use App\Repository\RoleRepository;
-use App\Repository\WidgetGeoLocationRepository;
+use App\Entity\Aggregated\AggregatedGeoLocation;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\Role;
+use App\Repository\Aggregated\AggregatedGeoLocationRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\PersonRepository;
+use App\Repository\Midata\PersonRoleRepository;
+use App\Repository\Midata\RoleRepository;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Parent_;
 
 class GeoLocationAggregator extends WidgetAggregator
 {
@@ -35,7 +33,7 @@ class GeoLocationAggregator extends WidgetAggregator
     /** @var RoleRepository $roleRepository */
     private $roleRepository;
 
-    /** @var WidgetGeoLocationRepository $geoLocationRepository */
+    /** @var AggregatedGeoLocationRepository $geoLocationRepository */
     private $geoLocationRepository;
 
     public function __construct(
@@ -44,7 +42,7 @@ class GeoLocationAggregator extends WidgetAggregator
         PersonRepository $personRepository,
         PersonRoleRepository $personRoleRepository,
         RoleRepository $roleRepository,
-        WidgetGeoLocationRepository $geoLocationRepository
+        AggregatedGeoLocationRepository $geoLocationRepository
     ) {
         parent::__construct($groupRepository);
 
@@ -72,7 +70,7 @@ class GeoLocationAggregator extends WidgetAggregator
      */
     public function aggregate(DateTime $startDate = null): void
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        $mainGroups = $this->groupRepository->findAllDepartmentalParentGroups();
 
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);
         $maxDate = new DateTime();
@@ -135,7 +133,7 @@ class GeoLocationAggregator extends WidgetAggregator
                 continue;
             }
 
-            $widget = new WidgetGeoLocation();
+            $widget = new AggregatedGeoLocation();
             $widget->setGroup($group);
             $widget->setLabel($singleData['nickname']);
             $widget->setGroupType(parent::$groupTypeByLeaderRoleType[$singleData['group_type']]);

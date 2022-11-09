@@ -6,27 +6,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class InviteDTO
 {
-    /**
-     * @var int
-     */
-    private $id;
+    /** @var int $id */
+    private int $id;
 
     /**
      * @Assert\NotBlank(message="Email can't be empty")
      * @Assert\Email(message="Invalid email address")
      * @var string
      */
-    private $email;
+    private string $email;
 
-    /**
-     * @var string
-     */
-    private $groupName;
+    /** @var string $groupName */
+    private string $groupName;
 
-    /**
-     * @var string
-     */
-    private $expirationDate;
+    /** @var ?string $expirationDate */
+    private ?string $expirationDate;
+
+    /** @var string $permissionType */
+    private string $permissionType;
 
     /**
      * @return int
@@ -77,18 +74,34 @@ class InviteDTO
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getExpirationDate(): string
+    public function getExpirationDate(): ?string
     {
         return $this->expirationDate;
     }
 
     /**
-     * @param string $expirationDate
+     * @param ?string $expirationDate
      */
-    public function setExpirationDate(string $expirationDate): void
+    public function setExpirationDate(?string $expirationDate): void
     {
         $this->expirationDate = $expirationDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPermissionType(): string
+    {
+        return $this->permissionType;
+    }
+
+    /**
+     * @param string $permissionType
+     */
+    public function setPermissionType(string $permissionType): void
+    {
+        $this->permissionType = $permissionType;
     }
 }

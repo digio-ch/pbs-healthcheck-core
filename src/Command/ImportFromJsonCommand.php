@@ -2,29 +2,30 @@
 
 namespace App\Command;
 
-use App\Entity\EventGroup;
-use App\Entity\YouthSportType;
-use App\Entity\Camp;
-use App\Entity\CampState;
-use App\Entity\Course;
-use App\Entity\Event;
-use App\Entity\EventDate;
-use App\Entity\EventType;
-use App\Entity\EventTypeQualificationType;
-use App\Entity\Group;
-use App\Entity\GroupType;
-use App\Entity\Person;
-use App\Entity\PersonEvent;
-use App\Entity\PersonEventType;
-use App\Entity\PersonQualification;
-use App\Entity\PersonRole;
-use App\Entity\QualificationType;
-use App\Entity\Role;
+use App\Entity\Midata\Camp;
+use App\Entity\Midata\CampState;
+use App\Entity\Midata\Course;
+use App\Entity\Midata\Event;
+use App\Entity\Midata\EventDate;
+use App\Entity\Midata\EventGroup;
+use App\Entity\Midata\EventType;
+use App\Entity\Midata\EventTypeQualificationType;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\GroupType;
+use App\Entity\Midata\Person;
+use App\Entity\Midata\PersonEvent;
+use App\Entity\Midata\PersonEventType;
+use App\Entity\Midata\PersonQualification;
+use App\Entity\Midata\PersonRole;
+use App\Entity\Midata\QualificationType;
+use App\Entity\Midata\Role;
+use App\Entity\Midata\YouthSportType;
 use App\Model\CommandStatistics;
-use App\Repository\PersonRepository;
+use App\Model\LogMessage\SimpleLogMessage;
+use App\Repository\Midata\PersonRepository;
 use DateTimeImmutable;
+use Digio\Logging\GelfLogger;
 use Doctrine\DBAL\ConnectionException;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Exception;
@@ -45,6 +46,9 @@ class ImportFromJsonCommand extends StatisticsCommand
      */
     private $personRepository;
 
+    /** @var GelfLogger $gelfLogger */
+    private $gelfLogger;
+
     /**
      * @var ParameterBagInterface
      */
@@ -63,12 +67,19 @@ class ImportFromJsonCommand extends StatisticsCommand
     /**
      * ImportFromJson constructor.
      * @param EntityManagerInterface $em
+     * @param PersonRepository $personRepository
+     * @param GelfLogger $gelfLogger
      * @param ParameterBagInterface $params
      */
-    public function __construct(EntityManagerInterface $em, PersonRepository $personRepository, ParameterBagInterface $params)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        PersonRepository $personRepository,
+        GelfLogger $gelfLogger,
+        ParameterBagInterface $params
+    ) {
         $this->em = $em;
         $this->personRepository = $personRepository;
+        $this->gelfLogger = $gelfLogger;
         $this->params = $params;
         parent::__construct();
     }
@@ -741,6 +752,11 @@ class ImportFromJsonCommand extends StatisticsCommand
 
             $personRole->setCreatedAt(new DateTimeImmutable($r['created_at']));
             if ($r['deleted_at']) {
+                $deletedAt = new DateTimeImmutable($r['deleted_at']);
+                if ($deletedAt < new DateTimeImmutable('0001-01-01T00:00:00+00:00')) {
+                    $this->gelfLogger->warning(new SimpleLogMessage('person_role entity with invalid deleted_at date skipped'));
+                    continue;
+                }
                 $personRole->setDeletedAt(new DateTimeImmutable($r['deleted_at']));
             }
 
