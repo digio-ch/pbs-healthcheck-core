@@ -54,11 +54,11 @@ class DemographicEnteredLeftAggregator extends WidgetAggregator
      * @param PersonRepository $personRepository
      */
     public function __construct(
-        EntityManagerInterface                     $em,
+        EntityManagerInterface $em,
         AggregatedDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository,
-        PersonRoleRepository                       $personRoleRepository,
-        GroupRepository                            $groupRepository,
-        PersonRepository                           $personRepository
+        PersonRoleRepository $personRoleRepository,
+        GroupRepository $groupRepository,
+        PersonRepository $personRepository
     ) {
         $this->em = $em;
         $this->widgetDemographicEnteredLeftRepository = $widgetDemographicEnteredLeftRepository;

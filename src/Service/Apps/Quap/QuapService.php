@@ -22,6 +22,7 @@ use App\Repository\Quap\QuestionnaireRepository;
 use App\Repository\Quap\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+
 use function str_contains;
 
 class QuapService
@@ -60,14 +61,14 @@ class QuapService
      * @param EntityManagerInterface $em
      */
     public function __construct(
-        QuestionnaireRepository  $questionnaireRepository,
-        AspectRepository         $aspectRepository,
-        QuestionRepository       $questionRepository,
-        HelpRepository           $helpRepository,
-        LinkRepository           $linkRepository,
+        QuestionnaireRepository $questionnaireRepository,
+        AspectRepository $aspectRepository,
+        QuestionRepository $questionRepository,
+        HelpRepository $helpRepository,
+        LinkRepository $linkRepository,
         AggregatedQuapRepository $quapRepository,
-        GroupRepository          $groupRepository,
-        EntityManagerInterface   $em
+        GroupRepository $groupRepository,
+        EntityManagerInterface $em
     ) {
         $this->questionnaireRepository = $questionnaireRepository;
         $this->aspectRepository = $aspectRepository;

@@ -16,10 +16,10 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
     private $geoLocationRepository;
 
     public function __construct(
-        GroupRepository                 $groupRepository,
-        GroupTypeRepository             $groupTypeRepository,
+        GroupRepository $groupRepository,
+        GroupTypeRepository $groupTypeRepository,
         AggregatedGeoLocationRepository $geoLocationRepository,
-        TranslatorInterface             $translator
+        TranslatorInterface $translator
     ) {
         parent::__construct($groupRepository, $groupTypeRepository, $translator);
 

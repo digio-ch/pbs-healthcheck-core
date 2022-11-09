@@ -71,8 +71,8 @@ class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
      */
     public function getAdditionalLeadersCountByCampAndGroupTypes(
         AggregatedDemographicCamp $camp,
-        int                       $mainGroupId,
-        array                     $groupTypes
+        int $mainGroupId,
+        array $groupTypes
     ) {
         $conn = $this->_em->getConnection();
         $statement = $conn->executeQuery(

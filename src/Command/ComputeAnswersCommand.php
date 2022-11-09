@@ -30,9 +30,9 @@ class ComputeAnswersCommand extends StatisticsCommand
     private float $totalDuration = 0;
 
     public function __construct(
-        GroupRepository           $groupRepository,
-        AggregatedQuapRepository  $quapRepository,
-        QuestionRepository        $questionRepository,
+        GroupRepository $groupRepository,
+        AggregatedQuapRepository $quapRepository,
+        QuestionRepository $questionRepository,
         QuapComputeAnswersService $quapComputeAnswersService
     ) {
         parent::__construct();

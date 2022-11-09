@@ -353,7 +353,7 @@ abstract class WidgetAggregator
         // If it's the first day delete from last day of last month (with the last day of the month)
         if ($to->format('j') == 1) {
             $from->modify('last day of last month');
-            $from->setTime(0,0);
+            $from->setTime(0, 0);
         }
 
         $data = $repository->createQueryBuilder('w')

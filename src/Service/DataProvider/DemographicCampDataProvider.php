@@ -34,10 +34,10 @@ class DemographicCampDataProvider extends WidgetDataProvider
      * @param AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
      */
     public function __construct(
-        GroupRepository                          $groupRepository,
-        GroupTypeRepository                      $groupTypeRepository,
-        TranslatorInterface                      $translator,
-        AggregatedDemographicCampRepository      $widgetDemographicCampRepository,
+        GroupRepository $groupRepository,
+        GroupTypeRepository $groupTypeRepository,
+        TranslatorInterface $translator,
+        AggregatedDemographicCampRepository $widgetDemographicCampRepository,
         AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
     ) {
         $this->widgetDemographicCampRepository = $widgetDemographicCampRepository;
@@ -118,10 +118,10 @@ class DemographicCampDataProvider extends WidgetDataProvider
      * @throws DBALException
      */
     private function getMembersData(
-        BarChartDataDTO           $barChart,
+        BarChartDataDTO $barChart,
         AggregatedDemographicCamp $event,
-        int                       $mainGroupId,
-        array                     $groupTypes
+        int $mainGroupId,
+        array $groupTypes
     ) {
         foreach ($groupTypes as $type) {
             $sum = $this->demographicCampGroupRepository->getMembersCountByCampAndGroupType(
@@ -148,10 +148,10 @@ class DemographicCampDataProvider extends WidgetDataProvider
      * @throws DBALException
      */
     private function getLeadersData(
-        BarChartDataDTO           $barChart,
+        BarChartDataDTO $barChart,
         AggregatedDemographicCamp $event,
-        int                       $mainGroupId,
-        array                     $groupTypes
+        int $mainGroupId,
+        array $groupTypes
     ) {
         foreach ($groupTypes as $type) {
             $sum = $this->demographicCampGroupRepository->getLeadersCountByCampAndGroupType(
@@ -178,10 +178,10 @@ class DemographicCampDataProvider extends WidgetDataProvider
      * @throws DBALException
      */
     private function getAdditionalLeadersData(
-        BarChartDataDTO           $barChart,
+        BarChartDataDTO $barChart,
         AggregatedDemographicCamp $event,
-        int                       $mainGroupId,
-        array                     $groupTypes
+        int $mainGroupId,
+        array $groupTypes
     ) {
         $leaders = $this->demographicCampGroupRepository->getAdditionalLeadersCountByCampAndGroupTypes(
             $event,

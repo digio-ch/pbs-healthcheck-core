@@ -26,7 +26,6 @@ class PermissionVoter extends Voter
 
     public function __construct(
         PermissionRepository $permissionRepository,
-
         string $environment,
         string $specialAccessEmails
     ) {
