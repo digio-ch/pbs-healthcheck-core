@@ -23,7 +23,7 @@ jobs:
       - name: Lint PSR12
         run: docker exec --user=$(id -u) healthcheck-core-local php vendor/bin/phpcs --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/
       - name: Setup db
-        run: docker exec --user=$(id -u) healthcheck-core-local php bin/console doctrine:schema:update --force
+        run: docker exec --user=$(id -u) healthcheck-core-local php bin/console doctrine:migrations:migrate --force
       - name: Run tests
         run: docker exec --user=$(id -u) healthcheck-core-local php bin/phpunit
 
