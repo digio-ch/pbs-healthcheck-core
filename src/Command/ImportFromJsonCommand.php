@@ -20,6 +20,7 @@ use App\Entity\Midata\PersonRole;
 use App\Entity\Midata\QualificationType;
 use App\Entity\Midata\Role;
 use App\Entity\Midata\YouthSportType;
+use App\Entity\Security\Permission;
 use App\Model\CommandStatistics;
 use App\Model\LogMessage\SimpleLogMessage;
 use App\Repository\Midata\PersonRepository;
@@ -556,6 +557,16 @@ class ImportFromJsonCommand extends StatisticsCommand
         $start = microtime(true);
         $people = JsonMachine::fromFile(sprintf('%s/people.json', $this->params->get('import_data_dir')));
         $i = 0;
+
+        $personRepository = $this->em->getRepository(Person::class);
+
+        // stores which persons exist in the db and updates those that also exist in midata, so we know which ones to delete
+        $personIdMap = [];
+
+        foreach ($personRepository->findAll() as $person) {
+            $personIdMap[$person->getId()] = false;
+        }
+
         foreach ($people as $p) {
             $person = $this->em->getRepository(Person::class)->findOneBy(['id' => $p['id']]);
             if (!$person) {
@@ -563,6 +574,8 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $person->setId($p['id']);
                 $metadata = $this->em->getClassMetaData(get_class($person));
                 $metadata->setIdGenerator(new AssignedGenerator());
+            } else {
+                $personIdMap[$p['id']] = true;
             }
             $person->setNickname($p['name']);
             $person->setGender($p['gender']);
@@ -601,9 +614,41 @@ class ImportFromJsonCommand extends StatisticsCommand
 
         $this->em->flush();
 
+        // delete people that got deleted in midata
+        $countDeleted = 0;
+
+        foreach ($personIdMap as $id => $exists) {
+            if ($exists) {
+                continue;
+            }
+
+            $person = $personRepository->find($id);
+
+            foreach ($this->em->getRepository(PersonEvent::class)->findBy(['person' => $person->getId()]) as $personEvent) {
+                $this->em->remove($personEvent);
+            }
+
+            foreach ($this->em->getRepository(PersonQualification::class)->findBy(['person' => $person->getId()]) as $personQualification) {
+                $this->em->remove($personQualification);
+            }
+
+            foreach ($this->em->getRepository(PersonRole::class)->findBy(['person' => $person->getId()]) as $personRole) {
+                $this->em->remove($personRole);
+            }
+
+            foreach ($this->em->getRepository(Permission::class)->findBy(['person' => $person->getId()]) as $permission) {
+                $this->em->remove($permission);
+            }
+
+            $this->em->remove($person);
+            $this->em->flush();
+
+            $countDeleted++;
+        }
+
         $timeElapsed = microtime(true) - $start;
         $this->stats[] = ['people.json', $timeElapsed, $i];
-        $output->writeln([sprintf('%s rows imported from people.json', $i)]);
+        $output->writeln([sprintf('%s rows imported and %s deleted from people.json', $i, $countDeleted)]);
     }
 
     /**
