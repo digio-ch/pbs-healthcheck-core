@@ -6,7 +6,7 @@ namespace App\Tests\Mock;
 
 use App\Service\Http\GuzzleResponse;
 use App\Service\Http\GuzzleWrapper;
-use App\Service\PbsApiService;
+use App\Service\Pbs\PbsApiService;
 
 class PbsApiServiceMock extends PbsApiService
 {

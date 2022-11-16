@@ -2,10 +2,10 @@
 
 namespace App\Command;
 
-use App\Entity\GeoAddress;
+use App\Entity\Admin\GeoAddress;
 use App\Model\CommandStatistics;
-use App\Repository\PersonRepository;
-use App\Repository\GeoAddressRepository;
+use App\Repository\Admin\GeoAddressRepository;
+use App\Repository\Midata\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

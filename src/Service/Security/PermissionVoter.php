@@ -3,9 +3,9 @@
 namespace App\Service\Security;
 
 use App\DTO\Model\PbsUserDTO;
-use App\Entity\Group;
-use App\Entity\PermissionType;
-use App\Repository\PermissionRepository;
+use App\Entity\Midata\Group;
+use App\Entity\Security\PermissionType;
+use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -26,7 +26,6 @@ class PermissionVoter extends Voter
 
     public function __construct(
         PermissionRepository $permissionRepository,
-
         string $environment,
         string $specialAccessEmails
     ) {

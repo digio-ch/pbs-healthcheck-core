@@ -56,7 +56,7 @@ class ExceptionListener
             $apiError = new ApiError();
             $apiError->setCode(JsonResponse::HTTP_FORBIDDEN);
             $apiError->setMessage($this->translator->trans('api.error.accessDenied'));
-        } else if (!($exception instanceof ApiException)) {
+        } elseif (!($exception instanceof ApiException)) {
             $apiError = new ApiError();
             $apiError->setCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
             $apiError->setMessage($this->translator->trans('api.error.unknown'));

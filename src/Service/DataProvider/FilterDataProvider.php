@@ -3,11 +3,11 @@
 namespace App\Service\DataProvider;
 
 use App\DTO\Mapper\FilterDataMapper;
-use App\DTO\Model\FilterDataDTO;
-use App\Entity\Group;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
-use App\Repository\WidgetDateRepository;
+use App\DTO\Model\Apps\Widgets\FilterDataDTO;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedDateRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
 use App\Service\Aggregator\WidgetAggregator;
 
 class FilterDataProvider
@@ -18,13 +18,13 @@ class FilterDataProvider
     /** @var GroupTypeRepository $groupTypeRepository */
     private GroupTypeRepository $groupTypeRepository;
 
-    /** @var WidgetDateRepository $widgetDateRepository */
-    private WidgetDateRepository $widgetDateRepository;
+    /** @var AggregatedDateRepository $widgetDateRepository */
+    private AggregatedDateRepository $widgetDateRepository;
 
     public function __construct(
         GroupRepository $groupRepository,
         GroupTypeRepository $groupTypeRepository,
-        WidgetDateRepository $widgetDateRepository
+        AggregatedDateRepository $widgetDateRepository
     ) {
         $this->groupRepository = $groupRepository;
         $this->groupTypeRepository = $groupTypeRepository;

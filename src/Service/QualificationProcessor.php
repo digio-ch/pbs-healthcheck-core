@@ -2,12 +2,11 @@
 
 namespace App\Service;
 
-use App\DTO\Model\LeaderDTO;
-use App\DTO\Model\QualificationDTO;
-use App\Entity\LeaderOverviewQualification;
-use App\Entity\QualificationType;
-use App\Repository\GroupTypeRepository;
-use App\Repository\QualificationTypeRepository;
+use App\DTO\Model\Apps\Widgets\LeaderDTO;
+use App\DTO\Model\Apps\Widgets\QualificationDTO;
+use App\Entity\Aggregated\AggregatedLeaderOverviewQualification;
+use App\Entity\Midata\QualificationType;
+use App\Repository\Midata\QualificationTypeRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class QualificationProcessor
@@ -62,7 +61,7 @@ class QualificationProcessor
     }
 
     /**
-     * @param array|LeaderOverviewQualification[] $leaderOverviewQualifications
+     * @param array|AggregatedLeaderOverviewQualification[] $leaderOverviewQualifications
      * @param string $groupName
      * @return array
      */
@@ -86,7 +85,7 @@ class QualificationProcessor
     public function translateAndAddToLeaderDTOs(array $leaderOverviewQualifications, LeaderDTO $leaderDTO)
     {
         $result = [];
-        /** @var LeaderOverviewQualification $qualification */
+        /** @var AggregatedLeaderOverviewQualification $qualification */
         foreach ($leaderOverviewQualifications as $qualification) {
             $qualificationDTO = new QualificationDTO();
             $qualificationDTO->setState($qualification->getState());
@@ -193,12 +192,12 @@ class QualificationProcessor
      */
     private function removeUnneeded(array $qualifications): array
     {
-        /** @var LeaderOverviewQualification[] $unique */
+        /** @var AggregatedLeaderOverviewQualification[] $unique */
         $temp = [];
-        /** @var LeaderOverviewQualification $qualification */
+        /** @var AggregatedLeaderOverviewQualification $qualification */
         foreach ($qualifications as $qualification) {
             $exists = false;
-            /** @var LeaderOverviewQualification $q */
+            /** @var AggregatedLeaderOverviewQualification $q */
             foreach ($temp as $q) {
                 if ($q->getQualificationType()->getId() === $qualification->getQualificationType()->getId()) {
                     $exists = true;
@@ -229,7 +228,7 @@ class QualificationProcessor
         array &$qualifications,
         array $relevantQualifications
     ): bool {
-        /** @var LeaderOverviewQualification $qualification */
+        /** @var AggregatedLeaderOverviewQualification $qualification */
         foreach ($relevantQualifications as $qualification) {
             if (!$qualification->getQualificationType()) {
                 continue;

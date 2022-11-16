@@ -2,16 +2,16 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Group;
-use App\Entity\LeaderOverviewLeader;
-use App\Entity\LeaderOverviewQualification;
-use App\Entity\PersonQualification;
-use App\Entity\QualificationType;
-use App\Entity\WidgetLeaderOverview;
-use App\Repository\GroupRepository;
-use App\Repository\PersonQualificationRepository;
-use App\Repository\PersonRoleRepository;
-use App\Repository\WidgetLeaderOverviewRepository;
+use App\Entity\Aggregated\AggregatedLeaderOverview;
+use App\Entity\Aggregated\AggregatedLeaderOverviewLeader;
+use App\Entity\Aggregated\AggregatedLeaderOverviewQualification;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\PersonQualification;
+use App\Entity\Midata\QualificationType;
+use App\Repository\Aggregated\AggregatedLeaderOverviewRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\PersonQualificationRepository;
+use App\Repository\Midata\PersonRoleRepository;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -44,7 +44,7 @@ class LeaderOverviewAggregator extends WidgetAggregator
     protected $personQualificationRepository;
 
     /**
-     * @var WidgetLeaderOverviewRepository
+     * @var AggregatedLeaderOverviewRepository
      */
     protected $widgetLeaderOverviewRepository;
 
@@ -53,14 +53,14 @@ class LeaderOverviewAggregator extends WidgetAggregator
      * @param EntityManagerInterface $em
      * @param PersonRoleRepository $personRoleRepository
      * @param GroupRepository $groupRepository
-     * @param WidgetLeaderOverviewRepository $widgetLeaderOverviewRepository
+     * @param AggregatedLeaderOverviewRepository $widgetLeaderOverviewRepository
      * @param PersonQualificationRepository $personQualificationRepository
      */
     public function __construct(
         EntityManagerInterface $em,
         PersonRoleRepository $personRoleRepository,
         GroupRepository $groupRepository,
-        WidgetLeaderOverviewRepository $widgetLeaderOverviewRepository,
+        AggregatedLeaderOverviewRepository $widgetLeaderOverviewRepository,
         PersonQualificationRepository $personQualificationRepository
     ) {
         $this->em = $em;
@@ -132,7 +132,7 @@ class LeaderOverviewAggregator extends WidgetAggregator
                         $startPointDate->format('Y-m-d'),
                         $groupIds
                     );
-                    $widget = new WidgetLeaderOverview();
+                    $widget = new AggregatedLeaderOverview();
                     $widget->setGroup($mainGroup);
                     $widget->setGroupType($groupType);
                     $widget->setMCount($mCount[0]);
@@ -166,7 +166,7 @@ class LeaderOverviewAggregator extends WidgetAggregator
      * @param DateTime $date
      * @param string $groupType
      * @param array $subGroupIds
-     * @param WidgetLeaderOverview $widget
+     * @param AggregatedLeaderOverview $widget
      * @throws DBALException
      * @throws Exception
      */
@@ -175,7 +175,7 @@ class LeaderOverviewAggregator extends WidgetAggregator
         DateTime $date,
         string $groupType,
         array $subGroupIds,
-        WidgetLeaderOverview $widget
+        AggregatedLeaderOverview $widget
     ) {
         $leaders = $this->personRoleRepository->findAllLeadersByDateAndGroupType(
             $date->format('Y-m-d'),
@@ -186,7 +186,7 @@ class LeaderOverviewAggregator extends WidgetAggregator
             return;
         }
         foreach ($leaders as $leaderData) {
-            $leaderOverviewLeader = new LeaderOverviewLeader();
+            $leaderOverviewLeader = new AggregatedLeaderOverviewLeader();
             $leaderOverviewLeader->setName($leaderData['nickname']);
             $leaderOverviewLeader->setGender(empty($leaderData['gender']) ? 'u' : $leaderData['gender']);
             $leaderOverviewLeader->setBirthday(new DateTimeImmutable($leaderData['birthday']));
@@ -199,10 +199,10 @@ class LeaderOverviewAggregator extends WidgetAggregator
     /**
      * @param int $personId
      * @param DateTime $date
-     * @param LeaderOverviewLeader $leader
+     * @param AggregatedLeaderOverviewLeader $leader
      * @throws Exception
      */
-    private function aggregateQualificationData(int $personId, DateTime $date, LeaderOverviewLeader $leader)
+    private function aggregateQualificationData(int $personId, DateTime $date, AggregatedLeaderOverviewLeader $leader)
     {
         $qualifications = $this->personQualificationRepository->findQualificationsForPersonByDate(
             $personId,
@@ -213,7 +213,7 @@ class LeaderOverviewAggregator extends WidgetAggregator
         }
         /** @var PersonQualification $qualification */
         foreach ($qualifications as $qualification) {
-            $leaderOverviewQualification = new LeaderOverviewQualification();
+            $leaderOverviewQualification = new AggregatedLeaderOverviewQualification();
             $leaderOverviewQualification->setLeaderOverviewLeader($leader);
             $leaderOverviewQualification->setQualificationType(
                 $this->em->getReference(QualificationType::class, $qualification['id'])
@@ -253,7 +253,7 @@ class LeaderOverviewAggregator extends WidgetAggregator
      */
     private function aggregateDataForMainGroup(Group $mainGroup, DateTime $date, array $subGroupIds)
     {
-        $widget = new WidgetLeaderOverview();
+        $widget = new AggregatedLeaderOverview();
         $widget->setGroup($mainGroup);
         $widget->setGroupType($mainGroup->getGroupType()->getGroupType());
         $widget->setCreatedAt(new DateTimeImmutable());

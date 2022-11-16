@@ -2,9 +2,9 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\PersonRole;
-use App\Repository\GroupRepository;
-use App\Repository\AggregatedEntityRepository;
+use App\Entity\Midata\PersonRole;
+use App\Repository\Aggregated\AggregatedEntityRepository;
+use App\Repository\Midata\GroupRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\ORMException;
@@ -343,18 +343,18 @@ abstract class WidgetAggregator
     protected function deleteLastPeriod(AggregatedEntityRepository $repository, int $mainGroupId): void
     {
         $to = new DateTime();
-        $from = clone $to;
+        $to->setTime(0, 0);
+
+        // default from first day of month (without the first day)
+        $from = new DateTime();
         $from->modify('first day of this month');
+        $from->setTime(23, 59, 59, 999);
 
-        // If it's the first day delete last day of last month
+        // If it's the first day delete from last day of last month (with the last day of the month)
         if ($to->format('j') == 1) {
-            $to->modify('last day of last month');
-            $to->setTime(23,59, 59, 999);
             $from->modify('last day of last month');
-            $from->setTime(0,0);
+            $from->setTime(0, 0);
         }
-
-
 
         $data = $repository->createQueryBuilder('w')
             ->join('w.group', 'g')

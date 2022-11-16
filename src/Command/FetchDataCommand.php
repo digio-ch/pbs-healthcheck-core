@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Model\CommandStatistics;
-use App\Service\PbsApiService;
+use App\Service\Pbs\PbsApiService;
 use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

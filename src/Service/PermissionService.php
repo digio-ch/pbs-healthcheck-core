@@ -4,14 +4,11 @@ namespace App\Service;
 
 use App\DTO\Mapper\InviteMapper;
 use App\DTO\Model\InviteDTO;
-use App\DTO\Model\PbsUserDTO;
-use App\Entity\Group;
-use App\Entity\GroupType;
-use App\Entity\Permission;
-use App\Entity\PermissionType;
+use App\Entity\Midata\Group;
+use App\Entity\Security\Permission;
 use App\Exception\ApiException;
-use App\Repository\PermissionRepository;
-use App\Repository\PermissionTypeRepository;
+use App\Repository\Security\PermissionRepository;
+use App\Repository\Security\PermissionTypeRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

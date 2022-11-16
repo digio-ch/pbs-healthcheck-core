@@ -2,16 +2,16 @@
 
 namespace App\Command;
 
-use App\Entity\Aspect;
-use App\Entity\Help;
-use App\Entity\Link;
-use App\Entity\Question;
-use App\Entity\Questionnaire;
+use App\Entity\Quap\Aspect;
+use App\Entity\Quap\Help;
+use App\Entity\Quap\Link;
+use App\Entity\Quap\Question;
+use App\Entity\Quap\Questionnaire;
 use App\Model\CommandStatistics;
-use App\Repository\AspectRepository;
-use App\Repository\HelpRepository;
-use App\Repository\QuestionnaireRepository;
-use App\Repository\QuestionRepository;
+use App\Repository\Quap\AspectRepository;
+use App\Repository\Quap\HelpRepository;
+use App\Repository\Quap\QuestionnaireRepository;
+use App\Repository\Quap\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JsonMachine\JsonMachine;
 use Symfony\Component\Console\Input\InputInterface;
@@ -78,7 +78,7 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         }
 
         // Remove all links
-        $this->em->getConnection()->executeQuery('DELETE FROM quap_link');
+        $this->em->getConnection()->executeQuery('DELETE FROM hc_quap_link');
 
         $questionnaires = JsonMachine::fromFile($this->pathToJson);
         foreach ($questionnaires as $questionnaire) {
