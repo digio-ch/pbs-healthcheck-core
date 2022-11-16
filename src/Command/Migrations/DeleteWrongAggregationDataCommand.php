@@ -42,7 +42,7 @@ class DeleteWrongAggregationDataCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        foreach ($this->tables as $table){
+        foreach ($this->tables as $table) {
             $output->writeln(["Deleting from table: $table"]);
             $this->em->getConnection()->executeQuery("
                 DELETE FROM $table d
