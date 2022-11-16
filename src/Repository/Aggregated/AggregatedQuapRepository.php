@@ -3,6 +3,8 @@
 namespace App\Repository\Aggregated;
 
 use App\Entity\Aggregated\AggregatedQuap;
+use App\Entity\Midata\Group;
+use App\Entity\Quap\Questionnaire;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -54,5 +56,18 @@ class AggregatedQuapRepository extends AggregatedEntityRepository
     {
         $this->getEntityManager()->persist($widgetQuap);
         $this->getEntityManager()->flush();
+    }
+
+    public function getQuestionnaireByGroup(Group $group): Questionnaire
+    {
+        $qr = $this->createQueryBuilder('w')
+            ->join('w.group', 'g')
+            ->where('g.id = :groupID')
+            ->setParameter('groupID', $group->getId())
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+
+        return $qr[0]->getQuestionnaire();
     }
 }

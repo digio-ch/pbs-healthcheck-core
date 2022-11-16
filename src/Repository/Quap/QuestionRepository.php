@@ -3,6 +3,7 @@
 namespace App\Repository\Quap;
 
 use App\Entity\Quap\Question;
+use App\Entity\Quap\Questionnaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -23,6 +24,21 @@ class QuestionRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder("q")
             ->where("q.evaluation_function IS NOT NULL")
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param Questionnaire $questionnaire
+     * @return Question[]
+     */
+    public function findEvaluableByQuestionnaire(Questionnaire $questionnaire): array
+    {
+        return $this->createQueryBuilder('q')
+            ->join('q.aspect', 'a')
+            ->where('a.questionnaire = :questionnaireID')
+            ->andWhere("q.evaluation_function IS NOT NULL")
+            ->setParameter('questionnaireID', $questionnaire->getId())
             ->getQuery()
             ->getResult();
     }

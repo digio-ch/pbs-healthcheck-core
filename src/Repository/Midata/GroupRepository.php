@@ -82,6 +82,20 @@ class GroupRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllDepartmentalAndRegionalAndCantonalGroups()
+    {
+        return $this->createQueryBuilder('g')
+            ->join('g.groupType', 'groupType')
+            ->where('groupType.groupType IN (:names)')
+            ->setParameter('names', [
+                'Group::Region',
+                'Group::Kantonalverband',
+                'Group::Abteilung',
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findParentGroups(array $parents)
     {
         return $this->createQueryBuilder('g')
