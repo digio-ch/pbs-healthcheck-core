@@ -241,11 +241,12 @@ class PbsAuthService
      */
     private function processGroupsForStage(PbsUserDTO $pbsUser, string $locale)
     {
-        if (!in_array($pbsUser->getEmail(), $this->specialAccessEmails)) {
-            $this->processGroups($pbsUser, $locale);
+        if (in_array($pbsUser->getEmail(), $this->specialAccessEmails)) {
+            $this->processGroupsForSpecialAccess($pbsUser, $locale);
             return;
         }
-        $this->processGroupsForDev($pbsUser, $locale);
+
+        $this->processGroups($pbsUser, $locale);
     }
 
     /**
@@ -273,6 +274,16 @@ class PbsAuthService
      * @param string $locale
      */
     private function processGroupsForDev(PbsUserDTO $pbsUser, string $locale)
+    {
+        if (in_array($pbsUser->getEmail(), $this->specialAccessEmails)) {
+            $this->processGroupsForSpecialAccess($pbsUser, $locale);
+            return;
+        }
+
+        $this->processGroups($pbsUser, $locale);
+    }
+
+    private function processGroupsForSpecialAccess(PbsUserDTO $pbsUser, string $locale)
     {
         $groups = $this->groupRepository->findAllParentGroups();
 
