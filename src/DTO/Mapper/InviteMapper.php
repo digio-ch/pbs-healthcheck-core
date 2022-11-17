@@ -15,7 +15,7 @@ class InviteMapper
     {
         $email = $permission->getEmail();
         if (is_null($email)) {
-            $email = sprintf('[id %s] / %s', $permission->getPerson()->getId(), $permission->getPerson()->getNickname());
+            $email = sprintf('%s (#%s)', $permission->getPerson()->getNickname(), $permission->getPerson()->getId());
         }
 
         $inviteDTO = new InviteDTO();
