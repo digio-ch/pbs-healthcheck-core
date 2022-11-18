@@ -76,7 +76,7 @@ class InviteController extends AbstractController
             );
         }
 
-        if ($inviteDTO->getPermissionType() == PermissionVoter::OWNER) {
+        if ($inviteDTO->getPermissionType() === PermissionVoter::OWNER) {
             throw new ApiException('You may not add group Owners.', JsonResponse::HTTP_FORBIDDEN);
         }
 
