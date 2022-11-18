@@ -76,6 +76,10 @@ class InviteController extends AbstractController
             );
         }
 
+        if ($inviteDTO->getPermissionType() == PermissionVoter::OWNER) {
+            throw new ApiException('You may not add group Owners.', JsonResponse::HTTP_FORBIDDEN);
+        }
+
         if ($this->inviteService->inviteExists($group, $inviteDTO->getEmail())) {
             $invite = $this->translator->trans('api.entity.invite');
             $message = $this->translator->trans('api.error.exists', ['entityName' => $invite]);
