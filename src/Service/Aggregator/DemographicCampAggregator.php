@@ -2,17 +2,17 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Camp;
-use App\Entity\DemographicCampGroup;
-use App\Entity\EventDate;
-use App\Entity\Group;
-use App\Entity\PersonRole;
-use App\Entity\WidgetDemographicCamp;
-use App\Repository\DemographicCampGroupRepository;
-use App\Repository\EventDateRepository;
-use App\Repository\GroupRepository;
-use App\Repository\PersonRoleRepository;
-use App\Repository\WidgetDemographicCampRepository;
+use App\Entity\Aggregated\AggregatedDemographicCamp;
+use App\Entity\Aggregated\AggregatedDemographicCampGroup;
+use App\Entity\Midata\Camp;
+use App\Entity\Midata\EventDate;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\PersonRole;
+use App\Repository\Aggregated\AggregatedDemographicCampGroupRepository;
+use App\Repository\Aggregated\AggregatedDemographicCampRepository;
+use App\Repository\Midata\EventDateRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\PersonRoleRepository;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -45,12 +45,12 @@ class DemographicCampAggregator extends WidgetAggregator
     protected $eventDateRepository;
 
     /**
-     * @var WidgetDemographicCampRepository
+     * @var AggregatedDemographicCampRepository
      */
     protected $widgetDemographicCampRepository;
 
     /**
-     * @var DemographicCampGroupRepository
+     * @var AggregatedDemographicCampGroupRepository
      */
     protected $demographicCampGroupRepository;
 
@@ -60,16 +60,16 @@ class DemographicCampAggregator extends WidgetAggregator
      * @param PersonRoleRepository $personRoleRepository
      * @param GroupRepository $groupRepository
      * @param EventDateRepository $eventDateRepository
-     * @param WidgetDemographicCampRepository $widgetDemographicCampRepository
-     * @param DemographicCampGroupRepository $demographicCampGroupRepository
+     * @param AggregatedDemographicCampRepository $widgetDemographicCampRepository
+     * @param AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
      */
     public function __construct(
         EntityManagerInterface $em,
         PersonRoleRepository $personRoleRepository,
         GroupRepository $groupRepository,
         EventDateRepository $eventDateRepository,
-        WidgetDemographicCampRepository $widgetDemographicCampRepository,
-        DemographicCampGroupRepository $demographicCampGroupRepository
+        AggregatedDemographicCampRepository $widgetDemographicCampRepository,
+        AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
     ) {
         $this->em = $em;
         $this->personRoleRepository = $personRoleRepository;
@@ -95,7 +95,7 @@ class DemographicCampAggregator extends WidgetAggregator
      */
     public function aggregate(DateTime $startDate = null)
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        $mainGroups = $this->groupRepository->findAllDepartmentalParentGroups();
 
         $maxDate = new DateTime();
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);
@@ -157,7 +157,7 @@ class DemographicCampAggregator extends WidgetAggregator
                     ]);
 
                     if (!$widgetDemographicCamp) {
-                        $widgetDemographicCamp = new WidgetDemographicCamp();
+                        $widgetDemographicCamp = new AggregatedDemographicCamp();
                         $widgetDemographicCamp->setStartDate($eventDate->getStartAt());
                         $widgetDemographicCamp->setCreatedAt(new DateTimeImmutable());
                         $widgetDemographicCamp->setDataPointDate(
@@ -188,7 +188,7 @@ class DemographicCampAggregator extends WidgetAggregator
 
                         $this->demographicCampGroupRepository->deleteAllByCampGroupAndGroupType($widgetDemographicCamp->getId(), $mainGroup->getId(), $groupType);
 
-                        $demographicCampGroup = new DemographicCampGroup();
+                        $demographicCampGroup = new AggregatedDemographicCampGroup();
                         $demographicCampGroup->setMCount($membersCounts ? $membersCounts['m'] : 0);
                         $demographicCampGroup->setFCount($membersCounts ? $membersCounts['w'] : 0);
                         $demographicCampGroup->setUCount($membersCounts ? $membersCounts['u'] : 0);

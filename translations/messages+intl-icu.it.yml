@@ -55,5 +55,6 @@ api:
     invalidEntries: 'Indicazioni non valide.'
     invalidRequest: 'Richiesta non valida.'
     notFound: '{entityName} non esiste.'
+    accessDenied: 'Autorizzazione insufficiente per eseguire questa azione'
 
   success: '{entityName} {action} con successo.'
