@@ -34,11 +34,11 @@ class MembersGroupPreviewService
 
     public function getGroupTypes(Group $group): array
     {
-        $subGroups = $this->groupRepository->findAllSubGroupIdsByParentGroupId($group->getId());
+        $subGroups = $this->groupRepository->findAllRelevantSubGroupIdsByParentGroupId($group->getId());
 
-        return array_map(function ($groupId): string {
+        return array_unique(array_map(function ($groupId): string {
             $g = $this->groupRepository->find($groupId);
             return $g->getGroupType()->getGroupType();
-        }, $subGroups);
+        }, $subGroups));
     }
 }
