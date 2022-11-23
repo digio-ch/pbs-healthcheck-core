@@ -13,13 +13,13 @@ class DeleteWrongAggregationDataCommand extends Command
     private EntityManagerInterface $em;
 
     private array $tables = [
-        "hc_widget_date",
-        "hc_widget_quap",
-        "hc_widget_geo_location",
-        "hc_widget_leader_overview",
-        "hc_widget_demographic_group",
-        "hc_widget_demographic_department",
-        "hc_widget_demographic_entered_left"];
+        "hc_aggregated_date",
+        "hc_aggregated_quap",
+        "hc_aggregated_geo_location",
+        "hc_aggregated_leader_overview",
+        "hc_aggregated_demographic_group",
+        "hc_aggregated_demographic_department",
+        "hc_aggregated_demographic_entered_left"];
 
     public function __construct(
         EntityManagerInterface $em
@@ -53,14 +53,14 @@ class DeleteWrongAggregationDataCommand extends Command
 
         // hc_widget_demographic_camp is referenced by other tables but does not cascade on delete.
         $sql1 = "
-        DELETE FROM hc_demographic_camp_group A
+        DELETE FROM hc_aggregated_demographic_camp_group A
             WHERE A.demographic_camp_id IN 
-                (SELECT id FROM hc_widget_demographic_camp B 
+                (SELECT id FROM hc_aggregated_demographic_camp B 
                     WHERE TO_CHAR(B.data_point_date, 'dd') != '01' 
                         AND TO_CHAR(B.data_point_date, 'YYYY-MM-dd') != TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-dd'));
         ";
         $sql2 = "
-        DELETE FROM hc_widget_demographic_camp B
+        DELETE FROM hc_aggregated_demographic_camp B
             WHERE TO_CHAR(B.data_point_date, 'dd') != '01' 
                         AND TO_CHAR(B.data_point_date, 'YYYY-MM-dd') != TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-dd');
         ";
