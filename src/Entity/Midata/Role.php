@@ -57,6 +57,24 @@ class Role
     public const CANTONAL_PROGRAMM_V = 'Group::Kantonalverband::VerantwortungProgramm';
     public const CANTONAL_NACHHALTIGKEIT_V = 'Group::Kantonalverband::VerantwortungNachhaltigkeit';
 
+    public const REGIONAL_LEADER = 'Group::Region::Regionalleitung';
+    public const REGIONAL_PRESIDENT = 'Group::Region::Praesidium';
+    public const REGIONAL_BIBERSTUFE_V = 'Group::Region::VerantwortungBiberstufe';
+    public const REGIONAL_WOLFSTUFE_V = 'Group::Region::VerantwortungWolfstufe';
+    public const REGIONAL_PFADISTUFE_V = 'Group::Region::VerantwortungPfadistufe';
+    public const REGIONAL_PIOSTUFE_V = 'Group::Region::VerantwortungPiostufe';
+    public const REGIONAL_ROVERSTUFE_V = 'Group::Region::VerantwortungRoverstufe';
+    public const REGIONAL_PFADI_TROTZ_ALLEM_V = 'Group::Region::VerantwortungPfadiTrotzAllem';
+    public const REGIONAL_AUSBILDUNG_V = 'Group::Region::VerantwortungAusbildung';
+    public const REGIONAL_BETREUUNG_V = 'Group::Region::VerantwortungBetreuung';
+    public const REGIONAL_INTEGRATION_V = 'Group::Region::VerantwortungIntegration';
+    public const REGIONAL_INTERNATIONALES_V = 'Group::Region::VerantwortungInternationales';
+    public const REGIONAL_KRISENTEAM_V = 'Group::Region::VerantwortungKrisenteam';
+    public const REGIONAL_PR_V = 'Group::Region::VerantwortungPr';
+    public const REGIONAL_PRAEVENTION_SEXUELLER_AUSBEUTNG_V = 'Group::Region::VerantwortungPraeventionSexuellerAusbeutung';
+    public const REGIONAL_PROGRAMM_V = 'Group::Region::VerantwortungProgramm';
+    public const REGIONAL_NACHHALTIGKEIT_V = 'Group::Region::VerantwortungNachhaltigkeit';
+
     public const DEPARTMENT_LEADER_ROLES = [
         self::DEPARTMENT_LEADER_PTA,
         self::DEPARTMENT_LEADER_ROVER,

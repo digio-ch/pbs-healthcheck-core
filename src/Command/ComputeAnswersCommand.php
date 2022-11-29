@@ -58,6 +58,7 @@ class ComputeAnswersCommand extends StatisticsCommand
 
         /** @var Group $group */
         foreach ($groups as $group) {
+            try {
             $questionnaire = $this->quapRepository->getQuestionnaireByGroup($group);
             $questions = $this->questionRepository->findEvaluableByQuestionnaire($questionnaire);
 
@@ -69,9 +70,11 @@ class ComputeAnswersCommand extends StatisticsCommand
                 $result = $this->quapComputeAnswersService->computeAnswer($question->getEvaluationFunction(), $group);
                 $helper->setAnswer($question->getAspect()->getLocalId(), $question->getLocalId(), $result);
             }
-
-            $widgetQuap->setComputedAnswers($helper->getAnswerStack());
-            $this->quapRepository->save($widgetQuap);
+                $widgetQuap->setComputedAnswers($helper->getAnswerStack());
+                $this->quapRepository->save($widgetQuap);
+            }catch (\Exception $e) {
+                $output->writeln(['An Error occurred', 'Group: ' + $group, $e]);
+            }
         }
 
         $output->writeln('finished computing all automated questions.');
