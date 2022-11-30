@@ -776,11 +776,11 @@ class QuapComputeAnswersService
         return $this->hasRole($groupIds, $role);
     }
 
-    private function hasAnyRole(Group $group, Array $roles): int
+    private function hasAnyRole(Group $group, array $roles): int
     {
         $groupIds = $this->getGroupIds($group);
-        foreach($roles as $role) {
-            if ($this->hasRole($groupIds, $role) === Question::ANSWER_FULLY_APPLIES){
+        foreach ($roles as $role) {
+            if ($this->hasRole($groupIds, $role) === Question::ANSWER_FULLY_APPLIES) {
                 return Question::ANSWER_FULLY_APPLIES;
             }
         }
