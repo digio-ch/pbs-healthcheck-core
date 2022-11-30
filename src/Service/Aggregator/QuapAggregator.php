@@ -93,10 +93,10 @@ class QuapAggregator extends WidgetAggregator
 
                 if (is_null($currentQuap)) {
                     switch ($mainGroup->getGroupType()->getId()) {
+                        case GroupType::DEPARTMENT:
                         case GroupType::CANTON:
                             $questionnaireType = Questionnaire::TYPE_CANTON;
                             break;
-                        case GroupType::DEPARTMENT:
                         default:
                             $questionnaireType = Questionnaire::TYPE_DEPARTMENT;
                             break;
