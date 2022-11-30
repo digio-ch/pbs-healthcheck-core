@@ -59,19 +59,19 @@ class ComputeAnswersCommand extends StatisticsCommand
         /** @var Group $group */
         foreach ($groups as $group) {
             try {
-            $questionnaire = $this->quapRepository->getQuestionnaireByGroup($group);
-            $questions = $this->questionRepository->findEvaluableByQuestionnaire($questionnaire);
+                $questionnaire = $this->quapRepository->getQuestionnaireByGroup($group);
+                $questions = $this->questionRepository->findEvaluableByQuestionnaire($questionnaire);
 
-            $widgetQuap = $this->quapRepository->findCurrentForGroup($group->getId());
-            $helper = new QuapAnswerStackHelper([]);
+                $widgetQuap = $this->quapRepository->findCurrentForGroup($group->getId());
+                $helper = new QuapAnswerStackHelper([]);
 
-            /** @var Question $question */
-            foreach ($questions as $question) {
-                $result = $this->quapComputeAnswersService->computeAnswer($question->getEvaluationFunction(), $group);
-                $helper->setAnswer($question->getAspect()->getLocalId(), $question->getLocalId(), $result);
-            }
-                $widgetQuap->setComputedAnswers($helper->getAnswerStack());
-                $this->quapRepository->save($widgetQuap);
+                /** @var Question $question */
+                foreach ($questions as $question) {
+                    $result = $this->quapComputeAnswersService->computeAnswer($question->getEvaluationFunction(), $group);
+                    $helper->setAnswer($question->getAspect()->getLocalId(), $question->getLocalId(), $result);
+                }
+                    $widgetQuap->setComputedAnswers($helper->getAnswerStack());
+                    $this->quapRepository->save($widgetQuap);
             }catch (\Exception $e) {
                 $output->writeln(['An Error occurred', 'Group: ' + $group, $e]);
             }
