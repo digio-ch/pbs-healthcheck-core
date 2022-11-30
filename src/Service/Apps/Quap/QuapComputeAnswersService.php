@@ -86,7 +86,7 @@ class QuapComputeAnswersService
             case 'split_lead_coach':
                 return $this->splitLeadCoach($group);
             case 'has_leader':
-                return $this->hasAnyRole($group, [Role::CANTONAL_LEADER, Role::REGIONAL_LEADER]);
+                return $this->hasLeader($group);
             case 'has_president':
                 return $this->hasAnyRole($group, [Role::CANTONAL_PRESIDENT, ROLE::REGIONAL_PRESIDENT]);
             case 'has_biber_v':
@@ -762,8 +762,12 @@ class QuapComputeAnswersService
     private function hasLeader(Group $group): int
     {
         $groupIds = $this->getGroupIds($group);
-        //$role = $group->getGroupType()->getId() == GroupType::CANTON ? :'b';
-        return $this->hasNumRole($groupIds, Role::CANTONAL_LEADER, 2);
+        $cantonalResult = $this->hasNumRole($groupIds, Role::CANTONAL_LEADER, 2);
+
+        if ($cantonalResult === Question::ANSWER_FULLY_APPLIES) {
+            return Question::ANSWER_FULLY_APPLIES;
+        }
+        return $this->hasNumRole($groupIds, Role::REGIONAL_LEADER, 2);
     }
 
     private function hasRoleWrapper(Group $group, string $role): int
