@@ -20,9 +20,6 @@ final class Version20221130122748 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql(
-            'UPDATE hc_aggregated_quap SET questionnaire_id=2 FROM midata_group WHERE hc_aggregated_quap.group_id=midata_group.id AND midata_group.group_type_id=3'
-        );
         $this->addSql('ALTER INDEX idx_ca07161cfe54d947 RENAME TO IDX_52A1C3C6FE54D947');
         $this->addSql('ALTER INDEX idx_7ea7f288fe54d947 RENAME TO IDX_632FF14CFE54D947');
         $this->addSql('ALTER INDEX idx_58535ce26c5ad790 RENAME TO IDX_58F6D1B26C5AD790');
@@ -108,7 +105,6 @@ final class Version20221130122748 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER INDEX idx_632ff14cfe54d947 RENAME TO idx_7ea7f288fe54d947');
         $this->addSql('ALTER INDEX idx_58f6d1b2fe54d947 RENAME TO idx_58535ce2fe54d947');
         $this->addSql('ALTER INDEX idx_58f6d1b2c92efb06 RENAME TO idx_58535ce2c92efb06');
