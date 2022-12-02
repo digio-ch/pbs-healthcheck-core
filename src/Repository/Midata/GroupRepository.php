@@ -3,6 +3,7 @@
 namespace App\Repository\Midata;
 
 use App\Entity\Midata\Group;
+use App\Entity\Midata\GroupType;
 use App\Service\Aggregator\WidgetAggregator;
 use App\Service\DataProvider\WidgetDataProvider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -181,8 +182,8 @@ class GroupRepository extends ServiceEntityRepository
                   midata_group_type as gt ON g.group_type_id = gt.id
               WHERE g.parent_group_id = tree.id
             ) SELECT * FROM tree;",
-            [ $groupId ],
-            [ ParameterType::STRING ]
+            [$groupId],
+            [ParameterType::STRING]
         );
         return $query->fetchAll(FetchMode::COLUMN);
     }
@@ -225,9 +226,21 @@ class GroupRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('g')
             ->join('g.groupType', 'gt')
             ->where('g.cantonId = :cantonId')
-            ->andWhere('gt.groupType = :groupType')
+            ->andWhere('gt.groupType IN (:groupType)')
             ->setParameter('cantonId', $cantonId)
-            ->setParameter('groupType', 'Group::Abteilung')
+            ->setParameter('groupType', ['Group::Abteilung', 'Group::Region'])
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    public function findAllDepartmentsForFederation(int $federationId): array
+    {
+        return $this->createQueryBuilder('g')
+            ->join('g.groupType', 'gt')
+            ->where('g.parentGroup = :federationId')
+            ->andWhere('gt.groupType IN (:groupType)')
+            ->setParameter('federationId', $federationId)
+            ->setParameter('groupType', ['Group::Kantonalverband'])
             ->getQuery()
             ->getArrayResult();
     }

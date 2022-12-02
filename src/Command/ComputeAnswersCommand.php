@@ -67,13 +67,16 @@ class ComputeAnswersCommand extends StatisticsCommand
 
                 /** @var Question $question */
                 foreach ($questions as $question) {
-                    $result = $this->quapComputeAnswersService->computeAnswer($question->getEvaluationFunction(), $group);
+                    $result = $this->quapComputeAnswersService->computeAnswer(
+                        $question->getEvaluationFunction(),
+                        $group
+                    );
                     $helper->setAnswer($question->getAspect()->getLocalId(), $question->getLocalId(), $result);
                 }
                 $widgetQuap->setComputedAnswers($helper->getAnswerStack());
                 $this->quapRepository->save($widgetQuap);
-            }catch (\Exception $e) {
-                $output->writeln(['An Error occurred', 'Group: ' + $group, $e]);
+            } catch (\Exception $e) {
+                $output->writeln(['An Error occurred', $group, $e]);
             }
         }
 

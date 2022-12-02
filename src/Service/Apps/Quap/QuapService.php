@@ -89,27 +89,33 @@ class QuapService
     public function getQuestionnaireByType(string $type, string $locale, string $dateTime): ?Questionnaire
     {
         $questionnaire = $this->questionnaireRepository->findOneBy(["type" => $type]);
-        $questionnaire->setAspects(new ArrayCollection($this->aspectRepository->getExisting($questionnaire->getId(), $dateTime)));
+        $questionnaire->setAspects(
+            new ArrayCollection($this->aspectRepository->getExisting($questionnaire->getId(), $dateTime))
+        );
 
         /** @var Aspect $aspect */
         foreach ($questionnaire->getAspects() as $aspect) {
-            $aspect->setQuestions(new ArrayCollection($this->questionRepository->getExisting($aspect->getId(), $dateTime)));
+            $aspect->setQuestions(
+                new ArrayCollection($this->questionRepository->getExisting($aspect->getId(), $dateTime))
+            );
 
             /** @var Question $question */
             foreach ($aspect->getQuestions() as $question) {
-                $question->setHelp(new ArrayCollection($this->helpRepository->getExisting($question->getId(), $dateTime)));
+                $question->setHelp(
+                    new ArrayCollection($this->helpRepository->getExisting($question->getId(), $dateTime))
+                );
 
                 /** @var Help $help */
                 foreach ($question->getHelp() as $help) {
                     switch ($locale) {
                         case (str_contains($locale, "it")):
-                            $help->setLinksIt(new ArrayCollection($this->linkRepository->findBy([ 'helpIt' => $help])));
+                            $help->setLinksIt(new ArrayCollection($this->linkRepository->findBy(['helpIt' => $help])));
                             break;
                         case (str_contains($locale, "fr")):
-                            $help->setLinksFr(new ArrayCollection($this->linkRepository->findBy([ 'helpFr' => $help])));
+                            $help->setLinksFr(new ArrayCollection($this->linkRepository->findBy(['helpFr' => $help])));
                             break;
                         default:
-                            $help->setLinksDe(new ArrayCollection($this->linkRepository->findBy([ 'helpDe' => $help])));
+                            $help->setLinksDe(new ArrayCollection($this->linkRepository->findBy(['helpDe' => $help])));
                             break;
                     }
                 }
@@ -180,8 +186,7 @@ class QuapService
         if ($parentGroupType === GroupType::CANTON) {
             $subdepartments = $this->groupRepository->findAllDepartmentsFromCanton($group->getId());
         } elseif ($parentGroupType === GroupType::FEDERATION) {
-            // TODO adjust for federation
-            $subdepartments = $this->groupRepository->findAllDepartmentsFromCanton($group->getId());
+            $subdepartments = $this->groupRepository->findAllDepartmentsForFederation($group->getId());
         }
 
         $ids = [];
