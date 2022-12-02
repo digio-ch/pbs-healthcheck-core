@@ -76,7 +76,7 @@ class ComputeAnswersCommand extends StatisticsCommand
                 $widgetQuap->setComputedAnswers($helper->getAnswerStack());
                 $this->quapRepository->save($widgetQuap);
             } catch (\Exception $e) {
-                $output->writeln(['An Error occurred', 'Group: ' + $group, $e]);
+                $output->writeln(['An Error occurred', $group, $e]);
             }
         }
 

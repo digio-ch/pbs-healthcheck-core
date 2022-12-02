@@ -4,6 +4,7 @@ namespace App\Repository\Quap;
 
 use App\Entity\Quap\Help;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,12 +22,32 @@ class HelpRepository extends ServiceEntityRepository
 
     public function getExisting(int $questionId, string $dateTime)
     {
-        return $this->createQueryBuilder("h")
-            ->where("h.question = :questionId")
-            ->andWhere('((h.deletedAt IS NULL OR h.deletedAt >= :date) AND h.createdAt <= :date)')
-            ->setParameter("questionId", $questionId)
-            ->setParameter("date", $dateTime)
-            ->getQuery()
-            ->getResult();
+        $rsm = new ResultSetMapping();
+        $rsm->addEntityResult(Help::class, 'a');
+        $rsm->addFieldResult('a', 'id', 'id');
+        $rsm->addMetaResult('a', 'question_id', 'question');
+        $rsm->addFieldResult('a', 'help_de', 'help_de');
+        $rsm->addFieldResult('a', 'help_fr', 'help_fr');
+        $rsm->addFieldResult('a', 'help_it', 'help_it');
+        $rsm->addFieldResult('a', 'severity', 'severity');
+        $rsm->addFieldResult('a', 'created_at', 'createdAt');
+        $rsm->addFieldResult('a', 'deleted_at', 'deletedAt');
+        $query = $this->_em->createNativeQuery(
+            "SELECT
+                    *
+                FROM
+                    hc_quap_help AS q
+                WHERE
+                    q.question_id = ?
+                    AND((q.deleted_at IS NULL
+                        OR q.deleted_at >= ?)
+                    AND q.created_at::date <= ?);",
+            $rsm
+        );
+        $query->setParameter(1, $questionId);
+        $query->setParameter(2, $dateTime);
+        $query->setParameter(3, $dateTime);
+
+        return $query->getResult();
     }
 }
