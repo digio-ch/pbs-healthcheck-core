@@ -40,6 +40,21 @@ final class Version20221205134917 extends AbstractMigration
         $this->addSql(
             'ALTER TABLE hc_aggregated_person_role ADD CONSTRAINT FK_40B8716B34C0398A FOREIGN KEY (midata_id) REFERENCES midata_person_role (id) NOT DEFERRABLE INITIALLY IMMEDIATE'
         );
+        $this->addSql(
+            "INSERT INTO hc_aggregated_person_role (id, person_id, role_id, group_id, midata_id, nickname, start_at, end_at)
+                SELECT
+                    nextval('aggregated_person_role_id_seq'),
+                    midata_person_role.person_id,
+                    midata_person_role.role_id,
+                    midata_person_role.group_id,
+                    midata_person_role.id,
+                    midata_person.nickname,
+                    midata_person_role.created_at,
+                    midata_person_role.deleted_at
+                FROM
+                    midata_person_role
+                    JOIN midata_person ON midata_person_role.person_id = midata_person.id;"
+        );
     }
 
     public function down(Schema $schema): void
