@@ -19,6 +19,17 @@ class AggregatedPersonRoleRepository extends ServiceEntityRepository
         parent::__construct($registry, AggregatedPersonRole::class);
     }
 
+    /**
+     * @return AggregatedPersonRole[]
+     */
+    public function getUnfinished(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.end_at IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return AggregatedPersonRole[] Returns an array of AggregatedPersonRole objects
     //  */

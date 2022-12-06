@@ -16,18 +16,22 @@ class RoleAggregator extends WidgetAggregator
 {
     private const NAME = 'widget.roles';
 
-    private string $personRoleRepository;
+    private AggregatedPersonRoleRepository $personRoleRepository;
 
     private PersonRoleRepository $midataPersonRoleRepository;
+
+    private EntityManagerInterface $em;
 
     public function __construct(
         EntityManagerInterface $em,
         GroupRepository $groupRepository,
+        AggregatedPersonRoleRepository $personRoleRepository,
         PersonRoleRepository $midataPersonRoleRepository
     ) {
         parent::__construct($groupRepository);
 
         $this->em = $em;
+        $this->personRoleRepository = $personRoleRepository;
         $this->midataPersonRoleRepository = $midataPersonRoleRepository;
     }
 
@@ -48,12 +52,17 @@ class RoleAggregator extends WidgetAggregator
         foreach ($listOfUnfinished as $unfinished) {
             $midataObject = $this->midataPersonRoleRepository->find($unfinished->getMidata());
             $deletedAt = $midataObject->getDeletedAt();
-            if ($deletedAt !== null) {
-                // Update $unfinished end_at to the deleted at
-                $output->writeln('somethings wrong');
+            if ($unfinished->getId() == 217) {
+                $output->writeln(json_encode($unfinished->getEndAt()));
+                $unfinished->setEndAt($deletedAt);
+                $this->em->persist($unfinished);
+
+                $output->writeln(json_encode($unfinished->getEndAt()));
+                $output->writeln(json_encode($this->em->isOpen()));
             }
         }
-        //flush
+        // TODO: Why does this not actually persist the changes?
+        $this->em->flush();
 
         //implement aggregating the new stuff
         //implement the deletion stuff
