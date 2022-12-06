@@ -13,6 +13,7 @@ class AnswersMapper
         $dto->setAnswers($widgetQuap->getAnswers());
         $dto->setComputedAnswers($widgetQuap->getComputedAnswers());
         $dto->setShareAccess($widgetQuap->getAllowAccess());
+        $dto->setShowNotRelevant($widgetQuap->getShowNotRelevant());
         return $dto;
     }
 }

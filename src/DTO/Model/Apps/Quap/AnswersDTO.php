@@ -13,6 +13,9 @@ class AnswersDTO
     /** @var bool $share_access */
     private bool $share_access;
 
+    /** @var bool $show_not_relevant */
+    private bool $show_not_relevant;
+
     /**
      * @return array
      */
@@ -59,5 +62,21 @@ class AnswersDTO
     public function setShareAccess(bool $share_access): void
     {
         $this->share_access = $share_access;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowNotRelevant(): bool
+    {
+        return $this->show_not_relevant;
+    }
+
+    /**
+     * @param bool $show_not_relevant
+     */
+    public function setShowNotRelevant(bool $show_not_relevant): void
+    {
+        $this->show_not_relevant = $show_not_relevant;
     }
 }
