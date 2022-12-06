@@ -44,6 +44,11 @@ class AggregatedQuap extends AggregatedEntity
     private bool $allowAccess = false;
 
     /**
+     * @ORM\Column(type="boolean", options={"default": true})
+     */
+    private bool $show_not_relevant = true;
+
+    /**
      * @return Questionnaire
      */
     public function getQuestionnaire(): Questionnaire
@@ -105,5 +110,17 @@ class AggregatedQuap extends AggregatedEntity
     public function setAllowAccess(bool $allowAccess): void
     {
         $this->allowAccess = $allowAccess;
+    }
+
+    public function getShowNotRelevant(): ?bool
+    {
+        return $this->show_not_relevant;
+    }
+
+    public function setShowNotRelevant(bool $show_not_relevant): self
+    {
+        $this->show_not_relevant = $show_not_relevant;
+
+        return $this;
     }
 }
