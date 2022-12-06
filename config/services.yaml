@@ -27,7 +27,7 @@ services:
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
         resource: '../src/Controller'
-        tags: ['controller.service_arguments']
+        tags: [ 'controller.service_arguments' ]
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -132,10 +132,14 @@ services:
         tags:
             - { name: 'widget.aggregator', key: 'widget.quap' }
 
+    App\Service\Aggregator\RoleAggregator:
+        tags:
+            - { name: 'widget.aggregator', key: 'widget.roles' }
+
     # This must be the last aggregator
     App\Service\Aggregator\DateAggregator:
         tags:
             - { name: 'widget.aggregator', key: 'general.date' }
 
     App\Service\Aggregator\AggregatorRegistry:
-        arguments: [!tagged { tag: 'widget.aggregator', index_by: 'key' }]
+        arguments: [ !tagged { tag: 'widget.aggregator', index_by: 'key' } ]

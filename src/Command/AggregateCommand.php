@@ -45,8 +45,7 @@ class AggregateCommand extends StatisticsCommand
         $this
             ->setName('app:aggregate-data')
             ->setDescription('Aggregate data')
-            ->addArgument('specific', InputArgument::OPTIONAL)
-            ;
+            ->addArgument('specific', InputArgument::OPTIONAL);
     }
 
     /**
