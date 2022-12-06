@@ -88,37 +88,45 @@ class QuapComputeAnswersService
             case 'has_leader':
                 return $this->hasLeader($group);
             case 'has_president':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PRESIDENT, ROLE::REGIONAL_PRESIDENT]);
+                return $this->hasAnyRole($group, Role::CANTONAL_PRESIDENT, ROLE::REGIONAL_PRESIDENT);
             case 'has_biber_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_BIBERSTUFE_V, Role::REGIONAL_BIBERSTUFE_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_BIBERSTUFE_V, Role::REGIONAL_BIBERSTUFE_V);
             case 'has_wolf_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_WOLFSTUFE_V, Role::REGIONAL_WOLFSTUFE_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_WOLFSTUFE_V, Role::REGIONAL_WOLFSTUFE_V);
             case 'has_pfadi_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PFADISTUFE_V, Role::REGIONAL_PFADISTUFE_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_PFADISTUFE_V, Role::REGIONAL_PFADISTUFE_V);
             case 'has_pio_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PIOSTUFE_V, Role::REGIONAL_PIOSTUFE_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_PIOSTUFE_V, Role::REGIONAL_PIOSTUFE_V);
             case 'has_rover_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_ROVERSTUFE_V, Role::REGIONAL_ROVERSTUFE_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_ROVERSTUFE_V, Role::REGIONAL_ROVERSTUFE_V);
             case 'has_pta_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PFADI_TROTZ_ALLEM_V, Role::REGIONAL_PFADI_TROTZ_ALLEM_V]);
+                return $this->hasAnyRole(
+                    $group,
+                    Role::CANTONAL_PFADI_TROTZ_ALLEM_V,
+                    Role::REGIONAL_PFADI_TROTZ_ALLEM_V
+                );
             case 'has_education_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_AUSBILDUNG_V, Role::REGIONAL_AUSBILDUNG_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_AUSBILDUNG_V, Role::REGIONAL_AUSBILDUNG_V);
             case 'has_coach_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_BETREUUNG_V, Role::REGIONAL_BETREUUNG_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_BETREUUNG_V, Role::REGIONAL_BETREUUNG_V);
             case 'has_diversity_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_INTEGRATION_V, Role::REGIONAL_INTEGRATION_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_INTEGRATION_V, Role::REGIONAL_INTEGRATION_V);
             case 'has_international_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_INTERNATIONALES_V, Role::REGIONAL_INTERNATIONALES_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_INTERNATIONALES_V, Role::REGIONAL_INTERNATIONALES_V);
             case 'has_crisis_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_KRISENTEAM_V, Role::REGIONAL_KRISENTEAM_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_KRISENTEAM_V, Role::REGIONAL_KRISENTEAM_V);
             case 'has_pr_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PR_V, Role::REGIONAL_PR_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_PR_V, Role::REGIONAL_PR_V);
             case 'has_prevention_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PRAEVENTION_SEXUELLER_AUSBEUTNG_V, Role::REGIONAL_PRAEVENTION_SEXUELLER_AUSBEUTNG_V]);
+                return $this->hasAnyRole(
+                    $group,
+                    Role::CANTONAL_PRAEVENTION_SEXUELLER_AUSBEUTNG_V,
+                    Role::REGIONAL_PRAEVENTION_SEXUELLER_AUSBEUTNG_V
+                );
             case 'has_program_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PROGRAMM_V, Role::REGIONAL_PROGRAMM_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_PROGRAMM_V, Role::REGIONAL_PROGRAMM_V);
             case 'has_sustainability_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_NACHHALTIGKEIT_V, Role::REGIONAL_NACHHALTIGKEIT_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_NACHHALTIGKEIT_V, Role::REGIONAL_NACHHALTIGKEIT_V);
             default:
                 return Question::ANSWER_NOT_ANSWERED;
         }
@@ -216,8 +224,12 @@ class QuapComputeAnswersService
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
-    private function hasPercentageComplex(array $groupIds, array $leaderRoles, array $mainQualificationIds, array $additionalQualificationIds): int
-    {
+    private function hasPercentageComplex(
+        array $groupIds,
+        array $leaderRoles,
+        array $mainQualificationIds,
+        array $additionalQualificationIds
+    ): int {
         $result = $this->em->getConnection()->executeQuery(
             "
             SELECT (CASE
@@ -762,10 +774,8 @@ class QuapComputeAnswersService
     private function hasLeader(Group $group): int
     {
         $groupIds = $this->getGroupIds($group);
-        $cantonalResult = $this->hasNumRole($groupIds, Role::CANTONAL_LEADER, 2);
-
-        if ($cantonalResult === Question::ANSWER_FULLY_APPLIES) {
-            return Question::ANSWER_FULLY_APPLIES;
+        if ($group->getGroupType()->getId() === GroupType::CANTON) {
+            return $this->hasNumRole($groupIds, Role::CANTONAL_LEADER, 2);
         }
         return $this->hasNumRole($groupIds, Role::REGIONAL_LEADER, 2);
     }
@@ -776,15 +786,13 @@ class QuapComputeAnswersService
         return $this->hasRole($groupIds, $role);
     }
 
-    private function hasAnyRole(Group $group, array $roles): int
+    private function hasAnyRole(Group $group, string $cantonalRole, string $regionalRole): int
     {
         $groupIds = $this->getGroupIds($group);
-        foreach ($roles as $role) {
-            if ($this->hasRole($groupIds, $role) === Question::ANSWER_FULLY_APPLIES) {
-                return Question::ANSWER_FULLY_APPLIES;
-            }
+        if ($group->getGroupType()->getId() === GroupType::CANTON) {
+            return $this->hasRole($groupIds, $cantonalRole);
         }
-        return Question::ANSWER_DONT_APPLIES;
+        return $this->hasRole($groupIds, $regionalRole);
     }
 
     private function hasRole(array $groupIds, string $role): int
