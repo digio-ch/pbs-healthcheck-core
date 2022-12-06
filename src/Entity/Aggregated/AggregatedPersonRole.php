@@ -6,14 +6,13 @@ use App\Entity\Midata\Group;
 use App\Entity\Midata\Person;
 use App\Entity\Midata\PersonRole;
 use App\Entity\Midata\Role;
-use App\Repository\Aggregated\aggregatedPersonRoleRepository;
+use App\Repository\Aggregated\AggregatedPersonRoleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=aggregatedPersonRoleRepository::class)
- * @ORM\Table(name="hc_aggregated_leader_overview_leader")
+ * @ORM\Entity(repositoryClass=AggregatedPersonRoleRepository::class)
  */
-class aggregatedPersonRole
+class AggregatedPersonRole
 {
     /**
      * @ORM\Id
@@ -23,22 +22,26 @@ class aggregatedPersonRole
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class)
-     */
-    private $person_id;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Role::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $role_id;
+    private $role;
 
     /**
      * @ORM\ManyToOne(targetEntity=Group::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $group_id;
+    private $group;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Person::class)
+     */
+    private $person;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=PersonRole::class)
+     */
+    private $midata;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -46,57 +49,52 @@ class aggregatedPersonRole
     private $nickname;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $start_at;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $end_at;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=PersonRole::class)
-     */
-    private $midata_id;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPersonId(): ?Person
+    public function getRole(): ?Role
     {
-        return $this->person_id;
+        return $this->role;
     }
 
-    public function setPersonId(?Person $person_id): self
+    public function setRole(?Role $role): self
     {
-        $this->person_id = $person_id;
+        $this->role = $role;
 
         return $this;
     }
 
-    public function getRoleId(): ?Role
+    public function getPerson(): ?Person
     {
-        return $this->role_id;
+        return $this->person;
     }
 
-    public function setRoleId(?Role $role_id): self
+    public function setPerson(?Person $person): self
     {
-        $this->role_id = $role_id;
+        $this->person = $person;
 
         return $this;
     }
 
-    public function getGroupId(): ?Group
+    public function getMidata(): ?PersonRole
     {
-        return $this->group_id;
+        return $this->midata;
     }
 
-    public function setGroupId(?Group $group_id): self
+    public function setMidata(?PersonRole $midata): self
     {
-        $this->group_id = $group_id;
+        $this->midata = $midata;
 
         return $this;
     }
@@ -137,15 +135,15 @@ class aggregatedPersonRole
         return $this;
     }
 
-    public function getMidataId(): ?PersonRole
+    public function setGroup($group): self
     {
-        return $this->midata_id;
-    }
-
-    public function setMidataId(?PersonRole $midata_id): self
-    {
-        $this->midata_id = $midata_id;
+        $this->group = $group;
 
         return $this;
+    }
+
+    public function getGroup()
+    {
+        return $this->group;
     }
 }

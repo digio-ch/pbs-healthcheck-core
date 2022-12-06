@@ -2,25 +2,25 @@
 
 namespace App\Repository\Aggregated;
 
-use App\Entity\Aggregated\aggregatedPersonRole;
+use App\Entity\Aggregated\AggregatedPersonRole;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method aggregatedPersonRole|null find($id, $lockMode = null, $lockVersion = null)
- * @method aggregatedPersonRole|null findOneBy(array $criteria, array $orderBy = null)
- * @method aggregatedPersonRole[]    findAll()
- * @method aggregatedPersonRole[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method AggregatedPersonRole|null find($id, $lockMode = null, $lockVersion = null)
+ * @method AggregatedPersonRole|null findOneBy(array $criteria, array $orderBy = null)
+ * @method AggregatedPersonRole[]    findAll()
+ * @method AggregatedPersonRole[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class aggregatedPersonRoleRepository extends ServiceEntityRepository
+class AggregatedPersonRoleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, aggregatedPersonRole::class);
+        parent::__construct($registry, AggregatedPersonRole::class);
     }
 
     // /**
-    //  * @return aggregatedPersonRole[] Returns an array of aggregatedPersonRole objects
+    //  * @return AggregatedPersonRole[] Returns an array of AggregatedPersonRole objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class aggregatedPersonRoleRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?aggregatedPersonRole
+    public function findOneBySomeField($value): ?AggregatedPersonRole
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

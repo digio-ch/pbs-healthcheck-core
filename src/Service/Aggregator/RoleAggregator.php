@@ -16,20 +16,18 @@ class RoleAggregator extends WidgetAggregator
 {
     private const NAME = 'widget.roles';
 
-    private AggregatedPersonRoleRepository $personRoleRepository;
+    private string $personRoleRepository;
 
     private PersonRoleRepository $midataPersonRoleRepository;
 
     public function __construct(
         EntityManagerInterface $em,
         GroupRepository $groupRepository,
-        AggregatedPersonRoleRepository $personRoleRepository,
         PersonRoleRepository $midataPersonRoleRepository
     ) {
         parent::__construct($groupRepository);
 
         $this->em = $em;
-        $this->personRoleRepository = $personRoleRepository;
         $this->midataPersonRoleRepository = $midataPersonRoleRepository;
     }
 
