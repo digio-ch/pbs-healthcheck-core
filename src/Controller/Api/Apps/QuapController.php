@@ -157,11 +157,11 @@ class QuapController extends AbstractController
         $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
 
         $payload = json_decode($request->getContent(), true);
-        if (!isset($payload['allow_access'])) {
+        if (!isset($payload['allow_access']) || !isset($payload['show_not_relevant'])) {
             throw new ApiException(400, "Invalid request body");
         }
 
-        $this->quapService->updateAllowAccess($group, $payload['allow_access']);
+        $this->quapService->updateSettings($group, $payload['allow_access'], $payload['show_not_relevant']);
 
         return $this->json([], JsonResponse::HTTP_NO_CONTENT);
     }

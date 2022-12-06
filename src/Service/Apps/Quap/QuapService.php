@@ -144,7 +144,7 @@ class QuapService
         return $widgetQuap;
     }
 
-    public function updateAllowAccess(Group $group, bool $allowAccess): AggregatedQuap
+    public function updateSettings(Group $group, bool $allowAccess, bool $showNotRelevant): AggregatedQuap
     {
         $widgetQuap = $this->quapRepository->findOneBy([
             "dataPointDate" => null,
@@ -156,6 +156,7 @@ class QuapService
         }
 
         $widgetQuap->setAllowAccess($allowAccess);
+        $widgetQuap->setShowNotRelevant($showNotRelevant);
 
         $this->em->persist($widgetQuap);
         $this->em->flush();
