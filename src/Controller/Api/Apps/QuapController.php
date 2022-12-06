@@ -76,7 +76,9 @@ class QuapController extends AbstractController
 
         $data = $this->quapService->getAnswers(
             $dateRequestData->getGroup(),
-            is_null($dateRequestData->getDate()) ? null : \DateTimeImmutable::createFromMutable($dateRequestData->getDate())
+            is_null($dateRequestData->getDate()) ? null : \DateTimeImmutable::createFromMutable(
+                $dateRequestData->getDate()
+            )
         );
 
         return $this->json($data);
@@ -113,7 +115,11 @@ class QuapController extends AbstractController
         $date = $request->get('date', null);
         $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : new \DateTimeImmutable('now');
 
-        $questionnaire = $this->quapService->getQuestionnaireByType($type, $request->getLocale(), $date->format('Y-m-d'));
+        $questionnaire = $this->quapService->getQuestionnaireByType(
+            $type,
+            $request->getLocale(),
+            $date->format('Y-m-d')
+        );
 
         $questionnaireDTO = QuestionnaireMapper::createQuestionnaireFromEntity($questionnaire, $request->getLocale());
 
