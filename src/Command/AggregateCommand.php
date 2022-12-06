@@ -65,7 +65,16 @@ class AggregateCommand extends StatisticsCommand
             $output->writeln(['Start aggregation...']);
             $io = new SymfonyStyle($input, $output);
 
-            $aggregators =  $this->aggregatorRegistry->getAggregators();
+            $aggregators = $this->aggregatorRegistry->getAggregators();
+
+            $index = 0;
+            foreach ($aggregators as $aggregator) {
+                $index++;
+                if ($index === 9) {
+                    $aggregator->aggregateWithOutput($output);
+                }
+            }
+            return 0;
 
             $specific = $input->getArgument('specific');
 
