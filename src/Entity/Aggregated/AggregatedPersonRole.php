@@ -128,7 +128,7 @@ class AggregatedPersonRole
         return $this->end_at;
     }
 
-    public function setEndAt(\DateTimeInterface $end_at): self
+    public function setEndAt(?\DateTimeInterface $end_at): self
     {
         $this->end_at = $end_at;
 

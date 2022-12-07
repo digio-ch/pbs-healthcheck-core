@@ -48,8 +48,14 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @return array|PersonRole[]
      * @throws \Doctrine\DBAL\Exception
      */
-    public function findAllByDate(string $date, array $groupIds, array $groupTypes, array $leaderRoles, array $memberRoles, array $rolePriority): array
-    {
+    public function findAllByDate(
+        string $date,
+        array $groupIds,
+        array $groupTypes,
+        array $leaderRoles,
+        array $memberRoles,
+        array $rolePriority
+    ): array {
         $connection = $this->_em->getConnection();
         $statement = $connection->executeQuery(
             "SELECT * FROM (
@@ -184,7 +190,15 @@ class PersonRoleRepository extends ServiceEntityRepository
                         where midata_person.group_id in (?)
                         and midata_role.role_type in (?)
                     );",
-            [$groupIds, $gender, $date, $date, WidgetAggregator::$memberRoleTypes, $groupIds, WidgetAggregator::$leadersRoleTypes],
+            [
+                $groupIds,
+                $gender,
+                $date,
+                $date,
+                WidgetAggregator::$memberRoleTypes,
+                $groupIds,
+                WidgetAggregator::$leadersRoleTypes
+            ],
             [
                 Connection::PARAM_INT_ARRAY,
                 ParameterType::STRING,
@@ -252,7 +266,9 @@ class PersonRoleRepository extends ServiceEntityRepository
             ->where('person.id = :id')
             ->andWhere('g.id IN (:groupIds)')
             ->andWhere('role.roleType IN (:roles)')
-            ->andWhere('(personRole.createdAt < :endDate AND (personRole.deletedAt IS NULL OR personRole.deletedAt > :endDate))')
+            ->andWhere(
+                '(personRole.createdAt < :endDate AND (personRole.deletedAt IS NULL OR personRole.deletedAt > :endDate))'
+            )
             ->setParameter('id', $personId)
             ->setParameter('endDate', $endDate)
             ->setParameter('groupIds', $groupIds)
@@ -723,5 +739,17 @@ class PersonRoleRepository extends ServiceEntityRepository
             ]
         );
         return $statement->fetchAll();
+    }
+
+    /**
+     * @return PersonRole[]
+     */
+    public function findAllWithHigherIndex(int $highestAggregatedMidataIndex): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.id > :index')
+            ->setParameter('index', $highestAggregatedMidataIndex)
+            ->getQuery()
+            ->getResult();
     }
 }

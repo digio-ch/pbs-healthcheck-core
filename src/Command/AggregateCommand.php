@@ -67,15 +67,6 @@ class AggregateCommand extends StatisticsCommand
 
             $aggregators = $this->aggregatorRegistry->getAggregators();
 
-            $index = 0;
-            foreach ($aggregators as $aggregator) {
-                $index++;
-                if ($index === 9) {
-                    $aggregator->aggregateWithOutput($output);
-                }
-            }
-            return 0;
-
             $specific = $input->getArgument('specific');
 
             /** @var WidgetAggregator $aggregator */

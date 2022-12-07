@@ -30,6 +30,14 @@ class AggregatedPersonRoleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getHighestAggregatedMidataIndex(): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('MAX(a.midata)')
+            ->getQuery()
+            ->getResult()[0][1];
+    }
+
     // /**
     //  * @return AggregatedPersonRole[] Returns an array of AggregatedPersonRole objects
     //  */
