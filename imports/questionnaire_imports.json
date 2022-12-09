@@ -1,6 +1,5 @@
 [
   {
-    "type": "Questionnaire::Group::Default",
     "aspects": [
       {
         "questions": [
@@ -1707,7 +1706,8 @@
         "description_fr": "",
         "description_it": ""
       }
-    ]
+    ],
+    "type": "Questionnaire::Group::Default"
   },
   {
     "type": "Questionnaire::Group::Canton",
