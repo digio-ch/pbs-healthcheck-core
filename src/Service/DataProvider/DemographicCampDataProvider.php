@@ -2,27 +2,26 @@
 
 namespace App\Service\DataProvider;
 
-use App\DTO\Model\BarChartBarDataDTO;
-use App\DTO\Model\BarChartDataDTO;
-use App\Entity\Group;
-use App\Entity\WidgetDemographicCamp;
-use App\Repository\DemographicCampGroupRepository;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
-use App\Repository\WidgetDemographicCampRepository;
+use App\DTO\Model\Charts\BarChartBarDataDTO;
+use App\DTO\Model\Charts\BarChartDataDTO;
+use App\Entity\Aggregated\AggregatedDemographicCamp;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedDemographicCampGroupRepository;
+use App\Repository\Aggregated\AggregatedDemographicCampRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
 use Doctrine\DBAL\DBALException;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DemographicCampDataProvider extends WidgetDataProvider
 {
     /**
-     * @var WidgetDemographicCampRepository
+     * @var AggregatedDemographicCampRepository
      */
     protected $widgetDemographicCampRepository;
 
     /**
-     * @var DemographicCampGroupRepository
+     * @var AggregatedDemographicCampGroupRepository
      */
     protected $demographicCampGroupRepository;
 
@@ -31,15 +30,15 @@ class DemographicCampDataProvider extends WidgetDataProvider
      * @param GroupRepository $groupRepository
      * @param GroupTypeRepository $groupTypeRepository
      * @param TranslatorInterface $translator
-     * @param WidgetDemographicCampRepository $widgetDemographicCampRepository
-     * @param DemographicCampGroupRepository $demographicCampGroupRepository
+     * @param AggregatedDemographicCampRepository $widgetDemographicCampRepository
+     * @param AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
      */
     public function __construct(
         GroupRepository $groupRepository,
         GroupTypeRepository $groupTypeRepository,
         TranslatorInterface $translator,
-        WidgetDemographicCampRepository $widgetDemographicCampRepository,
-        DemographicCampGroupRepository $demographicCampGroupRepository
+        AggregatedDemographicCampRepository $widgetDemographicCampRepository,
+        AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
     ) {
         $this->widgetDemographicCampRepository = $widgetDemographicCampRepository;
         $this->groupRepository = $groupRepository;
@@ -69,7 +68,7 @@ class DemographicCampDataProvider extends WidgetDataProvider
             return $result;
         }
 
-        /** @var WidgetDemographicCamp $event */
+        /** @var AggregatedDemographicCamp $event */
         foreach ($events as $event) {
             $barChart = new BarChartDataDTO();
             $barChart->setName(
@@ -113,14 +112,14 @@ class DemographicCampDataProvider extends WidgetDataProvider
 
     /**
      * @param BarChartDataDTO $barChart
-     * @param WidgetDemographicCamp $event
+     * @param AggregatedDemographicCamp $event
      * @param int $mainGroupId
      * @param array $groupTypes
      * @throws DBALException
      */
     private function getMembersData(
         BarChartDataDTO $barChart,
-        WidgetDemographicCamp $event,
+        AggregatedDemographicCamp $event,
         int $mainGroupId,
         array $groupTypes
     ) {
@@ -143,14 +142,14 @@ class DemographicCampDataProvider extends WidgetDataProvider
 
     /**
      * @param BarChartDataDTO $barChart
-     * @param WidgetDemographicCamp $event
+     * @param AggregatedDemographicCamp $event
      * @param int $mainGroupId
      * @param array $groupTypes
      * @throws DBALException
      */
     private function getLeadersData(
         BarChartDataDTO $barChart,
-        WidgetDemographicCamp $event,
+        AggregatedDemographicCamp $event,
         int $mainGroupId,
         array $groupTypes
     ) {
@@ -173,14 +172,14 @@ class DemographicCampDataProvider extends WidgetDataProvider
 
     /**
      * @param BarChartDataDTO $barChart
-     * @param WidgetDemographicCamp $event
+     * @param AggregatedDemographicCamp $event
      * @param int $mainGroupId
      * @param array $groupTypes
      * @throws DBALException
      */
     private function getAdditionalLeadersData(
         BarChartDataDTO $barChart,
-        WidgetDemographicCamp $event,
+        AggregatedDemographicCamp $event,
         int $mainGroupId,
         array $groupTypes
     ) {

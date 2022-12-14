@@ -2,8 +2,8 @@
 
 namespace App\DTO\Mapper;
 
-use App\DTO\Model\AspectDTO;
-use App\Entity\Aspect;
+use App\DTO\Model\Apps\Quap\AspectDTO;
+use App\Entity\Quap\Aspect;
 
 class AspectMapper
 {

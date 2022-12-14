@@ -2,24 +2,24 @@
 
 namespace App\Command;
 
-use App\Entity\Group;
-use App\Entity\Question;
+use App\Entity\Midata\Group;
+use App\Entity\Quap\Question;
 use App\Helper\QuapAnswerStackHelper;
-use App\Repository\GroupRepository;
-use App\Repository\QuestionRepository;
-use App\Repository\WidgetQuapRepository;
-use App\Service\QuapComputeAnswersService;
-use Symfony\Component\Console\Command\Command;
+use App\Model\CommandStatistics;
+use App\Repository\Aggregated\AggregatedQuapRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Quap\QuestionRepository;
+use App\Service\Apps\Quap\QuapComputeAnswersService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ComputeAnswersCommand extends Command
+class ComputeAnswersCommand extends StatisticsCommand
 {
     /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
-    /** @var WidgetQuapRepository $quapRepository */
-    private WidgetQuapRepository $quapRepository;
+    /** @var AggregatedQuapRepository $quapRepository */
+    private AggregatedQuapRepository $quapRepository;
 
     /** @var QuestionRepository $questionRepository */
     private QuestionRepository $questionRepository;
@@ -27,9 +27,11 @@ class ComputeAnswersCommand extends Command
     /** @var QuapComputeAnswersService $quapComputeAnswersService */
     private QuapComputeAnswersService $quapComputeAnswersService;
 
+    private float $totalDuration = 0;
+
     public function __construct(
         GroupRepository $groupRepository,
-        WidgetQuapRepository $quapRepository,
+        AggregatedQuapRepository $quapRepository,
         QuestionRepository $questionRepository,
         QuapComputeAnswersService $quapComputeAnswersService
     ) {
@@ -49,27 +51,42 @@ class ComputeAnswersCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $start = microtime(true);
         $output->writeln('Computing automated questions...');
 
-        $groups = $this->groupRepository->findAllParentGroups();
-        $questions = $this->questionRepository->findEvaluable();
+        $groups = $this->groupRepository->findAllDepartmentalAndRegionalAndCantonalGroups();
 
         /** @var Group $group */
         foreach ($groups as $group) {
-            $widgetQuap = $this->quapRepository->findCurrentForGroup($group->getId());
-            $helper = new QuapAnswerStackHelper([]);
+            try {
+                $questionnaire = $this->quapRepository->getQuestionnaireByGroup($group);
+                $questions = $this->questionRepository->findEvaluableByQuestionnaire($questionnaire);
 
-            /** @var Question $question */
-            foreach ($questions as $question) {
-                $result = $this->quapComputeAnswersService->computeAnswer($question->getEvaluationFunction(), $group);
-                $helper->setAnswer($question->getAspect()->getLocalId(), $question->getLocalId(), $result);
+                $widgetQuap = $this->quapRepository->findCurrentForGroup($group->getId());
+                $helper = new QuapAnswerStackHelper([]);
+
+                /** @var Question $question */
+                foreach ($questions as $question) {
+                    $result = $this->quapComputeAnswersService->computeAnswer(
+                        $question->getEvaluationFunction(),
+                        $group
+                    );
+                    $helper->setAnswer($question->getAspect()->getLocalId(), $question->getLocalId(), $result);
+                }
+                $widgetQuap->setComputedAnswers($helper->getAnswerStack());
+                $this->quapRepository->save($widgetQuap);
+            } catch (\Exception $e) {
+                $output->writeln(['An Error occurred', $group, $e]);
             }
-
-            $widgetQuap->setComputedAnswers($helper->getAnswerStack());
-            $this->quapRepository->save($widgetQuap);
         }
 
         $output->writeln('finished computing all automated questions.');
+        $this->totalDuration = microtime(true) - $start;
         return 0;
+    }
+
+    public function getStats(): CommandStatistics
+    {
+        return new CommandStatistics($this->totalDuration, '');
     }
 }

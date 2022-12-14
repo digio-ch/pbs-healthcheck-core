@@ -2,31 +2,31 @@
 
 namespace App\Command;
 
-use App\Entity\EventGroup;
-use App\Entity\YouthSportType;
-use App\Entity\Camp;
-use App\Entity\CampState;
-use App\Entity\Course;
-use App\Entity\Event;
-use App\Entity\EventDate;
-use App\Entity\EventType;
-use App\Entity\EventTypeQualificationType;
-use App\Entity\Group;
-use App\Entity\GroupType;
-use App\Entity\Person;
-use App\Entity\PersonEvent;
-use App\Entity\PersonEventType;
-use App\Entity\PersonQualification;
-use App\Entity\PersonRole;
-use App\Entity\QualificationType;
-use App\Entity\Role;
+use App\Entity\Midata\Camp;
+use App\Entity\Midata\CampState;
+use App\Entity\Midata\Course;
+use App\Entity\Midata\Event;
+use App\Entity\Midata\EventDate;
+use App\Entity\Midata\EventGroup;
+use App\Entity\Midata\EventType;
+use App\Entity\Midata\EventTypeQualificationType;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\GroupType;
+use App\Entity\Midata\Person;
+use App\Entity\Midata\PersonEvent;
+use App\Entity\Midata\PersonEventType;
+use App\Entity\Midata\PersonQualification;
+use App\Entity\Midata\PersonRole;
+use App\Entity\Midata\QualificationType;
+use App\Entity\Midata\Role;
+use App\Entity\Midata\YouthSportType;
+use App\Entity\Security\Permission;
 use App\Model\CommandStatistics;
 use App\Model\LogMessage\SimpleLogMessage;
-use App\Repository\PersonRepository;
+use App\Repository\Midata\PersonRepository;
 use DateTimeImmutable;
 use Digio\Logging\GelfLogger;
 use Doctrine\DBAL\ConnectionException;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Exception;
@@ -557,6 +557,16 @@ class ImportFromJsonCommand extends StatisticsCommand
         $start = microtime(true);
         $people = JsonMachine::fromFile(sprintf('%s/people.json', $this->params->get('import_data_dir')));
         $i = 0;
+
+        $personRepository = $this->em->getRepository(Person::class);
+
+        // stores which persons exist in the db and updates those that also exist in midata, so we know which ones to delete
+        $personIdMap = [];
+
+        foreach ($personRepository->findAll() as $person) {
+            $personIdMap[$person->getId()] = false;
+        }
+
         foreach ($people as $p) {
             $person = $this->em->getRepository(Person::class)->findOneBy(['id' => $p['id']]);
             if (!$person) {
@@ -564,6 +574,8 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $person->setId($p['id']);
                 $metadata = $this->em->getClassMetaData(get_class($person));
                 $metadata->setIdGenerator(new AssignedGenerator());
+            } else {
+                $personIdMap[$p['id']] = true;
             }
             $person->setNickname($p['name']);
             $person->setGender($p['gender']);
@@ -602,9 +614,41 @@ class ImportFromJsonCommand extends StatisticsCommand
 
         $this->em->flush();
 
+        // delete people that got deleted in midata
+        $countDeleted = 0;
+
+        foreach ($personIdMap as $id => $exists) {
+            if ($exists) {
+                continue;
+            }
+
+            $person = $personRepository->find($id);
+
+            foreach ($this->em->getRepository(PersonEvent::class)->findBy(['person' => $person->getId()]) as $personEvent) {
+                $this->em->remove($personEvent);
+            }
+
+            foreach ($this->em->getRepository(PersonQualification::class)->findBy(['person' => $person->getId()]) as $personQualification) {
+                $this->em->remove($personQualification);
+            }
+
+            foreach ($this->em->getRepository(PersonRole::class)->findBy(['person' => $person->getId()]) as $personRole) {
+                $this->em->remove($personRole);
+            }
+
+            foreach ($this->em->getRepository(Permission::class)->findBy(['person' => $person->getId()]) as $permission) {
+                $this->em->remove($permission);
+            }
+
+            $this->em->remove($person);
+            $this->em->flush();
+
+            $countDeleted++;
+        }
+
         $timeElapsed = microtime(true) - $start;
         $this->stats[] = ['people.json', $timeElapsed, $i];
-        $output->writeln([sprintf('%s rows imported from people.json', $i)]);
+        $output->writeln([sprintf('%s rows imported and %s deleted from people.json', $i, $countDeleted)]);
     }
 
     /**

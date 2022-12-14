@@ -1,0 +1,12 @@
+
+# Widget routes
+widgets:
+  resource: "apps/widgets.yml"
+  prefix: /widgets
+  name_prefix: widgets_
+
+# QUAP routes
+quap:
+  resource: "apps/quap.yml"
+  prefix: /quap
+  name_prefix: quap_

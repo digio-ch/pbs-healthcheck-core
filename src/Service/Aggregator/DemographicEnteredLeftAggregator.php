@@ -2,13 +2,13 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Group;
-use App\Entity\PersonRole;
-use App\Entity\WidgetDemographicEnteredLeft;
-use App\Repository\GroupRepository;
-use App\Repository\PersonRepository;
-use App\Repository\PersonRoleRepository;
-use App\Repository\WidgetDemographicEnteredLeftRepository;
+use App\Entity\Aggregated\AggregatedDemographicEnteredLeft;
+use App\Entity\Midata\Group;
+use App\Entity\Midata\PersonRole;
+use App\Repository\Aggregated\AggregatedDemographicEnteredLeftRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\PersonRepository;
+use App\Repository\Midata\PersonRoleRepository;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -26,7 +26,7 @@ class DemographicEnteredLeftAggregator extends WidgetAggregator
     protected $em;
 
     /**
-     * @var WidgetDemographicEnteredLeftRepository
+     * @var AggregatedDemographicEnteredLeftRepository
      */
     protected $widgetDemographicEnteredLeftRepository;
 
@@ -48,14 +48,14 @@ class DemographicEnteredLeftAggregator extends WidgetAggregator
     /**
      * DemographicEnteredLeftAggregator constructor.
      * @param EntityManagerInterface $em
-     * @param WidgetDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository
+     * @param AggregatedDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository
      * @param PersonRoleRepository $personRoleRepository
      * @param GroupRepository $groupRepository
      * @param PersonRepository $personRepository
      */
     public function __construct(
         EntityManagerInterface $em,
-        WidgetDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository,
+        AggregatedDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository,
         PersonRoleRepository $personRoleRepository,
         GroupRepository $groupRepository,
         PersonRepository $personRepository
@@ -82,7 +82,7 @@ class DemographicEnteredLeftAggregator extends WidgetAggregator
      */
     public function aggregate(DateTime $startDate = null)
     {
-        $mainGroups = $this->groupRepository->findAllParentGroups();
+        $mainGroups = $this->groupRepository->findAllDepartmentalParentGroups();
 
         $minDate = $startDate !== null ? $startDate : new DateTime(self::AGGREGATION_START_DATE);
         $maxDate = new DateTime();
@@ -170,7 +170,7 @@ class DemographicEnteredLeftAggregator extends WidgetAggregator
         string $currentDate
     ) {
         foreach (WidgetAggregator::$typePriority as $groupType) {
-            $widget = new WidgetDemographicEnteredLeft();
+            $widget = new AggregatedDemographicEnteredLeft();
             $widget->setGroup($mainGroup);
             $widget->setGroupType($groupType);
 

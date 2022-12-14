@@ -32,13 +32,13 @@ class AuthController extends AbstractController
     {
         /** @var PbsUserDTO|UserInterface|null|object $user */
         $user = $this->getUser();
-        if ($this->getUser() instanceof PbsUserDTO) {
+        if ($user instanceof PbsUserDTO) {
             $this->logger->info(new SimpleLogMessage(md5($user->getNickname()) . ' logged in.'));
         } else {
-            $this->logger->info(new SimpleLogMessage(md5($this->getUser()->getUsername()) . ' logged in.'));
+            $this->logger->info(new SimpleLogMessage(md5($user->getUsername()) . ' logged in.'));
         }
 
-        return $this->json($this->getUser(), JsonResponse::HTTP_OK, [], [
+        return $this->json($user, JsonResponse::HTTP_OK, [], [
             AbstractNormalizer::IGNORED_ATTRIBUTES => ['password', 'salt', 'username']
         ]);
     }

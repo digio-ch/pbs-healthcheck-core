@@ -2,9 +2,9 @@
 
 namespace App\Command;
 
-use App\Entity\Invite;
-use App\Repository\GroupRepository;
-use App\Repository\InviteRepository;
+use App\Entity\Security\Permission;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,34 +18,28 @@ class InviteCommand extends Command
 {
     private const NAME = 'app:invite';
 
-    /**
-     * @var GroupRepository
-     */
-    private $groupRepository;
+    /** @var GroupRepository $groupRepository */
+    private GroupRepository $groupRepository;
 
-    /**
-     * @var InviteRepository
-     */
-    private $inviteRepository;
+    /** @var PermissionRepository $permissionRepository */
+    private PermissionRepository $permissionRepository;
 
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
+    /** @var ValidatorInterface $validator */
+    private ValidatorInterface $validator;
 
     /**
      * InviteCommand constructor.
      * @param GroupRepository $groupRepository
-     * @param InviteRepository $inviteRepository
+     * @param PermissionRepository $permissionRepository
      * @param ValidatorInterface $validator
      */
     public function __construct(
         GroupRepository $groupRepository,
-        InviteRepository $inviteRepository,
+        PermissionRepository $permissionRepository,
         ValidatorInterface $validator
     ) {
         $this->groupRepository = $groupRepository;
-        $this->inviteRepository = $inviteRepository;
+        $this->permissionRepository = $permissionRepository;
         $this->validator = $validator;
         parent::__construct();
     }
@@ -80,7 +74,7 @@ class InviteCommand extends Command
             return Command::SUCCESS;
         }
 
-        $result = $this->inviteRepository->findAllByGroupIdAndEmail($email, $groupId);
+        $result = $this->permissionRepository->findAllByGroupIdAndEmail($email, $groupId);
         if (count($result) > 0) {
             $io->warning("Invite already exists.");
             return Command::SUCCESS;
@@ -93,12 +87,12 @@ class InviteCommand extends Command
         $expirationDate = new \DateTime();
         $expirationDate->modify("+ $days days");
 
-        $invite = new Invite();
+        $invite = new Permission();
         $invite->setEmail($email);
         $invite->setGroup($group);
         $invite->setExpirationDate($expirationDate);
 
-        $this->inviteRepository->save($invite);
+        $this->permissionRepository->save($invite);
         $io->success("Invite created successfully");
 
         return Command::SUCCESS;

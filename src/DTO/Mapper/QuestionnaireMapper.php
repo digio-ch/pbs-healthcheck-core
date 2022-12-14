@@ -2,8 +2,8 @@
 
 namespace App\DTO\Mapper;
 
-use App\DTO\Model\QuestionnaireDTO;
-use App\Entity\Questionnaire;
+use App\DTO\Model\Apps\Quap\QuestionnaireDTO;
+use App\Entity\Quap\Questionnaire;
 
 class QuestionnaireMapper
 {

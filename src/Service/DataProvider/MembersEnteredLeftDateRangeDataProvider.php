@@ -2,12 +2,12 @@
 
 namespace App\Service\DataProvider;
 
-use App\DTO\Model\BarChartBarDataDTO;
-use App\DTO\Model\BarChartDataDTO;
-use App\Entity\Group;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
-use App\Repository\WidgetDemographicEnteredLeftRepository;
+use App\DTO\Model\Charts\BarChartBarDataDTO;
+use App\DTO\Model\Charts\BarChartDataDTO;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedDemographicEnteredLeftRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -15,7 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
 {
     /**
-     * @var WidgetDemographicEnteredLeftRepository
+     * @var AggregatedDemographicEnteredLeftRepository
      */
     protected $widgetDemographicEnteredLeftRepository;
 
@@ -24,13 +24,13 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
      * @param GroupRepository $groupRepository
      * @param GroupTypeRepository $groupTypeRepository
      * @param TranslatorInterface $translator
-     * @param WidgetDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository
+     * @param AggregatedDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository
      */
     public function __construct(
         GroupRepository $groupRepository,
         GroupTypeRepository $groupTypeRepository,
         TranslatorInterface $translator,
-        WidgetDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository
+        AggregatedDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository
     ) {
         $this->groupRepository = $groupRepository;
         $this->widgetDemographicEnteredLeftRepository = $widgetDemographicEnteredLeftRepository;

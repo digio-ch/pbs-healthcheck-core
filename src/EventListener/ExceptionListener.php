@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpFoundation\{
     JsonResponse, Request
 };
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -51,19 +52,19 @@ class ExceptionListener
 
         $exception = $event->getThrowable();
 
-        if (!$exception instanceof ApiException) {
+        if ($exception instanceof AccessDeniedHttpException) {
+            $apiError = new ApiError();
+            $apiError->setCode(JsonResponse::HTTP_FORBIDDEN);
+            $apiError->setMessage($this->translator->trans('api.error.accessDenied'));
+        } elseif (!($exception instanceof ApiException)) {
             $apiError = new ApiError();
             $apiError->setCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
             $apiError->setMessage($this->translator->trans('api.error.unknown'));
-            $response = new JsonResponse();
-            $response->setJson($this->serializer->serialize($apiError, 'json'));
-            $event->setResponse($response);
-            return;
+        } else {
+            $apiError = new ApiError();
+            $apiError->setCode($exception->getStatusCode());
+            $apiError->setMessage($exception->getMessage());
         }
-
-        $apiError = new ApiError();
-        $apiError->setCode($exception->getStatusCode());
-        $apiError->setMessage($exception->getMessage());
 
         $response = new JsonResponse();
         $response->setJson($this->serializer->serialize($apiError, 'json'));

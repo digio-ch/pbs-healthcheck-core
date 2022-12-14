@@ -3,52 +3,47 @@
 namespace App\Service\DataProvider;
 
 use App\DTO\Mapper\FilterDataMapper;
-use App\DTO\Model\FilterDataDTO;
-use App\Exception\ApiException;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
-use App\Repository\WidgetDemographicGroupRepository;
+use App\DTO\Model\Apps\Widgets\FilterDataDTO;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedDateRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
 use App\Service\Aggregator\WidgetAggregator;
 
 class FilterDataProvider
 {
-    /**
-     * @var GroupRepository
-     */
-    private $groupRepository;
+    /** @var GroupRepository $groupRepository */
+    private GroupRepository $groupRepository;
 
-    /**
-     * @var GroupTypeRepository
-     */
-    private $groupTypeRepository;
+    /** @var GroupTypeRepository $groupTypeRepository */
+    private GroupTypeRepository $groupTypeRepository;
 
-    /**
-     * @var WidgetDemographicGroupRepository
-     */
-    private $widgetDemographicGroupRepository;
+    /** @var AggregatedDateRepository $widgetDateRepository */
+    private AggregatedDateRepository $widgetDateRepository;
 
     public function __construct(
         GroupRepository $groupRepository,
         GroupTypeRepository $groupTypeRepository,
-        WidgetDemographicGroupRepository $widgetDemographicGroupRepository
+        AggregatedDateRepository $widgetDateRepository
     ) {
         $this->groupRepository = $groupRepository;
         $this->groupTypeRepository = $groupTypeRepository;
-        $this->widgetDemographicGroupRepository = $widgetDemographicGroupRepository;
+        $this->widgetDateRepository = $widgetDateRepository;
     }
 
     /***
-     * @param int $groupId
+     * @param Group $group
      * @param string $locale
      * @return FilterDataDTO
      */
-    public function getData(int $groupId, string $locale): FilterDataDTO
+    public function getData(Group $group, string $locale): FilterDataDTO
     {
-        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroup($groupId);
+        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroup($group->getId());
         $this->sortParentGroupTypes($groupTypes);
-        $subGroups = $this->groupRepository->getAllSubGroupsByGroupId($groupId);
-        $dates = $this->widgetDemographicGroupRepository->findDataPointDatesByGroupIds(
-            array_merge([$groupId], $subGroups)
+
+        $subGroups = $this->groupRepository->getAllSubGroupsByGroupId($group->getId());
+        $dates = $this->widgetDateRepository->findDataPointDatesByGroupIds(
+            array_merge([$group->getId()], $subGroups)
         );
 
         $dateStrings = [];

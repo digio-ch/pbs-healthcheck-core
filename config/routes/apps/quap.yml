@@ -1,0 +1,41 @@
+
+preview:
+  path: /preview
+  methods: GET
+  controller: App\Controller\Api\Apps\QuapController::getPreview
+
+department_preview:
+  path: /subdepartments/preview
+  methods: GET
+  controller: App\Controller\Api\Apps\QuapController::getDepartmentPreview
+
+answers:
+  path: /answers
+  methods: GET
+  controller: App\Controller\Api\Apps\QuapController::getAnswers
+
+departments_overview:
+  path: /overview
+  methods: GET
+  controller: App\Controller\Api\Apps\QuapController::getDepartmentsOverview
+
+submit_answers:
+  path: /questionnaire
+  methods: POST
+  controller: App\Controller\Api\Apps\QuapController::submitAnswers
+
+change_access:
+  path: /questionnaire
+  methods: PATCH
+  controller: App\Controller\Api\Apps\QuapController::setAccess
+
+get_answers:
+  path: /questionnaire
+  methods: GET
+  controller: App\Controller\Api\Apps\QuapController::getAnswers
+
+get_answers_for_subdepartments:
+  path: /subdepartments
+  methods: GET
+  controller: App\Controller\Api\Apps\QuapController::getAnswersForSubdepartments
+

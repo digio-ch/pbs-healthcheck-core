@@ -2,41 +2,33 @@
 
 namespace App\Service\DataProvider;
 
-use App\DTO\Model\LeaderDTO;
-use App\DTO\Model\LeaderOverviewDTO;
-use App\DTO\Model\QualificationDTO;
-use App\Entity\Group;
-use App\Entity\LeaderOverviewLeader;
-use App\Entity\LeaderOverviewQualification;
-use App\Entity\PersonQualification;
-use App\Entity\WidgetLeaderOverview;
-use App\Exception\ApiException;
-use App\Repository\GroupRepository;
-use App\Repository\GroupTypeRepository;
-use App\Repository\LeaderOverviewLeaderRepository;
-use App\Repository\LeaderOverviewQualificationRepository;
-use App\Repository\WidgetLeaderOverviewRepository;
+use App\DTO\Model\Apps\Widgets\LeaderDTO;
+use App\DTO\Model\Apps\Widgets\LeaderOverviewDTO;
+use App\Entity\Aggregated\AggregatedLeaderOverviewLeader;
+use App\Entity\Midata\Group;
+use App\Repository\Aggregated\AggregatedLeaderOverviewLeaderRepository;
+use App\Repository\Aggregated\AggregatedLeaderOverviewQualificationRepository;
+use App\Repository\Aggregated\AggregatedLeaderOverviewRepository;
+use App\Repository\Midata\GroupRepository;
+use App\Repository\Midata\GroupTypeRepository;
 use App\Service\Aggregator\WidgetAggregator;
 use App\Service\QualificationProcessor;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
 {
     /**
-     * @var WidgetLeaderOverviewRepository
+     * @var AggregatedLeaderOverviewRepository
      */
     protected $widgetLeaderOverviewRepository;
 
     /**
-     * @var LeaderOverviewLeaderRepository
+     * @var AggregatedLeaderOverviewLeaderRepository
      */
     protected $leaderOverviewLeaderRepository;
 
     /**
-     * @var LeaderOverviewQualificationRepository
+     * @var AggregatedLeaderOverviewQualificationRepository
      */
     protected $leaderOverviewQualificationRepository;
 
@@ -50,18 +42,18 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
      * @param GroupRepository $groupRepository
      * @param GroupTypeRepository $groupTypeRepository
      * @param TranslatorInterface $translator
-     * @param WidgetLeaderOverviewRepository $widgetLeaderOverviewRepository
-     * @param LeaderOverviewLeaderRepository $leaderOverviewLeaderRepository
-     * @param LeaderOverviewQualificationRepository $leaderOverviewQualificationRepository
+     * @param AggregatedLeaderOverviewRepository $widgetLeaderOverviewRepository
+     * @param AggregatedLeaderOverviewLeaderRepository $leaderOverviewLeaderRepository
+     * @param AggregatedLeaderOverviewQualificationRepository $leaderOverviewQualificationRepository
      * @param QualificationProcessor $qualificationProcessor
      */
     public function __construct(
         GroupRepository $groupRepository,
         GroupTypeRepository $groupTypeRepository,
         TranslatorInterface $translator,
-        WidgetLeaderOverviewRepository $widgetLeaderOverviewRepository,
-        LeaderOverviewLeaderRepository $leaderOverviewLeaderRepository,
-        LeaderOverviewQualificationRepository $leaderOverviewQualificationRepository,
+        AggregatedLeaderOverviewRepository $widgetLeaderOverviewRepository,
+        AggregatedLeaderOverviewLeaderRepository $leaderOverviewLeaderRepository,
+        AggregatedLeaderOverviewQualificationRepository $leaderOverviewQualificationRepository,
         QualificationProcessor $qualificationProcessor
     ) {
         $this->groupRepository = $groupRepository;
@@ -125,7 +117,7 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
         LeaderOverviewDTO $leaderOverviewDTO
     ) {
         $leaders = $this->leaderOverviewLeaderRepository->findAllByGroupTypeAndDate($mainGroupId, $groupType, $date);
-        /** @var LeaderOverviewLeader $leader */
+        /** @var AggregatedLeaderOverviewLeader $leader */
         foreach ($leaders as $leader) {
             $leaderDTO = new LeaderDTO();
             $leaderDTO->setName($leader->getName());
