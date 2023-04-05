@@ -17,9 +17,14 @@ class QuestionnaireRepository extends ServiceEntityRepository
 
     public function getQuestionnaireByGroup(Group $group): Questionnaire
     {
+        if($group->getGroupType()->getGroupType() == GroupType::CANTON || $group->getGroupType()->getGroupType() == GroupType::REGION) {
+            $questionnaireType = Questionnaire::TYPE_CANTON;
+        } else {
+            $questionnaireType = Questionnaire::TYPE_DEPARTMENT;
+        }
         return $this->createQueryBuilder('q')
             ->where('q.type = :type')
-            ->setParameter('type', $group->getGroupType()->getGroupType() == GroupType::CANTON ? Questionnaire::TYPE_CANTON : Questionnaire::TYPE_DEPARTMENT)
+            ->setParameter('type', $questionnaireType)
             ->setMaxResults(1)
             ->getQuery()
             ->getSingleResult();
