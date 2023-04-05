@@ -8,7 +8,7 @@ use App\Helper\QuapAnswerStackHelper;
 use App\Model\CommandStatistics;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use App\Repository\Midata\GroupRepository;
-use App\Repository\Midata\QuestionnaireRepository;
+use App\Repository\Quap\QuestionnaireRepository;
 use App\Repository\Quap\QuestionRepository;
 use App\Service\Apps\Quap\QuapComputeAnswersService;
 use Symfony\Component\Console\Input\InputInterface;
