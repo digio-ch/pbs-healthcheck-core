@@ -23,7 +23,7 @@ class QuestionnaireRepository extends ServiceEntityRepository
 
     public function getQuestionnaireByGroup(Group $group): Questionnaire
     {
-        if(in_array($group->getGroupType()->getGroupType(), [GroupType::CANTON, GroupType::REGION])) {
+        if (in_array($group->getGroupType()->getGroupType(), [GroupType::CANTON, GroupType::REGION])) {
             $questionnaireType = Questionnaire::TYPE_CANTON;
         } else {
             $questionnaireType = Questionnaire::TYPE_DEPARTMENT;
