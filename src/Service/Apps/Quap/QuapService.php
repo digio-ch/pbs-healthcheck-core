@@ -180,7 +180,7 @@ class QuapService
 
     public function getAnswersForSubdepartments(Group $group, ?\DateTimeImmutable $date): array
     {
-        $parentGroupType = $group->getGroupType()->getId();
+        $parentGroupType = $group->getGroupType()->getGroupType();
 
         $subdepartments = [];
         if ($parentGroupType === GroupType::CANTON) {

@@ -3327,8 +3327,8 @@
             "question_de": "Abfrage Rolle Kantonsleiter*in (2 Personen)",
             "question_fr": "Consultation sur le rôle de responsable cantonal·e (2 personnes)",
             "question_it": "Consultazione sul ruolo del/della responsabile cantonale (due persone)",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_leader"
           },
           {
             "id": 1,
@@ -3343,8 +3343,8 @@
             "question_de": "Abfrage Rolle Präsident*in",
             "question_fr": "Consultation sur le rôle de président·e",
             "question_it": "Consultazione sul ruolo del/della presidente/presidentessa",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_president"
           },
           {
             "id": 2,
@@ -3359,8 +3359,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Biberstufe",
             "question_fr": "Consultation sur le rôle de responsable de la branche Castors",
             "question_it": "Consultazione sul ruolo del/della responsabile della branca Castori",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_biber_v"
           },
           {
             "id": 3,
@@ -3375,8 +3375,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Wolfsstufe",
             "question_fr": "Consultation sur le rôle de responsable de la branche Louveteaux",
             "question_it": "Consultazione sul ruolo del/della responsabile della branca Lupetti.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_wolf_v"
           },
           {
             "id": 4,
@@ -3391,8 +3391,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Pfadistufe",
             "question_fr": "Consultation sur le rôle de responsable de la branche Eclais",
             "question_it": "Consultazione sul ruolo del/della responsabile della branca Esploratori",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pfadi_v"
           },
           {
             "id": 5,
@@ -3407,8 +3407,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Piostufe",
             "question_fr": "Consultation sur le rôle de responsable de la branche Picos",
             "question_it": "Consultazione sul ruolo del/della responsabile della branca Pionieri",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pio_v"
           },
           {
             "id": 6,
@@ -3423,8 +3423,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Roverstufe",
             "question_fr": "Consultation sur le rôle de responsable de la branche Route",
             "question_it": "Consultazione sul ruolo del/della responsabile della branca Rover",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_rover_v"
           },
           {
             "id": 7,
@@ -3439,8 +3439,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Pfadi Trotz Allem",
             "question_fr": "Consultation sur le rôle de responsable des Scouts Malgré Tout",
             "question_it": "Consultazione sul ruolo del/della responsabile degli Scout ad Ogni Costo",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pta_v"
           },
           {
             "id": 8,
@@ -3455,8 +3455,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Ausbildung",
             "question_fr": "Consultation sur le rôle de responsable de la formation",
             "question_it": "Consultazione sul ruolo del/della responsabile della formazione",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_education_v"
           },
           {
             "id": 9,
@@ -3471,8 +3471,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Betreuung",
             "question_fr": "Consultation sur le rôle de responsable de l'encadrement",
             "question_it": "Consultazione sul ruolo del/della responsabile dell'accompagnamento",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_coach_v"
           },
           {
             "id": 10,
@@ -3487,8 +3487,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Diversität und Inklusion",
             "question_fr": "Consultation sur le rôle de responsable de la diversité et de l'inclusion ",
             "question_it": "Consultazione sul ruolo del/della responsabile della diversità e dell'inclusione",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_diversity_v"
           },
           {
             "id": 11,
@@ -3503,8 +3503,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Internationales",
             "question_fr": "Consultation sur le rôle de responsable international·e",
             "question_it": "Consultazione sul ruolo del/della responsabile internazionale",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_international_v"
           },
           {
             "id": 12,
@@ -3519,8 +3519,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Krisenteam",
             "question_fr": "Consultation sur le rôle de responsable de la cellule de crise",
             "question_it": "Consultazione sul ruolo del/della responsabile della cellula di crisi",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_crisis_v"
           },
           {
             "id": 13,
@@ -3535,8 +3535,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r PR",
             "question_fr": "Consultation sur le rôle de responsable des relations publiques",
             "question_it": "Consultazione sul ruolo del/della responsabile delle pubbliche relazioni",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pr_v"
           },
           {
             "id": 14,
@@ -3551,8 +3551,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Prävention",
             "question_fr": "Consultation sur le rôle de responsable de la prévention",
             "question_it": "Consultazione sul ruolo del/della responsabile della prevenzione",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_prevention_v"
           },
           {
             "id": 15,
@@ -3567,8 +3567,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Programm",
             "question_fr": "Consultation sur le rôle de responsable du programme",
             "question_it": "Consultazione sul ruolo del/della responsabile del programma.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_program_v"
           },
           {
             "id": 16,
@@ -3583,8 +3583,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Nachhaltigkeit und Umwelt",
             "question_fr": "Consultation sur le rôle de responsable de la durabilité et de l'environnement",
             "question_it": "Consultazione sul ruolo del/della responsabile della sostenibilità e dell'ambiente.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_sustainability_v"
           }
         ],
         "id": 4,

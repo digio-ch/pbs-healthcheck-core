@@ -12,16 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class GroupType
 {
-    public const FEDERATION = 1;
-    public const CANTON = 2;
-    public const REGION = 3;
-    public const DEPARTMENT = 7;
+    public const FEDERATION = 'Group::Bund';
+    public const CANTON = 'Group::Kantonalverband';
+    public const REGION = 'Group::Region';
+    public const DEPARTMENT = 'Group::Abteilung';
 
-    public const BIBER = 8;
-    public const WOELFE = 9;
-    public const PFADI = 10;
-    public const PIO = 11;
-    public const ROVER = 12;
+    public const BIBER = 'Group::Biber';
+    public const WOELFE = 'Group::Woelfe';
+    public const PFADI = 'Group::Pfadi';
+    public const PIO = 'Group::Pio';
+    public const ROVER = 'Group::RegionaleRover';
     public const PTA = 13;
 
     /**

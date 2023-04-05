@@ -8,6 +8,7 @@ use App\Helper\QuapAnswerStackHelper;
 use App\Model\CommandStatistics;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use App\Repository\Midata\GroupRepository;
+use App\Repository\Quap\QuestionnaireRepository;
 use App\Repository\Quap\QuestionRepository;
 use App\Service\Apps\Quap\QuapComputeAnswersService;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,13 +28,17 @@ class ComputeAnswersCommand extends StatisticsCommand
     /** @var QuapComputeAnswersService $quapComputeAnswersService */
     private QuapComputeAnswersService $quapComputeAnswersService;
 
+    /** @var QuestionnaireRepository $questionnaireRepository */
+    private QuestionnaireRepository $questionnaireRepository;
+
     private float $totalDuration = 0;
 
     public function __construct(
         GroupRepository $groupRepository,
         AggregatedQuapRepository $quapRepository,
         QuestionRepository $questionRepository,
-        QuapComputeAnswersService $quapComputeAnswersService
+        QuapComputeAnswersService $quapComputeAnswersService,
+        QuestionnaireRepository $questionnaireRepository
     ) {
         parent::__construct();
 
@@ -41,6 +46,7 @@ class ComputeAnswersCommand extends StatisticsCommand
         $this->quapRepository = $quapRepository;
         $this->questionRepository = $questionRepository;
         $this->quapComputeAnswersService = $quapComputeAnswersService;
+        $this->questionnaireRepository = $questionnaireRepository;
     }
 
     protected function configure()
@@ -59,9 +65,8 @@ class ComputeAnswersCommand extends StatisticsCommand
         /** @var Group $group */
         foreach ($groups as $group) {
             try {
-                $questionnaire = $this->quapRepository->getQuestionnaireByGroup($group);
+                $questionnaire = $this->questionnaireRepository->getQuestionnaireByGroup($group);
                 $questions = $this->questionRepository->findEvaluableByQuestionnaire($questionnaire);
-
                 $widgetQuap = $this->quapRepository->findCurrentForGroup($group->getId());
                 $helper = new QuapAnswerStackHelper([]);
 
@@ -74,6 +79,7 @@ class ComputeAnswersCommand extends StatisticsCommand
                     $helper->setAnswer($question->getAspect()->getLocalId(), $question->getLocalId(), $result);
                 }
                 $widgetQuap->setComputedAnswers($helper->getAnswerStack());
+                $widgetQuap->setQuestionnaire($questionnaire);
                 $this->quapRepository->save($widgetQuap);
             } catch (\Exception $e) {
                 $output->writeln(['An Error occurred', $group, $e]);
