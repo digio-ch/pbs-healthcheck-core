@@ -196,12 +196,14 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS count_member, (
                 SELECT count(DISTINCT midata_person_role.person_id) AS count_recognition FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                     AND midata_person_qualification.qualification_type_id IN (?)
                 ) AS count_recognition;
             ",
@@ -240,6 +242,7 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS count_member, (
                 SELECT count(id_1.id) AS count_recognition FROM (
                     SELECT DISTINCT midata_person_role.person_id AS id FROM midata_person_role
@@ -247,6 +250,7 @@ class QuapComputeAnswersService
                         JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                         WHERE midata_person_role.group_id IN (?)
                         AND midata_role.role_type IN (?)
+                        AND midata_person_role.deleted_at IS NULL
                         AND midata_person_qualification.qualification_type_id IN (?)) AS id_1
                     JOIN (
                         SELECT DISTINCT midata_person_role.person_id AS id FROM midata_person_role
@@ -254,6 +258,7 @@ class QuapComputeAnswersService
                             JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                             WHERE midata_person_role.group_id IN (?)
                             AND midata_role.role_type IN (?)
+                            AND midata_person_role.deleted_at IS NULL
                             AND midata_person_qualification.qualification_type_id IN (?)) AS id_2
                     ON id_1.id = id_2.id
                 ) AS count_recognition;
@@ -294,12 +299,14 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS id_leader, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                     AND midata_person_qualification.qualification_type_id = ?
                 ) AS id_educated;
             ",
@@ -333,12 +340,14 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS id_president, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated_1 FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                     AND midata_person_qualification.qualification_type_id = ?
                 ) AS id_educated_1, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated_2 FROM midata_person_role
@@ -346,6 +355,7 @@ class QuapComputeAnswersService
                     JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                     AND midata_person_qualification.qualification_type_id = ?
                 ) AS id_educated_2;
             ",
@@ -392,11 +402,13 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS count_parents_council, (
                 SELECT count(DISTINCT midata_person_role.person_id) AS count_president_parents_council FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS count_president_parents_council
             ",
             [
@@ -441,12 +453,14 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS count_leitpfadi, (
                 SELECT count(DISTINCT midata_person_role.person_id) AS count_count_leitpfadi_age FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     JOIN midata_person ON midata_person_role.person_id = midata_person.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                     AND midata_person.birthday > ?::date AND midata_person.birthday < ?::date
                 ) AS count_count_leitpfadi_age
             ",
@@ -516,7 +530,7 @@ class QuapComputeAnswersService
         $result = $this->em->getConnection()->executeQuery(
             "
             SELECT count(DISTINCT midata_group.id) > 0 FROM midata_group
-            JOIN midata_group_type ON midata_group.group_type_id = midata_group_type.id                         
+            JOIN midata_group_type ON midata_group.group_type_id = midata_group_type.id     
             WHERE midata_group.id IN (?)
             AND midata_group_type.group_type = ?
             ",
@@ -544,17 +558,20 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_leader, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover_leader FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_rover_leader, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover FROM midata_person_role
                     JOIN midata_group ON midata_person_role.group_id = midata_group.id
                     JOIN midata_group_type ON midata_group.group_type_id = midata_group_type.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_group_type.group_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_rover;
             ",
             [
@@ -630,6 +647,7 @@ class QuapComputeAnswersService
                         JOIN midata_role ON midata_person_role.role_id = midata_role.id
                         WHERE midata_person_role.group_id IN (?)
                         AND midata_role.role_type IN (?)
+                        AND midata_person_role.deleted_at IS NULL
                 )
             ",
             [
@@ -664,31 +682,37 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_biber, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_woelfe FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_woelfe, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pfadi FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_pfadi, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pio FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_pio, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_rover, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pta FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_pta;
             ",
             [
@@ -805,6 +829,7 @@ class QuapComputeAnswersService
                 JOIN midata_role ON midata_person_role.role_id = midata_role.id
                 WHERE midata_person_role.group_id IN (?)
                 AND midata_role.role_type = ?
+                AND midata_person_role.deleted_at IS NULL
             ",
             [
                 $groupIds,
@@ -827,6 +852,7 @@ class QuapComputeAnswersService
                 JOIN midata_role ON midata_person_role.role_id = midata_role.id
                 WHERE midata_person_role.group_id IN (?)
                 AND midata_role.role_type = ?
+                AND midata_person_role.deleted_at IS NULL
             ",
             [
                 $groupIds,
@@ -852,11 +878,13 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_coach, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_leader FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_leader;
             ",
             [
