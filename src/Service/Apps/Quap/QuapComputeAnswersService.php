@@ -511,21 +511,22 @@ class QuapComputeAnswersService
         );
     }
 
-    private function hasGroup(array $groupIds, int $groupTypeId): int
+    private function hasGroup(array $groupIds, string $groupType): int
     {
         $result = $this->em->getConnection()->executeQuery(
             "
-            SELECT count(DISTINCT id) > 0 FROM midata_group
-                WHERE midata_group.id IN (?)
-                AND midata_group.group_type_id = ?
+            SELECT count(DISTINCT midata_group.id) > 0 FROM midata_group
+            JOIN midata_group_type ON midata_group.group_type_id = midata_group_type.id                         
+            WHERE midata_group.id IN (?)
+            AND midata_group_type.group_type = ?
             ",
             [
                 $groupIds,
-                $groupTypeId,
+                $groupType,
             ],
             [
                 Connection::PARAM_INT_ARRAY,
-                ParameterType::INTEGER,
+                ParameterType::STRING,
             ]
         )->fetchOne();
 
@@ -551,8 +552,9 @@ class QuapComputeAnswersService
                 ) AS ids_rover_leader, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover FROM midata_person_role
                     JOIN midata_group ON midata_person_role.group_id = midata_group.id
+                    JOIN midata_group_type ON midata_group.group_type_id = midata_group_type.id
                     WHERE midata_person_role.group_id IN (?)
-                    AND midata_group.group_type_id = ?
+                    AND midata_group_type.group_type = ?
                 ) AS ids_rover;
             ",
             [
@@ -774,7 +776,7 @@ class QuapComputeAnswersService
     private function hasLeader(Group $group): int
     {
         $groupIds = $this->getGroupIds($group);
-        if ($group->getGroupType()->getId() === GroupType::CANTON) {
+        if ($group->getGroupType()->getGroupType() === GroupType::CANTON) {
             return $this->hasNumRole($groupIds, Role::CANTONAL_LEADER, 2);
         }
         return $this->hasNumRole($groupIds, Role::REGIONAL_LEADER, 2);
@@ -789,7 +791,7 @@ class QuapComputeAnswersService
     private function hasAnyRole(Group $group, string $cantonalRole, string $regionalRole): int
     {
         $groupIds = $this->getGroupIds($group);
-        if ($group->getGroupType()->getId() === GroupType::CANTON) {
+        if ($group->getGroupType()->getGroupType() === GroupType::CANTON) {
             return $this->hasRole($groupIds, $cantonalRole);
         }
         return $this->hasRole($groupIds, $regionalRole);
