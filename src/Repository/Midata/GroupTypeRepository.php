@@ -29,6 +29,6 @@ class GroupTypeRepository extends ServiceEntityRepository
             [$groupId, WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES],
             [ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 }

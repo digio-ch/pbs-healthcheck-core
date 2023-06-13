@@ -121,7 +121,8 @@ class GroupRepository extends ServiceEntityRepository
             ) SELECT * FROM tree;
         ";
 
-        return $conn->executeQuery($query, ['groupId' => $groupId])->fetchFirstColumn();
+        return $conn->executeQuery($query, ['groupId' => $groupId])
+            ->fetchFirstColumn();
     }
 
     public function findOneByIdAndType(int $groupId, array $types)
@@ -158,7 +159,7 @@ class GroupRepository extends ServiceEntityRepository
             [$groupId, WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES, WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES],
             [ParameterType::STRING, Connection::PARAM_STR_ARRAY, Connection::PARAM_STR_ARRAY]
         );
-        return $query->fetchAll(FetchMode::COLUMN);
+        return $query->fetchFirstColumn();
     }
 
     public function findAllSubGroupIdsByParentGroupId(int $groupId)
@@ -181,7 +182,7 @@ class GroupRepository extends ServiceEntityRepository
             [$groupId],
             [ParameterType::STRING]
         );
-        return $query->fetchAll(FetchMode::COLUMN);
+        return $query->fetchFirstColumn();
     }
 
     /**
@@ -214,7 +215,7 @@ class GroupRepository extends ServiceEntityRepository
             [$parentGroupId, $subGroupTypes, $subGroupTypes],
             [ParameterType::STRING, Connection::PARAM_STR_ARRAY, Connection::PARAM_STR_ARRAY]
         );
-        return $query->fetchAll();
+        return $query->fetchAllAssociative();
     }
 
     public function findAllDepartmentsFromCanton(int $cantonId): array

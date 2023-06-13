@@ -35,8 +35,8 @@ class EventDateRepository extends ServiceEntityRepository
             ->where("e.type = 'camp'")
             ->andWhere('eg.group_id IN (:ids)')
             ->setParameter('ids', $subGroups, Connection::PARAM_INT_ARRAY)
-            ->execute()
-            ->fetch(FetchMode::COLUMN);
+            ->executeQuery()
+            ->fetchOne();
     }
 
     /**

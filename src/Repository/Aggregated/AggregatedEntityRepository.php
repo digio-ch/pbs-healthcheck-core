@@ -41,6 +41,6 @@ abstract class AggregatedEntityRepository extends ServiceEntityRepository
             . $this->getClassMetadata()->getTableName()
             . " WHERE group_id = ?;";
         $statement = $conn->executeQuery($statementString, [$mainGroupId], [ParameterType::INTEGER]);
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 }
