@@ -39,7 +39,8 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$date, $groupType, $parentGroupId],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER]
         );
-        return $statement->fetchColumn();
+        $res = $statement->fetchFirstColumn();
+        return $res ? $res[0] : null;
     }
 
     /**
@@ -61,7 +62,8 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$date, $parentGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchColumn();
+        $res = $statement->fetchFirstColumn();
+        return $res ? $res[0] : null;
     }
 
     /**
@@ -81,7 +83,8 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$date, $groupType, $parentGroupId],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER]
         );
-        return $statement->fetchColumn();
+        $res = $statement->fetchFirstColumn();
+        return $res ? $res[0] : null;
     }
 
     // members-group date period queries

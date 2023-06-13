@@ -121,11 +121,7 @@ class GroupRepository extends ServiceEntityRepository
             ) SELECT * FROM tree;
         ";
 
-        $statement = $conn->prepare($query);
-        $statement->bindValue('groupId', $groupId);
-        $statement->execute();
-
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $conn->executeQuery($query, ['groupId' => $groupId])->fetchFirstColumn();
     }
 
     public function findOneByIdAndType(int $groupId, array $types)
