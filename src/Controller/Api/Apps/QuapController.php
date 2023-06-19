@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class QuapController extends AbstractController
 {
-
     /** @var QuapService $quapService */
     private QuapService $quapService;
 

@@ -4,7 +4,6 @@ namespace App\DTO\Model\Apps\Quap;
 
 class QuestionDTO
 {
-
     /**
      * @var int $id
      */
