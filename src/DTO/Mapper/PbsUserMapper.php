@@ -17,7 +17,7 @@ class PbsUserMapper
             $user['email'],
             $user['first_name'],
             $user['last_name'],
-            $user['nickname']
+            $user['nickname'] ?? '' // Apparently field doesn't exist if user has no nickname
         );
 
         $pbsUser->setGender($user['gender'] ?? '');
