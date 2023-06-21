@@ -37,6 +37,6 @@ class AggregatedLeaderOverviewRepository extends AggregatedEntityRepository
             [$date, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetch();
+        return $statement->fetchAssociative();
     }
 }

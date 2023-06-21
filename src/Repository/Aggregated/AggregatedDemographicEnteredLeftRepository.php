@@ -40,7 +40,7 @@ class AggregatedDemographicEnteredLeftRepository extends AggregatedEntityReposit
             [$from, $to, $mainGroupId, $groupType],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::STRING]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -64,6 +64,6 @@ class AggregatedDemographicEnteredLeftRepository extends AggregatedEntityReposit
             [$from, $to, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 }

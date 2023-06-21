@@ -7,7 +7,6 @@ use App\Entity\Quap\Aspect;
 
 class AspectMapper
 {
-
     public static function createAspectFromEntity(Aspect $aspect, string $locale): AspectDTO
     {
         $dto = new AspectDTO();

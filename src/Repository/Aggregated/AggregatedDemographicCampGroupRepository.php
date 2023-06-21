@@ -37,7 +37,7 @@ class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
             [$camp->getId(), $mainGroupId, $groupType],
             [ParameterType::INTEGER, ParameterType::INTEGER, ParameterType::STRING]
         );
-        return $statement->fetch(FetchMode::COLUMN);
+        return $statement->fetchOne();
     }
 
     /**
@@ -59,7 +59,7 @@ class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
             [$camp->getId(), $mainGroupId, $groupType],
             [ParameterType::INTEGER, ParameterType::INTEGER, ParameterType::STRING]
         );
-        return $statement->fetch(FetchMode::COLUMN);
+        return $statement->fetchOne();
     }
 
     /**
@@ -84,7 +84,7 @@ class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
             [$camp->getId(), $groupTypes, $mainGroupId],
             [ParameterType::INTEGER, Connection::PARAM_INT_ARRAY, ParameterType::INTEGER]
         );
-        return $statement->fetch();
+        return $statement->fetchAssociative();
     }
 
     public function deleteAllByCampGroupAndGroupType(int $campId, int $groupId, string $groupType)

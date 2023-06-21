@@ -43,6 +43,6 @@ class AggregatedGeoLocationRepository extends AggregatedEntityRepository
                 Connection::PARAM_STR_ARRAY
             ]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 }

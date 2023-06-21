@@ -7,7 +7,6 @@ use App\Entity\Quap\Help;
 
 class HelpMapper
 {
-
     public static function createHelpFromEntity(Help $help, string $locale): HelpDTO
     {
 
