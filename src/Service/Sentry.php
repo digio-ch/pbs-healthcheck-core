@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Security;
 
 class Sentry
 {
-
     private $security;
 
     public function __construct(Security $security)
