@@ -38,7 +38,7 @@ class AggregatedDemographicDepartmentRepository extends AggregatedEntityReposito
             [$date, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -61,7 +61,7 @@ class AggregatedDemographicDepartmentRepository extends AggregatedEntityReposito
             [$date, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     public function findUnknownGenderMemberCount(string $date, int $mainGroupId, array $groupTypes)
@@ -76,7 +76,7 @@ class AggregatedDemographicDepartmentRepository extends AggregatedEntityReposito
             [$date, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     public function findUnknownGenderLeaderCount(string $date, int $mainGroupId, array $groupTypes)
@@ -91,6 +91,6 @@ class AggregatedDemographicDepartmentRepository extends AggregatedEntityReposito
             [$date, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 }

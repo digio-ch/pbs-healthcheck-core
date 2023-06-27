@@ -8,31 +8,35 @@
         "ext-json": "*",
         "digio/digio-logger": "^0.1.0",
         "doctrine/annotations": "^1.10",
+        "doctrine/doctrine-bundle": "^2.2",
+        "doctrine/doctrine-migrations-bundle": "3.0.*",
+        "doctrine/orm": "^2.8",
         "geoip2/geoip2": "^2.10",
         "guzzlehttp/guzzle": "^6.5",
         "halaxa/json-machine": "^0.3.3",
         "nelmio/cors-bundle": "^2.0",
         "sensio/framework-extra-bundle": "^5.5",
+        "sentry/sentry-symfony": "^4.8",
+        "symfony/cache-contracts": "^2.5",
         "symfony/console": "5.1.*",
         "symfony/dotenv": "5.1.*",
-        "symfony/flex": "^1.3.1",
+        "symfony/flex": "1.17.*",
         "symfony/framework-bundle": "5.1.*",
-        "symfony/orm-pack": "^1.0",
         "symfony/polyfill-intl-messageformatter": "^1.18",
         "symfony/security-bundle": "5.1.*",
         "symfony/serializer": "5.1.*",
         "symfony/stopwatch": "5.1.*",
         "symfony/translation": "5.1.*",
         "symfony/validator": "5.1.*",
-        "symfony/yaml": "5.0.*",
-        "doctrine/doctrine-migrations-bundle": "3.0.*"
+        "symfony/yaml": "5.0.*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "squizlabs/php_codesniffer": "3.*",
         "symfony/maker-bundle": "^1.19",
         "symfony/phpunit-bridge": "^5.1",
-        "symfony/profiler-pack": "^1.0"
+        "symfony/twig-bundle": "5.2.*",
+        "symfony/web-profiler-bundle": "5.2.*"
     },
     "repositories": [
         {
@@ -44,7 +48,10 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": false
+        }
     },
     "autoload": {
         "psr-4": {

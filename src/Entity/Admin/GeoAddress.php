@@ -9,10 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="admin_geo_address", indexes={
- *     @ORM\Index(columns="zip"),
- *     @ORM\Index(columns="town"),
- *     @ORM\Index(columns="address"),
- *     @ORM\Index(columns="house"),
+ *     @ORM\Index(columns={"zip"}),
+ *     @ORM\Index(columns={"town"}),
+ *     @ORM\Index(columns={"address"}),
+ *     @ORM\Index(columns={"house"}),
  * })
  * @ORM\Entity(repositoryClass=GeoAddressRepository::class)
  */

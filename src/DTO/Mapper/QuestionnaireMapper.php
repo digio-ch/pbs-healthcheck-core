@@ -7,7 +7,6 @@ use App\Entity\Quap\Questionnaire;
 
 class QuestionnaireMapper
 {
-
     public static function createQuestionnaireFromEntity(Questionnaire $questionnaire, string $locale): QuestionnaireDTO
     {
 

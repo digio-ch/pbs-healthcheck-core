@@ -88,37 +88,45 @@ class QuapComputeAnswersService
             case 'has_leader':
                 return $this->hasLeader($group);
             case 'has_president':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PRESIDENT, ROLE::REGIONAL_PRESIDENT]);
+                return $this->hasAnyRole($group, Role::CANTONAL_PRESIDENT, ROLE::REGIONAL_PRESIDENT);
             case 'has_biber_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_BIBERSTUFE_V, Role::REGIONAL_BIBERSTUFE_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_BIBERSTUFE_V, Role::REGIONAL_BIBERSTUFE_V);
             case 'has_wolf_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_WOLFSTUFE_V, Role::REGIONAL_WOLFSTUFE_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_WOLFSTUFE_V, Role::REGIONAL_WOLFSTUFE_V);
             case 'has_pfadi_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PFADISTUFE_V, Role::REGIONAL_PFADISTUFE_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_PFADISTUFE_V, Role::REGIONAL_PFADISTUFE_V);
             case 'has_pio_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PIOSTUFE_V, Role::REGIONAL_PIOSTUFE_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_PIOSTUFE_V, Role::REGIONAL_PIOSTUFE_V);
             case 'has_rover_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_ROVERSTUFE_V, Role::REGIONAL_ROVERSTUFE_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_ROVERSTUFE_V, Role::REGIONAL_ROVERSTUFE_V);
             case 'has_pta_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PFADI_TROTZ_ALLEM_V, Role::REGIONAL_PFADI_TROTZ_ALLEM_V]);
+                return $this->hasAnyRole(
+                    $group,
+                    Role::CANTONAL_PFADI_TROTZ_ALLEM_V,
+                    Role::REGIONAL_PFADI_TROTZ_ALLEM_V
+                );
             case 'has_education_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_AUSBILDUNG_V, Role::REGIONAL_AUSBILDUNG_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_AUSBILDUNG_V, Role::REGIONAL_AUSBILDUNG_V);
             case 'has_coach_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_BETREUUNG_V, Role::REGIONAL_BETREUUNG_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_BETREUUNG_V, Role::REGIONAL_BETREUUNG_V);
             case 'has_diversity_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_INTEGRATION_V, Role::REGIONAL_INTEGRATION_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_INTEGRATION_V, Role::REGIONAL_INTEGRATION_V);
             case 'has_international_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_INTERNATIONALES_V, Role::REGIONAL_INTERNATIONALES_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_INTERNATIONALES_V, Role::REGIONAL_INTERNATIONALES_V);
             case 'has_crisis_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_KRISENTEAM_V, Role::REGIONAL_KRISENTEAM_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_KRISENTEAM_V, Role::REGIONAL_KRISENTEAM_V);
             case 'has_pr_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PR_V, Role::REGIONAL_PR_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_PR_V, Role::REGIONAL_PR_V);
             case 'has_prevention_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PRAEVENTION_SEXUELLER_AUSBEUTNG_V, Role::REGIONAL_PRAEVENTION_SEXUELLER_AUSBEUTNG_V]);
+                return $this->hasAnyRole(
+                    $group,
+                    Role::CANTONAL_PRAEVENTION_SEXUELLER_AUSBEUTNG_V,
+                    Role::REGIONAL_PRAEVENTION_SEXUELLER_AUSBEUTNG_V
+                );
             case 'has_program_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_PROGRAMM_V, Role::REGIONAL_PROGRAMM_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_PROGRAMM_V, Role::REGIONAL_PROGRAMM_V);
             case 'has_sustainability_v':
-                return $this->hasAnyRole($group, [Role::CANTONAL_NACHHALTIGKEIT_V, Role::REGIONAL_NACHHALTIGKEIT_V]);
+                return $this->hasAnyRole($group, Role::CANTONAL_NACHHALTIGKEIT_V, Role::REGIONAL_NACHHALTIGKEIT_V);
             default:
                 return Question::ANSWER_NOT_ANSWERED;
         }
@@ -188,12 +196,14 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS count_member, (
                 SELECT count(DISTINCT midata_person_role.person_id) AS count_recognition FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                     AND midata_person_qualification.qualification_type_id IN (?)
                 ) AS count_recognition;
             ",
@@ -216,8 +226,12 @@ class QuapComputeAnswersService
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
-    private function hasPercentageComplex(array $groupIds, array $leaderRoles, array $mainQualificationIds, array $additionalQualificationIds): int
-    {
+    private function hasPercentageComplex(
+        array $groupIds,
+        array $leaderRoles,
+        array $mainQualificationIds,
+        array $additionalQualificationIds
+    ): int {
         $result = $this->em->getConnection()->executeQuery(
             "
             SELECT (CASE
@@ -228,6 +242,7 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS count_member, (
                 SELECT count(id_1.id) AS count_recognition FROM (
                     SELECT DISTINCT midata_person_role.person_id AS id FROM midata_person_role
@@ -235,6 +250,7 @@ class QuapComputeAnswersService
                         JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                         WHERE midata_person_role.group_id IN (?)
                         AND midata_role.role_type IN (?)
+                        AND midata_person_role.deleted_at IS NULL
                         AND midata_person_qualification.qualification_type_id IN (?)) AS id_1
                     JOIN (
                         SELECT DISTINCT midata_person_role.person_id AS id FROM midata_person_role
@@ -242,6 +258,7 @@ class QuapComputeAnswersService
                             JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                             WHERE midata_person_role.group_id IN (?)
                             AND midata_role.role_type IN (?)
+                            AND midata_person_role.deleted_at IS NULL
                             AND midata_person_qualification.qualification_type_id IN (?)) AS id_2
                     ON id_1.id = id_2.id
                 ) AS count_recognition;
@@ -282,12 +299,14 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS id_leader, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                     AND midata_person_qualification.qualification_type_id = ?
                 ) AS id_educated;
             ",
@@ -321,12 +340,14 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS id_president, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated_1 FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                     AND midata_person_qualification.qualification_type_id = ?
                 ) AS id_educated_1, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS id_educated_2 FROM midata_person_role
@@ -334,6 +355,7 @@ class QuapComputeAnswersService
                     JOIN midata_person_qualification ON midata_person_role.person_id = midata_person_qualification.person_id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                     AND midata_person_qualification.qualification_type_id = ?
                 ) AS id_educated_2;
             ",
@@ -380,11 +402,13 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS count_parents_council, (
                 SELECT count(DISTINCT midata_person_role.person_id) AS count_president_parents_council FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS count_president_parents_council
             ",
             [
@@ -429,12 +453,14 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS count_leitpfadi, (
                 SELECT count(DISTINCT midata_person_role.person_id) AS count_count_leitpfadi_age FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     JOIN midata_person ON midata_person_role.person_id = midata_person.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                     AND midata_person.birthday > ?::date AND midata_person.birthday < ?::date
                 ) AS count_count_leitpfadi_age
             ",
@@ -499,21 +525,22 @@ class QuapComputeAnswersService
         );
     }
 
-    private function hasGroup(array $groupIds, int $groupTypeId): int
+    private function hasGroup(array $groupIds, string $groupType): int
     {
         $result = $this->em->getConnection()->executeQuery(
             "
-            SELECT count(DISTINCT id) > 0 FROM midata_group
-                WHERE midata_group.id IN (?)
-                AND midata_group.group_type_id = ?
+            SELECT count(DISTINCT midata_group.id) > 0 FROM midata_group
+            JOIN midata_group_type ON midata_group.group_type_id = midata_group_type.id     
+            WHERE midata_group.id IN (?)
+            AND midata_group_type.group_type = ?
             ",
             [
                 $groupIds,
-                $groupTypeId,
+                $groupType,
             ],
             [
                 Connection::PARAM_INT_ARRAY,
-                ParameterType::INTEGER,
+                ParameterType::STRING,
             ]
         )->fetchOne();
 
@@ -531,16 +558,20 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_leader, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover_leader FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_rover_leader, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover FROM midata_person_role
                     JOIN midata_group ON midata_person_role.group_id = midata_group.id
+                    JOIN midata_group_type ON midata_group.group_type_id = midata_group_type.id
                     WHERE midata_person_role.group_id IN (?)
-                    AND midata_group.group_type_id = ?
+                    AND midata_group_type.group_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_rover;
             ",
             [
@@ -616,6 +647,7 @@ class QuapComputeAnswersService
                         JOIN midata_role ON midata_person_role.role_id = midata_role.id
                         WHERE midata_person_role.group_id IN (?)
                         AND midata_role.role_type IN (?)
+                        AND midata_person_role.deleted_at IS NULL
                 )
             ",
             [
@@ -650,31 +682,37 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_biber, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_woelfe FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_woelfe, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pfadi FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_pfadi, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pio FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_pio, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_rover FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_rover, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_pta FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_pta;
             ",
             [
@@ -762,10 +800,8 @@ class QuapComputeAnswersService
     private function hasLeader(Group $group): int
     {
         $groupIds = $this->getGroupIds($group);
-        $cantonalResult = $this->hasNumRole($groupIds, Role::CANTONAL_LEADER, 2);
-
-        if ($cantonalResult === Question::ANSWER_FULLY_APPLIES) {
-            return Question::ANSWER_FULLY_APPLIES;
+        if ($group->getGroupType()->getGroupType() === GroupType::CANTON) {
+            return $this->hasNumRole($groupIds, Role::CANTONAL_LEADER, 2);
         }
         return $this->hasNumRole($groupIds, Role::REGIONAL_LEADER, 2);
     }
@@ -776,15 +812,13 @@ class QuapComputeAnswersService
         return $this->hasRole($groupIds, $role);
     }
 
-    private function hasAnyRole(Group $group, array $roles): int
+    private function hasAnyRole(Group $group, string $cantonalRole, string $regionalRole): int
     {
         $groupIds = $this->getGroupIds($group);
-        foreach ($roles as $role) {
-            if ($this->hasRole($groupIds, $role) === Question::ANSWER_FULLY_APPLIES) {
-                return Question::ANSWER_FULLY_APPLIES;
-            }
+        if ($group->getGroupType()->getGroupType() === GroupType::CANTON) {
+            return $this->hasRole($groupIds, $cantonalRole);
         }
-        return Question::ANSWER_DONT_APPLIES;
+        return $this->hasRole($groupIds, $regionalRole);
     }
 
     private function hasRole(array $groupIds, string $role): int
@@ -795,6 +829,7 @@ class QuapComputeAnswersService
                 JOIN midata_role ON midata_person_role.role_id = midata_role.id
                 WHERE midata_person_role.group_id IN (?)
                 AND midata_role.role_type = ?
+                AND midata_person_role.deleted_at IS NULL
             ",
             [
                 $groupIds,
@@ -817,6 +852,7 @@ class QuapComputeAnswersService
                 JOIN midata_role ON midata_person_role.role_id = midata_role.id
                 WHERE midata_person_role.group_id IN (?)
                 AND midata_role.role_type = ?
+                AND midata_person_role.deleted_at IS NULL
             ",
             [
                 $groupIds,
@@ -842,11 +878,13 @@ class QuapComputeAnswersService
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type = ?
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_coach, (
                 SELECT array_agg(DISTINCT midata_person_role.person_id) AS ids_leader FROM midata_person_role
                     JOIN midata_role ON midata_person_role.role_id = midata_role.id
                     WHERE midata_person_role.group_id IN (?)
                     AND midata_role.role_type IN (?)
+                    AND midata_person_role.deleted_at IS NULL
                 ) AS ids_leader;
             ",
             [

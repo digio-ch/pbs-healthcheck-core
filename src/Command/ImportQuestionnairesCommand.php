@@ -19,7 +19,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportQuestionnairesCommand extends StatisticsCommand
 {
-
     /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 

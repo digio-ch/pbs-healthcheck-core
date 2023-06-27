@@ -37,6 +37,6 @@ class QualificationTypeRepository extends ServiceEntityRepository
             [$qualificationTypeId],
             [ParameterType::STRING]
         );
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 }

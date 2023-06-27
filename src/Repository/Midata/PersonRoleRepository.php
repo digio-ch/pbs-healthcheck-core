@@ -158,7 +158,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 ParameterType::STRING
             ]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -209,7 +209,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_STR_ARRAY
             ]
         );
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 
     public function findAllWithRoleCountInGroup(string $endDate, array $groupIds)
@@ -254,7 +254,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_STR_ARRAY
             ]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     public function findPersonRoles(int $personId, string $endDate, array $groupIds)
@@ -315,7 +315,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_STR_ARRAY
             ]
         );
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 
     /**
@@ -351,7 +351,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_STR_ARRAY
             ]
         );
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 
     /**
@@ -387,7 +387,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 ParameterType::STRING
             ]
         );
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 
     /**
@@ -421,7 +421,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 ParameterType::STRING
             ]
         );
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 
     public function findByPersonId(int $id)
@@ -455,7 +455,7 @@ class PersonRoleRepository extends ServiceEntityRepository
             [$groupIds, $date, $date, WidgetAggregator::$leaderRoleTypesByGroupType[$groupType]],
             [Connection::PARAM_INT_ARRAY, ParameterType::STRING, ParameterType::STRING, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     // demographic-department aggregation queries
@@ -508,7 +508,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_STR_ARRAY
             ]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -542,7 +542,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_STR_ARRAY
             ]
         );
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 
     // entered-left queries
@@ -596,7 +596,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_STR_ARRAY
             ]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -650,7 +650,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_STR_ARRAY
             ]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     public function findPersonRoleInPeriod(
@@ -738,7 +738,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                 Connection::PARAM_STR_ARRAY,
             ]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**

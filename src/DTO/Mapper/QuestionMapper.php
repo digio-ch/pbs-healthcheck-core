@@ -7,7 +7,6 @@ use App\Entity\Quap\Question;
 
 class QuestionMapper
 {
-
     public static function createQuestionFromEntity(Question $question, string $locale): QuestionDTO
     {
 

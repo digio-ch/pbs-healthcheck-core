@@ -2433,23 +2433,23 @@
               "links_de": [
                 {
                   "name": "Kapitel Coach im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/255/betreuungsmodell-der-pfadibewegung-schweiz/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Kapitel Coach im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Chapitre Coach dans le modèle d'encadrement du MSdS",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/255/modele-dencadrement-du-mouvement-scout-de-suisse/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Kapitel Coach im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Capitolo Coach nel modello di accompagnamento del MSS",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/255/modello-di-accompagnamento-del-movimento-scout-svizzero/"
                 }
               ],
               "help_de": "Jede Abteilung muss durch eine*n Coach mit einer gültigen Anerkennung betreut werden. Die Daten der Coachkurse sind in der MiData. ",
-              "help_fr": "Chaque groupe doit être encadré par un·e coach disposant d'une reconnaissance valable. Les dates pour les cours coachs sont disponibles sur MiData. ",
+              "help_fr": "Chaque groupe doit être encadré par un·e coach disposant d'une reconnaissance valable. Les dates pour les cours coachs sont disponibles sur MiData. ",
               "help_it": "Ogni sezione deve essere accompagnata da un/a coach G+S con un riconoscimento valido. Le date dei corsi coach si trovano su MiData."
             },
             "question_de": "Alle unsere Abteilungen werden durch einen Coach mit der nötigen Anerkennung der PBS und J+S betreut.",
@@ -2463,20 +2463,20 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Kapitel 1.1 und 1.2 der Broschüre Betreuen in der Pfadi",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/257/betreuen-in-der-pfadi/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Chapitres 1.1 et 1.2 de la brochure L'encadrement au sein du scoutisme",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/257/lencadrement-au-sein-du-scoutisme/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Capitoli 1.1 e 1.2 della brochure L’accompagnamento a livello scout",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/257/laccompagnamento-a-livello-scout/"
                 }
               ],
               "help_de": "Je weniger Abteilungen ein Coach betreut, desto mehr Zeit kann in die Betreuung investiert werden. Aus diesem Grund empfiehlt die PBS bis auf wenige Ausnahmen die Betreuung von nur einer Abteilung pro Coach.",
@@ -2494,20 +2494,20 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Kapitel 1.1 und 1.2. der Broschüre Betreuen in der Pfadi",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/257/betreuen-in-der-pfadi/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Chapitres 1.1 et 1.2 de la brochure L'encadrement au sein du scoutisme",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/257/lencadrement-au-sein-du-scoutisme/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 1.1 und 1.2.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Capitoli 1.1 e 1.2 della brochure L’accompagnamento a livello scout",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/257/laccompagnamento-a-livello-scout/"
                 }
               ],
               "help_de": "Betreuung kann nur funktionieren, wenn Abteilung und Coaches ihre Funktion ausüben können. Am besten wird die Zusammenarbeit einmal pro Jahr mit AL und Coach thematisiert.",
@@ -2525,20 +2525,20 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 5.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Kapitel 5 der Broschüre Betreuen in der Pfadi",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/257/betreuen-in-der-pfadi/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 5.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Chapitre 5 de la brochure L'encadrement au sein du scoutisme",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/257/lencadrement-au-sein-du-scoutisme/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 5.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Capitolo 5 della brochure L’accompagnamento a livello scout",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/257/laccompagnamento-a-livello-scout/"
                 }
               ],
               "help_de": "Gegenseitiges Vertrauen wächst mit der Zeit. Eine umfassende Betreuung kann daher nur über einen längeren Zeitraum erreicht werden und Coaches sollten ihre Abteilungen über mehrere Jahre betreuen.",
@@ -2632,19 +2632,19 @@
               "links_de": [
                 {
                   "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/255/betreuungsmodell-der-pfadibewegung-schweiz/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Chapitre Fonctionnement du réseau d’encadrement dans le modèle d'encadrement du MSdS",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/255/modele-dencadrement-du-mouvement-scout-de-suisse/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Capitolo Funzionamento della rete di accompagnamento nel modello di accompagnamento del MSS",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/255/modello-di-accompagnamento-del-movimento-scout-svizzero/"
                 }
               ],
               "help_de": "Der Austausch über die Betreuungsrollen hilft, die eigene Rolle zu hinterfragen und persönliche Fortschritte zu machen. Ein Anlass auf kantonaler Ebene kann Gelegenheiten zum Austausch bieten. Zudem erfährt der Kantonalverband so den Stand der Umsetzung des Betreuungsmodells in den Abteilungen.",
@@ -2652,7 +2652,7 @@
               "help_it": "Lo scambio tra persone che si occupano di accompagnamento nelle nostre sezioni aiuta a mettere in discussione il proprio ruolo e a progredire personalmente. Un evento a livello cantonale può offrire occasioni di scambio. Inoltre, permette all'associazione cantonale di sapere a che punto si trova la messa in atto del modello di accompagnamento all'interno delle sezioni."
             },
             "question_de": "In unserem Jahresprogramm ist ein Anlass/ sind Anlässe enthalten, an dem sich unsere Betreuungsrollen über ihre Erfahrungen in der Ganzjahresbetreuung austauschen können und ihre Kompetenzen in diesem Bereich erweitern können. ",
-            "question_fr": "Notre programme annuel comprend un ou plusieurs événements permettant aux personnes qui encadrent nos groupes d'échanger leurs expériences dans ce domaine et de développer leurs compétences. ",
+            "question_fr": "Notre programme annuel comprend un ou plusieurs événements permettant aux personnes qui encadrent nos groupes d'échanger leurs expériences dans ce domaine et de développer leurs compétences. ",
             "question_it": "Il nostro programma annuale comprende uno o più eventi che permettono alle figure di accompagnamento nelle sezioni i di scambiare le loro esperienze in questo ambito e di sviluppare le loro competenze.",
             "answer_options": "binary",
             "evaluation_function": null
@@ -2663,31 +2663,31 @@
               "links_de": [
                 {
                   "name": "Kapitel Coach im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/255/betreuungsmodell-der-pfadibewegung-schweiz/"
                 },
                 {
                   "name": "Kapitel Weiterbildung Coach im Ausbildungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/f6/300708de-ausbildungsmodell_2020-20200519-akom.pdf"
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Kapitel Coach im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Chapitre Coach dans le modèle d'encadrement du MSdS",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/255/modele-dencadrement-du-mouvement-scout-de-suisse/"
                 },
                 {
-                  "name": "Kapitel Weiterbildung Coach im Ausbildungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/f6/300708de-ausbildungsmodell_2020-20200519-akom.pdf"
+                  "name": "Chapitre Cours de perfectionnement coach dans le modèle de formation du MSdS",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/52/modele-de-formation-du-mouvement-scout-de-suisse/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Kapitel Coach im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Capitolo Coach nel modello di accompagnamento del MSS",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/255/modello-di-accompagnamento-del-movimento-scout-svizzero/"
                 },
                 {
-                  "name": "Kapitel Weiterbildung Coach im Ausbildungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/f6/300708de-ausbildungsmodell_2020-20200519-akom.pdf"
+                  "name": "Capitolo Corso di perfezionamento Coach nel modello della formazione del MSS",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/52/modello-della-formazione-del-movimento-scout-svizzero/"
                 }
               ],
               "help_de": "Coaches können ihre Funktion nur längerfristig qualitativ zufriedenstellend ausüben, wenn sie Weiterbildungen besuchen und ihre Anerkennung erneuern können. Für die Ausrichtung dieser Coach MF sind die Betreuungsverantwortlichen der KV zuständig.",
@@ -2705,41 +2705,41 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Kapitel 3.2 der Broschüre Betreuen in der Pfadi",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/257/betreuen-in-der-pfadi/"
                 },
                 {
-                  "name": "Beispiel eines Betreuungskontraktes",
+                  "name": "Beispiel Betreuungskontrakt",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Chapitre 3.2 de la brochure L'encadrement au sein du scoutisme",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/257/lencadrement-au-sein-du-scoutisme/"
                 },
                 {
-                  "name": "Beispiel eines Betreuungskontraktes",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                  "name": "Exemple de contract d’encadrement",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/426/accord-dencadrement-prb/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Broschüre Betreuen in der Pfadi, Kapitel 3.2.",
-                  "url": "https://pfadi.swiss/media/files/8d/310701de_betreuen_in_der_pfadi.pdf"
+                  "name": "Capitolo 3.2 della brochure L’accompagnamento a livello scout",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/257/laccompagnamento-a-livello-scout/"
                 },
                 {
-                  "name": "Beispiel eines Betreuungskontraktes",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
+                  "name": "Esempio di contratto d’accompagnamento (versione Francese)",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/426/accord-dencadrement-prb-francese/"
                 }
               ],
               "help_de": "Ein Betreuungskontrakt hilft der Abteilung und dem*der Coach das gegenseitige Betreungsjahr abzusprechen und sich Ziele zu setzen. Dieses Hilfsmittel wird den Coaches auch im Coachkurs vorgestellt. Jeder Kantonalverband hat seine Eigenheiten, daher kann es helfen, einen eigenen Kontrakt bereitzustellen.",
               "help_fr": "Un contrat d'encadrement aide le groupe et le coach à se mettre d'accord sur les objectifs d'encadrement de l'année. Cet outil devrait être présenté aux coachs lors du cours de coachs. Chaque association cantonale a ses propres particularités, c'est pourquoi il peut être utile de mettre à disposition un contrat personnalisé.",
               "help_it": "Un contatto di accompagnamento aiuta la sezione e il/la coach a mettersi d'accordo sugli obiettivi dell'accompagnamento per l'anno a venire. Questo strumento dovrebbe essere presentato ai/alle coach durante un corso coach. Ogni associazione cantonale ha le sue peculiarità; per questo motivo può essere utile mettere a disposizione un contratto personalizzato."
             },
-            "question_de": "Unseren Abteilungen und Betreuungsrollen stehen Hilfsmittel des KV zur Verfügung, um einen Betreuungskontrakt abschliessen zu können. Diese Hilfsmittel sind den Betreuungspersonen bekannt und werden genutzt.",
-            "question_fr": "Nos groupes et les personnes qui les encadrent disposent des outils de l'AC pour conclure un contrat d'encadrement. Ces outils sont connus et utilisés par les personnes qui encadrent les groupes.",
-            "question_it": "Le sezioni e le persone che le accompagnano dispongono degli strumenti dell'AC per concludere un contratto di accompagnamento. Questi strumenti sono conosciuti e utilizzati dalle persone che accompagnano le sezioni.",
+            "question_de": "Unseren Abteilungen und Betreuungsrollen stehen Hilfsmittel des KV/der Region zur Verfügung, um einen Betreuungskontrakt abschliessen zu können. Diese Hilfsmittel sind den Betreuungspersonen bekannt und werden genutzt.",
+            "question_fr": "Nos groupes et les personnes qui les encadrent disposent des outils de l'AC/la région pour conclure un contrat d'encadrement. Ces outils sont connus et utilisés par les personnes qui encadrent les groupes.",
+            "question_it": "Le sezioni e le persone che le accompagnano dispongono degli strumenti dell'AC/della regione per concludere un contratto di accompagnamento. Questi strumenti sono conosciuti e utilizzati dalle persone che accompagnano le sezioni.",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -2748,41 +2748,41 @@
             "help": {
               "links_de": [
                 {
-                  "name": "PBS Newsletter, hier zu abonnieren",
+                  "name": "PBS-Newsletter",
                   "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
                 },
                 {
-                  "name": "Informationen J+S Lagersport/Trekking",
+                  "name": "J+S Lagersport/Trekking",
                   "url": "https://www.jugendundsport.ch/de/sportarten/lagersport-trekking-uebersicht.html"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "PBS Newsletter, hier zu abonnieren",
-                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                  "name": "Newsletter du MSdS",
+                  "url": "https://pfadi.swiss/fr/calendrier-news/newsletter/"
                 },
                 {
-                  "name": "Informationen J+S Lagersport/Trekking",
-                  "url": "https://www.jugendundsport.ch/de/sportarten/lagersport-trekking-uebersicht.html"
+                  "name": "J+S Sport de camp/Trekking",
+                  "url": "https://www.jugendundsport.ch/fr/sportarten/lagersport-trekking-uebersicht.html"
                 }
               ],
               "links_it": [
                 {
-                  "name": "PBS Newsletter, hier zu abonnieren",
-                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                  "name": "Newsletter del MSS",
+                  "url": "https://pfadi.swiss/it/calendario-novita/newsletter/"
                 },
                 {
-                  "name": "Informationen J+S Lagersport/Trekking",
-                  "url": "https://www.jugendundsport.ch/de/sportarten/lagersport-trekking-uebersicht.html"
+                  "name": "G+S Sport di campo/trekking",
+                  "url": "https://www.jugendundsport.ch/it/sportarten/lagersport-trekking-uebersicht.html"
                 }
               ],
               "help_de": "Damit Aktivitäten und Lager den aktuellen Bestimmungen entsprechen, müssen Coaches über Änderungen informiert werden. News von J+S, PBS und Kantonalverband sind ihnen stufengerecht weiterzugeben.",
               "help_fr": "Pour que les activités et les camps soient conformes aux directives actuelles, les coachs doivent être informé·e·s des changements. Les nouvelles de J+S, du MSdS et de l'association cantonale doivent leur être transmises en fonction de leur branche.",
               "help_it": "Affinché le attività e i campi siano conformi alle direttive attuali, i/le coach devono essere informati/e dei cambiamenti. Le novità di G+S, del MSS e dell'associazione cantonale devono essere trasmesse loro in funzione della branca."
             },
-            "question_de": "Unsere Betreuungsrollen sind über die Änderungen, Neuerungen und inhaltliche Schwerpunkte der PBS, J+S und des KV informiert und engagieren sich für deren Umsetzung in ihren betreuten Abteilungen. Dies betrifft Lager sowie das ganze Pfadijahr.",
-            "question_fr": "Les personnes qui encadrent les groupes sont informées des changements, des nouveautés et des thèmes principaux du MSdS, de J+S et de l'AC et s'engagent à les mettre en œuvre dans les groupes qu'elles encadrent. Ceci concerne les camps ainsi que toute l'année scoute.",
-            "question_it": "Le persone che accompagnano le sezioni sono informate sui cambiamenti, le novità e i temi principali del MSS, di G+S e dell'AC, e si impegnano a metterli in atto nelle sezioni che accompagnano. Tutto ciò concerne sia i campi sia le attività di tutto l'anno.",
+            "question_de": "Unsere Betreuungsrollen sind über die Änderungen, Neuerungen und inhaltliche Schwerpunkte der PBS, J+S und des KV/der Region informiert und engagieren sich für deren Umsetzung in ihren betreuten Abteilungen. Dies betrifft Lager sowie das ganze Pfadijahr.",
+            "question_fr": "Les personnes qui encadrent les groupes sont informées des changements, des nouveautés et des thèmes principaux du MSdS, de J+S et de l'AC/la région et s'engagent à les mettre en œuvre dans les groupes qu'elles encadrent. Ceci concerne les camps ainsi que toute l'année scoute.",
+            "question_it": "Le persone che accompagnano le sezioni sono informate sui cambiamenti, le novità e i temi principali del MSS, di G+S e dell'AC/della regione, e si impegnano a metterli in atto nelle sezioni che accompagnano. Tutto ciò concerne sia i campi sia le attività di tutto l'anno.",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -2792,43 +2792,43 @@
               "links_de": [
                 {
                   "name": "Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/255/betreuungsmodell-der-pfadibewegung-schweiz/"
                 },
                 {
-                  "name": "Merkblatt zum Thema Elternrat",
-                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                  "name": "Merkblatt zum Elternrat",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/259/merkblatt-zum-elternrat/"
                 },
                 {
-                  "name": "Beispiel eines Pflichtenhefts",
+                  "name": "Beispiel Pflichtenheft Coach",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/425/pflichtenheft-coach-lu/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Modèle d'encadrement du MSdS",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/255/modele-dencadrement-du-mouvement-scout-de-suisse/"
                 },
                 {
-                  "name": "Merkblatt zum Thema Elternrat",
-                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                  "name": "Aide-mémoire sur le conseil des parents",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/259/aide-memoire-sur-le-conseil-des-parents/"
                 },
                 {
-                  "name": "Beispiel eines Pflichtenhefts",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/425/pflichtenheft-coach-lu/"
+                  "name": "Exemple de cahier des charges du coach",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/425/cahier-des-charges-du-coach-lu/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Modello di accompagnamento del MSS",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/255/modello-di-accompagnamento-del-movimento-scout-svizzero/"
                 },
                 {
-                  "name": "Merkblatt zum Thema Elternrat",
-                  "url": "https://pfadi.swiss/media/files/fc/312401de-merkblatt_zum_elternrat-20200123-bkom.pdf"
+                  "name": "Scheda informativa sul Consiglio dei genitori",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/259/scheda-informativa-sul-consiglio-dei-genitori/"
                 },
                 {
-                  "name": "Beispiel eines Pflichtenhefts",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/425/pflichtenheft-coach-lu/"
+                  "name": "Esampio di specifiche del coach (versione Francese)",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/425/cahier-des-charges-du-coach-lu/"
                 }
               ],
               "help_de": "Jeder Kantonalverband hat seine Eigenheiten, daher kann es helfen, den Betreuungsrollen ein eigenes Betreuungskonzept bereitzustellen. In diesem können die Anlässe, Termine und Aufgaben der Rollen im Kantonalverband genau geregelt werden.",
@@ -2847,19 +2847,19 @@
               "links_de": [
                 {
                   "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/255/betreuungsmodell-der-pfadibewegung-schweiz/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Chapitre Fonctionnement du réseau d’encadrement dans le modèle d'encadrement du MSdS",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/255/modele-dencadrement-du-mouvement-scout-de-suisse/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Kapitel Funktionsweise des Betreuungsnetzwerks im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Capitolo Funzionamento della rete di accompagnamento nel modello di accompagnamento del MSS",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/255/modello-di-accompagnamento-del-movimento-scout-svizzero/"
                 }
               ],
               "help_de": "Für jede Rolle im Betreuungsnetzwerk sollte eine verantwortliche Person auf kantonaler Ebene definiert sein. Die Vernetzung kann über Anlässe, Mail oder Telefon erfolgen und hilft dem Kantonalverband, sich einen Überblick über die Abteilungen zu verschaffen.",
@@ -2894,7 +2894,7 @@
               "help_it": "Un programma scout adatto ad ogni branca stimola i/le partecipanti secondo le loro capacità e i loro bisogni. Gli eventi adatti ad ogni branca riscuotono quindi maggiore successo."
             },
             "question_de": "Die von uns angebotenen Anlässe (kantonale Wochenenden, Lager, etc.) sind stufengerecht. ",
-            "question_fr": "Les événements que nous proposons (week-ends cantonaux, camps, etc.) sont adaptés aux différentes branches. ",
+            "question_fr": "Les événements que nous proposons (week-ends cantonaux, camps, etc.) sont adaptés aux différentes branches. ",
             "question_it": "Gli eventi che proponiamo (week-end cantonali, campi, ecc.) sono adatti alle diverse branche.",
             "answer_options": "range",
             "evaluation_function": null
@@ -2910,7 +2910,7 @@
               "help_it": "Numerosi aspetti del metodo di branca sono già stati affrontati durante i corsi di formazione. I bisogni dei/delle capi/e possono evolvere in funzione della loro situazione e delle loro esperienze. Uno scambio o una formazione continua specifica su un tema o una branca può permettere l'approfondimento di temi toccati durante i corsi, o di scoprire cose nuove."
             },
             "question_de": "Die Leitenden unserer Abteilungen haben über die Kurse hinaus die Möglichkeit, sich zu Themen ihrer Stufe (Grundlagen, Stufenmethodik, etc.) auszutauschen und ihre Kompetenzen in diesem Bereich zu erweitern. ",
-            "question_fr": "En plus des cours, les responsables de nos groupes ont la possibilité d'échanger sur des thèmes relatifs à leur branche (fondements, méthodologie des branches, etc.) et de développer leurs compétences dans ce domaine. ",
+            "question_fr": "En plus des cours, les responsables de nos groupes ont la possibilité d'échanger sur des thèmes relatifs à leur branche (fondements, méthodologie des branches, etc.) et de développer leurs compétences dans ce domaine. ",
             "question_it": "Oltre ai corsi, i/le capi/e delle nostre sezioni hanno la possibilità di scambiarsi su temi relativi alla loro branca (fondamenti, metodo delle branche, ecc.) e di sviluppare le loro competenze in quest'ambito.",
             "answer_options": "range",
             "evaluation_function": null
@@ -2936,20 +2936,20 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/fe/212902de_pbs_haltungspapier-diversitat_und_inklusion-v20190726-de.pdf"
+                  "name": "Haltungspapier Diversität und Inklusion",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/119/haltungspapier-diversitat-inklusion/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/fe/212902de_pbs_haltungspapier-diversitat_und_inklusion-v20190726-de.pdf"
+                  "name": "Prise de position Diversité & Inclusion",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/119/prise-de-position-diversite-inclusion/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/fe/212902de_pbs_haltungspapier-diversitat_und_inklusion-v20190726-de.pdf"
+                  "name": "Carta dei principi Diversità & inclusione",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/119/carta-dei-principi-diversita-inclusione/"
                 }
               ],
               "help_de": "Damit ein von Verständnis und Wertschätzung geprägtes Zusammenleben gelingt, müssen sich die Leitenden der bereits bestehenden Diversität bewusst werden. Durch die aktive Auseinandersetzung mit dieser Diversität lernen sie, offen für Andere zu sein, Vorurteile abzubauen und das Pfadiprogramm an den verschiedenen Bedürfnissen auszurichten.",
@@ -2957,7 +2957,7 @@
               "help_it": "Per arrivare a una collaborazione fondata sulla tolleranza e il rispetto, i/le capi/e devono prendere coscienza delle diversità che esistono. Confrontandosi attivamente con questa diversità, imparano a essere apert/ie con gli altri, a ridurre i pregiudizi e ad adattare il programma scout ai differenti bisogni."
             },
             "question_de": "Die Leitenden unserer Abteilungen haben über die Kurse hinaus die Möglichkeit, sich über das Thema Diversität und Inklusion auszutauschen und ihre Kompetenzen in diesem Bereich zu erweitern. ",
-            "question_fr": "Au-delà des cours, les responsables de nos groupes ont la possibilité d'échanger sur le thème de la diversité et de l'inclusion et ainsi de développer leurs compétences dans ce domaine. ",
+            "question_fr": "Au-delà des cours, les responsables de nos groupes ont la possibilité d'échanger sur le thème de la diversité et de l'inclusion et ainsi de développer leurs compétences dans ce domaine. ",
             "question_it": "Al di là dei corsi, i/le capi/e delle nostre sezioni hanno la possibilità di scambiarsi sui temi di diversità e inclusione e di sviluppare così le loro competenze in quest'ambito.",
             "answer_options": "range",
             "evaluation_function": null
@@ -2967,20 +2967,20 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/e2/211401de-pbs-haltungspapier_gesundheitsfoerderung-v10-20160210-ka_progr-de.pdf"
+                  "name": "Haltungspapier Gesundheitsförderung",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/146/haltungspapier-gesundheitsforderung/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/e2/211401de-pbs-haltungspapier_gesundheitsfoerderung-v10-20160210-ka_progr-de.pdf"
+                  "name": "Prise de position Promotion de la santé",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/146/prise-de-position-promotion-de-la-sante/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/e2/211401de-pbs-haltungspapier_gesundheitsfoerderung-v10-20160210-ka_progr-de.pdf"
+                  "name": "Carta dei principi Promozione della salute",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/146/carta-dei-principi-promozione-della-salute/"
                 }
               ],
               "help_de": "Es ist eine anspruchsvolle Aufgabe, die Teilnehmenden in ihrem körperlichen Wohlbefinden und seelischem Gleichgewicht zu fördern. Die Leitenden sollten deshalb in dieser Aufgabe durch Austausch und Weiterbildung unterstützt werden.",
@@ -2998,56 +2998,56 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/23/211701de-pbs-haltungspapier_suchtmittel-v10-20160210-te_progr-de.pdf"
+                  "name": "Haltungspapier Suchtmittel",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/149/haltungspapier-suchtmittel/"
                 },
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/148/haltungspapier-sexuelle-ausbeutung-in-der-pfadi/"
+                  "name": "Schutzkonzept Prävention sexuelle Ausbeutung",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/148/schutzkonzept-pravention-sexuelle-ausbeutung/"
                 },
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/d6/211501de-pbs-haltungspapier_gewalt_in_pbs-v10-20160210-ka_progr-de.pdf"
+                  "name": "Haltungspapier Gewalt in der Pfadi",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/147/haltungspapier-gewalt-in-der-pfadi/"
                 },
                 {
-                  "name": "Kapitel 8 Leiten - bewusst handeln",
+                  "name": "Kapitel 8 der Broschüre Leiten - bewusst handeln",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/444/leiten-bewusst-handeln/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/23/211701de-pbs-haltungspapier_suchtmittel-v10-20160210-te_progr-de.pdf"
+                  "name": "Prise de position Substance addictives",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/149/prise-de-position-substance-addictives/"
                 },
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/148/haltungspapier-sexuelle-ausbeutung-in-der-pfadi/"
+                  "name": "Concept de protection prévention des abus sexuels",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/148/concept-de-protection-prevention-des-abus-sexuels/"
                 },
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/d6/211501de-pbs-haltungspapier_gewalt_in_pbs-v10-20160210-ka_progr-de.pdf"
+                  "name": "Prise de position Violence",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/147/prise-de-position-violence/"
                 },
                 {
-                  "name": "Kapitel 8 Leiten - bewusst handeln",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/444/leiten-bewusst-handeln/"
+                  "name": "Chapitre 8 de la brochure Être responsable – agir consciemment",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/444/etre-responsable-agir-consciemment/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/23/211701de-pbs-haltungspapier_suchtmittel-v10-20160210-te_progr-de.pdf"
+                  "name": "Carta dei principi Rapporto alle dipendenze",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/149/carta-dei-principi-rapporto-alle-dipendenze/"
                 },
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/148/haltungspapier-sexuelle-ausbeutung-in-der-pfadi/"
+                  "name": "Piano di protezione per la prevenzione degli abusi sessuali",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/148/piano-di-protezione-per-la-prevenzione-degli-abusi-sessuali/"
                 },
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/d6/211501de-pbs-haltungspapier_gewalt_in_pbs-v10-20160210-ka_progr-de.pdf"
+                  "name": "Carta dei principi Violenza nello scoutismo",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/147/carta-dei-principi-violenza-nello-scoutismo/"
                 },
                 {
-                  "name": "Kapitel 8 Leiten - bewusst handeln",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/444/leiten-bewusst-handeln/"
+                  "name": "Capitolo 8 della brochure Gestire un gruppo – agire consapevolmente",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/444/gestire-un-gruppo-agire-consapevolmente/"
                 }
               ],
               "help_de": "In der Pfadi sollen Menschen zu verantwortungsbewussten Erwachsenen heranwachsen. In ihrer Präventionsarbeit fördern die Leitenden ein gewaltfreies Umfeld, leben eine offene Gesprächs- und Streitkultur und sind achtsam im Bezug auf sexuelle Äusserungen in der Sprache und Handlungen. Zusätzlich thematisieren sie im Programm regelmässig den Umgang mit Suchtmitteln (z.B. in Kurs- und Lagerregeln). Die Leitenden sollten dabei durch Austausch und Weiterbildung unterstützt werden (z.B. mit dem Kurs \"präventives Handeln im Jugendverband\", angeboten über Voila oder direkt beim KV).\n",
@@ -3065,20 +3065,20 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/f3/214701de_haltungspapier_umwelt__nachhaltigkeit_vst20210410_de.pdf"
+                  "name": "Haltungspapier Umwelt & Nachhaltigkeit",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/702/haltungspapier-umwelt-nachhaltigkeit/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/f3/214701de_haltungspapier_umwelt__nachhaltigkeit_vst20210410_de.pdf"
+                  "name": "Prise de Position Environnement & Durabilité",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/702/prise-de-position-environnement-durabilite/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Haltungspapier",
-                  "url": "https://pfadi.swiss/media/files/f3/214701de_haltungspapier_umwelt__nachhaltigkeit_vst20210410_de.pdf"
+                  "name": "Carta dei principi Ambiente & Sostenibilità",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/702/carta-dei-principi-ambiente-sostenibilita/"
                 }
               ],
               "help_de": "Als Jugendverband ist die Pfadi Sprachrohr derjenigen Generation, die von den ökologischen und den damit verbundenen gesellschaftlichen Veränderungen besonders stark betroffen ist. Entsprechend sollten diese Veränderungen und Handlungsansätze im Programm thematisiert werden. Die Leitenden müssen durch Austausch und Weiterbildung in dieser Arbeit unterstützt werden.",
@@ -3129,14 +3129,14 @@
               ],
               "links_fr": [
                 {
-                  "name": "Ausbildung in der Pfadi",
-                  "url": "https://pfadi.swiss/de/ausbildung/"
+                  "name": "Formation dans le scoutisme",
+                  "url": "https://pfadi.swiss/fr/formation/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Ausbildung in der Pfadi",
-                  "url": "https://pfadi.swiss/de/ausbildung/"
+                  "name": "Formazione nello scoutismo",
+                  "url": "https://pfadi.swiss/it/formazione/"
                 }
               ],
               "help_de": "Die Teilnahme an weiterführenden Kursen bietet fachliche Aus- und Weiterbildung, ermöglicht einen Austausch und stärkt die Motivation der Leitenden.",
@@ -3144,7 +3144,7 @@
               "help_it": "La partecipazione ai corsi di perfezionamento offre una formazione specifica e continua, consente uno scambio e rinforza la motivazione dei/delle capi/e. "
             },
             "question_de": "Im Hinblick auf ihren persönlichen Fortschritt motivieren wir unsere erfahrenen Leitenden in den Abteilungen und auf Kantonsebene immer wieder aktiv für die Teilnahme an AL- und Bundeskursen (insbesondere Panorama-, Coach-, Top-, Spektrum- und Gilwellkurs). ",
-            "question_fr": "En vue de leur progression personnelle, nous motivons toujours activement les responsables expérimentés de nos groupes et du canton à participer aux cours de RG et fédéraux (notamment les cours Panorama, Coach, Top, Spectre et Gilwell).   ",
+            "question_fr": "En vue de leur progression personnelle, nous motivons toujours activement les responsables expérimentés de nos groupes et du canton à participer aux cours de RG et fédéraux (notamment les cours Panorama, Coach, Top, Spectre et Gilwell).   ",
             "question_it": "In vista della loro progressione personale, motiviamo sempre attivamente i/le responsabili più esperti/e delle nostre sezioni a partecipare ai corsi CSZ e federali (in particolare i corsi Panorama, Coach, Top, Spettro e Gilwell).",
             "answer_options": "range",
             "evaluation_function": null
@@ -3155,7 +3155,7 @@
               "links_de": [
                 {
                   "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/255/betreuungsmodell-der-pfadibewegung-schweiz/"
                 },
                 {
                   "name": "Terminkalender der PBS",
@@ -3164,22 +3164,22 @@
               ],
               "links_fr": [
                 {
-                  "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Chapitre Responsable de l’encadrement dans le modèle d'encadrement du MSdS",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/255/modele-dencadrement-du-mouvement-scout-de-suisse/"
                 },
                 {
-                  "name": "Terminkalender der PBS",
-                  "url": "https://pfadi.swiss/de/kalender-news/agenda/"
+                  "name": "Calendrier du MSdS",
+                  "url": "https://pfadi.swiss/fr/calendrier-news/calendrier/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Capitolo Responsabili dell’accompagnamento nel modello di accompagnamento del MSS",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/255/modello-di-accompagnamento-del-movimento-scout-svizzero/"
                 },
                 {
-                  "name": "Terminkalender der PBS",
-                  "url": "https://pfadi.swiss/de/kalender-news/agenda/"
+                  "name": "Calendario del MSS",
+                  "url": "https://pfadi.swiss/it/calendario-novita/calendario/"
                 }
               ],
               "help_de": "Alle Aufgaben eines Betreuungsveranwortlichen fressen Zeit. Es müssen Voraussetzungen geschaffen werden, dass die Person genügend Ressourcen hat, diese Aufgabe auch korrekt ausfüllen zu können. Eine Doppelfunktion ist daher genau zu prüfen. An der Betreuungskonferenz der PBS werden jeweils die relevanten Themen für die Aufgabe besprochen.",
@@ -3202,9 +3202,9 @@
               "help_fr": "Une collaboration au sein de l'association cantonale est importante, afin que le·la responsable de l'encadrement dispose systématiquement de toutes les informations nécessaires à fournir aux personnes du réseau d'encadrement. Une implication dans la maîtrise cantonale est recommandée.",
               "help_it": "Una collaborazione all'interno dell'associazione cantonale è importante perché il/la responsabile dell'accompagnamento disponga sistematicamente di tutte le informazioni necessarie per fornire le giuste risorse d'accompagnamento. È raccomandato un coinvolgimento nella direzione cantonale."
             },
-            "question_de": "Unser*e Betreuungsverantwortliche*r ist mit anderen Stellen im KV vernetzt, insbesondere mit den verantwortlichen Personen für das Programm und die Ausbildung.",
-            "question_fr": "Notre responsable de l'encadrement est en contact avec les autres postes de l'AC, en particulier avec les personnes responsables du programme et de la formation.",
-            "question_it": "Il/La nostro/a responsabile dell'accompagnamento è in contatto con gli altri ruoli dell'AC, in particolare con i/le responsabili del programma e della formazione.",
+            "question_de": "Unser*e Betreuungsverantwortliche*r ist mit anderen Stellen im KV/in der Region vernetzt, insbesondere mit den verantwortlichen Personen für das Programm und die Ausbildung.",
+            "question_fr": "Notre responsable de l'encadrement est en contact avec les autres postes de l'AC/la région, en particulier avec les personnes responsables du programme et de la formation.",
+            "question_it": "Il/La nostro/a responsabile dell'accompagnamento è in contatto con gli altri ruoli dell'AC/della regione, in particolare con i/le responsabili del programma e della formazione.",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -3214,19 +3214,19 @@
               "links_de": [
                 {
                   "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/255/betreuungsmodell-der-pfadibewegung-schweiz/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Chapitre Responsable de l’encadrement dans le modèle d'encadrement du MSdS",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/255/modele-dencadrement-du-mouvement-scout-de-suisse/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Kapitel Betreuungsverantwortlicher im Betreuungsmodell der PBS",
-                  "url": "https://pfadi.swiss/media/files/43/308701de-betreuungsmodell_der_pbs-v10-20091115-bkom-de.pdf"
+                  "name": "Capitolo Responsabili dell’accompagnamento nel modello di accompagnamento del MSS",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/255/modello-di-accompagnamento-del-movimento-scout-svizzero/"
                 }
               ],
               "help_de": "Um alle Aufgaben einer Betreuungsverantwortlichen (inkl. dem Anbieten von Weiterbildungen) wahrnehmen zu können, ist der Besuch des Coach-Expertenkurses notwendig. Die Daten für den Kurs finden sich auf der MiData. Die Erfahrung im Betreuuen einer Abteilung hilft, die Probleme der aktuellen Betreuungsrollen zu verstehen.",
@@ -3234,7 +3234,7 @@
               "help_it": "Per poter assumere tutti i compiti di responsabile dell'accompagnamento (compreso quello di proporre corsi di formazione continua), è necessario seguire il corso esperti coach. Le date di questo corso sono disponibili su MiData. Inoltre, avere esperienza nell'accompagnamento di una sezione aiuta a comprendere i problemi delle differenti persone che accompagnano attualmente le nostre sezioni."
             },
             "question_de": "Unser*e Betreuungsverantwortliche*r hat einen Coach-Expertenkurs besucht und verfügt über Erfahrung in der Betreuung einer Abteilung. ",
-            "question_fr": "Notre responsable de l'encadrement a suivi un cours d’expert·e·s coachs et a de l'expérience dans l'encadrement d'un groupe. ",
+            "question_fr": "Notre responsable de l'encadrement a suivi un cours d’expert·e·s coachs et a de l'expérience dans l'encadrement d'un groupe. ",
             "question_it": "Il/La nostro/a responsabile dell'accompagnamento ha seguito un corso esperto-coach e ha l'esperienza necessaria per accompagnare una sezione.",
             "answer_options": "binary",
             "evaluation_function": null
@@ -3282,7 +3282,7 @@
               "help_it": "Una rete tra i/le responsabili cantonali e i/le responsabili a livello federale può permettere di rispondere ai problemi attuali e ai bisogni che ne conseguono."
             },
             "question_de": "Unsere kantonalen Verantwortlichen kennen ihre Ansprechpersonen in der Programmkommission der PBS. ",
-            "question_fr": "Nos responsables cantonaux·ales connaissent leurs personnes de contact au sein de la Commission Programme du MSdS. ",
+            "question_fr": "Nos responsables cantonaux·ales connaissent leurs personnes de contact au sein de la Commission Programme du MSdS. ",
             "question_it": "I/Le nostri/e responsabili cantonali conoscono le loro persone di contatto all'interno della Commissione Programma del MSS",
             "answer_options": "range",
             "evaluation_function": null
@@ -3294,7 +3294,7 @@
               "links_fr": [],
               "links_it": [],
               "help_de": "Die Plattformen bieten Austausch und Mitgestaltungsmöglichkeiten zu aktuellen Themen. ",
-              "help_fr": "Les plateformes offrent des possibilités d'échange et de réflexion sur des thèmes d'actualité. ",
+              "help_fr": "Les plateformes offrent des possibilités d'échange et de réflexion sur des thèmes d'actualité. ",
               "help_it": "Le piattaforme offrono possibilità di scambio e di riflessione su temi d'attualità."
             },
             "question_de": "Unsere kantonalen Verantwortlichen nutzen die Plattformen der PBS (Programmznacht, Programmkonferenz, PiCoord etc.) für den interkantonalen Austausch.",
@@ -3485,7 +3485,7 @@
               "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della diversità e dell'inclusione."
             },
             "question_de": "Abfrage Rolle Verantwortliche*r Diversität und Inklusion",
-            "question_fr": "Consultation sur le rôle de responsable de la diversité et de l'inclusion ",
+            "question_fr": "Consultation sur le rôle de responsable de la diversité et de l'inclusion ",
             "question_it": "Consultazione sul ruolo del/della responsabile della diversità e dell'inclusione",
             "answer_options": "midata-binary",
             "evaluation_function": "has_diversity_v"
@@ -3602,24 +3602,24 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Ausbildungsmodell",
+                  "name": "Ausbildungsmodell der PBS",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Ausbildungsmodell",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                  "name": "Modèle de formation du MSdS",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/52/modele-de-formation-du-mouvement-scout-de-suisse/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Ausbildungsmodell",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                  "name": "Modello della formazione del MSS",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/52/modello-della-formazione-del-movimento-scout-svizzero/"
                 }
               ],
               "help_de": "Damit die kantonalen Kurse die Kursinhalte erfolgreich vermitteln können und in der gesamten Schweiz gleichwertig sind, sollten gemäss Ausbildungsmodell der PBS durchgeführt werden.",
-              "help_fr": "Pour que les cours cantonaux parviennent à transmettre leurs contenus et soient identiques dans toute la Suisse, ils devraient être organisés selon le modèle de formation du MSdS. ",
+              "help_fr": "Pour que les cours cantonaux parviennent à transmettre leurs contenus et soient identiques dans toute la Suisse, ils devraient être organisés selon le modèle de formation du MSdS. ",
               "help_it": "Affinché tutti i corsi cantonali riescano a trasmettere i loro contenuti e siano identici in tutta la Svizzera, dovrebbero essere organizzati secondo il modello di formazione del MSS."
             },
             "question_de": "Die Struktur, die Rahmenbedingungen und der Inhalt der von uns organisierten Vorbasiskurse entsprechen dem Ausbildungsmodell.",
@@ -3633,24 +3633,24 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Ausbildungsmodell",
+                  "name": "Ausbildungsmodell der PBS",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Ausbildungsmodell",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                  "name": "Modèle de formation du MSdS",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/52/modele-de-formation-du-mouvement-scout-de-suisse/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Ausbildungsmodell",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                  "name": "Modello della formazione del MSS",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/52/modello-della-formazione-del-movimento-scout-svizzero/"
                 }
               ],
               "help_de": "Damit die kantonalen Kurse die Kursinhalte erfolgreich vermitteln können und in der gesamten Schweiz gleichwertig sind, sollten gemäss Ausbildungsmodell der PBS durchgeführt werden.",
-              "help_fr": "Pour que les cours cantonaux parviennent à transmettre leurs contenus et soient identiques dans toute la Suisse, ils devraient être organisés selon le modèle de formation du MSdS. ",
+              "help_fr": "Pour que les cours cantonaux parviennent à transmettre leurs contenus et soient identiques dans toute la Suisse, ils devraient être organisés selon le modèle de formation du MSdS. ",
               "help_it": "Affinché tutti i corsi cantonali riescano a trasmettere i loro contenuti e siano identici in tutta la Svizzera, dovrebbero essere organizzati secondo il modello di formazione del MSS."
             },
             "question_de": "Der Inhalt und die Rahmenbedingungen der von uns organisierten Basiskurse, Aufbaukurse und Einführungskurse Stufenmethodik entsprechen dem Ausbildungsmodell.",
@@ -3664,20 +3664,20 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Ausbildung in  der Pfadi",
+                  "name": "Ausbildung in der Pfadi",
                   "url": "https://pfadi.swiss/de/ausbildung/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Ausbildung in  der Pfadi",
-                  "url": "https://pfadi.swiss/de/ausbildung/"
+                  "name": "Formation dans le scoutisme",
+                  "url": "https://pfadi.swiss/fr/formation/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Ausbildung in  der Pfadi",
-                  "url": "https://pfadi.swiss/de/ausbildung/"
+                  "name": "Formazione nello scoutismo",
+                  "url": "https://pfadi.swiss/it/formazione/"
                 }
               ],
               "help_de": "Folgende in der Regel (inter)kantonal organisierten Kurse werden zurzeit in eurem KV nicht angeboten:\n...\n[auflisten anhand Abfrage]\n...",
@@ -3695,20 +3695,20 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Ausbildung in  der Pfadi",
+                  "name": "Ausbildung in der Pfadi",
                   "url": "https://pfadi.swiss/de/ausbildung/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Ausbildung in  der Pfadi",
-                  "url": "https://pfadi.swiss/de/ausbildung/"
+                  "name": "Formation dans le scoutisme",
+                  "url": "https://pfadi.swiss/fr/formation/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Ausbildung in  der Pfadi",
-                  "url": "https://pfadi.swiss/de/ausbildung/"
+                  "name": "Formazione nello scoutismo",
+                  "url": "https://pfadi.swiss/it/formazione/"
                 }
               ],
               "help_de": "Damit die Abteilungen die Kursbesuche ihrer Leitenden planen können, müssen die AL und Coaches das kantonale und nationale Kursangebot kennen. Sie sollten auf mögliche Kurse hingewiesen und bei der Suche nach Kursen betreut werden.",
@@ -3716,7 +3716,7 @@
               "help_it": "Affinché le sezioni possano pianificare la partecipazione dei/delle loro capi/e ai corsi, i/le CSZ e i/le coach devono conoscere l'offerta dei corsi cantonali e nazionali. Bisognerebbe indicare loro i corsi disponibili e consigliarli nella loro ricerca di corsi."
             },
             "question_de": "Unsere AL und Coaches kennen das kantonale und nationale Kursangebot und wissen, wo sie Informationen dazu erhalten. ",
-            "question_fr": "Nos RG et nos coachs connaissent l'offre des cours cantonaux et nationaux et savent où trouver des informations à ce sujet. ",
+            "question_fr": "Nos RG et nos coachs connaissent l'offre des cours cantonaux et nationaux et savent où trouver des informations à ce sujet. ",
             "question_it": "I/Le nostri/e CSZ e i/le nostri/e coach conoscono l'offerta dei corsi cantonali e nazionali e sanno dove trovare le informazioni in merito.",
             "answer_options": "range",
             "evaluation_function": null
@@ -3726,20 +3726,20 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Ausbildung in  der Pfadi",
+                  "name": "Ausbildung in der Pfadi",
                   "url": "https://pfadi.swiss/de/ausbildung/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Ausbildung in  der Pfadi",
-                  "url": "https://pfadi.swiss/de/ausbildung/"
+                  "name": "Formation dans le scoutisme",
+                  "url": "https://pfadi.swiss/fr/formation/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Ausbildung in  der Pfadi",
-                  "url": "https://pfadi.swiss/de/ausbildung/"
+                  "name": "Formazione nello scoutismo",
+                  "url": "https://pfadi.swiss/it/formazione/"
                 }
               ],
               "help_de": "Wenn Kurse direkt bei den jeweiligen Zielgruppen beworben werdet, sind sie bekannter und mehr Personen werden motiviert, geeignete Kurse zu besuchen.",
@@ -3758,19 +3758,19 @@
               "links_de": [
                 {
                   "name": "Kursauswertung",
-                  "url": "https://pfadi.swiss/media/files/46/310904de-kursauswertung_pbs-20190125-akom-tschagon.pdf"
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/66/kursauswertung/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Kursauswertung",
-                  "url": "https://pfadi.swiss/media/files/46/310904de-kursauswertung_pbs-20190125-akom-tschagon.pdf"
+                  "name": "Evaluation du cours",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/66/evaluation-du-cours/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Kursauswertung",
-                  "url": "https://pfadi.swiss/media/files/46/310904de-kursauswertung_pbs-20190125-akom-tschagon.pdf"
+                  "name": "Valutazione del corso",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/66/valutazione-del-corso/"
                 }
               ],
               "help_de": "Kursleitungen und Bertreuer*innen kennen die durchgeführten Kurse und das kantonale Kursangebot in der Regel sehr gut. Sie können wertvolle Hinweise und Rückmeldungen geben, um die Kurse laufend weiterzuentwickeln und das Kursangebot an die Bedürfnisse anzupassen.",
@@ -3794,7 +3794,7 @@
               "help_it": "I corsi cantonali permettono di trasmettere numerosi contenuti utili per la quotidianità delle attività scout. Grazie a bilanci regolari, le sezioni possono dare preziosi feedback per migliorare i contenuti dei corsi."
             },
             "question_de": "Zur Weiterentwicklung unserer Kurse werten wir mit unseren Abteilungen regelmässig aus, inwiefern die vermittelten Kursinhalte im Pfadialltag umgesetzt werden konnten. ",
-            "question_fr": "Pour améliorer nos cours, nous analysons régulièrement avec nos groupes dans quelle mesure le contenu des cours a pu être mis en pratique dans le quotidien scout. ",
+            "question_fr": "Pour améliorer nos cours, nous analysons régulièrement avec nos groupes dans quelle mesure le contenu des cours a pu être mis en pratique dans le quotidien scout. ",
             "question_it": "Per migliorare i nostri corsi, analizziamo regolarmente con le nostre sezioni in quale misura il contenuto dei corsi ha potuto essere messo in pratica nella quotidianità delle attività scout.",
             "answer_options": "range",
             "evaluation_function": null
@@ -3815,20 +3815,20 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Ausbildungsmodell",
+                  "name": "Ausbildungsmodell der PBS",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Ausbildungsmodell",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                  "name": "Modèle de formation du MSdS",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/52/modele-de-formation-du-mouvement-scout-de-suisse/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Ausbildungsmodell",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/52/ausbildungsmodell-der-pfadibewegung-schweiz/"
+                  "name": "Modello della formazione del MSS",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/52/modello-della-formazione-del-movimento-scout-svizzero/"
                 }
               ],
               "help_de": "Damit die Vorbasiskurse gut betreut werden können, sollten Coaches von Leitpfadi- und Piokursen Erfahrung als Mitleiter*in und Coaches von Futurakursen Erfahrung als Expert*in von Kursen auf kantonaler Ebene haben.",
@@ -3848,7 +3848,7 @@
               "links_fr": [],
               "links_it": [],
               "help_de": "Damit die Qualität der Vorbasiskurse gewährleistet werden kann, sollten die Coaches diese aktiv betreuen und dem Kursteam jederzeit beratend zur Seite stehen. ",
-              "help_fr": "Afin de garantir la qualité des cours préalables au cours de base, les coachs devraient les encadrer activement et être à disposition de l'équipe de cours pour les conseiller. ",
+              "help_fr": "Afin de garantir la qualité des cours préalables au cours de base, les coachs devraient les encadrer activement et être à disposition de l'équipe de cours pour les conseiller. ",
               "help_it": "Per garantire la qualità dei corsi che precedono il corso base, i/le coach dovrebbero accompagnare attivamente ed essere a disposizione dell'équipe per consigliarla."
             },
             "question_de": "Alle Coaches unserer Vorbasiskurse betreuen die jeweiligen Kurse aktiv.",
@@ -3866,32 +3866,32 @@
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/67/lkb-konzept/"
                 },
                 {
-                  "name": "Checkliste Kursbetreuung",
+                  "name": "Checkliste Kursbetreuung für LKBs",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/61/checkliste-kursbetreuung-fur-lkbs/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "LKB Konzept",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/67/lkb-konzept/"
+                  "name": "Concept CàF",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/67/concept-caf/"
                 },
                 {
-                  "name": "Checkliste Kursbetreuung",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/61/checkliste-kursbetreuung-fur-lkbs/"
+                  "name": "Liste de contrôle d’encadrement de cours",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/61/liste-de-controle-dencadrement-de-cours/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "LKB Konzept",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/67/lkb-konzept/"
+                  "name": "Concetto CaF",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/67/concetto-caf/"
                 },
                 {
-                  "name": "Checkliste Kursbetreuung",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/61/checkliste-kursbetreuung-fur-lkbs/"
+                  "name": "Lista di controllo accompagnamento per CaF (versione Francese)",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/61/lista-di-controllo-accompagnamento-per-caf-versione-francese/"
                 }
               ],
               "help_de": "Damit die Qualität der BSV Kurse gewährleistet werden kann, sollten die LKB diese aktiv betreuen und dem Kursteam jederzeit beratend zur Seite stehen. ",
-              "help_fr": "Pour que la qualité des cours de l'OFAS puisse être garantie, les CàF devraient les encadrer activement et être à disposition de l'équipe de cours pour les conseiller. ",
+              "help_fr": "Pour que la qualité des cours de l'OFAS puisse être garantie, les CàF devraient les encadrer activement et être à disposition de l'équipe de cours pour les conseiller. ",
               "help_it": "Perché la qualità dei corsi UFAS possa essere garantita, i/le CaF dovrebbero accompagnare attivamente e essere a disposizione dell'équipe del corso per consigliarla."
             },
             "question_de": "Alle LKB unserer BSV Kurse betreuen die jeweiligen Kurse aktiv.",
@@ -3943,7 +3943,7 @@
               "help_it": "Accogliendo nuovi membri in tutte le équipe di corso, la sostenibilità delle équipe e la trasmissione delle competenze è assicurata."
             },
             "question_de": "Unsere Kursleitungen bemühen sich darum, Leitenden in ihr Team einzugliedern, welche bis anhin noch keinen Kurs mitgeleitet haben und sich für diese Tätigkeit eignen respektive dafür empfohlen wurden. ",
-            "question_fr": "Nos chef·fe·s de cours veillent à intégrer dans leur équipe les responsables qui n'ont pas encore animé de cours et qui ont les qualités requises pour le faire ou qui ont été recommandé·e·s. ",
+            "question_fr": "Nos chef·fe·s de cours veillent à intégrer dans leur équipe les responsables qui n'ont pas encore animé de cours et qui ont les qualités requises pour le faire ou qui ont été recommandé·e·s. ",
             "question_it": "I/Le nostri/e capi/e corsi sono attenti/e ad integrare nelle loro equipe i/le responsabili che non hanno ancora animato corsi e che hanno le qualità richieste per farlo o che sono stati/e raccomandati/e.",
             "answer_options": "range",
             "evaluation_function": null
@@ -3953,20 +3953,20 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Ausbildungskurse Planen Durchführen und Auswerten",
+                  "name": "Broschüre Ausbildungskurse planen, durchführen und auswerten",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/56/ausbildungskurse-planen-durchfuhren-und-auswerten/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "Ausbildungskurse Planen Durchführen und Auswerten",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/56/ausbildungskurse-planen-durchfuhren-und-auswerten/"
+                  "name": "Brochure Planifier, réaliser et évaluer des cours de formation",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/56/planifier-realiser-et-evaluer-des-cours-de-formation/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "Ausbildungskurse Planen Durchführen und Auswerten",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/56/ausbildungskurse-planen-durchfuhren-und-auswerten/"
+                  "name": "Brochure Pianificare, svolgere e valutare corsi di formazione",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/56/pianificare-svolgere-e-valutare-corsi-di-formazione/"
                 }
               ],
               "help_de": "Kurse sollen nicht nur den Teilnehmenden, sondern auch den Mitleitenden die Möglichkeit bieten, Kompetenzen zu erwerben und zu erweitern. Es sollten daher Rahmenbedingungen für den persönlichen Fortschritt aller Teammitglieder geschaffen werden.",
@@ -3990,14 +3990,14 @@
               ],
               "links_fr": [
                 {
-                  "name": "PBS-Newsletter",
-                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                  "name": "Newsletter du MSdS",
+                  "url": "https://pfadi.swiss/fr/calendrier-news/newsletter/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "PBS-Newsletter",
-                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                  "name": "Newsletter del MSS",
+                  "url": "https://pfadi.swiss/it/calendario-novita/newsletter/"
                 }
               ],
               "help_de": "Damit Vorbasiskurse optimal geplant und durchgeführt werden können, sollten die Kursleitungen und Coaches durch den Kanton betreut werden und alle notwendigen Hilfsmittel und Informationen erhalten. Die PBS informiert über das Akom aktuell (wird an alle Ausbildungsverantwortlichen und Kantonsleitende versendet) und den Ausbildungsnewsletter.",
@@ -4021,18 +4021,18 @@
               ],
               "links_fr": [
                 {
-                  "name": "PBS-Newsletter",
-                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                  "name": "Newsletter du MSdS",
+                  "url": "https://pfadi.swiss/fr/calendrier-news/newsletter/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "PBS-Newsletter",
-                  "url": "https://pfadi.swiss/de/kalender-news/newsletter/"
+                  "name": "Newsletter del MSS",
+                  "url": "https://pfadi.swiss/it/calendario-novita/newsletter/"
                 }
               ],
               "help_de": "Damit BSV Kurse optimal geplant und durchgeführt werden können, sollten die Kursleitungen und LKB durch den Kanton betreut werden und alle notwendigen Hilfsmittel und Informationen erhalten. Die PBS informiert über das Akom aktuell (wird an alle Ausbildungsverantwortlichen und Kantonsleitende versendet) und den Ausbildungsnewsletter.",
-              "help_fr": "Pour que les cours de l'OFAS puissent être planifiés et organisés de manière optimale, les chef·fe·s de cours et les CàF devraient être encadré·e·s par le canton et recevoir tous les supports et informations nécessaires. Le MSdS fournit des informations grâce à l'Actualité CoFor (envoyé à tous les responsables de formation et aux responsables cantonaux) et à la newsletter de la formation. ",
+              "help_fr": "Pour que les cours de l'OFAS puissent être planifiés et organisés de manière optimale, les chef·fe·s de cours et les CàF devraient être encadré·e·s par le canton et recevoir tous les supports et informations nécessaires. Le MSdS fournit des informations grâce à l'Actualité CoFor (envoyé à tous les responsables de formation et aux responsables cantonaux) et à la newsletter de la formation. ",
               "help_it": "Affinché i corsi UFAS possano essere pianificati e organizzati in maniera ottimale, i/le capi/e corso e i/le CaF dovrebbero essere accompagnati/e dal cantone e ricevere tutti i supporti e le informazioni necessarie. Il MSS fornisce delle informazioni grazie all'Attualità CoFor (inviata a tutti/e i/le responsabili della formazione e ai/alle responsabili cantonali) e alla newsletter della formazione."
             },
             "question_de": "Die Kursleitungen und Coaches unserer BSV Kurse werden durch den Kanton betreut und erhalten alle notwendigen Hilfsmittel und Informationen.",
