@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Aggregated\AggregatedPersonRole;
+use App\Entity\General\GroupSettings;
 use App\Entity\Midata\Camp;
 use App\Entity\Midata\CampState;
 use App\Entity\Midata\Course;
@@ -390,6 +391,18 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $group->setId($gr['id']);
                 $metadata = $this->em->getClassMetaData(get_class($group));
                 $metadata->setIdGenerator(new AssignedGenerator());
+
+                // create group settings
+                $groupSettings = new GroupSettings();
+                $groupSettings->setGroup($group);
+                if ($group->getGroupType()->getGroupType() === GroupType::DEPARTMENT) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_DEPARMENT_ROLES);
+                } elseif ($group->getGroupType()->getGroupType() === GroupType::REGION) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_REGION_ROLES);
+                } elseif ($group->getGroupType()->getGroupType() === GroupType::CANTON) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_CANTONAL_ROLES);
+                }
+                $this->em->persist($groupSettings);
             }
 
             $group->setName($gr['name']);

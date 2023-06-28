@@ -23,13 +23,11 @@ class AggregatedPersonRole
 
     /**
      * @ORM\ManyToOne(targetEntity=Role::class)
-     * @ORM\JoinColumn(nullable=false)
      */
     private $role;
 
     /**
      * @ORM\ManyToOne(targetEntity=Group::class)
-     * @ORM\JoinColumn(nullable=false)
      */
     private $group;
 

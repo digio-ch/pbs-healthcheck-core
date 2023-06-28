@@ -3,6 +3,7 @@
 namespace App\Repository\Aggregated;
 
 use App\Entity\Aggregated\AggregatedPersonRole;
+use App\Entity\Midata\Group;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -36,5 +37,23 @@ class AggregatedPersonRoleRepository extends ServiceEntityRepository
             ->select('MAX(a.midata)')
             ->getQuery()
             ->getResult()[0][1];
+    }
+
+    /**
+     * @param Group $group
+     * @param $start
+     * @param $end
+     * @return AggregatedPersonRole[]|null
+     */
+    public function findByGroupInTimeframe(Group $group, $start, $end)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.group = :group_id')
+            ->andWhere('a.start_at BETWEEN :start AND :end OR a.end_at BETWEEN :start AND :end')
+            ->setParameter('group_id', $group->getId())
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->getQuery()
+            ->getResult();
     }
 }
