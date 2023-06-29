@@ -50,6 +50,7 @@ class AggregatedPersonRoleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->where('a.group = :group_id')
             ->andWhere('a.start_at BETWEEN :start AND :end OR a.end_at BETWEEN :start AND :end')
+            ->orderBy('a.start_at')
             ->setParameter('group_id', $group->getId())
             ->setParameter('start', $start)
             ->setParameter('end', $end)

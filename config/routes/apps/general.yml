@@ -1,0 +1,4 @@
+post_role_overview_filter:
+  path: /filter
+  methods: POST
+  controller: App\Controller\Api\GroupSettingsController::postRoleOverviewFilter

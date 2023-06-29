@@ -31,11 +31,12 @@ class Sentry
             if ($user instanceof PbsUserDTO) {
                 $userBag = new UserDataBag($user->getId(), null, null, null, null);
                 $userBag->setMetadata('Nickname', $user->getNickName());
-            } else {
+                $event->setUser($userBag);
+            } elseif (!is_null($user)) {
                 $userBag = new UserDataBag(null, null, null, $user->getUsername(), null);
                 $userBag->setMetadata('Is PbsUserDTO', false);
+                $event->setUser($userBag);
             }
-            $event->setUser($userBag);
             return $event;
         };
     }

@@ -14,15 +14,13 @@ use App\Entity\Midata\Role;
 class RoleOverviewMapper
 {
 
-    public const GROUP_TYPE_COLORS = [
-        'Group::Biber' => '#EEE09F',
-        'Group::Woelfe' => '#3BB5DC',
-        'Group::Pfadi' => '#9A7A54',
-        'Group::Pio' => '#DD1F19',
-        'Group::AbteilungsRover' => '#1DA650',
-        'Group::Pta' => '#d9b826',
-        'Group::Abteilung' => '#929292',
-        'leaders' => '#929292'
+    const GROUP_TYPE_COLORS = [
+        'Biber' => ['#EEE09F', '#d6ca8f'],
+        'Woelfe' => ['#3BB5DC', '#2f91b0'],
+        'Pfadi' => ['#9A7A54', '#7b6243'],
+        'Pio' => ['#DD1F19', '#b11914'],
+        'Rover' => ['#1DA650', '#178540'],
+        'Pta' => ['#d9b826', '#ae931e'],
     ];
 
     public static function createRoleOverviewDTO(Group $group): RoleOverviewDTO
@@ -51,7 +49,17 @@ class RoleOverviewMapper
         } else {
             $roleName = $role->getDeLabel();
         }
-        return new RoleOccupationWrapper($roleName, $role->getRoleType(), ['#080', '#050']); // Colors not yet implemented
+        return new RoleOccupationWrapper($roleName, $role->getRoleType(), self::getRoleColor($role->getRoleType())); // Colors not yet implemented
+    }
+
+    private static function getRoleColor(string $roleType)
+    {
+        foreach (RoleOverviewMapper::GROUP_TYPE_COLORS as $key=>$value) {
+            if (str_contains($roleType, $key)) {
+                return $value;
+            }
+        }
+        return ['#da70d6', '#ae5aab'];
     }
 
     public static function createRoleOccupation(AggregatedPersonRole $aggregatedPersonRole, string $from, string $to): RoleOccupation
