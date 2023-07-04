@@ -138,4 +138,14 @@ services:
             - { name: 'widget.aggregator', key: 'general.date' }
 
     App\Service\Aggregator\AggregatorRegistry:
-        arguments: [!tagged { tag: 'widget.aggregator', index_by: 'key' }]
+        arguments: [ !tagged { tag: 'widget.aggregator', index_by: 'key' } ]
+
+    App\Service\GroupStructureAPIService:
+        arguments:
+            $apiToken: '%env(GROUP_STRUCTURE_TOKEN)%'
+            $url: '%env(GROUP_STRUCTURE_URL)%'
+
+    App\Service\CensusAPIService:
+        arguments:
+            $apiToken: '%env(CENSUS_TOKEN)%'
+            $url: '%env(CENSUS_URL)%'
