@@ -75,8 +75,8 @@ class FetchAllGroupsCommand extends StatisticsCommand
         $this->geoLocationRepository->deleteAll();
         $this->statisticGroupRepository->deleteAll();
         $this->fetchGroupRecursive(2);
-        $this->fetchAllRemaining();
-        $this->logMissingBranches();
+        //$this->fetchAllRemaining();
+        //$this->logMissingBranches();
 
         return 1;
     }
