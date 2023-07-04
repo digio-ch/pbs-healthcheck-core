@@ -14,3 +14,5 @@ set -e
 /usr/local/bin/php /srv/bin/console app:quap:compute-answers
 
 /usr/local/bin/php /srv/bin/console app:compute-permissions
+
+/usr/local/bin/php /srv/bin/console app:fetch-all-groups
