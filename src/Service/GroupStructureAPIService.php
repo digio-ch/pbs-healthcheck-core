@@ -7,8 +7,6 @@ use App\Service\Http;
 
 class GroupStructureAPIService
 {
-
-
     /** @var GuzzleWrapper */
     protected $guzzleWrapper;
     /** @var string */
@@ -49,5 +47,4 @@ class GroupStructureAPIService
     {
         return $this->url;
     }
-
 }

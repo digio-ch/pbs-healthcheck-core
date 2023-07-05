@@ -22,7 +22,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class FetchAllGroupsCommand extends StatisticsCommand
 {
-
     protected GroupStructureAPIService $apiService;
 
     protected SymfonyStyle $io;
@@ -84,7 +83,7 @@ class FetchAllGroupsCommand extends StatisticsCommand
     private function logMissingBranches()
     {
         $groups = $this->statisticGroupRepository->findBy(['parent' => null]);
-        foreach($groups as $group) {
+        foreach ($groups as $group) {
             //$this->gelfLogger->warning(new SimpleLogMessage($this->recursiveGetChildrenHumanReadable($group)));
             $this->io->warning('This branch is missing the parent: ' . $this->recursiveGetChildrenHumanReadable($group));
         }
@@ -94,8 +93,7 @@ class FetchAllGroupsCommand extends StatisticsCommand
     {
         $result = ' ' . $group->getId() . ': [';
         $children = $group->getChildren();
-        foreach ($children as $child)
-        {
+        foreach ($children as $child) {
             $result .= $this->recursiveGetChildrenHumanReadable($child);
         }
         return $result . ']';
@@ -105,7 +103,7 @@ class FetchAllGroupsCommand extends StatisticsCommand
     {
         for ($i = 2; $i < 11600; $i++) {
             $group = $this->statisticGroupRepository->findOneBy(['id' => $i]);
-            if(is_null($group)) {
+            if (is_null($group)) {
                 try {
                     $result = $this->apiService->getGroup($i);
                     $content = $result->getContent()['groups'][0];
@@ -114,7 +112,7 @@ class FetchAllGroupsCommand extends StatisticsCommand
 
                     $name = trim($rawGroup['name']);
                     $parentGroup = $rawGroup['links']['parent'] ?? null;
-                    if(!is_null($parentGroup)){
+                    if (!is_null($parentGroup)) {
                         $parentGroup = $this->statisticGroupRepository->findOneBy(['id' => $parentGroup]);
                     }
                     /** @var GroupType $groupType */
@@ -146,10 +144,10 @@ class FetchAllGroupsCommand extends StatisticsCommand
         }
         $statisticGroup = new StatisticGroup();
 
-        $rawGroup = $result->getContent()['groups'][0];;
+        $rawGroup = $result->getContent()['groups'][0];
         $name = trim($rawGroup['name']);
         $parentGroup = $rawGroup['links']['parent'] ?? null;
-        if(!is_null($parentGroup)){
+        if (!is_null($parentGroup)) {
             $parentGroup = $this->statisticGroupRepository->findOneBy(['id' => $parentGroup]);
         }
         $children = $rawGroup['links']['children'] ?? [];
@@ -168,7 +166,7 @@ class FetchAllGroupsCommand extends StatisticsCommand
         $this->createGeoLocations($statisticGroup, $geoLocations);
         $this->fillHealthGroupWithStatisticGroup($statisticGroup);
 
-        if($groupType->getGroupType() === GroupType::CANTON) {
+        if ($groupType->getGroupType() === GroupType::CANTON) {
             $canton = $statisticGroup;
         }
         foreach ($children as $child) {
@@ -178,7 +176,9 @@ class FetchAllGroupsCommand extends StatisticsCommand
 
     private function createGeoLocations(StatisticGroup $group, ?array $geoLocations)
     {
-        if(is_null($geoLocations)) return;
+        if (is_null($geoLocations)) {
+            return;
+        }
         foreach ($geoLocations as $rawGeoLocation) {
             $geoLocation = new GroupGeoLocation();
             $geoLocation->setId($rawGeoLocation['id']);
@@ -193,15 +193,15 @@ class FetchAllGroupsCommand extends StatisticsCommand
     {
         /** @var Group $group */
         $group = $this->groupRepository->findOneBy(['id' => $statisticGroup->getId()]);
-        if(!is_null($group)) {
-            if(!is_null($statisticGroup->getCanton())) {
+        if (!is_null($group)) {
+            if (!is_null($statisticGroup->getCanton())) {
                 $group->setCantonId($statisticGroup->getCanton()->getId());
                 $group->setCantonName($statisticGroup->getCanton()->getName());
             }
-            if(!is_null($statisticGroup->getParentGroup())) {
+            if (!is_null($statisticGroup->getParentGroup())) {
                 /** @var Group $parent */
                 $parent = $this->groupRepository->findOneBy(['id' => $statisticGroup->getParentGroup()->getId()]);
-                if(!is_null($parent)) {
+                if (!is_null($parent)) {
                     $group->setParentGroup($parent);
                 }
             }

@@ -180,6 +180,4 @@ class StatisticGroup
 
         return $this;
     }
-
-
 }

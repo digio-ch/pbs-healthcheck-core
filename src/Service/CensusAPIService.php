@@ -6,8 +6,6 @@ use App\Service\Http\GuzzleWrapper;
 
 class CensusAPIService
 {
-
-
     /** @var GuzzleWrapper */
     protected $guzzleWrapper;
     /** @var string */
@@ -48,5 +46,4 @@ class CensusAPIService
     {
         return $this->url;
     }
-
 }
