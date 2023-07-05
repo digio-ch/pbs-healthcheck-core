@@ -6,7 +6,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class BatchedRepository
 {
-
     private ServiceEntityRepository $repository;
 
     private int $batchCount = 0;

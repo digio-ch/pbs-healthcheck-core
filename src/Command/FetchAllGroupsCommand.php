@@ -109,7 +109,7 @@ class FetchAllGroupsCommand extends StatisticsCommand
     {
         $result = '"' . $group->getId();
         $children = $group->getChildren();
-        if(sizeof($children) === 0) {
+        if (sizeof($children) === 0) {
             return $result . '": null,';
         }
         $result .= '": {';
@@ -150,7 +150,8 @@ class FetchAllGroupsCommand extends StatisticsCommand
         }
     }
 
-    private function fetchGroup(int $id, bool $stopOnFail = false) {
+    private function fetchGroup(int $id, bool $stopOnFail = false)
+    {
         try {
             $result = $this->apiService->getGroup($id);
             if ($result->getStatusCode() !== 200) {
@@ -197,7 +198,7 @@ class FetchAllGroupsCommand extends StatisticsCommand
             $canton = $statisticGroup;
         }
         foreach ($children as $child) {
-            $this->fetchGroupRecursive($child, $statisticGroup,  $canton, $batchedStatisticsRepository, $batchedGeoRepository);
+            $this->fetchGroupRecursive($child, $statisticGroup, $canton, $batchedStatisticsRepository, $batchedGeoRepository);
         }
     }
 
