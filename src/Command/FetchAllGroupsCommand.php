@@ -201,7 +201,7 @@ class FetchAllGroupsCommand extends StatisticsCommand
         $this->stats[1]++;
 
         /** @var array $geoLocations */
-        $geoLocations = $result->getContent()['linked']['geolocations'];
+        $geoLocations = $result->getContent()['linked']['geolocations'] ?? [];
         $this->createGeoLocations($statisticGroup, $geoLocations, $batchedGeoRepository);
         $this->fillHealthGroupWithStatisticGroup($statisticGroup);
 
