@@ -60,6 +60,11 @@ class GroupGeoLocationRepository extends ServiceEntityRepository
         }
     }
 
+    public function flush()
+    {
+        $this->_em->flush();
+    }
+
     // /**
     //  * @return GroupGeoLocation[] Returns an array of GroupGeoLocation objects
     //  */

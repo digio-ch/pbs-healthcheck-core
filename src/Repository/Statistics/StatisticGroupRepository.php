@@ -59,6 +59,11 @@ class StatisticGroupRepository extends ServiceEntityRepository
         $metadata->setIdGenerator(new AssignedGenerator());
     }
 
+    public function flush()
+    {
+        $this->_em->flush();
+    }
+
     // /**
     //  * @return StatisticGroup[] Returns an array of StatisticGroup objects
     //  */
