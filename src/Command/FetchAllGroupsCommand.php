@@ -105,6 +105,9 @@ class FetchAllGroupsCommand extends StatisticsCommand
         }
     }
 
+    /**
+     * Return all children of a group as JSON like string
+     */
     private function recursiveGetChildrenAsJsonString(StatisticGroup $group)
     {
         $result = '"' . $group->getId();
@@ -170,6 +173,10 @@ class FetchAllGroupsCommand extends StatisticsCommand
             return null;
         }
     }
+
+    /**
+     * Fetch a group and its children recursively
+     */
     private function fetchGroupRecursive(int $id, ?StatisticGroup $parent, ?StatisticGroup $canton, BatchedRepository $batchedStatisticsRepository, BatchedRepository $batchedGeoRepository)
     {
         $result = $this->fetchGroup($id, true);
@@ -178,7 +185,11 @@ class FetchAllGroupsCommand extends StatisticsCommand
         $rawGroup = $result->getContent()['groups'][0];
         $name = trim($rawGroup['name']);
         $children = $rawGroup['links']['children'] ?? [];
-        /** @var GroupType $groupType */
+        /**
+         * Keep in mind that the group type is not sent via UID (zb. Group::Abteilung) but via the label in the language
+         * that you are using. In this case we use /de/group... so the german label.
+         * @var GroupType $groupType
+         */
         $groupType = $this->groupTypeRepository->findOneBy(['deLabel' => $rawGroup['group_type']]);
 
         $statisticGroup->setId($id);
@@ -217,6 +228,9 @@ class FetchAllGroupsCommand extends StatisticsCommand
         }
     }
 
+    /**
+     * Fills in the parent and canton of the equivalent Health group with the Statistics group
+     */
     private function fillHealthGroupWithStatisticGroup(StatisticGroup $statisticGroup)
     {
         /** @var Group $group */
