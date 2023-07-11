@@ -121,7 +121,6 @@ class GeoLocationAggregator extends WidgetAggregator
                 $this->aggregateGroupMeetingPoints($mainGroup, $startPointDate);
                 $this->createWidgetsFromData($personGroups, $mainGroup, $startPointDate);
                 $this->em->flush();
-
             }
             $this->em->flush();
             $this->em->clear();
