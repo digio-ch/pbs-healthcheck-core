@@ -5,11 +5,13 @@ namespace App\Service\Aggregator;
 use App\Entity\Aggregated\AggregatedGeoLocation;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Role;
+use App\Entity\Statistics\GroupGeoLocation;
 use App\Repository\Aggregated\AggregatedGeoLocationRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\PersonRepository;
 use App\Repository\Midata\PersonRoleRepository;
 use App\Repository\Midata\RoleRepository;
+use App\Repository\Statistics\GroupGeoLocationRepository;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,13 +38,16 @@ class GeoLocationAggregator extends WidgetAggregator
     /** @var AggregatedGeoLocationRepository $geoLocationRepository */
     private $geoLocationRepository;
 
+    private GroupGeoLocationRepository $groupGeoLocationRepository;
+
     public function __construct(
         EntityManagerInterface $em,
         GroupRepository $groupRepository,
         PersonRepository $personRepository,
         PersonRoleRepository $personRoleRepository,
         RoleRepository $roleRepository,
-        AggregatedGeoLocationRepository $geoLocationRepository
+        AggregatedGeoLocationRepository $geoLocationRepository,
+        GroupGeoLocationRepository $groupGeoLocationRepository
     ) {
         parent::__construct($groupRepository);
 
@@ -52,6 +57,7 @@ class GeoLocationAggregator extends WidgetAggregator
         $this->personRoleRepository = $personRoleRepository;
         $this->roleRepository = $roleRepository;
         $this->geoLocationRepository = $geoLocationRepository;
+        $this->groupGeoLocationRepository = $groupGeoLocationRepository;
     }
 
     /**
@@ -76,6 +82,7 @@ class GeoLocationAggregator extends WidgetAggregator
         $maxDate = new DateTime();
         $startPointDate = clone $minDate;
 
+        // von 2014 - heute
         while ($startPointDate->getTimestamp() < $maxDate->getTimestamp()) {
             $startPointDate->add(new DateInterval("P1M"));
             $startPointDate->modify('first day of this month');
@@ -92,6 +99,8 @@ class GeoLocationAggregator extends WidgetAggregator
                     $this->geoLocationRepository,
                     $mainGroup->getId()
                 );
+                // Why are we checking if data for this date exists here and not at the start?!
+                // Can we even reconstruct passed data?!
                 if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
                     continue;
                 }
@@ -109,9 +118,11 @@ class GeoLocationAggregator extends WidgetAggregator
                     parent::$roleTypePriority
                 );
 
+                $this->aggregateGroupMeetingPoints($mainGroup, $startPointDate);
                 $this->createWidgetsFromData($personGroups, $mainGroup, $startPointDate);
-            }
+                $this->em->flush();
 
+            }
             $this->em->flush();
             $this->em->clear();
         }
@@ -144,6 +155,25 @@ class GeoLocationAggregator extends WidgetAggregator
                 $widget->setLongitude($singleData['longitude']);
                 $widget->setLatitude($singleData['latitude']);
             }
+
+            $this->em->persist($widget);
+        }
+    }
+
+    private function aggregateGroupMeetingPoints(Group $group, DateTime $dateTime)
+    {
+        $geoLocations = $this->groupGeoLocationRepository->findBy(['group' => $group->getId()]);
+        foreach ($geoLocations as $geoLocation) {
+            $widget = new AggregatedGeoLocation();
+            $widget->setGroup($group);
+            $widget->setLabel(''); // no label
+            $widget->setGroupType($group->getGroupType()->getGroupType()); // no group type
+            $widget->setPersonType('group_meeting_point'); // isn't a person
+            $widget->setShape('group_meeting_point');
+            $widget->setCreatedAt(new \DateTimeImmutable());
+            $widget->setDataPointDate(new \DateTimeImmutable($dateTime->format('Y-m-d')));
+            $widget->setLongitude($geoLocation->getLong());
+            $widget->setLatitude($geoLocation->getLat());
 
             $this->em->persist($widget);
         }

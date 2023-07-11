@@ -10,9 +10,10 @@ set -e
 /usr/local/bin/php /srv/bin/console app:map-peoples-addresses
 /usr/local/bin/php /srv/bin/console app:quap:import-questionnaire
 
+/usr/local/bin/php /srv/bin/console app:fetch-all-groups # Also fetches Group Meeting points.
+
 /usr/local/bin/php /srv/bin/console app:aggregate-data
 /usr/local/bin/php /srv/bin/console app:quap:compute-answers
 
 /usr/local/bin/php /srv/bin/console app:compute-permissions
 
-/usr/local/bin/php /srv/bin/console app:fetch-all-groups

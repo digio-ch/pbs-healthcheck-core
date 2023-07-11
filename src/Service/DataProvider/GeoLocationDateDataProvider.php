@@ -37,7 +37,11 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
     public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes): array
     {
         $result = [];
-
+        $groupMeetingPoints = $this->geoLocationRepository->findAllMeetingPointsForDate($date, $group->getId());
+        var_dump($group->getId(), $groupMeetingPoints);
+        foreach ($groupMeetingPoints as $groupMeetingPoint) {
+            $result[] = $this->mapGeoLocation($groupMeetingPoint, false);
+        }
         foreach ($subGroupTypes as $groupType) {
             $geoLocations = $this->geoLocationRepository->findAllForDateAndGroupType(
                 $date,
@@ -45,6 +49,7 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
                 $group->getId(),
                 $peopleTypes
             );
+
 
             $leaders = false;
             if ($peopleTypes === [ 'leaders' ]) {
