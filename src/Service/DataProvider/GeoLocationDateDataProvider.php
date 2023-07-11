@@ -38,7 +38,6 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
     {
         $result = [];
         $groupMeetingPoints = $this->geoLocationRepository->findAllMeetingPointsForDate($date, $group->getId());
-        var_dump($group->getId(), $groupMeetingPoints);
         foreach ($groupMeetingPoints as $groupMeetingPoint) {
             $result[] = $this->mapGeoLocation($groupMeetingPoint, false);
         }
