@@ -6,6 +6,7 @@ use App\Entity\Aggregated\AggregatedGeoLocation;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Role;
 use App\Entity\Statistics\GroupGeoLocation;
+use App\Model\LogMessage\SimpleLogMessage;
 use App\Repository\Aggregated\AggregatedGeoLocationRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\PersonRepository;
@@ -88,7 +89,6 @@ class GeoLocationAggregator extends WidgetAggregator
         $maxDate = new DateTime();
         $startPointDate = clone $minDate;
 
-        // von 2014 - heute
         while ($startPointDate->getTimestamp() < $maxDate->getTimestamp()) {
             $startPointDate->add(new DateInterval("P1M"));
             $startPointDate->modify('first day of this month');
@@ -105,8 +105,7 @@ class GeoLocationAggregator extends WidgetAggregator
                     $this->geoLocationRepository,
                     $mainGroup->getId()
                 );
-                // Why are we checking if data for this date exists here and not at the start?!
-                // Can we even reconstruct passed data?!
+
                 if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
                     continue;
                 }
@@ -124,7 +123,9 @@ class GeoLocationAggregator extends WidgetAggregator
                     parent::$roleTypePriority
                 );
 
-                $this->aggregateGroupMeetingPoints($mainGroup, $startPointDate);
+                if ($startPointDate->getTimestamp() === $maxDate->getTimestamp()) {
+                    $this->aggregateGroupMeetingPoints($mainGroup, $startPointDate);
+                }
                 $this->createWidgetsFromData($personGroups, $mainGroup, $startPointDate);
                 $this->em->flush();
             }
@@ -170,7 +171,7 @@ class GeoLocationAggregator extends WidgetAggregator
         $geoLocations = $this->groupGeoLocationRepository->findBy(['group' => $group->getId()]);
         foreach ($geoLocations as $geoLocation) {
             if (!is_numeric($geoLocation->getLong()) || !is_numeric($geoLocation->getLat())) {
-                $this->gelfLogger->warning('Geolocation ' . $geoLocation->getId() . ' from group ' . $group->getId() . ' could not be aggregated because lat or long is not numeric. (lat: ' . $geoLocation->getLat() . ' ,long: ' . $geoLocation->getLong() . ')');
+                $this->gelfLogger->warning(new SimpleLogMessage('Geolocation ' . $geoLocation->getId() . ' from group ' . $group->getId() . ' could not be aggregated because lat or long is not numeric. (lat: ' . $geoLocation->getLat() . ' ,long: ' . $geoLocation->getLong() . ')'));
                 continue;
             }
             $widget = new AggregatedGeoLocation();
