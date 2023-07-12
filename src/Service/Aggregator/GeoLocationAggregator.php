@@ -14,6 +14,7 @@ use App\Repository\Midata\RoleRepository;
 use App\Repository\Statistics\GroupGeoLocationRepository;
 use DateInterval;
 use DateTime;
+use Digio\Logging\GelfLogger;
 use Doctrine\ORM\EntityManagerInterface;
 
 class GeoLocationAggregator extends WidgetAggregator
@@ -40,6 +41,9 @@ class GeoLocationAggregator extends WidgetAggregator
 
     private GroupGeoLocationRepository $groupGeoLocationRepository;
 
+    protected GelfLogger $gelfLogger;
+
+
     public function __construct(
         EntityManagerInterface $em,
         GroupRepository $groupRepository,
@@ -47,7 +51,8 @@ class GeoLocationAggregator extends WidgetAggregator
         PersonRoleRepository $personRoleRepository,
         RoleRepository $roleRepository,
         AggregatedGeoLocationRepository $geoLocationRepository,
-        GroupGeoLocationRepository $groupGeoLocationRepository
+        GroupGeoLocationRepository $groupGeoLocationRepository,
+        GelfLogger $gelfLogger
     ) {
         parent::__construct($groupRepository);
 
@@ -58,6 +63,7 @@ class GeoLocationAggregator extends WidgetAggregator
         $this->roleRepository = $roleRepository;
         $this->geoLocationRepository = $geoLocationRepository;
         $this->groupGeoLocationRepository = $groupGeoLocationRepository;
+        $this->gelfLogger = $gelfLogger;
     }
 
     /**
@@ -163,6 +169,10 @@ class GeoLocationAggregator extends WidgetAggregator
     {
         $geoLocations = $this->groupGeoLocationRepository->findBy(['group' => $group->getId()]);
         foreach ($geoLocations as $geoLocation) {
+            if (!is_numeric($geoLocation->getLong()) || !is_numeric($geoLocation->getLat())) {
+                $this->gelfLogger->warning('Geolocation ' . $geoLocation->getId() . ' from group ' . $group->getId() . ' could not be aggregated because lat or long is not numeric. (lat: ' . $geoLocation->getLat() . ' ,long: ' . $geoLocation->getLong() . ')');
+                continue;
+            }
             $widget = new AggregatedGeoLocation();
             $widget->setGroup($group);
             $widget->setLabel(''); // no label
