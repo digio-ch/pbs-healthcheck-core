@@ -194,6 +194,14 @@ class QualificationProcessor
     {
         /** @var AggregatedLeaderOverviewQualification[] $unique */
         $temp = [];
+        // Sort Qualifications by expiration date descending, and null goes first.
+        // This is so the newest qualification is sent to the frontend and old ones get filtered out.
+        usort($qualifications, function (AggregatedLeaderOverviewQualification $a, AggregatedLeaderOverviewQualification $b) {
+            if(is_null($a->getExpiresAt())) return -1;
+            if(is_null($b->getExpiresAt())) return 1;
+            if ($a->getExpiresAt()->getTimestamp() === $b->getExpiresAt()->getTimestamp()) return 0;
+            return ($a->getExpiresAt()->getTimestamp() < $b->getExpiresAt()->getTimestamp()) ? 1 : -1;
+        });
         /** @var AggregatedLeaderOverviewQualification $qualification */
         foreach ($qualifications as $qualification) {
             $exists = false;
