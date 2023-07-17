@@ -92,7 +92,7 @@ class QuapAggregator extends WidgetAggregator
                 $currentQuap = $this->quapRepository->findCurrentForGroup($mainGroup->getId());
 
                 if (is_null($currentQuap)) {
-                    switch ($mainGroup->getGroupType()->getId()) {
+                    switch ($mainGroup->getGroupType()->getGroupType()) {
                         case GroupType::REGION:
                         case GroupType::CANTON:
                             $questionnaireType = Questionnaire::TYPE_CANTON;

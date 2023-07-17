@@ -1,12 +1,12 @@
 app_oauth:
   path: /oauth/v2/code
   methods: POST
-  controller: App\Controller\AuthController:login
+  controller: App\Controller\AuthController::login
 
 app_logout:
   path: /logout
   methods: GET
-  controller: App\Controller\AuthController:logout
+  controller: App\Controller\AuthController::logout
 
 # Group routes
 group:

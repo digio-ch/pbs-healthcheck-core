@@ -3,10 +3,10 @@ name: Feature Request
 about: Suggest an idea for this project
 ---
 
-### Summary
+### Working-Title
 
-### Motivation & Use-Case
+### Short description / Summary
 
-### Needed External Systems or Dependencies
+### Brief release date/period
 
-### Additional Context
+### Involved persons

@@ -44,7 +44,7 @@ class PersonRepository extends ServiceEntityRepository
             [$groupIds, $gender, $prevDate, $currentDate, WidgetAggregator::$memberRoleTypes],
             [Connection::PARAM_INT_ARRAY, ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -75,7 +75,7 @@ class PersonRepository extends ServiceEntityRepository
             [Connection::PARAM_INT_ARRAY, ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, Connection::PARAM_STR_ARRAY]
         );
 
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     public function mapGeoAddress(int $personId, int $geoLocationId)

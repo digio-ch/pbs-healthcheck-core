@@ -27,7 +27,7 @@ class PersonQualificationRepository extends ServiceEntityRepository
             [ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
         );
 
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     public function findQualificationsForPersonByDate(int $personId, string $date)
@@ -42,6 +42,6 @@ class PersonQualificationRepository extends ServiceEntityRepository
             [$personId, $date],
             [ParameterType::INTEGER, ParameterType::STRING]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 }

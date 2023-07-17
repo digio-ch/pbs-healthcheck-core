@@ -2737,9 +2737,9 @@
               "help_fr": "Un contrat d'encadrement aide le groupe et le coach à se mettre d'accord sur les objectifs d'encadrement de l'année. Cet outil devrait être présenté aux coachs lors du cours de coachs. Chaque association cantonale a ses propres particularités, c'est pourquoi il peut être utile de mettre à disposition un contrat personnalisé.",
               "help_it": "Un contatto di accompagnamento aiuta la sezione e il/la coach a mettersi d'accordo sugli obiettivi dell'accompagnamento per l'anno a venire. Questo strumento dovrebbe essere presentato ai/alle coach durante un corso coach. Ogni associazione cantonale ha le sue peculiarità; per questo motivo può essere utile mettere a disposizione un contratto personalizzato."
             },
-            "question_de": "Unseren Abteilungen und Betreuungsrollen stehen Hilfsmittel des KV zur Verfügung, um einen Betreuungskontrakt abschliessen zu können. Diese Hilfsmittel sind den Betreuungspersonen bekannt und werden genutzt.",
-            "question_fr": "Nos groupes et les personnes qui les encadrent disposent des outils de l'AC pour conclure un contrat d'encadrement. Ces outils sont connus et utilisés par les personnes qui encadrent les groupes.",
-            "question_it": "Le sezioni e le persone che le accompagnano dispongono degli strumenti dell'AC per concludere un contratto di accompagnamento. Questi strumenti sono conosciuti e utilizzati dalle persone che accompagnano le sezioni.",
+            "question_de": "Unseren Abteilungen und Betreuungsrollen stehen Hilfsmittel des KV/der Region zur Verfügung, um einen Betreuungskontrakt abschliessen zu können. Diese Hilfsmittel sind den Betreuungspersonen bekannt und werden genutzt.",
+            "question_fr": "Nos groupes et les personnes qui les encadrent disposent des outils de l'AC/la région pour conclure un contrat d'encadrement. Ces outils sont connus et utilisés par les personnes qui encadrent les groupes.",
+            "question_it": "Le sezioni e le persone che le accompagnano dispongono degli strumenti dell'AC/della regione per concludere un contratto di accompagnamento. Questi strumenti sono conosciuti e utilizzati dalle persone che accompagnano le sezioni.",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -2780,9 +2780,9 @@
               "help_fr": "Pour que les activités et les camps soient conformes aux directives actuelles, les coachs doivent être informé·e·s des changements. Les nouvelles de J+S, du MSdS et de l'association cantonale doivent leur être transmises en fonction de leur branche.",
               "help_it": "Affinché le attività e i campi siano conformi alle direttive attuali, i/le coach devono essere informati/e dei cambiamenti. Le novità di G+S, del MSS e dell'associazione cantonale devono essere trasmesse loro in funzione della branca."
             },
-            "question_de": "Unsere Betreuungsrollen sind über die Änderungen, Neuerungen und inhaltliche Schwerpunkte der PBS, J+S und des KV informiert und engagieren sich für deren Umsetzung in ihren betreuten Abteilungen. Dies betrifft Lager sowie das ganze Pfadijahr.",
-            "question_fr": "Les personnes qui encadrent les groupes sont informées des changements, des nouveautés et des thèmes principaux du MSdS, de J+S et de l'AC et s'engagent à les mettre en œuvre dans les groupes qu'elles encadrent. Ceci concerne les camps ainsi que toute l'année scoute.",
-            "question_it": "Le persone che accompagnano le sezioni sono informate sui cambiamenti, le novità e i temi principali del MSS, di G+S e dell'AC, e si impegnano a metterli in atto nelle sezioni che accompagnano. Tutto ciò concerne sia i campi sia le attività di tutto l'anno.",
+            "question_de": "Unsere Betreuungsrollen sind über die Änderungen, Neuerungen und inhaltliche Schwerpunkte der PBS, J+S und des KV/der Region informiert und engagieren sich für deren Umsetzung in ihren betreuten Abteilungen. Dies betrifft Lager sowie das ganze Pfadijahr.",
+            "question_fr": "Les personnes qui encadrent les groupes sont informées des changements, des nouveautés et des thèmes principaux du MSdS, de J+S et de l'AC/la région et s'engagent à les mettre en œuvre dans les groupes qu'elles encadrent. Ceci concerne les camps ainsi que toute l'année scoute.",
+            "question_it": "Le persone che accompagnano le sezioni sono informate sui cambiamenti, le novità e i temi principali del MSS, di G+S e dell'AC/della regione, e si impegnano a metterli in atto nelle sezioni che accompagnano. Tutto ciò concerne sia i campi sia le attività di tutto l'anno.",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -3202,9 +3202,9 @@
               "help_fr": "Une collaboration au sein de l'association cantonale est importante, afin que le·la responsable de l'encadrement dispose systématiquement de toutes les informations nécessaires à fournir aux personnes du réseau d'encadrement. Une implication dans la maîtrise cantonale est recommandée.",
               "help_it": "Una collaborazione all'interno dell'associazione cantonale è importante perché il/la responsabile dell'accompagnamento disponga sistematicamente di tutte le informazioni necessarie per fornire le giuste risorse d'accompagnamento. È raccomandato un coinvolgimento nella direzione cantonale."
             },
-            "question_de": "Unser*e Betreuungsverantwortliche*r ist mit anderen Stellen im KV vernetzt, insbesondere mit den verantwortlichen Personen für das Programm und die Ausbildung.",
-            "question_fr": "Notre responsable de l'encadrement est en contact avec les autres postes de l'AC, en particulier avec les personnes responsables du programme et de la formation.",
-            "question_it": "Il/La nostro/a responsabile dell'accompagnamento è in contatto con gli altri ruoli dell'AC, in particolare con i/le responsabili del programma e della formazione.",
+            "question_de": "Unser*e Betreuungsverantwortliche*r ist mit anderen Stellen im KV/in der Region vernetzt, insbesondere mit den verantwortlichen Personen für das Programm und die Ausbildung.",
+            "question_fr": "Notre responsable de l'encadrement est en contact avec les autres postes de l'AC/la région, en particulier avec les personnes responsables du programme et de la formation.",
+            "question_it": "Il/La nostro/a responsabile dell'accompagnamento è in contatto con gli altri ruoli dell'AC/della regione, in particolare con i/le responsabili del programma e della formazione.",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -3327,8 +3327,8 @@
             "question_de": "Abfrage Rolle Kantonsleiter*in (2 Personen)",
             "question_fr": "Consultation sur le rôle de responsable cantonal·e (2 personnes)",
             "question_it": "Consultazione sul ruolo del/della responsabile cantonale (due persone)",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_leader"
           },
           {
             "id": 1,
@@ -3343,8 +3343,8 @@
             "question_de": "Abfrage Rolle Präsident*in",
             "question_fr": "Consultation sur le rôle de président·e",
             "question_it": "Consultazione sul ruolo del/della presidente/presidentessa",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_president"
           },
           {
             "id": 2,
@@ -3359,8 +3359,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Biberstufe",
             "question_fr": "Consultation sur le rôle de responsable de la branche Castors",
             "question_it": "Consultazione sul ruolo del/della responsabile della branca Castori",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_biber_v"
           },
           {
             "id": 3,
@@ -3375,8 +3375,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Wolfsstufe",
             "question_fr": "Consultation sur le rôle de responsable de la branche Louveteaux",
             "question_it": "Consultazione sul ruolo del/della responsabile della branca Lupetti.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_wolf_v"
           },
           {
             "id": 4,
@@ -3391,8 +3391,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Pfadistufe",
             "question_fr": "Consultation sur le rôle de responsable de la branche Eclais",
             "question_it": "Consultazione sul ruolo del/della responsabile della branca Esploratori",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pfadi_v"
           },
           {
             "id": 5,
@@ -3407,8 +3407,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Piostufe",
             "question_fr": "Consultation sur le rôle de responsable de la branche Picos",
             "question_it": "Consultazione sul ruolo del/della responsabile della branca Pionieri",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pio_v"
           },
           {
             "id": 6,
@@ -3423,8 +3423,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Roverstufe",
             "question_fr": "Consultation sur le rôle de responsable de la branche Route",
             "question_it": "Consultazione sul ruolo del/della responsabile della branca Rover",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_rover_v"
           },
           {
             "id": 7,
@@ -3439,8 +3439,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Pfadi Trotz Allem",
             "question_fr": "Consultation sur le rôle de responsable des Scouts Malgré Tout",
             "question_it": "Consultazione sul ruolo del/della responsabile degli Scout ad Ogni Costo",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pta_v"
           },
           {
             "id": 8,
@@ -3455,8 +3455,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Ausbildung",
             "question_fr": "Consultation sur le rôle de responsable de la formation",
             "question_it": "Consultazione sul ruolo del/della responsabile della formazione",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_education_v"
           },
           {
             "id": 9,
@@ -3471,8 +3471,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Betreuung",
             "question_fr": "Consultation sur le rôle de responsable de l'encadrement",
             "question_it": "Consultazione sul ruolo del/della responsabile dell'accompagnamento",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_coach_v"
           },
           {
             "id": 10,
@@ -3487,8 +3487,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Diversität und Inklusion",
             "question_fr": "Consultation sur le rôle de responsable de la diversité et de l'inclusion ",
             "question_it": "Consultazione sul ruolo del/della responsabile della diversità e dell'inclusione",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_diversity_v"
           },
           {
             "id": 11,
@@ -3503,8 +3503,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Internationales",
             "question_fr": "Consultation sur le rôle de responsable international·e",
             "question_it": "Consultazione sul ruolo del/della responsabile internazionale",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_international_v"
           },
           {
             "id": 12,
@@ -3519,8 +3519,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Krisenteam",
             "question_fr": "Consultation sur le rôle de responsable de la cellule de crise",
             "question_it": "Consultazione sul ruolo del/della responsabile della cellula di crisi",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_crisis_v"
           },
           {
             "id": 13,
@@ -3535,8 +3535,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r PR",
             "question_fr": "Consultation sur le rôle de responsable des relations publiques",
             "question_it": "Consultazione sul ruolo del/della responsabile delle pubbliche relazioni",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_pr_v"
           },
           {
             "id": 14,
@@ -3551,8 +3551,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Prävention",
             "question_fr": "Consultation sur le rôle de responsable de la prévention",
             "question_it": "Consultazione sul ruolo del/della responsabile della prevenzione",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_prevention_v"
           },
           {
             "id": 15,
@@ -3567,8 +3567,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Programm",
             "question_fr": "Consultation sur le rôle de responsable du programme",
             "question_it": "Consultazione sul ruolo del/della responsabile del programma.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_program_v"
           },
           {
             "id": 16,
@@ -3583,8 +3583,8 @@
             "question_de": "Abfrage Rolle Verantwortliche*r Nachhaltigkeit und Umwelt",
             "question_fr": "Consultation sur le rôle de responsable de la durabilité et de l'environnement",
             "question_it": "Consultazione sul ruolo del/della responsabile della sostenibilità e dell'ambiente.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_sustainability_v"
           }
         ],
         "id": 4,

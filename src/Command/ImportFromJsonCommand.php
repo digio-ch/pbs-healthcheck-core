@@ -391,9 +391,9 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $metadata->setIdGenerator(new AssignedGenerator());
             }
 
-            $group->setName($gr['name']);
-            $group->setCantonId($gr['canton_id']);
-            $group->setCantonName($gr['canton_name']);
+            $group->setName(trim($gr['name']));
+            $group->setCantonId($gr['canton_id'] ?? null);
+            $group->setCantonName($gr['canton_name'] ?? null);
             $group->setCreatedAt(new DateTimeImmutable($gr['created_at']));
             if ($gr['deleted_at']) {
                 $group->setDeletedAt(new DateTimeImmutable($gr['deleted_at']));

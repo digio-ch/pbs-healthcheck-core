@@ -43,6 +43,26 @@ class AggregatedGeoLocationRepository extends AggregatedEntityRepository
                 Connection::PARAM_STR_ARRAY
             ]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
+    }
+
+    public function findAllMeetingPointsForDate(string $date, int $groupId)
+    {
+        $connection = $this->getEntityManager()->getConnection();
+        $statement = $connection->executeQuery(
+            "SELECT * FROM hc_aggregated_geo_location AS location
+                WHERE location.data_point_date = ?
+                AND location.shape = 'group_meeting_point'
+                AND location.group_id = ?;",
+            [
+                $date,
+                $groupId,
+            ],
+            [
+                ParameterType::STRING,
+                ParameterType::INTEGER,
+            ]
+        );
+        return $statement->fetchAllAssociative();
     }
 }

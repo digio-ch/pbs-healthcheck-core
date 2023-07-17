@@ -39,7 +39,8 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$date, $groupType, $parentGroupId],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER]
         );
-        return $statement->fetchColumn();
+        $res = $statement->fetchFirstColumn();
+        return $res ? $res[0] : null;
     }
 
     /**
@@ -61,7 +62,8 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$date, $parentGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchColumn();
+        $res = $statement->fetchFirstColumn();
+        return $res ? $res[0] : null;
     }
 
     /**
@@ -81,7 +83,8 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$date, $groupType, $parentGroupId],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER]
         );
-        return $statement->fetchColumn();
+        $res = $statement->fetchFirstColumn();
+        return $res ? $res[0] : null;
     }
 
     // members-group date period queries
@@ -109,7 +112,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$from, $to, $parentGroupId, $groupType],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, ParameterType::STRING]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -135,7 +138,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$from, $to, $parentGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     // members-gender date queries
@@ -159,7 +162,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$date, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -181,7 +184,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$date, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -203,7 +206,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$date, $mainGroupId, $subGroupTypes],
             [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     // members-gender date period queries
@@ -234,7 +237,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$from, $to, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -263,7 +266,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$from, $to, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -295,6 +298,6 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$from, $to, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 }

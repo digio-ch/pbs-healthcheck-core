@@ -8,7 +8,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class DemographicDepartmentAggregatorTestFixtures extends AggregatorTestFixture implements FixtureGroupInterface
 {
-
     public const AGGREGATOR_NAME = 'demographic-department';
 
     /**

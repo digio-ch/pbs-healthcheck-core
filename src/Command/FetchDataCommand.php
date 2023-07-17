@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Model\CommandStatistics;
+use App\Repository\Statistics\StatisticGroupRepository;
 use App\Service\Pbs\PbsApiService;
 use Exception;
 use Symfony\Component\Console\Input\InputInterface;
