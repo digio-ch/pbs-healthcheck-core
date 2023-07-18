@@ -78,6 +78,4 @@ class RoleOccupation
     {
         $this->to = $to;
     }
-
-
 }

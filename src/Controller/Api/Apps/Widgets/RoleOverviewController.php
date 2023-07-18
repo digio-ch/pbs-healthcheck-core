@@ -12,8 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RoleOverviewController extends AbstractController
 {
-    public function getRoleOverview
-    (
+    public function getRoleOverview(
         RoleOverviewDateRangeDataProvider $roleOverviewDateRangeDataProvider,
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetRequestData $widgetRequestData

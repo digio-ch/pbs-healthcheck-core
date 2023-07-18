@@ -12,10 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class GroupSettingsController extends AbstractController
 {
-
     /**
      * @param Request $request
      * @param Group $group
@@ -35,5 +33,4 @@ class GroupSettingsController extends AbstractController
         $entityManager->flush();
         return new Response('', 204);
     }
-
 }

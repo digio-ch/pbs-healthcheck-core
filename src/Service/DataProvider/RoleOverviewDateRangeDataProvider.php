@@ -17,13 +17,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoleOverviewDateRangeDataProvider extends WidgetDataProvider
 {
-
     protected $personRoleRepository;
     public function __construct(
         GroupRepository $groupRepository,
         GroupTypeRepository $groupTypeRepository,
         TranslatorInterface $translator,
-        AggregatedPersonRoleRepository  $personRoleRepository
+        AggregatedPersonRoleRepository $personRoleRepository
     ) {
         $this->groupRepository = $groupRepository;
         $this->personRoleRepository = $personRoleRepository;
@@ -43,8 +42,8 @@ class RoleOverviewDateRangeDataProvider extends WidgetDataProvider
         $roleOccupationWrappers = [];
         foreach ($aggregatedPersonRoles as $aggregatedPersonRole) {
             $wrapperExistsAt = -1;
-            foreach ($roleOccupationWrappers as $key=>$roleOccupationWrapper) {
-                if($roleOccupationWrapper->getRoleType() === $aggregatedPersonRole->getRole()->getRoleType()) {
+            foreach ($roleOccupationWrappers as $key => $roleOccupationWrapper) {
+                if ($roleOccupationWrapper->getRoleType() === $aggregatedPersonRole->getRole()->getRoleType()) {
                     $wrapperExistsAt = $key;
                 }
             }

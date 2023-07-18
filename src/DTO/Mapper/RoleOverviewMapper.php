@@ -13,7 +13,6 @@ use App\Entity\Midata\Role;
 
 class RoleOverviewMapper
 {
-
     const GROUP_TYPE_COLORS = [
         'Biber' => ['#EEE09F', '#d6ca8f'],
         'Woelfe' => ['#3BB5DC', '#2f91b0'],
@@ -27,7 +26,7 @@ class RoleOverviewMapper
     {
         $groupSettings = $group->getGroupSettings();
         $filter = $groupSettings->getRoleOverviewFilter();
-        if(!$filter || !sizeof($filter)) {
+        if (!$filter || !sizeof($filter)) {
             if ($group->getGroupType()->getGroupType() === GroupType::DEPARTMENT) {
                 $filter = GroupSettings::DEFAULT_DEPARMENT_ROLES;
             } elseif ($group->getGroupType()->getGroupType() === GroupType::REGION) {
@@ -54,7 +53,7 @@ class RoleOverviewMapper
 
     private static function getRoleColor(string $roleType)
     {
-        foreach (RoleOverviewMapper::GROUP_TYPE_COLORS as $key=>$value) {
+        foreach (RoleOverviewMapper::GROUP_TYPE_COLORS as $key => $value) {
             if (str_contains($roleType, $key)) {
                 return $value;
             }

@@ -645,8 +645,7 @@ class ImportFromJsonCommand extends StatisticsCommand
             }
 
             foreach (
-                $this->em->getRepository(PersonQualification::class)->findBy(['person' => $person->getId()]
-                ) as $personQualification
+                $this->em->getRepository(PersonQualification::class)->findBy(['person' => $person->getId()]) as $personQualification
             ) {
                 $this->em->remove($personQualification);
             }
@@ -668,8 +667,7 @@ class ImportFromJsonCommand extends StatisticsCommand
              * @var $aggregatedPersonRole AggregatedPersonRole
              */
             foreach (
-                $this->em->getRepository(AggregatedPersonRole::class)->findBy(['person' => $person->getId()]
-                ) as $aggregatedPersonRole
+                $this->em->getRepository(AggregatedPersonRole::class)->findBy(['person' => $person->getId()]) as $aggregatedPersonRole
             ) {
                 $aggregatedPersonRole->setNickname('Deleted');
                 $aggregatedPersonRole->setPerson(null);

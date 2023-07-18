@@ -60,5 +60,4 @@ class RoleOverviewDTO
     {
         $this->data[] = $roleOccupationWrapper;
     }
-
 }
