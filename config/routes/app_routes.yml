@@ -10,3 +10,9 @@ quap:
   resource: "apps/quap.yml"
   prefix: /quap
   name_prefix: quap_
+
+# General routes
+general:
+  resource: "apps/general.yml"
+  prefix: /general
+  name_prefix: general_

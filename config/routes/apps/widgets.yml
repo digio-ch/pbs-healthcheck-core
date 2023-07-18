@@ -43,3 +43,8 @@ geo_location:
   path: /geo-location
   methods: GET
   controller: App\Controller\Api\Apps\Widgets\GeoLocationController::getGeoLocations
+
+role_overview:
+  path: /role-overview
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\RoleOverviewController:getRoleOverview

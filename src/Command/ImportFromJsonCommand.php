@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Entity\Aggregated\AggregatedPersonRole;
+use App\Entity\General\GroupSettings;
 use App\Entity\Midata\Camp;
 use App\Entity\Midata\CampState;
 use App\Entity\Midata\Course;
@@ -389,6 +391,18 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $group->setId($gr['id']);
                 $metadata = $this->em->getClassMetaData(get_class($group));
                 $metadata->setIdGenerator(new AssignedGenerator());
+
+                // create group settings
+                $groupSettings = new GroupSettings();
+                $groupSettings->setGroup($group);
+                if ($group->getGroupType()->getGroupType() === GroupType::DEPARTMENT) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_DEPARMENT_ROLES);
+                } elseif ($group->getGroupType()->getGroupType() === GroupType::REGION) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_REGION_ROLES);
+                } elseif ($group->getGroupType()->getGroupType() === GroupType::CANTON) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_CANTONAL_ROLES);
+                }
+                $this->em->persist($groupSettings);
             }
 
             $group->setName($gr['name']);
@@ -624,20 +638,46 @@ class ImportFromJsonCommand extends StatisticsCommand
 
             $person = $personRepository->find($id);
 
-            foreach ($this->em->getRepository(PersonEvent::class)->findBy(['person' => $person->getId()]) as $personEvent) {
+            foreach (
+                $this->em->getRepository(PersonEvent::class)->findBy(['person' => $person->getId()]) as $personEvent
+            ) {
                 $this->em->remove($personEvent);
             }
 
-            foreach ($this->em->getRepository(PersonQualification::class)->findBy(['person' => $person->getId()]) as $personQualification) {
+            foreach (
+                $this->em->getRepository(PersonQualification::class)->findBy(['person' => $person->getId()]
+                ) as $personQualification
+            ) {
                 $this->em->remove($personQualification);
             }
 
-            foreach ($this->em->getRepository(PersonRole::class)->findBy(['person' => $person->getId()]) as $personRole) {
+            foreach (
+                $this->em->getRepository(PersonRole::class)->findBy(['person' => $person->getId()]) as $personRole
+            ) {
                 $this->em->remove($personRole);
             }
 
-            foreach ($this->em->getRepository(Permission::class)->findBy(['person' => $person->getId()]) as $permission) {
+            foreach (
+                $this->em->getRepository(Permission::class)->findBy(['person' => $person->getId()]) as $permission
+            ) {
                 $this->em->remove($permission);
+            }
+
+            /**
+             * We do not actually delete in aggregatedPersonRole but rather cut all information we have about it and just keep the information that someone once worked there in that role.
+             * @var $aggregatedPersonRole AggregatedPersonRole
+             */
+            foreach (
+                $this->em->getRepository(AggregatedPersonRole::class)->findBy(['person' => $person->getId()]
+                ) as $aggregatedPersonRole
+            ) {
+                $aggregatedPersonRole->setNickname('Deleted');
+                $aggregatedPersonRole->setPerson(null);
+                $aggregatedPersonRole->setMidata(null);
+                if (is_null($aggregatedPersonRole->getEndAt())) {
+                    $aggregatedPersonRole->setEndAt(new DateTimeImmutable());
+                }
+                $this->em->persist($aggregatedPersonRole);
             }
 
             $this->em->remove($person);
@@ -799,7 +839,9 @@ class ImportFromJsonCommand extends StatisticsCommand
             if ($r['deleted_at']) {
                 $deletedAt = new DateTimeImmutable($r['deleted_at']);
                 if ($deletedAt < new DateTimeImmutable('0001-01-01T00:00:00+00:00')) {
-                    $this->gelfLogger->warning(new SimpleLogMessage('person_role entity with invalid deleted_at date skipped'));
+                    $this->gelfLogger->warning(
+                        new SimpleLogMessage('person_role entity with invalid deleted_at date skipped')
+                    );
                     continue;
                 }
                 $personRole->setDeletedAt(new DateTimeImmutable($r['deleted_at']));
