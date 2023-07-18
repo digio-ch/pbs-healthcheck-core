@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use App\Entity\General\GroupSettings;
 use App\Repository\Midata\GroupRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -77,6 +78,11 @@ class Group
      * @ORM\OneToMany(targetEntity=PersonRole::class, mappedBy="group")
      */
     private $personRoles;
+
+    /**
+     * @ORM\OneToOne(targetEntity=GroupSettings::class, mappedBy="group", cascade={"persist", "remove"})
+     */
+    private $groupSettings;
 
     public function __construct()
     {
@@ -214,5 +220,27 @@ class Group
     public function __toString()
     {
         return (string)$this->id;
+    }
+
+    public function getGroupSettings(): ?GroupSettings
+    {
+        return $this->groupSettings;
+    }
+
+    public function setGroupSettings(?GroupSettings $groupSettings): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($groupSettings === null && $this->groupSettings !== null) {
+            $this->groupSettings->setGroup(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($groupSettings !== null && $groupSettings->getGroup() !== $this) {
+            $groupSettings->setGroup($this);
+        }
+
+        $this->roleOverviewFilter = $groupSettings;
+
+        return $this;
     }
 }

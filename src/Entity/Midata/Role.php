@@ -25,6 +25,8 @@ class Role
 
 
 
+    public const DEPARTMENT_FINANCIER = 'Group::Abteilung::Kassier';
+    public const DEPARTMENT_LEADER = 'Group::Abteilung::Abteilungsleitung';
     public const DEPARTMENT_LEADER_PTA = 'Group::Abteilung::StufenleitungPta';
     public const DEPARTMENT_LEADER_ROVER = 'Group::Abteilung::StufenleitungRover';
     public const DEPARTMENT_LEADER_PIO = 'Group::Abteilung::StufenleitungPio';
@@ -33,6 +35,8 @@ class Role
     public const DEPARTMENT_LEADER_BIBER = 'Group::Abteilung::StufenleitungBiber';
 
     public const CANTONAL_LEADER = 'Group::Kantonalverband::Kantonsleitung';
+    public const CANTONAL_FINANCIER = 'Group::Kantonalverband::Kassier';
+    public const CANTONAL_COACH = 'Group::Kantonalverband::Coach';
     public const CANTONAL_PRESIDENT = 'Group::Kantonalverband::Praesidium';
     public const CANTONAL_BIBERSTUFE_V = 'Group::Kantonalverband::VerantwortungBiberstufe';
     public const CANTONAL_WOLFSTUFE_V = 'Group::Kantonalverband::VerantwortungWolfstufe';
@@ -58,6 +62,8 @@ class Role
     public const CANTONAL_NACHHALTIGKEIT_V = 'Group::Kantonalverband::VerantwortungNachhaltigkeit';
 
     public const REGIONAL_LEADER = 'Group::Region::Regionalleitung';
+    public const REGIONAL_FINANCIER = 'Group::Region::Kassier';
+    public const REGIONAL_COACH = 'Group::Region::Coach';
     public const REGIONAL_PRESIDENT = 'Group::Region::Praesidium';
     public const REGIONAL_BIBERSTUFE_V = 'Group::Region::VerantwortungBiberstufe';
     public const REGIONAL_WOLFSTUFE_V = 'Group::Region::VerantwortungWolfstufe';
@@ -279,21 +285,5 @@ class Role
     public function setFrLabel(?string $label)
     {
         $this->frLabel = $label;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getValidity(): ?string
-    {
-        return $this->validity;
-    }
-
-    /**
-     * @param null|string $validity
-     */
-    public function setValidity(?string $validity)
-    {
-        $this->validity = $validity;
     }
 }

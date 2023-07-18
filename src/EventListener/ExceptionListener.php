@@ -52,16 +52,14 @@ class ExceptionListener
 
         $exception = $event->getThrowable();
 
+        $apiError = new ApiError();
         if ($exception instanceof AccessDeniedHttpException) {
-            $apiError = new ApiError();
             $apiError->setCode(JsonResponse::HTTP_FORBIDDEN);
             $apiError->setMessage($this->translator->trans('api.error.accessDenied'));
         } elseif (!($exception instanceof ApiException)) {
-            $apiError = new ApiError();
             $apiError->setCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
             $apiError->setMessage($this->translator->trans('api.error.unknown'));
         } else {
-            $apiError = new ApiError();
             $apiError->setCode($exception->getStatusCode());
             $apiError->setMessage($exception->getMessage());
         }
