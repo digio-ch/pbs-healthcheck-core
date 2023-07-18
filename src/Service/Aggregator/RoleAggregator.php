@@ -45,10 +45,8 @@ class RoleAggregator extends WidgetAggregator
         foreach ($listOfUnfinished as $unfinished) {
             $midataObject = $this->midataPersonRoleRepository->find($unfinished->getMidata());
             $deletedAt = $midataObject->getDeletedAt();
-            if ($unfinished->getId() == 217) {
-                $unfinished->setEndAt($deletedAt);
-                $this->em->persist($unfinished);
-            }
+            $unfinished->setEndAt($deletedAt);
+            $this->em->persist($unfinished);
         }
         $this->em->flush();
 

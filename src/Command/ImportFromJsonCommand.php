@@ -674,7 +674,9 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $aggregatedPersonRole->setNickname('Deleted');
                 $aggregatedPersonRole->setPerson(null);
                 $aggregatedPersonRole->setMidata(null);
-                $aggregatedPersonRole->setEndAt(new DateTimeImmutable());
+                if (is_null($aggregatedPersonRole->getEndAt())) {
+                    $aggregatedPersonRole->setEndAt(new DateTimeImmutable());
+                }
                 $this->em->persist($aggregatedPersonRole);
             }
 
