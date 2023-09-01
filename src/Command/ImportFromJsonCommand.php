@@ -392,6 +392,10 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $metadata = $this->em->getClassMetaData(get_class($group));
                 $metadata->setIdGenerator(new AssignedGenerator());
 
+                /** @var GroupType $gt */
+                $gt = $this->em->getRepository(GroupType::class)->findOneBy(['groupType' => $gr['type']]);
+                $group->setGroupType($gt);
+
                 // create group settings
                 $groupSettings = new GroupSettings();
                 $groupSettings->setGroup($group);

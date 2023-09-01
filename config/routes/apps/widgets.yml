@@ -48,3 +48,24 @@ role_overview:
   path: /role-overview
   methods: GET
   controller: App\Controller\Api\Apps\Widgets\RoleOverviewController:getRoleOverview
+
+census_table:
+  path: /census-table
+  methods: GET
+  controller: App\Controller\Api\Apps\CensusController::getTableData
+
+census_members:
+  path: /census-members
+  methods: GET
+  controller: App\Controller\Api\Apps\CensusController::getMembersData
+
+census_development:
+  path: /census-development
+  methods: GET
+  controller: App\Controller\Api\Apps\CensusController::getMembersData
+
+census_treemap:
+  path: /census-treemap
+  methods: GET
+  controller: App\Controller\Api\Apps\CensusController::getMembersData
+
