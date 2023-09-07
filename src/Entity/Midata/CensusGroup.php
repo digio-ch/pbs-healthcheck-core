@@ -102,8 +102,8 @@ class CensusGroup
       /**
        * @ORM\Column(type="string", length=255)
        */
-      private $year;
 
+    private $year;
     public function getId(): ?int
     {
         return $this->id;
@@ -445,4 +445,23 @@ class CensusGroup
         $this->year = $year;
     }
 
+    public function getCalculatedTotal(): int
+    {
+        $total = 0;
+        $total += $this->getPiosMCount();
+        $total += $this->getPiosFCount();
+        $total += $this->getPtaMCount();
+        $total += $this->getPtaFCount();
+        $total += $this->getBiberMCount();
+        $total += $this->getBiberFCount();
+        $total += $this->getWoelfeMCount();
+        $total += $this->getWoelfeFCount();
+        $total += $this->getRoverMCount();
+        $total += $this->getRoverFCount();
+        $total += $this->getLeiterMCount();
+        $total += $this->getLeiterFCount();
+        $total += $this->getPfadisMCount();
+        $total += $this->getPfadisFCount();
+        return $total;
+    }
 }

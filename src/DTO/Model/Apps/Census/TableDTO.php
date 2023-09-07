@@ -5,12 +5,18 @@ namespace App\DTO\Model\Apps\Census;
 class TableDTO
 {
     private int $id;
+    private int $parentId;
+    private string $type;
+    private bool $missing;
     private string $name;
-    private string $group_type;
-    /** @var GroupCensusDTO[] */
-    private ?array $data;
-    /** @var TableDTO[] */
-    private ?array $children;
+    /**
+     * @var int[] Array(6) of the last 6 Years
+     */
+    private array $absoluteMemberCounts = [];
+    /**
+     * @var int[] Array(3) with percentile changes
+     */
+    private array $relativeMemberCounts = [];
 
     /**
      * @return int
@@ -26,6 +32,54 @@ class TableDTO
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getParentId(): int
+    {
+        return $this->parentId;
+    }
+
+    /**
+     * @param int $parentId
+     */
+    public function setParentId(int $parentId): void
+    {
+        $this->parentId = $parentId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMissing(): bool
+    {
+        return $this->missing;
+    }
+
+    /**
+     * @param bool $missing
+     */
+    public function setMissing(bool $missing): void
+    {
+        $this->missing = $missing;
     }
 
     /**
@@ -45,50 +99,34 @@ class TableDTO
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getGroupType(): string
+    public function getAbsoluteMemberCounts(): array
     {
-        return $this->group_type;
+        return $this->absoluteMemberCounts;
     }
 
     /**
-     * @param string $group_type
+     * @param array $absoluteMemberCounts
      */
-    public function setGroupType(string $group_type): void
+    public function setAbsoluteMemberCounts(array $absoluteMemberCounts): void
     {
-        $this->group_type = $group_type;
+        $this->absoluteMemberCounts = $absoluteMemberCounts;
     }
 
     /**
-     * @return array|null
+     * @return array
      */
-    public function getData(): ?array
+    public function getRelativeMemberCounts(): array
     {
-        return $this->data;
+        return $this->relativeMemberCounts;
     }
 
     /**
-     * @param array|null $data
+     * @param array $relativeMemberCounts
      */
-    public function setData(?array $data): void
+    public function setRelativeMemberCounts(array $relativeMemberCounts): void
     {
-        $this->data = $data;
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getChildren(): ?array
-    {
-        return $this->children;
-    }
-
-    /**
-     * @param array|null $children
-     */
-    public function setChildren(?array $children): void
-    {
-        $this->children = $children;
+        $this->relativeMemberCounts = $relativeMemberCounts;
     }
 }

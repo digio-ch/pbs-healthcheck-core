@@ -2,8 +2,11 @@
 
 namespace App\Repository\Statistics;
 
+use App\Entity\Midata\CensusGroup;
 use App\Entity\Statistics\StatisticGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -62,6 +65,31 @@ class StatisticGroupRepository extends ServiceEntityRepository
     public function flush()
     {
         $this->_em->flush();
+    }
+
+    /**
+     * Finds all the children of the group that are group type 2,3 or 8. (Kanton, Region, Abteilung)
+     * @param int $groupId
+     * @return int[]
+     * @throws Exception
+     */
+    public function findAllRelevantChildGroups(int $groupId): array
+    {
+        $conn = $this->_em->getConnection();
+        $query = $conn->executeQuery(
+            "WITH RECURSIVE parent as (
+                    SELECT id
+                    FROM statistic_group
+                    WHERE id = (?)
+                    UNION
+                    SELECT child.id
+                    FROM statistic_group child, parent p
+                    Where child.parent_group_id = p.id AND child.group_type_id IN (2,3,8)
+                 ) SELECT * from parent;",
+            [$groupId],
+            [ParameterType::INTEGER]
+        );
+        return $query->fetchFirstColumn();
     }
 
     // /**

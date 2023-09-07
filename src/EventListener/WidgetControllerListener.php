@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use App\DTO\Model\FilterRequestData\CensusRequestData;
 use App\DTO\Model\FilterRequestData\DateAndDateRangeRequestData;
 use App\DTO\Model\FilterRequestData\DateRangeRequestData;
 use App\DTO\Model\FilterRequestData\DateRequestData;
@@ -75,7 +76,7 @@ class WidgetControllerListener
             if (is_null($argument->getClass())) {
                 continue;
             }
-            if (!is_a($argument->getClass()->getName(), FilterRequestData::class, true)) {
+            if (!(is_a($argument->getClass()->getName(), FilterRequestData::class, true) || is_a($argument->getClass()->getName(), CensusRequestData::class, true))) {
                 continue;
             }
             $data = $this->validateRequest($request, $argument);
@@ -117,6 +118,8 @@ class WidgetControllerListener
                 return $this->validateDateRangeRequest($group, $request);
             case WidgetRequestData::class:
                 return $this->validateWidgetRequest($group, $request);
+            case CensusRequestData::class:
+                return $this->validateCensusRequest($group, $request);
         }
 
         return null;
@@ -213,6 +216,36 @@ class WidgetControllerListener
         $data->setGroupTypes($groupTypes ?? []);
         $data->setPeopleTypes($peopleTypes ?? []);
 
+        return $data;
+    }
+
+    private function validateCensusRequest(Group $group, Request $request): CensusRequestData
+    {
+        $genders = $request->get('census-filter-genders');
+        $groups = $request->get('census-filter-departments');
+        $roles = $request->get('census-filter-roles');
+        $rolesChoice = new Choice(WidgetDataProvider::CENSUS_ROLES);
+        $rolesChoice->multiple = true;
+        $rolesChoice->max = count(WidgetDataProvider::CENSUS_ROLES);
+        $rolesErrors = $this->validator->validate($roles, $rolesChoice);
+
+        if (count($rolesErrors) > 0) {
+            $message = $this->translator->trans('api.error.invalidRequest');
+            throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
+        }
+
+        $data = new CensusRequestData();
+        $data->setGroup($group);
+        $data->setGroups($groups);
+        $data->setRoles($roles);
+        if (is_array($genders)) {
+            if (array_search('m', $genders)) {
+                $data->setFilterMales(true);
+            }
+            if (array_search('f', $genders)) {
+                $data->setFilterFemales(true);
+            }
+        }
         return $data;
     }
 

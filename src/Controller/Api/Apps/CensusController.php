@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Apps;
 
+use App\DTO\Model\FilterRequestData\CensusRequestData;
 use App\Entity\Midata\Group;
 use App\Service\DataProvider\CensusDataProvider;
 use App\Service\Security\PermissionVoter;
@@ -38,10 +39,10 @@ class CensusController extends AbstractController
      *
      * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
-    public function getTableData(Group $group)
+    public function getTableData(Group $group, CensusRequestData $censusRequestData)
     {
         $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
-        return $this->json($this->censusDataProvider->getTableData($group));
+        return $this->json($this->censusDataProvider->getTableData($group, $censusRequestData));
     }
 
     /**
@@ -50,7 +51,7 @@ class CensusController extends AbstractController
      *
      * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
-    public function getMembersData(Group $group)
+    public function getMembersData(Group $group, CensusRequestData $censusRequestData)
     {
         return $this->json([1,2,3,4]);
     }
