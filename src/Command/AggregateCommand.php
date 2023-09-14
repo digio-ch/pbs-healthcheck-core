@@ -45,8 +45,7 @@ class AggregateCommand extends StatisticsCommand
         $this
             ->setName('app:aggregate-data')
             ->setDescription('Aggregate data')
-            ->addArgument('specific', InputArgument::OPTIONAL)
-            ;
+            ->addArgument('specific', InputArgument::OPTIONAL);
     }
 
     /**
@@ -66,7 +65,7 @@ class AggregateCommand extends StatisticsCommand
             $output->writeln(['Start aggregation...']);
             $io = new SymfonyStyle($input, $output);
 
-            $aggregators =  $this->aggregatorRegistry->getAggregators();
+            $aggregators = $this->aggregatorRegistry->getAggregators();
 
             $specific = $input->getArgument('specific');
 
