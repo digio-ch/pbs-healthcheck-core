@@ -51,6 +51,16 @@ class WidgetDataProvider
         'Group::Pta'
     ];
 
+    public const CENSUS_ROLES = [
+        'biber',
+        'woelfe',
+        'pfadis',
+        'rover',
+        'pio',
+        'pta',
+        'leiter'
+    ];
+
     /** @var string */
     public const PEOPLE_TYPE_LEADERS = 'leaders';
     /** @var string */

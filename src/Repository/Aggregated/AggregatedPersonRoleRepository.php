@@ -36,7 +36,7 @@ class AggregatedPersonRoleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->select('MAX(a.midata)')
             ->getQuery()
-            ->getResult()[0][1];
+            ->getResult()[0][1] ?? 0;
     }
 
     /**

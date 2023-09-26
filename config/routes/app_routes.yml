@@ -16,3 +16,8 @@ general:
   resource: "apps/general.yml"
   prefix: /general
   name_prefix: general_
+
+census:
+  resource: "apps/census.yml"
+  prefix: /census
+  name_prefix: census_
