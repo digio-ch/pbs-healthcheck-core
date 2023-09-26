@@ -17,7 +17,8 @@ class CensusMapper
      * @param int[] $relevantYears
      * @return TableDTO
      */
-    public static function MapToCensusTable(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears) {
+    public static function MapToCensusTable(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears)
+    {
         $dto = new TableDTO();
         $dto->setId($statisticGroup->getId());
         $dto->setName($statisticGroup->getName());
@@ -52,16 +53,16 @@ class CensusMapper
         $improvementVsLastYear = null;
         $improvementVs3YearsAgo = null;
         $improvementVsAvg5Years = null;
-        if(!is_null($totalCounts[count($totalCounts)-1])) {
-            if (!is_null($totalCounts[count($totalCounts)-2])) {
-                $improvementVsLastYear = (100 / $totalCounts[count($totalCounts)-2]) * $totalCounts[count($totalCounts)-1] - 100;
+        if (!is_null($totalCounts[count($totalCounts) - 1])) {
+            if (!is_null($totalCounts[count($totalCounts) - 2])) {
+                $improvementVsLastYear = (100 / $totalCounts[count($totalCounts) - 2]) * $totalCounts[count($totalCounts) - 1] - 100;
             }
-            if (!is_null($totalCounts[count($totalCounts)-4])) {
-                $improvementVs3YearsAgo = (100 / $totalCounts[count($totalCounts)-4]) * $totalCounts[count($totalCounts)-1] - 100;
+            if (!is_null($totalCounts[count($totalCounts) - 4])) {
+                $improvementVs3YearsAgo = (100 / $totalCounts[count($totalCounts) - 4]) * $totalCounts[count($totalCounts) - 1] - 100;
             }
         }
         if (!$incomplete) {
-            $improvementVsAvg5Years = (100/ (($totalCounts[0] + $totalCounts[1] + $totalCounts[2] + $totalCounts[3] + $totalCounts[4]) / 5)) * $totalCounts[count($totalCounts)-1] - 100;
+            $improvementVsAvg5Years = (100 / (($totalCounts[0] + $totalCounts[1] + $totalCounts[2] + $totalCounts[3] + $totalCounts[4]) / 5)) * $totalCounts[count($totalCounts) - 1] - 100;
         }
         $dto->setRelativeMemberCounts([$improvementVsLastYear, $improvementVs3YearsAgo, $improvementVsAvg5Years]);
         return $dto;
@@ -72,7 +73,8 @@ class CensusMapper
      * @param CensusGroup[] $censusGroups
      * @param int[] $relevantYears
      */
-    public static function MapToLineChart(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears) {
+    public static function MapToLineChart(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears)
+    {
         $groupData = new DevelopmentWidgetDTO();
         $absolute = [];
         $relative = [];

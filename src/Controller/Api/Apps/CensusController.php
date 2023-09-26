@@ -16,11 +16,10 @@ class CensusController extends AbstractController
     private CensusDataProvider $censusDataProvider;
     private CensusFilterDataProvider $censusFilterDataProvider;
 
-    public function __construct (
+    public function __construct(
         CensusDataProvider $censusDataProvider,
         CensusFilterDataProvider $censusFilterDataProvider
-    )
-    {
+    ) {
         $this->censusDataProvider = $censusDataProvider;
         $this->censusFilterDataProvider = $censusFilterDataProvider;
     }
@@ -103,5 +102,4 @@ class CensusController extends AbstractController
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
         return $this->json($this->censusFilterDataProvider->setFilterData($group, $censusRequestData));
     }
-
 }

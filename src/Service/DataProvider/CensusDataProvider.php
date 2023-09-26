@@ -24,7 +24,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CensusDataProvider extends WidgetDataProvider
 {
-
     private CensusGroupRepository $censusGroupRepository;
     private StatisticGroupRepository $statisticGroupRepository;
     public function __construct(
@@ -43,7 +42,8 @@ class CensusDataProvider extends WidgetDataProvider
         );
     }
 
-    public function getPreviewData(Group $group) {
+    public function getPreviewData(Group $group)
+    {
         $groups = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($group->getId(), ['Group::Abteilung', 'Group::Kantonalverband', 'Group::Region']); // Replace with group endpoint
         $return = [
             'm' => [
@@ -102,7 +102,8 @@ class CensusDataProvider extends WidgetDataProvider
      * @param int[] $groups
      * @return StatisticGroup[]
      */
-    public function flattenGroupTree(array $groupIds) {
+    public function flattenGroupTree(array $groupIds)
+    {
         $groups = [];
         foreach ($groupIds as $groupId) {
             $groups[] = $this->statisticGroupRepository->findOneBy(['id' => $groupId]);
@@ -121,7 +122,8 @@ class CensusDataProvider extends WidgetDataProvider
      * @param StatisticGroup $baseGroup
      * @return StatisticGroup|null
      */
-    public function getNewGroupWithRelevantParent(StatisticGroup $baseGroup) {
+    public function getNewGroupWithRelevantParent(StatisticGroup $baseGroup)
+    {
         if ($baseGroup->getGroupType()->getGroupType() === GroupType::DEPARTMENT) {
             $clonedGroup = clone $baseGroup;
             $relevantParent = $this->findHighestRelevantRegion($clonedGroup);
@@ -141,7 +143,8 @@ class CensusDataProvider extends WidgetDataProvider
         return $baseGroup;
     }
 
-    public function findHighestRelevantRegion(StatisticGroup $group) {
+    public function findHighestRelevantRegion(StatisticGroup $group)
+    {
         $parentGroup = $group->getParentGroup();
         if (is_null($parentGroup)) {
             return $group;
@@ -157,7 +160,8 @@ class CensusDataProvider extends WidgetDataProvider
      * @param TableDTO[] $dtos
      * @return void
      */
-    public function sortDTOs(array $dtos) {
+    public function sortDTOs(array $dtos)
+    {
         $regions = array_filter($dtos, function ($dto) {
             return $dto->getType() === GroupType::REGION;
         });
@@ -165,10 +169,10 @@ class CensusDataProvider extends WidgetDataProvider
             return $dto->getType() === GroupType::DEPARTMENT;
         });
         usort($regions, function (TableDTO $a, TableDTO $b) {
-            return strcmp($a->getName(),$b->getName());
+            return strcmp($a->getName(), $b->getName());
         });
         usort($departments, function (TableDTO $a, TableDTO $b) {
-            return strcmp($a->getName(),$b->getName());
+            return strcmp($a->getName(), $b->getName());
         });
         $return = [];
         foreach ($regions as $region) {
@@ -188,14 +192,17 @@ class CensusDataProvider extends WidgetDataProvider
         return $return;
     }
 
-    public function getRelevantGroups(Group $group) {
-        $groupIds = array_filter($this->statisticGroupRepository->findAllRelevantChildGroups($group->getId()), function ($id) use ($group) { // We need to filter because the function also returns the group itself
+    public function getRelevantGroups(Group $group)
+    {
+        $groupIds = array_filter($this->statisticGroupRepository->findAllRelevantChildGroups($group->getId()), function ($id) use ($group) {
+ // We need to filter because the function also returns the group itself
             return !($id === $group->getId());
         });
         return $this->flattenGroupTree($groupIds);
     }
 
-    public function getTableData(Group $group, CensusRequestData $censusRequestData) {
+    public function getTableData(Group $group, CensusRequestData $censusRequestData)
+    {
         $flattenedGroups = $this->getRelevantGroups($group);
 
         $dataTransferObjects = [];
@@ -209,7 +216,8 @@ class CensusDataProvider extends WidgetDataProvider
         ];
     }
 
-    public function getDevelopmentData(Group $group, CensusRequestData $censusRequestData) {
+    public function getDevelopmentData(Group $group, CensusRequestData $censusRequestData)
+    {
         $relevantGroups = $this->getRelevantGroups($group);
 
         $absolute = [];
@@ -264,7 +272,8 @@ class CensusDataProvider extends WidgetDataProvider
         return $return;
     }
 
-    public function getTreemapData(Group $group, CensusRequestData $censusRequestData) {
+    public function getTreemapData(Group $group, CensusRequestData $censusRequestData)
+    {
         $relevantGroups = $this->getRelevantGroups($group);
         $return = [];
         $colors = ['#EEE09F', '#3BB5DC', '#9A7A54', '#1DA650', '#DD1F19', '#d9b826', '#929292'];

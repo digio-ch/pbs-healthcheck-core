@@ -25,8 +25,7 @@ class FetchCensusCommand extends StatisticsCommand
         CensusAPIService $apiService,
         CensusGroupRepository $censusGroupRepository,
         GroupTypeRepository $groupTypeRepository
-    )
-    {
+    ) {
         $this->apiService = $apiService;
         $this->censusGroupRepository = $censusGroupRepository;
         $this->groupTypeRepository = $groupTypeRepository;
@@ -54,7 +53,7 @@ class FetchCensusCommand extends StatisticsCommand
             $rawCensusGroups = $rawCensusData->getContent()['census_evaluations']['groups'];
             foreach ($rawCensusGroups as $rawCensusGroup) {
                 $exists = $this->censusGroupRepository->findOneBy(['group_id' => $rawCensusGroup['group_id'], 'year' => $year]);
-                if(is_null($exists)) {
+                if (is_null($exists)) {
                     $groupsToAggregate[] = $rawCensusGroup['group_id'];
                     $this->mapRawCensusGroupToCensusGroup($rawCensusGroup, $year);
                 }
@@ -63,7 +62,6 @@ class FetchCensusCommand extends StatisticsCommand
         }
         // Aggregate Groups
         foreach (array_unique($groupsToAggregate) as $groupId) {
-
         }
         return Command::SUCCESS;
     }

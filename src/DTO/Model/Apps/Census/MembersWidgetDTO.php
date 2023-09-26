@@ -24,5 +24,4 @@ class MembersWidgetDTO
     {
         $this->data = $data;
     }
-
 }

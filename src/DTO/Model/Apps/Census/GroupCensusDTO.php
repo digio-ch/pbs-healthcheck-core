@@ -293,5 +293,4 @@ class GroupCensusDTO
     {
         $this->pta_f_count = $pta_f_count;
     }
-
 }

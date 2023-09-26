@@ -22,7 +22,7 @@ class CensusFilterDataProvider
         return $this->mapGroupSettingsToCensusFilter($groupSettings);
     }
 
-    private function mapGroupSettingsToCensusFilter(GroupSettings $groupSettings):CensusFilterDTO
+    private function mapGroupSettingsToCensusFilter(GroupSettings $groupSettings): CensusFilterDTO
     {
         $filterData = new CensusFilterDTO();
         $filterData->setFilterFemales($groupSettings->getCensusFilterFemales() ?? false);
