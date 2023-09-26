@@ -17,7 +17,7 @@ class CensusMapper
      * @param int[] $relevantYears
      * @return TableDTO
      */
-    public static function MapToCensusTable(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears)
+    public static function mapToCensusTable(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears)
     {
         $dto = new TableDTO();
         $dto->setId($statisticGroup->getId());
@@ -73,7 +73,7 @@ class CensusMapper
      * @param CensusGroup[] $censusGroups
      * @param int[] $relevantYears
      */
-    public static function MapToLineChart(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears)
+    public static function mapToLineChart(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears)
     {
         $groupData = new DevelopmentWidgetDTO();
         $absolute = [];

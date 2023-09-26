@@ -208,7 +208,7 @@ class CensusDataProvider extends WidgetDataProvider
         $dataTransferObjects = [];
         $relevantYears = range(date('Y') - 5, date('Y'));
         foreach ($flattenedGroups as $flattenedGroup) {
-            $dataTransferObjects[] = CensusMapper::MapToCensusTable($flattenedGroup, $this->censusGroupRepository->findBy(['group_id' => $flattenedGroup->getId()]), $relevantYears);
+            $dataTransferObjects[] = CensusMapper::mapToCensusTable($flattenedGroup, $this->censusGroupRepository->findBy(['group_id' => $flattenedGroup->getId()]), $relevantYears);
         }
         return [
             'years' => $relevantYears,
@@ -226,7 +226,7 @@ class CensusDataProvider extends WidgetDataProvider
         foreach ($relevantGroups as $relevantGroup) {
             $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId()]);
             if (!sizeof($data) == 0) {
-                $dto = CensusMapper::MapToLineChart($relevantGroup, $data, $relevantYears);
+                $dto = CensusMapper::mapToLineChart($relevantGroup, $data, $relevantYears);
                 $absolute[] = $dto->getAbsolute()[0];
                 $relative[] = $dto->getRelative()[0];
             }

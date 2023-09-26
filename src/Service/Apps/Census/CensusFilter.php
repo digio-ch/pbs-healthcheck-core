@@ -13,7 +13,7 @@ class CensusFilter
      * @param CensusGroup[] $censusGroups
      * @return CensusGroup[]
      */
-    public static function FilterCensusGroups(CensusRequestData $censusRequestData, array $censusGroups): array
+    public static function filterCensusGroups(CensusRequestData $censusRequestData, array $censusGroups): array
     {
         $filteredGroups = [];
         $groups = $censusRequestData->getGroups();
