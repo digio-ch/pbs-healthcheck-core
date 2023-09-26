@@ -2,6 +2,8 @@
 
 namespace App\DTO\Mapper;
 
+use App\DTO\Model\Apps\Census\DevelopmentWidgetDTO;
+use App\DTO\Model\Apps\Census\LineChartDataDTO;
 use App\DTO\Model\Apps\Census\TableDTO;
 use App\Entity\Midata\CensusGroup;
 use App\Entity\Statistics\StatisticGroup;
@@ -13,7 +15,7 @@ class CensusMapper
      * @param StatisticGroup $statisticGroup
      * @param CensusGroup[] $censusGroups
      * @param int[] $relevantYears
-     * @return void
+     * @return TableDTO
      */
     public static function MapToCensusTable(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears) {
         $dto = new TableDTO();
@@ -63,5 +65,48 @@ class CensusMapper
         }
         $dto->setRelativeMemberCounts([$improvementVsLastYear, $improvementVs3YearsAgo, $improvementVsAvg5Years]);
         return $dto;
+    }
+
+    /**
+     * @param StatisticGroup $statisticGroup
+     * @param CensusGroup[] $censusGroups
+     * @param int[] $relevantYears
+     */
+    public static function MapToLineChart(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears) {
+        $groupData = new DevelopmentWidgetDTO();
+        $absolute = [];
+        $relative = [];
+        $firstRelevantTotal = null;
+        foreach ($censusGroups as $censusGroup) {
+            if ($censusGroup->getYear() == $relevantYears[0]) {
+                $firstRelevantTotal = $censusGroup->getCalculatedTotal();
+            }
+        }
+        foreach ($relevantYears as $year) {
+            $found = false;
+            foreach ($censusGroups as $censusGroup) {
+                if ($censusGroup->getYear() == $year) {
+                    $found = true;
+                    $absolute[] = $censusGroup->getCalculatedTotal();
+                    $relative[] = $firstRelevantTotal ? 100 / $firstRelevantTotal * $censusGroup->getCalculatedTotal() - 100 : null;
+                }
+            }
+            if (!$found) {
+                $absolute[] = null;
+                $relative[] = null;
+            }
+        }
+        $absoluteDTO = new LineChartDataDTO();
+        $relativeDTO = new LineChartDataDTO();
+
+        $absoluteDTO->setLabel($statisticGroup->getName());
+        $absoluteDTO->setData($absolute);
+        $relativeDTO->setLabel($statisticGroup->getName());
+        $relativeDTO->setData($relative);
+
+        $return = new DevelopmentWidgetDTO();
+        $return->setAbsolute([$absoluteDTO]);
+        $return->setRelative([$relativeDTO]);
+        return $return;
     }
 }

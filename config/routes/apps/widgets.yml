@@ -62,10 +62,10 @@ census_members:
 census_development:
   path: /census-development
   methods: GET
-  controller: App\Controller\Api\Apps\CensusController::getMembersData
+  controller: App\Controller\Api\Apps\CensusController::getDevelopmentData
 
 census_treemap:
   path: /census-treemap
   methods: GET
-  controller: App\Controller\Api\Apps\CensusController::getMembersData
+  controller: App\Controller\Api\Apps\CensusController::getTreemapData
 

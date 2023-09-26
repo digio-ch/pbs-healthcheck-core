@@ -90,9 +90,9 @@ class WidgetControllerListener
     /**
      * @param Request $request
      * @param ReflectionParameter $parameter
-     * @return FilterRequestData|null
+     * @return FilterRequestData|null|CensusRequestData
      */
-    private function validateRequest(Request $request, ReflectionParameter $parameter): ?FilterRequestData
+    private function validateRequest(Request $request, ReflectionParameter $parameter)
     {
         $groupId = $request->get('groupId');
         $group = $this->groupRepository->findOneByIdAndType($groupId, [

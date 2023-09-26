@@ -3,7 +3,12 @@ preview:
   methods: GET
   controller: App\Controller\Api\Apps\CensusController::getPreview
 
-filter:
+getFilter:
   path: /filter
   methods: GET
-  controller: App\Controller\Api\Apps\Widgets\FilterController:getGroupTypes
+  controller: App\Controller\Api\Apps\CensusController:getFilterData
+
+postFilter:
+  path: /filter
+  methods: POST
+  controller: App\Controller\Api\Apps\CensusController:postFilterData

@@ -1,13 +1,9 @@
 <?php
 
-namespace App\DTO\Model\FilterRequestData;
+namespace App\DTO\Model\Apps\Census;
 
-use App\Entity\Midata\Group;
-
-class CensusRequestData
+class CensusFilterDTO
 {
-    private Group $group;
-
     /**
      * @var string[]
      */
@@ -21,22 +17,6 @@ class CensusRequestData
     private bool $filterMales = false;
 
     private bool $filterFemales = false;
-
-    /**
-     * @return Group
-     */
-    public function getGroup(): Group
-    {
-        return $this->group;
-    }
-
-    /**
-     * @param Group $group
-     */
-    public function setGroup(Group $group): void
-    {
-        $this->group = $group;
-    }
 
     /**
      * @return array|null
