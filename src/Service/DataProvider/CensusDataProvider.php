@@ -249,7 +249,7 @@ class CensusDataProvider extends WidgetDataProvider
         foreach ($relevantGroups as $relevantGroup) {
             $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId(), 'year' => date('Y')]);
             if (!sizeof($data) == 0) {
-                CensusMapper::filterCensusGroup($data[0],$censusRequestData);
+                CensusMapper::filterCensusGroup($data[0], $censusRequestData);
                 $biber = $data[0]->getBiberMCount() + $data[0]->getBiberFCount();
                 $woelfe = $data[0]->getWoelfeMCount() + $data[0]->getWoelfeFCount();
                 $pfadi = $data[0]->getPfadisMCount() + $data[0]->getPfadisFCount();
@@ -310,11 +310,12 @@ class CensusDataProvider extends WidgetDataProvider
      * @param CensusRequestData $censusRequestData
      * @return array
      */
-    private function filterGroups(array $statisticGroups, CensusRequestData $censusRequestData) {
+    private function filterGroups(array $statisticGroups, CensusRequestData $censusRequestData)
+    {
         return array_filter($statisticGroups, function ($group) use ($censusRequestData) {
             return sizeof(array_filter($censusRequestData->getGroups(), function ($groupId) use ($group) {
                     return $groupId == $group->getId();
-                })) === 0;
+            })) === 0;
         });
     }
 }

@@ -117,7 +117,8 @@ class CensusMapper
         return $return;
     }
 
-    public static function filterCensusGroup(CensusGroup $group, CensusRequestData $censusRequestData) {
+    public static function filterCensusGroup(CensusGroup $group, CensusRequestData $censusRequestData)
+    {
         if (self::isFiltered('biber', $censusRequestData->getRoles()) || !$censusRequestData->isFilterMales()) {
             $group->setPtaMCount(0);
         }
@@ -162,7 +163,8 @@ class CensusMapper
         }
     }
 
-    public static function isFiltered($needle, $haystack) {
+    public static function isFiltered($needle, $haystack)
+    {
         return stripos(json_encode($haystack ?? []), $needle) !== false;
     }
 }
