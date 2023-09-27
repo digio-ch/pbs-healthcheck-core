@@ -221,7 +221,8 @@ class WidgetControllerListener
 
     private function validateCensusRequest(Group $group, Request $request): CensusRequestData
     {
-        $genders = $request->get('census-filter-genders');
+        $m = $request->get('census-filter-males');
+        $f = $request->get('census-filter-females');
         $groups = $request->get('census-filter-departments');
         $roles = $request->get('census-filter-roles');
         $rolesChoice = new Choice(WidgetDataProvider::CENSUS_ROLES);
@@ -238,14 +239,9 @@ class WidgetControllerListener
         $data->setGroup($group);
         $data->setGroups($groups);
         $data->setRoles($roles);
-        if (is_array($genders)) {
-            if (array_search('m', $genders)) {
-                $data->setFilterMales(true);
-            }
-            if (array_search('f', $genders)) {
-                $data->setFilterFemales(true);
-            }
-        }
+        $data->setFilterMales($m === 'true');
+        $data->setFilterFemales($f === 'true');
+
         return $data;
     }
 

@@ -208,7 +208,7 @@ class CensusDataProvider extends WidgetDataProvider
         $dataTransferObjects = [];
         $relevantYears = range(date('Y') - 5, date('Y'));
         foreach ($flattenedGroups as $flattenedGroup) {
-            $dataTransferObjects[] = CensusMapper::mapToCensusTable($flattenedGroup, $this->censusGroupRepository->findBy(['group_id' => $flattenedGroup->getId()]), $relevantYears);
+            $dataTransferObjects[] = CensusMapper::mapToCensusTable($flattenedGroup, $this->censusGroupRepository->findBy(['group_id' => $flattenedGroup->getId()]), $relevantYears, $censusRequestData);
         }
         return [
             'years' => $relevantYears,
@@ -219,6 +219,7 @@ class CensusDataProvider extends WidgetDataProvider
     public function getDevelopmentData(Group $group, CensusRequestData $censusRequestData)
     {
         $relevantGroups = $this->getRelevantGroups($group);
+        $relevantGroups = $this->filterGroups($relevantGroups, $censusRequestData);
 
         $absolute = [];
         $relative = [];
@@ -226,7 +227,7 @@ class CensusDataProvider extends WidgetDataProvider
         foreach ($relevantGroups as $relevantGroup) {
             $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId()]);
             if (!sizeof($data) == 0) {
-                $dto = CensusMapper::mapToLineChart($relevantGroup, $data, $relevantYears);
+                $dto = CensusMapper::mapToLineChart($relevantGroup, $data, $relevantYears, $censusRequestData);
                 $absolute[] = $dto->getAbsolute()[0];
                 $relative[] = $dto->getRelative()[0];
             }
@@ -242,11 +243,13 @@ class CensusDataProvider extends WidgetDataProvider
     public function getMembersData(Group $group, CensusRequestData $censusRequestData): array
     {
         $relevantGroups = $this->getRelevantGroups($group);
+        $relevantGroups = $this->filterGroups($relevantGroups, $censusRequestData);
 
         $rawResults = [];
         foreach ($relevantGroups as $relevantGroup) {
             $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId(), 'year' => date('Y')]);
             if (!sizeof($data) == 0) {
+                CensusMapper::filterCensusGroup($data[0], $censusRequestData);
                 $biber = $data[0]->getBiberMCount() + $data[0]->getBiberFCount();
                 $woelfe = $data[0]->getWoelfeMCount() + $data[0]->getWoelfeFCount();
                 $pfadi = $data[0]->getPfadisMCount() + $data[0]->getPfadisFCount();
@@ -275,6 +278,8 @@ class CensusDataProvider extends WidgetDataProvider
     public function getTreemapData(Group $group, CensusRequestData $censusRequestData)
     {
         $relevantGroups = $this->getRelevantGroups($group);
+        $relevantGroups = $this->filterGroups($relevantGroups, $censusRequestData);
+
         $return = [];
         $colors = ['#EEE09F', '#3BB5DC', '#9A7A54', '#1DA650', '#DD1F19', '#d9b826', '#929292'];
         $colorIndex = 0;
@@ -282,6 +287,7 @@ class CensusDataProvider extends WidgetDataProvider
         foreach ($relevantGroups as $relevantGroup) {
             $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId(), 'year' => date('Y')]);
             if (!sizeof($data) == 0) {
+                CensusMapper::filterCensusGroup($data[0], $censusRequestData);
                 $dto = new TreemapWidgetDTO();
                 $dto->setName($relevantGroup->getName());
                 $parentName = $relevantGroup->getParentGroup()->getName();
@@ -296,5 +302,20 @@ class CensusDataProvider extends WidgetDataProvider
             }
         }
         return $return;
+    }
+
+    /**
+     * Filter out groups based on the Frontend Table filter
+     * @param array $statisticGroups
+     * @param CensusRequestData $censusRequestData
+     * @return array
+     */
+    private function filterGroups(array $statisticGroups, CensusRequestData $censusRequestData)
+    {
+        return array_filter($statisticGroups, function ($group) use ($censusRequestData) {
+            return sizeof(array_filter($censusRequestData->getGroups(), function ($groupId) use ($group) {
+                    return $groupId == $group->getId();
+            })) === 0;
+        });
     }
 }

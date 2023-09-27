@@ -16,7 +16,7 @@ class CensusFilterDataProvider
         $this->groupSettingsRepository = $groupSettingsRepository;
     }
 
-    public function getFilterData(Group $group): CensusFilterDTO
+    public function getFilterData(Group $group)
     {
         $groupSettings = $this->groupSettingsRepository->find($group->getId());
         return $this->mapGroupSettingsToCensusFilter($groupSettings);
@@ -25,9 +25,9 @@ class CensusFilterDataProvider
     private function mapGroupSettingsToCensusFilter(GroupSettings $groupSettings): CensusFilterDTO
     {
         $filterData = new CensusFilterDTO();
-        $filterData->setFilterFemales($groupSettings->getCensusFilterFemales() ?? false);
-        $filterData->setFilterMales($groupSettings->getCensusFilterMales() ?? false);
-        $filterData->setRoles($groupSettings->getCensusRoles() ?? ['rover']);
+        $filterData->setFilterFemales(is_null($groupSettings->getCensusFilterFemales()) ? true : $groupSettings->getCensusFilterFemales());
+        $filterData->setFilterMales(is_null($groupSettings->getCensusFilterMales()) ? true : $groupSettings->getCensusFilterMales());
+        $filterData->setRoles($groupSettings->getCensusRoles() ?? []);
         $filterData->setGroups($groupSettings->getCensusGroups() ?? []);
         return $filterData;
     }
@@ -39,6 +39,7 @@ class CensusFilterDataProvider
         $groupSettings->setCensusRoles($censusRequestData->getRoles());
         $groupSettings->setCensusFilterFemales($censusRequestData->isFilterFemales());
         $groupSettings->setCensusFilterMales($censusRequestData->isFilterMales());
+        $this->groupSettingsRepository->flush();
         return $this->mapGroupSettingsToCensusFilter($groupSettings);
     }
 }
