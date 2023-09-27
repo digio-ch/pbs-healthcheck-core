@@ -47,6 +47,10 @@ class GroupSettingsRepository extends ServiceEntityRepository
         }
     }
 
+    public function flush() {
+        $this->_em->flush();
+    }
+
     // /**
     //  * @return GroupSettings[] Returns an array of GroupSettings objects
     //  */

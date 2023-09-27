@@ -97,6 +97,13 @@ class CensusController extends AbstractController
         return $this->json($this->censusFilterDataProvider->getFilterData($group));
     }
 
+    /**
+     * @param Group $group
+     * @param CensusRequestData $censusRequestData
+     * @return JsonResponse
+     *
+     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
+     */
     public function postFilterData(Group $group, CensusRequestData $censusRequestData)
     {
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
