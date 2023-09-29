@@ -281,9 +281,6 @@ class CensusDataProvider extends WidgetDataProvider
         $relevantGroups = $this->filterGroups($relevantGroups, $censusRequestData);
 
         $return = [];
-        $colors = ['#EEE09F', '#3BB5DC', '#9A7A54', '#1DA650', '#DD1F19', '#d9b826', '#929292'];
-        $colorIndex = 0;
-        $usedColors = [];
         foreach ($relevantGroups as $relevantGroup) {
             $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId(), 'year' => date('Y')]);
             if (!sizeof($data) == 0) {
@@ -293,11 +290,7 @@ class CensusDataProvider extends WidgetDataProvider
                 $parentName = $relevantGroup->getParentGroup()->getName();
                 $dto->setRegion($parentName);
                 $dto->setValue($data[0]->getCalculatedTotal());
-                if (is_null($usedColors[$parentName])) {
-                    $usedColors[$parentName] = $colors[$colorIndex];
-                    $colorIndex = ($colorIndex + 1) % (sizeof($colors) - 1);
-                }
-                $dto->setColor($usedColors[$parentName]);
+                $dto->setColor(CensusMapper::getColorForId($relevantGroup->getId()));
                 $return[] = $dto;
             }
         }

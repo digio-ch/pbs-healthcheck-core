@@ -78,14 +78,15 @@ class StatisticGroupRepository extends ServiceEntityRepository
         $conn = $this->_em->getConnection();
         $query = $conn->executeQuery(
             "WITH RECURSIVE parent as (
-                    SELECT id
+                    SELECT statistic_group.*, midata_group_type.group_type
                     FROM statistic_group
-                    WHERE id = (?)
+                    JOIN midata_group_type ON group_type_id = midata_group_type.id
+                    WHERE statistic_group.id = (?)
                     UNION
-                    SELECT child.id
-                    FROM statistic_group child, parent p
-                    Where child.parent_group_id = p.id AND child.group_type_id IN (2,3,8)
-                 ) SELECT * from parent;",
+                    SELECT child.*, midata_group_type.group_type
+                    FROM statistic_group child, parent p, midata_group_type
+                    Where child.parent_group_id = p.id AND midata_group_type.group_type IN ('Group::Abteilung', 'Group::Region', 'Group::Kantonalverband') AND child.group_type_id = midata_group_type.id
+                ) SELECT * from parent;",
             [$groupId],
             [ParameterType::INTEGER]
         );
