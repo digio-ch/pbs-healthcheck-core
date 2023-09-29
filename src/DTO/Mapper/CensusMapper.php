@@ -172,6 +172,6 @@ class CensusMapper
 
     public static function getColorForId($id): string
     {
-        return '#'.substr(md5($id), 0, 6);
+        return '#' . substr(md5($id), 0, 6);
     }
 }
