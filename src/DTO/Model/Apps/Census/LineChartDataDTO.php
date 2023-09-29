@@ -5,7 +5,25 @@ namespace App\DTO\Model\Apps\Census;
 class LineChartDataDTO
 {
     private string $label;
+
+    private string $color;
     private array $data;
+
+    /**
+     * @return string
+     */
+    public function getColor(): string
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param string $color
+     */
+    public function setColor(string $color): void
+    {
+        $this->color = $color;
+    }
 
     /**
      * @return string

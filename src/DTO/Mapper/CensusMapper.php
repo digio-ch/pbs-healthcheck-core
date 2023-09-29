@@ -106,8 +106,10 @@ class CensusMapper
         $absoluteDTO = new LineChartDataDTO();
         $relativeDTO = new LineChartDataDTO();
 
+        $absoluteDTO->setColor(self::getColorForId($statisticGroup->getId()));
         $absoluteDTO->setLabel($statisticGroup->getName());
         $absoluteDTO->setData($absolute);
+        $relativeDTO->setColor(self::getColorForId($statisticGroup->getId()));
         $relativeDTO->setLabel($statisticGroup->getName());
         $relativeDTO->setData($relative);
 
@@ -166,5 +168,10 @@ class CensusMapper
     public static function isFiltered($needle, $haystack)
     {
         return stripos(json_encode($haystack ?? []), $needle) !== false;
+    }
+
+    public static function getColorForId($id): string
+    {
+        return '#'.substr(md5($id), 0, 6);
     }
 }
