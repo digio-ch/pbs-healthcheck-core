@@ -37,8 +37,8 @@ class WidgetDataProvider
         'Group::Pio' => '#DD1F19',
         'Group::AbteilungsRover' => '#1DA650',
         'Group::Pta' => '#d9b826',
-        'Group::Abteilung' => '#929292',
-        'leaders' => '#929292'
+        'Group::Abteilung' => '#005716',
+        'leaders' => '#005716'
     ];
 
     /** @var string[] */

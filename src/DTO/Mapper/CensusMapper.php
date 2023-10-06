@@ -122,7 +122,7 @@ class CensusMapper
     public static function filterCensusGroup(CensusGroup $group, CensusRequestData $censusRequestData)
     {
         if (self::isFiltered('biber', $censusRequestData->getRoles()) || !$censusRequestData->isFilterMales()) {
-            $group->setPtaMCount(0);
+            $group->setBiberMCount(0);
         }
         if (self::isFiltered('biber', $censusRequestData->getRoles()) || !$censusRequestData->isFilterFemales()) {
             $group->setBiberFCount(0);
@@ -173,5 +173,25 @@ class CensusMapper
     public static function getColorForId($id): string
     {
         return '#' . substr(md5($id), 0, 6);
+    }
+
+    /**
+     * Retuns a hex color string where each color (R,G,B) is withing 100-230, so that text is always readable on this color.
+     * @param int $id
+     * @return string
+     */
+    public static function getLightColorForId(int $id): string
+    {
+        $color = self::getColorForId($id);
+        $r = hexdec(substr($color, 1, 2));
+        $g = hexdec(substr($color, 3, 2));
+        $b = hexdec(substr($color, 5, 2));
+        if ($r < 100) $r += 100;
+        if ($r > 230) $r -= 25;
+        if ($g < 100) $g += 100;
+        if ($g > 230) $g -= 25;
+        if ($b < 100) $b += 100;
+        if ($g > 230) $g -= 25;
+        return "#". dechex($r) . dechex($g) . dechex($b);
     }
 }
