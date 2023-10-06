@@ -152,33 +152,38 @@ class CensusDataProvider extends WidgetDataProvider
         if ($parentGroup->getGroupType()->getGroupType() === GroupType::REGION) {
             return $this->findHighestRelevantRegion($parentGroup);
         } else {
+            if ($group->getGroupType()->getGroupType() === GroupType::DEPARTMENT && $parentGroup->getGroupType()->getGroupType() === GroupType::CANTON) {
+                return $this->findHighestRelevantRegion($parentGroup);
+            }
             return $group;
         }
     }
 
+
     /**
-     * @param TableDTO[] $dtos
-     * @return void
+     * @param StatisticGroup[] $groups
+     * @return StatisticGroup[]
      */
-    public function sortDTOs(array $dtos)
+    public function sortGroups(array $groups)
     {
-        $regions = array_filter($dtos, function ($dto) {
-            return $dto->getType() === GroupType::REGION;
+        $regions = array_filter($groups, function ($group) {
+            return $group->getGroupType()->getGroupType() === GroupType::REGION;
         });
-        $departments = array_filter($dtos, function ($dto) {
-            return $dto->getType() === GroupType::DEPARTMENT;
+        $departments = array_filter($groups, function ($group) {
+            return $group->getGroupType()->getGroupType() === GroupType::DEPARTMENT;
         });
-        usort($regions, function (TableDTO $a, TableDTO $b) {
+        usort($regions, function (StatisticGroup $a, StatisticGroup $b) {
             return strcmp($a->getName(), $b->getName());
         });
-        usort($departments, function (TableDTO $a, TableDTO $b) {
+        usort($departments, function (StatisticGroup $a, StatisticGroup $b) {
             return strcmp($a->getName(), $b->getName());
         });
+
         $return = [];
         foreach ($regions as $region) {
             $return[] = $region;
             foreach ($departments as $department) {
-                if ($department->getParentId() === $region->getId()) {
+                if ($department->getParentGroup()->getId() === $region->getId()) {
                     $return[] = $department;
                 }
             }
@@ -204,7 +209,7 @@ class CensusDataProvider extends WidgetDataProvider
     public function getTableData(Group $group, CensusRequestData $censusRequestData)
     {
         $flattenedGroups = $this->getRelevantGroups($group);
-
+        $flattenedGroups = $this->sortGroups($flattenedGroups);
         $dataTransferObjects = [];
         $relevantYears = range(date('Y') - 5, date('Y'));
         foreach ($flattenedGroups as $flattenedGroup) {
@@ -212,7 +217,7 @@ class CensusDataProvider extends WidgetDataProvider
         }
         return [
             'years' => $relevantYears,
-            'data' => $this->sortDTOs($dataTransferObjects),
+            'data' => $dataTransferObjects,
         ];
     }
 
@@ -220,6 +225,7 @@ class CensusDataProvider extends WidgetDataProvider
     {
         $relevantGroups = $this->getRelevantGroups($group);
         $relevantGroups = $this->filterGroups($relevantGroups, $censusRequestData);
+        $relevantGroups = $this->sortGroups($relevantGroups);
 
         $absolute = [];
         $relative = [];
@@ -244,6 +250,7 @@ class CensusDataProvider extends WidgetDataProvider
     {
         $relevantGroups = $this->getRelevantGroups($group);
         $relevantGroups = $this->filterGroups($relevantGroups, $censusRequestData);
+        $relevantGroups = $this->sortGroups($relevantGroups);
 
         $rawResults = [];
         foreach ($relevantGroups as $relevantGroup) {
@@ -263,7 +270,7 @@ class CensusDataProvider extends WidgetDataProvider
                 $rawResults[4][] = new StackedBarElementDTO($rover, $data[0]->getName(), '#1DA650');
                 $rawResults[3][] = new StackedBarElementDTO($pio, $data[0]->getName(), '#DD1F19');
                 $rawResults[5][] = new StackedBarElementDTO($pta, $data[0]->getName(), '#d9b826');
-                $rawResults[6][] = new StackedBarElementDTO($leaders, $data[0]->getName(), '#929292');
+                $rawResults[6][] = new StackedBarElementDTO($leaders, $data[0]->getName(), '#005716');
             }
         }
         $return = [];
@@ -290,7 +297,7 @@ class CensusDataProvider extends WidgetDataProvider
                 $parentName = $relevantGroup->getParentGroup()->getName();
                 $dto->setRegion($parentName);
                 $dto->setValue($data[0]->getCalculatedTotal());
-                $dto->setColor(CensusMapper::getColorForId($relevantGroup->getId()));
+                $dto->setColor(CensusMapper::getLightColorForId($relevantGroup->getParentGroup()->getId()));
                 $return[] = $dto;
             }
         }
