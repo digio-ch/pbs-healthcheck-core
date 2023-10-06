@@ -186,12 +186,24 @@ class CensusMapper
         $r = hexdec(substr($color, 1, 2));
         $g = hexdec(substr($color, 3, 2));
         $b = hexdec(substr($color, 5, 2));
-        if ($r < 100) $r += 100;
-        if ($r > 230) $r -= 25;
-        if ($g < 100) $g += 100;
-        if ($g > 230) $g -= 25;
-        if ($b < 100) $b += 100;
-        if ($g > 230) $g -= 25;
-        return "#". dechex($r) . dechex($g) . dechex($b);
+        if ($r < 100) {
+            $r += 100;
+        }
+        if ($r > 230) {
+            $r -= 25;
+        }
+        if ($g < 100) {
+            $g += 100;
+        }
+        if ($g > 230) {
+            $g -= 25;
+        }
+        if ($b < 100) {
+            $b += 100;
+        }
+        if ($g > 230) {
+            $g -= 25;
+        }
+        return "#" . dechex($r) . dechex($g) . dechex($b);
     }
 }
