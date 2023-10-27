@@ -45,7 +45,8 @@ class CensusController extends AbstractController
     public function getTableData(Group $group, CensusRequestData $censusRequestData)
     {
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
-        return $this->json($this->censusDataProvider->getTableData($group, $censusRequestData));
+        $data = $this->censusDataProvider->getTableData($group, $censusRequestData);
+        return $this->json($data);
     }
 
     /**
@@ -57,7 +58,8 @@ class CensusController extends AbstractController
     public function getDevelopmentData(Group $group, CensusRequestData $censusRequestData)
     {
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
-        return $this->json($this->censusDataProvider->getDevelopmentData($group, $censusRequestData));
+        $data = $this->censusDataProvider->getDevelopmentData($group, $censusRequestData);
+        return $this->json($data);
     }
 
 
@@ -70,7 +72,8 @@ class CensusController extends AbstractController
     public function getMembersData(Group $group, CensusRequestData $censusRequestData)
     {
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
-        return $this->json($this->censusDataProvider->getMembersData($group, $censusRequestData));
+        $data = $this->censusDataProvider->getMembersData($group, $censusRequestData);
+        return $this->json($data);
     }
 
     /**
@@ -82,7 +85,8 @@ class CensusController extends AbstractController
     public function getTreemapData(Group $group, CensusRequestData $censusRequestData)
     {
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
-        return $this->json($this->censusDataProvider->getTreemapData($group, $censusRequestData));
+        $data = $this->censusDataProvider->getTreemapData($group, $censusRequestData);
+        return $this->json($data);
     }
 
     /**

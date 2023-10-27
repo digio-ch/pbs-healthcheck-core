@@ -44,7 +44,7 @@ class CensusDataProvider extends WidgetDataProvider
 
     public function getPreviewData(Group $group)
     {
-        $groups = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($group->getId(), ['Group::Abteilung', 'Group::Kantonalverband', 'Group::Region']); // Replace with group endpoint
+        $flattenedGroups = $this->getRelevantGroups($group);
         $return = [
             'm' => [
                 'leiter' => 0,
@@ -65,8 +65,8 @@ class CensusDataProvider extends WidgetDataProvider
                 'pta' => 0
             ]
         ];
-        foreach ($groups as $group) {
-            $censusGroup = $this->censusGroupRepository->findOneBy(['group_id' => $group['id'], 'year' => date('Y')]);
+        foreach ($flattenedGroups as $group) {
+            $censusGroup = $this->censusGroupRepository->findOneBy(['group_id' => $group->getId(), 'year' => date('Y')]);
             if (!is_null($censusGroup)) {
                 $return['m']['leiter'] += $censusGroup->getLeiterMCount();
                 $return['m']['biber'] += $censusGroup->getBiberMCount();
@@ -238,7 +238,6 @@ class CensusDataProvider extends WidgetDataProvider
                 $relative[] = $dto->getRelative()[0];
             }
         }
-
         $return = new DevelopmentWidgetDTO();
         $return->setYears($relevantYears);
         $return->setAbsolute($absolute);
@@ -312,10 +311,15 @@ class CensusDataProvider extends WidgetDataProvider
      */
     private function filterGroups(array $statisticGroups, CensusRequestData $censusRequestData)
     {
-        return array_filter($statisticGroups, function ($group) use ($censusRequestData) {
-            return sizeof(array_filter($censusRequestData->getGroups(), function ($groupId) use ($group) {
-                    return $groupId == $group->getId();
-            })) === 0;
+        // For faster lookups we swap array index with value so that array goes from [1 => 23, 2 => 352] to [23 => null, 352 => null]
+        if (is_null($censusRequestData->getGroups())) {
+            return $statisticGroups;
+        }
+        $groupIdsToFilterOut = array_flip($censusRequestData->getGroups());
+        $filteredGroups = array_filter($statisticGroups, function (StatisticGroup $group) use ($groupIdsToFilterOut) {
+            return !isset($groupIdsToFilterOut[$group->getId()]);
         });
+        // Ensure that they are sequential.
+        return array_values($filteredGroups);
     }
 }
