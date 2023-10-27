@@ -312,10 +312,12 @@ class CensusDataProvider extends WidgetDataProvider
      */
     private function filterGroups(array $statisticGroups, CensusRequestData $censusRequestData)
     {
-        return array_filter($statisticGroups, function ($group) use ($censusRequestData) {
-            return sizeof(array_filter($censusRequestData->getGroups(), function ($groupId) use ($group) {
-                    return $groupId == $group->getId();
-            })) === 0;
+        // For faster lookups we swap array index with value so that array goes from [1 => 23, 2 => 352] to [23 => null, 352 => null]
+        $groupIdsToFilterOut = array_flip($censusRequestData->getGroups());
+        $filteredGroups = array_filter($statisticGroups, function (StatisticGroup $group) use ($groupIdsToFilterOut) {
+            return !isset($groupIdsToFilterOut[$group->getId()]);
         });
+        // Ensure that they are sequential.
+        return array_values($filteredGroups);
     }
 }
