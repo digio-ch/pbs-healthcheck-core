@@ -238,7 +238,6 @@ class CensusDataProvider extends WidgetDataProvider
                 $relative[] = $dto->getRelative()[0];
             }
         }
-
         $return = new DevelopmentWidgetDTO();
         $return->setYears($relevantYears);
         $return->setAbsolute($absolute);
@@ -313,6 +312,9 @@ class CensusDataProvider extends WidgetDataProvider
     private function filterGroups(array $statisticGroups, CensusRequestData $censusRequestData)
     {
         // For faster lookups we swap array index with value so that array goes from [1 => 23, 2 => 352] to [23 => null, 352 => null]
+        if (is_null($censusRequestData->getGroups())) {
+            return $statisticGroups;
+        }
         $groupIdsToFilterOut = array_flip($censusRequestData->getGroups());
         $filteredGroups = array_filter($statisticGroups, function (StatisticGroup $group) use ($groupIdsToFilterOut) {
             return !isset($groupIdsToFilterOut[$group->getId()]);

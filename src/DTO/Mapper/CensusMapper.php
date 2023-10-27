@@ -66,8 +66,9 @@ class CensusMapper
                 $improvementVs3YearsAgo = (100 / $totalCounts[count($totalCounts) - 4]) * $totalCounts[count($totalCounts) - 1] - 100;
             }
         }
-        if (!$incomplete) {
-            $improvementVsAvg5Years = (100 / (($totalCounts[0] + $totalCounts[1] + $totalCounts[2] + $totalCounts[3] + $totalCounts[4]) / 5)) * $totalCounts[count($totalCounts) - 1] - 100;
+        $fiveYearTotal = $totalCounts[0] + $totalCounts[1] + $totalCounts[2] + $totalCounts[3] + $totalCounts[4];
+        if (!$incomplete && $fiveYearTotal !== 0) {
+            $improvementVsAvg5Years = (100 / ($fiveYearTotal / 5)) * $totalCounts[count($totalCounts) - 1] - 100;
         }
         $dto->setRelativeMemberCounts([$improvementVsLastYear, $improvementVs3YearsAgo, $improvementVsAvg5Years]);
         return $dto;
