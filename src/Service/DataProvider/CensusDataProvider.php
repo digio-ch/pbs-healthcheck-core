@@ -44,7 +44,7 @@ class CensusDataProvider extends WidgetDataProvider
 
     public function getPreviewData(Group $group)
     {
-        $groups = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($group->getId(), ['Group::Abteilung', 'Group::Kantonalverband', 'Group::Region']); // Replace with group endpoint
+        $flattenedGroups = $this->getRelevantGroups($group);
         $return = [
             'm' => [
                 'leiter' => 0,
@@ -65,8 +65,8 @@ class CensusDataProvider extends WidgetDataProvider
                 'pta' => 0
             ]
         ];
-        foreach ($groups as $group) {
-            $censusGroup = $this->censusGroupRepository->findOneBy(['group_id' => $group['id'], 'year' => date('Y')]);
+        foreach ($flattenedGroups as $group) {
+            $censusGroup = $this->censusGroupRepository->findOneBy(['group_id' => $group->getId(), 'year' => date('Y')]);
             if (!is_null($censusGroup)) {
                 $return['m']['leiter'] += $censusGroup->getLeiterMCount();
                 $return['m']['biber'] += $censusGroup->getBiberMCount();
