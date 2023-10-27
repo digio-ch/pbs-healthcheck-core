@@ -3,3 +3,6 @@
 
 # Run every 3 months at 00:00 (AM)
 0 0 1 */3 * /usr/local/bin/php /srv/bin/console app:import-geo-addresses
+
+# Run once a year on the first of february at 01:00 (AM)
+0 1 1 2 * /usr/local/bin/php /srv/bin/console app:fetch-census

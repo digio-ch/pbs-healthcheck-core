@@ -20,6 +20,7 @@ class FetchCensusCommand extends StatisticsCommand
     protected GroupTypeRepository $groupTypeRepository;
 
     private SymfonyStyle $io;
+    private $start;
 
     public function __construct(
         CensusAPIService $apiService,
@@ -36,16 +37,16 @@ class FetchCensusCommand extends StatisticsCommand
     public function configure()
     {
         $this->setName('app:fetch-census')
-            ->setDescription('Not implemented');
+            ->setDescription('Fetch and aggregate census data');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->start = microtime(true);
         $this->io = new SymfonyStyle($input, $output);
 
         $year = (int) date('Y');
         $minYear = $year - 6;
-        $groupsToAggregate = [];
         // Fetch groups
         while ($year > $minYear) {
             $this->io->writeln('year ' . $year);
@@ -54,14 +55,10 @@ class FetchCensusCommand extends StatisticsCommand
             foreach ($rawCensusGroups as $rawCensusGroup) {
                 $exists = $this->censusGroupRepository->findOneBy(['group_id' => $rawCensusGroup['group_id'], 'year' => $year]);
                 if (is_null($exists)) {
-                    $groupsToAggregate[] = $rawCensusGroup['group_id'];
                     $this->mapRawCensusGroupToCensusGroup($rawCensusGroup, $year);
                 }
             }
             $year--;
-        }
-        // Aggregate Groups
-        foreach (array_unique($groupsToAggregate) as $groupId) {
         }
         return Command::SUCCESS;
     }
@@ -102,9 +99,8 @@ class FetchCensusCommand extends StatisticsCommand
     }
 
 
-    // TODO: Implement the statistics
     public function getStats(): CommandStatistics
     {
-        return new CommandStatistics(0, 'Statistics not yet implemented.');
+        return new CommandStatistics(microtime(true) - $this->start, '');
     }
 }
