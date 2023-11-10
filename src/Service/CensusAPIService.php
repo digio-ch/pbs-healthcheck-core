@@ -27,15 +27,9 @@ class CensusAPIService
     }
 
 
-    /**
-     * Fetch a group from the Group Structure API.
-     * This can return any group regardless of healthcheck opt-out or any other factor.
-     * @param int $groupId
-     * @return Http\CurlResponse
-     */
-    public function getGroup(int $groupId): Http\CurlResponse
+    public function getCensusData(int $year): Http\CurlResponse
     {
-        $endpoint = $this->url . '/de/groups/' . $groupId . '.json?token=' . $this->apiToken;
+        $endpoint = $this->url . '/group_health/census_evaluations.json?token=' . $this->apiToken . '&year=' . $year;
         return $this->guzzleWrapper->getJson($endpoint, null, []);
     }
 

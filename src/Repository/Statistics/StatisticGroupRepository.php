@@ -2,8 +2,11 @@
 
 namespace App\Repository\Statistics;
 
+use App\Entity\Midata\CensusGroup;
 use App\Entity\Statistics\StatisticGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -62,6 +65,32 @@ class StatisticGroupRepository extends ServiceEntityRepository
     public function flush()
     {
         $this->_em->flush();
+    }
+
+    /**
+     * Finds all the children of the group that are group type 2,3 or 8. (Kanton, Region, Abteilung)
+     * @param int $groupId
+     * @return int[]
+     * @throws Exception
+     */
+    public function findAllRelevantChildGroups(int $groupId): array
+    {
+        $conn = $this->_em->getConnection();
+        $query = $conn->executeQuery(
+            "WITH RECURSIVE parent as (
+                    SELECT statistic_group.*, midata_group_type.group_type
+                    FROM statistic_group
+                    JOIN midata_group_type ON group_type_id = midata_group_type.id
+                    WHERE statistic_group.id = (?)
+                    UNION
+                    SELECT child.*, midata_group_type.group_type
+                    FROM statistic_group child, parent p, midata_group_type
+                    Where child.parent_group_id = p.id AND midata_group_type.group_type IN ('Group::Abteilung', 'Group::Region', 'Group::Kantonalverband') AND child.group_type_id = midata_group_type.id
+                ) SELECT * from parent;",
+            [$groupId],
+            [ParameterType::INTEGER]
+        );
+        return $query->fetchFirstColumn();
     }
 
     // /**

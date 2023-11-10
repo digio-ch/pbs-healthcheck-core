@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -63,27 +64,27 @@ class InviteController extends AbstractController
             ]);
         } catch (\Exception $exception) {
             throw new ApiException(
-                $this->translator->trans('api.error.invalidRequest'),
-                JsonResponse::HTTP_NOT_ACCEPTABLE
+                Response::HTTP_NOT_ACCEPTABLE,
+                $this->translator->trans('api.error.invalidRequest')
             );
         }
 
         $errors = $validator->validate($inviteDTO);
         if (count($errors) > 0) {
             throw new ApiException(
-                $this->translator->trans('api.error.invalidEntries'),
-                JsonResponse::HTTP_UNPROCESSABLE_ENTITY
+                Response::HTTP_UNPROCESSABLE_ENTITY,
+                $this->translator->trans('api.error.invalidEntries')
             );
         }
 
         if ($inviteDTO->getPermissionType() === PermissionVoter::OWNER) {
-            throw new ApiException('You may not add group Owners.', JsonResponse::HTTP_FORBIDDEN);
+            throw new ApiException(Response::HTTP_FORBIDDEN, 'You may not add group Owners.');
         }
 
         if ($this->inviteService->inviteExists($group, $inviteDTO->getEmail())) {
             $invite = $this->translator->trans('api.entity.invite');
             $message = $this->translator->trans('api.error.exists', ['entityName' => $invite]);
-            throw new ApiException($message, JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
         }
 
         $createdInviteDTO = $this->inviteService->createInvite($group, $inviteDTO);
