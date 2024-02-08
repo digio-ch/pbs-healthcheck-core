@@ -17,4 +17,9 @@ class CensusDateProvider
     {
         return $this->censusGroupRepository->getLatestYear();
     }
+
+    public function getRelevantDateRange(): array
+    {
+        return range($this->getLatestYear() - 5, $this->getLatestYear());
+    }
 }

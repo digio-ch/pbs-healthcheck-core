@@ -70,7 +70,7 @@ class CensusDataProvider extends WidgetDataProvider
             ]
         ];
         foreach ($flattenedGroups as $group) {
-            $censusGroup = $this->censusGroupRepository->findOneBy(['group_id' => $group->getId(), 'year' => date('Y')]);
+            $censusGroup = $this->censusGroupRepository->findOneBy(['group_id' => $group->getId(), 'year' => $this->censusDateProvider->getLatestYear()]);
             if (!is_null($censusGroup)) {
                 $return['m']['leiter'] += $censusGroup->getLeiterMCount();
                 $return['m']['biber'] += $censusGroup->getBiberMCount();
@@ -215,7 +215,7 @@ class CensusDataProvider extends WidgetDataProvider
         $flattenedGroups = $this->getRelevantGroups($group);
         $flattenedGroups = $this->sortGroups($flattenedGroups);
         $dataTransferObjects = [];
-        $relevantYears = range(date('Y') - 5, date('Y'));
+        $relevantYears = $this->censusDateProvider->getRelevantDateRange();
         foreach ($flattenedGroups as $flattenedGroup) {
             $dataTransferObjects[] = CensusMapper::mapToCensusTable($flattenedGroup, $this->censusGroupRepository->findBy(['group_id' => $flattenedGroup->getId()]), $relevantYears, $censusRequestData);
         }
@@ -233,7 +233,7 @@ class CensusDataProvider extends WidgetDataProvider
 
         $absolute = [];
         $relative = [];
-        $relevantYears = range(date('Y') - 5, date('Y'));
+        $relevantYears = $this->censusDateProvider->getRelevantDateRange();
         foreach ($relevantGroups as $relevantGroup) {
             $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId()]);
             if (!sizeof($data) == 0) {
@@ -257,7 +257,7 @@ class CensusDataProvider extends WidgetDataProvider
 
         $rawResults = [];
         foreach ($relevantGroups as $relevantGroup) {
-            $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId(), 'year' => date('Y')]);
+            $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId(), 'year' => $this->censusDateProvider->getLatestYear()]);
             if (!sizeof($data) == 0) {
                 CensusMapper::filterCensusGroup($data[0], $censusRequestData);
                 $biber = $data[0]->getBiberMCount() + $data[0]->getBiberFCount();
@@ -292,7 +292,7 @@ class CensusDataProvider extends WidgetDataProvider
 
         $return = [];
         foreach ($relevantGroups as $relevantGroup) {
-            $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId(), 'year' => date('Y')]);
+            $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId(), 'year' => $this->censusDateProvider->getLatestYear()]);
             if (!sizeof($data) == 0) {
                 CensusMapper::filterCensusGroup($data[0], $censusRequestData);
                 $dto = new TreemapWidgetDTO();
