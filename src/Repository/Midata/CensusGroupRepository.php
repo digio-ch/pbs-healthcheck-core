@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -50,8 +51,10 @@ class CensusGroupRepository extends ServiceEntityRepository
 
     public function getLatestYear(): int
     {
-        $query = "SELECT MAX(year) from census_group;";
-        $result = $this->_em->createNativeQuery($query)->getOneOrNullResult();
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('max', 'max', 'integer');
+        $query = $this->_em->createNativeQuery('SELECT MAX(year) FROM census_group;', $rsm);
+        $result = $query->getSingleScalarResult();
         if (is_null($result)) throw new \Exception("No date found in census table.");
         return $result;
     }
