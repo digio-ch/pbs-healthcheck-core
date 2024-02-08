@@ -48,6 +48,14 @@ class CensusGroupRepository extends ServiceEntityRepository
         }
     }
 
+    public function getLatestYear(): int
+    {
+        $query = "SELECT MAX(year) from census_group;";
+        $result = $this->_em->createNativeQuery($query)->getOneOrNullResult();
+        if (is_null($result)) throw new \Exception("No date found in census table.");
+        return $result;
+    }
+
     // /**
     //  * @return CensusGroup[] Returns an array of CensusGroup objects
     //  */

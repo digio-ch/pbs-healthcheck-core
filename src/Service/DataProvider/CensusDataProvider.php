@@ -18,6 +18,7 @@ use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use App\Repository\Statistics\StatisticGroupRepository;
 use App\Service\Apps\Census\CensusFilter;
+use App\Service\Census\CensusDateProvider;
 use Doctrine\DBAL\Schema\Table;
 use Sentry\Util\JSON;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -26,15 +27,18 @@ class CensusDataProvider extends WidgetDataProvider
 {
     private CensusGroupRepository $censusGroupRepository;
     private StatisticGroupRepository $statisticGroupRepository;
+    private CensusDateProvider $censusDateProvider;
     public function __construct(
         GroupRepository $groupRepository,
         GroupTypeRepository $groupTypeRepository,
         TranslatorInterface $translator,
         CensusGroupRepository $censusGroupRepository,
-        StatisticGroupRepository $statisticGroupRepository
+        StatisticGroupRepository $statisticGroupRepository,
+        CensusDateProvider $censusDateProvider
     ) {
         $this->censusGroupRepository = $censusGroupRepository;
         $this->statisticGroupRepository = $statisticGroupRepository;
+        $this->censusDateProvider = $censusDateProvider;
         parent::__construct(
             $groupRepository,
             $groupTypeRepository,
