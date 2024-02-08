@@ -282,7 +282,7 @@ class CensusDataProvider extends WidgetDataProvider
             $dto->setData($rawResult);
             $return[] = $dto;
         }
-        return $return;
+        return ['data' =>$return, 'year' => $this->censusDateProvider->getLatestYear()];
     }
 
     public function getTreemapData(Group $group, CensusRequestData $censusRequestData)
@@ -304,7 +304,7 @@ class CensusDataProvider extends WidgetDataProvider
                 $return[] = $dto;
             }
         }
-        return $return;
+        return ['data' =>$return, 'year' => $this->censusDateProvider->getLatestYear()];
     }
 
     /**
