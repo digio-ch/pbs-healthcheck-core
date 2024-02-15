@@ -3680,9 +3680,9 @@
                   "url": "https://pfadi.swiss/it/formazione/"
                 }
               ],
-              "help_de": "Zu den Kursen, die normalerweise von den KVs und Regionen organisiert werden, gehören die Vorbasis-, Basis- und Aufbaukurse, die Spezialisierungen und Einführungskurse.",
-              "help_fr": "Les cours habituellement organisés par les AC et régions sont les cours préparatoires, les cours de base et de responsable d’unité, les spécialisations et les cours d’introduction.",
-              "help_it": "I corsi solitamente organizzati dai cantoni sono corsi preparatori, Base, Campo, corsi di intruduzione e specializzazioni."
+              "help_de": "Folgende in der Regel (inter)kantonal organisierten Kurse werden zurzeit in eurem KV nicht angeboten:\n...\n[auflisten anhand Abfrage]\n...",
+              "help_fr": "Les cours suivants, qui sont normalement organisés au niveau (inter)cantonal, ne sont actuellement pas proposés au sein de votre AC :\n...\n[énumérer à l'aide de la consultation]\n…",
+              "help_it": "I corsi seguenti, che sono normalmente organizzati a livello (inter)cantonale, non sono attualmente proposti in seno alla vostra AC: ... [elencare grazie alla consultazione] ..."
             },
             "question_de": "In Zusammenarbeit mit anderen Kantonalverbänden bieten wir unseren Leitenden alle im Ausbildungsmodell vorgesehenen kantonalen Kurse an.",
             "question_fr": "En collaboration avec d'autres associations cantonales, nous proposons à nos responsables tous les cours cantonaux figurant dans le modèle de formation.",
