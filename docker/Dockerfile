@@ -6,8 +6,7 @@ ARG PHP_INI=php.ini
 FROM composer:1.10.19 as dependencies
 COPY composer.* /app/
 WORKDIR /app
-RUN git config --global http.version HTTP/1.1
-RUN git config --global --unset http.proxy
+RUN GIT_TRACE_PACKET=1 GIT_TRACE=2 GIT_CURL_VERBOSE=1
 RUN composer install --no-interaction --ignore-platform-reqs --no-scripts --prefer-dist
 
 FROM php:7.4.14-fpm
