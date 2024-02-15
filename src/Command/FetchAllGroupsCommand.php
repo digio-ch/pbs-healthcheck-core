@@ -195,9 +195,9 @@ class FetchAllGroupsCommand extends StatisticsCommand
          */
         $groupType = $this->groupTypeRepository->findOneBy(['deLabel' => $rawGroup['group_type']]);
         $invalid_group_type = is_null($groupType);
-        if($invalid_group_type) {
+        if ($invalid_group_type) {
             $this->gelfLogger->warning(
-                new SimpleLogMessage('Invalid grouptype detected, skipping group: '.$id)
+                new SimpleLogMessage('Invalid grouptype detected, skipping group: ' . $id)
             );
             return;
         }
