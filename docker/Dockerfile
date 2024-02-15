@@ -3,9 +3,10 @@ ARG BUILD_TEST=0
 ARG PHP_INI=php.ini
 
 # Install dependencies
-FROM composer:2.7.1 as dependencies
+FROM composer:1.10.19 as dependencies
 COPY composer.* /app/
 WORKDIR /app
+RUN git config --global http.version HTTP/1.1
 RUN composer install --no-interaction --ignore-platform-reqs --no-scripts --prefer-dist
 
 FROM php:7.4.14-fpm
