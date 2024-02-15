@@ -55,7 +55,9 @@ class CensusGroupRepository extends ServiceEntityRepository
         $rsm->addScalarResult('max', 'max', 'integer');
         $query = $this->_em->createNativeQuery('SELECT MAX(year) FROM census_group;', $rsm);
         $result = $query->getSingleScalarResult();
-        if (is_null($result)) throw new \Exception("No date found in census table.");
+        if (is_null($result)) {
+            throw new \Exception("No date found in census table.");
+        }
         return $result;
     }
 
