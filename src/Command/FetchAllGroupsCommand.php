@@ -186,11 +186,21 @@ class FetchAllGroupsCommand extends StatisticsCommand
         $name = trim($rawGroup['name']);
         $children = $rawGroup['links']['children'] ?? [];
         /**
-         * Keep in mind that the group type is not sent via UID (zb. Group::Abteilung) but via the label in the language
-         * that you are using. In this case we use /de/group... so the german label.
+         * Sadly the group type we get from the regular group endpoint (statistic_group) is not the same one,
+         * that we get from the group type endpoint (JSON file). So here we have to map the german label of a group type
+         * to the group type key.
+         * A side effect of this is that we can get Group types which just don't exist. (eg. Erziehungsberechtigter)
+         * To prevent this from destroying this function we must ignore such groups.
          * @var GroupType $groupType
          */
         $groupType = $this->groupTypeRepository->findOneBy(['deLabel' => $rawGroup['group_type']]);
+        $invalid_group_type = is_null($groupType);
+        if($invalid_group_type) {
+            $this->gelfLogger->warning(
+                new SimpleLogMessage('Invalid grouptype detected, skipping group: '.$id)
+            );
+            return;
+        }
 
         $statisticGroup->setId($id);
         $statisticGroup->setCanton($canton);
