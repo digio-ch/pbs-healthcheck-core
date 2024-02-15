@@ -149,7 +149,7 @@ services:
             $apiToken: '%env(GROUP_STRUCTURE_TOKEN)%'
             $url: '%env(GROUP_STRUCTURE_URL)%'
 
-    App\Service\CensusAPIService:
+    App\Service\Census\CensusAPIService:
         arguments:
             $apiToken: '%env(CENSUS_TOKEN)%'
             $url: '%env(CENSUS_URL)%'

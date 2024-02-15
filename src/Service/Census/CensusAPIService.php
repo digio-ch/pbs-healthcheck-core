@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Census;
 
+use App\Service\Http;
 use App\Service\Http\GuzzleWrapper;
 
 class CensusAPIService
