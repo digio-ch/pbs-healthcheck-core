@@ -5,13 +5,17 @@ namespace App\Service\Aggregator;
 use App\Entity\Aggregated\AggregatedGeoLocation;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Role;
+use App\Entity\Statistics\GroupGeoLocation;
+use App\Model\LogMessage\SimpleLogMessage;
 use App\Repository\Aggregated\AggregatedGeoLocationRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\PersonRepository;
 use App\Repository\Midata\PersonRoleRepository;
 use App\Repository\Midata\RoleRepository;
+use App\Repository\Statistics\GroupGeoLocationRepository;
 use DateInterval;
 use DateTime;
+use Digio\Logging\GelfLogger;
 use Doctrine\ORM\EntityManagerInterface;
 
 class GeoLocationAggregator extends WidgetAggregator
@@ -36,13 +40,20 @@ class GeoLocationAggregator extends WidgetAggregator
     /** @var AggregatedGeoLocationRepository $geoLocationRepository */
     private $geoLocationRepository;
 
+    private GroupGeoLocationRepository $groupGeoLocationRepository;
+
+    protected GelfLogger $gelfLogger;
+
+
     public function __construct(
         EntityManagerInterface $em,
         GroupRepository $groupRepository,
         PersonRepository $personRepository,
         PersonRoleRepository $personRoleRepository,
         RoleRepository $roleRepository,
-        AggregatedGeoLocationRepository $geoLocationRepository
+        AggregatedGeoLocationRepository $geoLocationRepository,
+        GroupGeoLocationRepository $groupGeoLocationRepository,
+        GelfLogger $gelfLogger
     ) {
         parent::__construct($groupRepository);
 
@@ -52,6 +63,8 @@ class GeoLocationAggregator extends WidgetAggregator
         $this->personRoleRepository = $personRoleRepository;
         $this->roleRepository = $roleRepository;
         $this->geoLocationRepository = $geoLocationRepository;
+        $this->groupGeoLocationRepository = $groupGeoLocationRepository;
+        $this->gelfLogger = $gelfLogger;
     }
 
     /**
@@ -92,6 +105,7 @@ class GeoLocationAggregator extends WidgetAggregator
                     $this->geoLocationRepository,
                     $mainGroup->getId()
                 );
+
                 if ($this->isDataExistsForDate($startPointDate->format('Y-m-d 00:00:00'), $existingData)) {
                     continue;
                 }
@@ -109,9 +123,12 @@ class GeoLocationAggregator extends WidgetAggregator
                     parent::$roleTypePriority
                 );
 
+                if ($startPointDate->getTimestamp() === $maxDate->getTimestamp()) {
+                    $this->aggregateGroupMeetingPoints($mainGroup, $startPointDate);
+                }
                 $this->createWidgetsFromData($personGroups, $mainGroup, $startPointDate);
+                $this->em->flush();
             }
-
             $this->em->flush();
             $this->em->clear();
         }
@@ -144,6 +161,29 @@ class GeoLocationAggregator extends WidgetAggregator
                 $widget->setLongitude($singleData['longitude']);
                 $widget->setLatitude($singleData['latitude']);
             }
+
+            $this->em->persist($widget);
+        }
+    }
+
+    private function aggregateGroupMeetingPoints(Group $group, DateTime $dateTime)
+    {
+        $geoLocations = $this->groupGeoLocationRepository->findBy(['group' => $group->getId()]);
+        foreach ($geoLocations as $geoLocation) {
+            if (!is_numeric($geoLocation->getLong()) || !is_numeric($geoLocation->getLat())) {
+                $this->gelfLogger->warning(new SimpleLogMessage('Geolocation ' . $geoLocation->getId() . ' from group ' . $group->getId() . ' could not be aggregated because lat or long is not numeric. (lat: ' . $geoLocation->getLat() . ' ,long: ' . $geoLocation->getLong() . ')'));
+                continue;
+            }
+            $widget = new AggregatedGeoLocation();
+            $widget->setGroup($group);
+            $widget->setLabel(''); // no label
+            $widget->setGroupType($group->getGroupType()->getGroupType()); // no group type
+            $widget->setPersonType('group_meeting_point'); // isn't a person
+            $widget->setShape('group_meeting_point');
+            $widget->setCreatedAt(new \DateTimeImmutable());
+            $widget->setDataPointDate(new \DateTimeImmutable($dateTime->format('Y-m-d')));
+            $widget->setLongitude($geoLocation->getLong());
+            $widget->setLatitude($geoLocation->getLat());
 
             $this->em->persist($widget);
         }

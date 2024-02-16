@@ -14,12 +14,12 @@ use App\Entity\Midata\Role;
 class RoleOverviewMapper
 {
     const GROUP_TYPE_COLORS = [
-        'Biber' => ['#EEE09F', '#d6ca8f'],
-        'Woelfe' => ['#3BB5DC', '#2f91b0'],
-        'Pfadi' => ['#9A7A54', '#7b6243'],
-        'Pio' => ['#DD1F19', '#b11914'],
-        'Rover' => ['#1DA650', '#178540'],
-        'Pta' => ['#d9b826', '#ae931e'],
+        'Biber' => ['#EEE09F', '#a1976c'],
+        'Woelfe' => ['#3BB5DC', '#27758f'],
+        'Pfadi' => ['#9A7A54', '#574530'],
+        'Pio' => ['#DD1F19', '#6b110c'],
+        'Rover' => ['#1DA650', '#127336'],
+        'Pta' => ['#d9b826', '#947d16'],
     ];
 
     public static function createRoleOverviewDTO(Group $group): RoleOverviewDTO
@@ -58,7 +58,7 @@ class RoleOverviewMapper
                 return $value;
             }
         }
-        return ['#da70d6', '#ae5aab'];
+        return ['#da70d6', '#8c488a'];
     }
 
     public static function createRoleOccupation(AggregatedPersonRole $aggregatedPersonRole, string $from, string $to): RoleOccupation

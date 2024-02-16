@@ -1,0 +1,14 @@
+preview:
+  path: /preview
+  methods: GET
+  controller: App\Controller\Api\Apps\CensusController::getPreview
+
+getFilter:
+  path: /filter
+  methods: GET
+  controller: App\Controller\Api\Apps\CensusController:getFilterData
+
+postFilter:
+  path: /filter
+  methods: POST
+  controller: App\Controller\Api\Apps\CensusController:postFilterData

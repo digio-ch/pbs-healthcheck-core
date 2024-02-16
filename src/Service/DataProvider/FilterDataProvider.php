@@ -31,6 +31,12 @@ class FilterDataProvider
         $this->widgetDateRepository = $widgetDateRepository;
     }
 
+    public function getGroupTypes(Group $group, string $locale)
+    {
+        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroup($group->getId());
+        return FilterDataMapper::createGroupTypes($groupTypes, $locale);
+    }
+
     /***
      * @param Group $group
      * @param string $locale

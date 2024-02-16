@@ -31,4 +31,22 @@ class FilterController extends AbstractController
 
         return $this->json($data);
     }
+
+    /**
+     * @param Request $request
+     * @param Group $group
+     * @param FilterDataProvider $filterDataProvider
+     * @return JsonResponse
+     *
+     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
+     */
+    public function getGroupTypes(
+        Request $request,
+        Group $group,
+        FilterDataProvider $filterDataProvider
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $data = $filterDataProvider->getGroupTypes($group, $request->getLocale());
+        return $this->json($data);
+    }
 }

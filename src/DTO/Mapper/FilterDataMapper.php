@@ -25,4 +25,13 @@ class FilterDataMapper
         $filterData->setGroupTypes($groupTypeDTOs);
         return $filterData;
     }
+
+    public static function createGroupTypes(array $groupTypes, string $locale)
+    {
+        $groupTypeDTOs = [];
+        foreach ($groupTypes as $type) {
+            $groupTypeDTOs[] = GroupTypeMapper::createGroupTypeFromQueryResult($type, $locale);
+        }
+        return $groupTypeDTOs;
+    }
 }

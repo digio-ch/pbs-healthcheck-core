@@ -386,11 +386,16 @@ class ImportFromJsonCommand extends StatisticsCommand
         $i = 0;
         foreach ($groups as $gr) {
             $group = $this->em->getRepository(Group::class)->findOneBy(['id' => $gr['id']]);
+            $createGroupSettings = false;
             if (!$group) {
                 $group = new Group();
                 $group->setId($gr['id']);
                 $metadata = $this->em->getClassMetaData(get_class($group));
                 $metadata->setIdGenerator(new AssignedGenerator());
+
+                /** @var GroupType $gt */
+                $gt = $this->em->getRepository(GroupType::class)->findOneBy(['groupType' => $gr['type']]);
+                $group->setGroupType($gt);
 
                 // create group settings
                 $groupSettings = new GroupSettings();
@@ -405,7 +410,7 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $this->em->persist($groupSettings);
             }
 
-            $group->setName($gr['name']);
+            $group->setName(trim($gr['name']));
             $group->setCantonId($gr['canton_id'] ?? null);
             $group->setCantonName($gr['canton_name'] ?? null);
             $group->setCreatedAt(new DateTimeImmutable($gr['created_at']));
@@ -416,6 +421,20 @@ class ImportFromJsonCommand extends StatisticsCommand
             /** @var GroupType $gt */
             $gt = $this->em->getRepository(GroupType::class)->findOneBy(['groupType' => $gr['type']]);
             $group->setGroupType($gt);
+
+            if ($createGroupSettings) {
+                // create group settings
+                $groupSettings = new GroupSettings();
+                $groupSettings->setGroup($group);
+                if ($group->getGroupType()->getGroupType() === GroupType::DEPARTMENT) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_DEPARMENT_ROLES);
+                } elseif ($group->getGroupType()->getGroupType() === GroupType::REGION) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_REGION_ROLES);
+                } elseif ($group->getGroupType()->getGroupType() === GroupType::CANTON) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_CANTONAL_ROLES);
+                }
+                $this->em->persist($groupSettings);
+            }
 
             if ($gr['parent_id'] !== null) {
                 $pg = $this->em->getRepository(Group::class)->find($gr['parent_id']);
@@ -824,9 +843,10 @@ class ImportFromJsonCommand extends StatisticsCommand
             $personRole->setPerson($person);
 
             $role = $this->em->getRepository(Role::class)->getOneByRoleType($r['type']);
-            if ($role) {
-                $personRole->setRole($role);
+            if (is_null($role)) {
+                continue;
             }
+            $personRole->setRole($role);
 
             $group = $this->em->getRepository(Group::class)->find($r['group_id']);
             if ($group) {

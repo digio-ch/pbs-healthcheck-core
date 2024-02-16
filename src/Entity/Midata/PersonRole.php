@@ -155,7 +155,7 @@ class PersonRole
     /**
      * @param Role|null $role
      */
-    public function setRole(?Role $role)
+    public function setRole(Role $role)
     {
         $this->role = $role;
     }
@@ -163,7 +163,7 @@ class PersonRole
     /**
      * @return Role|null
      */
-    public function getRole(): Role
+    public function getRole(): ?Role
     {
         return $this->role;
     }

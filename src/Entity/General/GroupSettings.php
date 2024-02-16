@@ -36,6 +36,26 @@ class GroupSettings
      */
     private $roleOverviewFilter = [];
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $census_roles = [];
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $census_groups = [];
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $census_filter_males;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $census_filter_females;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +81,54 @@ class GroupSettings
     public function setRoleOverviewFilter(?array $roleOverviewFilter): self
     {
         $this->roleOverviewFilter = $roleOverviewFilter;
+
+        return $this;
+    }
+
+    public function getCensusRoles(): ?array
+    {
+        return $this->census_roles;
+    }
+
+    public function setCensusRoles(?array $census_roles): self
+    {
+        $this->census_roles = $census_roles;
+
+        return $this;
+    }
+
+    public function getCensusGroups(): ?array
+    {
+        return $this->census_groups;
+    }
+
+    public function setCensusGroups(?array $census_groups): self
+    {
+        $this->census_groups = $census_groups;
+
+        return $this;
+    }
+
+    public function getCensusFilterMales(): ?bool
+    {
+        return $this->census_filter_males;
+    }
+
+    public function setCensusFilterMales(?bool $census_filter_males): self
+    {
+        $this->census_filter_males = $census_filter_males;
+
+        return $this;
+    }
+
+    public function getCensusFilterFemales(): ?bool
+    {
+        return $this->census_filter_females;
+    }
+
+    public function setCensusFilterFemales(?bool $census_filter_females): self
+    {
+        $this->census_filter_females = $census_filter_females;
 
         return $this;
     }
