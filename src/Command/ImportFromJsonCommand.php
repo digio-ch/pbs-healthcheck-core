@@ -843,9 +843,10 @@ class ImportFromJsonCommand extends StatisticsCommand
             $personRole->setPerson($person);
 
             $role = $this->em->getRepository(Role::class)->getOneByRoleType($r['type']);
-            if ($role) {
-                $personRole->setRole($role);
+            if (is_null($role)) {
+                continue;
             }
+            $personRole->setRole($role);
 
             $group = $this->em->getRepository(Group::class)->find($r['group_id']);
             if ($group) {

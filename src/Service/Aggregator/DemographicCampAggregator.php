@@ -223,7 +223,9 @@ class DemographicCampAggregator extends WidgetAggregator
                 if ($personRole->getCreatedAt() > $eventDate) {
                     continue;
                 }
+            // TODO: Warning this is just to prevent the app from breaking due to unstable API, could mess up the logic
                 if (
+                    !is_null($personRole->getRole()) &&
                     !in_array(
                         $personRole->getRole()->getRoleType(),
                         array_merge(self::$leadersRoleTypes, self::$memberRoleTypes, self::$mainGroupRoleTypes)
