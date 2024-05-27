@@ -171,9 +171,12 @@ class ImportFromJsonCommand extends StatisticsCommand
             $role->setItLabel($roleType['label_it']);
 
             $this->em->persist($role);
-            $this->em->flush();
+            if (0 === ($i % $this->batchSize)) {
+                $this->em->flush();
+            }
             $i++;
         }
+        $this->em->flush();
         $timeElapsed = microtime(true) - $start;
         $this->stats[] = ['role_types.json', $timeElapsed, $i];
         $output->writeln([sprintf('%s rows imported from roles_types.json', $i)]);
