@@ -537,7 +537,7 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $metadata->setIdGenerator(new AssignedGenerator());
             }
             $camp->setState($c['state']);
-            $camp->setLocation(mb_convert_encoding(substr($c['location'], 0, 255),'UTF-8', 'US-ASCII'));
+            $camp->setLocation(mb_convert_encoding(substr($c['location'], 0, 255), 'UTF-8', 'US-ASCII'));
 
             if (isset($c['name'])) {
                 $camp->setName($c['name']);
@@ -570,7 +570,7 @@ class ImportFromJsonCommand extends StatisticsCommand
             }
 
             $this->em->persist($camp);
-            if(0 == $i % 10) {
+            if (0 == $i % 10) {
                 $this->em->flush();
             }
             $i++;
