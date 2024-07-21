@@ -237,7 +237,7 @@ class GroupRepository extends ServiceEntityRepository
             ->where('g.parentGroup = :federationId')
             ->andWhere('gt.groupType IN (:groupType)')
             ->setParameter('federationId', $federationId)
-            ->setParameter('groupType', ['Group::Kantonalverband'])
+            ->setParameter('groupType', ['Group::Region'])
             ->getQuery()
             ->getArrayResult();
     }
