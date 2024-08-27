@@ -3,9 +3,12 @@
 namespace App\Entity\Midata;
 
 use App\Entity\Admin\GeoAddress;
+use App\Entity\Gamification\Login;
 use App\Repository\Midata\PersonRepository;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -103,6 +106,16 @@ class Person
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $geoAddress;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Login::class, mappedBy="person")
+     */
+    private $logins;
+
+    public function __construct()
+    {
+        $this->logins = new ArrayCollection();
+    }
 
     /**
      * @param int $id
@@ -310,5 +323,35 @@ class Person
     public function setGeoAddress(GeoAddress $geoAddress): void
     {
         $this->geoAddress = $geoAddress;
+    }
+
+    /**
+     * @return Collection<int, Login>
+     */
+    public function getLogins(): Collection
+    {
+        return $this->logins;
+    }
+
+    public function addLogin(Login $login): self
+    {
+        if (!$this->logins->contains($login)) {
+            $this->logins[] = $login;
+            $login->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLogin(Login $login): self
+    {
+        if ($this->logins->removeElement($login)) {
+            // set the owning side to null (unless already changed)
+            if ($login->getPerson() === $this) {
+                $login->setPerson(null);
+            }
+        }
+
+        return $this;
     }
 }
