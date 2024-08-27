@@ -34,7 +34,7 @@ class LoginService
         $this->permissionRepository = $permissionRepository;
     }
 
-    public function logByUserDTO(PbsUserDTO $userDTO):Login {
+    public function logByUserDTOForLogin(PbsUserDTO $userDTO):Login {
         $login = new Login();
 
         $activeGroupDTO = $userDTO->getGroups()[0]; // Group 0 is the active group on Login.
@@ -46,28 +46,40 @@ class LoginService
         if (sizeof($userDTO->getRoles()) !== 1) {
             throwException("Invalid amount of roles.");
         }
-        $activeRole = $userDTO->getRoles()[0]; // there should only be one role
+        $role = $this->permissionRepository->findHighestById($activeGroup, $user->getId());
+        $roleKey = 'ROLE_USER';
+        if (!is_null($role)) {
+            $roleKey = $role->getPermissionType()->getKey();
+        }
 
         $login->setPerson($user);
         $login->setGroup($activeGroup);
         $login->setDate(new \DateTime('now', new \DateTimeZone('Europe/Zurich')));
         $login->setIsGroupChange(false);
-        $login->setRole($activeRole);
+        $login->setRole($roleKey);
 
         $this->loginRepository->add($login);
 
         return $login;
     }
 
-    public function logByPersonAndGroup(Person $person, Group $group) {
+    public function logByPersonAndGroup(PbsUserDTO $userDTO, Group $group) {
         $login = new Login();
+        $person = $this->personRepository->find($userDTO->getId());
         $role = $this->permissionRepository->findHighestById($group, $person->getId());
+        $roleKey = 'ROLE_USER';
+        if (!is_null($role)) {
+            $roleKey = $role->getPermissionType()->getKey();
+        }
 
         $login->setPerson($person);
         $login->setGroup($group);
         $login->setDate(new \DateTime('now', new \DateTimeZone('Europe/Zurich')));
         $login->setIsGroupChange(true);
-        $login->setRole($role->getPermissionType()->getKey());
+        $login->setRole($roleKey);
+
         $this->loginRepository->add($login);
+
+        return $login;
     }
 }

@@ -37,7 +37,7 @@ class AuthController extends AbstractController
         $user = $this->getUser();
         if ($user instanceof PbsUserDTO) {
             $this->logger->info(new SimpleLogMessage(md5($user->getNickname()) . ' logged in.'));
-            $this->loginService->logByUserDTO($user);
+            $this->loginService->logByUserDTOForLogin($user);
         } else {
             $this->logger->info('Non User was logged in.');
         }

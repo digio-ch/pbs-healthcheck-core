@@ -32,11 +32,6 @@ class Login
     private $is_group_change;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $role;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="logins")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -52,6 +47,11 @@ class Login
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $hashed_person_id;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $role;
 
 
     public function getId(): ?int
@@ -80,18 +80,6 @@ class Login
     public function setIsGroupChange(bool $group_change): self
     {
         $this->is_group_change = $group_change;
-
-        return $this;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function setRole(string $role): self
-    {
-        $this->role = $role;
 
         return $this;
     }
@@ -128,6 +116,18 @@ class Login
     public function setHashedPersonId(?string $hashed_person_id): self
     {
         $this->hashed_person_id = $hashed_person_id;
+
+        return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(?string $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }

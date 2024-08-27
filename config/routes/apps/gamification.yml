@@ -1,0 +1,4 @@
+groupChange:
+  path: /group-change
+  methods: POST
+  controller: App\Controller\Api\GamificationController::postGroupChange
