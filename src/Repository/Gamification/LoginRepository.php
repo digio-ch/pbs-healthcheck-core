@@ -63,7 +63,7 @@ class LoginRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
         foreach ($entities as $entity) {
-            $hashedId = $hashFunc($entity->getPerson->getId);
+            $hashedId = $hashFunc($entity->getPerson()->getId());
             $entity->setPerson(null);
             $entity->setHashedPersonId($hashedId);
             $this->_em->persist($entity);
