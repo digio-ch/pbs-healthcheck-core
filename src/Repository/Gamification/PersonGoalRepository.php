@@ -2,32 +2,32 @@
 
 namespace App\Repository\Gamification;
 
-use App\Entity\Gamification\Level;
+use App\Entity\Gamification\PersonGoal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Level>
+ * @extends ServiceEntityRepository<PersonGoal>
  *
- * @method Level|null find($id, $lockMode = null, $lockVersion = null)
- * @method Level|null findOneBy(array $criteria, array $orderBy = null)
- * @method Level[]    findAll()
- * @method Level[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PersonGoal|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PersonGoal|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PersonGoal[]    findAll()
+ * @method PersonGoal[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LevelRepository extends ServiceEntityRepository
+class PersonGoalRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Level::class);
+        parent::__construct($registry, PersonGoal::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Level $entity, bool $flush = true): void
+    public function add(PersonGoal $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -39,7 +39,7 @@ class LevelRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Level $entity, bool $flush = true): void
+    public function remove(PersonGoal $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -47,17 +47,16 @@ class LevelRepository extends ServiceEntityRepository
         }
     }
 
-
     // /**
-    //  * @return Level[] Returns an array of Level objects
+    //  * @return PersonGoal[] Returns an array of PersonGoal objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
+            ->orderBy('p.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -66,10 +65,10 @@ class LevelRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Level
+    public function findOneBySomeField($value): ?PersonGoal
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

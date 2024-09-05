@@ -3,19 +3,26 @@
     {
       "key": "U0",
       "type": 0,
-      "de_title": "Datenentdecker*in",
+      "de_title": "Newcomer*in",
       "fr_title": "",
       "it_title": ""
     },
     {
       "key": "U1",
       "type": 0,
-      "de_title": "Statistikforscher*in",
+      "de_title": "Datenentdecker*in",
       "fr_title": "",
       "it_title": ""
     },
     {
       "key": "U2",
+      "type": 0,
+      "de_title": "Statistikforscher*in",
+      "fr_title": "",
+      "it_title": ""
+    },
+    {
+      "key": "U3",
       "type": 0,
       "de_title": "Healthcheck Guru",
       "fr_title": "",

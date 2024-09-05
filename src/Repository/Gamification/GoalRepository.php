@@ -47,11 +47,6 @@ class GoalRepository extends ServiceEntityRepository
         }
     }
 
-    public function removeAll(): void
-    {
-        $this->removeAll();
-    }
-
     // /**
     //  * @return Goal[] Returns an array of Goal objects
     //  */

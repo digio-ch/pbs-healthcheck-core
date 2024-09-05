@@ -90,7 +90,6 @@ class ImportGamificationCommand extends StatisticsCommand
                 $goal = new Goal();
                 $goal->setKey($jsonGoal['key']);
                 $output->writeln("Creating " . $jsonGoal["de"]["title"] . " (" . $jsonGoal["key"] . ")");
-
             }
             $level = $this->levelRepository->findOneBy(['key' => $jsonGoal['level']]);
             $goal->setLevel($level);
