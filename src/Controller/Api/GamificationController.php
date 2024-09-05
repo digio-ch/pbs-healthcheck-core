@@ -38,4 +38,9 @@ class GamificationController extends AbstractController
         $loginService->logByPersonAndGroup($this->getUser(), $group);
         return new Response('', 200);
     }
+
+    public function getUserProfile()
+    {
+        return $this->json('your json response.');
+    }
 }
