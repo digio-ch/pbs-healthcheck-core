@@ -79,6 +79,15 @@ class PersonGamificationService
                 $newCount = $pgp->getAccessGrantedCount() + 1;
                 $pgp->setAccessGrantedCount($newCount);
                 break;
+            case 'revised':
+                $pgp->setElRevised(true);
+                break;
+            case 'improvement':
+                $pgp->setElImproved(true);
+                break;
+            case 'irrelevant':
+                $pgp->setElIrrelevant(true);
+                break;
             default:
                 throw new \Exception('typo in type');
                 break;

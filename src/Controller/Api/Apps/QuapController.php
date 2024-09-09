@@ -10,6 +10,7 @@ use App\Exception\ApiException;
 use App\Service\Apps\Quap\QuapService;
 use App\Service\DataProvider\QuapSubdepartmentDateDataProvider;
 use App\Service\Gamification\PersonGamificationService;
+use App\Service\Gamification\QuapGamificationService;
 use App\Service\Security\PermissionVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -129,7 +130,8 @@ class QuapController extends AbstractController
      */
     public function submitAnswers(
         Group $group,
-        Request $request
+        Request $request,
+        QuapGamificationService $quapGamificationService
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionVoter::EDITOR, $group);
 
@@ -138,6 +140,7 @@ class QuapController extends AbstractController
             throw new ApiException(400, "Invalid JSON");
         }
 
+        $quapGamificationService->processQuapEvent($json, $group, $this->getUser()); // has to be before answers are saved!
         $savedWidgetQuap = $this->quapService->submitAnswers($group, $json);
 
         return $this->json($savedWidgetQuap->getAnswers());

@@ -74,11 +74,7 @@ class PersonGoal
      * @ORM\Column(type="boolean")
      */
     private $el_improved;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $el_twice_year;
+    
 
     public function getId(): ?int
     {
@@ -213,18 +209,6 @@ class PersonGoal
     public function setElImproved(bool $el_improved): self
     {
         $this->el_improved = $el_improved;
-
-        return $this;
-    }
-
-    public function getElTwiceYear(): ?bool
-    {
-        return $this->el_twice_year;
-    }
-
-    public function setElTwiceYear(bool $el_twice_year): self
-    {
-        $this->el_twice_year = $el_twice_year;
 
         return $this;
     }
