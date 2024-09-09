@@ -13,6 +13,7 @@ use App\Entity\Midata\Person;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use App\Repository\Gamification\LevelRepository;
 use App\Repository\Gamification\GamificationPersonProfileRepository;
+use App\Repository\Gamification\LoginRepository;
 use App\Repository\Midata\PersonRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,13 +29,17 @@ class PersonGamificationService
     /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
+    private LoginRepository $loginRepository;
+
     public function __construct(
+        LoginRepository $loginRepository,
         LevelRepository $levelRepository,
         GamificationPersonProfileRepository $personGoalRepository,
         PersonRepository $personRepository,
         EntityManagerInterface $em
     )
     {
+        $this->loginRepository = $loginRepository;
         $this->levelRepository = $levelRepository;
         $this->personRepository = $personRepository;
         $this->personGoalRepository = $personGoalRepository;
@@ -104,6 +109,7 @@ class PersonGamificationService
     public function getPersonGamificationDTO(PbsUserDTO $pbsUserDTO, String $locale): PersonGamificationDTO
     {
         $levels = $this->levelRepository->findBy(['type' => Level::USER]);
+        /** @var Person $person */
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $personGamification = $this->getPersonGamification($person);
 
@@ -126,28 +132,44 @@ class PersonGamificationService
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, true, 1);
                         break;
                     case 'CARD_LAYERS':
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedCardLayer(), 1);
                         break;
                     case 'DATAFILTER':
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedDatafilter(), 1);
                         break;
                     case 'TIMEFILTER':
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedTimefilter(), 1);
                         break;
                     case 'SHARE_WITH_PARENTS':
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasSharedEl(), 1);
                         break;
-                    case 'EL_FILL_OUT':
+                    case 'EL_FILL_OUT': // TODO add check
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElFilledOut(), 1);
                         break;
                     case 'SHARE_1':
+                        $completed = $personGamification->getAccessGrantedCount() >= 1;
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $completed, $personGamification->getAccessGrantedCount());
                         break;
-                    case 'EL_IRRELEVANT':
+                    case 'EL_IRRELEVANT': // TODO add check
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElIrrelevant(), 1);
                         break;
-                    case 'EL_CHANGE':
+                    case 'EL_CHANGE':// TODO add check
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElRevised(), 1);
                         break;
-                    case 'EL_IMPROVE':
+                    case 'EL_IMPROVE':// TODO add check
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElImproved(), 1);
                         break;
-                    case 'EL_TWICE_A_YEAR':
-                        break;
-                    case 'LOGIN_FOUR_A_YEAR':
+                    case 'LOGIN_FOUR_A_YEAR': // TODO persist this in $pgp
+                        $logins = $person->getLogins();
+                        $completed = count($logins) >= 4;
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $completed, count($logins));
                         break;
                     case 'SHARE_THREE':
+                        $completed = $personGamification->getAccessGrantedCount() >= 3;
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $completed, $personGamification->getAccessGrantedCount());
+                        break;
+                    default:
+                        throw new \Exception('Couldnt find goal');
                         break;
                 }
             }
