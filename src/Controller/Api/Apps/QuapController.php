@@ -163,7 +163,7 @@ class QuapController extends AbstractController
         }
 
         $this->quapService->updateAllowAccess($group, $payload['allow_access']);
-        $personGamificationService->genericCompleteGoal($this->getUser(), 'shareEL');
+        $personGamificationService->genericGoalProgress($this->getUser(), 'shareEL');
 
         return $this->json([], JsonResponse::HTTP_NO_CONTENT);
     }

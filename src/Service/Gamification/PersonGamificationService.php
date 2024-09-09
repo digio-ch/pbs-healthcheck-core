@@ -44,7 +44,7 @@ class PersonGamificationService
             $gamificationProfile->setLevel($this->levelRepository->findOneBy(['key' => 'U0']));
             $gamificationProfile->setPerson($person);
             $gamificationProfile->setAccessGrantedCount(0);
-            $gamificationProfile->setElFilledOut(false);
+            $gamificationProfile->setElFilledOut(true);
             $gamificationProfile->setElImproved(false);
             $gamificationProfile->setElIrrelevant(false);
             $gamificationProfile->setElRevised(false);
@@ -58,7 +58,7 @@ class PersonGamificationService
         return $gamificationProfile;
     }
 
-    public function genericCompleteGoal(PbsUserDTO $pbsUserDTO, string $type) {
+    public function genericGoalProgress(PbsUserDTO $pbsUserDTO, string $type) {
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $pgp = $this->getPersonGamification($person);
 
@@ -74,6 +74,10 @@ class PersonGamificationService
                 break;
             case 'shareEL':
                 $pgp->setHasSharedEl(true);
+                break;
+            case 'invite':
+                $newCount = $pgp->getAccessGrantedCount() + 1;
+                $pgp->setAccessGrantedCount($newCount);
                 break;
             default:
                 throw new \Exception('typo in type');
