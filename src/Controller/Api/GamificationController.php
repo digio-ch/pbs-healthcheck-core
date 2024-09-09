@@ -45,7 +45,7 @@ class GamificationController extends AbstractController
         PersonGamificationService $personGamificationService
     )
     {
-        $personGamificationService->usedCardLayer($this->getUser());
+        $personGamificationService->genericCompleteGoal($this->getUser(), 'card');
         return new Response('', 200);
     }
 
@@ -54,7 +54,7 @@ class GamificationController extends AbstractController
         PersonGamificationService $personGamificationService
     )
     {
-        $personGamificationService->usedDataFilter($this->getUser());
+        $personGamificationService->genericCompleteGoal($this->getUser(), 'data');
         return new Response('', 200);
     }
 
@@ -63,7 +63,7 @@ class GamificationController extends AbstractController
         PersonGamificationService $personGamificationService
     )
     {
-        $personGamificationService->usedTimeFilter($this->getUser());
+        $personGamificationService->genericCompleteGoal($this->getUser(), 'time');
         return new Response('', 200);
     }
 

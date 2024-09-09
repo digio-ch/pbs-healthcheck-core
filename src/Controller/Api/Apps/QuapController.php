@@ -9,6 +9,7 @@ use App\Entity\Midata\Group;
 use App\Exception\ApiException;
 use App\Service\Apps\Quap\QuapService;
 use App\Service\DataProvider\QuapSubdepartmentDateDataProvider;
+use App\Service\Gamification\PersonGamificationService;
 use App\Service\Security\PermissionVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -151,7 +152,8 @@ class QuapController extends AbstractController
      */
     public function setAccess(
         Group $group,
-        Request $request
+        Request $request,
+        PersonGamificationService $personGamificationService
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
 
@@ -161,6 +163,7 @@ class QuapController extends AbstractController
         }
 
         $this->quapService->updateAllowAccess($group, $payload['allow_access']);
+        $personGamificationService->genericCompleteGoal($this->getUser(), 'shareEL');
 
         return $this->json([], JsonResponse::HTTP_NO_CONTENT);
     }

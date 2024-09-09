@@ -58,28 +58,27 @@ class PersonGamificationService
         return $gamificationProfile;
     }
 
-    public function usedCardLayer(PbsUserDTO $personDTO) {
-        $person = $this->personRepository->find($personDTO->getId());
+    public function genericCompleteGoal(PbsUserDTO $pbsUserDTO, string $type) {
+        $person = $this->personRepository->find($pbsUserDTO->getId());
         $pgp = $this->getPersonGamification($person);
-        $pgp->setHasUsedCardLayer(true);
 
-        $this->em->persist($pgp);
-        $this->em->flush();
-    }
-
-    public function usedDataFilter(PbsUserDTO $personDTO) {
-        $person = $this->personRepository->find($personDTO->getId());
-        $pgp = $this->getPersonGamification($person);
-        $pgp->setHasUsedDatafilter(true);
-
-        $this->em->persist($pgp);
-        $this->em->flush();
-    }
-
-    public function usedTimeFilter(PbsUserDTO $personDTO) {
-        $person = $this->personRepository->find($personDTO->getId());
-        $pgp = $this->getPersonGamification($person);
-        $pgp->setHasUsedTimefilter(true);
+        switch ($type) {
+            case 'card':
+                $pgp->setHasUsedCardLayer(true);
+                break;
+            case 'time':
+                $pgp->setHasUsedTimefilter(true);
+                break;
+            case 'data':
+                $pgp->setHasUsedDatafilter(true);
+                break;
+            case 'shareEL':
+                $pgp->setHasSharedEl(true);
+                break;
+            default:
+                throw new \Exception('typo in type');
+                break;
+        }
 
         $this->em->persist($pgp);
         $this->em->flush();
