@@ -231,26 +231,6 @@
       }
     },
     {
-      "key": "EL_TWICE_A_YEAR",
-      "level": "U2",
-      "required": false,
-      "de": {
-        "title": "Zwei mal innerhalb eines Jahres eine Erfolgslogik Frage bearbeitet.",
-        "information": "",
-        "help": ""
-      },
-      "fr": {
-        "title": "french",
-        "information": "",
-        "help": ""
-      },
-      "it": {
-        "title": "italian",
-        "information": "",
-        "help": ""
-      }
-    },
-    {
       "key": "LOGIN_FOUR_A_YEAR",
       "level": "U2",
       "required": false,

@@ -7,6 +7,7 @@ use App\Entity\Security\Permission;
 use App\Exception\ApiException;
 use App\Repository\Midata\GroupRepository;
 use App\Service\Gamification\LoginService;
+use App\Service\Gamification\PersonGamificationService;
 use App\Service\Security\PermissionVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,6 +37,33 @@ class GamificationController extends AbstractController
         }
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
         $loginService->logByPersonAndGroup($this->getUser(), $group);
+        return new Response('', 201);
+    }
+
+    public function usedCardLayer(
+        Request $request,
+        PersonGamificationService $personGamificationService
+    )
+    {
+        $personGamificationService->usedCardLayer($this->getUser());
+        return new Response('', 200);
+    }
+
+    public function usedDataFilter(
+        Request $request,
+        PersonGamificationService $personGamificationService
+    )
+    {
+        $personGamificationService->usedDataFilter($this->getUser());
+        return new Response('', 200);
+    }
+
+    public function usedTimeFilter(
+        Request $request,
+        PersonGamificationService $personGamificationService
+    )
+    {
+        $personGamificationService->usedTimeFilter($this->getUser());
         return new Response('', 200);
     }
 
