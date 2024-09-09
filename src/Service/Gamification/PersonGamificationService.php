@@ -2,8 +2,13 @@
 
 namespace App\Service\Gamification;
 
+use App\DTO\Mapper\GamificationGoalMapper;
+use App\DTO\Mapper\GamificationLevelMapper;
+use App\DTO\Model\Gamification\LevelDTO;
+use App\DTO\Model\Gamification\PersonGamificationDTO;
 use App\DTO\Model\PbsUserDTO;
 use App\Entity\Gamification\GamificationPersonProfile;
+use App\Entity\Gamification\Level;
 use App\Entity\Midata\Person;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use App\Repository\Gamification\LevelRepository;
@@ -96,8 +101,60 @@ class PersonGamificationService
         $this->em->flush();
     }
 
-    public function getPersonGoal(Person $person, String $locale)
+    public function getPersonGamificationDTO(PbsUserDTO $pbsUserDTO, String $locale): PersonGamificationDTO
     {
+        $levels = $this->levelRepository->findBy(['type' => Level::USER]);
+        $person = $this->personRepository->find($pbsUserDTO->getId());
+        $personGamification = $this->getPersonGamification($person);
 
+        $personGamificationDTO = new PersonGamificationDTO();
+        $personGamificationDTO->setName($person->getNickname());
+        $personGamificationDTO->setLevelKey($personGamification->getLevel()->getKey());
+        $personGamificationDTO->setLevelUp(false); // TODO
+
+        if (count($levels) === 0) {
+            throw new \Exception('no levels found?!');
+        }
+        $levelDtos = [];
+        foreach ($levels as $level) {
+            $levelDto = GamificationLevelMapper::createFromEntity($level, $locale);
+            $goalDTOs = [];
+            $goals = $level->getGoals();
+            foreach ($goals as $goal) {
+                switch ($goal->getKey()) {
+                    case 'FIRST_LOGIN':
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, true, 1);
+                        break;
+                    case 'CARD_LAYERS':
+                        break;
+                    case 'DATAFILTER':
+                        break;
+                    case 'TIMEFILTER':
+                        break;
+                    case 'SHARE_WITH_PARENTS':
+                        break;
+                    case 'EL_FILL_OUT':
+                        break;
+                    case 'SHARE_1':
+                        break;
+                    case 'EL_IRRELEVANT':
+                        break;
+                    case 'EL_CHANGE':
+                        break;
+                    case 'EL_IMPROVE':
+                        break;
+                    case 'EL_TWICE_A_YEAR':
+                        break;
+                    case 'LOGIN_FOUR_A_YEAR':
+                        break;
+                    case 'SHARE_THREE':
+                        break;
+                }
+            }
+            $levelDto->setGoals($goalDTOs);
+            $levelDtos[] = $levelDto;
+        }
+        $personGamificationDTO->setLevels($levelDtos);
+        return $personGamificationDTO;
     }
 }

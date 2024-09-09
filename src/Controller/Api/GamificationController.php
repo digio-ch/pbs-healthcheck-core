@@ -67,8 +67,10 @@ class GamificationController extends AbstractController
         return new Response('', 200);
     }
 
-    public function getUserProfile()
+    public function getUserProfile(Request $request,
+        PersonGamificationService $personGamificationService)
     {
-        return $this->json('your json response.');
+        $dto = $personGamificationService->getPersonGamificationDTO($this->getUser(), $request->getLocale());
+        return $this->json($dto);
     }
 }

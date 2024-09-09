@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Level
 {
+    public const USER = 0;
+    public const GROUP = 1;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
