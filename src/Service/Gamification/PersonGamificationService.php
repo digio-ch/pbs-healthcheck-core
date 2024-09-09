@@ -3,11 +3,11 @@
 namespace App\Service\Gamification;
 
 use App\DTO\Model\PbsUserDTO;
-use App\Entity\Gamification\PersonGoal;
+use App\Entity\Gamification\GamificationPersonProfile;
 use App\Entity\Midata\Person;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use App\Repository\Gamification\LevelRepository;
-use App\Repository\Gamification\PersonGoalRepository;
+use App\Repository\Gamification\GamificationPersonProfileRepository;
 use App\Repository\Midata\PersonRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,14 +18,14 @@ class PersonGamificationService
 
     private PersonRepository $personRepository;
 
-    private PersonGoalRepository $personGoalRepository;
+    private GamificationPersonProfileRepository $personGoalRepository;
 
     /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
     public function __construct(
         LevelRepository $levelRepository,
-        PersonGoalRepository $personGoalRepository,
+        GamificationPersonProfileRepository $personGoalRepository,
         PersonRepository $personRepository,
         EntityManagerInterface $em
     )
@@ -36,11 +36,11 @@ class PersonGamificationService
         $this->em = $em;
     }
 
-    public function getPersonGamification(Person $person): PersonGoal
+    public function getPersonGamification(Person $person): GamificationPersonProfile
     {
         $gamificationProfile = $person->getGamification();
         if(is_null($gamificationProfile)) {
-            $gamificationProfile = new PersonGoal();
+            $gamificationProfile = new GamificationPersonProfile();
             $gamificationProfile->setLevel($this->levelRepository->findOneBy(['key' => 'U0']));
             $gamificationProfile->setPerson($person);
             $gamificationProfile->setAccessGrantedCount(0);
@@ -48,7 +48,6 @@ class PersonGamificationService
             $gamificationProfile->setElImproved(false);
             $gamificationProfile->setElIrrelevant(false);
             $gamificationProfile->setElRevised(false);
-            $gamificationProfile->setElTwiceYear(false);
             $gamificationProfile->setHasSharedEl(false);
             $gamificationProfile->setHasUsedCardLayer(false); // TODO
             $gamificationProfile->setHasUsedDatafilter(false);

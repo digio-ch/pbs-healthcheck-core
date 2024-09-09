@@ -4,7 +4,7 @@ namespace App\Entity\Midata;
 
 use App\Entity\Admin\GeoAddress;
 use App\Entity\Gamification\Login;
-use App\Entity\Gamification\PersonGoal;
+use App\Entity\Gamification\GamificationPersonProfile;
 use App\Repository\Midata\PersonRepository;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -114,7 +114,7 @@ class Person
     private $logins;
 
     /**
-     * @ORM\OneToOne(targetEntity=PersonGoal::class, mappedBy="person", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=GamificationPersonProfile::class, mappedBy="person", cascade={"persist", "remove"})
      */
     private $gamification;
 
@@ -361,12 +361,12 @@ class Person
         return $this;
     }
 
-    public function getGamification(): ?PersonGoal
+    public function getGamification(): ?GamificationPersonProfile
     {
         return $this->gamification;
     }
 
-    public function setGamification(PersonGoal $gamification): self
+    public function setGamification(GamificationPersonProfile $gamification): self
     {
         // set the owning side of the relation if necessary
         if ($gamification->getPerson() !== $this) {

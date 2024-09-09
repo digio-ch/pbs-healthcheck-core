@@ -3,13 +3,13 @@
 namespace App\Entity\Gamification;
 
 use App\Entity\Midata\Person;
-use App\Repository\Gamification\PersonGoalRepository;
+use App\Repository\Gamification\GamificationPersonProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PersonGoalRepository::class)
+ * @ORM\Entity(repositoryClass=GamificationPersonProfileRepository::class)
  */
-class PersonGoal
+class GamificationPersonProfile
 {
     /**
      * @ORM\Id

@@ -2,32 +2,32 @@
 
 namespace App\Repository\Gamification;
 
-use App\Entity\Gamification\PersonGoal;
+use App\Entity\Gamification\GamificationPersonProfile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<PersonGoal>
+ * @extends ServiceEntityRepository<GamificationPersonProfile>
  *
- * @method PersonGoal|null find($id, $lockMode = null, $lockVersion = null)
- * @method PersonGoal|null findOneBy(array $criteria, array $orderBy = null)
- * @method PersonGoal[]    findAll()
- * @method PersonGoal[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method GamificationPersonProfile|null find($id, $lockMode = null, $lockVersion = null)
+ * @method GamificationPersonProfile|null findOneBy(array $criteria, array $orderBy = null)
+ * @method GamificationPersonProfile[]    findAll()
+ * @method GamificationPersonProfile[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PersonGoalRepository extends ServiceEntityRepository
+class GamificationPersonProfileRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PersonGoal::class);
+        parent::__construct($registry, GamificationPersonProfile::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(PersonGoal $entity, bool $flush = true): void
+    public function add(GamificationPersonProfile $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -39,7 +39,7 @@ class PersonGoalRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(PersonGoal $entity, bool $flush = true): void
+    public function remove(GamificationPersonProfile $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
