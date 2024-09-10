@@ -22,3 +22,8 @@ getPersonProfile:
   path: /person
   methods: GET
   controller: App\Controller\Api\GamificationController::getUserProfile
+
+reset:
+  path: /reset
+  methods: POST
+  controller: App\Controller\Api\GamificationController::resetGamification

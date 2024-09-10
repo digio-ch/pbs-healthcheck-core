@@ -3,6 +3,7 @@
 namespace App\Entity\Midata;
 
 use App\Entity\Admin\GeoAddress;
+use App\Entity\Gamification\LevelUpLog;
 use App\Entity\Gamification\Login;
 use App\Entity\Gamification\GamificationPersonProfile;
 use App\Repository\Midata\PersonRepository;
@@ -118,9 +119,15 @@ class Person
      */
     private $gamification;
 
+    /**
+     * @ORM\OneToMany(targetEntity=LevelUpLog::class, mappedBy="person", cascade={"persist", "remove"})
+     */
+    private $levelUps;
+
     public function __construct()
     {
         $this->logins = new ArrayCollection();
+        $this->levelUps = new ArrayCollection();
     }
 
     /**
@@ -374,6 +381,36 @@ class Person
         }
 
         $this->gamification = $gamification;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LevelUpLog>
+     */
+    public function getLevelUps(): Collection
+    {
+        return $this->levelUps;
+    }
+
+    public function addLevelUp(LevelUpLog $displayed): self
+    {
+        if (!$this->levelUps->contains($displayed)) {
+            $this->levelUps[] = $displayed;
+            $displayed->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLevelUp(LevelUpLog $displayed): self
+    {
+        if ($this->levelUps->removeElement($displayed)) {
+            // set the owning side to null (unless already changed)
+            if ($displayed->getPerson() === $this) {
+                $displayed->setPerson(null);
+            }
+        }
 
         return $this;
     }

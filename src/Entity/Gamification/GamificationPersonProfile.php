@@ -19,7 +19,7 @@ class GamificationPersonProfile
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Person::class, inversedBy="gamification", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Person::class, inversedBy="gamification")
      * @ORM\JoinColumn(nullable=false)
      */
     private $person;

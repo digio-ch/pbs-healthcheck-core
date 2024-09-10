@@ -10,10 +10,12 @@ use App\DTO\Model\Gamification\PersonGamificationDTO;
 use App\DTO\Model\PbsUserDTO;
 use App\Entity\Gamification\GamificationPersonProfile;
 use App\Entity\Gamification\Level;
+use App\Entity\Gamification\LevelUpLog;
 use App\Entity\Midata\Person;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use App\Repository\Gamification\LevelRepository;
 use App\Repository\Gamification\GamificationPersonProfileRepository;
+use App\Repository\Gamification\LevelUpLogRepository;
 use App\Repository\Gamification\LoginRepository;
 use App\Repository\Midata\PersonRepository;
 use Doctrine\ORM\EntityManager;
@@ -32,12 +34,15 @@ class PersonGamificationService
 
     private LoginRepository $loginRepository;
 
+    private LevelUpLogRepository $levelUpLogRepository;
+
     public function __construct(
         LoginRepository $loginRepository,
         LevelRepository $levelRepository,
         GamificationPersonProfileRepository $personGoalRepository,
         PersonRepository $personRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        LevelUpLogRepository $levelUpLogRepository
     )
     {
         $this->loginRepository = $loginRepository;
@@ -45,6 +50,13 @@ class PersonGamificationService
         $this->personRepository = $personRepository;
         $this->personGoalRepository = $personGoalRepository;
         $this->em = $em;
+        $this->levelUpLogRepository = $levelUpLogRepository;
+    }
+
+    public function reset(PbsUserDTO $pbsUserDTO) {
+        $person = $this->personRepository->find($pbsUserDTO->getId());
+        $pgp = $this->getPersonGamification($person);
+        $this->personGoalRepository->remove($pgp);
     }
 
     public function getPersonGamification(Person $person): GamificationPersonProfile
@@ -111,15 +123,16 @@ class PersonGamificationService
 
     public function checkLevelUp(GamificationPersonProfile $person) {
         $currentLevel = $person->getLevel();
-        $nextLevel = $this->levelRepository->findNextLevel($currentLevel)[0];
+        $nextLevel = $this->levelRepository->findNextLevel($currentLevel);
 
-        if (is_null($nextLevel)) {
+        if (count($nextLevel) === 0) {
             return $person;
         }
+        $nextLevel = $nextLevel[0];
+        $levelUp = false;
         if ($currentLevel->getKey() === 'U0') {
             if ($person->getHasUsedCardLayer() && ($person->getHasUsedDatafilter() || $person->getHasUsedTimefilter() || $person->getHasSharedEl())) {
-                $person->setLevel($nextLevel);
-                // TODO
+                $levelUp = true;
             }
         }
         if ($currentLevel->getKey() === 'U1') {
@@ -135,21 +148,35 @@ class PersonGamificationService
                     $completedCounter++;
                 }
                 if ($completedCounter >= 2) {
-                    $person->setLevel($nextLevel);
+                    $levelUp = true;
                 }
-                // TODO
             }
         }
         if ($currentLevel->getKey() === 'U2') {
             if ($person->getElImproved() && ($this->checkLoginGoal($person) || $person->getAccessGrantedCount() >= 3)) {
-                $person->setLevel($nextLevel);
-                // TODO
+                $levelUp = true;
             }
+        }
+
+        if ($levelUp) {
+            $person->setLevel($nextLevel);
+            $log = new LevelUpLog();
+            $log->setPerson($person->getPerson());
+            $log->setLevel($nextLevel);
+            $log->setDate(new \DateTime());
+            $this->levelUpLogRepository->add($log);
         }
         $this->em->persist($person);
         $this->em->flush();
 
         return $person;
+    }
+
+    private function resetLevelUp(Person $person) {
+        $levelUps = $this->levelUpLogRepository->findBy(['person' => $person->getId()]);
+        foreach ($levelUps as $levelUp) {
+            $this->levelUpLogRepository->remove($levelUp);
+        }
     }
 
     public function checkLoginGoal(GamificationPersonProfile $profile): bool {
@@ -224,10 +251,23 @@ class PersonGamificationService
                         break;
                 }
             }
+
+            if ($levelDto->getKey() === 'U1') {
+                $levelDto->setRequired(3);
+            }
+            if ($levelDto->getKey() === 'U2') {
+                $levelDto->setRequired(3);
+            }
+            if ($levelDto->getKey() === 'U3') {
+                $levelDto->setRequired(2);
+            }
             if (count($goalDTOs) !== 0) {
                 $levelDto->setGoals(array_reverse($goalDTOs));
                 $levelDtos[] = $levelDto;
             }
+        }
+        if ($personGamificationDTO->isLevelUp()) {
+            $this->resetLevelUp($person);
         }
         $personGamificationDTO->setLevels($levelDtos);
         return $personGamificationDTO;

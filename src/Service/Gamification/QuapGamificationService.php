@@ -41,7 +41,7 @@ class QuapGamificationService
                     if ($newAnswers[$questionnaireIndex][$i] === 5) {
                         $irrelevant = true;
                     }
-                    if ($newAnswers[$questionnaireIndex][$i] !== 4 && ($newAnswers[$questionnaireIndex][$i] < $oldAnswers[$questionnaireIndex][$i])) {
+                    if ($newAnswers[$questionnaireIndex][$i] !== 4 && $newAnswers[$questionnaireIndex][$i] < $oldAnswers[$questionnaireIndex][$i]) {
                         $improvement = true;
                     }
                     //$textchanges .= 'Question ' . $questionnaireIndex . '.' . $i . ': ' . $oldAnswers[$questionnaireIndex][$i] . '/' . $newAnswers[$questionnaireIndex][$i] . '; ';
@@ -64,7 +64,7 @@ class QuapGamificationService
 
     private function isQuestionnaireFullyAnswered($questionnaire) {
         foreach ($questionnaire as $answer) {
-            if ($answer === 4) {
+            if ($answer === 4 || $answer === 0) {
                 return false;
             }
         }

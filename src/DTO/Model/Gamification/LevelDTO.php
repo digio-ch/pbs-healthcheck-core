@@ -9,6 +9,23 @@ class LevelDTO
     /** @var GoalDTO[] $goals */
     private array $goals;
     private bool $active;
+    private int $required;
+
+    /**
+     * @return int
+     */
+    public function getRequired(): int
+    {
+        return $this->required;
+    }
+
+    /**
+     * @param int $required
+     */
+    public function setRequired(int $required): void
+    {
+        $this->required = $required;
+    }
 
     /**
      * @return bool

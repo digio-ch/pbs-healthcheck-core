@@ -40,7 +40,7 @@
       "required": true,
       "de": {
         "title": "Erstes Login",
-        "information": "",
+        "information": "Testing: Ist immer erfüllt",
         "help": ""
       },
       "fr": {
@@ -140,7 +140,7 @@
       "required": true,
       "de": {
         "title": "Alle Erfolgslogik Kasten einer Gruppe Ausgefüllt.",
-        "information": "",
+        "information": "Testing: noch nicht freigegeben (WIP)",
         "help": ""
       },
       "fr": {

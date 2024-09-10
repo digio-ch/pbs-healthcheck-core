@@ -73,4 +73,10 @@ class GamificationController extends AbstractController
         $dto = $personGamificationService->getPersonGamificationDTO($this->getUser(), $request->getLocale());
         return $this->json($dto);
     }
+
+    public function resetGamification(Request $request, PersonGamificationService $personGamificationService): Response
+    {
+        $personGamificationService->reset($this->getUser());
+        return new Response('');
+    }
 }
