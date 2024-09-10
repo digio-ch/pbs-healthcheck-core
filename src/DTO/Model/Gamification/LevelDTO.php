@@ -8,6 +8,23 @@ class LevelDTO
     private string $key;
     /** @var GoalDTO[] $goals */
     private array $goals;
+    private bool $active;
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     */
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
 
     /**
      * @return string

@@ -51,6 +51,28 @@ class Level
      */
     private $key;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $next_key;
+
+    /**
+     * @return mixed
+     */
+    public function getNextKey()
+    {
+        return $this->next_key;
+    }
+
+    /**
+     * @param mixed $next_key
+     */
+    public function setNextKey($next_key): void
+    {
+        $this->next_key = $next_key;
+    }
+
+
     public function __construct()
     {
         $this->goals = new ArrayCollection();

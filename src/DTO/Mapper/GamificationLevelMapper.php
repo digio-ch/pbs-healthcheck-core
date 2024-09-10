@@ -12,6 +12,7 @@ class GamificationLevelMapper
     public static function createFromEntity(Level $level, string $locale): LevelDTO
     {
         $dto = new LevelDTO();
+        $dto->setActive(false);
         $dto->setKey($level->getKey());
         if ($locale === 'de') {
             $dto->setTitle($level->getDeTitle());

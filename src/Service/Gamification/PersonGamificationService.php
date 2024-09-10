@@ -4,6 +4,7 @@ namespace App\Service\Gamification;
 
 use App\DTO\Mapper\GamificationGoalMapper;
 use App\DTO\Mapper\GamificationLevelMapper;
+use App\DTO\Mapper\GamificationPersonProfileMapper;
 use App\DTO\Model\Gamification\LevelDTO;
 use App\DTO\Model\Gamification\PersonGamificationDTO;
 use App\DTO\Model\PbsUserDTO;
@@ -102,8 +103,57 @@ class PersonGamificationService
                 break;
         }
 
+        $this->checkLevelUp($pgp);
+
         $this->em->persist($pgp);
         $this->em->flush();
+    }
+
+    public function checkLevelUp(GamificationPersonProfile $person) {
+        $currentLevel = $person->getLevel();
+        $nextLevel = $this->levelRepository->findNextLevel($currentLevel)[0];
+
+        if (is_null($nextLevel)) {
+            return $person;
+        }
+        if ($currentLevel->getKey() === 'U0') {
+            if ($person->getHasUsedCardLayer() && ($person->getHasUsedDatafilter() || $person->getHasUsedTimefilter() || $person->getHasSharedEl())) {
+                $person->setLevel($nextLevel);
+                // TODO
+            }
+        }
+        if ($currentLevel->getKey() === 'U1') {
+            $completedCounter = 0;
+            if ($person->getElFilledOut()) {
+                if ($person->getAccessGrantedCount() >= 1) {
+                    $completedCounter++;
+                }
+                if ($person->getElIrrelevant()) {
+                    $completedCounter++;
+                }
+                if ($person->getElRevised()) {
+                    $completedCounter++;
+                }
+                if ($completedCounter >= 2) {
+                    $person->setLevel($nextLevel);
+                }
+                // TODO
+            }
+        }
+        if ($currentLevel->getKey() === 'U2') {
+            if ($person->getElImproved() && ($this->checkLoginGoal($person) || $person->getAccessGrantedCount() >= 3)) {
+                $person->setLevel($nextLevel);
+                // TODO
+            }
+        }
+        $this->em->persist($person);
+        $this->em->flush();
+
+        return $person;
+    }
+
+    public function checkLoginGoal(GamificationPersonProfile $profile): bool {
+        return count($profile->getPerson()->getLogins()) >= 4;
     }
 
     public function getPersonGamificationDTO(PbsUserDTO $pbsUserDTO, String $locale): PersonGamificationDTO
@@ -112,11 +162,9 @@ class PersonGamificationService
         /** @var Person $person */
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $personGamification = $this->getPersonGamification($person);
+        $personGamification = $this->checkLevelUp($personGamification);
 
-        $personGamificationDTO = new PersonGamificationDTO();
-        $personGamificationDTO->setName($person->getNickname());
-        $personGamificationDTO->setLevelKey($personGamification->getLevel()->getKey());
-        $personGamificationDTO->setLevelUp(false); // TODO
+        $personGamificationDTO = GamificationPersonProfileMapper::createFromEntity($personGamification, $locale);
 
         if (count($levels) === 0) {
             throw new \Exception('no levels found?!');
@@ -124,45 +172,48 @@ class PersonGamificationService
         $levelDtos = [];
         foreach ($levels as $level) {
             $levelDto = GamificationLevelMapper::createFromEntity($level, $locale);
+            if ($personGamification->getLevel()->getKey() === $level->getKey()) { // Todo
+                $levelDto->setActive(true);
+            }
+            $levelDto->setActive(true);
             $goalDTOs = [];
             $goals = $level->getGoals();
             foreach ($goals as $goal) {
                 switch ($goal->getKey()) {
                     case 'FIRST_LOGIN':
-                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, true, 1);
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, true, 0);
                         break;
                     case 'CARD_LAYERS':
-                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedCardLayer(), 1);
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedCardLayer(), 0);
                         break;
                     case 'DATAFILTER':
-                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedDatafilter(), 1);
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedDatafilter(), 0);
                         break;
                     case 'TIMEFILTER':
-                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedTimefilter(), 1);
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedTimefilter(), 0);
                         break;
                     case 'SHARE_WITH_PARENTS':
-                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasSharedEl(), 1);
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasSharedEl(), 0);
                         break;
                     case 'EL_FILL_OUT': // TODO add check
-                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElFilledOut(), 1);
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElFilledOut(), 0);
                         break;
                     case 'SHARE_1':
                         $completed = $personGamification->getAccessGrantedCount() >= 1;
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $completed, $personGamification->getAccessGrantedCount());
                         break;
                     case 'EL_IRRELEVANT': // TODO add check
-                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElIrrelevant(), 1);
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElIrrelevant(), 0);
                         break;
                     case 'EL_CHANGE':// TODO add check
-                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElRevised(), 1);
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElRevised(), 0);
                         break;
                     case 'EL_IMPROVE':// TODO add check
-                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElImproved(), 1);
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElImproved(), 0);
                         break;
                     case 'LOGIN_FOUR_A_YEAR': // TODO persist this in $pgp
                         $logins = $person->getLogins();
-                        $completed = count($logins) >= 4;
-                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $completed, count($logins));
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $this->checkLoginGoal($personGamification), count($logins));
                         break;
                     case 'SHARE_THREE':
                         $completed = $personGamification->getAccessGrantedCount() >= 3;
@@ -173,8 +224,10 @@ class PersonGamificationService
                         break;
                 }
             }
-            $levelDto->setGoals($goalDTOs);
-            $levelDtos[] = $levelDto;
+            if (count($goalDTOs) !== 0) {
+                $levelDto->setGoals(array_reverse($goalDTOs));
+                $levelDtos[] = $levelDto;
+            }
         }
         $personGamificationDTO->setLevels($levelDtos);
         return $personGamificationDTO;

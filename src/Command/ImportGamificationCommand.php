@@ -48,6 +48,9 @@ class ImportGamificationCommand extends StatisticsCommand
         $start = microtime( true);
         $json = json_decode(file_get_contents($this->pathToJson), true);
 
+        $this->em->getConnection()->executeQuery('DELETE FROM gamification_person_profile');
+        $this->em->getConnection()->executeQuery('DELETE FROM goal');
+        $this->em->getConnection()->executeQuery('DELETE FROM level');
         if (is_null($json['levels'])) {
             $output->writeln('No levels found.');
             return 1;
@@ -71,6 +74,7 @@ class ImportGamificationCommand extends StatisticsCommand
             if (is_null($level)) {
                 $level = new Level();
                 $level->setKey($jsonLevel["key"]);
+                $level->setNextKey($jsonLevel["next_key"]);
                 $output->writeln("Creating " . $jsonLevel["de_title"] . " (" . $jsonLevel["key"] . ")");
             }
             $level->setType($jsonLevel["type"]);

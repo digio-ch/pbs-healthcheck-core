@@ -47,6 +47,15 @@ class LevelRepository extends ServiceEntityRepository
         }
     }
 
+    public function findNextLevel(Level $level)
+    {
+        return $this->createQueryBuilder('l')
+            ->where('l.key = :key')
+            ->setParameter('key', $level->getNextKey())
+            ->getQuery()
+            ->getResult();
+    }
+
 
     // /**
     //  * @return Level[] Returns an array of Level objects
