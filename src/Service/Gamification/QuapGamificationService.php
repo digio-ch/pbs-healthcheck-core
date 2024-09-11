@@ -64,7 +64,7 @@ class QuapGamificationService
 
     private function isQuestionnaireFullyAnswered($questionnaire) {
         foreach ($questionnaire as $answer) {
-            if ($answer === 4 || $answer === 0) {
+            if ($answer === 0) {
                 return false;
             }
         }
