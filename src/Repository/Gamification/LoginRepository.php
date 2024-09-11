@@ -25,9 +25,10 @@ class LoginRepository extends ServiceEntityRepository
         parent::__construct($registry, Login::class);
     }
 
-    public function findAllActiveBy(array $criteria, array $orderBy = null, $limit = null, $offset = null) {
+    public function findAllActiveBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
         $criteria['hashed_id'] = null;
-        return $this->findBy($criteria,$orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

@@ -43,8 +43,7 @@ class GamificationController extends AbstractController
     public function usedCardLayer(
         Request $request,
         PersonGamificationService $personGamificationService
-    )
-    {
+    ) {
         $personGamificationService->genericGoalProgress($this->getUser(), 'card');
         return new Response('', 200);
     }
@@ -52,8 +51,7 @@ class GamificationController extends AbstractController
     public function usedDataFilter(
         Request $request,
         PersonGamificationService $personGamificationService
-    )
-    {
+    ) {
         $personGamificationService->genericGoalProgress($this->getUser(), 'data');
         return new Response('', 200);
     }
@@ -61,15 +59,15 @@ class GamificationController extends AbstractController
     public function usedTimeFilter(
         Request $request,
         PersonGamificationService $personGamificationService
-    )
-    {
+    ) {
         $personGamificationService->genericGoalProgress($this->getUser(), 'time');
         return new Response('', 200);
     }
 
-    public function getUserProfile(Request $request,
-        PersonGamificationService $personGamificationService)
-    {
+    public function getUserProfile(
+        Request $request,
+        PersonGamificationService $personGamificationService
+    ) {
         $dto = $personGamificationService->getPersonGamificationDTO($this->getUser(), $request->getLocale());
         return $this->json($dto);
     }

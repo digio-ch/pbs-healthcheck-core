@@ -90,5 +90,4 @@ class LevelDTO
     {
         $this->goals = $goals;
     }
-
 }

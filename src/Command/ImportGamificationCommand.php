@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportGamificationCommand extends StatisticsCommand
 {
-
     /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
@@ -45,7 +44,7 @@ class ImportGamificationCommand extends StatisticsCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $start = microtime( true);
+        $start = microtime(true);
         $json = json_decode(file_get_contents($this->pathToJson), true);
 
         $this->em->getConnection()->executeQuery('DELETE FROM gamification_person_profile');
@@ -68,7 +67,8 @@ class ImportGamificationCommand extends StatisticsCommand
         return 0;
     }
 
-    protected function importLevels(array $jsonLevels, OutputInterface $output) {
+    protected function importLevels(array $jsonLevels, OutputInterface $output)
+    {
         foreach ($jsonLevels as $jsonLevel) {
             $level = $this->levelRepository->findOneBy(["key" => $jsonLevel["key"]]);
             if (is_null($level)) {
@@ -90,7 +90,8 @@ class ImportGamificationCommand extends StatisticsCommand
         $this->em->flush();
     }
 
-    protected function importGoals(array $jsonGoals, OutputInterface $output) {
+    protected function importGoals(array $jsonGoals, OutputInterface $output)
+    {
         foreach ($jsonGoals as $jsonGoal) {
             $goal = $this->goalRepository->findOneBy(['key' => $jsonGoal['key']]);
             if (is_null($goal)) {
