@@ -43,8 +43,7 @@ class PersonGamificationService
         PersonRepository $personRepository,
         EntityManagerInterface $em,
         LevelUpLogRepository $levelUpLogRepository
-    )
-    {
+    ) {
         $this->loginRepository = $loginRepository;
         $this->levelRepository = $levelRepository;
         $this->personRepository = $personRepository;
@@ -53,7 +52,8 @@ class PersonGamificationService
         $this->levelUpLogRepository = $levelUpLogRepository;
     }
 
-    public function reset(PbsUserDTO $pbsUserDTO) {
+    public function reset(PbsUserDTO $pbsUserDTO)
+    {
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $pgp = $this->getPersonGamification($person);
         $this->personGoalRepository->remove($pgp);
@@ -62,7 +62,7 @@ class PersonGamificationService
     public function getPersonGamification(Person $person): GamificationPersonProfile
     {
         $gamificationProfile = $person->getGamification();
-        if(is_null($gamificationProfile)) {
+        if (is_null($gamificationProfile)) {
             $gamificationProfile = new GamificationPersonProfile();
             $gamificationProfile->setLevel($this->levelRepository->findOneBy(['key' => 0]));
             $gamificationProfile->setPerson($person);
@@ -80,7 +80,8 @@ class PersonGamificationService
         return $gamificationProfile;
     }
 
-    public function genericGoalProgress(PbsUserDTO $pbsUserDTO, string $type) {
+    public function genericGoalProgress(PbsUserDTO $pbsUserDTO, string $type)
+    {
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $pgp = $this->getPersonGamification($person);
 
@@ -127,7 +128,8 @@ class PersonGamificationService
         $this->em->flush();
     }
 
-    public function checkLevelUp(GamificationPersonProfile $person) {
+    public function checkLevelUp(GamificationPersonProfile $person)
+    {
         $currentLevel = $person->getLevel();
         $nextLevel = $this->levelRepository->findNextLevel($currentLevel);
 
@@ -178,18 +180,20 @@ class PersonGamificationService
         return $person;
     }
 
-    private function resetLevelUp(Person $person) {
+    private function resetLevelUp(Person $person)
+    {
         $levelUps = $this->levelUpLogRepository->findBy(['person' => $person->getId()]);
         foreach ($levelUps as $levelUp) {
             $this->levelUpLogRepository->remove($levelUp);
         }
     }
 
-    public function checkLoginGoal(GamificationPersonProfile $profile): bool {
+    public function checkLoginGoal(GamificationPersonProfile $profile): bool
+    {
         return count($profile->getPerson()->getLogins()) >= 4;
     }
 
-    public function getPersonGamificationDTO(PbsUserDTO $pbsUserDTO, String $locale): PersonGamificationDTO
+    public function getPersonGamificationDTO(PbsUserDTO $pbsUserDTO, string $locale): PersonGamificationDTO
     {
         $levels = $this->levelRepository->findBy(['type' => Level::USER]);
         /** @var Person $person */

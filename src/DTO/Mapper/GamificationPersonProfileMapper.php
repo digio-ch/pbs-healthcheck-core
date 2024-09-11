@@ -9,7 +9,6 @@ use App\Entity\Gamification\Level;
 
 class GamificationPersonProfileMapper
 {
-
     public static function createFromEntity(GamificationPersonProfile $profile, string $locale): PersonGamificationDTO
     {
         $dto = new PersonGamificationDTO();
@@ -27,7 +26,8 @@ class GamificationPersonProfileMapper
         return $dto;
     }
 
-    public static function checkLevelUp(GamificationPersonProfile $profile) {
+    public static function checkLevelUp(GamificationPersonProfile $profile)
+    {
         $levelUps = $profile->getPerson()->getLevelUps();
         if (count($levelUps) > 0) {
             return true;
