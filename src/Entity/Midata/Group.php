@@ -2,10 +2,12 @@
 
 namespace App\Entity\Midata;
 
+use App\Entity\Gamification\Login;
 use App\Entity\General\GroupSettings;
 use App\Repository\Midata\GroupRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -84,9 +86,15 @@ class Group
      */
     private $groupSettings;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Login::class, mappedBy="group")
+     */
+    private $logins;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->logins = new ArrayCollection();
     }
 
     /**
@@ -240,6 +248,36 @@ class Group
         }
 
         $this->roleOverviewFilter = $groupSettings;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Login>
+     */
+    public function getLogins(): Collection
+    {
+        return $this->logins;
+    }
+
+    public function addLogin(Login $login): self
+    {
+        if (!$this->logins->contains($login)) {
+            $this->logins[] = $login;
+            $login->setGgroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLogin(Login $login): self
+    {
+        if ($this->logins->removeElement($login)) {
+            // set the owning side to null (unless already changed)
+            if ($login->getGgroup() === $this) {
+                $login->setGgroup(null);
+            }
+        }
 
         return $this;
     }

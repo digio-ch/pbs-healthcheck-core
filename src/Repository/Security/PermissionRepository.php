@@ -152,6 +152,33 @@ class PermissionRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    /**
+     * @param Group $group
+     * @param int $id
+     * @param string $email
+     * @return Permission|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findHighestById(Group $group, int $id): ?Permission
+    {
+        $query = $this->createQueryBuilder('permission');
+
+        return $query
+            ->where('permission.group = :group')
+            ->andWhere('permission.person = :person')
+            ->andWhere($query->expr()->orX(
+                $query->expr()->gt('permission.expirationDate', ':now'),
+                $query->expr()->isNull('permission.expirationDate')
+            ))
+            ->orderBy('permission.permissionType')
+            ->setMaxResults(1)
+            ->setParameter('group', $group->getId())
+            ->setParameter('person', $id)
+            ->setParameter('now', new \DateTime())
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function endAllOpenPermissions(): void
     {
         $now = new \DateTimeImmutable();
@@ -169,4 +196,6 @@ class PermissionRepository extends ServiceEntityRepository
             ]
         );
     }
+
+
 }
