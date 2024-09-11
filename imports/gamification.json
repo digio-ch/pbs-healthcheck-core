@@ -1,0 +1,283 @@
+{
+  "levels": [
+    {
+      "key": 0,
+      "next_key": 1,
+      "type": 0,
+      "required": 0,
+      "de_title": "Newcomer*in",
+      "fr_title": "",
+      "it_title": ""
+    },
+    {
+      "key": 1,
+      "next_key": 2,
+      "type": 0,
+      "required": 3,
+      "de_title": "Datenentdecker*in",
+      "fr_title": "",
+      "it_title": ""
+    },
+    {
+      "key": 2,
+      "next_key": 3,
+      "type": 0,
+      "required": 3,
+      "de_title": "Statistikforscher*in",
+      "fr_title": "",
+      "it_title": ""
+    },
+    {
+      "key": 3,
+      "next_key": null,
+      "type": 0,
+      "required": 2,
+      "de_title": "Healthcheck Guru",
+      "fr_title": "",
+      "it_title": ""
+    }
+  ],
+  "goals": [
+    {
+      "key": "FIRST_LOGIN",
+      "level": 1,
+      "required": true,
+      "de": {
+        "title": "Erstes Login",
+        "information": "Testing: Ist immer erfüllt",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    },
+    {
+      "key": "CARD_LAYERS",
+      "level": 1,
+      "required": true,
+      "de": {
+        "title": "Unterschiedliche Layer der Karte benutzt",
+        "information": "",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    },
+    {
+      "key": "DATAFILTER",
+      "level": 1,
+      "required": false,
+      "de": {
+        "title": "Datenfilter in Übersicht benutzt",
+        "information": "",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    },
+    {
+      "key": "TIMEFILTER",
+      "level": 1,
+      "required": false,
+      "de": {
+        "title": "zeitbereichsansicht benutzt",
+        "information": "",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    },
+    {
+      "key": "SHARE_WITH_PARENTS",
+      "level": 1,
+      "required": false,
+      "de": {
+        "title": "Freigabe für übergeordnete Ebene.",
+        "information": "",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    },
+    {
+      "key": "EL_FILL_OUT",
+      "level": 2,
+      "required": true,
+      "de": {
+        "title": "Alle Erfolgslogik Kasten einer Gruppe Ausgefüllt.",
+        "information": "Testing: noch nicht freigegeben (WIP)",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    },
+    {
+      "key": "SHARE_1",
+      "level": 2,
+      "required": false,
+      "de": {
+        "title": "Freigabe für mindestens eine andere Person.",
+        "information": "",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    },
+    {
+      "key": "EL_IRRELEVANT",
+      "level": 2,
+      "required": false,
+      "de": {
+        "title": "In der Erfolgslogik nicht relevante Fragen ausgebledet",
+        "information": "",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    },
+    {
+      "key": "EL_CHANGE",
+      "level": 2,
+      "required": false,
+      "de": {
+        "title": "Einen Erfolgslogik Kasten überarbeitet.",
+        "information": "",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    },
+    {
+      "key": "EL_IMPROVE",
+      "level": 3,
+      "required": true,
+      "de": {
+        "title": "Verbesserung in einem Erfolgslogik Kasten.",
+        "information": "",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    },
+    {
+      "key": "LOGIN_FOUR_A_YEAR",
+      "level": 3,
+      "required": false,
+      "de": {
+        "title": "Vier mal innerhalb eines Jahres eingeloggt.",
+        "information": "",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    },
+    {
+      "key": "SHARE_THREE",
+      "level": 3,
+      "required": false,
+      "de": {
+        "title": "Eine Abteilung an 3 oder mehr Personen freigegeben.",
+        "information": "",
+        "help": ""
+      },
+      "fr": {
+        "title": "french",
+        "information": "",
+        "help": ""
+      },
+      "it": {
+        "title": "italian",
+        "information": "",
+        "help": ""
+      }
+    }
+  ]
+}
+

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DTO\Model\PbsUserDTO;
 use App\Model\LogMessage\SimpleLogMessage;
+use App\Service\Gamification\LoginService;
 use Digio\Logging\GelfLogger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,14 +19,16 @@ class AuthController extends AbstractController
      * @var GelfLogger
      */
     private $logger;
+    private LoginService $loginService;
 
     /**
      * AuthController constructor.
      * @param GelfLogger $logger
      */
-    public function __construct(GelfLogger $logger)
+    public function __construct(GelfLogger $logger, LoginService $loginService)
     {
         $this->logger = $logger;
+        $this->loginService = $loginService;
     }
 
     public function login()
@@ -34,8 +37,9 @@ class AuthController extends AbstractController
         $user = $this->getUser();
         if ($user instanceof PbsUserDTO) {
             $this->logger->info(new SimpleLogMessage(md5($user->getNickname()) . ' logged in.'));
+            $this->loginService->logByUserDTOForLogin($user);
         } else {
-            $this->logger->info(new SimpleLogMessage(md5($user->getUsername()) . ' logged in.'));
+            $this->logger->info('Non User was logged in.');
         }
 
         return $this->json($user, JsonResponse::HTTP_OK, [], [

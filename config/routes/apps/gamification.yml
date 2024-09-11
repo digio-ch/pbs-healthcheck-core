@@ -1,0 +1,29 @@
+groupChange:
+  path: /group-change
+  methods: POST
+  controller: App\Controller\Api\GamificationController::postGroupChange
+
+logCardLayer:
+  path: /card-layer
+  methods: PATCH
+  controller: App\Controller\Api\GamificationController::usedCardLayer
+
+logDataFilter:
+  path: /data-filter
+  methods: PATCH
+  controller: App\Controller\Api\GamificationController::usedDataFilter
+
+logTimeFilter:
+  path: /time-filter
+  methods: PATCH
+  controller: App\Controller\Api\GamificationController::usedTimeFilter
+
+getPersonProfile:
+  path: /person
+  methods: GET
+  controller: App\Controller\Api\GamificationController::getUserProfile
+
+reset:
+  path: /reset
+  methods: POST
+  controller: App\Controller\Api\GamificationController::resetGamification

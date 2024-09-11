@@ -3,9 +3,14 @@
 namespace App\Entity\Midata;
 
 use App\Entity\Admin\GeoAddress;
+use App\Entity\Gamification\LevelUpLog;
+use App\Entity\Gamification\Login;
+use App\Entity\Gamification\GamificationPersonProfile;
 use App\Repository\Midata\PersonRepository;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -103,6 +108,27 @@ class Person
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $geoAddress;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Login::class, mappedBy="person")
+     */
+    private $logins;
+
+    /**
+     * @ORM\OneToOne(targetEntity=GamificationPersonProfile::class, mappedBy="person", cascade={"persist", "remove"})
+     */
+    private $gamification;
+
+    /**
+     * @ORM\OneToMany(targetEntity=LevelUpLog::class, mappedBy="person", cascade={"persist", "remove"})
+     */
+    private $levelUps;
+
+    public function __construct()
+    {
+        $this->logins = new ArrayCollection();
+        $this->levelUps = new ArrayCollection();
+    }
 
     /**
      * @param int $id
@@ -310,5 +336,82 @@ class Person
     public function setGeoAddress(GeoAddress $geoAddress): void
     {
         $this->geoAddress = $geoAddress;
+    }
+
+    /**
+     * @return Collection<int, Login>
+     */
+    public function getLogins(): Collection
+    {
+        return $this->logins;
+    }
+
+    public function addLogin(Login $login): self
+    {
+        if (!$this->logins->contains($login)) {
+            $this->logins[] = $login;
+            $login->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLogin(Login $login): self
+    {
+        if ($this->logins->removeElement($login)) {
+            // set the owning side to null (unless already changed)
+            if ($login->getPerson() === $this) {
+                $login->setPerson(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getGamification(): ?GamificationPersonProfile
+    {
+        return $this->gamification;
+    }
+
+    public function setGamification(GamificationPersonProfile $gamification): self
+    {
+        // set the owning side of the relation if necessary
+        if ($gamification->getPerson() !== $this) {
+            $gamification->setPerson($this);
+        }
+
+        $this->gamification = $gamification;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LevelUpLog>
+     */
+    public function getLevelUps(): Collection
+    {
+        return $this->levelUps;
+    }
+
+    public function addLevelUp(LevelUpLog $displayed): self
+    {
+        if (!$this->levelUps->contains($displayed)) {
+            $this->levelUps[] = $displayed;
+            $displayed->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLevelUp(LevelUpLog $displayed): self
+    {
+        if ($this->levelUps->removeElement($displayed)) {
+            // set the owning side to null (unless already changed)
+            if ($displayed->getPerson() === $this) {
+                $displayed->setPerson(null);
+            }
+        }
+
+        return $this;
     }
 }

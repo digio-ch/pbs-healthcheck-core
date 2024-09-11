@@ -6,6 +6,7 @@ use App\DTO\Model\InviteDTO;
 use App\Entity\Midata\Group;
 use App\Entity\Security\Permission;
 use App\Exception\ApiException;
+use App\Service\Gamification\PersonGamificationService;
 use App\Service\PermissionService;
 use App\Service\Security\PermissionVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -53,7 +54,8 @@ class InviteController extends AbstractController
         Request $request,
         Group $group,
         SerializerInterface $serializer,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        PersonGamificationService $personGamificationService
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
 
@@ -88,6 +90,7 @@ class InviteController extends AbstractController
         }
 
         $createdInviteDTO = $this->inviteService->createInvite($group, $inviteDTO);
+        $personGamificationService->genericGoalProgress($this->getUser(), 'invite');
 
         return $this->json($createdInviteDTO, JsonResponse::HTTP_CREATED);
     }
