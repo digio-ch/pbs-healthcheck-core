@@ -47,14 +47,35 @@ class Level
     private $goals;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      */
     private $key;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $next_key;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $required;
+
+    /**
+     * @return mixed
+     */
+    public function getRequired(): int
+    {
+        return $this->required;
+    }
+
+    /**
+     * @param int $required
+     */
+    public function setRequired($required): void
+    {
+        $this->required = $required;
+    }
 
     /**
      * @return mixed
@@ -161,15 +182,21 @@ class Level
         return $this;
     }
 
-    public function getKey(): ?string
+    /**
+     * @return mixed
+     */
+    public function getKey()
     {
         return $this->key;
     }
 
-    public function setKey(string $key): self
+    /**
+     * @param mixed $key
+     */
+    public function setKey($key): void
     {
         $this->key = $key;
-
-        return $this;
     }
+
+
 }

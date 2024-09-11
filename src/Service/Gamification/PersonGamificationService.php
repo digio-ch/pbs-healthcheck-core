@@ -64,7 +64,7 @@ class PersonGamificationService
         $gamificationProfile = $person->getGamification();
         if(is_null($gamificationProfile)) {
             $gamificationProfile = new GamificationPersonProfile();
-            $gamificationProfile->setLevel($this->levelRepository->findOneBy(['key' => 'U0']));
+            $gamificationProfile->setLevel($this->levelRepository->findOneBy(['key' => 0]));
             $gamificationProfile->setPerson($person);
             $gamificationProfile->setAccessGrantedCount(0);
             $gamificationProfile->setElFilledOut(true);
@@ -102,13 +102,19 @@ class PersonGamificationService
                 $pgp->setAccessGrantedCount($newCount);
                 break;
             case 'revised':
-                $pgp->setElRevised(true);
+                if ($pgp->getLevel()->getKey() >= 2) {
+                    $pgp->setElRevised(true);
+                }
                 break;
             case 'improvement':
-                $pgp->setElImproved(true);
+                if ($pgp->getLevel()->getKey() >= 3) {
+                    $pgp->setElImproved(true);
+                }
                 break;
             case 'irrelevant':
-                $pgp->setElIrrelevant(true);
+                if ($pgp->getLevel()->getKey() >= 2) {
+                    $pgp->setElIrrelevant(true);
+                }
                 break;
             default:
                 throw new \Exception('typo in type');
@@ -130,12 +136,12 @@ class PersonGamificationService
         }
         $nextLevel = $nextLevel[0];
         $levelUp = false;
-        if ($currentLevel->getKey() === 'U0') {
+        if ($currentLevel->getKey() === 0) {
             if ($person->getHasUsedCardLayer() && ($person->getHasUsedDatafilter() || $person->getHasUsedTimefilter() || $person->getHasSharedEl())) {
                 $levelUp = true;
             }
         }
-        if ($currentLevel->getKey() === 'U1') {
+        if ($currentLevel->getKey() === 1) {
             $completedCounter = 0;
             if ($person->getElFilledOut()) {
                 if ($person->getAccessGrantedCount() >= 1) {
@@ -152,7 +158,7 @@ class PersonGamificationService
                 }
             }
         }
-        if ($currentLevel->getKey() === 'U2') {
+        if ($currentLevel->getKey() === 2) {
             if ($person->getElImproved() && ($this->checkLoginGoal($person) || $person->getAccessGrantedCount() >= 3)) {
                 $levelUp = true;
             }
@@ -199,10 +205,9 @@ class PersonGamificationService
         $levelDtos = [];
         foreach ($levels as $level) {
             $levelDto = GamificationLevelMapper::createFromEntity($level, $locale);
-            if ($personGamification->getLevel()->getKey() === $level->getKey()) { // Todo
+            if ($personGamification->getLevel()->getNextKey() === $level->getKey()) {
                 $levelDto->setActive(true);
             }
-            $levelDto->setActive(true);
             $goalDTOs = [];
             $goals = $level->getGoals();
             foreach ($goals as $goal) {
@@ -250,16 +255,6 @@ class PersonGamificationService
                         throw new \Exception('Couldnt find goal');
                         break;
                 }
-            }
-
-            if ($levelDto->getKey() === 'U1') {
-                $levelDto->setRequired(3);
-            }
-            if ($levelDto->getKey() === 'U2') {
-                $levelDto->setRequired(3);
-            }
-            if ($levelDto->getKey() === 'U3') {
-                $levelDto->setRequired(2);
             }
             if (count($goalDTOs) !== 0) {
                 $levelDto->setGoals(array_reverse($goalDTOs));

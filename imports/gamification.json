@@ -1,33 +1,37 @@
 {
   "levels": [
     {
-      "key": "U0",
-      "next_key": "U1",
+      "key": 0,
+      "next_key": 1,
       "type": 0,
+      "required": 0,
       "de_title": "Newcomer*in",
       "fr_title": "",
       "it_title": ""
     },
     {
-      "key": "U1",
-      "next_key": "U2",
+      "key": 1,
+      "next_key": 2,
       "type": 0,
+      "required": 3,
       "de_title": "Datenentdecker*in",
       "fr_title": "",
       "it_title": ""
     },
     {
-      "key": "U2",
-      "next_key": "U3",
+      "key": 2,
+      "next_key": 3,
       "type": 0,
+      "required": 3,
       "de_title": "Statistikforscher*in",
       "fr_title": "",
       "it_title": ""
     },
     {
-      "key": "U3",
-      "next_key": "",
+      "key": 3,
+      "next_key": null,
       "type": 0,
+      "required": 2,
       "de_title": "Healthcheck Guru",
       "fr_title": "",
       "it_title": ""
@@ -36,7 +40,7 @@
   "goals": [
     {
       "key": "FIRST_LOGIN",
-      "level": "U1",
+      "level": 1,
       "required": true,
       "de": {
         "title": "Erstes Login",
@@ -56,7 +60,7 @@
     },
     {
       "key": "CARD_LAYERS",
-      "level": "U1",
+      "level": 1,
       "required": true,
       "de": {
         "title": "Unterschiedliche Layer der Karte benutzt",
@@ -76,7 +80,7 @@
     },
     {
       "key": "DATAFILTER",
-      "level": "U1",
+      "level": 1,
       "required": false,
       "de": {
         "title": "Datenfilter in Übersicht benutzt",
@@ -96,7 +100,7 @@
     },
     {
       "key": "TIMEFILTER",
-      "level": "U1",
+      "level": 1,
       "required": false,
       "de": {
         "title": "zeitbereichsansicht benutzt",
@@ -116,7 +120,7 @@
     },
     {
       "key": "SHARE_WITH_PARENTS",
-      "level": "U1",
+      "level": 1,
       "required": false,
       "de": {
         "title": "Freigabe für übergeordnete Ebene.",
@@ -136,7 +140,7 @@
     },
     {
       "key": "EL_FILL_OUT",
-      "level": "U2",
+      "level": 2,
       "required": true,
       "de": {
         "title": "Alle Erfolgslogik Kasten einer Gruppe Ausgefüllt.",
@@ -156,7 +160,7 @@
     },
     {
       "key": "SHARE_1",
-      "level": "U2",
+      "level": 2,
       "required": false,
       "de": {
         "title": "Freigabe für mindestens eine andere Person.",
@@ -176,7 +180,7 @@
     },
     {
       "key": "EL_IRRELEVANT",
-      "level": "U2",
+      "level": 2,
       "required": false,
       "de": {
         "title": "In der Erfolgslogik nicht relevante Fragen ausgebledet",
@@ -196,7 +200,7 @@
     },
     {
       "key": "EL_CHANGE",
-      "level": "U2",
+      "level": 2,
       "required": false,
       "de": {
         "title": "Einen Erfolgslogik Kasten überarbeitet.",
@@ -216,7 +220,7 @@
     },
     {
       "key": "EL_IMPROVE",
-      "level": "U3",
+      "level": 3,
       "required": true,
       "de": {
         "title": "Verbesserung in einem Erfolgslogik Kasten.",
@@ -236,7 +240,7 @@
     },
     {
       "key": "LOGIN_FOUR_A_YEAR",
-      "level": "U3",
+      "level": 3,
       "required": false,
       "de": {
         "title": "Vier mal innerhalb eines Jahres eingeloggt.",
@@ -256,7 +260,7 @@
     },
     {
       "key": "SHARE_THREE",
-      "level": "U3",
+      "level": 3,
       "required": false,
       "de": {
         "title": "Eine Abteilung an 3 oder mehr Personen freigegeben.",

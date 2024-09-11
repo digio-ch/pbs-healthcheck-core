@@ -73,10 +73,13 @@ class ImportGamificationCommand extends StatisticsCommand
             $level = $this->levelRepository->findOneBy(["key" => $jsonLevel["key"]]);
             if (is_null($level)) {
                 $level = new Level();
-                $level->setKey($jsonLevel["key"]);
-                $level->setNextKey($jsonLevel["next_key"]);
+                $level->setKey(intval($jsonLevel["key"]));
+                if (!is_null($jsonLevel["next_key"])) {
+                    $level->setNextKey(intval($jsonLevel["next_key"]));
+                }
                 $output->writeln("Creating " . $jsonLevel["de_title"] . " (" . $jsonLevel["key"] . ")");
             }
+            $level->setRequired($jsonLevel["required"]);
             $level->setType($jsonLevel["type"]);
             $level->setDeTitle($jsonLevel["de_title"]);
             $level->setFrTitle($jsonLevel["fr_title"]);

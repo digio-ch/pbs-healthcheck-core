@@ -5,7 +5,7 @@ namespace App\DTO\Model\Gamification;
 class LevelDTO
 {
     private string $title;
-    private string $key;
+    private int $key;
     /** @var GoalDTO[] $goals */
     private array $goals;
     private bool $active;
@@ -60,17 +60,17 @@ class LevelDTO
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getKey(): string
+    public function getKey(): int
     {
         return $this->key;
     }
 
     /**
-     * @param string $key
+     * @param int $key
      */
-    public function setKey(string $key): void
+    public function setKey(int $key): void
     {
         $this->key = $key;
     }

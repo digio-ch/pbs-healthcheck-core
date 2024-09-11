@@ -14,6 +14,8 @@ class GamificationLevelMapper
         $dto = new LevelDTO();
         $dto->setActive(false);
         $dto->setKey($level->getKey());
+        $dto->setRequired($level->getRequired());
+
         if ($locale === 'de') {
             $dto->setTitle($level->getDeTitle());
         } elseif ($locale === 'it') {

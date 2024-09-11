@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240910145414 extends AbstractMigration
+final class Version20240911090632 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -29,7 +29,7 @@ final class Version20240910145414 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_5649C8495FB14BA7 ON gamification_person_profile (level_id)');
         $this->addSql('CREATE TABLE goal (id INT NOT NULL, level_id INT NOT NULL, required BOOLEAN NOT NULL, de_title VARCHAR(255) NOT NULL, de_information TEXT NOT NULL, de_help TEXT DEFAULT NULL, fr_title VARCHAR(255) NOT NULL, fr_information TEXT NOT NULL, fr_help TEXT DEFAULT NULL, it_title VARCHAR(255) NOT NULL, it_information TEXT NOT NULL, it_help TEXT DEFAULT NULL, key VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_FCDCEB2E5FB14BA7 ON goal (level_id)');
-        $this->addSql('CREATE TABLE level (id INT NOT NULL, type INT NOT NULL, de_title VARCHAR(255) NOT NULL, fr_title VARCHAR(255) NOT NULL, it_title VARCHAR(255) NOT NULL, key VARCHAR(255) NOT NULL, next_key VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE level (id INT NOT NULL, type INT NOT NULL, de_title VARCHAR(255) NOT NULL, fr_title VARCHAR(255) NOT NULL, it_title VARCHAR(255) NOT NULL, key INT NOT NULL, next_key INT DEFAULT NULL, required INT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE level_up_log (id INT NOT NULL, person_id INT NOT NULL, level_id INT NOT NULL, date DATE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_8959129C217BBB47 ON level_up_log (person_id)');
         $this->addSql('CREATE INDEX IDX_8959129C5FB14BA7 ON level_up_log (level_id)');
@@ -43,6 +43,7 @@ final class Version20240910145414 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE gamification_person_profile DROP CONSTRAINT FK_5649C8495FB14BA7');
         $this->addSql('ALTER TABLE goal DROP CONSTRAINT FK_FCDCEB2E5FB14BA7');
         $this->addSql('ALTER TABLE level_up_log DROP CONSTRAINT FK_8959129C5FB14BA7');
