@@ -44,8 +44,8 @@
       "required": true,
       "de": {
         "title": "Erstes Login",
-        "information": "Testing: Ist immer erfüllt",
-        "help": ""
+        "information": "Login Information (Testing: Ist immer erfüllt)",
+        "help": "(nicht nötig)"
       },
       "fr": {
         "title": "french",
@@ -64,8 +64,8 @@
       "required": true,
       "de": {
         "title": "Unterschiedliche Layer der Karte benutzt",
-        "information": "",
-        "help": ""
+        "information": "Kartenlayer information",
+        "help": "(nicht nötig)"
       },
       "fr": {
         "title": "french",
@@ -84,8 +84,8 @@
       "required": false,
       "de": {
         "title": "Datenfilter in Übersicht benutzt",
-        "information": "",
-        "help": ""
+        "information": "Datenfilter information",
+        "help": "(nicht nötig)"
       },
       "fr": {
         "title": "french",
@@ -104,8 +104,8 @@
       "required": false,
       "de": {
         "title": "zeitbereichsansicht benutzt",
-        "information": "",
-        "help": ""
+        "information": "Zeitbereichsansicht information (Im Zeitfilter Zeitspanne auswählen)",
+        "help": "(nicht nötig)"
       },
       "fr": {
         "title": "french",
@@ -124,8 +124,8 @@
       "required": false,
       "de": {
         "title": "Freigabe für übergeordnete Ebene.",
-        "information": "",
-        "help": ""
+        "information": "EL Freigabe information (EL an Kanton freigeben)",
+        "help": "(nicht nötig)"
       },
       "fr": {
         "title": "french",
@@ -144,8 +144,8 @@
       "required": true,
       "de": {
         "title": "Alle Erfolgslogik Kasten einer Gruppe Ausgefüllt.",
-        "information": "Testing: noch nicht freigegeben (WIP)",
-        "help": ""
+        "information": "EL alle Kasten information (WIP)",
+        "help": "EL alle kasten ausfüllen hilfe"
       },
       "fr": {
         "title": "french",
@@ -164,8 +164,8 @@
       "required": false,
       "de": {
         "title": "Freigabe für mindestens eine andere Person.",
-        "information": "",
-        "help": ""
+        "information": "Freigabe1 information",
+        "help": "(nicht nötig)"
       },
       "fr": {
         "title": "french",
@@ -184,8 +184,8 @@
       "required": false,
       "de": {
         "title": "In der Erfolgslogik nicht relevante Fragen ausgebledet",
-        "information": "",
-        "help": ""
+        "information": "EL irrelevant information",
+        "help": "(nicht nötig)"
       },
       "fr": {
         "title": "french",
@@ -204,8 +204,8 @@
       "required": false,
       "de": {
         "title": "Einen Erfolgslogik Kasten überarbeitet.",
-        "information": "",
-        "help": ""
+        "information": "El überarbeiten information",
+        "help": "(nicht nötig)"
       },
       "fr": {
         "title": "french",
@@ -224,8 +224,8 @@
       "required": true,
       "de": {
         "title": "Verbesserung in einem Erfolgslogik Kasten.",
-        "information": "",
-        "help": ""
+        "information": "El verbessern information",
+        "help": "(nicht nötig)"
       },
       "fr": {
         "title": "french",
@@ -244,8 +244,8 @@
       "required": false,
       "de": {
         "title": "Vier mal innerhalb eines Jahres eingeloggt.",
-        "information": "",
-        "help": ""
+        "information": "Login information",
+        "help": "Du hast dich % mal eingeloggt"
       },
       "fr": {
         "title": "french",
@@ -264,7 +264,7 @@
       "required": false,
       "de": {
         "title": "Eine Abteilung an 3 oder mehr Personen freigegeben.",
-        "information": "",
+        "information": "Freigabe3 information",
         "help": "Du hast % von 3 Freigaben"
       },
       "fr": {
