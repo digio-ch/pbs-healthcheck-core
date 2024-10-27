@@ -196,6 +196,4 @@ class PermissionRepository extends ServiceEntityRepository
             ]
         );
     }
-
-
 }

@@ -197,6 +197,4 @@ class Level
     {
         $this->key = $key;
     }
-
-
 }

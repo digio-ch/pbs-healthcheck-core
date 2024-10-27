@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PseudonymizeLoginCommand extends StatisticsCommand
 {
-
     private LoginRepository $loginRepository;
 
     private float $duration;
@@ -34,8 +33,10 @@ class PseudonymizeLoginCommand extends StatisticsCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $start = microtime( true);
-        $pseudonymizedLogins = $this->loginRepository->pseudonymizeAllOlderThan18Months(function ($personId) { return hash('sha256', $personId);}); // sha256 is mostly collision free and currently irreversible, sufficient for our purposes.
+        $start = microtime(true);
+        $pseudonymizedLogins = $this->loginRepository->pseudonymizeAllOlderThan18Months(function ($personId) {
+            return hash('sha256', $personId);
+        }); // sha256 is mostly collision free and currently irreversible, sufficient for our purposes.
         $log = $input->getOption('log');
         if ($log) {
             $output->writeln('Following Logins (id) have been pseudonymized:');

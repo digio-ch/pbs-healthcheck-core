@@ -90,5 +90,4 @@ class PersonGamificationDTO
     {
         $this->levels = $levels;
     }
-
 }

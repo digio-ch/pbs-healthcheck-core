@@ -74,7 +74,7 @@ class GamificationPersonProfile
      * @ORM\Column(type="boolean")
      */
     private $el_improved;
-    
+
 
     public function getId(): ?int
     {

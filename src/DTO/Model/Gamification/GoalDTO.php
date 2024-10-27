@@ -106,5 +106,4 @@ class GoalDTO
     {
         $this->required = $required;
     }
-
 }

@@ -13,8 +13,7 @@ class QuapGamificationService
     public function __construct(
         PersonGamificationService $personGamificationService,
         AggregatedQuapRepository $aggregatedQuapRepository
-    )
-    {
+    ) {
         $this->personGamificationService = $personGamificationService;
         $this->aggregatedQuapRepository = $aggregatedQuapRepository;
     }
@@ -62,7 +61,8 @@ class QuapGamificationService
         }
     }
 
-    private function isQuestionnaireFullyAnswered($questionnaire) {
+    private function isQuestionnaireFullyAnswered($questionnaire)
+    {
         foreach ($questionnaire as $answer) {
             if ($answer === 4 || $answer === 0) {
                 return false;

@@ -26,15 +26,15 @@ class LoginService
         LoginRepository $loginRepository,
         GroupRepository $groupRepository,
         PermissionRepository $permissionRepository
-    )
-    {
+    ) {
         $this->personRepository = $personRepository;
         $this->loginRepository = $loginRepository;
         $this->groupRepository = $groupRepository;
         $this->permissionRepository = $permissionRepository;
     }
 
-    public function logByUserDTOForLogin(PbsUserDTO $userDTO):Login {
+    public function logByUserDTOForLogin(PbsUserDTO $userDTO): Login
+    {
         $login = new Login();
 
         $activeGroupDTO = $userDTO->getGroups()[0]; // Group 0 is the active group on Login.
@@ -63,7 +63,8 @@ class LoginService
         return $login;
     }
 
-    public function logByPersonAndGroup(PbsUserDTO $userDTO, Group $group) {
+    public function logByPersonAndGroup(PbsUserDTO $userDTO, Group $group)
+    {
         $login = new Login();
         $person = $this->personRepository->find($userDTO->getId());
         $role = $this->permissionRepository->findHighestById($group, $person->getId());
