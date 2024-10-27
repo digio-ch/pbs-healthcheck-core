@@ -182,14 +182,14 @@ class QuapService
     {
         $parentGroupType = $group->getGroupType()->getGroupType();
 
-        $subdepartments = [];
+        $ids = [];
         if ($parentGroupType === GroupType::CANTON) {
             $subdepartments = $this->groupRepository->findAllDepartmentsFromCanton($group->getId());
-        } elseif ($parentGroupType === GroupType::FEDERATION) {
-            $subdepartments = $this->groupRepository->findAllDepartmentsForFederation($group->getId());
+        } elseif ($parentGroupType === GroupType::REGION) {
+            $subdepartments = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($group->getId(), [GroupType::DEPARTMENT]);
+        } else {
+            throw new \Exception();
         }
-
-        $ids = [];
         foreach ($subdepartments as $group) {
             $ids[] = $group['id'];
         }

@@ -103,17 +103,17 @@ class PersonGamificationService
                 $pgp->setAccessGrantedCount($newCount);
                 break;
             case 'revised':
-                if ($pgp->getLevel()->getKey() >= 2) {
+                if ($pgp->getLevel()->getKey() >= 1) {
                     $pgp->setElRevised(true);
                 }
                 break;
             case 'improvement':
-                if ($pgp->getLevel()->getKey() >= 3) {
+                if ($pgp->getLevel()->getKey() >= 2) {
                     $pgp->setElImproved(true);
                 }
                 break;
             case 'irrelevant':
-                if ($pgp->getLevel()->getKey() >= 2) {
+                if ($pgp->getLevel()->getKey() >= 1) {
                     $pgp->setElIrrelevant(true);
                 }
                 break;

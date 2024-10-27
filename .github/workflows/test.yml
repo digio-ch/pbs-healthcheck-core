@@ -15,9 +15,9 @@ jobs:
       - name: setup test env
         run: cp -f .env.test .env
       - name: Build test image
-        run: docker-compose -f docker/docker-compose.yml build --build-arg BUILD_TEST=1 healthcheck-core
+        run: docker compose -f docker/docker-compose.yml build --build-arg BUILD_TEST=1 healthcheck-core
       - name: Start compose
-        run: docker-compose -f docker/docker-compose.yml up -d
+        run: docker compose -f docker/docker-compose.yml up -d
       - name: Install dependencies
         run: docker exec --user=$(id -u) healthcheck-core-local composer install --no-interaction --no-scripts
       - name: Lint PSR12
@@ -36,6 +36,6 @@ jobs:
       - name: docker cleanup
         run: |
           cp -f .env.test .env
-          docker-compose -f docker/docker-compose.yml down
+          docker compose -f docker/docker-compose.yml down
           docker image prune -f
           docker volume prune -f
