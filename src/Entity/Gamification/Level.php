@@ -43,6 +43,7 @@ class Level
 
     /**
      * @ORM\OneToMany(targetEntity=Goal::class, mappedBy="level")
+     * @ORM\OrderBy({"id" = "DESC"})
      */
     private $goals;
 
