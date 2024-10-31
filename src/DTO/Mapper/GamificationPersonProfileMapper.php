@@ -14,7 +14,7 @@ class GamificationPersonProfileMapper
         $dto = new PersonGamificationDTO();
         $dto->setName($profile->getPerson()->getNickname());
         $dto->setLevelKey($profile->getLevel()->getKey());
-        $dto->setLevelUp(self::checkLevelUp($profile));
+        $dto->setBetaRequested($profile->getBetaStatus());
 
         if ($locale === 'de') {
             $dto->setTitle($profile->getLevel()->getDeTitle());
@@ -24,14 +24,5 @@ class GamificationPersonProfileMapper
             $dto->setTitle($profile->getLevel()->getFrTitle());
         }
         return $dto;
-    }
-
-    public static function checkLevelUp(GamificationPersonProfile $profile)
-    {
-        $levelUps = $profile->getPerson()->getLevelUps();
-        if (count($levelUps) > 0) {
-            return true;
-        }
-        return false;
     }
 }

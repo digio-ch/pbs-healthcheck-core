@@ -31,9 +31,14 @@ class LevelUpLog
     private $level;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime_immutable")
      */
     private $date;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true, options={"default": false})
+     */
+    private $displayed;
 
     public function getId(): ?int
     {
@@ -72,6 +77,18 @@ class LevelUpLog
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getDisplayed(): ?bool
+    {
+        return $this->displayed;
+    }
+
+    public function setDisplayed(bool $displayed): self
+    {
+        $this->displayed = $displayed;
 
         return $this;
     }

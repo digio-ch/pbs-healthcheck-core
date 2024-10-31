@@ -10,6 +10,23 @@ class PersonGamificationDTO
     private bool $levelUp;
     /** @var LevelDTO[] $levels */
     private array $levels;
+    private bool $betaRequested;
+
+    /**
+     * @return bool
+     */
+    public function isBetaRequested(): bool
+    {
+        return $this->betaRequested;
+    }
+
+    /**
+     * @param bool $betaRequested
+     */
+    public function setBetaRequested(bool $betaRequested): void
+    {
+        $this->betaRequested = $betaRequested;
+    }
 
     /**
      * @return string
