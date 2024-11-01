@@ -1,0 +1,3 @@
+framework:
+    mailer:
+        dsn: 'null://null' # Disable until further notice '%env(MAILER_DSN)%'

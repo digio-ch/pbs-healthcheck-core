@@ -3,19 +3,29 @@
 namespace App\Service\Gamification;
 
 use App\DTO\Model\PbsUserDTO;
+use App\Entity\Aggregated\AggregatedQuap;
+use App\Entity\Gamification\GamificationQuapEvent;
 use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedQuapRepository;
+use App\Repository\Gamification\GamificationQuapEventRepository;
+use App\Repository\Midata\PersonRepository;
 
 class QuapGamificationService
 {
     private AggregatedQuapRepository $aggregatedQuapRepository;
     private PersonGamificationService $personGamificationService;
+    private PersonRepository $personRepository;
+    private GamificationQuapEventRepository $gamificationQuapEventRepository;
     public function __construct(
         PersonGamificationService $personGamificationService,
-        AggregatedQuapRepository $aggregatedQuapRepository
+        AggregatedQuapRepository $aggregatedQuapRepository,
+        PersonRepository $personRepository,
+        GamificationQuapEventRepository $gamificationQuapEventRepository
     ) {
         $this->personGamificationService = $personGamificationService;
         $this->aggregatedQuapRepository = $aggregatedQuapRepository;
+        $this->personRepository = $personRepository;
+        $this->gamificationQuapEventRepository = $gamificationQuapEventRepository;
     }
 
     /**
@@ -59,12 +69,14 @@ class QuapGamificationService
         if ($improvement) {
             $this->personGamificationService->genericGoalProgress($pbsUserDTO, 'improvement');
         }
+
+        $this->personGamificationService->logEvent($changedQuestionnaires, $aggregatedQuap, $pbsUserDTO);
     }
 
     private function isQuestionnaireFullyAnswered($questionnaire)
     {
         foreach ($questionnaire as $answer) {
-            if ($answer === 0) {
+            if ($answer === 4 || $answer === 0) {
                 return false;
             }
         }

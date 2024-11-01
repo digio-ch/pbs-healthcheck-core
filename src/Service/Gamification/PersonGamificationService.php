@@ -8,16 +8,20 @@ use App\DTO\Mapper\GamificationPersonProfileMapper;
 use App\DTO\Model\Gamification\LevelDTO;
 use App\DTO\Model\Gamification\PersonGamificationDTO;
 use App\DTO\Model\PbsUserDTO;
+use App\Entity\Aggregated\AggregatedQuap;
 use App\Entity\Gamification\GamificationPersonProfile;
+use App\Entity\Gamification\GamificationQuapEvent;
 use App\Entity\Gamification\Level;
 use App\Entity\Gamification\LevelUpLog;
 use App\Entity\Midata\Person;
 use App\Repository\Aggregated\AggregatedQuapRepository;
+use App\Repository\Gamification\GamificationQuapEventRepository;
 use App\Repository\Gamification\LevelRepository;
 use App\Repository\Gamification\GamificationPersonProfileRepository;
 use App\Repository\Gamification\LevelUpLogRepository;
 use App\Repository\Gamification\LoginRepository;
 use App\Repository\Midata\PersonRepository;
+use App\Repository\Quap\QuestionnaireRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -36,13 +40,16 @@ class PersonGamificationService
 
     private LevelUpLogRepository $levelUpLogRepository;
 
+    private GamificationQuapEventRepository $gamificationQuapEventRepository;
+
     public function __construct(
         LoginRepository $loginRepository,
         LevelRepository $levelRepository,
         GamificationPersonProfileRepository $personGoalRepository,
         PersonRepository $personRepository,
         EntityManagerInterface $em,
-        LevelUpLogRepository $levelUpLogRepository
+        LevelUpLogRepository $levelUpLogRepository,
+        GamificationQuapEventRepository $gamificationQuapEventRepository
     ) {
         $this->loginRepository = $loginRepository;
         $this->levelRepository = $levelRepository;
@@ -50,6 +57,7 @@ class PersonGamificationService
         $this->personGoalRepository = $personGoalRepository;
         $this->em = $em;
         $this->levelUpLogRepository = $levelUpLogRepository;
+        $this->gamificationQuapEventRepository = $gamificationQuapEventRepository;
     }
 
     public function reset(PbsUserDTO $pbsUserDTO)
@@ -57,6 +65,10 @@ class PersonGamificationService
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $pgp = $this->getPersonGamification($person);
         $this->personGoalRepository->remove($pgp);
+        $events = $this->gamificationQuapEventRepository->findBy(['person' => $person]);
+        foreach ($events as $event) {
+            $this->gamificationQuapEventRepository->remove($event);
+        }
     }
 
     public function getPersonGamification(Person $person): GamificationPersonProfile
@@ -67,12 +79,12 @@ class PersonGamificationService
             $gamificationProfile->setLevel($this->levelRepository->findOneBy(['key' => 0]));
             $gamificationProfile->setPerson($person);
             $gamificationProfile->setAccessGrantedCount(0);
-            $gamificationProfile->setElFilledOut(true);
+            $gamificationProfile->setElFilledOut(false);
             $gamificationProfile->setElImproved(false);
             $gamificationProfile->setElIrrelevant(false);
             $gamificationProfile->setElRevised(false);
             $gamificationProfile->setHasSharedEl(false);
-            $gamificationProfile->setHasUsedCardLayer(false); // TODO
+            $gamificationProfile->setHasUsedCardLayer(false);
             $gamificationProfile->setHasUsedDatafilter(false);
             $gamificationProfile->setHasUsedTimefilter(false);
             $this->personGoalRepository->add($gamificationProfile);
@@ -115,6 +127,11 @@ class PersonGamificationService
             case 'irrelevant':
                 if ($pgp->getLevel()->getKey() >= 1) {
                     $pgp->setElIrrelevant(true);
+                }
+                break;
+            case 'filledOut':
+                if ($this->checkElFilledOut($person)) {
+                    $pgp->setElFilledOut(true);
                 }
                 break;
             default:
@@ -171,21 +188,13 @@ class PersonGamificationService
             $log = new LevelUpLog();
             $log->setPerson($person->getPerson());
             $log->setLevel($nextLevel);
-            $log->setDate(new \DateTime());
+            $log->setDate(new \DateTimeImmutable());
             $this->levelUpLogRepository->add($log);
         }
         $this->em->persist($person);
         $this->em->flush();
 
         return $person;
-    }
-
-    private function resetLevelUp(Person $person)
-    {
-        $levelUps = $this->levelUpLogRepository->findBy(['person' => $person->getId()]);
-        foreach ($levelUps as $levelUp) {
-            $this->levelUpLogRepository->remove($levelUp);
-        }
     }
 
     public function checkLoginGoal(GamificationPersonProfile $profile): bool
@@ -202,6 +211,13 @@ class PersonGamificationService
         $personGamification = $this->checkLevelUp($personGamification);
 
         $personGamificationDTO = GamificationPersonProfileMapper::createFromEntity($personGamification, $locale);
+
+        $levelUp = $this->levelUpLogRepository->findOneBy(['person' => $person, 'displayed' => false]);
+        if (!is_null($levelUp)) {
+            $levelUp->setDisplayed(true);
+            $this->levelUpLogRepository->add($levelUp);
+            $personGamificationDTO->setLevelUp(true);
+        }
 
         if (count($levels) === 0) {
             throw new \Exception('no levels found?!');
@@ -265,10 +281,53 @@ class PersonGamificationService
                 $levelDtos[] = $levelDto;
             }
         }
-        if ($personGamificationDTO->isLevelUp()) {
-            $this->resetLevelUp($person);
-        }
+
         $personGamificationDTO->setLevels($levelDtos);
         return $personGamificationDTO;
+    }
+
+    /**
+     * Every questionnaire has 7 aspects which can be answered, if all 7 of them have been answered the goal
+     * is completed
+     */
+    private function checkElFilledOut(Person $person): bool
+    {
+        $counters = [0, 0];
+        $localIdAndQuestionnaireId = $this->gamificationQuapEventRepository->getUniquieIds($person);
+        foreach ($localIdAndQuestionnaireId as $item) {
+            $counters[$item['id']]++;
+        }
+        return $counters[0] === 7 || $counters[1] === 7;
+    }
+
+    public function logEvent(array $changedIds, AggregatedQuap $aggregatedQuap, PbsUserDTO $pbsUserDTO)
+    {
+        $person = $this->personRepository->find($pbsUserDTO->getId());
+        if ($this->getPersonGamification($person)->getLevel()->getKey() >= 1) {
+            foreach ($changedIds as $id) {
+                $eventLog = new GamificationQuapEvent();
+                $eventLog->setQuestionnaire($aggregatedQuap->getQuestionnaire());
+                $eventLog->setDate(new \DateTimeImmutable());
+                $eventLog->setGroup($aggregatedQuap->getGroup());
+                $eventLog->setPerson($this->personRepository->find($pbsUserDTO->getId()));
+                $eventLog->setLocalChangeIndex($id);
+                $this->gamificationQuapEventRepository->add($eventLog);
+            }
+        }
+        $this->genericGoalProgress($pbsUserDTO, 'filledOut');
+    }
+
+    public function getBetaAccess(PbsUserDTO $pbsUserDTO): bool
+    {
+        /** @var Person $person */
+        $person = $this->personRepository->find($pbsUserDTO->getId());
+        $profile = $person->getGamification();
+        if ($profile->getLevel()->getKey() === 3) {
+            /** request logic */
+            $profile->setBetaStatus(true);
+            $this->personGoalRepository->add($profile);
+            return true;
+        }
+        return false;
     }
 }

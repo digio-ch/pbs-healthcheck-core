@@ -3,6 +3,7 @@
 namespace App\Entity\Midata;
 
 use App\Entity\Admin\GeoAddress;
+use App\Entity\Gamification\GamificationQuapEvent;
 use App\Entity\Gamification\LevelUpLog;
 use App\Entity\Gamification\Login;
 use App\Entity\Gamification\GamificationPersonProfile;
@@ -124,10 +125,16 @@ class Person
      */
     private $levelUps;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GamificationQuapEvent::class, mappedBy="person", orphanRemoval=true)
+     */
+    private $gamificationQuapEvents;
+
     public function __construct()
     {
         $this->logins = new ArrayCollection();
         $this->levelUps = new ArrayCollection();
+        $this->gamificationQuapEvents = new ArrayCollection();
     }
 
     /**
@@ -409,6 +416,36 @@ class Person
             // set the owning side to null (unless already changed)
             if ($displayed->getPerson() === $this) {
                 $displayed->setPerson(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GamificationQuapEvent>
+     */
+    public function getGamificationQuapEvents(): Collection
+    {
+        return $this->gamificationQuapEvents;
+    }
+
+    public function addGamificationQuapEvent(GamificationQuapEvent $gamificationQuapEvent): self
+    {
+        if (!$this->gamificationQuapEvents->contains($gamificationQuapEvent)) {
+            $this->gamificationQuapEvents[] = $gamificationQuapEvent;
+            $gamificationQuapEvent->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGamificationQuapEvent(GamificationQuapEvent $gamificationQuapEvent): self
+    {
+        if ($this->gamificationQuapEvents->removeElement($gamificationQuapEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($gamificationQuapEvent->getPerson() === $this) {
+                $gamificationQuapEvent->setPerson(null);
             }
         }
 

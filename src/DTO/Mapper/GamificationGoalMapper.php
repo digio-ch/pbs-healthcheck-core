@@ -13,6 +13,7 @@ class GamificationGoalMapper
         $dto->setRequired($goal->getRequired());
         $dto->setCompleted($completed);
         $dto->setProgress($progress);
+        $dto->setKey($goal->getKey());
         if ($locale === 'de') {
             $dto->setTitle($goal->getDeTitle());
             $dto->setInformation($goal->getDeInformation());

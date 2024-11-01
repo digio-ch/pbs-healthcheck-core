@@ -27,3 +27,8 @@ reset:
   path: /reset
   methods: POST
   controller: App\Controller\Api\GamificationController::resetGamification
+
+betaAccess:
+  path: /beta
+  methods: PATCH
+  controller: App\Controller\Api\GamificationController::requestBetaAccess

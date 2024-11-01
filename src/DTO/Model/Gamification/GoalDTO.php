@@ -10,6 +10,23 @@ class GoalDTO
     private int $progress;
     private bool $completed;
     private bool $required;
+    private string $key;
+
+    /**
+     * @return string
+     */
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    /**
+     * @param string $key
+     */
+    public function setKey(string $key): void
+    {
+        $this->key = $key;
+    }
 
     /**
      * @return string

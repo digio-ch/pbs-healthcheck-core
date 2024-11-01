@@ -75,6 +75,11 @@ class GamificationPersonProfile
      */
     private $el_improved;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $beta_status;
+
 
     public function getId(): ?int
     {
@@ -209,6 +214,18 @@ class GamificationPersonProfile
     public function setElImproved(bool $el_improved): self
     {
         $this->el_improved = $el_improved;
+
+        return $this;
+    }
+
+    public function getBetaStatus(): ?bool
+    {
+        return $this->beta_status;
+    }
+
+    public function setBetaStatus(bool $beta_status): self
+    {
+        $this->beta_status = $beta_status;
 
         return $this;
     }

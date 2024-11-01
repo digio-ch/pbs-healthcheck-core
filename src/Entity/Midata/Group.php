@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use App\Entity\Gamification\GamificationQuapEvent;
 use App\Entity\Gamification\Login;
 use App\Entity\General\GroupSettings;
 use App\Repository\Midata\GroupRepository;
@@ -91,10 +92,16 @@ class Group
      */
     private $logins;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GamificationQuapEvent::class, mappedBy="group")
+     */
+    private $gamificationQuapEvents;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->logins = new ArrayCollection();
+        $this->gamificationQuapEvents = new ArrayCollection();
     }
 
     /**
@@ -276,6 +283,36 @@ class Group
             // set the owning side to null (unless already changed)
             if ($login->getGgroup() === $this) {
                 $login->setGgroup(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GamificationQuapEvent>
+     */
+    public function getGamificationQuapEvents(): Collection
+    {
+        return $this->gamificationQuapEvents;
+    }
+
+    public function addGamificationQuapEvent(GamificationQuapEvent $gamificationQuapEvent): self
+    {
+        if (!$this->gamificationQuapEvents->contains($gamificationQuapEvent)) {
+            $this->gamificationQuapEvents[] = $gamificationQuapEvent;
+            $gamificationQuapEvent->setGroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGamificationQuapEvent(GamificationQuapEvent $gamificationQuapEvent): self
+    {
+        if ($this->gamificationQuapEvents->removeElement($gamificationQuapEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($gamificationQuapEvent->getGroup() === $this) {
+                $gamificationQuapEvent->setGroup(null);
             }
         }
 
