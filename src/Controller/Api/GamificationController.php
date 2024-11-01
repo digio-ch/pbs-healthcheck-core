@@ -77,4 +77,10 @@ class GamificationController extends AbstractController
         $personGamificationService->reset($this->getUser());
         return new Response('');
     }
+
+    public function requestBetaAccess(Request $request, PersonGamificationService $personGamificationService) {
+        $user = $this->getUser();
+        $result = $personGamificationService->getBetaAccess($user);
+        return $result ? new Response('', 200) : new Response('', 403);
+    }
 }

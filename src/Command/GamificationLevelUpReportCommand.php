@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
 class GamificationLevelUpReportCommand extends StatisticsCommand
@@ -63,8 +64,8 @@ Birmensdorferstrasse 94
 www.digio.swiss";
 
         $email = new Email();
-        $email->from('reporting@digio.swiss')
-            ->to('ss@digio.ch', 'dv@digio.ch')
+        $email->from(new Address('no-reply@hc-prod.cust.digio.ch', 'Digio'))
+            ->to('ss@digio.ch')
             ->subject('Level Up Report')
             ->text($mailContent);
         $this->mailer->send($email);

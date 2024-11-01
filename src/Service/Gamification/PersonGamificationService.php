@@ -314,4 +314,17 @@ class PersonGamificationService
         }
         $this->genericGoalProgress($pbsUserDTO, 'filledOut');
     }
+
+    public function getBetaAccess(PbsUserDTO $pbsUserDTO): bool {
+        /** @var Person $person */
+        $person = $this->personRepository->find($pbsUserDTO->getId());
+        $profile = $person->getGamification();
+        if($profile->getLevel()->getKey() === 3) {
+            /** request logic */
+            $profile->setBetaStatus(true);
+            $this->personGoalRepository->add($profile);
+            return true;
+        }
+        return false;
+    }
 }
