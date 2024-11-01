@@ -131,7 +131,7 @@ class PersonGamificationService
                 }
                 break;
             case 'filledOut':
-                if ($this->checkElFilledOut($person)) {
+                if ($this->getElFilledOut($person) === 7) {
                     $pgp->setElFilledOut(true);
                 }
                 break;
@@ -250,7 +250,7 @@ class PersonGamificationService
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasSharedEl(), 0);
                         break;
                     case 'EL_FILL_OUT': // TODO add check
-                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElFilledOut(), 0);
+                        $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElFilledOut(), $this->getElFilledOut($person));
                         break;
                     case 'SHARE_1':
                         $completed = $personGamification->getAccessGrantedCount() >= 1;
@@ -292,14 +292,14 @@ class PersonGamificationService
      * Every questionnaire has 7 aspects which can be answered, if all 7 of them have been answered the goal
      * is completed
      */
-    private function checkElFilledOut(Person $person): bool
+    private function getElFilledOut(Person $person): int
     {
-        $counters = [0, 0];
+        $counters = ['Questionnaire::Group::Default' => 0, 'Questionnaire::Group::Canton' => 0];
         $localIdAndQuestionnaireId = $this->gamificationQuapEventRepository->getUniquieIds($person);
         foreach ($localIdAndQuestionnaireId as $item) {
-            $counters[$item['id']]++;
+            $counters[$item['type']]++;
         }
-        return $counters[0] === 7 || $counters[1] === 7;
+        return max($counters['Questionnaire::Group::Canton'], $counters['Questionnaire::Group::Default']);
     }
 
     public function logEvent(array $changedIds, AggregatedQuap $aggregatedQuap, PbsUserDTO $pbsUserDTO)

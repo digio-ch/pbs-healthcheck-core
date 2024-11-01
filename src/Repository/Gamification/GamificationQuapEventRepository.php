@@ -54,7 +54,7 @@ class GamificationQuapEventRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('e')
             ->join('e.questionnaire', 'q')
-            ->select('e.local_change_index, q.id')
+            ->select('e.local_change_index, q.type')
             ->where('e.person = :person')
             ->groupBy('e.local_change_index')
             ->addGroupBy('q.id')
