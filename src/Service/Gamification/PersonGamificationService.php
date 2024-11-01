@@ -190,6 +190,7 @@ class PersonGamificationService
             $log->setPerson($person->getPerson());
             $log->setLevel($nextLevel);
             $log->setDate(new \DateTimeImmutable());
+            $log->setDisplayed(false);
             $this->levelUpLogRepository->add($log);
         }
         $this->em->persist($person);
