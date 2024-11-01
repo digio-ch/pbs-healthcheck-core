@@ -87,6 +87,7 @@ class PersonGamificationService
             $gamificationProfile->setHasUsedCardLayer(false);
             $gamificationProfile->setHasUsedDatafilter(false);
             $gamificationProfile->setHasUsedTimefilter(false);
+            $gamificationProfile->setBetaStatus(false);
             $this->personGoalRepository->add($gamificationProfile);
         }
         return $gamificationProfile;
