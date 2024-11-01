@@ -290,7 +290,8 @@ class PersonGamificationService
      * Every questionnaire has 7 aspects which can be answered, if all 7 of them have been answered the goal
      * is completed
      */
-    private function checkElFilledOut(Person $person): bool {
+    private function checkElFilledOut(Person $person): bool
+    {
         $counters = [0, 0];
         $localIdAndQuestionnaireId = $this->gamificationQuapEventRepository->getUniquieIds($person);
         foreach ($localIdAndQuestionnaireId as $item) {
@@ -299,7 +300,8 @@ class PersonGamificationService
         return $counters[0] === 7 || $counters[1] === 7;
     }
 
-    public function logEvent(array $changedIds, AggregatedQuap $aggregatedQuap, PbsUserDTO $pbsUserDTO) {
+    public function logEvent(array $changedIds, AggregatedQuap $aggregatedQuap, PbsUserDTO $pbsUserDTO)
+    {
         $person = $this->personRepository->find($pbsUserDTO->getId());
         if ($this->getPersonGamification($person)->getLevel()->getKey() >= 1) {
             foreach ($changedIds as $id) {
@@ -315,11 +317,12 @@ class PersonGamificationService
         $this->genericGoalProgress($pbsUserDTO, 'filledOut');
     }
 
-    public function getBetaAccess(PbsUserDTO $pbsUserDTO): bool {
+    public function getBetaAccess(PbsUserDTO $pbsUserDTO): bool
+    {
         /** @var Person $person */
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $profile = $person->getGamification();
-        if($profile->getLevel()->getKey() === 3) {
+        if ($profile->getLevel()->getKey() === 3) {
             /** request logic */
             $profile->setBetaStatus(true);
             $this->personGoalRepository->add($profile);

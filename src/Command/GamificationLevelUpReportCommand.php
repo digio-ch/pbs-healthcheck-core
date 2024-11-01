@@ -13,7 +13,6 @@ use Symfony\Component\Mime\Email;
 
 class GamificationLevelUpReportCommand extends StatisticsCommand
 {
-
     /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
