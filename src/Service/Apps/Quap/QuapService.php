@@ -20,6 +20,7 @@ use App\Repository\Quap\HelpRepository;
 use App\Repository\Quap\LinkRepository;
 use App\Repository\Quap\QuestionnaireRepository;
 use App\Repository\Quap\QuestionRepository;
+use App\Repository\Statistics\StatisticGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -51,6 +52,8 @@ class QuapService
     /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
+    private StatisticGroupRepository $statisticGroupRepository;
+
     /**
      * @param QuestionnaireRepository $questionnaireRepository
      * @param AspectRepository $aspectRepository
@@ -68,6 +71,7 @@ class QuapService
         LinkRepository $linkRepository,
         AggregatedQuapRepository $quapRepository,
         GroupRepository $groupRepository,
+        StatisticGroupRepository $statisticGroupRepository,
         EntityManagerInterface $em
     ) {
         $this->questionnaireRepository = $questionnaireRepository;
@@ -77,6 +81,7 @@ class QuapService
         $this->linkRepository = $linkRepository;
         $this->quapRepository = $quapRepository;
         $this->groupRepository = $groupRepository;
+        $this->statisticGroupRepository = $statisticGroupRepository;
         $this->em = $em;
     }
 
@@ -185,13 +190,13 @@ class QuapService
         $ids = [];
         if ($parentGroupType === GroupType::CANTON) {
             $subdepartments = $this->groupRepository->findAllDepartmentsFromCanton($group->getId());
+            foreach ($subdepartments as $group) {
+                $ids[] = $group['id'];
+            }
         } elseif ($parentGroupType === GroupType::REGION) {
-            $subdepartments = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($group->getId(), [GroupType::DEPARTMENT]);
+            $ids = $this->statisticGroupRepository->findAllRelevantChildGroups($group->getId(), [GroupType::DEPARTMENT]);
         } else {
             throw new \Exception();
-        }
-        foreach ($subdepartments as $group) {
-            $ids[] = $group['id'];
         }
 
         $answers = $this->quapRepository->findAllAnswers($ids, $date !== null ? $date->format('Y-m-d') : null);
