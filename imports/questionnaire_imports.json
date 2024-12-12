@@ -1,5 +1,6 @@
 [
   {
+    "type": "Questionnaire::Group::Default",
     "aspects": [
       {
         "questions": [
@@ -170,8 +171,8 @@
               "help_it": "Al corso base gli animatori apprendono le nozioni di base per pianificare e realizzare le attività. Inoltre, durante il corso di introduzione alla branca castori imparano a conoscere le esigenze dei loro partecipanti e la metodologia della branca castori. Ciò consente loro di pianificare e realizzare attività in base alla propria branca."
             },
             "question_de": "Mindestens zwei Drittel aller Leitenden der Biberstufe haben einen Basiskurs und den Einführungskurs Biberstufe besucht.",
-            "question_fr": "Au moins deux tiers des responsables de la branche Castors ont suivi un cours de base et un cours d'introduction Castors. ",
-            "question_it": "Almeno due terzi degli animatori della branca castori hanno frequentato un corso base e un corso di introduzione alla branca castori.",
+            "question_fr": "Au moins deux tiers des responsables de la branche Castors ont suivi un cours de base ou un cours d'introduction Castors. ",
+            "question_it": "Almeno due terzi degli animatori della branca castori hanno frequentato un corso base o un corso di introduzione alla branca castori.",
             "answer_options": "midata-binary",
             "evaluation_function": "has_percentage_biber"
           },
@@ -213,8 +214,8 @@
               "help_it": "Al corso base gli animatori apprendono le nozioni di base per pianificare e realizzare le attività. Inoltre, durante il corso di introduzione alla branca pionieri imparano a conoscere le esigenze dei loro partecipanti e la metodologia della branca pionieri. Ciò consente loro di pianificare e realizzare attività in base alla propria branca."
             },
             "question_de": "Mindestens zwei Drittel aller Leitenden der Piostufe haben einen Basiskurs und den Einführungskurs Piostufe besucht.",
-            "question_fr": "Au moins deux tiers des responsables de la branche Picos ont suivi un cours de base et un cours d'introduction Picos. ",
-            "question_it": "Almeno due terzi degli animatori della branca pionieri hanno frequentato un corso base e un corso di introduzione alla branca pionieri.",
+            "question_fr": "Au moins deux tiers des responsables de la branche Picos ont suivi un cours de base ou un cours d'introduction Picos. ",
+            "question_it": "Almeno due terzi degli animatori della branca pionieri hanno frequentato un corso base o un corso di introduzione alla branca pionieri.",
             "answer_options": "midata-binary",
             "evaluation_function": "has_percentage_pio"
           },
@@ -244,7 +245,7 @@
               "help_it": "Durante il corso campo, gli animatori imparano a gestire la propria branca e a padroneggiarne il funzionamento settimanale della branca. Almeno i capi branca dovrebbero aver seguito il corso."
             },
             "question_de": "Die Stufenleitenden haben einen Aufbaukurs besucht.",
-            "question_fr": "Les responsables de branche ont suivi un cours de responsable d'unité.",
+            "question_fr": "Les responsables de branche ont suivi un cours de perfectionnement.",
             "question_it": "I capi branca hanno seguito un corso campo.",
             "answer_options": "midata-binary",
             "evaluation_function": "group_leaders_educated"
@@ -403,7 +404,7 @@
               "help_it": "Dopo il corso, è necessario svoltere un colloquio con gli animatori appena formati, per parlare degli obiettivi fissati durante il corso e supportarli nel loro raggiungimento."
             },
             "question_de": "Unsere Leitenden werden nach dem Kurs bei der Umsetzung des Gelernten und beim Erreichen ihrer im Kurs definierten Ziele betreut.",
-            "question_fr": "Nos responsables sont encadré·e·s après le cours afin de les aider à appliquer ce qu'ils·elles ont appris et à atteindre leurs objectifs définis dans le cadre du cours.",
+            "question_fr": "Nos responsables sont encadrés après le cours afin de les aider à appliquer ce qu'ils·elles ont appris et à atteindre leurs objectifs définis dans le cadre du cours.",
             "question_it": "Dopo il corso, gli animatori sono supportati nell'implementazione di ciò che hanno appreso e nel raggiungimento degli obbiettivi fissati durante il corso.",
             "answer_options": "range",
             "evaluation_function": null
@@ -434,7 +435,7 @@
               "help_it": "Le nuove idee permettono un continuo miglioramento e un ulteriore sviluppo. Il gruppo animatori va quindi incoraggiato e supportato nella realizzazione di nuove idee (per es. grazie alla partecipazione ai corsi)."
             },
             "question_de": "Unsere Leitungsteams versuchen neue Vorschläge umzusetzen, die ihre Mitglieder z.B. aufgrund von Kursbesuchen anregen.",
-            "question_fr": "Nos équipes de responsables essaient de réaliser les nouvelles propositions que leurs membres suggèrent, par exemple après leur participation aux cours.",
+            "question_fr": "Nos équipes de responsables essaient de réaliser les nouvelles propositions que leurs membres suggèrent, par exemple en fonction de leur participation aux cours.",
             "question_it": "Il gruppo animatori cerca di realizzare nuove proposte che incoraggino i loro attivi, per es. grazie alla partecipazione ai corsi.",
             "answer_options": "range",
             "evaluation_function": null
@@ -510,7 +511,7 @@
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/257/betreuen-in-der-pfadi/"
                 },
                 {
-                  "name": "Beispiel einer Betreuungsabsprache",
+                  "name": "Beispiel eines Betreuungskontraktes",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
                 }
               ],
@@ -520,7 +521,7 @@
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/257/lencadrement-au-sein-du-scoutisme/"
                 },
                 {
-                  "name": "Exemple d'une convention d'encadrement",
+                  "name": "Exemple d'un accord d’encadrement",
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/426/accord-dencadrement-prb/"
                 }
               ],
@@ -530,17 +531,17 @@
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/257/laccompagnamento-a-livello-scout/"
                 },
                 {
-                  "name": "Esempio di un contratto di accompagnamento (francese)",
+                  "name": "Esempio di un accordo di accompagnamento (francese)",
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/426/accord-dencadrement-prb-francese/"
                 }
               ],
               "help_de": "Ohne eine jährliche Standortbestimmung ist es schwierig, sich auf ein konkretes Vorgehen zu einigen und sich weiterzuentwickeln. Ein Betreuungskontrakt zwischen Betreuten und Betreuenden bietet eine Möglichkeit, für dieses Gespräch.",
-              "help_fr": "Sans bilan annuel, il est difficile de se mettre d'accord sur un plan d'action concret et de poursuivre les améliorations. Une convention d'encadrement entre les conseillé·e·s et les conseiller·ère·s offre la possibilité d'une telle discussion.",
-              "help_it": "Senza una valutazione annuale della situazione, è difficile concordare un approccio concreto e svilupparsi ulteriormente. Un contratto di accompagnamento tra accompagnatore e accompagnato offre un'opportunità di discussione."
+              "help_fr": "Sans bilan annuel, il est difficile de se mettre d'accord sur un plan d'action concret et de poursuivre les améliorations. Un accord d'encadrement entre les conseillé·e·s et les conseiller·ère·s offre la possibilité d'une telle discussion.",
+              "help_it": "Senza una valutazione annuale della situazione, è difficile concordare un approccio concreto e svilupparsi ulteriormente. Un accordo di accompagnamento tra accompagnatore e accompagnato offre un'opportunità di discussione."
             },
-            "question_de": "AL und Coach machen bei uns mindestens einmal im Jahr eine Standortbestimmung, bei der sie evaluieren, was in der Abteilung gut läuft und wo wir uns weiterentwickeln können. Die Betreuung wird, z. B. mit einem Betreuungsabsprache, abgesprochen und gemäss dieser Absprache durch das Jahr gelebt und ausgewertet. ",
-            "question_fr": "Au moins une fois par an, le·la RG et le·la coach font un bilan pour évaluer ce qui va bien dans le groupe et ce que nous pouvons encore améliorer. L'encadrement est établi, par exemple à l'aide d'une convention d'encadrement, et il est appliqué et évalué tout au long de l'année conformément à cet arrangement. ",
-            "question_it": "Almeno una volta all'anno CSZ e coach fanno una valutazione in cui valutano che cosa sta andando bene nella sezione e dove invece ci possano essere ulteriori sviluppi. L'accompagnamento viene concordato, per es. con un contratto di accompagnamento, che va seguito e valutato nel corso dell'anno.",
+            "question_de": "AL und Coach machen bei uns mindestens einmal im Jahr eine Standortbestimmung, bei der sie evaluieren, was in der Abteilung gut läuft und wo wir uns weiterentwickeln können. Die Betreuung wird, z. B. mit einem Betreuungskontrakt, abgesprochen und gemäss dieser Absprache durch das Jahr gelebt und ausgewertet. ",
+            "question_fr": "Au moins une fois par an, le·la RG et le·la coach font un bilan pour évaluer ce qui va bien dans le groupe et ce que nous pouvons encore améliorer. L'encadrement est établi, par exemple à l'aide d'un système d'accord d'encadrement, et il est appliqué et évalué tout au long de l'année conformément à cet arrangement. ",
+            "question_it": "Almeno una volta all'anno CSZ e coach fanno una valutazione in cui valutano che cosa sta andando bene nella sezione e dove invece ci possano essere ulteriori sviluppi. L'accompagnamento viene concordato, per es. con un accordo di accompagnamento, che va seguito e valutato nel corso dell'anno.",
             "answer_options": "binary",
             "evaluation_function": null
           },
@@ -553,7 +554,7 @@
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/257/betreuen-in-der-pfadi/"
                 },
                 {
-                  "name": "Beispiel einer Betreuungsabsprache",
+                  "name": "Beispiel eines Betreuungskontraktes",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
                 }
               ],
@@ -563,7 +564,7 @@
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/257/lencadrement-au-sein-du-scoutisme/"
                 },
                 {
-                  "name": "Exemple d'une convention d'encadrement",
+                  "name": "Exemple d'un accord d’encadrement",
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/426/accord-dencadrement-prb/"
                 }
               ],
@@ -573,13 +574,13 @@
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/257/laccompagnamento-a-livello-scout/"
                 },
                 {
-                  "name": "Esempio di un contratto di accompagnamento (francese)",
+                  "name": "Esempio di un accordo di accompagnamento (francese)",
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/426/accord-dencadrement-prb-francese/"
                 }
               ],
               "help_de": "Ein fehlende Absprachen oder ein gestörtes Verhältnis können Gründe dafür sein, wieso ein Betreuungsangebot nicht genutzt wird. In einer solchen Situation sollte der*die Coach in der Abteilung bekannt gemacht werden, das Verhältnis gekittet und die Zuständigkeiten geklärt werden.",
               "help_fr": "Un manque de communication ou une relation tendue peuvent être des raisons pour lesquelles une offre d'encadrement n'est pas utilisée. Dans une telle situation, il convient de prévenir le·la coach au sein du groupe, de rétablir la relation tendue et de clarifier les rôles.",
-              "help_it": "Una mancanza di contratto o una relazione problematica possono essere i motivi per cui un'opportunità di accompagnamento non viene sfruttata. In una situazione del genere, il coach dovrebbe essere coinvolto nella situazione, il conflitto risolto e le responsabilità chiarite."
+              "help_it": "Una mancanza di accordo o una relazione problematica possono essere i motivi per cui un'opportunità di accompagnamento non viene sfruttata. In una situazione del genere, il coach dovrebbe essere coinvolto nella situazione, il conflitto risolto e le responsabilità chiarite."
             },
             "question_de": "Unsere Leitenden nutzen das Betreuungsangebot unseres Coachs, wenn sie nicht weiter wissen oder eine Frage haben. ",
             "question_fr": "Nos responsables utilisent l'offre d'encadrement offert par notre coach lorsqu'ils·elles sont en difficulté ou ont une question.",
@@ -596,7 +597,7 @@
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/257/betreuen-in-der-pfadi/"
                 },
                 {
-                  "name": "Beispiel einer Betreuungskontraktes",
+                  "name": "Beispiel eines Betreuungskontraktes",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
                 },
                 {
@@ -610,7 +611,7 @@
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/257/lencadrement-au-sein-du-scoutisme/"
                 },
                 {
-                  "name": "Exemple d'une convention d'encadrement",
+                  "name": "Exemple d'un accord d’encadrement",
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/426/accord-dencadrement-prb/"
                 },
                 {
@@ -624,7 +625,7 @@
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/257/laccompagnamento-a-livello-scout/"
                 },
                 {
-                  "name": "Esempio di un contratto di accompagnamento (francese)",
+                  "name": "Esempio di un accordo di accompagnamento (francese)",
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/426/accord-dencadrement-prb-francese/"
                 },
                 {
@@ -634,11 +635,11 @@
               ],
               "help_de": "Ist das Betreuungsangebot bekannt oder wurde ein Betreuungsabsprache vereinbart? Allenfalls wird das Angebot nicht genutzt, weil es nicht bekannt ist oder vereinbart wurde. Eine gemeinsame Sitzung kann helfen zu identifizieren, was die einzelnen Betreuungspersonen zu bieten haben.",
               "help_fr": "L'offre d'encadrement disponible est-elle connue ou un accord d'encadrement a-t-il été conclu ? Il est possible que l'offre ne soit pas utilisée parce qu'elle n'est pas connue ou que l'accord n'a pas été convenu. Une rencontre commune peut permettre d'identifier ce que les différent·e·s intervenant·e·s ont à offrir.",
-              "help_it": "L’offerta di supporto è conosciuta o è stato concordato un contratto di assistenza? In ogni caso, l’offerta non viene utilizzata perché non è conosciuta o concordata. Una riunione congiunta può aiutare a identificare ciò che ciascun accompagnatore ha da offrire."
+              "help_it": "L’offerta di supporto è conosciuta o è stato concordato un accordo di assistenza? In ogni caso, l’offerta non viene utilizzata perché non è conosciuta o concordata. Una riunione congiunta può aiutare a identificare ciò che ciascun accompagnatore ha da offrire."
             },
-            "question_de": "Unsere Leitende und insbesondere unsere AL nutzen das Betreuungsangebot von den weiteren Betreuungspersonen unserer Abteilung (Elternrat, Präses, Rover, KaLei, etc.). ",
-            "question_fr": "Nos responsables, et surtout nos RG, profitent de l'encadrement offert par d'autres intervenant·e·s de notre groupe (comité des parents, aumônier·ère, routier·ère·s, etc.). ",
-            "question_it": "I nostri animatori, e in particolare il nostro CSZ fanno uso dell’offerta di accompagnamento da parte di altre figure d'accompagnamento (consiglio dei genitori, presidente, rover, ecc. ).",
+            "question_de": "Unsere Leitende und insbesondere unsere AL nutzen das Betreuungsangebot von den weiteren Betreuungspersonen unserer Abteilung (Elternrat, Präses, APV, etc.). ",
+            "question_fr": "Nos responsables, et surtout nos RG, profitent de l'encadrement offert par d'autres intervenant·e·s de notre groupe (comité des parents, aumônier·ère, AdA, etc.). ",
+            "question_it": "I nostri animatori, e in particolare il nostro CSZ fanno uso dell’offerta di accompagnamento da parte di altre figure d'accompagnamento (consiglio dei genitori, presidente, anziani scout, ecc. ).",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -881,46 +882,30 @@
             "help": {
               "links_de": [
                 {
-                  "name": "Betreuen in der Pfadi, Kapitel 3.2 und 4",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/257/betreuen-in-der-pfadi/"
-                },
-                {
-                  "name": "Betreuungsmodell der PBS, Kapitel 5.2",
+                  "name": "Betreuungsmodell, Kapitel APV",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/255/betreuungsmodell-der-pfadibewegung-schweiz/"
-                },
-                {
-                  "name": "Beispiel einer Betreuungsabsprache",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "L’encadrement au sein du scoutisme, chapitre  3.2 et 4",
-                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/257/lencadrement-au-sein-du-scoutisme/"
-                },
-                {
-                  "name": "Exemple d'une convention d'encadrement",
-                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/426/accord-dencadrement-prb/"
+                  "name": "Modèle d’encadrement, chapitre Association des anciens",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/255/modele-dencadrement-du-mouvement-scout-de-suisse/"
                 }
               ],
               "links_it": [
                 {
-                  "name": "L’accompagnamento a livello scout, capitolo 3.2 e 4",
-                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/257/laccompagnamento-a-livello-scout/"
-                },
-                {
-                  "name": "Esempio di un contratto di accompagnamento (francese)",
-                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/426/accord-dencadrement-prb-francese/"
+                  "name": "Modello di accompagnamento, capitolo Scout anziani",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/255/modello-di-accompagnamento-del-movimento-scout-svizzero/"
                 }
               ],
-              "help_de": "Damit ein Betreuungsnetzwerk funktioniert, sollten die Rollen deren Mitglieder abgesprochen werden. Die Zuständigkeiten könnten zum Beispiel an einem Höck geklärt werden, eine Betreuungsabsprache zwischen den Betreuuenden hilft bestimmt.",
-              "help_fr": "Pour qu'un réseau d'encadrement fonctionne, les rôles de ses différents membres doivent être convenus. Les responsabilités pourraient être clarifiées lors d'une réunion, par exemple, et il est certainement utile d'avoir une convention entre les personnes encadrant le groupe.",
-              "help_it": "Affinché una rete di accompagnamento funzioni, i ruoli dei suoi membri devono essere concordati. Le responsabilità potrebbero, ad esempio, essere chiarite in una riunione; un contratto di accompagnamento tra coloro che accompagnano potrebbe essere di aiuto."
+              "help_de": "Ein APV kann eine Abteilung mit Rat und Tat unterstützen. Inputs zu möglichen Aufgaben bietet das Betreuungsmodell.",
+              "help_fr": "Une AdA peut soutenir un groupe par des conseils et des mesures. Les renseignements sur les tâches envisageables sont fournis par le modèle d'encadrement.",
+              "help_it": "Un gruppo anziani scout può sostenere la sezione con parole e fatti. Input sui suoi possibili compiti possono essere ricavati dal modello di accompagnamento."
             },
-            "question_de": "Die Betreuungspersonen unserer Abteilung kennen ihre jeweilige Rollen in der Betreuung durch das Pfadijahr.",
-            "question_fr": "Les personnes encadrant notre groupe connaissent leurs rôles respectifs dans la prise en charge à travers l'année scoute.",
-            "question_it": "Le figure d'accompagnamento della nostra sezione conoscono i loro rispettivi ruolinell'organizzazione dell'anno scout.",
-            "answer_options": "midata-binary",
+            "question_de": "Unsere Abteilung hat einen APV und eine definierte Person für das Präsidium.",
+            "question_fr": "Notre groupe a une AdA et une personne définie pour sa présidence.",
+            "question_it": "La nostra sezione ha un gruppo anziani scout e il suo rispettivo presidente",
+            "answer_options": "binary",
             "evaluation_function": null
           },
           {
@@ -932,11 +917,7 @@
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/257/betreuen-in-der-pfadi/"
                 },
                 {
-                  "name": "Betreuungsmodell der PBS, Kapitel 5.2",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/255/betreuungsmodell-der-pfadibewegung-schweiz/"
-                },
-                {
-                  "name": "Beispiel einer Betreuungsabsprache",
+                  "name": "Beispiel eines Betreuungskontraktes",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
                 }
               ],
@@ -946,7 +927,7 @@
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/257/lencadrement-au-sein-du-scoutisme/"
                 },
                 {
-                  "name": "Exemple d'une convention d'encadrement",
+                  "name": "Exemple d'un accord d’encadrement",
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/426/accord-dencadrement-prb/"
                 }
               ],
@@ -956,17 +937,17 @@
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/257/laccompagnamento-a-livello-scout/"
                 },
                 {
-                  "name": "Esempio di un contratto di accompagnamento (francese)",
+                  "name": "Esempio di un accordo di accompagnamento (francese)",
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/426/accord-dencadrement-prb-francese/"
                 }
               ],
-              "help_de": "Damit ein Betreuungsnetzwerk funktioniert, sollten die Aufgaben deren Mitglieder abgesprochen werden. Die Zuständigkeiten könnten zum Beispiel an einem Höck geklärt werden, eine Betreuungsabsprache zwischen den Betreuuenden hilft bestimmt.",
-              "help_fr": "Pour qu'un réseau d'encadrement fonctionne, les tâches de ses différents membres doivent être convenues. Les responsabilités pourraient être clarifiées lors d'une réunion, par exemple, et il est certainement utile d'avoir une convention entre les personnes encadrant le groupe.",
-              "help_it": "Affinché una rete di accompagnamento funzioni, i compiti dei suoi membri devono essere concordati. Le responsabilità potrebbero, ad esempio, essere chiarite in una riunione; un contratto di accompagnamento tra coloro che accompagnano potrebbe essere di aiuto."
+              "help_de": "Damit ein Betreuungsnetzwerk funktioniert, sollten die Rollen und Aufgaben deren Mitglieder abgesprochen werden. Die Zuständigkeiten könnten zum Beispiel an einem Höck geklärt werden, eine Betreuungsabsprache zwischen den Betreuuenden hilft bestimmt.",
+              "help_fr": "Pour qu'un réseau d'encadrement fonctionne, les rôles et les tâches de ses différents membres doivent être convenus. Les responsabilités pourraient être clarifiées lors d'une réunion, par exemple, et il est certainement utile d'avoir un accord entre les personnes encadrant le groupe.",
+              "help_it": "Affinché una rete di accompagnamento funzioni, i ruoli e i compiti dei suoi membri devono essere concordati. Le responsabilità potrebbero, ad esempio, essere chiarite in una riunione; un accordo di accompagnamento tra coloro che accompagnano potrebbe essere di aiuto."
             },
-            "question_de": "Die Betreuungspersonen unserer Abteilung kennen ihre jeweilige Aufgaben in der Betreuung durch das Pfadijahr.",
-            "question_fr": "Les personnes encadrant notre groupe connaissent leurs tâches respectives dans la prise en charge à travers l'année scoute.",
-            "question_it": "Le figure d'accompagnamento della nostra sezione conoscono i loro rispettivi i compiti nell'organizzazione dell'anno scout.",
+            "question_de": "Die Betreuungspersonen unserer Abteilung kennen ihre jeweilige Rollen und Aufgaben in der Betreuung durch das Pfadijahr.",
+            "question_fr": "Les personnes encadrant notre groupe connaissent leurs rôles et tâches respectifs dans la prise en charge à travers l'année scoute.",
+            "question_it": "Le figure d'accompagnamento della nostra sezione conoscono i loro rispettivi ruoli e i compiti nell'organizzazione dell'anno scout.",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -983,7 +964,7 @@
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/255/betreuungsmodell-der-pfadibewegung-schweiz/"
                 },
                 {
-                  "name": "Beispiel einer Betreuungsabsprache",
+                  "name": "Beispiel eines Betreuungskontraktes",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
                 }
               ],
@@ -997,7 +978,7 @@
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/255/modele-dencadrement-du-mouvement-scout-de-suisse/"
                 },
                 {
-                  "name": "Exemple d'une convention d'encadrement",
+                  "name": "Exemple d'un accord d’encadrement",
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/426/accord-dencadrement-prb/"
                 }
               ],
@@ -1011,13 +992,13 @@
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/255/modello-di-accompagnamento-del-movimento-scout-svizzero/"
                 },
                 {
-                  "name": "Esempio di un contratto di accompagnamento (francese)",
+                  "name": "Esempio di un accordo di accompagnamento (francese)",
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/426/accord-dencadrement-prb-francese/"
                 }
               ],
               "help_de": "Die Betreuung einer Abteilung wird durch die Vernetzung und den Austausch zwischen den Betreuungsrollen gestärkt. Der*die Coach kann dies mit Sitzungen, Gesprächen oder dem gemeinsamen Ausfüllen einer Betreuungsabsprache fördern. ",
-              "help_fr": "L'encadrement d'un groupe est renforcé par la mise en contact et l'échange entre les différents rôles d'encadrement. Le·la coach peut faciliter ce processus par des réunions, des discussions ou l'établissement commun d'une convention d'encadrement. ",
-              "help_it": "L'accompagnamento di una sezione è rafforzato dal networking e dallo scambio tra coloro che hanno un ruolo di accompagnamento. Il/La coach può promuoverlo con incontri, riunioni o con la redazione di un contratto di accompagnamento."
+              "help_fr": "L'encadrement d'un groupe est renforcé par la mise en contact et l'échange entre les différents rôles d'encadrement. Le·la coach peut faciliter ce processus par des réunions, des discussions ou l'établissement commun d'un accord d'encadrement. ",
+              "help_it": "L'accompagnamento di una sezione è rafforzato dal networking e dallo scambio tra coloro che hanno un ruolo di accompagnamento. Il/La coach può promuoverlo con incontri, riunioni o con la redazione di un accordo di accompagnamento."
             },
             "question_de": "Unser*e Coach fördert die Vernetzung aller Betreuungspersonen innerhalb unserer Abteilung.",
             "question_fr": "Notre coach favorise la mise en contact de toutes les personnes encadrant notre groupe",
@@ -1059,33 +1040,6 @@
           {
             "id": 6,
             "help": {
-              "links_de": [],
-              "links_fr": [],
-              "links_it": [],
-              "help_de": "Eine offene Gesprächskultur ist eine Voraussetzung für den Einbezug der Bedürfnisse aller Teilnehmenden und Leitenden. Niederschwellige Möglichkeiten für Rückmeldungen ermöglichen es allen, sich einzubringen.",
-              "help_fr": "Une attitude ouverte à la discussion est une condition indispensable à la prise en compte des besoins de tous·tes les participant·e·s et responsables. Les possibilités de faire un feedback permettent à chacun de donner leur avis.",
-              "help_it": "Una cultura del dialogo aperta è un requisito fondamentale per tener conto dei bisogni di tutti i partecipanti e di tutti gli animatori. Un'opportunità di  feedback semplice e accessibile consente a tutti di contribuire."
-            },
-            "question_de": "In unserer Abteilung schaffen die Leitenden aktiv die Möglichkeit für Teilnehmende Rückmeldungen zu geben (z.B. Briefkasten, Gruppenstunden etc.)",
-            "question_fr": "Dans notre groupe, les responsables donnent régulièrement l'occasion aux participant·e·s de donner leur avis (par exemple, grâce à des boîtes aux lettres, lors de séances de groupe, etc.).",
-            "question_it": "Nella nostra sezione, gli animatori creano attivamente la possibilità per i partecipanti di dare feedback (ad es. cassetta delle lettere, punti fissi, ecc. )",
-            "answer_options": "midata-binary",
-            "evaluation_function": "split_lead_coach"
-          }
-        ],
-        "id": 2,
-        "name_de": "Betreuungsnetzwerk",
-        "name_fr": "Réseau d’encadrement  ",
-        "name_it": "Rete di accompagnamento",
-        "description_de": "Das Betreuungsnetzwerk bestehend aus Coach, Elternrat, APV sowie Region/ Kantonalverband kann eure Abteilung mit Ressourcen und Wissen unterstützen.  ",
-        "description_fr": "Le réseau d'encadrement composé du·de la coach, du comité des parents, de l'AdA et de l'association régionale/cantonale peut soutenir votre groupe en lui apportant des ressources et des renseignements.",
-        "description_it": "La rete di accompagnamento, composta dal coach, dal consiglio dei genitori, dal gruppo degli anziani scout, dall’associazione regionale/cantonale, può sostenere la vostra sezione con risorse e conoscenze."
-      },
-      {
-        "questions": [
-          {
-            "id": 0,
-            "help": {
               "links_de": [
                 {
                   "name": "Betreuen in der Pfadi, Kapitel 3.1 und 3.3",
@@ -1104,18 +1058,29 @@
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/257/laccompagnamento-a-livello-scout/"
                 }
               ],
-              "help_de": "Eine Betreuungsperson auf strategischer Ebene nimmt bei der Abteilungsbetreuung verschiedene Rollen ein. Wenn die Betreuungsperson dabei selber aktiv in den Abteilungsalltag eingebunden ist, wird es ihr kaum möglich sein, eine  uneinvorgenommene Sicht einzunehmen.",
-              "help_fr": "Une personne encadrant notre groupe au niveau stratégique assume différents rôles dans la prise en charge du groupe. Si celle-ci est activement impliqué dans le fonctionnement du groupe, il est peu probable qu'il·elle soit en mesure d'avoir un avis objectif.",
-              "help_it": "Una persona dell'accompagnamento a livello strategico assume diversi ruoli nell'accompagnamento di una sezione. Se la persona che accompagna è lei stessa attivamente coinvolta nella quotidianità della sezione, difficilmente sarà possibile per lui o lei avere una visione imparziale."
+              "help_de": "Eine Betreuungsperson nimmt bei der Abteilungsbetreuung verschiedene Rollen ein. Wenn die Betreuungsperson dabei selber aktiv in den Abteilungsalltag eingebunden ist, wird es ihr kaum möglich sein, eine  uneinvorgenommene Sicht einzunehmen.",
+              "help_fr": "Une personne encadrant notre groupe assume différents rôles dans la prise en charge du groupe. Si celle-ci est activement impliqué dans le fonctionnement du groupe, il est peu probable qu'il·elle soit en mesure d'avoir un avis objectif.",
+              "help_it": "Una persona dell'accompagnamento assume diversi ruoli nell'accompagnamento di una sezione. Se la persona che accompagna è lei stessa attivamente coinvolta nella quotidianità della sezione, difficilmente sarà possibile per lui o lei avere una visione imparziale."
             },
-            "question_de": "Unsere Betreuungsrollen auf strategischer Ebene AL und Coach sind nicht in einer leitenden Position in der Abteilung tätig.",
-            "question_fr": "Les personnes encadrant notre groupe au niveau stratégique de RG ou coach n'occupent pas une position de responsable dans le groupe. ",
-            "question_it": "Le figure d'accompagnamento nella nostra sezione a livello strategico CSZ et coach non ricoprono altri ruoli come animatori. ",
-            "answer_options": "binary",
-            "evaluation_function": null
-          },
+            "question_de": "Unsere Betreuungsrollen sind nicht in einer leitenden Position in der Abteilung tätig.",
+            "question_fr": "Les personnes encadrant notre groupe n'occupent pas une position de responsable dans le groupe. ",
+            "question_it": "Le figure d'accompagnamento nella nostra sezione non ricoprono altri ruoli come animatori. ",
+            "answer_options": "midata-binary",
+            "evaluation_function": "split_lead_coach"
+          }
+        ],
+        "id": 2,
+        "name_de": "Betreuungsnetzwerk",
+        "name_fr": "Réseau d’encadrement  ",
+        "name_it": "Rete di accompagnamento",
+        "description_de": "Das Betreuungsnetzwerk bestehend aus Coach, Elternrat, APV sowie Region/ Kantonalverband kann eure Abteilung mit Ressourcen und Wissen unterstützen.  ",
+        "description_fr": "Le réseau d'encadrement composé du·de la coach, du comité des parents, de l'AdA et de l'association régionale/cantonale peut soutenir votre groupe en lui apportant des ressources et des renseignements.",
+        "description_it": "La rete di accompagnamento, composta dal coach, dal consiglio dei genitori, dal gruppo degli anziani scout, dall’associazione regionale/cantonale, può sostenere la vostra sezione con risorse e conoscenze."
+      },
+      {
+        "questions": [
           {
-            "id": 1,
+            "id": 0,
             "help": {
               "links_de": [
                 {
@@ -1146,7 +1111,7 @@
             "evaluation_function": null
           },
           {
-            "id": 2,
+            "id": 1,
             "help": {
               "links_de": [
                 {
@@ -1173,30 +1138,25 @@
             "question_de": "Die Mehrheit der Aktivitäten findet bei uns stufengetrennt statt. ",
             "question_fr": "La majorité de nos activités se déroulent séparément par branches. ",
             "question_it": "La maggior parte delle nostre attività si svolgono separatamente per ogni branca.",
-            "answer_options": "range",
+            "answer_options": "binary",
             "evaluation_function": null
           },
           {
-            "id": 3,
+            "id": 2,
             "help": {
               "links_de": [
                 {
-                  "name": "PTA - Pfadi Trotz Allem",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/117/pta-pfadi-trotz-allem/"
+                  "name": "PTA - die andere Art Pfadi zu machen",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/115/die-roverstufe-bewusst-handeln/"
                 }
               ],
               "links_fr": [
                 {
-                  "name": "SMT - Scouts Malgré Tout",
-                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/117/smt-scoutes-malgre-tout/"
+                  "name": "SMT - L'autre façon de fair les scouts",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/117/smt-lautre-facon-de-faire-les-scouts/"
                 }
               ],
-              "links_it": [
-                {
-                  "name": "SOC – Scout ad Ogni Costo",
-                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/117/soc-scout-ad-ogni-costo/"
-                }
-              ],
+              "links_it": [],
               "help_de": "Die Inklusion von Kindern mit einer Beeinträchtigung bietet viele Chancen. Die Kinder können gegenseitig voneinander profitieren und ihre speziellen Fähigkeiten einsetzen, ein Pfadiangebot kann für alle stattfinden. ",
               "help_fr": "La participation des enfants en situation de handicap offre de nombreuses opportunités. Les enfants peuvent mutuellement profiter les un·e·s des autres et utiliser leurs compétences particulières, le scoutisme peut être proposée à tous·tes. ",
               "help_it": "L'inclusione dei bambini con disabilità offre molte opportunità. I bambini possono beneficiare l'uno dell'altro e impiegare le loro abilità speciali, può esserci un'offerta scout per tutti."
@@ -1208,7 +1168,7 @@
             "evaluation_function": null
           },
           {
-            "id": 4,
+            "id": 3,
             "help": {
               "links_de": [
                 {
@@ -1239,7 +1199,7 @@
             "evaluation_function": null
           },
           {
-            "id": 5,
+            "id": 4,
             "help": {
               "links_de": [
                 {
@@ -1294,7 +1254,7 @@
             "evaluation_function": null
           },
           {
-            "id": 6,
+            "id": 5,
             "help": {
               "links_de": [
                 {
@@ -1349,7 +1309,7 @@
             "evaluation_function": null
           },
           {
-            "id": 7,
+            "id": 6,
             "help": {
               "links_de": [
                 {
@@ -1404,7 +1364,7 @@
             "evaluation_function": null
           },
           {
-            "id": 8,
+            "id": 7,
             "help": {
               "links_de": [
                 {
@@ -1447,36 +1407,24 @@
             "evaluation_function": null
           },
           {
-            "id": 9,
+            "id": 8,
             "help": {
               "links_de": [
                 {
                   "name": "Die Piostufe - Zäme Wyter",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/112/die-piostufe-zame-wyter/"
-                },
-                {
-                  "name": "Zündstoff - Umsetzungshilfe zum Buch der Piostufe",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/771/zundstoff-umsetzungshilfe-zum-buch-der-piostufe/"
                 }
               ],
               "links_fr": [
                 {
                   "name": "La branche Picos - S’engager",
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/112/branche-picos-sengager/"
-                },
-                {
-                  "name": "Explosif - Guide d'application de l'Explosif",
-                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/771/explosif-guide-dapplication-de-lexplosif/"
                 }
               ],
               "links_it": [
                 {
                   "name": "Branca Pionieri - insieme con volontà",
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/112/branca-pionieri-insieme-con-volonta/"
-                },
-                {
-                  "name": "Acciarino - Sussidio didattico per il libro della branca pionieri",
-                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/771/acciarino-sussidio-didattico-per-il-libro-della-branca-pionieri/"
                 }
               ],
               "help_de": "Piostufenaktivitäten werden in Form von Unternehmungen geplant. Diese Form kommt dem Bedürfnis der Teilnehmenden nach Mitbestimmung und Verantwortung nach, bietet Raum für das Umsetzen von kreativen Ideen und fördert den Fortschritt der ganzen Equipe.",
@@ -1490,62 +1438,23 @@
             "evaluation_function": null
           },
           {
-            "id": 10,
+            "id": 9,
             "help": {
-              "links_de": [
-                {
-                  "name": "Persönlicher Fortschritt fördern",
-                  "url": "https://pfadi.swiss/media/files/5d/208101depf-dossier.pdf"
-                },
-                {
-                  "name": "Spezialitäten Pfadistufe",
-                  "url": "https://pfadi.swiss/media/files/e9/200101de_faltblatt_spez.pdf"
-                },
-                {
-                  "name": "Persönlicher Fortschritt in der Piostufe",
-                  "url": "https://pfadi.swiss/media/files/c9/zundstoff_das_buch_der_piostufe.pdf"
-                },
-                {
-                  "name": "Umsetzungshilfe Zündstoff",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/771/zundstoff-umsetzungshilfe-zum-buch-der-piostufe/"
-                },
-                {
-                  "name": "Spezialitäten Wolfsstufe und Die Spur",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/?search=&c=1&c=11"
-                }
-              ],
-              "links_fr": [
-                {
-                  "name": "Explosif - le livre de la branche Picos",
-                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/765/explosif-le-livre-de-la-branche-picos/"
-                },
-                {
-                  "name": "Étincelle - Mémento pour les responsables de patrouille",
-                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/700/etincelle-memento-pour-les-responsables-de-patrouille/"
-                }
-              ],
-              "links_it": [
-                {
-                  "name": "Acciarino - il libro della branca pionieri",
-                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/771/acciarino-sussidio-didattico-per-il-libro-della-branca-pionieri/"
-                },
-                {
-                  "name": "Acciarino - Sussidio didattico per il libro della branca pionieri",
-                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/771/acciarino-sussidio-didattico-per-il-libro-della-branca-pionieri/"
-                }
-              ],
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
               "help_de": "Der persönliche Fortschritt ist eine Methode aus den Pfadigrundlagen und unterstützt die ganzheitliche Entwicklung unserer Teilnehmenden. Verschiedene stufenspezifische Hilfsmittel bieten eine Grundlage zur Förderung des persönlichen Fortschritts im Pfadialltag.",
               "help_fr": "La progression personnelle est une méthode issue des fondements du scoutisme et soutient le développement global de nos participant·e·s. Divers outils spécifiques à chaque branche constituent une bonne base pour promouvoir le progrès personnel dans le cadre du scoutisme.",
               "help_it": "La progressione personale è un metodo dei fondamenti scout e sostiene lo sviluppo globale dei nostri partecipanti. I mezzi specifici delle branche forniscono una base per promuovere la progressione personale nello scoutismo di tutti i giorni."
             },
             "question_de": "An unseren Aktivitäten arbeiten wir mit den stufenspezifischen Hilfsmitteln (Etappen, Spezialitäten, Zündstoff etc.) am persönlichen Fortschritt unserer Teilnehmenden.",
-            "question_fr": "Lors de nos activités, nous travaillons sur la progression personnelle de nos participant·e·s avec les outils spécifiques à chaque branche (étapes, spécialités, Explosif, etc.).",
-            "question_it": "Nelle nostre attività, lavoriamo sulla progressione personale dei nostri attivi con i mezzi specifici di ogni branca (tappe, specialità, Acciarino ecc.).",
+            "question_fr": "Lors de nos activités, nous travaillons sur la progression personnelle de nos participant·e·s avec les outils spécifiques à chaque branche (étapes, spécialités, matières inflammables???, etc.).",
+            "question_it": "Nelle nostre attività, lavoriamo sulla progressione personale dei nostri attivi con i mezzi specifici di ogni branca (tappe, specialità, ecc.).",
             "answer_options": "range",
             "evaluation_function": null
           },
           {
-            "id": 11,
+            "id": 10,
             "help": {
               "links_de": [],
               "links_fr": [],
@@ -1561,7 +1470,82 @@
             "evaluation_function": null
           },
           {
+            "id": 11,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Die Hilfsmittel der jeweiligen Stufe unterstützten die Leitenden in ihrer Arbeit, weisen auf Stolpersteine hin und geben entsprechende Tipps.",
+              "help_fr": "Les outils de la branche concernée soutiennent les responsables dans leur travail, signalent les points sensibles et donnent des conseils adaptés.",
+              "help_it": "I mezzi ausiliari di ogni branca supportano gli animatori nel loro lavoro, indicano gli ostacoli e danno consigli appropriati."
+            },
+            "question_de": "Alle unsere Leitenden nutzen die bestehenden Hilfsmittel ihrer Stufe (Stufenmethodik-Broschüren, Factsheets, Pfadiprofil, etc.).",
+            "question_fr": "Tous nos responsables utilisent les outils existants pour leur branche (brochures de méthodologie des branches, feuilles d'information, Profil du scoutisme, etc.)",
+            "question_it": "Tutti i nostri animatori utilizzano gli strumenti a disposizione della loro branca (documenti sul metodo della branca, schede informative, profili dello scoutismo, ecc.).",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
             "id": 12,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "In der Pfadi sollen Menschen zu verantwortungsbewussten Erwachsenen heranwachsen. In ihrer Präventionsarbeit fördern die Leitenden ein gewaltfreies Umfeld, leben eine offene Gesprächs- und Streitkultur und sind achtsam im Bezug auf sexuelle Äusserungen in der Sprache und Handlungen. Das Aufstellen von Verhaltensregeln zum Umgang miteinander fördert die Diskussion mit den Teilnehmenden und hilft, ein gemeinsames Verständnis vom respektvollen Umgang zu entwickeln.",
+              "help_fr": "Chez les scouts, les personnes se développent pour devenir des adultes responsables. Dans leur travail de prévention, les responsables encouragent un climat de non-violence, adoptent une attitude ouverte à la discussion et au débat et sont attentifs aux propos et aux actes à caractère sexuel. L'établissement de règles de bonne conduite encourage la discussion avec les participant·e·s et aide à développer une vision commune du respect mutuel.",
+              "help_it": "Lo scoutismo ha lo scopo di formare adulti responsabili. Grazie al loro lavoro di prevenzione, gli animatori promuovono un ambiente non violento, fanno vivere una cultura del dialogo e del conflitto aperta e sono attenti alle espressioni e alle azioni legate alla sfera sessuale. La definizione di codici di comportamento per i rapporti reciproci favorisce il dibattito con i partecipanti e contribuisce a sviluppare comprensione comune in linea con un comportamento rispettoso. "
+            },
+            "question_de": "Innerhalb unserer Abteilung haben wir Verhaltensregeln zum Umgang miteinander aufgestellt (z.B. wie wir Körperkontaktspielen umgehen, wie die Schlafsituation im Lager geregelt wird, wer wen berühren darf etc.).",
+            "question_fr": "Au sein de notre groupe, nous avons établi des règles de bonne conduite pour favoriser le respect mutuel (par exemple, comment nous gérons les jeux de contact physique, comment le sommeil est encadré durant le camp, qui est autorisé à toucher qui, etc.).",
+            "question_it": "All’interno della nostra sezione abbiamo stabilito delle regole di comportamento per i rapporti reciproci (ad es. come gestire i giochi con contatto fisico, come gestire la situazione del sonno al campo, chi può toccare chi, ecc. ).",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 13,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Das Aufstellen von Verhaltensregeln kann herausfordernd sein. Das Betreuungsnetzwerk steht auch hier mit Rat und Tat zur Seite.",
+              "help_fr": "L'établissement des règles de bonne conduite peut être un défi. Le réseau d'encadrement est également présent pour offrir des conseils et un soutien.",
+              "help_it": "La creazione di codici di condotta può essere impegnativa. Anche in questo caso la rete di accompagnamento è di sostegno."
+            },
+            "question_de": "Für das Aufstellen der Verhaltensregeln zum Umgang miteinander haben wir unser Betreuungsnetzwerk miteinbezogen.",
+            "question_fr": "Nous avons impliqué notre réseau d'encadrement dans la mise en place des règles de bonne conduite.",
+            "question_it": "Per stabilire le regole di comportamento per i rapporti reciproci, abbiamo coinvolto la nostra rete di accompagnamento.",
+            "answer_options": "range",
+            "evaluation_function": null
+          },
+          {
+            "id": 14,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Eine offene Gesprächskultur ist eine Voraussetzung für den Einbezug der Bedürfnisse aller Teilnehmenden und Leitenden. Niederschwellige Möglichkeiten für Rückmeldungen ermöglichen es allen, sich einzubringen.",
+              "help_fr": "Une attitude ouverte à la discussion est une condition indispensable à la prise en compte des besoins de tous·tes les participant·e·s et responsables. Les possibilités de faire un feedback permettent à chacun de donner leur avis.",
+              "help_it": "Una cultura del dialogo aperta è un requisito fondamentale per tener conto dei bisogni di tutti i partecipanti e di tutti gli animatori. Un'opportunità di  feedback semplice e accessibile consente a tutti di contribuire."
+            },
+            "question_de": "In unserer Abteilung schaffen die Leitenden aktiv die Möglichkeit für Teilnehmende Rückmeldungen zu geben (z.B. Briefkasten, Gruppenstunden etc.)",
+            "question_fr": "Dans notre groupe, les responsables donnent régulièrement l'occasion aux participant·e·s de donner leur avis (par exemple, grâce à des boîtes aux lettres, lors de séances de groupe, etc.).",
+            "question_it": "Nella nostra sezione, gli animatori creano attivamente la possibilità per i partecipanti di dare feedback (ad es. cassetta delle lettere, punti fissi, ecc. )",
+            "answer_options": "range",
+            "evaluation_function": null
+          }
+        ],
+        "id": 3,
+        "name_de": "Stufengerechtes Programm",
+        "name_fr": "Programme adapté aux branches  ",
+        "name_it": "Programma adatto alle branche ",
+        "description_de": "Stufengerechtes Programm orientiert sich an den Bedürfnissen und dem Können der Teilnehmenden. So unterstützt es die Entwicklung der Teilnehmenden in ihrem persönlichen Fortschritt, ohne sie zu unter- oder überfordern. Dementsprechend gestalten die Stufen ihr Programm nach verschiedenen Methodiken (z.B. spielerische Ansätze in der Wolfsstufe, projektbasiertes Programm in der Piostufe). Hilfestellung zu stufengerechtem Programm geben insbesondere die Stufenbroschüren.  ",
+        "description_fr": "Un programme adapté aux branches est conçu en fonction des besoins et des capacités des participant·e·s. De cette façon, il soutient le développement des participant·e·s dans leur progression personnelle sans les solliciter trop ou pas assez. En ce sens, les branches conçoivent leur programme selon différentes méthodologies (par exemple, des approches ludiques au sein de la branche Louveteaux, un programme basé sur des projets au sein de la branche Picos). Les brochures par branche, en particulier, fournissent un support pour un programme adéquat en fonction de la branche. ",
+        "description_it": "Un programma adatto alle varie branche si basa sulle esigenze e le competenze dei partecipanti. In questo modo, sostiene lo sviluppo dei partecipanti nella loro progressione personale senza sottovalutarli o sovraccaricarli. Di conseguenza, le branche progettano il loro programma secondo diverse metodologie (per es. approcci ludici per i lupetti, un programma basato su imprese per i pionieri). In particolare, le brochure sulle branche forniscono assistenza per allestire un programma adeguato alla branca."
+      },
+      {
+        "questions": [
+          {
+            "id": 0,
             "help": {
               "links_de": [
                 {
@@ -1581,72 +1565,13 @@
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/98/profilo-dello-scoutismo/"
                 }
               ],
-              "help_de": "Sprache bildet Realität ab. Die Kommunikation mit den Begriffen aus dem Pfadiprofil fördert dessen Umsetzung.",
-              "help_fr": "Le langage reflète la réalité. La communication avec les termes du Profil du scoutisme favorise sa mise en œuvre.",
-              "help_it": "Il linguaggio riflette la realtà. La comunicazione con le terminologie del Profilo dello scoutismo ne favorisce l'attuazione."
+              "help_de": "Die Stufen mit ihren Methodiken richten sich nach den Bedürfnissen ihren Teilnehmenden. Nach vier Jahren ändern sich diese Bedürfnisse so stark, dass sich einen Wechsel in eine andere Stufe mit anderer Methodik anbietet. Nur so können die Teilnehmenden ein Pfadiprogramm geniessen, das ihrer Entwicklung und Bedürfnissen entspricht. Gleichzeitig fördert die Abteilung mit der Umsetzung des Stufenmodells eine nachhaltige Struktur und kann Nachwuchsproblemen vorbeugen. ",
+              "help_fr": "Les branches et leurs méthodologies sont basés sur les besoins de leurs participant·e·s. Au bout de quatre ans, ces besoins changent tellement qu'un passage à une autre branche avec une méthodologie différente est nécessaire. Ce n'est que de cette manière que les participant·e·s peuvent bénéficier d'un parcours scout qui correspond à leur développement et à leurs besoins. Par ailleurs, en appliquant le modèle des branches, le groupe favorise une structure durable et peut prévenir les problèmes de renouvellement des participant·e·s. ",
+              "help_it": "Le branche e le loro metodologie si basano sui bisogni dei loro partecipanti. Dopo quattro anni, queste esigenze cambiano così tanto che un passaggio a un'altra branca con un altro metodo è di fondamentale importanza. Solo così i partecipanti possono godere di un programma scout che corrisponde al loro sviluppo e ai loro bisogni. Allo stesso tempo, implementando il modello delle branche, la sezione promuove una struttura sostenibile e può prevenire problemi di ricambio generazionale. "
             },
-            "question_de": "Alle unsere Leitenden kommunizieren mit den Begriffen aus dem Pfadiprofil (Stufenbezeichnungen, Aktivitäten anstatt Übungen, etc.).",
-            "question_fr": "Tous nos responsables communiquent en utilisant les termes du Profil du scoutisme (noms de branches, activités au lieu d'exercices, etc.).",
-            "question_it": "Tutti i nostri animatori comunicano utilizzando la terminologia dei profili di branca (denominazioni delle branche, attività o grandi giochi, ecc. ).",
-            "answer_options": "range",
-            "evaluation_function": null
-          },
-          {
-            "id": 13,
-            "help": {
-              "links_de": [],
-              "links_fr": [],
-              "links_it": [],
-              "help_de": "In der Pfadi sollen Menschen zu verantwortungsbewussten Erwachsenen heranwachsen. In ihrer Präventionsarbeit fördern die Leitenden ein gewaltfreies Umfeld, leben eine offene Gesprächs- und Streitkultur und sind achtsam im Bezug auf sexuelle Äusserungen in der Sprache und Handlungen. Das Aufstellen von Verhaltensregeln zum Umgang miteinander fördert die Diskussion mit den Teilnehmenden und hilft, ein gemeinsames Verständnis vom respektvollen Umgang zu entwickeln.",
-              "help_fr": "Chez les scouts, les personnes se développent pour devenir des adultes responsables. Dans leur travail de prévention, les responsables encouragent un climat de non-violence, adoptent une attitude ouverte à la discussion et au débat et sont attentifs aux propos et aux actes à caractère sexuel. L'établissement de règles de bonne conduite encourage la discussion avec les participant·e·s et aide à développer une vision commune du respect mutuel.",
-              "help_it": "Lo scoutismo ha lo scopo di formare adulti responsabili. Grazie al loro lavoro di prevenzione, gli animatori promuovono un ambiente non violento, fanno vivere una cultura del dialogo e del conflitto aperta e sono attenti alle espressioni e alle azioni legate alla sfera sessuale. La definizione di codici di comportamento per i rapporti reciproci favorisce il dibattito con i partecipanti e contribuisce a sviluppare comprensione comune in linea con un comportamento rispettoso. "
-            },
-            "question_de": "Innerhalb unserer Abteilung haben wir Verhaltensregeln zum Umgang miteinander aufgestellt (z.B. wie wir Körperkontaktspielen umgehen, wie die Schlafsituation im Lager geregelt wird, wer wen berühren darf etc.).",
-            "question_fr": "Au sein de notre groupe, nous avons établi des règles de bonne conduite pour favoriser le respect mutuel (par exemple, comment nous gérons les jeux de contact physique, comment le sommeil est encadré durant le camp, qui est autorisé à toucher qui, etc.).",
-            "question_it": "All’interno della nostra sezione abbiamo stabilito delle regole di comportamento per i rapporti reciproci (ad es. come gestire i giochi con contatto fisico, come gestire la situazione del sonno al campo, chi può toccare chi, ecc. ).",
-            "answer_options": "range",
-            "evaluation_function": null
-          },
-          {
-            "id": 14,
-            "help": {
-              "links_de": [],
-              "links_fr": [],
-              "links_it": [],
-              "help_de": "Das Aufstellen von Verhaltensregeln kann herausfordernd sein. Das Betreuungsnetzwerk steht auch hier mit Rat und Tat zur Seite.",
-              "help_fr": "L'établissement des règles de bonne conduite peut être un défi. Le réseau d'encadrement est également présent pour offrir des conseils et un soutien.",
-              "help_it": "La creazione di codici di condotta può essere impegnativa. Anche in questo caso la rete di accompagnamento è di sostegno."
-            },
-            "question_de": "Für das Aufstellen der Verhaltensregeln zum Umgang miteinander haben wir unser Betreuungsnetzwerk miteinbezogen.",
-            "question_fr": "Nous avons impliqué notre réseau d'encadrement dans la mise en place des règles de bonne conduite.",
-            "question_it": "Per stabilire le regole di comportamento per i rapporti reciproci, abbiamo coinvolto la nostra rete di accompagnamento.",
-            "answer_options": "range",
-            "evaluation_function": null
-          }
-        ],
-        "id": 3,
-        "name_de": "Stufengerechtes Programm",
-        "name_fr": "Programme adapté aux branches  ",
-        "name_it": "Programma adatto alle branche ",
-        "description_de": "Stufengerechtes Programm orientiert sich an den Bedürfnissen und dem Können der Teilnehmenden. So unterstützt es die Entwicklung der Teilnehmenden in ihrem persönlichen Fortschritt, ohne sie zu unter- oder überfordern. Dementsprechend gestalten die Stufen ihr Programm nach verschiedenen Methodiken (z.B. spielerische Ansätze in der Wolfsstufe, projektbasiertes Programm in der Piostufe). Hilfestellung zu stufengerechtem Programm geben insbesondere die Stufenbroschüren.  ",
-        "description_fr": "Un programme adapté aux branches est conçu en fonction des besoins et des capacités des participant·e·s. De cette façon, il soutient le développement des participant·e·s dans leur progression personnelle sans les solliciter trop ou pas assez. En ce sens, les branches conçoivent leur programme selon différentes méthodologies (par exemple, des approches ludiques au sein de la branche Louveteaux, un programme basé sur des projets au sein de la branche Picos). Les brochures par branche, en particulier, fournissent un support pour un programme adéquat en fonction de la branche. ",
-        "description_it": "Un programma adatto alle varie branche si basa sulle esigenze e le competenze dei partecipanti. In questo modo, sostiene lo sviluppo dei partecipanti nella loro progressione personale senza sottovalutarli o sovraccaricarli. Di conseguenza, le branche progettano il loro programma secondo diverse metodologie (per es. approcci ludici per i lupetti, un programma basato su imprese per i pionieri). In particolare, le brochure sulle branche forniscono assistenza per allestire un programma adeguato alla branca."
-      },
-      {
-        "questions": [
-          {
-            "id": 0,
-            "help": {
-              "links_de": [],
-              "links_fr": [],
-              "links_it": [],
-              "help_de": "Die Hilfsmittel der jeweiligen Stufe unterstützten die Leitenden in ihrer Arbeit, weisen auf Stolpersteine hin und geben entsprechende Tipps.",
-              "help_fr": "Les outils de la branche concernée soutiennent les responsables dans leur travail, signalent les points sensibles et donnent des conseils adaptés.",
-              "help_it": "I mezzi ausiliari di ogni branca supportano gli animatori nel loro lavoro, indicano gli ostacoli e danno consigli appropriati."
-            },
-            "question_de": "Alle unsere Leitenden nutzen die bestehenden Hilfsmittel ihrer Stufe (Stufenmethodik-Broschüren, Factsheets, Pfadiprofil, etc.).",
-            "question_fr": "Tous nos responsables utilisent les outils existants pour leur branche (brochures de méthodologie des branches, feuilles d'information, Profil du scoutisme, etc.)",
-            "question_it": "Tutti i nostri animatori utilizzano gli strumenti a disposizione della loro branca (documenti sul metodo della branca, schede informative, profili dello scoutismo, ecc.).",
+            "question_de": "Wir haben die Alter für die Stufenübertritte definiert und diese stimmen mit den im Stufenmodell festgelegten Altersgrenzen überein. ",
+            "question_fr": "Nous avons défini les âges pour les passages de branche et ceux-ci sont en adéquation avec les limites d'âge fixées dans le modèle des branches. ",
+            "question_it": "Abbiamo definito le età per i passaggi di branca e queste corrispondono ai limiti di età stabiliti nella struttura delle branche. ",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -1675,45 +1600,14 @@
               "help_fr": "Les branches et leurs méthodologies sont basés sur les besoins de leurs participant·e·s. Au bout de quatre ans, ces besoins changent tellement qu'un passage à une autre branche avec une méthodologie différente est nécessaire. Ce n'est que de cette manière que les participant·e·s peuvent bénéficier d'un parcours scout qui correspond à leur développement et à leurs besoins. Par ailleurs, en appliquant le modèle des branches, le groupe favorise une structure durable et peut prévenir les problèmes de renouvellement des participant·e·s. ",
               "help_it": "Le branche e le loro metodologie si basano sui bisogni dei loro partecipanti. Dopo quattro anni, queste esigenze cambiano così tanto che un passaggio a un'altra branca con un altro metodo è di fondamentale importanza. Solo così i partecipanti possono godere di un programma scout che corrisponde al loro sviluppo e ai loro bisogni. Allo stesso tempo, implementando il modello delle branche, la sezione promuove una struttura sostenibile e può prevenire problemi di ricambio generazionale. "
             },
-            "question_de": "Wir haben die Alter für die Stufenübertritte definiert und diese stimmen mit den im Stufenmodell festgelegten Altersgrenzen überein. ",
-            "question_fr": "Nous avons défini les âges pour les passages de branche et ceux-ci sont en adéquation avec les limites d'âge fixées dans le modèle des branches. ",
-            "question_it": "Abbiamo definito le età per i passaggi di branca e queste corrispondono ai limiti di età stabiliti nella struttura delle branche. ",
+            "question_de": "Bis auf die Roverstufe sind alle Teilnehmenden maximal 4 Jahre Mitglied der selben Stufe.",
+            "question_fr": "À l'exception de la branche Route, tous·tes les participant·e·s sont membres de la même branche pour maximum 4 ans.",
+            "question_it": "Ad eccezione della branca rover, tutti i partecipanti rimangono per un massimo di 4 anni nella stessa branca.",
             "answer_options": "binary",
             "evaluation_function": null
           },
           {
             "id": 2,
-            "help": {
-              "links_de": [
-                {
-                  "name": "Pfadiprofil",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/98/pfadiprofil/"
-                }
-              ],
-              "links_fr": [
-                {
-                  "name": "Profil du scoutisme ",
-                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/98/profil-du-scoutisme/"
-                }
-              ],
-              "links_it": [
-                {
-                  "name": "Profilo dello Scoutismo",
-                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/98/profilo-dello-scoutismo/"
-                }
-              ],
-              "help_de": "Die Stufen mit ihren Methodiken richten sich nach den Bedürfnissen ihren Teilnehmenden. Nach vier Jahren ändern sich diese Bedürfnisse so stark, dass sich einen Wechsel in eine andere Stufe mit anderer Methodik anbietet. Nur so können die Teilnehmenden ein Pfadiprogramm geniessen, das ihrer Entwicklung und Bedürfnissen entspricht. Gleichzeitig fördert die Abteilung mit der Umsetzung des Stufenmodells eine nachhaltige Struktur und kann Nachwuchsproblemen vorbeugen. ",
-              "help_fr": "Les branches et leurs méthodologies sont basés sur les besoins de leurs participant·e·s. Au bout de quatre ans, ces besoins changent tellement qu'un passage à une autre branche avec une méthodologie différente est nécessaire. Ce n'est que de cette manière que les participant·e·s peuvent bénéficier d'un parcours scout qui correspond à leur développement et à leurs besoins. Par ailleurs, en appliquant le modèle des branches, le groupe favorise une structure durable et peut prévenir les problèmes de renouvellement des participant·e·s. ",
-              "help_it": "Le branche e le loro metodologie si basano sui bisogni dei loro partecipanti. Dopo quattro anni, queste esigenze cambiano così tanto che un passaggio a un'altra branca con un altro metodo è di fondamentale importanza. Solo così i partecipanti possono godere di un programma scout che corrisponde al loro sviluppo e ai loro bisogni. Allo stesso tempo, implementando il modello delle branche, la sezione promuove una struttura sostenibile e può prevenire problemi di ricambio generazionale. "
-            },
-            "question_de": "Bis auf die Roverstufe sind alle Teilnehmenden maximal 4 Jahre Mitglied der selben Stufe.",
-            "question_fr": "À l'exception de la branche Route, tous·tes les participant·e·s sont membres de la même branche pour maximum 4 ans.",
-            "question_it": "Ad eccezione della branca rover, tutti i partecipanti rimangono per un massimo di 4 anni nella stessa branca.",
-            "answer_options": "midata-binary",
-            "evaluation_function": "age_leitpfadi"
-          },
-          {
-            "id": 3,
             "help": {
               "links_de": [
                 {
@@ -1740,11 +1634,11 @@
             "question_de": "Die Leitpfadis sind bei uns zwischen 13 und 14 Jahre alt. ",
             "question_fr": "Nos responsables de patrouille ont entre 13 et 14 ans. ",
             "question_it": "I capi pattuglia hanno tra i 13 e i 14 anni. ",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "age_leitpfadi"
           },
           {
-            "id": 4,
+            "id": 3,
             "help": {
               "links_de": [
                 {
@@ -1771,11 +1665,11 @@
             "question_de": "Unsere Pios gehören nicht gleichzeitig einer anderen Stufe an. ",
             "question_fr": "Nos Picos n'appartiennent pas à une autre branche en parallèle. ",
             "question_it": "I nostri pionieri non appartengono a nessuna altra branca.",
-            "answer_options": "midata-binary",
-            "evaluation_function": "has_biber"
+            "answer_options": "binary",
+            "evaluation_function": null
           },
           {
-            "id": 5,
+            "id": 4,
             "help": {
               "links_de": [
                 {
@@ -1797,10 +1691,6 @@
                 {
                   "name": "Profilo dello Scoutismo",
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/98/profilo-dello-scoutismo/"
-                },
-                {
-                  "name": "Factsheet branca castori",
-                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/125/factsheet-branca-castori/"
                 }
               ],
               "help_de": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind. Die Biberstufe ist dabei eine gute Möglichkeit, den Nachwuchs in der Abteilung zu gewährleisten. ",
@@ -1810,6 +1700,37 @@
             "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Biberstufe zu erleben.",
             "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Castors.",
             "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca castori. ",
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_biber"
+          },
+          {
+            "id": 5,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/98/pfadiprofil/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Profil du scoutisme ",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/98/profil-du-scoutisme/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Profilo dello Scoutismo",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/98/profilo-dello-scoutismo/"
+                }
+              ],
+              "help_de": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind.",
+              "help_fr": "Le moyen le plus simple de proposer des activités adaptées à chaque âge est de proposer toutes les branches au sein d'un groupe.",
+              "help_it": "Un programma adatto all'età può essere offerto più facilmente coprendo tutte le branche all'interno di una sezione. "
+            },
+            "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Wolfsstufe zu erleben.",
+            "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Louveteaux.",
+            "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca lupetti. ",
             "answer_options": "midata-binary",
             "evaluation_function": "has_woelf"
           },
@@ -1838,45 +1759,14 @@
               "help_fr": "Le moyen le plus simple de proposer des activités adaptées à chaque âge est de proposer toutes les branches au sein d'un groupe.",
               "help_it": "Un programma adatto all'età può essere offerto più facilmente coprendo tutte le branche all'interno di una sezione. "
             },
-            "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Wolfsstufe zu erleben.",
-            "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Louveteaux.",
-            "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca lupetti. ",
+            "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Pfadistufe zu erleben.",
+            "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Eclais.",
+            "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca esploratori. ",
             "answer_options": "midata-binary",
             "evaluation_function": "has_pfadi"
           },
           {
             "id": 7,
-            "help": {
-              "links_de": [
-                {
-                  "name": "Pfadiprofil",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/98/pfadiprofil/"
-                }
-              ],
-              "links_fr": [
-                {
-                  "name": "Profil du scoutisme ",
-                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/98/profil-du-scoutisme/"
-                }
-              ],
-              "links_it": [
-                {
-                  "name": "Profilo dello Scoutismo",
-                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/98/profilo-dello-scoutismo/"
-                }
-              ],
-              "help_de": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind.",
-              "help_fr": "Le moyen le plus simple de proposer des activités adaptées à chaque âge est de proposer toutes les branches au sein d'un groupe.",
-              "help_it": "Un programma adatto all'età può essere offerto più facilmente coprendo tutte le branche all'interno di una sezione. "
-            },
-            "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Pfadistufe zu erleben.",
-            "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Eclais.",
-            "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca esploratori. ",
-            "answer_options": "midata-binary",
-            "evaluation_function": "has_pio"
-          },
-          {
-            "id": 8,
             "help": {
               "links_de": [
                 {
@@ -1898,10 +1788,6 @@
                 {
                   "name": "Profilo dello Scoutismo",
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/98/profilo-dello-scoutismo/"
-                },
-                {
-                  "name": "Factsheet Branca Pionieri",
-                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/114/factsheet-branca-pionieri/"
                 }
               ],
               "help_de": "Altersgerechtes Programm kann am einfachsten angeboten werden, indem alle Stufen in einer Abteilung abgedeckt sind. Die Piostufe bietet für die Jugendlichen in einer Zeit der Umbrüche eine verlässliche Konstante. Sie hilft den Ausstieg aus der Pfadi zu verhindern und führt die Jugendlichen gleichzeitig an die selbsständige Programmgestaltung heran.",
@@ -1912,10 +1798,10 @@
             "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Picos.",
             "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca pionieri. ",
             "answer_options": "midata-binary",
-            "evaluation_function": "has_rover"
+            "evaluation_function": "has_pio"
           },
           {
-            "id": 9,
+            "id": 8,
             "help": {
               "links_de": [
                 {
@@ -1942,11 +1828,11 @@
             "question_de": "Die Teilnehmenden unserer Abteilung haben die Möglichkeit Aktivitäten der Roverstufe zu erleben.",
             "question_fr": "Les participants de notre groupe ont la possibilité de participer aux activités de la branche Route.",
             "question_it": "I partecipanti della nostra sezione hanno l'opportunità di vivere le attività della branca rover.",
-            "answer_options": "binary",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_rover"
           },
           {
-            "id": 10,
+            "id": 9,
             "help": {
               "links_de": [
                 {
@@ -1973,11 +1859,11 @@
             "question_de": "Alle Funktionen der Roverstufe (Funktionär*in, Ressource, Teilnehmer*in) werden in unserer Abteilung gelebt. ",
             "question_fr": "Toutes les fonctions de la branche Route (fonctionnaire, ressource, participant) sont exercées dans notre groupe. ",
             "question_it": "Nella nostra sezione vengono ricoperte tutte le cariche della branca rover (funzionario, risorsa, partecipante). ",
-            "answer_options": "midata-binary",
-            "evaluation_function": "all_leaders_member"
+            "answer_options": "binary",
+            "evaluation_function": null
           },
           {
-            "id": 11,
+            "id": 10,
             "help": {
               "links_de": [
                 {
@@ -2005,10 +1891,10 @@
             "question_fr": "Tous·tes nos responsables sont membres de la branche Route. ",
             "question_it": "Tutti i nostri animatori sono membri della branca rover. ",
             "answer_options": "midata-binary",
-            "evaluation_function": "leader_age_woelf_pfadi"
+            "evaluation_function": "all_leaders_member"
           },
           {
-            "id": 12,
+            "id": 11,
             "help": {
               "links_de": [
                 {
@@ -2048,10 +1934,10 @@
             "question_fr": "Tous·tes nos responsables des branches Louveteaux et Eclais sont âgé·e·s d'au moins 17 ans. ",
             "question_it": "Tutti i nostri animatori della branca lupetti e della branca esploratori hanno almeno 17 anni. ",
             "answer_options": "midata-binary",
-            "evaluation_function": "leader_age_pio"
+            "evaluation_function": "leader_age_woelf_pfadi"
           },
           {
-            "id": 13,
+            "id": 12,
             "help": {
               "links_de": [
                 {
@@ -2091,39 +1977,27 @@
             "question_fr": "Les responsables de branche des Picos sont âgés d'au moins 19 ans.",
             "question_it": "Gli animatori della branca pionieri hanno almeno 19 anni.",
             "answer_options": "midata-binary",
-            "evaluation_function": "leader_age_biber"
+            "evaluation_function": "leader_age_pio"
           },
           {
-            "id": 14,
+            "id": 13,
             "help": {
               "links_de": [
                 {
                   "name": "Pfadiprofil",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/98/pfadiprofil/"
-                },
-                {
-                  "name": "Die Biberstufe - Mit Freude dabei",
-                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/868/die-biberstufe-mit-freude-dabei/"
                 }
               ],
               "links_fr": [
                 {
                   "name": "Profil du scoutisme ",
                   "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/98/profil-du-scoutisme/"
-                },
-                {
-                  "name": "La branche Castors - Partageons",
-                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/868/la-branche-castor-toujours-joyeux/"
                 }
               ],
               "links_it": [
                 {
                   "name": "Profilo dello Scoutismo",
                   "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/98/profilo-dello-scoutismo/"
-                },
-                {
-                  "name": "La branca castori – Partecipiamo con gioia",
-                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/868/la-branca-castori-partecipiamo-con-gioia/"
                 }
               ],
               "help_de": "Die Biberstufe ist oftmals der erste Kontakt der Eltern mit der Pfadi. Eine erfahrene Ansprechsperson vermittelt Sicherheit gegenüber den Eltern. Kinder in der Biberstufe sind noch klein und in vielen Bereichen brauchen sie viel Betreuung, Unterstüzung und Aufsicht. Die Leitenden, insbesondere die Stufenleitung, müssen viel Verantwortung übernehmen. ",
@@ -2134,10 +2008,10 @@
             "question_fr": "Les responsables de branche des Castors sont âgés d'au moins 20 ans.",
             "question_it": "Gli animatori della branca castori hanno almeno 20 anni.",
             "answer_options": "midata-binary",
-            "evaluation_function": "no_double_roles"
+            "evaluation_function": "leader_age_biber"
           },
           {
-            "id": 15,
+            "id": 14,
             "help": {
               "links_de": [],
               "links_fr": [],
@@ -2149,6 +2023,22 @@
             "question_de": "Bei uns ist keine Person für mehr als eine Stufe verantwortlich.",
             "question_fr": "Chez nous, personne n'est responsable de plus d'une branche.",
             "question_it": "Nella nostra sezione nessuno è responsabile in più di una branca.",
+            "answer_options": "midata-binary",
+            "evaluation_function": "no_double_roles"
+          },
+          {
+            "id": 15,
+            "help": {
+              "links_de": [],
+              "links_fr": [],
+              "links_it": [],
+              "help_de": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet die Stufe automatisch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfnisse der Teilnehmenden aus den verschiedenen Stufen.",
+              "help_fr": "Pour que leur engagement ne surcharge pas les responsables, chaque branche doit être dirigée par au moins une personne suffisamment formée. Si une ou plusieurs personnes se sentent responsables de l'organisation et de la direction d'une branche, cette branche est automatiquement intégrée à la structure du groupe. Lors de la planification d'événements plus importants ou d'activités inter-branches, il faut toujours tenir compte des besoins des participant·e·s des différentes branches.",
+              "help_it": "Per evitare che l'impegno dato sovraccarichi gli animatori, ogni branca deve essere guidata da almeno una persona adeguatamente formata. Se una o più persone si sentono responsabili dell’organizzazione e della direzione di una branca, la branca troverà automaticamente posto nella struttura della sezione. Quando si pianificano eventi più grandi o attività con più branche, qualcuno pensa anche alle esigenze dei partecipanti delle diverse branche."
+            },
+            "question_de": "Bei uns ist für die Biberstufe mind. eine Person als Biberstufenleiter*in bestimmt.",
+            "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Castors.",
+            "question_it": "Almeno una persona della nostra sezione è designata capo branca castori.",
             "answer_options": "midata-binary",
             "evaluation_function": "leader_biber"
           },
@@ -2162,9 +2052,9 @@
               "help_fr": "Pour que leur engagement ne surcharge pas les responsables, chaque branche doit être dirigée par au moins une personne suffisamment formée. Si une ou plusieurs personnes se sentent responsables de l'organisation et de la direction d'une branche, cette branche est automatiquement intégrée à la structure du groupe. Lors de la planification d'événements plus importants ou d'activités inter-branches, il faut toujours tenir compte des besoins des participant·e·s des différentes branches.",
               "help_it": "Per evitare che l'impegno dato sovraccarichi gli animatori, ogni branca deve essere guidata da almeno una persona adeguatamente formata. Se una o più persone si sentono responsabili dell’organizzazione e della direzione di una branca, la branca troverà automaticamente posto nella struttura della sezione. Quando si pianificano eventi più grandi o attività con più branche, qualcuno pensa anche alle esigenze dei partecipanti delle diverse branche."
             },
-            "question_de": "Bei uns ist für die Biberstufe mind. eine Person als Biberstufenleiter*in bestimmt.",
-            "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Castors.",
-            "question_it": "Almeno una persona della nostra sezione è designata capo branca castori.",
+            "question_de": "Bei uns ist mind. eine Person als Wolfsstufenleiter*in bestimmt.",
+            "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Louveteaux.",
+            "question_it": "Almeno una persona della nostra sezione è designata capo branca lupetti.",
             "answer_options": "midata-binary",
             "evaluation_function": "leader_woelf"
           },
@@ -2178,9 +2068,9 @@
               "help_fr": "Pour que leur engagement ne surcharge pas les responsables, chaque branche doit être dirigée par au moins une personne suffisamment formée. Si une ou plusieurs personnes se sentent responsables de l'organisation et de la direction d'une branche, cette branche est automatiquement intégrée à la structure du groupe. Lors de la planification d'événements plus importants ou d'activités inter-branches, il faut toujours tenir compte des besoins des participant·e·s des différentes branches.",
               "help_it": "Per evitare che l'impegno dato sovraccarichi gli animatori, ogni branca deve essere guidata da almeno una persona adeguatamente formata. Se una o più persone si sentono responsabili dell’organizzazione e della direzione di una branca, la branca troverà automaticamente posto nella struttura della sezione. Quando si pianificano eventi più grandi o attività con più branche, qualcuno pensa anche alle esigenze dei partecipanti delle diverse branche."
             },
-            "question_de": "Bei uns ist mind. eine Person als Wolfsstufenleiter*in bestimmt.",
-            "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Louveteaux.",
-            "question_it": "Almeno una persona della nostra sezione è designata capo branca lupetti.",
+            "question_de": "Bei uns ist mind. eine Person als Pfadistufenleiter*in bestimmt.",
+            "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Eclais.",
+            "question_it": "Almeno una persona della nostra sezione è designata capo branca esploratori.",
             "answer_options": "midata-binary",
             "evaluation_function": "leader_pfadi"
           },
@@ -2194,9 +2084,9 @@
               "help_fr": "Pour que leur engagement ne surcharge pas les responsables, chaque branche doit être dirigée par au moins une personne suffisamment formée. Si une ou plusieurs personnes se sentent responsables de l'organisation et de la direction d'une branche, cette branche est automatiquement intégrée à la structure du groupe. Lors de la planification d'événements plus importants ou d'activités inter-branches, il faut toujours tenir compte des besoins des participant·e·s des différentes branches.",
               "help_it": "Per evitare che l'impegno dato sovraccarichi gli animatori, ogni branca deve essere guidata da almeno una persona adeguatamente formata. Se una o più persone si sentono responsabili dell’organizzazione e della direzione di una branca, la branca troverà automaticamente posto nella struttura della sezione. Quando si pianificano eventi più grandi o attività con più branche, qualcuno pensa anche alle esigenze dei partecipanti delle diverse branche."
             },
-            "question_de": "Bei uns ist mind. eine Person als Pfadistufenleiter*in bestimmt.",
-            "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Eclais.",
-            "question_it": "Almeno una persona della nostra sezione è designata capo branca esploratori.",
+            "question_de": "Bei uns ist mind. eine Person als Piosstufenleiter*in bestimmt.",
+            "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Picos.",
+            "question_it": "Almeno una persona della nostra sezione è designata capo branca pionieri.",
             "answer_options": "midata-binary",
             "evaluation_function": "leader_pio"
           },
@@ -2210,9 +2100,9 @@
               "help_fr": "Pour que leur engagement ne surcharge pas les responsables, chaque branche doit être dirigée par au moins une personne suffisamment formée. Si une ou plusieurs personnes se sentent responsables de l'organisation et de la direction d'une branche, cette branche est automatiquement intégrée à la structure du groupe. Lors de la planification d'événements plus importants ou d'activités inter-branches, il faut toujours tenir compte des besoins des participant·e·s des différentes branches.",
               "help_it": "Per evitare che l'impegno dato sovraccarichi gli animatori, ogni branca deve essere guidata da almeno una persona adeguatamente formata. Se una o più persone si sentono responsabili dell’organizzazione e della direzione di una branca, la branca troverà automaticamente posto nella struttura della sezione. Quando si pianificano eventi più grandi o attività con più branche, qualcuno pensa anche alle esigenze dei partecipanti delle diverse branche."
             },
-            "question_de": "Bei uns ist mind. eine Person als Piosstufenleiter*in bestimmt.",
-            "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Picos.",
-            "question_it": "Almeno una persona della nostra sezione è designata capo branca pionieri.",
+            "question_de": "Bei uns ist mind. eine Person als Roverstufenleiter*in bestimmt.",
+            "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Route.",
+            "question_it": "Almeno una persona della nostra sezione è designata capo branca Rover.",
             "answer_options": "midata-binary",
             "evaluation_function": "leader_rover"
           },
@@ -2226,30 +2116,14 @@
               "help_fr": "Pour que leur engagement ne surcharge pas les responsables, chaque branche doit être dirigée par au moins une personne suffisamment formée. Si une ou plusieurs personnes se sentent responsables de l'organisation et de la direction d'une branche, cette branche est automatiquement intégrée à la structure du groupe. Lors de la planification d'événements plus importants ou d'activités inter-branches, il faut toujours tenir compte des besoins des participant·e·s des différentes branches.",
               "help_it": "Per evitare che l'impegno dato sovraccarichi gli animatori, ogni branca deve essere guidata da almeno una persona adeguatamente formata. Se una o più persone si sentono responsabili dell’organizzazione e della direzione di una branca, la branca troverà automaticamente posto nella struttura della sezione. Quando si pianificano eventi più grandi o attività con più branche, qualcuno pensa anche alle esigenze dei partecipanti delle diverse branche."
             },
-            "question_de": "Bei uns ist mind. eine Person als Roverstufenleiter*in bestimmt.",
-            "question_fr": "Nous avons au moins une personne désignée comme responsable de la branche Route.",
-            "question_it": "Almeno una persona della nostra sezione è designata capo branca Rover.",
+            "question_de": "Bei uns ist mind. eine Person für die PTA verantwortlich und nimmt die Funktion als Ansprechsperson wahr.",
+            "question_fr": "Au moins une personne est responsable des SMT et assure le rôle de personne de contact.",
+            "question_it": "Almeno una persona della nostra sezione è responsabile degli SOC e assume la funzione di persona di contatto.",
             "answer_options": "midata-binary",
             "evaluation_function": "leader_pta"
           },
           {
             "id": 21,
-            "help": {
-              "links_de": [],
-              "links_fr": [],
-              "links_it": [],
-              "help_de": "Damit ihr Engagement die Leitpersonen nicht überfodern, sollte jede Stufe von mindestens einer genügend ausgebildeten Person geleitet werden. Fühlen sich eine oder mehrere Personen verantwortlich für Organisation und Leitung einer Stufe, findet die Stufe automatisch Platz im Abteilungsgefüge. Bei der Planung von grösseren Anlässen oder stufenübergreifenden Aktivitäten denkt auch immer jemand an die die Bedürfnisse der Teilnehmenden aus den verschiedenen Stufen.",
-              "help_fr": "Pour que leur engagement ne surcharge pas les responsables, chaque branche doit être dirigée par au moins une personne suffisamment formée. Si une ou plusieurs personnes se sentent responsables de l'organisation et de la direction d'une branche, cette branche est automatiquement intégrée à la structure du groupe. Lors de la planification d'événements plus importants ou d'activités inter-branches, il faut toujours tenir compte des besoins des participant·e·s des différentes branches.",
-              "help_it": "Per evitare che l'impegno dato sovraccarichi gli animatori, ogni branca deve essere guidata da almeno una persona adeguatamente formata. Se una o più persone si sentono responsabili dell’organizzazione e della direzione di una branca, la branca troverà automaticamente posto nella struttura della sezione. Quando si pianificano eventi più grandi o attività con più branche, qualcuno pensa anche alle esigenze dei partecipanti delle diverse branche."
-            },
-            "question_de": "Bei uns ist mind. eine Person für die PTA verantwortlich und nimmt die Funktion als Ansprechsperson wahr.",
-            "question_fr": "Au moins une personne est responsable des SMT et assure le rôle de personne de contact.",
-            "question_it": "Almeno una persona della nostra sezione è responsabile degli SOC e assume la funzione di persona di contatto.",
-            "answer_options": "midata-binary",
-            "evaluation_function": "has_leipfi"
-          },
-          {
-            "id": 22,
             "help": {
               "links_de": [
                 {
@@ -2300,11 +2174,11 @@
             "question_de": "In unserer Abteilung gibt es Leitpfadis.",
             "question_fr": "Au sein de notre groupe, il y a des responsables de patrouille. ",
             "question_it": "Nella nostra sezione ci sono capi pattuglia ",
-            "answer_options": "range",
-            "evaluation_function": null
+            "answer_options": "midata-binary",
+            "evaluation_function": "has_leitpfadi"
           },
           {
-            "id": 23,
+            "id": 22,
             "help": {
               "links_de": [
                 {
@@ -2335,7 +2209,7 @@
             "evaluation_function": null
           },
           {
-            "id": 24,
+            "id": 23,
             "help": {
               "links_de": [
                 {
@@ -2366,7 +2240,7 @@
             "evaluation_function": null
           },
           {
-            "id": 25,
+            "id": 24,
             "help": {
               "links_de": [
                 {
@@ -2395,6 +2269,37 @@
             "question_it": "Tutte le relazioni sono applicate in modo equilibrato nei programmi annuali e trimestrali delle nostre branche e di tutti i nostri campi. ",
             "answer_options": "range",
             "evaluation_function": null
+          },
+          {
+            "id": 25,
+            "help": {
+              "links_de": [
+                {
+                  "name": "Pfadiprofil",
+                  "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/98/pfadiprofil/"
+                }
+              ],
+              "links_fr": [
+                {
+                  "name": "Profil du scoutisme ",
+                  "url": "https://pfadi.swiss/fr/publications-telechargements/downloads/detail/98/profil-du-scoutisme/"
+                }
+              ],
+              "links_it": [
+                {
+                  "name": "Profilo dello Scoutismo",
+                  "url": "https://pfadi.swiss/it/pubblicazioni-downloads/downloads/detail/98/profilo-dello-scoutismo/"
+                }
+              ],
+              "help_de": "Sprache bildet Realität ab. Die Kommunikation mit den Begriffen aus dem Pfadiprofil fördert dessen Umsetzung.",
+              "help_fr": "Le langage reflète la réalité. La communication avec les termes du Profil du scoutisme favorise sa mise en œuvre.",
+              "help_it": "Il linguaggio riflette la realtà. La comunicazione con le terminologie del Profilo dello scoutismo ne favorisce l'attuazione."
+            },
+            "question_de": "Alle unsere Leitenden kommunizieren mit den Begriffen aus dem Pfadiprofil (Stufenbezeichnungen, Aktivitäten anstatt Übungen, etc.).",
+            "question_fr": "Tous nos responsables communiquent en utilisant les termes du Profil du scoutisme (noms de branches, activités au lieu d'exercices, etc.).",
+            "question_it": "Tutti i nostri animatori comunicano utilizzando la terminologia dei profili di branca (denominazioni delle branche, attività o grandi giochi, ecc. ).",
+            "answer_options": "range",
+            "evaluation_function": null
           }
         ],
         "id": 4,
@@ -2408,46 +2313,6 @@
       {
         "questions": [],
         "id": 5,
-        "name_de": "Image ",
-        "name_fr": "Image  ",
-        "name_it": "Immagine",
-        "description_de": "",
-        "description_fr": "",
-        "description_it": ""
-      },
-      {
-        "questions": [],
-        "id": 6,
-        "name_de": "Mitgliederzahl ",
-        "name_fr": "Nombre de participants  ",
-        "name_it": "Numero di attivi",
-        "description_de": "",
-        "description_fr": "",
-        "description_it": ""
-      },
-      {
-        "questions": [],
-        "id": 7,
-        "name_de": "Ressourcen ",
-        "name_fr": "Ressources  ",
-        "name_it": "Risorse",
-        "description_de": "Um ihre Aufgaben erfüllen zu können, ist eine Abteilung auf Ressourcen angewiesen, dies umfasst materielle, personelle sowie finanzielle Mittel. Je mehr Mittel eine Abteilung hat, desto umfangreichere Aktivitäten können angeboten werden. In der Pfadi hängen diese Mittel häufig direkt mit der Mitgliederzahl zusammen.  ",
-        "description_fr": "Afin de pouvoir remplir ses fonctions, un groupe dépend de ressources, qu'il s'agisse de ressources matérielles, humaines ou financières. Plus un groupe dispose de moyens, plus les activités proposées sont variées. Chez les scouts, ces ressources sont souvent directement liées au nombre de membres.",
-        "description_it": "Per essere in grado di svolgere i suoi compiti, una sezione dipende dalle risorse, che includono risorse materiali, umane e finanziarie. Più risorse ha una sezione, più variegate possono essere le attività offerte. Nello scoutismo, questi mezzi sono spesso direttamente correlati al numero di attivi."
-      },
-      {
-        "questions": [],
-        "id": 8,
-        "name_de": "Austausch und Zusammenarbeit mit externen Partnern ",
-        "name_fr": "Échange et collaboration avec des partenaires extérieurs ",
-        "name_it": "Scambi e collaborazioni con partner esterni ",
-        "description_de": "",
-        "description_fr": "",
-        "description_it": ""
-      },
-      {
-        "questions": [],
-        "id": 9,
         "name_de": "Werbung ",
         "name_fr": "Publicité  ",
         "name_it": "Pubblicità",
@@ -2457,27 +2322,17 @@
       },
       {
         "questions": [],
-        "id": 10,
-        "name_de": "Motivation Leitende ",
-        "name_fr": "Motivation des responsables  ",
-        "name_it": "Motivazione degli animatori",
+        "id": 6,
+        "name_de": "Austausch und Zusammenarbeit mit externen Partnern ",
+        "name_fr": "Échange et collaboration avec des partenaires extérieurs ",
+        "name_it": "Scambi e collaborazioni con partner esterni ",
         "description_de": "",
         "description_fr": "",
         "description_it": ""
       },
       {
         "questions": [],
-        "id": 11,
-        "name_de": "Qualität im Leitungsteam ",
-        "name_fr": "Qualité de la maîtrise  ",
-        "name_it": "Qualità nel gruppo animatori",
-        "description_de": "Verschiedene Aspekte wie die Aus- und Weiterbildung oder die Motivation und Stimmung beeinflussen die Qualität im Leitungsteam. Eine gute Qualität im Leitungsteam wirkt sich positiv auf die Qualität des Pfadiprogramms aus.  ",
-        "description_fr": "Divers aspects tels que la formation initiale et continue ou la motivation et la bonne humeur influencent la qualité de la maîtrise. Une maîtrise de qualité a un effet positif sur la qualité du programme scout.",
-        "description_it": "Vari aspetti come la formazione di base e la formazione continua o la motivazione e l'umore influenzano la qualità del gruppo animatori. Una buona qualità nella direzione ha un effetto positivo sulla qualità del programma scout."
-      },
-      {
-        "questions": [],
-        "id": 12,
+        "id": 7,
         "name_de": "Auswertungskultur ",
         "name_fr": "Capacité d’évaluation  ",
         "name_it": "Cultura della valutazione",
@@ -2487,17 +2342,7 @@
       },
       {
         "questions": [],
-        "id": 13,
-        "name_de": "Programmgestaltung ",
-        "name_fr": "Création du programme  ",
-        "name_it": "Pianificazione del programma",
-        "description_de": "",
-        "description_fr": "",
-        "description_it": ""
-      },
-      {
-        "questions": [],
-        "id": 14,
+        "id": 8,
         "name_de": "Programmattraktivität ",
         "name_fr": "Attractivité du programme ",
         "name_it": "Attrattività del programma ",
@@ -2507,7 +2352,7 @@
       },
       {
         "questions": [],
-        "id": 15,
+        "id": 9,
         "name_de": "Erfüllung Mitgliederbedürfnisse ",
         "name_fr": "Satisfaction des besoins des membres  ",
         "name_it": "Soddisfazione dei bisogni degli attivi",
@@ -2517,18 +2362,68 @@
       },
       {
         "questions": [],
-        "id": 16,
+        "id": 10,
         "name_de": "Mitgliederzufriedenheit ",
         "name_fr": "Satisfaction des membres ",
         "name_it": "Soddisfazione degli attivi",
         "description_de": "",
         "description_fr": "",
         "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 11,
+        "name_de": "Image ",
+        "name_fr": "Image  ",
+        "name_it": "Immagine",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 12,
+        "name_de": "Mitgliederzahl ",
+        "name_fr": "Nombre de participants  ",
+        "name_it": "Numero di attivi",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 13,
+        "name_de": "Qualität im Leitungsteam ",
+        "name_fr": "Qualité de la maîtrise  ",
+        "name_it": "Qualità nel gruppo animatori",
+        "description_de": "Verschiedene Aspekte wie die Aus- und Weiterbildung oder die Motivation und Stimmung beeinflussen die Qualität im Leitungsteam. Eine gute Qualität im Leitungsteam wirkt sich positiv auf die Qualität des Pfadiprogramms aus.  ",
+        "description_fr": "Divers aspects tels que la formation initiale et continue ou la motivation et la bonne humeur influencent la qualité de la maîtrise. Une maîtrise de qualité a un effet positif sur la qualité du programme scout.",
+        "description_it": "Vari aspetti come la formazione di base e la formazione continua o la motivazione e l'umore influenzano la qualità del gruppo animatori. Una buona qualità nella direzione ha un effetto positivo sulla qualità del programma scout."
+      },
+      {
+        "questions": [],
+        "id": 14,
+        "name_de": "Motivation Leitende ",
+        "name_fr": "Motivation des responsables  ",
+        "name_it": "Motivazione degli animatori",
+        "description_de": "",
+        "description_fr": "",
+        "description_it": ""
+      },
+      {
+        "questions": [],
+        "id": 15,
+        "name_de": "Ressourcen ",
+        "name_fr": "Ressources  ",
+        "name_it": "Risorse",
+        "description_de": "Um ihre Aufgaben erfüllen zu können, ist eine Abteilung auf Ressourcen angewiesen, dies umfasst materielle, personelle sowie finanzielle Mittel. Je mehr Mittel eine Abteilung hat, desto umfangreichere Aktivitäten können angeboten werden. In der Pfadi hängen diese Mittel häufig direkt mit der Mitgliederzahl zusammen.  ",
+        "description_fr": "Afin de pouvoir remplir ses fonctions, un groupe dépend de ressources, qu'il s'agisse de ressources matérielles, humaines ou financières. Plus un groupe dispose de moyens, plus les activités proposées sont variées. Chez les scouts, ces ressources sont souvent directement liées au nombre de membres.",
+        "description_it": "Per essere in grado di svolgere i suoi compiti, una sezione dipende dalle risorse, che includono risorse materiali, umane e finanziarie. Più risorse ha una sezione, più variegate possono essere le attività offerte. Nello scoutismo, questi mezzi sono spesso direttamente correlati al numero di attivi."
       }
-    ],
-    "type": "Questionnaire::Group::Default"
+    ]
   },
   {
+    "type": "Questionnaire::Group::Canton",
     "aspects": [
       {
         "questions": [
@@ -2554,7 +2449,7 @@
                 }
               ],
               "help_de": "Jede Abteilung muss durch eine*n Coach mit einer gültigen Anerkennung betreut werden. Die Daten der Coachkurse sind in der MiData. ",
-              "help_fr": "Chaque groupe doit être encadré par un·e coach disposant d'une reconnaissance valable. Les dates pour les cours coachs sont disponibles sur MiData. ",
+              "help_fr": "Chaque groupe doit être encadré par un·e coach disposant d'une reconnaissance valable. Les dates pour les cours coachs sont disponibles sur MiData. ",
               "help_it": "Ogni sezione deve essere accompagnata da un/a coach G+S con un riconoscimento valido. Le date dei corsi coach si trovano su MiData."
             },
             "question_de": "Alle unsere Abteilungen werden durch einen Coach mit der nötigen Anerkennung der PBS und J+S betreut.",
@@ -2757,7 +2652,7 @@
               "help_it": "Lo scambio tra persone che si occupano di accompagnamento nelle nostre sezioni aiuta a mettere in discussione il proprio ruolo e a progredire personalmente. Un evento a livello cantonale può offrire occasioni di scambio. Inoltre, permette all'associazione cantonale di sapere a che punto si trova la messa in atto del modello di accompagnamento all'interno delle sezioni."
             },
             "question_de": "In unserem Jahresprogramm ist ein Anlass/ sind Anlässe enthalten, an dem sich unsere Betreuungsrollen über ihre Erfahrungen in der Ganzjahresbetreuung austauschen können und ihre Kompetenzen in diesem Bereich erweitern können. ",
-            "question_fr": "Notre programme annuel comprend un ou plusieurs événements permettant aux personnes qui encadrent nos groupes d'échanger leurs expériences dans ce domaine et de développer leurs compétences. ",
+            "question_fr": "Notre programme annuel comprend un ou plusieurs événements permettant aux personnes qui encadrent nos groupes d'échanger leurs expériences dans ce domaine et de développer leurs compétences. ",
             "question_it": "Il nostro programma annuale comprende uno o più eventi che permettono alle figure di accompagnamento nelle sezioni i di scambiare le loro esperienze in questo ambito e di sviluppare le loro competenze.",
             "answer_options": "binary",
             "evaluation_function": null
@@ -2814,7 +2709,7 @@
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/257/betreuen-in-der-pfadi/"
                 },
                 {
-                  "name": "Beispiel Betreuungsabsprache",
+                  "name": "Beispiel Betreuungskontrakt",
                   "url": "https://pfadi.swiss/de/publikationen-downloads/downloads/detail/426/betreuungsvereinbarung-prb/"
                 }
               ],
@@ -2842,9 +2737,9 @@
               "help_fr": "Un contrat d'encadrement aide le groupe et le coach à se mettre d'accord sur les objectifs d'encadrement de l'année. Cet outil devrait être présenté aux coachs lors du cours de coachs. Chaque association cantonale a ses propres particularités, c'est pourquoi il peut être utile de mettre à disposition un contrat personnalisé.",
               "help_it": "Un contatto di accompagnamento aiuta la sezione e il/la coach a mettersi d'accordo sugli obiettivi dell'accompagnamento per l'anno a venire. Questo strumento dovrebbe essere presentato ai/alle coach durante un corso coach. Ogni associazione cantonale ha le sue peculiarità; per questo motivo può essere utile mettere a disposizione un contratto personalizzato."
             },
-            "question_de": "Unseren Abteilungen und Betreuungsrollen stehen Hilfsmittel des KV zur Verfügung, um einen Betreuungskontrakt abschliessen zu können. Diese Hilfsmittel sind den Betreuungspersonen bekannt und werden genutzt.",
-            "question_fr": "Nos groupes et les personnes qui les encadrent disposent des outils de l'AC pour conclure un contrat d'encadrement. Ces outils sont connus et utilisés par les personnes qui encadrent les groupes.",
-            "question_it": "Le sezioni e le persone che le accompagnano dispongono degli strumenti dell'AC per concludere un contratto di accompagnamento. Questi strumenti sono conosciuti e utilizzati dalle persone che accompagnano le sezioni.",
+            "question_de": "Unseren Abteilungen und Betreuungsrollen stehen Hilfsmittel des KV/der Region zur Verfügung, um einen Betreuungskontrakt abschliessen zu können. Diese Hilfsmittel sind den Betreuungspersonen bekannt und werden genutzt.",
+            "question_fr": "Nos groupes et les personnes qui les encadrent disposent des outils de l'AC/la région pour conclure un contrat d'encadrement. Ces outils sont connus et utilisés par les personnes qui encadrent les groupes.",
+            "question_it": "Le sezioni e le persone che le accompagnano dispongono degli strumenti dell'AC/della regione per concludere un contratto di accompagnamento. Questi strumenti sono conosciuti e utilizzati dalle persone che accompagnano le sezioni.",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -2885,9 +2780,9 @@
               "help_fr": "Pour que les activités et les camps soient conformes aux directives actuelles, les coachs doivent être informé·e·s des changements. Les nouvelles de J+S, du MSdS et de l'association cantonale doivent leur être transmises en fonction de leur branche.",
               "help_it": "Affinché le attività e i campi siano conformi alle direttive attuali, i/le coach devono essere informati/e dei cambiamenti. Le novità di G+S, del MSS e dell'associazione cantonale devono essere trasmesse loro in funzione della branca."
             },
-            "question_de": "Unsere Betreuungsrollen sind über die Änderungen, Neuerungen und inhaltliche Schwerpunkte der PBS, J+S und des KV informiert und engagieren sich für deren Umsetzung in ihren betreuten Abteilungen. Dies betrifft Lager sowie das ganze Pfadijahr.",
-            "question_fr": "Les personnes qui encadrent les groupes sont informées des changements, des nouveautés et des thèmes principaux du MSdS, de J+S et de l'AC et s'engagent à les mettre en œuvre dans les groupes qu'elles encadrent. Ceci concerne les camps ainsi que toute l'année scoute.",
-            "question_it": "Le persone che accompagnano le sezioni sono informate sui cambiamenti, le novità e i temi principali del MSS, di G+S e dell'AC, e si impegnano a metterli in atto nelle sezioni che accompagnano. Tutto ciò concerne sia i campi sia le attività di tutto l'anno.",
+            "question_de": "Unsere Betreuungsrollen sind über die Änderungen, Neuerungen und inhaltliche Schwerpunkte der PBS, J+S und des KV/der Region informiert und engagieren sich für deren Umsetzung in ihren betreuten Abteilungen. Dies betrifft Lager sowie das ganze Pfadijahr.",
+            "question_fr": "Les personnes qui encadrent les groupes sont informées des changements, des nouveautés et des thèmes principaux du MSdS, de J+S et de l'AC/la région et s'engagent à les mettre en œuvre dans les groupes qu'elles encadrent. Ceci concerne les camps ainsi que toute l'année scoute.",
+            "question_it": "Le persone che accompagnano le sezioni sono informate sui cambiamenti, le novità e i temi principali del MSS, di G+S e dell'AC/della regione, e si impegnano a metterli in atto nelle sezioni che accompagnano. Tutto ciò concerne sia i campi sia le attività di tutto l'anno.",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -2999,7 +2894,7 @@
               "help_it": "Un programma scout adatto ad ogni branca stimola i/le partecipanti secondo le loro capacità e i loro bisogni. Gli eventi adatti ad ogni branca riscuotono quindi maggiore successo."
             },
             "question_de": "Die von uns angebotenen Anlässe (kantonale Wochenenden, Lager, etc.) sind stufengerecht. ",
-            "question_fr": "Les événements que nous proposons (week-ends cantonaux, camps, etc.) sont adaptés aux différentes branches. ",
+            "question_fr": "Les événements que nous proposons (week-ends cantonaux, camps, etc.) sont adaptés aux différentes branches. ",
             "question_it": "Gli eventi che proponiamo (week-end cantonali, campi, ecc.) sono adatti alle diverse branche.",
             "answer_options": "range",
             "evaluation_function": null
@@ -3015,7 +2910,7 @@
               "help_it": "Numerosi aspetti del metodo di branca sono già stati affrontati durante i corsi di formazione. I bisogni dei/delle capi/e possono evolvere in funzione della loro situazione e delle loro esperienze. Uno scambio o una formazione continua specifica su un tema o una branca può permettere l'approfondimento di temi toccati durante i corsi, o di scoprire cose nuove."
             },
             "question_de": "Die Leitenden unserer Abteilungen haben über die Kurse hinaus die Möglichkeit, sich zu Themen ihrer Stufe (Grundlagen, Stufenmethodik, etc.) auszutauschen und ihre Kompetenzen in diesem Bereich zu erweitern. ",
-            "question_fr": "En plus des cours, les responsables de nos groupes ont la possibilité d'échanger sur des thèmes relatifs à leur branche (fondements, méthodologie des branches, etc.) et de développer leurs compétences dans ce domaine. ",
+            "question_fr": "En plus des cours, les responsables de nos groupes ont la possibilité d'échanger sur des thèmes relatifs à leur branche (fondements, méthodologie des branches, etc.) et de développer leurs compétences dans ce domaine. ",
             "question_it": "Oltre ai corsi, i/le capi/e delle nostre sezioni hanno la possibilità di scambiarsi su temi relativi alla loro branca (fondamenti, metodo delle branche, ecc.) e di sviluppare le loro competenze in quest'ambito.",
             "answer_options": "range",
             "evaluation_function": null
@@ -3062,7 +2957,7 @@
               "help_it": "Per arrivare a una collaborazione fondata sulla tolleranza e il rispetto, i/le capi/e devono prendere coscienza delle diversità che esistono. Confrontandosi attivamente con questa diversità, imparano a essere apert/ie con gli altri, a ridurre i pregiudizi e ad adattare il programma scout ai differenti bisogni."
             },
             "question_de": "Die Leitenden unserer Abteilungen haben über die Kurse hinaus die Möglichkeit, sich über das Thema Diversität und Inklusion auszutauschen und ihre Kompetenzen in diesem Bereich zu erweitern. ",
-            "question_fr": "Au-delà des cours, les responsables de nos groupes ont la possibilité d'échanger sur le thème de la diversité et de l'inclusion et ainsi de développer leurs compétences dans ce domaine. ",
+            "question_fr": "Au-delà des cours, les responsables de nos groupes ont la possibilité d'échanger sur le thème de la diversité et de l'inclusion et ainsi de développer leurs compétences dans ce domaine. ",
             "question_it": "Al di là dei corsi, i/le capi/e delle nostre sezioni hanno la possibilità di scambiarsi sui temi di diversità e inclusione e di sviluppare così le loro competenze in quest'ambito.",
             "answer_options": "range",
             "evaluation_function": null
@@ -3249,7 +3144,7 @@
               "help_it": "La partecipazione ai corsi di perfezionamento offre una formazione specifica e continua, consente uno scambio e rinforza la motivazione dei/delle capi/e. "
             },
             "question_de": "Im Hinblick auf ihren persönlichen Fortschritt motivieren wir unsere erfahrenen Leitenden in den Abteilungen und auf Kantonsebene immer wieder aktiv für die Teilnahme an AL- und Bundeskursen (insbesondere Panorama-, Coach-, Top-, Spektrum- und Gilwellkurs). ",
-            "question_fr": "En vue de leur progression personnelle, nous motivons toujours activement les responsables expérimentés de nos groupes et du canton à participer aux cours de RG et fédéraux (notamment les cours Panorama, Coach, Top, Spectre et Gilwell).   ",
+            "question_fr": "En vue de leur progression personnelle, nous motivons toujours activement les responsables expérimentés de nos groupes et du canton à participer aux cours de RG et fédéraux (notamment les cours Panorama, Coach, Top, Spectre et Gilwell).   ",
             "question_it": "In vista della loro progressione personale, motiviamo sempre attivamente i/le responsabili più esperti/e delle nostre sezioni a partecipare ai corsi CSZ e federali (in particolare i corsi Panorama, Coach, Top, Spettro e Gilwell).",
             "answer_options": "range",
             "evaluation_function": null
@@ -3307,9 +3202,9 @@
               "help_fr": "Une collaboration au sein de l'association cantonale est importante, afin que le·la responsable de l'encadrement dispose systématiquement de toutes les informations nécessaires à fournir aux personnes du réseau d'encadrement. Une implication dans la maîtrise cantonale est recommandée.",
               "help_it": "Una collaborazione all'interno dell'associazione cantonale è importante perché il/la responsabile dell'accompagnamento disponga sistematicamente di tutte le informazioni necessarie per fornire le giuste risorse d'accompagnamento. È raccomandato un coinvolgimento nella direzione cantonale."
             },
-            "question_de": "Unser*e Betreuungsverantwortliche*r ist mit anderen Stellen im KV vernetzt, insbesondere mit den verantwortlichen Personen für das Programm und die Ausbildung.",
-            "question_fr": "Notre responsable de l'encadrement est en contact avec les autres postes de l'AC, en particulier avec les personnes responsables du programme et de la formation.",
-            "question_it": "Il/La nostro/a responsabile dell'accompagnamento è in contatto con gli altri ruoli dell'AC, in particolare con i/le responsabili del programma e della formazione.",
+            "question_de": "Unser*e Betreuungsverantwortliche*r ist mit anderen Stellen im KV/in der Region vernetzt, insbesondere mit den verantwortlichen Personen für das Programm und die Ausbildung.",
+            "question_fr": "Notre responsable de l'encadrement est en contact avec les autres postes de l'AC/la région, en particulier avec les personnes responsables du programme et de la formation.",
+            "question_it": "Il/La nostro/a responsabile dell'accompagnamento è in contatto con gli altri ruoli dell'AC/della regione, in particolare con i/le responsabili del programma e della formazione.",
             "answer_options": "range",
             "evaluation_function": null
           },
@@ -3339,7 +3234,7 @@
               "help_it": "Per poter assumere tutti i compiti di responsabile dell'accompagnamento (compreso quello di proporre corsi di formazione continua), è necessario seguire il corso esperti coach. Le date di questo corso sono disponibili su MiData. Inoltre, avere esperienza nell'accompagnamento di una sezione aiuta a comprendere i problemi delle differenti persone che accompagnano attualmente le nostre sezioni."
             },
             "question_de": "Unser*e Betreuungsverantwortliche*r hat einen Coach-Expertenkurs besucht und verfügt über Erfahrung in der Betreuung einer Abteilung. ",
-            "question_fr": "Notre responsable de l'encadrement a suivi un cours d’expert·e·s coachs et a de l'expérience dans l'encadrement d'un groupe. ",
+            "question_fr": "Notre responsable de l'encadrement a suivi un cours d’expert·e·s coachs et a de l'expérience dans l'encadrement d'un groupe. ",
             "question_it": "Il/La nostro/a responsabile dell'accompagnamento ha seguito un corso esperto-coach e ha l'esperienza necessaria per accompagnare una sezione.",
             "answer_options": "binary",
             "evaluation_function": null
@@ -3387,7 +3282,7 @@
               "help_it": "Una rete tra i/le responsabili cantonali e i/le responsabili a livello federale può permettere di rispondere ai problemi attuali e ai bisogni che ne conseguono."
             },
             "question_de": "Unsere kantonalen Verantwortlichen kennen ihre Ansprechpersonen in der Programmkommission der PBS. ",
-            "question_fr": "Nos responsables cantonaux·ales connaissent leurs personnes de contact au sein de la Commission Programme du MSdS. ",
+            "question_fr": "Nos responsables cantonaux·ales connaissent leurs personnes de contact au sein de la Commission Programme du MSdS. ",
             "question_it": "I/Le nostri/e responsabili cantonali conoscono le loro persone di contatto all'interno della Commissione Programma del MSS",
             "answer_options": "range",
             "evaluation_function": null
@@ -3399,7 +3294,7 @@
               "links_fr": [],
               "links_it": [],
               "help_de": "Die Plattformen bieten Austausch und Mitgestaltungsmöglichkeiten zu aktuellen Themen. ",
-              "help_fr": "Les plateformes offrent des possibilités d'échange et de réflexion sur des thèmes d'actualité. ",
+              "help_fr": "Les plateformes offrent des possibilités d'échange et de réflexion sur des thèmes d'actualité. ",
               "help_it": "Le piattaforme offrono possibilità di scambio e di riflessione su temi d'attualità."
             },
             "question_de": "Unsere kantonalen Verantwortlichen nutzen die Plattformen der PBS (Programmznacht, Programmkonferenz, PiCoord etc.) für den interkantonalen Austausch.",
@@ -3590,7 +3485,7 @@
               "help_it": "Le informazioni provenienti dal livello federale sono inviate alle associazioni cantonali in base ai ruoli indicati su MiData. Al fine di garantire il flusso di informazioni, deve essere attribuito il ruolo di responsabile della diversità e dell'inclusione."
             },
             "question_de": "Abfrage Rolle Verantwortliche*r Diversität und Inklusion",
-            "question_fr": "Consultation sur le rôle de responsable de la diversité et de l'inclusion ",
+            "question_fr": "Consultation sur le rôle de responsable de la diversité et de l'inclusion ",
             "question_it": "Consultazione sul ruolo del/della responsabile della diversità e dell'inclusione",
             "answer_options": "midata-binary",
             "evaluation_function": "has_diversity_v"
@@ -3724,7 +3619,7 @@
                 }
               ],
               "help_de": "Damit die kantonalen Kurse die Kursinhalte erfolgreich vermitteln können und in der gesamten Schweiz gleichwertig sind, sollten gemäss Ausbildungsmodell der PBS durchgeführt werden.",
-              "help_fr": "Pour que les cours cantonaux parviennent à transmettre leurs contenus et soient identiques dans toute la Suisse, ils devraient être organisés selon le modèle de formation du MSdS. ",
+              "help_fr": "Pour que les cours cantonaux parviennent à transmettre leurs contenus et soient identiques dans toute la Suisse, ils devraient être organisés selon le modèle de formation du MSdS. ",
               "help_it": "Affinché tutti i corsi cantonali riescano a trasmettere i loro contenuti e siano identici in tutta la Svizzera, dovrebbero essere organizzati secondo il modello di formazione del MSS."
             },
             "question_de": "Die Struktur, die Rahmenbedingungen und der Inhalt der von uns organisierten Vorbasiskurse entsprechen dem Ausbildungsmodell.",
@@ -3755,7 +3650,7 @@
                 }
               ],
               "help_de": "Damit die kantonalen Kurse die Kursinhalte erfolgreich vermitteln können und in der gesamten Schweiz gleichwertig sind, sollten gemäss Ausbildungsmodell der PBS durchgeführt werden.",
-              "help_fr": "Pour que les cours cantonaux parviennent à transmettre leurs contenus et soient identiques dans toute la Suisse, ils devraient être organisés selon le modèle de formation du MSdS. ",
+              "help_fr": "Pour que les cours cantonaux parviennent à transmettre leurs contenus et soient identiques dans toute la Suisse, ils devraient être organisés selon le modèle de formation du MSdS. ",
               "help_it": "Affinché tutti i corsi cantonali riescano a trasmettere i loro contenuti e siano identici in tutta la Svizzera, dovrebbero essere organizzati secondo il modello di formazione del MSS."
             },
             "question_de": "Der Inhalt und die Rahmenbedingungen der von uns organisierten Basiskurse, Aufbaukurse und Einführungskurse Stufenmethodik entsprechen dem Ausbildungsmodell.",
@@ -3785,9 +3680,9 @@
                   "url": "https://pfadi.swiss/it/formazione/"
                 }
               ],
-              "help_de": "Folgende in der Regel (inter)kantonal organisierten Kurse werden zurzeit in eurem KV nicht angeboten:\n...\n[auflisten anhand Abfrage]\n...",
-              "help_fr": "Les cours suivants, qui sont normalement organisés au niveau (inter)cantonal, ne sont actuellement pas proposés au sein de votre AC :\n...\n[énumérer à l'aide de la consultation]\n…",
-              "help_it": "I corsi seguenti, che sono normalmente organizzati a livello (inter)cantonale, non sono attualmente proposti in seno alla vostra AC: ... [elencare grazie alla consultazione] ..."
+              "help_de": "Zu den Kursen, die normalerweise von den KVs und Regionen organisiert werden, gehören die Vorbasis-, Basis- und Aufbaukurse, die Spezialisierungen und Einführungskurse.",
+              "help_fr": "Les cours habituellement organisés par les AC et régions sont les cours préparatoires, les cours de base et de responsable d’unité, les spécialisations et les cours d’introduction.",
+              "help_it": "I corsi solitamente organizzati dai cantoni sono corsi preparatori, Base, Campo, corsi di intruduzione e specializzazioni."
             },
             "question_de": "In Zusammenarbeit mit anderen Kantonalverbänden bieten wir unseren Leitenden alle im Ausbildungsmodell vorgesehenen kantonalen Kurse an.",
             "question_fr": "En collaboration avec d'autres associations cantonales, nous proposons à nos responsables tous les cours cantonaux figurant dans le modèle de formation.",
@@ -3821,7 +3716,7 @@
               "help_it": "Affinché le sezioni possano pianificare la partecipazione dei/delle loro capi/e ai corsi, i/le CSZ e i/le coach devono conoscere l'offerta dei corsi cantonali e nazionali. Bisognerebbe indicare loro i corsi disponibili e consigliarli nella loro ricerca di corsi."
             },
             "question_de": "Unsere AL und Coaches kennen das kantonale und nationale Kursangebot und wissen, wo sie Informationen dazu erhalten. ",
-            "question_fr": "Nos RG et nos coachs connaissent l'offre des cours cantonaux et nationaux et savent où trouver des informations à ce sujet. ",
+            "question_fr": "Nos RG et nos coachs connaissent l'offre des cours cantonaux et nationaux et savent où trouver des informations à ce sujet. ",
             "question_it": "I/Le nostri/e CSZ e i/le nostri/e coach conoscono l'offerta dei corsi cantonali e nazionali e sanno dove trovare le informazioni in merito.",
             "answer_options": "range",
             "evaluation_function": null
@@ -3899,7 +3794,7 @@
               "help_it": "I corsi cantonali permettono di trasmettere numerosi contenuti utili per la quotidianità delle attività scout. Grazie a bilanci regolari, le sezioni possono dare preziosi feedback per migliorare i contenuti dei corsi."
             },
             "question_de": "Zur Weiterentwicklung unserer Kurse werten wir mit unseren Abteilungen regelmässig aus, inwiefern die vermittelten Kursinhalte im Pfadialltag umgesetzt werden konnten. ",
-            "question_fr": "Pour améliorer nos cours, nous analysons régulièrement avec nos groupes dans quelle mesure le contenu des cours a pu être mis en pratique dans le quotidien scout. ",
+            "question_fr": "Pour améliorer nos cours, nous analysons régulièrement avec nos groupes dans quelle mesure le contenu des cours a pu être mis en pratique dans le quotidien scout. ",
             "question_it": "Per migliorare i nostri corsi, analizziamo regolarmente con le nostre sezioni in quale misura il contenuto dei corsi ha potuto essere messo in pratica nella quotidianità delle attività scout.",
             "answer_options": "range",
             "evaluation_function": null
@@ -3953,7 +3848,7 @@
               "links_fr": [],
               "links_it": [],
               "help_de": "Damit die Qualität der Vorbasiskurse gewährleistet werden kann, sollten die Coaches diese aktiv betreuen und dem Kursteam jederzeit beratend zur Seite stehen. ",
-              "help_fr": "Afin de garantir la qualité des cours préalables au cours de base, les coachs devraient les encadrer activement et être à disposition de l'équipe de cours pour les conseiller. ",
+              "help_fr": "Afin de garantir la qualité des cours préalables au cours de base, les coachs devraient les encadrer activement et être à disposition de l'équipe de cours pour les conseiller. ",
               "help_it": "Per garantire la qualità dei corsi che precedono il corso base, i/le coach dovrebbero accompagnare attivamente ed essere a disposizione dell'équipe per consigliarla."
             },
             "question_de": "Alle Coaches unserer Vorbasiskurse betreuen die jeweiligen Kurse aktiv.",
@@ -3996,7 +3891,7 @@
                 }
               ],
               "help_de": "Damit die Qualität der BSV Kurse gewährleistet werden kann, sollten die LKB diese aktiv betreuen und dem Kursteam jederzeit beratend zur Seite stehen. ",
-              "help_fr": "Pour que la qualité des cours de l'OFAS puisse être garantie, les CàF devraient les encadrer activement et être à disposition de l'équipe de cours pour les conseiller. ",
+              "help_fr": "Pour que la qualité des cours de l'OFAS puisse être garantie, les CàF devraient les encadrer activement et être à disposition de l'équipe de cours pour les conseiller. ",
               "help_it": "Perché la qualità dei corsi UFAS possa essere garantita, i/le CaF dovrebbero accompagnare attivamente e essere a disposizione dell'équipe del corso per consigliarla."
             },
             "question_de": "Alle LKB unserer BSV Kurse betreuen die jeweiligen Kurse aktiv.",
@@ -4048,7 +3943,7 @@
               "help_it": "Accogliendo nuovi membri in tutte le équipe di corso, la sostenibilità delle équipe e la trasmissione delle competenze è assicurata."
             },
             "question_de": "Unsere Kursleitungen bemühen sich darum, Leitenden in ihr Team einzugliedern, welche bis anhin noch keinen Kurs mitgeleitet haben und sich für diese Tätigkeit eignen respektive dafür empfohlen wurden. ",
-            "question_fr": "Nos chef·fe·s de cours veillent à intégrer dans leur équipe les responsables qui n'ont pas encore animé de cours et qui ont les qualités requises pour le faire ou qui ont été recommandé·e·s. ",
+            "question_fr": "Nos chef·fe·s de cours veillent à intégrer dans leur équipe les responsables qui n'ont pas encore animé de cours et qui ont les qualités requises pour le faire ou qui ont été recommandé·e·s. ",
             "question_it": "I/Le nostri/e capi/e corsi sono attenti/e ad integrare nelle loro equipe i/le responsabili che non hanno ancora animato corsi e che hanno le qualità richieste per farlo o che sono stati/e raccomandati/e.",
             "answer_options": "range",
             "evaluation_function": null
@@ -4137,7 +4032,7 @@
                 }
               ],
               "help_de": "Damit BSV Kurse optimal geplant und durchgeführt werden können, sollten die Kursleitungen und LKB durch den Kanton betreut werden und alle notwendigen Hilfsmittel und Informationen erhalten. Die PBS informiert über das Akom aktuell (wird an alle Ausbildungsverantwortlichen und Kantonsleitende versendet) und den Ausbildungsnewsletter.",
-              "help_fr": "Pour que les cours de l'OFAS puissent être planifiés et organisés de manière optimale, les chef·fe·s de cours et les CàF devraient être encadré·e·s par le canton et recevoir tous les supports et informations nécessaires. Le MSdS fournit des informations grâce à l'Actualité CoFor (envoyé à tous les responsables de formation et aux responsables cantonaux) et à la newsletter de la formation. ",
+              "help_fr": "Pour que les cours de l'OFAS puissent être planifiés et organisés de manière optimale, les chef·fe·s de cours et les CàF devraient être encadré·e·s par le canton et recevoir tous les supports et informations nécessaires. Le MSdS fournit des informations grâce à l'Actualité CoFor (envoyé à tous les responsables de formation et aux responsables cantonaux) et à la newsletter de la formation. ",
               "help_it": "Affinché i corsi UFAS possano essere pianificati e organizzati in maniera ottimale, i/le capi/e corso e i/le CaF dovrebbero essere accompagnati/e dal cantone e ricevere tutti i supporti e le informazioni necessarie. Il MSS fornisce delle informazioni grazie all'Attualità CoFor (inviata a tutti/e i/le responsabili della formazione e ai/alle responsabili cantonali) e alla newsletter della formazione."
             },
             "question_de": "Die Kursleitungen und Coaches unserer BSV Kurse werden durch den Kanton betreut und erhalten alle notwendigen Hilfsmittel und Informationen.",
@@ -4235,7 +4130,6 @@
         "description_fr": "",
         "description_it": ""
       }
-    ],
-    "type": "Questionnaire::Group::Canton"
+    ]
   }
 ]
