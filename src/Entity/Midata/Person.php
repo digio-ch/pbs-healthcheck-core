@@ -126,7 +126,7 @@ class Person
     private $levelUps;
 
     /**
-     * @ORM\OneToMany(targetEntity=GamificationQuapEvent::class, mappedBy="person", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=GamificationQuapEvent::class, mappedBy="person", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $gamificationQuapEvents;
 

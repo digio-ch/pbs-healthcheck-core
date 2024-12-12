@@ -33,7 +33,7 @@ class Login
 
     /**
      * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="logins")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $person;
 
