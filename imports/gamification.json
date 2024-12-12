@@ -6,8 +6,8 @@
       "type": 0,
       "required": 0,
       "de_title": "Newcomer*in",
-      "fr_title": "",
-      "it_title": ""
+      "fr_title": "Nouvel·le arrivant·e",
+      "it_title": "Pricipiante"
     },
     {
       "key": 1,
@@ -15,8 +15,8 @@
       "type": 0,
       "required": 3,
       "de_title": "Datenentdecker*in",
-      "fr_title": "",
-      "it_title": ""
+      "fr_title": "Amateur·trice de données",
+      "it_title": "Moogli dei dati"
     },
     {
       "key": 2,
@@ -24,8 +24,8 @@
       "type": 0,
       "required": 3,
       "de_title": "Statistikforscher*in",
-      "fr_title": "",
-      "it_title": ""
+      "fr_title": "Statisticien·ne confirmé·e",
+      "it_title": "Freak della statistica"
     },
     {
       "key": 3,
@@ -33,8 +33,8 @@
       "type": 0,
       "required": 2,
       "de_title": "Healthcheck Guru",
-      "fr_title": "",
-      "it_title": ""
+      "fr_title": "Gourou du Healthcheck",
+      "it_title": "Guru di Healthcheck "
     }
   ],
   "goals": [
@@ -43,18 +43,18 @@
       "level": 1,
       "required": true,
       "de": {
-        "title": "Erstes Login",
-        "information": "Login Information (Testing: Ist immer erfüllt)",
-        "help": "(nicht nötig)"
+        "title": "Das erste Mal",
+        "information": "Du nutzt den HealthCheck zum ersten Mal",
+        "help": ""
       },
       "fr": {
-        "title": "french",
-        "information": "",
+        "title": "La première fois",
+        "information": "Tu te connectes au Healthcheck pour la première fois.",
         "help": ""
       },
       "it": {
-        "title": "italian",
-        "information": "",
+        "title": "Prima volta",
+        "information": "Accedi a Healthcheck per la prima volta.",
         "help": ""
       }
     },
@@ -63,18 +63,18 @@
       "level": 1,
       "required": true,
       "de": {
-        "title": "Unterschiedliche Layer der Karte benutzt",
-        "information": "Kartenlayer information",
-        "help": "(nicht nötig)"
+        "title": "Überblick - unterschiedliche Layer der Karte benutzt",
+        "information": "Kartenlayer ein- und ausgeblendet",
+        "help": ""
       },
       "fr": {
-        "title": "french",
-        "information": "",
+        "title": "Aperçu - calques de carte",
+        "information": "Tu affiches/caches un calque de la carte.",
         "help": ""
       },
       "it": {
-        "title": "italian",
-        "information": "",
+        "title": "Panoramica - utilizza diversi livelli della cartina",
+        "information": "Visualizza/nascondi un livello della mappa.",
         "help": ""
       }
     },
@@ -83,18 +83,18 @@
       "level": 1,
       "required": false,
       "de": {
-        "title": "Datenfilter in Übersicht benutzt",
-        "information": "Datenfilter information",
-        "help": "(nicht nötig)"
+        "title": "Überblick - eine genaue Analyse eines Teils deiner Mitglieder",
+        "information": "In der Übersicht einen Datenfilter ausgewählt",
+        "help": ""
       },
       "fr": {
-        "title": "french",
-        "information": "",
+        "title": "Aperçu - analyse d'une partie de tes membres",
+        "information": "Tu filtres les données dans l'aperçu.",
         "help": ""
       },
       "it": {
-        "title": "italian",
-        "information": "",
+        "title": "Panoramica - analisi di una parte dei membri",
+        "information": "Filtra i dati nella panoramica.",
         "help": ""
       }
     },
@@ -103,18 +103,18 @@
       "level": 1,
       "required": false,
       "de": {
-        "title": "zeitbereichsansicht benutzt",
-        "information": "Zeitbereichsansicht information (Im Zeitfilter Zeitspanne auswählen)",
-        "help": "(nicht nötig)"
+        "title": "Überblick - Zeitspanne analysiert",
+        "information": "In der Übersicht eine Zeitspanne ausgewählt",
+        "help": ""
       },
       "fr": {
-        "title": "french",
-        "information": "",
+        "title": "Aperçu - analyse temporelle",
+        "information": "Tu observes l'évolution de tes données pour une période.",
         "help": ""
       },
       "it": {
-        "title": "italian",
-        "information": "",
+        "title": "Panoramica - analisi temporale",
+        "information": "Osserva come i tuoi dati cambiano nel tempo.",
         "help": ""
       }
     },
@@ -123,18 +123,18 @@
       "level": 1,
       "required": false,
       "de": {
-        "title": "Freigabe für übergeordnete Ebene.",
-        "information": "EL Freigabe information (EL an Kanton freigeben)",
-        "help": "(nicht nötig)"
+        "title": "Erfolgslogik - Freude suchen und weitergeben",
+        "information": "Erfolgslogik an KV/Region freigegeben",
+        "help": ""
       },
       "fr": {
-        "title": "french",
-        "information": "",
+        "title": "Diagramme de succès - Partager",
+        "information": "Tu transmets le diagramme de succès aux niveaux supérieurs.",
         "help": ""
       },
       "it": {
-        "title": "italian",
-        "information": "",
+        "title": "Logica del successo - Condividere",
+        "information": "Trasmetteti la logica del successo al livello superiore.",
         "help": ""
       }
     },
@@ -143,19 +143,19 @@
       "level": 2,
       "required": true,
       "de": {
-        "title": "Alle Erfolgslogik Kasten einer Gruppe Ausgefüllt.",
-        "information": "EL alle Kasten information (WIP)",
-        "help": "EL alle kasten ausfüllen hilfe"
+        "title": "Erfolgslogik - alle Aspekte vollständig bearbeitet",
+        "information": "Erfolgslogik - Alle Fragen von allen Kästchen beantwortet",
+        "help": "Du hast noch nicht jedes der verschiedenen Kästchen bearbeitet und/oder ausgefüllt."
       },
       "fr": {
-        "title": "french",
-        "information": "",
-        "help": ""
+        "title": "Diagramme de succès - traitement complet de tous les domaines",
+        "information": "Tu réponds à toutes les questions de toutes les cases.",
+        "help": "Tu n'as pas encore rempli ou modifié chacune des cases."
       },
       "it": {
-        "title": "italian",
-        "information": "",
-        "help": ""
+        "title": "Logica del successo - elaborazione completa di tutte le aree",
+        "information": "Rispondi a tutte le domande in tutte le caselle.",
+        "help": "Non hai ancora compilato o modificato ogni casella."
       }
     },
     {
@@ -163,18 +163,18 @@
       "level": 2,
       "required": false,
       "de": {
-        "title": "Freigabe für mindestens eine andere Person.",
-        "information": "Freigabe1 information",
-        "help": "(nicht nötig)"
+        "title": "Einladen von mindestens einer anderen Person",
+        "information": "Den eigenen HealthCheck mit mindestens einer anderen Person teilen",
+        "help": ""
       },
       "fr": {
-        "title": "french",
-        "information": "",
+        "title": "À plusieurs, on va plus loin",
+        "information": "Tu partages l'accès à au moins une autre personne.",
         "help": ""
       },
       "it": {
-        "title": "italian",
-        "information": "",
+        "title": "Andiamo oltre",
+        "information": "Condividete l'accesso con almeno un'altra persona.",
         "help": ""
       }
     },
@@ -183,18 +183,18 @@
       "level": 2,
       "required": false,
       "de": {
-        "title": "In der Erfolgslogik nicht relevante Fragen ausgebledet",
-        "information": "EL irrelevant information",
-        "help": "(nicht nötig)"
+        "title": "Erfolgslogik - ausblenden, was nicht relevant ist",
+        "information": "In  in einem vollen Kästchen mind. eine nicht relevante Frage ausgeblendet",
+        "help": ""
       },
       "fr": {
-        "title": "french",
-        "information": "",
+        "title": "Diagramme de succès - ce qui n'est pas pertinent est transparent",
+        "information": "Tu indiques quelles questions en sont pas importantes au sein d'une case (la case doit être remplie).",
         "help": ""
       },
       "it": {
-        "title": "italian",
-        "information": "",
+        "title": "Logica del successo - ciò che è irrilevante è trasparente",
+        "information": "Indica quali domande non sono importanti all'interno di una casella (la casella deve essere riempita).",
         "help": ""
       }
     },
@@ -203,18 +203,18 @@
       "level": 2,
       "required": false,
       "de": {
-        "title": "Einen Erfolgslogik Kasten überarbeitet.",
-        "information": "El überarbeiten information",
-        "help": "(nicht nötig)"
+        "title": "Erfolgslogik - ein Aspekt überarbeitet",
+        "information": "Mindestens ein volles Kästchen später nochmals editiert",
+        "help": ""
       },
       "fr": {
-        "title": "french",
-        "information": "",
+        "title": "Diagramme de succès - révision d'un aspect",
+        "information": "Tu modifies une réponse dans une case remplie.",
         "help": ""
       },
       "it": {
-        "title": "italian",
-        "information": "",
+        "title": "Logica del successo - revisione di un aspetto",
+        "information": "Modifica una risposta in un riquadro compilato.",
         "help": ""
       }
     },
@@ -223,18 +223,18 @@
       "level": 3,
       "required": true,
       "de": {
-        "title": "Verbesserung in einem Erfolgslogik Kasten.",
-        "information": "El verbessern information",
-        "help": "(nicht nötig)"
+        "title": "Erfolgslogik - ein Aspekt verbessert",
+        "information": "Mindestens in einem vollen Kästchen eine Frage besser beantwortet als vorher",
+        "help": ""
       },
       "fr": {
-        "title": "french",
-        "information": "",
+        "title": "Diagramme de succès - amélioration d'un aspect",
+        "information": "Tu améliores une réponse dans une case remplie.",
         "help": ""
       },
       "it": {
-        "title": "italian",
-        "information": "",
+        "title": "Logica del successo - migliora un aspetto",
+        "information": "Migliora una risposta in un riquadro completato.",
         "help": ""
       }
     },
@@ -243,19 +243,19 @@
       "level": 3,
       "required": false,
       "de": {
-        "title": "Vier mal innerhalb eines Jahres eingeloggt.",
-        "information": "Login information",
+        "title": "Vier Mal innerhalb eines Jahres eingeloggt.",
+        "information": "Du loggst dich in einem Jahr viermal ein.",
         "help": "Du hast dich % mal eingeloggt"
       },
       "fr": {
-        "title": "french",
-        "information": "",
-        "help": ""
+        "title": "Quadruple connexion",
+        "information": "Tu te connectes quatre fois sur un an.",
+        "help": "Tu t'es connecté·e·s % fois."
       },
       "it": {
-        "title": "italian",
-        "information": "",
-        "help": ""
+        "title": "Accesso quadruplicato",
+        "information": "Hai fatto l'accesso quattro volte in un anno.",
+        "help": "Ti sei connesso/a % volte."
       }
     },
     {
@@ -263,19 +263,19 @@
       "level": 3,
       "required": false,
       "de": {
-        "title": "Eine Abteilung an 3 oder mehr Personen freigegeben.",
-        "information": "Freigabe3 information",
+        "title": "Einladen von mindestens 3 anderen Personen.",
+        "information": "Den eigenen HealthCheck mit mindestens drei anderen Person teilen",
         "help": "Du hast % von 3 Freigaben"
       },
       "fr": {
-        "title": "french",
-        "information": "",
-        "help": ""
+        "title": "Encore plus d'invitations",
+        "information": "Tu partages l'accès à au moins trois autres personnes.",
+        "help": "Tu as partagé l'accès à % personnes sur 3."
       },
       "it": {
-        "title": "italian",
-        "information": "",
-        "help": ""
+        "title": "Ancora più persone",
+        "information": "Condividi l'accesso con almeno altre tre persone.",
+        "help": "Hai condiviso l'accesso con % persone su 3."
       }
     }
   ]
