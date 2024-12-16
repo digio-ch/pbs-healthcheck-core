@@ -838,7 +838,7 @@ class ImportFromJsonCommand extends StatisticsCommand
         $personRoleBatch = [];
         foreach ($roles as $r) {
             $personRole = $this->em->getRepository(PersonRole::class)->findOneBy(['id' => $r['id']]);
-            if (!array_key_exists($personRoleBatch[$r['id']])) {
+            if (!array_key_exists($r['id'], $personRoleBatch)) {
                 $personRole = $personRoleBatch[$r['id']];
             }
             if (!$personRole) {
