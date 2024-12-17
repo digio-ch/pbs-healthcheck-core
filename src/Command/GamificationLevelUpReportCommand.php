@@ -45,13 +45,13 @@ class GamificationLevelUpReportCommand extends StatisticsCommand
         $levelChanges = $this->levelUpLogRepository->retrieveLastMonth();
         $mailContent = "Dear PBS Team\n\nFollowing Users have increased their rank in the last month:\n\n";
         foreach ($levelChanges as $levelChange) {
-            $mailContent .= '(' . $levelChange->getDate()->format("d.m H:i") . ') '
+            $mailContent .= $levelChange->getDate()->format("d.m H:i") . ';'
                 . $levelChange->getPerson()->getNickname()
-                . '#'
+                . ';'
                 . $levelChange->getPerson()->getPbsNumber()
-                . ': '
+                . ';'
                 . $levelChange->getLevel()->getDeTitle()
-                . "\n";
+                . ";\n";
         }
         $mailContent .= "\nKind Regards\nDigio Team
 --------------------------------
