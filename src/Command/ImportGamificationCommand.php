@@ -49,8 +49,8 @@ class ImportGamificationCommand extends StatisticsCommand
 
         $this->em->getConnection()->executeQuery('DELETE FROM gamification_person_profile');
         $this->em->getConnection()->executeQuery('DELETE FROM goal');
-        $this->em->getConnection()->executeQuery('DELETE FROM level');
         $this->em->getConnection()->executeQuery('DELETE FROM level_up_log');
+        $this->em->getConnection()->executeQuery('DELETE FROM level');
         if (is_null($json['levels'])) {
             $output->writeln('No levels found.');
             return 1;
