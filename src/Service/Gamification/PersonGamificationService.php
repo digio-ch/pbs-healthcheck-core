@@ -294,7 +294,8 @@ class PersonGamificationService
      */
     private function getElFilledOut(Person $person): int
     {
-        $counters = ['Questionnaire::Group::Default' => 0, 'Questionnaire::Group::Canton' => 0];
+        // Canton = 1 because one Questionnaire can't really be filled out by user, so we only require 6 Questionnaires
+        $counters = ['Questionnaire::Group::Default' => 0, 'Questionnaire::Group::Canton' => 1];
         $localIdAndQuestionnaireId = $this->gamificationQuapEventRepository->getUniquieIds($person);
         foreach ($localIdAndQuestionnaireId as $item) {
             $counters[$item['type']]++;

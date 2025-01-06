@@ -831,8 +831,12 @@ class ImportFromJsonCommand extends StatisticsCommand
         $start = microtime(true);
         $roles = JsonMachine::fromFile(sprintf('%s/roles.json', $this->params->get('import_data_dir')));
         $i = 0;
+        $personRoleBatch = [];
         foreach ($roles as $r) {
             $personRole = $this->em->getRepository(PersonRole::class)->findOneBy(['id' => $r['id']]);
+            if (array_key_exists($r['id'], $personRoleBatch)) {
+                $personRole = $personRoleBatch[$r['id']];
+            }
             if (is_null($personRole)) {
                 $personRole = new PersonRole();
                 $personRole->setId($r['id']);
@@ -869,11 +873,16 @@ class ImportFromJsonCommand extends StatisticsCommand
             }
 
             $this->em->persist($personRole);
-            $this->em->flush();
             $i++;
+            $personRoleBatch[$personRole->getId()] = $personRole;
+            if (($i % $this->batchSize) === 0) {
+                $personRoleBatch = [];
+                $this->em->flush();
+            }
         }
         $this->em->flush();
         $this->em->clear();
+
         $timeElapsed = microtime(true) - $start;
         $this->stats[] = ['roles.json', $timeElapsed, $i];
         $output->writeln([sprintf('%s rows imported from roles.json', $i)]);
