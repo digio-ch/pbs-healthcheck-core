@@ -22,6 +22,7 @@ use App\Repository\Gamification\LevelUpLogRepository;
 use App\Repository\Gamification\LoginRepository;
 use App\Repository\Midata\PersonRepository;
 use App\Repository\Quap\QuestionnaireRepository;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -42,6 +43,8 @@ class PersonGamificationService
 
     private GamificationQuapEventRepository $gamificationQuapEventRepository;
 
+    private MailService $mailService;
+
     public function __construct(
         LoginRepository $loginRepository,
         LevelRepository $levelRepository,
@@ -49,7 +52,8 @@ class PersonGamificationService
         PersonRepository $personRepository,
         EntityManagerInterface $em,
         LevelUpLogRepository $levelUpLogRepository,
-        GamificationQuapEventRepository $gamificationQuapEventRepository
+        GamificationQuapEventRepository $gamificationQuapEventRepository,
+        MailService $mailService
     ) {
         $this->loginRepository = $loginRepository;
         $this->levelRepository = $levelRepository;
@@ -58,6 +62,7 @@ class PersonGamificationService
         $this->em = $em;
         $this->levelUpLogRepository = $levelUpLogRepository;
         $this->gamificationQuapEventRepository = $gamificationQuapEventRepository;
+        $this->mailService = $mailService;
     }
 
     public function reset(PbsUserDTO $pbsUserDTO)
@@ -329,6 +334,7 @@ class PersonGamificationService
             /** request logic */
             $profile->setBetaStatus(true);
             $this->personGoalRepository->add($profile);
+            $this->mailService->sendBetaAccessMail($person);
             return true;
         }
         return false;

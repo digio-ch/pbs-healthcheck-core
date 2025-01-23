@@ -153,3 +153,7 @@ services:
         arguments:
             $apiToken: '%env(CENSUS_TOKEN)%'
             $url: '%env(CENSUS_URL)%'
+
+    App\Service\MailService:
+        arguments:
+            $recipient: '%env(GAMIFICATION_RECIPIENT)%'
