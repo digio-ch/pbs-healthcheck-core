@@ -40,8 +40,8 @@ class LoginService
         $activeGroupDTO = $userDTO->getGroups()[0]; // Group 0 is the active group on Login.
         $activeGroup = $this->groupRepository->find($activeGroupDTO->getId());
         $user = $this->personRepository->find($userDTO->getId());
-        if ($user === null) {
-            throwException("user couldn't be found.");
+        if (is_null($user)) {
+            new \Exception("user couldn't be found.");
         }
         if (sizeof($userDTO->getRoles()) !== 1) {
             throwException("Invalid amount of roles.");
