@@ -24,7 +24,8 @@ class MailService
         $this->mailer = $mailer;
     }
 
-    public function sendBetaAccessMail(Person $person) {
+    public function sendBetaAccessMail(Person $person)
+    {
         $content = "Dear PBS Team
         
 " .  $person->getNickname() . "(" . $person->getPbsNumber() . ") has requested beta access.
@@ -45,7 +46,8 @@ www.digio.swiss";
         $this->mailer->send($email);
     }
 
-    public function sendGeneralMail(string $subject, string $content) {
+    public function sendGeneralMail(string $subject, string $content)
+    {
         $email = new Email();
         $email->from(new Address('no-reply@hc-prod.cust.digio.ch', 'Digio'))
             ->to($this->recipient)
