@@ -861,7 +861,7 @@ class ImportFromJsonCommand extends StatisticsCommand
             }
 
             $personRole->setCreatedAt(new DateTimeImmutable($r['created_at']));
-            if ($r['deleted_at']) {
+            if (array_key_exists('deleted_at', $r) && $r['deleted_at']) {
                 $deletedAt = new DateTimeImmutable($r['deleted_at']);
                 if ($deletedAt < new DateTimeImmutable('0001-01-01T00:00:00+00:00')) {
                     $this->gelfLogger->warning(
