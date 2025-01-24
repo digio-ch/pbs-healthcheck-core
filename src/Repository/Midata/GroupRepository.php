@@ -8,8 +8,7 @@ use App\Service\Aggregator\WidgetAggregator;
 use App\Service\DataProvider\WidgetDataProvider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\FetchMode;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -189,7 +188,7 @@ class GroupRepository extends ServiceEntityRepository
      * @param string $parentGroupId
      * @param array|string[] $subGroupTypes
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findAllRelevantSubGroupsByParentGroupId(
         string $parentGroupId,
@@ -218,6 +217,11 @@ class GroupRepository extends ServiceEntityRepository
         return $query->fetchAllAssociative();
     }
 
+    /**
+     * returns an array of arrays containing the attributes of AggregatedQuad
+     * @param int $cantonId
+     * @return array<array>
+     */
     public function findAllDepartmentsFromCanton(int $cantonId): array
     {
         return $this->createQueryBuilder('g')
@@ -225,7 +229,7 @@ class GroupRepository extends ServiceEntityRepository
             ->where('g.cantonId = :cantonId')
             ->andWhere('gt.groupType IN (:groupType)')
             ->setParameter('cantonId', $cantonId)
-            ->setParameter('groupType', ['Group::Abteilung', 'Group::Region'])
+            ->setParameter('groupType', [GroupType::DEPARTMENT, GroupType::REGION])
             ->getQuery()
             ->getArrayResult();
     }

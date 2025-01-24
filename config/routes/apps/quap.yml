@@ -37,5 +37,5 @@ get_answers:
 get_answers_for_subdepartments:
   path: /subdepartments
   methods: GET
-  controller: App\Controller\Api\Apps\QuapController::getAnswersForSubdepartments
+  controller: App\Controller\Api\Apps\QuapController::getAnswersForSubDepartments
 
