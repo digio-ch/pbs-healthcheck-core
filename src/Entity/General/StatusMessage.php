@@ -11,10 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class StatusMessage
 {
-    public static string $NONE = "none";
-    public static string $INFO = "info";
-    public static string $WARNING = "warning";
-    public static string $ERROR = "error";
+    public const NONE = "none";
+    public const INFO = "info";
+    public const WARNING = "warning";
+    public const ERROR = "error";
 
     /**
      * @ORM\Id()
@@ -42,6 +42,24 @@ class StatusMessage
      * @ORM\Column(type="string", length=500)
      */
     private string $frMessage;
+
+
+    /**
+     * @param string $lang
+     * @return string
+     */
+    public function getMessage(string $lang): string
+    {
+        switch ($lang) {
+            case "it":
+                return $this->getItMessage();
+            case "fr":
+                return $this->getFrMessage();
+            case "de":
+            default:
+                return $this->getDeMessage();
+        }
+    }
 
     public function getId(): string
     {

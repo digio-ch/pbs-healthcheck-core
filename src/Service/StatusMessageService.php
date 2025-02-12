@@ -50,23 +50,23 @@ class StatusMessageService
     {
         $state = $this->statusRepo->findOneBy([]);
 
-        if ($state === null || $state->getSeverity() === StatusMessage::$NONE) {
-            return new StatusMessageDTO(StatusMessage::$NONE);
+        if ($state === null || $state->getSeverity() === StatusMessage::NONE) {
+            return new StatusMessageDTO(StatusMessage::NONE);
         }
 
         $dto = StatusMessageMapper::mapStatusBanner($state, $lang);
 
         $message = $dto->getMessage();
 
-       $jsonFields = json_decode($message, true);
+        $jsonFields = json_decode($message, true);
 
-       if ($jsonFields === null || count($jsonFields) != 2 ||
+        if ($jsonFields === null || count($jsonFields) != 2 ||
            !array_key_exists("title", $jsonFields) || !is_string($jsonFields["title"]) ||
            !array_key_exists("body", $jsonFields) || !is_string($jsonFields["body"])
-       ) {
+        ) {
            $this->logger->warning(new SimpleLogMessage("status banner message is invalid: $message"));
            throw new ApiException(500, $this->translator->trans('api.error.unknown'));
-       }
+        }
 
         return $dto;
     }
