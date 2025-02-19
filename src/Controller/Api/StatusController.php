@@ -31,10 +31,9 @@ class StatusController extends AbstractController
     public function getStatusMessage(
         Request $request
     ): Response {
-        $lang =$request->getLocale();
+        $lang = $request->getLocale();
 
         $state = $this->service->getStatus($lang);
         return $this->json($state);
-
     }
 }
