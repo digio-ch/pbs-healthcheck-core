@@ -30,6 +30,7 @@ class AggregatedDemographicCampRepository extends AggregatedEntityRepository
             ->where('dc.dataPointDate >= :from')
             ->andWhere('dc.dataPointDate <= :to')
             ->andWhere('cg.group = :mainGroup')
+            ->orderBy('dc.startDate')
             ->setParameter('mainGroup', $mainGroup)
             ->setParameter('from', $from)
             ->setParameter('to', $to)

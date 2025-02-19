@@ -54,6 +54,9 @@ class RoleAggregator extends WidgetAggregator
         $highestAggregatedMidataIndex = $this->personRoleRepository->getHighestAggregatedMidataIndex();
         $newPersonRoles = $this->midataPersonRoleRepository->findAllWithHigherIndex($highestAggregatedMidataIndex);
         foreach ($newPersonRoles as $newPersonRole) {
+            if (is_null($newPersonRole->getRole())) {
+                continue;
+            }
             $aggregatedPersonRole = new AggregatedPersonRole();
             $aggregatedPersonRole->setMidata($newPersonRole);
             $aggregatedPersonRole->setEndAt($newPersonRole->getDeletedAt());

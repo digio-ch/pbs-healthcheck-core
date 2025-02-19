@@ -221,7 +221,7 @@ abstract class WidgetAggregator
     {
         foreach (self::$leaderRoleTypesByGroupType as $groupType => $roleTypes) {
             foreach ($roleTypes as $roleType) {
-                if ($roleType === $personRole->getRole()->getRoleType()) {
+                if (!is_null($personRole->getRole()) && $roleType === $personRole->getRole()->getRoleType()) {
                     return $groupType;
                 }
             }
@@ -238,7 +238,7 @@ abstract class WidgetAggregator
         foreach (self::$leadersRoleTypes as $leaderRole) {
             /** @var PersonRole $personRole */
             foreach ($personRoles as $personRole) {
-                if (trim($personRole->getRole()->getRoleType()) !== $leaderRole) {
+                if (!is_null($personRole->getRole()) && trim($personRole->getRole()->getRoleType()) !== $leaderRole) {
                     continue;
                 }
                 return ['leaders', $this->findLeaderGroupTypeForRoleType($personRole)];
@@ -247,7 +247,7 @@ abstract class WidgetAggregator
         foreach (self::$memberRoleTypes as $memberRole) {
             /** @var PersonRole $personRole */
             foreach ($personRoles as $personRole) {
-                if (trim($personRole->getRole()->getRoleType()) !== $memberRole) {
+                if (!is_null($personRole->getRole()) && trim($personRole->getRole()->getRoleType()) !== $memberRole) {
                     continue;
                 }
                 return ['members', $personRole->getGroup()->getGroupType()->getGroupType()];

@@ -171,9 +171,12 @@ class ImportFromJsonCommand extends StatisticsCommand
             $role->setItLabel($roleType['label_it']);
 
             $this->em->persist($role);
-            $this->em->flush();
+            if (0 === ($i % $this->batchSize)) {
+                $this->em->flush();
+            }
             $i++;
         }
+        $this->em->flush();
         $timeElapsed = microtime(true) - $start;
         $this->stats[] = ['role_types.json', $timeElapsed, $i];
         $output->writeln([sprintf('%s rows imported from roles_types.json', $i)]);
@@ -386,11 +389,16 @@ class ImportFromJsonCommand extends StatisticsCommand
         $i = 0;
         foreach ($groups as $gr) {
             $group = $this->em->getRepository(Group::class)->findOneBy(['id' => $gr['id']]);
+            $createGroupSettings = false;
             if (!$group) {
                 $group = new Group();
                 $group->setId($gr['id']);
                 $metadata = $this->em->getClassMetaData(get_class($group));
                 $metadata->setIdGenerator(new AssignedGenerator());
+
+                /** @var GroupType $gt */
+                $gt = $this->em->getRepository(GroupType::class)->findOneBy(['groupType' => $gr['type']]);
+                $group->setGroupType($gt);
 
                 // create group settings
                 $groupSettings = new GroupSettings();
@@ -405,7 +413,7 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $this->em->persist($groupSettings);
             }
 
-            $group->setName($gr['name']);
+            $group->setName(trim($gr['name']));
             $group->setCantonId($gr['canton_id'] ?? null);
             $group->setCantonName($gr['canton_name'] ?? null);
             $group->setCreatedAt(new DateTimeImmutable($gr['created_at']));
@@ -416,6 +424,20 @@ class ImportFromJsonCommand extends StatisticsCommand
             /** @var GroupType $gt */
             $gt = $this->em->getRepository(GroupType::class)->findOneBy(['groupType' => $gr['type']]);
             $group->setGroupType($gt);
+
+            if ($createGroupSettings) {
+                // create group settings
+                $groupSettings = new GroupSettings();
+                $groupSettings->setGroup($group);
+                if ($group->getGroupType()->getGroupType() === GroupType::DEPARTMENT) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_DEPARMENT_ROLES);
+                } elseif ($group->getGroupType()->getGroupType() === GroupType::REGION) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_REGION_ROLES);
+                } elseif ($group->getGroupType()->getGroupType() === GroupType::CANTON) {
+                    $groupSettings->setRoleOverviewFilter(GroupSettings::DEFAULT_CANTONAL_ROLES);
+                }
+                $this->em->persist($groupSettings);
+            }
 
             if ($gr['parent_id'] !== null) {
                 $pg = $this->em->getRepository(Group::class)->find($gr['parent_id']);
@@ -515,7 +537,7 @@ class ImportFromJsonCommand extends StatisticsCommand
                 $metadata->setIdGenerator(new AssignedGenerator());
             }
             $camp->setState($c['state']);
-            $camp->setLocation(substr($c['location'], 0, 255));
+            $camp->setLocation(mb_convert_encoding(substr($c['location'], 0, 255), 'UTF-8', 'US-ASCII'));
 
             if (isset($c['name'])) {
                 $camp->setName($c['name']);
@@ -548,7 +570,7 @@ class ImportFromJsonCommand extends StatisticsCommand
             }
 
             $this->em->persist($camp);
-            if ($i % 10) {
+            if (0 == $i % 10) {
                 $this->em->flush();
             }
             $i++;
@@ -809,9 +831,13 @@ class ImportFromJsonCommand extends StatisticsCommand
         $start = microtime(true);
         $roles = JsonMachine::fromFile(sprintf('%s/roles.json', $this->params->get('import_data_dir')));
         $i = 0;
+        $personRoleBatch = [];
         foreach ($roles as $r) {
             $personRole = $this->em->getRepository(PersonRole::class)->findOneBy(['id' => $r['id']]);
-            if (!$personRole) {
+            if (array_key_exists($r['id'], $personRoleBatch)) {
+                $personRole = $personRoleBatch[$r['id']];
+            }
+            if (is_null($personRole)) {
                 $personRole = new PersonRole();
                 $personRole->setId($r['id']);
                 $metadata = $this->em->getClassMetaData(get_class($personRole));
@@ -824,9 +850,10 @@ class ImportFromJsonCommand extends StatisticsCommand
             $personRole->setPerson($person);
 
             $role = $this->em->getRepository(Role::class)->getOneByRoleType($r['type']);
-            if ($role) {
-                $personRole->setRole($role);
+            if (is_null($role)) {
+                continue;
             }
+            $personRole->setRole($role);
 
             $group = $this->em->getRepository(Group::class)->find($r['group_id']);
             if ($group) {
@@ -834,7 +861,7 @@ class ImportFromJsonCommand extends StatisticsCommand
             }
 
             $personRole->setCreatedAt(new DateTimeImmutable($r['created_at']));
-            if ($r['deleted_at']) {
+            if (array_key_exists('deleted_at', $r) && $r['deleted_at']) {
                 $deletedAt = new DateTimeImmutable($r['deleted_at']);
                 if ($deletedAt < new DateTimeImmutable('0001-01-01T00:00:00+00:00')) {
                     $this->gelfLogger->warning(
@@ -847,13 +874,15 @@ class ImportFromJsonCommand extends StatisticsCommand
 
             $this->em->persist($personRole);
             $i++;
-
+            $personRoleBatch[$personRole->getId()] = $personRole;
             if (($i % $this->batchSize) === 0) {
+                $personRoleBatch = [];
                 $this->em->flush();
-                $this->em->clear();
             }
         }
         $this->em->flush();
+        $this->em->clear();
+
         $timeElapsed = microtime(true) - $start;
         $this->stats[] = ['roles.json', $timeElapsed, $i];
         $output->writeln([sprintf('%s rows imported from roles.json', $i)]);

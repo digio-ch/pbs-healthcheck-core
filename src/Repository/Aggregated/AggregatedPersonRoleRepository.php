@@ -36,7 +36,7 @@ class AggregatedPersonRoleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->select('MAX(a.midata)')
             ->getQuery()
-            ->getResult()[0][1];
+            ->getResult()[0][1] ?? 0;
     }
 
     /**
@@ -49,7 +49,7 @@ class AggregatedPersonRoleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->where('a.group = :group_id')
-            ->andWhere('a.start_at BETWEEN :start AND :end OR a.end_at BETWEEN :start AND :end')
+            ->andWhere('NOT ((a.end_at IS NOT NULL AND a.end_at < :start) OR a.start_at > :end)')
             ->orderBy('a.start_at')
             ->setParameter('group_id', $group->getId())
             ->setParameter('start', $start)

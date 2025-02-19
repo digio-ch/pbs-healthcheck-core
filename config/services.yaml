@@ -143,3 +143,17 @@ services:
 
     App\Service\Aggregator\AggregatorRegistry:
         arguments: [ !tagged { tag: 'widget.aggregator', index_by: 'key' } ]
+
+    App\Service\GroupStructureAPIService:
+        arguments:
+            $apiToken: '%env(GROUP_STRUCTURE_TOKEN)%'
+            $url: '%env(GROUP_STRUCTURE_URL)%'
+
+    App\Service\Census\CensusAPIService:
+        arguments:
+            $apiToken: '%env(CENSUS_TOKEN)%'
+            $url: '%env(CENSUS_URL)%'
+
+    App\Service\MailService:
+        arguments:
+            $recipient: '%env(GAMIFICATION_RECIPIENT)%'

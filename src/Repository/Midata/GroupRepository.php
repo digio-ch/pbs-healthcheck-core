@@ -229,16 +229,4 @@ class GroupRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult();
     }
-
-    public function findAllDepartmentsForFederation(int $federationId): array
-    {
-        return $this->createQueryBuilder('g')
-            ->join('g.groupType', 'gt')
-            ->where('g.parentGroup = :federationId')
-            ->andWhere('gt.groupType IN (:groupType)')
-            ->setParameter('federationId', $federationId)
-            ->setParameter('groupType', ['Group::Kantonalverband'])
-            ->getQuery()
-            ->getArrayResult();
-    }
 }

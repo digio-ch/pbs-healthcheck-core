@@ -1,0 +1,283 @@
+{
+  "levels": [
+    {
+      "key": 0,
+      "next_key": 1,
+      "type": 0,
+      "required": 0,
+      "de_title": "Newcomer*in",
+      "fr_title": "Nouvel·le arrivant·e",
+      "it_title": "Pricipiante"
+    },
+    {
+      "key": 1,
+      "next_key": 2,
+      "type": 0,
+      "required": 3,
+      "de_title": "Datenentdecker*in",
+      "fr_title": "Amateur·trice de données",
+      "it_title": "Moogli dei dati"
+    },
+    {
+      "key": 2,
+      "next_key": 3,
+      "type": 0,
+      "required": 3,
+      "de_title": "Statistikforscher*in",
+      "fr_title": "Statisticien·ne confirmé·e",
+      "it_title": "Freak della statistica"
+    },
+    {
+      "key": 3,
+      "next_key": null,
+      "type": 0,
+      "required": 2,
+      "de_title": "Healthcheck Guru",
+      "fr_title": "Gourou du Healthcheck",
+      "it_title": "Guru di Healthcheck "
+    }
+  ],
+  "goals": [
+    {
+      "key": "FIRST_LOGIN",
+      "level": 1,
+      "required": true,
+      "de": {
+        "title": "Das erste Mal",
+        "information": "Du nutzt den HealthCheck zum ersten Mal",
+        "help": ""
+      },
+      "fr": {
+        "title": "La première fois",
+        "information": "Tu te connectes au Healthcheck pour la première fois.",
+        "help": ""
+      },
+      "it": {
+        "title": "Prima volta",
+        "information": "Accedi a Healthcheck per la prima volta.",
+        "help": ""
+      }
+    },
+    {
+      "key": "CARD_LAYERS",
+      "level": 1,
+      "required": true,
+      "de": {
+        "title": "Überblick - unterschiedliche Layer der Karte benutzt",
+        "information": "Kartenlayer ein- und ausgeblendet",
+        "help": ""
+      },
+      "fr": {
+        "title": "Aperçu - calques de carte",
+        "information": "Tu affiches/caches un calque de la carte.",
+        "help": ""
+      },
+      "it": {
+        "title": "Panoramica - utilizza diversi livelli della cartina",
+        "information": "Visualizza/nascondi un livello della mappa.",
+        "help": ""
+      }
+    },
+    {
+      "key": "DATAFILTER",
+      "level": 1,
+      "required": false,
+      "de": {
+        "title": "Überblick - eine genaue Analyse eines Teils deiner Mitglieder",
+        "information": "In der Übersicht einen Datenfilter ausgewählt",
+        "help": ""
+      },
+      "fr": {
+        "title": "Aperçu - analyse d'une partie de tes membres",
+        "information": "Tu filtres les données dans l'aperçu.",
+        "help": ""
+      },
+      "it": {
+        "title": "Panoramica - analisi di una parte dei membri",
+        "information": "Filtra i dati nella panoramica.",
+        "help": ""
+      }
+    },
+    {
+      "key": "TIMEFILTER",
+      "level": 1,
+      "required": false,
+      "de": {
+        "title": "Überblick - Zeitspanne analysiert",
+        "information": "In der Übersicht eine Zeitspanne ausgewählt",
+        "help": ""
+      },
+      "fr": {
+        "title": "Aperçu - analyse temporelle",
+        "information": "Tu observes l'évolution de tes données pour une période.",
+        "help": ""
+      },
+      "it": {
+        "title": "Panoramica - analisi temporale",
+        "information": "Osserva come i tuoi dati cambiano nel tempo.",
+        "help": ""
+      }
+    },
+    {
+      "key": "SHARE_WITH_PARENTS",
+      "level": 1,
+      "required": false,
+      "de": {
+        "title": "Erfolgslogik - Freude suchen und weitergeben",
+        "information": "Erfolgslogik an KV/Region freigegeben",
+        "help": ""
+      },
+      "fr": {
+        "title": "Diagramme de succès - Partager",
+        "information": "Tu transmets le diagramme de succès aux niveaux supérieurs.",
+        "help": ""
+      },
+      "it": {
+        "title": "Logica del successo - Condividere",
+        "information": "Trasmetteti la logica del successo al livello superiore.",
+        "help": ""
+      }
+    },
+    {
+      "key": "EL_FILL_OUT",
+      "level": 2,
+      "required": true,
+      "de": {
+        "title": "Erfolgslogik - alle Aspekte vollständig bearbeitet",
+        "information": "Erfolgslogik - Alle Fragen von allen Kästchen beantwortet",
+        "help": "Du hast noch nicht jedes der verschiedenen Kästchen bearbeitet und/oder ausgefüllt."
+      },
+      "fr": {
+        "title": "Diagramme de succès - traitement complet de tous les domaines",
+        "information": "Tu réponds à toutes les questions de toutes les cases.",
+        "help": "Tu n'as pas encore rempli ou modifié chacune des cases."
+      },
+      "it": {
+        "title": "Logica del successo - elaborazione completa di tutte le aree",
+        "information": "Rispondi a tutte le domande in tutte le caselle.",
+        "help": "Non hai ancora compilato o modificato ogni casella."
+      }
+    },
+    {
+      "key": "SHARE_1",
+      "level": 2,
+      "required": false,
+      "de": {
+        "title": "Einladen von mindestens einer anderen Person",
+        "information": "Den eigenen HealthCheck mit mindestens einer anderen Person teilen",
+        "help": ""
+      },
+      "fr": {
+        "title": "À plusieurs, on va plus loin",
+        "information": "Tu partages l'accès à au moins une autre personne.",
+        "help": ""
+      },
+      "it": {
+        "title": "Andiamo oltre",
+        "information": "Condividete l'accesso con almeno un'altra persona.",
+        "help": ""
+      }
+    },
+    {
+      "key": "EL_IRRELEVANT",
+      "level": 2,
+      "required": false,
+      "de": {
+        "title": "Erfolgslogik - ausblenden, was nicht relevant ist",
+        "information": "In  in einem vollen Kästchen mind. eine nicht relevante Frage ausgeblendet",
+        "help": ""
+      },
+      "fr": {
+        "title": "Diagramme de succès - ce qui n'est pas pertinent est transparent",
+        "information": "Tu indiques quelles questions en sont pas importantes au sein d'une case (la case doit être remplie).",
+        "help": ""
+      },
+      "it": {
+        "title": "Logica del successo - ciò che è irrilevante è trasparente",
+        "information": "Indica quali domande non sono importanti all'interno di una casella (la casella deve essere riempita).",
+        "help": ""
+      }
+    },
+    {
+      "key": "EL_CHANGE",
+      "level": 2,
+      "required": false,
+      "de": {
+        "title": "Erfolgslogik - ein Aspekt überarbeitet",
+        "information": "Mindestens ein volles Kästchen später nochmals editiert",
+        "help": ""
+      },
+      "fr": {
+        "title": "Diagramme de succès - révision d'un aspect",
+        "information": "Tu modifies une réponse dans une case remplie.",
+        "help": ""
+      },
+      "it": {
+        "title": "Logica del successo - revisione di un aspetto",
+        "information": "Modifica una risposta in un riquadro compilato.",
+        "help": ""
+      }
+    },
+    {
+      "key": "EL_IMPROVE",
+      "level": 3,
+      "required": true,
+      "de": {
+        "title": "Erfolgslogik - ein Aspekt verbessert",
+        "information": "Mindestens in einem vollen Kästchen eine Frage besser beantwortet als vorher",
+        "help": ""
+      },
+      "fr": {
+        "title": "Diagramme de succès - amélioration d'un aspect",
+        "information": "Tu améliores une réponse dans une case remplie.",
+        "help": ""
+      },
+      "it": {
+        "title": "Logica del successo - migliora un aspetto",
+        "information": "Migliora una risposta in un riquadro completato.",
+        "help": ""
+      }
+    },
+    {
+      "key": "LOGIN_FOUR_A_YEAR",
+      "level": 3,
+      "required": false,
+      "de": {
+        "title": "Vier Mal innerhalb eines Jahres eingeloggt.",
+        "information": "Du loggst dich in einem Jahr viermal ein.",
+        "help": "Du hast dich % mal eingeloggt"
+      },
+      "fr": {
+        "title": "Quadruple connexion",
+        "information": "Tu te connectes quatre fois sur un an.",
+        "help": "Tu t'es connecté·e·s % fois."
+      },
+      "it": {
+        "title": "Accesso quadruplicato",
+        "information": "Hai fatto l'accesso quattro volte in un anno.",
+        "help": "Ti sei connesso/a % volte."
+      }
+    },
+    {
+      "key": "SHARE_THREE",
+      "level": 3,
+      "required": false,
+      "de": {
+        "title": "Einladen von mindestens 3 anderen Personen.",
+        "information": "Den eigenen HealthCheck mit mindestens drei anderen Person teilen",
+        "help": "Du hast % von 3 Freigaben"
+      },
+      "fr": {
+        "title": "Encore plus d'invitations",
+        "information": "Tu partages l'accès à au moins trois autres personnes.",
+        "help": "Tu as partagé l'accès à % personnes sur 3."
+      },
+      "it": {
+        "title": "Ancora più persone",
+        "information": "Condividi l'accesso con almeno altre tre persone.",
+        "help": "Hai condiviso l'accesso con % persone su 3."
+      }
+    }
+  ]
+}
+
