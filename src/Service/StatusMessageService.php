@@ -39,6 +39,4 @@ class StatusMessageService
 
         return StatusMessageMapper::mapStatusBanner($state, $lang);
     }
-
-
 }
