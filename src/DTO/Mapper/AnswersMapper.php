@@ -4,6 +4,7 @@ namespace App\DTO\Mapper;
 
 use App\DTO\Model\Apps\Quap\AnswersDTO;
 use App\DTO\Model\Apps\Quap\ExtendedAnswersDTO;
+use App\DTO\Model\Apps\Quap\NestedExtendedAnswersDTO;
 use App\Entity\Aggregated\AggregatedQuap;
 
 class AnswersMapper
@@ -30,5 +31,16 @@ class AnswersMapper
         $dto->setGroupType($answerGroup->getGroupType()->getGroupType());
 
         return $dto;
+    }
+
+    /**
+     * @param AggregatedQuap $quap
+     * @return NestedExtendedAnswersDTO
+     */
+    public static function mapNestedExtendedAnswers(AggregatedQuap $quap): NestedExtendedAnswersDTO
+    {
+        $extendedAnswer = self::mapExtendedAnswers($quap);
+
+        return new NestedExtendedAnswersDTO($extendedAnswer, []);
     }
 }

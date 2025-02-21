@@ -16,6 +16,7 @@ class GroupType
     public const CANTON = 'Group::Kantonalverband';
     public const REGION = 'Group::Region';
     public const DEPARTMENT = 'Group::Abteilung';
+    public const DEPARTMENT_HIERARCHY = [self::FEDERATION, self::CANTON, self::REGION, self::DEPARTMENT];
 
     public const BIBER = 'Group::Biber';
     public const WOELFE = 'Group::Woelfe';
@@ -50,6 +51,28 @@ class GroupType
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $groupType;
+
+
+    /**
+     * Returns whether $other is the child department of this
+     * @param GroupType $other
+     * @return bool
+     */
+    public function isDepartmentParent(GroupType &$other): bool
+    {
+        try {
+            $index = array_search($this->getGroupType(), self::DEPARTMENT_HIERARCHY);
+            if (!$index) {
+                return false;
+            }
+
+            $childGroupType = self::DEPARTMENT_HIERARCHY[$index + 1];
+            $otherGroupType = $other->getGroupType();
+            return $childGroupType === $otherGroupType;
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
 
     /**
      * @param int $id

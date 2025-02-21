@@ -3,10 +3,10 @@
 namespace App\Service\Apps\Quap;
 
 use App\DTO\Mapper\AnswersMapper;
-use App\DTO\Mapper\HierarchyMapper;
+use App\DTO\Mapper\QuapNodeMapper;
 use App\DTO\Model\Apps\Quap\AnswersDTO;
 use App\DTO\Model\Apps\Quap\ExtendedAnswersDTO;
-use App\DTO\Model\HierarchyDTO;
+use App\DTO\Model\Apps\Quap\NestedExtendedAnswersDTO;
 use App\Entity\Aggregated\AggregatedQuap;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
@@ -15,6 +15,7 @@ use App\Entity\Quap\Help;
 use App\Entity\Quap\Question;
 use App\Entity\Quap\Questionnaire;
 use App\Exception\ApiException;
+use App\Model\QuapNode;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Quap\AspectRepository;
@@ -27,7 +28,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\This;
+
 use function str_contains;
 
 class QuapService
@@ -65,6 +66,8 @@ class QuapService
      * @param HelpRepository $helpRepository
      * @param LinkRepository $linkRepository
      * @param AggregatedQuapRepository $quapRepository
+     * @param GroupRepository $groupRepository
+     * @param StatisticGroupRepository $statisticGroupRepository
      * @param EntityManagerInterface $em
      */
     public function __construct(
@@ -196,7 +199,8 @@ class QuapService
     public function getAnswersForSubDepartments(Group $group, ?DateTimeImmutable $date): array
     {
         $ids = $this->getDepartmentIdsFromGroup($group);
-        $quaps = $this->quapRepository->findAllAnswers($ids, $date !== null ? $date->format('Y-m-d') : null);
+        $dateString = $date !== null ? $date->format('Y-m-d') : null;
+        $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
 
         return array_map(
             fn($aggregatedQuap) => AnswersMapper::mapExtendedAnswers($aggregatedQuap),
@@ -204,50 +208,65 @@ class QuapService
         );
     }
 
-
     /**
      * @param Group $group
      * @param DateTimeImmutable|null $date
-     * @return HierarchyDTO<ExtendedAnswersDTO>[]
+     * @return NestedExtendedAnswersDTO[]
      * @throws Exception
      */
     public function getHierarchicalAnswersFromSubDepartments(Group $group, ?DateTimeImmutable $date): array
     {
-        $groupType = $group->getGroupType()->getGroupType();
+        $groupType = $group->getGroupType();
 
         $ids = $this->getDepartmentIdsFromGroup($group);
-        $quaps = $this->quapRepository->findAllAnswers($ids, $date !== null ? $date->format('Y-m-d') : null);
 
-        if ($groupType === GroupType::REGION) {
-            return array_map(
-                fn($aggregatedQuap) => new HierarchyDTO(AnswersMapper::mapExtendedAnswers($aggregatedQuap)),
+        $dateString = $date !== null ? $date->format('Y-m-d') : null;
+        $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
+
+        if ($groupType->getGroupType() === GroupType::REGION) {
+            $dtos = array_map(
+                fn($aggregatedQuap) => AnswersMapper::mapNestedExtendedAnswers($aggregatedQuap),
                 $quaps
             );
+
+            // group all departments
+            return array(new NestedExtendedAnswersDTO(null, $dtos));
         }
 
-        if ($groupType === GroupType::CANTON) {
-            $nestedQuaps = $this->mapToRegionalHierarchyAggregated($quaps);
-            return array_map(
-                fn($node) => HierarchyMapper::mapNode(
-                    $node,
-                    fn($a) => AnswersMapper::mapExtendedAnswers($a),
-                ),
-                $nestedQuaps,
-            );
+        $remainingQuaps = $quaps;
+        // because not every group shares their answers, the tree has gaps and therefore we need multiple trees
+        $trees = [];
+
+        while (count($remainingQuaps) > 0) {
+            [$tree, $remaining] = $this->createQuapTree($remainingQuaps);
+            $remainingQuaps = $remaining;
+            $trees[] = $tree;
         }
 
-        if ($groupType === GroupType::FEDERATION) {
-            $nestedQuaps = $this->mapToCantonalHierarchyAggregatedQuad($quaps);
-            return array_map(
-                fn($node) => HierarchyMapper::mapNode(
-                    $node,
-                    fn($a) => AnswersMapper::mapExtendedAnswers($a),
-                ),
-                $nestedQuaps,
-            );
+        $dtos = array_map(fn($tree) => QuapNodeMapper::map($tree), $trees);
+
+        // if only departments are shown it makes more sense to group them
+        if ($this->onlyDepartmentAnswers($dtos)) {
+            return array(new NestedExtendedAnswersDTO(null, $dtos));
         }
 
-        throw new Exception("Invalid group type");
+        return $dtos;
+    }
+
+    /**
+     * @param NestedExtendedAnswersDTO[] $answers
+     * @return bool
+     */
+    private function onlyDepartmentAnswers(array $answers): bool
+    {
+        foreach ($answers as $answer) {
+            $value = $answer->getValue();
+            if ($value === null || $value->getGroupType() !== GroupType::DEPARTMENT) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -257,21 +276,24 @@ class QuapService
      */
     private function getDepartmentIdsFromGroup(Group $group): array
     {
-        switch ($group->getGroupType()->getGroupType())
-        {
+        switch ($group->getGroupType()->getGroupType()) {
             case GroupType::FEDERATION:
-                return $this->statisticGroupRepository->findAllRelevantChildGroups(
-                    $group->getId(),
-                    [GroupType::CANTON, GroupType::REGION, GroupType::DEPARTMENT]
-                );
+                $children = [GroupType::CANTON, GroupType::REGION, GroupType::DEPARTMENT];
+                break;
             case GroupType::CANTON:
-                $groups = $this->groupRepository->findAllDepartmentsFromCanton($group->getId());
-                return array_map(fn($group) => $group['id'], $groups);
+                $children = [GroupType::REGION, GroupType::DEPARTMENT];
+                break;
             case GroupType::REGION:
-                return $this->statisticGroupRepository->findAllRelevantChildGroups($group->getId(), [GroupType::DEPARTMENT]);
+                $children = [GroupType::DEPARTMENT];
+                break;
             default:
                 throw new Exception("can't get departments of a department");
         }
+
+        return $this->statisticGroupRepository->findAllRelevantChildGroups(
+            $group->getId(),
+            $children,
+        );
     }
 
     /**
@@ -284,145 +306,61 @@ class QuapService
         return $a->getGroup()->getGroupType()->getId() - $b->getGroup()->getGroupType()->getId();
     }
 
+    private function findParentQuapNode(QuapNode $root, QuapNode $child): ?QuapNode
+    {
+        if ($root->hasSameGroupType($child)) {
+            return null;
+        }
+
+        if ($root->isGroupTypeParent($child)) {
+            if ($root->isGroupParent($child)) {
+                return $root;
+            }
+
+            return null;
+        }
+
+        foreach ($root->getChildren() as $node) {
+            $match = $this->findParentQuapNode($node, $child);
+            if ($match !== null) {
+                return $match;
+            }
+        }
+
+        return null;
+    }
+
     /**
+     * createQuapTree creates a tree where the root is the first element in the quaps array
      * @param AggregatedQuap[] $quaps
-     * @return HierarchyDTO<AggregatedQuap>[]
+     * @return array The array consists of [Tree $tree, AggregatedQuap[] $remaining]
      */
-    private function mapToCantonalHierarchyAggregatedQuad(array $quaps): array
+    private function createQuapTree(array $quaps): array
     {
         usort($quaps, fn($a, $b) => $this->sortByGroupType($a, $b));
 
         /**
-         * maps a group_id of the canton to a HierarchyDTO of AggregatedQuap
-         * @var array<int, HierarchyDTO<AggregatedQuap>> $nestedDepartmentsMap
+         * @var AggregatedQuap $rootQuap
          */
-        $nestedDepartmentsMap = array();
-        /**
-         * @var AggregatedQuap[] $parentlessDepartments
-         */
-        $parentlessDepartments = array();
+        $rootQuap = array_shift($quaps);
+        $root = new QuapNode($rootQuap);
 
-        foreach ($quaps as $quap) {
-            $group = $quap->getGroup();
-            $groupType = $group->getGroupType()->getGroupType();
+        $length = count($quaps);
 
-            if ($groupType === GroupType::CANTON) {
-                    $nestedDepartmentsMap[$group->getId()] = new HierarchyDTO($quap);
-                    continue;
-            }
+        for ($i = 0; $i < $length; $i++) {
+            $element = array_shift($quaps);
 
-            if ($groupType === GroupType::REGION) {
-                $parentGroup = $group->getParentGroup();
-                if ($parentGroup == null) {
-                    $parentlessDepartments[] = $quap;
-                    continue;
-                }
-                $parentGroupId = $parentGroup->getId();
+            $node = new QuapNode($element);
 
-                $nestedAnswer = $nestedDepartmentsMap[$parentGroupId] ?? null;
-                if ($nestedAnswer === null) {
-                    $nestedDepartmentsMap[$parentGroupId] = new HierarchyDTO(null, array(new HierarchyDTO($quap)));
-                    continue;
-                }
-
-                $nestedAnswer->addChild(new HierarchyDTO($quap));
+            $parent = $this->findParentQuapNode($root, $node);
+            if ($parent === null) {
+                $quaps[] = $element;
                 continue;
             }
 
-            $parentGroup = $group->getParentGroup();
-            if ($parentGroup == null) {
-                $parentlessDepartments[] = $quap;
-                continue;
-            }
-            $parentGroupId = $parentGroup->getId();
-
-            $cantonId = $group->getCantonId();
-            if ($cantonId === null) {
-                $parentlessDepartments[] = $quap;
-            }
-
-            $cantonalHierarchy = $nestedDepartmentsMap[$cantonId] ?? null;
-            if ($cantonalHierarchy === null) {
-                $parentlessDepartments[] = $quap;
-                continue;
-            }
-
-            $found = false;
-            foreach ($cantonalHierarchy->getChildren() as $regionalHierarchy) {
-                $regionalQuap = $regionalHierarchy->getParent();
-                if ($regionalQuap->getGroup()->getId() === $parentGroupId) {
-                    $regionalHierarchy->addChild(new HierarchyDTO($quap));
-                    $found = true;
-                    break;
-                }
-            }
-
-            if (!$found) {
-                $parentlessDepartments[$cantonId] = $quap;
-            }
+            $parent->addChild($node);
         }
 
-        $nestedQuaps = array_values($nestedDepartmentsMap);
-        if (count($parentlessDepartments) > 0) {
-            $nestedQuaps[] = new HierarchyDTO(null, $this->mapToRegionalHierarchyAggregated($parentlessDepartments));
-        }
-
-        return $nestedQuaps;
-    }
-
-
-    /**
-     * @param AggregatedQuap[] $quaps
-     * @return HierarchyDTO<AggregatedQuap>[]
-     */
-    private function mapToRegionalHierarchyAggregated(array $quaps): array
-    {
-        /**
-         * maps a group_id of a region to a HierarchyDTO of AggregatedQuap
-         * @var array<int, HierarchyDTO<AggregatedQuap>> $nestedDepartmentsMap
-         */
-        $nestedDepartmentsMap = array();
-        /**
-         * @var AggregatedQuap[] $parentlessDepartments
-         */
-        $parentlessDepartments = array();
-
-        foreach ($quaps as $quap) {
-            $group = $quap->getGroup();
-            if ($group->getGroupType()->getGroupType() === GroupType::REGION) {
-                $nested = $nestedDepartmentsMap[$group->getId()] ?? null;
-                if ($nested === null) {
-                    $nestedDepartmentsMap[$group->getId()] = new HierarchyDTO($quap);
-                    continue;
-                }
-                $nested->setParent($quap);
-                continue;
-            }
-
-            $parentGroup = $group->getParentGroup();
-            if ($parentGroup == null) {
-                $parentlessDepartments[] = $quap;
-                continue;
-            }
-            $parentGroupId = $parentGroup->getId();
-
-            $nestedAnswer = $nestedDepartmentsMap[$parentGroupId] ?? null;
-            if ($nestedAnswer === null) {
-                $nestedDepartmentsMap[$parentGroupId] = new HierarchyDTO(null, array(new HierarchyDTO($quap)));
-                continue;
-            }
-
-            $nestedAnswer->addChild(new HierarchyDTO($quap));
-        }
-
-        $nestedQuaps = array_values($nestedDepartmentsMap);
-        if (count($parentlessDepartments) > 0) {
-            $nestedQuaps[] = new HierarchyDTO(null, array_map(
-                fn($parentlessQuap) => new HierarchyDTO($parentlessQuap),
-                $parentlessDepartments)
-            );
-        }
-
-        return $nestedQuaps;
+        return [$root, $quaps];
     }
 }
