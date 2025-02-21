@@ -6,14 +6,15 @@ use App\DTO\Mapper\QuestionnaireMapper;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\OptionalDateRequestData;
 use App\Entity\Midata\Group;
+use App\Entity\Midata\GroupType;
 use App\Exception\ApiException;
 use App\Service\Apps\Quap\QuapService;
 use App\Service\DataProvider\QuapSubdepartmentDateDataProvider;
 use App\Service\Security\PermissionVoter;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
 class QuapController extends AbstractController
@@ -57,14 +58,12 @@ class QuapController extends AbstractController
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
 
         try {
-
             $data = $this->quapService->getAnswersForSubDepartments(
                 $group,
                 null
             );
             return $this->json($data);
-        }
-        catch (Exception $exception) {
+        } catch (Exception $exception) {
             throw new ApiException(400, "Invalid input");
         }
     }
@@ -116,9 +115,15 @@ class QuapController extends AbstractController
         string $type
     ): JsonResponse {
         $date = $request->get('date', null);
-        $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : new \DateTimeImmutable('now');
+        $date = $date
+            ? \DateTimeImmutable::createFromFormat('Y-m-d', $date)
+            : new \DateTimeImmutable('now');
 
-        $questionnaire = $this->quapService->getQuestionnaireByType($type, $request->getLocale(), $date->format('Y-m-d'));
+        $questionnaire = $this->quapService->getQuestionnaireByType(
+            $type,
+            $request->getLocale(),
+            $date->format('Y-m-d'),
+        );
 
         $questionnaireDTO = QuestionnaireMapper::createQuestionnaireFromEntity($questionnaire, $request->getLocale());
 
@@ -184,13 +189,20 @@ class QuapController extends AbstractController
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
 
+
         $date = $request->get('date', null);
 
+
         try {
+            $match = in_array($group->getGroupType()->getGroupType(), GroupType::DEPARTMENT_HIERARCHY);
+            if ($match === false) {
+                throw new ApiException(400, "Invalid group");
+            }
+
+
             $response = $this->quapService->getHierarchicalAnswersFromSubDepartments($group, $date);
             return $this->json($response);
-        }
-        catch (Exception $exception) {
+        } catch (Exception $exception) {
             throw new ApiException(400, "Invalid input");
         }
     }
