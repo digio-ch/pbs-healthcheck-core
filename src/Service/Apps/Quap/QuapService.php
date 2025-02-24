@@ -51,9 +51,6 @@ class QuapService
     /** @var AggregatedQuapRepository $quapRepository */
     private AggregatedQuapRepository $quapRepository;
 
-    /** @var GroupRepository $groupRepository */
-    private GroupRepository $groupRepository;
-
     /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
@@ -66,7 +63,6 @@ class QuapService
      * @param HelpRepository $helpRepository
      * @param LinkRepository $linkRepository
      * @param AggregatedQuapRepository $quapRepository
-     * @param GroupRepository $groupRepository
      * @param StatisticGroupRepository $statisticGroupRepository
      * @param EntityManagerInterface $em
      */
@@ -77,7 +73,6 @@ class QuapService
         HelpRepository $helpRepository,
         LinkRepository $linkRepository,
         AggregatedQuapRepository $quapRepository,
-        GroupRepository $groupRepository,
         StatisticGroupRepository $statisticGroupRepository,
         EntityManagerInterface $em
     ) {
@@ -87,7 +82,6 @@ class QuapService
         $this->helpRepository = $helpRepository;
         $this->linkRepository = $linkRepository;
         $this->quapRepository = $quapRepository;
-        $this->groupRepository = $groupRepository;
         $this->statisticGroupRepository = $statisticGroupRepository;
         $this->em = $em;
     }
@@ -312,12 +306,8 @@ class QuapService
             return null;
         }
 
-        if ($root->isGroupTypeParent($child)) {
-            if ($root->isGroupParent($child)) {
-                return $root;
-            }
-
-            return null;
+        if ($root->isGroupParent($child)) {
+            return $root;
         }
 
         foreach ($root->getChildren() as $node) {

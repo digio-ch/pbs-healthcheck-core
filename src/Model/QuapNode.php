@@ -36,13 +36,6 @@ class QuapNode extends Node
         }
     }
 
-    public function isGroupTypeParent(QuapNode $child): bool
-    {
-        $parentGroupType = $this->getQuap()->getGroup()->getGroupType();
-        $childGroupType = $child->getQuap()->getGroup()->getGroupType();
-        return $parentGroupType->isDepartmentParent($childGroupType);
-    }
-
     public function isGroupParent(QuapNode $child): bool
     {
         try {
