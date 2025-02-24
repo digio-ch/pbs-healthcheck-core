@@ -7,54 +7,54 @@ class StatusMessageDTO
     /**
      * @var string
      */
-    private string $severity;
+    private string $title;
 
     /**
-     * @var string|null
+     * @var string
      */
-    private ?string $message;
+    private string $body;
 
     /**
-     * @param string $severity
-     * @param string | null $message
+     * @param string $title
+     * @param string $body
      */
-    public function __construct(string $severity, ?string $message = null)
+    public function __construct(string $title = "", string $body = "")
     {
-        $this->severity = $severity;
-        $this->message = $message;
+        $this->title = $title;
+        $this->body = $body;
     }
 
     /**
      * @return string
      */
-    public function getSeverity(): string
+    public function getTitle(): string
     {
-        return $this->severity;
+        return $this->title;
     }
 
     /**
-     * @param string $severity
+     * @param string $title
      * @return void
      */
-    public function setSeverity(string $severity): void
+    public function setTitle(string $title): void
     {
-        $this->severity = $severity;
+        $this->title = $title;
     }
 
     /**
-     * @return string | null
+     * @return string
      */
-    public function getMessage(): ?string
+    public function getBody(): string
     {
-        return $this->message;
+        return $this->body;
     }
 
     /**
-     * @param string|null $message
+     * @param string $body
      * @return void
      */
-    public function setMessage(?string $message): void
+    public function setBody(string $body): void
     {
-        $this->message = $message;
+        $this->body = $body;
     }
 }
