@@ -201,7 +201,7 @@ class QuapController extends AbstractController
 
 
         try {
-            $match = in_array($group->getGroupType()->getGroupType(), GroupType::DEPARTMENT_HIERARCHY);
+            $match = in_array($group->getGroupType()->getGroupType(), GroupType::DEPARTMENTS_ALLOWING_HIERARCHY);
             if ($match === false) {
                 throw new ApiException(400, "Invalid group");
             }
