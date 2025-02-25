@@ -32,6 +32,6 @@ class QuapSubdepartmentDateDataProvider extends WidgetDataProvider
 
         $date = ($today->format('Y-m-d') === $date) ? null : \DateTimeImmutable::createFromFormat('Y-m-d', $date);
 
-        return $this->quapService->getAnswersForSubdepartments($group, $date);
+        return $this->quapService->getAnswersForSubDepartments($group, $date);
     }
 }

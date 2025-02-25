@@ -31,6 +31,11 @@ class AggregatedQuapRepository extends AggregatedEntityRepository
             ->getOneOrNullResult();
     }
 
+    /**
+     * @param array $groupIds
+     * @param string|null $date
+     * @return AggregatedQuap[]
+     */
     public function findAllAnswers(array $groupIds, ?string $date): array
     {
         $query = $this->createQueryBuilder('quap')
