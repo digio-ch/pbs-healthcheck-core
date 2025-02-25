@@ -10,15 +10,15 @@ class StatusBannerDTO
     private string $severity;
 
     /**
-     * @var StatusMessageDTO|null
+     * @var object|null
      */
-    private ?StatusMessageDTO $message;
+    private ?object $message;
 
     /**
      * @param string $severity
-     * @param StatusMessageDTO|null $message
+     * @param object|null $message
      */
-    public function __construct(string $severity, ?StatusMessageDTO $message = null)
+    public function __construct(string $severity, ?object $message = null)
     {
         $this->severity = $severity;
         $this->message = $message;
@@ -42,18 +42,18 @@ class StatusBannerDTO
     }
 
     /**
-     * @return StatusMessageDTO|null
+     * @return object|null
      */
-    public function getMessage(): ?StatusMessageDTO
+    public function getMessage(): ?object
     {
         return $this->message;
     }
 
     /**
-     * @param StatusMessageDTO|null $message
+     * @param object|null $message
      * @return void
      */
-    public function setMessage(?StatusMessageDTO $message): void
+    public function setMessage(?object $message): void
     {
         $this->message = $message;
     }
