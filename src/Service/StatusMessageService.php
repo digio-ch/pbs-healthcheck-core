@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\DTO\Mapper\StatusMessageMapper;
-use App\DTO\Model\StatusMessageDTO;
+use App\DTO\Mapper\StatusBannerMapper;
+use App\DTO\Model\StatusBannerDTO;
 use App\Entity\General\StatusMessage;
 use App\Exception\ApiException;
 use App\Repository\General\StatusMessageRepository;
@@ -23,20 +23,19 @@ class StatusMessageService
         $this->statusRepo = $statusRepo;
     }
 
-
     /**
      * @param string $lang
-     * @return StatusMessageDTO
+     * @return StatusBannerDTO
      * @throws ApiException
      */
-    public function getStatus(string $lang): StatusMessageDTO
+    public function getStatus(string $lang): StatusBannerDTO
     {
         $state = $this->statusRepo->findOneBy([]);
 
         if ($state === null || $state->getSeverity() === StatusMessage::NONE) {
-            return new StatusMessageDTO(StatusMessage::NONE);
+            return new StatusBannerDTO(StatusMessage::NONE);
         }
 
-        return StatusMessageMapper::mapStatusBanner($state, $lang);
+        return StatusBannerMapper::map($state, $lang);
     }
 }

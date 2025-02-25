@@ -2,7 +2,7 @@
 
 namespace App\DTO\Model;
 
-class StatusMessageDTO
+class StatusBannerDTO
 {
     /**
      * @var string
@@ -10,15 +10,15 @@ class StatusMessageDTO
     private string $severity;
 
     /**
-     * @var string|null
+     * @var object|null
      */
-    private ?string $message;
+    private ?object $message;
 
     /**
      * @param string $severity
-     * @param string | null $message
+     * @param object|null $message
      */
-    public function __construct(string $severity, ?string $message = null)
+    public function __construct(string $severity, ?object $message = null)
     {
         $this->severity = $severity;
         $this->message = $message;
@@ -42,18 +42,18 @@ class StatusMessageDTO
     }
 
     /**
-     * @return string | null
+     * @return object|null
      */
-    public function getMessage(): ?string
+    public function getMessage(): ?object
     {
         return $this->message;
     }
 
     /**
-     * @param string|null $message
+     * @param object|null $message
      * @return void
      */
-    public function setMessage(?string $message): void
+    public function setMessage(?object $message): void
     {
         $this->message = $message;
     }
