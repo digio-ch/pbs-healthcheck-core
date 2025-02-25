@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "36f0bfa5bce9a9a94a5ccd9aa6ea841f",
+    "content-hash": "8ab3025e13f1ee53d6ab102457548920",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -2442,6 +2442,50 @@
                 "crossdomain"
             ],
             "time": "2021-12-01T09:34:27+00:00"
+        },
+        {
+            "name": "nicmart/tree",
+            "version": "0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nicmart/Tree.git",
+                "reference": "e992740d9ee7975c3fc324ddaafaf63b21e17704"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nicmart/Tree/zipball/e992740d9ee7975c3fc324ddaafaf63b21e17704",
+                "reference": "e992740d9ee7975c3fc324ddaafaf63b21e17704",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "ergebnis/composer-normalize": "^2.19.0",
+                "ergebnis/license": "^1.1.0",
+                "ergebnis/php-cs-fixer-config": "^2.14.0",
+                "phpunit/phpunit": "^8.5.30",
+                "psalm/plugin-phpunit": "~0.17.0",
+                "vimeo/psalm": "^4.27.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tree\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolò Martini",
+                    "email": "nicmartnic@gmail.com"
+                }
+            ],
+            "description": "A basic but flexible php tree data structure and a fluent tree builder implementation.",
+            "time": "2022-10-04T14:33:50+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
