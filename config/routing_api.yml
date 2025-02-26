@@ -8,6 +8,11 @@ app_logout:
   methods: GET
   controller: App\Controller\AuthController::logout
 
+get_status_message:
+  path: /status-message
+  methods: GET
+  controller: App\Controller\Api\StatusController:getStatusMessage
+
 # Group routes
 group:
   resource: "routes/group_routes.yml"
