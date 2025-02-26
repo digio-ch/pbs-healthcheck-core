@@ -6,17 +6,15 @@ use App\DTO\Mapper\QuestionnaireMapper;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\OptionalDateRequestData;
 use App\Entity\Midata\Group;
-use App\Entity\Midata\GroupType;
 use App\Exception\ApiException;
 use App\Service\Apps\Quap\QuapService;
 use App\Service\DataProvider\QuapSubdepartmentDateDataProvider;
 use App\Service\Gamification\PersonGamificationService;
 use App\Service\Gamification\QuapGamificationService;
 use App\Service\Security\PermissionVoter;
-use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
 class QuapController extends AbstractController
@@ -51,7 +49,7 @@ class QuapController extends AbstractController
     /**
      * @param Group $group
      * @return JsonResponse
-     * @throws ApiException
+     *
      * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function getDepartmentPreview(
@@ -59,21 +57,18 @@ class QuapController extends AbstractController
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
 
-        try {
-            $data = $this->quapService->getAnswersForSubDepartments(
-                $group,
-                null
-            );
-            return $this->json($data);
-        } catch (Exception $exception) {
-            throw new ApiException(400, "Invalid input");
-        }
+        $data = $this->quapService->getAnswersForSubdepartments(
+            $group,
+            null
+        );
+
+        return $this->json($data);
     }
 
     /**
      * @param OptionalDateRequestData $dateRequestData
      * @return JsonResponse
-     * @throws Exception
+     * @throws \Exception
      */
     public function getAnswers(
         OptionalDateRequestData $dateRequestData
@@ -117,15 +112,9 @@ class QuapController extends AbstractController
         string $type
     ): JsonResponse {
         $date = $request->get('date', null);
-        $date = $date
-            ? \DateTimeImmutable::createFromFormat('Y-m-d', $date)
-            : new \DateTimeImmutable('now');
+        $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : new \DateTimeImmutable('now');
 
-        $questionnaire = $this->quapService->getQuestionnaireByType(
-            $type,
-            $request->getLocale(),
-            $date->format('Y-m-d'),
-        );
+        $questionnaire = $this->quapService->getQuestionnaireByType($type, $request->getLocale(), $date->format('Y-m-d'));
 
         $questionnaireDTO = QuestionnaireMapper::createQuestionnaireFromEntity($questionnaire, $request->getLocale());
 
@@ -151,8 +140,7 @@ class QuapController extends AbstractController
             throw new ApiException(400, "Invalid JSON");
         }
 
-        // has to be before answers are saved!
-        $quapGamificationService->processQuapEvent($json, $group, $this->getUser());
+        $quapGamificationService->processQuapEvent($json, $group, $this->getUser()); // has to be before answers are saved!
         $savedWidgetQuap = $this->quapService->submitAnswers($group, $json);
 
         return $this->json($savedWidgetQuap->getAnswers());
@@ -187,30 +175,20 @@ class QuapController extends AbstractController
      * @param Group $group
      * @param Request $request
      * @return JsonResponse
-     * @throws ApiException
+     *
      * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
-    public function getAnswersForSubDepartments(
+    public function getAnswersForSubdepartments(
         Group $group,
         Request $request
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
 
-
         $date = $request->get('date', null);
+        $date = $date ? \DateTimeImmutable::createFromFormat('Y-m-d', $date) : null;
 
+        $response = $this->quapService->getAnswersForSubdepartments($group, $date);
 
-        try {
-            $match = in_array($group->getGroupType()->getGroupType(), GroupType::DEPARTMENTS_ALLOWING_HIERARCHY);
-            if ($match === false) {
-                throw new ApiException(400, "Invalid group");
-            }
-
-
-            $response = $this->quapService->getHierarchicalAnswersFromSubDepartments($group, $date);
-            return $this->json($response);
-        } catch (Exception $exception) {
-            throw new ApiException(400, "Invalid input");
-        }
+        return $this->json($response);
     }
 }
