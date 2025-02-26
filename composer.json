@@ -15,7 +15,6 @@
         "guzzlehttp/guzzle": "^6.5",
         "halaxa/json-machine": "^0.3.3",
         "nelmio/cors-bundle": "^2.0",
-        "nicmart/tree": "^0.4.0",
         "sensio/framework-extra-bundle": "^5.5",
         "sentry/sentry-symfony": "^4.8",
         "symfony/cache-contracts": "^2.5",
