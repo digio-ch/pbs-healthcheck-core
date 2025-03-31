@@ -14,7 +14,6 @@ use App\Entity\Quap\Question;
 use App\Entity\Quap\Questionnaire;
 use App\Exception\ApiException;
 use App\Repository\Aggregated\AggregatedQuapRepository;
-use App\Repository\Midata\GroupRepository;
 use App\Repository\Quap\AspectRepository;
 use App\Repository\Quap\HelpRepository;
 use App\Repository\Quap\LinkRepository;
@@ -46,13 +45,11 @@ class QuapService
     /** @var AggregatedQuapRepository $quapRepository */
     private AggregatedQuapRepository $quapRepository;
 
-    /** @var GroupRepository $groupRepository */
-    private GroupRepository $groupRepository;
+    /** @var StatisticGroupRepository $statisticGroupRepository */
+    private StatisticGroupRepository $statisticGroupRepository;
 
     /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
-
-    private StatisticGroupRepository $statisticGroupRepository;
 
     /**
      * @param QuestionnaireRepository $questionnaireRepository
@@ -70,7 +67,6 @@ class QuapService
         HelpRepository $helpRepository,
         LinkRepository $linkRepository,
         AggregatedQuapRepository $quapRepository,
-        GroupRepository $groupRepository,
         StatisticGroupRepository $statisticGroupRepository,
         EntityManagerInterface $em
     ) {
@@ -80,7 +76,6 @@ class QuapService
         $this->helpRepository = $helpRepository;
         $this->linkRepository = $linkRepository;
         $this->quapRepository = $quapRepository;
-        $this->groupRepository = $groupRepository;
         $this->statisticGroupRepository = $statisticGroupRepository;
         $this->em = $em;
     }
@@ -185,19 +180,7 @@ class QuapService
 
     public function getAnswersForSubdepartments(Group $group, ?\DateTimeImmutable $date): array
     {
-        $parentGroupType = $group->getGroupType()->getGroupType();
-
-        $ids = [];
-        if ($parentGroupType === GroupType::CANTON) {
-            $subdepartments = $this->groupRepository->findAllDepartmentsFromCanton($group->getId());
-            foreach ($subdepartments as $group) {
-                $ids[] = $group['id'];
-            }
-        } elseif ($parentGroupType === GroupType::REGION) {
-            $ids = $this->statisticGroupRepository->findAllRelevantChildGroups($group->getId(), [GroupType::DEPARTMENT]);
-        } else {
-            throw new \Exception();
-        }
+        $ids = $this->getDepartmentIdsFromGroup($group);
 
         $answers = $this->quapRepository->findAllAnswers($ids, $date !== null ? $date->format('Y-m-d') : null);
 
@@ -218,5 +201,32 @@ class QuapService
         }
 
         return $dtos;
+    }
+
+    /**
+     * @param Group $group
+     * @return int[]
+     * @throws \Exception
+     */
+    private function getDepartmentIdsFromGroup(Group $group): array
+    {
+        switch ($group->getGroupType()->getGroupType()) {
+            case GroupType::FEDERATION:
+                $children = [GroupType::CANTON];
+                break;
+            case GroupType::CANTON:
+                $children = [GroupType::REGION, GroupType::DEPARTMENT];
+                break;
+            case GroupType::REGION:
+                $children = [GroupType::DEPARTMENT];
+                break;
+            default:
+                throw new \Exception("can't get departments of a department");
+        }
+
+        return $this->statisticGroupRepository->findAllRelevantChildGroups(
+            $group->getId(),
+            $children,
+        );
     }
 }
