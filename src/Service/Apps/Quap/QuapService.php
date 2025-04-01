@@ -272,7 +272,7 @@ class QuapService
     {
         switch ($group->getGroupType()->getGroupType()) {
             case GroupType::FEDERATION:
-                $children = [GroupType::CANTON, GroupType::REGION, GroupType::DEPARTMENT];
+                $children = [GroupType::CANTON, GroupType::REGION];
                 break;
             case GroupType::CANTON:
                 $children = [GroupType::REGION, GroupType::DEPARTMENT];
