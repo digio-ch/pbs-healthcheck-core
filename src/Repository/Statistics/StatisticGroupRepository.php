@@ -72,7 +72,6 @@ class StatisticGroupRepository extends ServiceEntityRepository
     /**
      * Finds all the children of the group that are group type 2,3 or 8. (Kanton, Region, Abteilung)
      * @param int $groupId
-     * @param GroupType[] $types
      * @return int[]
      * @throws Exception
      */

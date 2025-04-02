@@ -3,8 +3,10 @@
 namespace App\Service\Apps\Quap;
 
 use App\DTO\Mapper\AnswersMapper;
+use App\DTO\Mapper\QuapNodeMapper;
 use App\DTO\Model\Apps\Quap\AnswersDTO;
 use App\DTO\Model\Apps\Quap\ExtendedAnswersDTO;
+use App\DTO\Model\Apps\Quap\NestedExtendedAnswersDTO;
 use App\Entity\Aggregated\AggregatedQuap;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
@@ -13,14 +15,18 @@ use App\Entity\Quap\Help;
 use App\Entity\Quap\Question;
 use App\Entity\Quap\Questionnaire;
 use App\Exception\ApiException;
+use App\Model\QuapNode;
 use App\Repository\Aggregated\AggregatedQuapRepository;
+use App\Repository\Midata\GroupRepository;
 use App\Repository\Quap\AspectRepository;
 use App\Repository\Quap\HelpRepository;
 use App\Repository\Quap\LinkRepository;
 use App\Repository\Quap\QuestionnaireRepository;
 use App\Repository\Quap\QuestionRepository;
 use App\Repository\Statistics\StatisticGroupRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 
 use function str_contains;
@@ -45,11 +51,10 @@ class QuapService
     /** @var AggregatedQuapRepository $quapRepository */
     private AggregatedQuapRepository $quapRepository;
 
-    /** @var StatisticGroupRepository $statisticGroupRepository */
-    private StatisticGroupRepository $statisticGroupRepository;
-
     /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
+
+    private StatisticGroupRepository $statisticGroupRepository;
 
     /**
      * @param QuestionnaireRepository $questionnaireRepository
@@ -58,6 +63,7 @@ class QuapService
      * @param HelpRepository $helpRepository
      * @param LinkRepository $linkRepository
      * @param AggregatedQuapRepository $quapRepository
+     * @param StatisticGroupRepository $statisticGroupRepository
      * @param EntityManagerInterface $em
      */
     public function __construct(
@@ -165,10 +171,10 @@ class QuapService
 
     /**
      * @param Group $group
-     * @param \DateTimeImmutable|null $dateTime
+     * @param DateTimeImmutable|null $dateTime
      * @return AnswersDTO
      */
-    public function getAnswers(Group $group, ?\DateTimeImmutable $dateTime): AnswersDTO
+    public function getAnswers(Group $group, ?DateTimeImmutable $dateTime): AnswersDTO
     {
         $widgetQuap = $this->quapRepository->findOneBy([
             "dataPointDate" => $dateTime !== null ? $dateTime->setTime(0, 0) : null,
@@ -178,41 +184,95 @@ class QuapService
         return AnswersMapper::mapAnswers($widgetQuap);
     }
 
-    public function getAnswersForSubdepartments(Group $group, ?\DateTimeImmutable $date): array
+    /**
+     * @param Group $group
+     * @param DateTimeImmutable|null $date
+     * @return ExtendedAnswersDTO[]
+     * @throws Exception
+     */
+    public function getAnswersForSubDepartments(Group $group, ?DateTimeImmutable $date): array
     {
         $ids = $this->getDepartmentIdsFromGroup($group);
+        $dateString = $date !== null ? $date->format('Y-m-d') : null;
+        $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
 
-        $answers = $this->quapRepository->findAllAnswers($ids, $date !== null ? $date->format('Y-m-d') : null);
+        return array_map(
+            fn($aggregatedQuap) => AnswersMapper::mapExtendedAnswers($aggregatedQuap),
+            $quaps
+        );
+    }
 
-        $dtos = [];
-        /** @var AggregatedQuap $answer */
-        foreach ($answers as $answer) {
-            $answerGroup = $answer->getGroup();
+    /**
+     * @param Group $group
+     * @param DateTimeImmutable|null $date
+     * @return NestedExtendedAnswersDTO[]
+     * @throws Exception
+     */
+    public function getHierarchicalAnswersFromSubDepartments(Group $group, ?DateTimeImmutable $date): array
+    {
+        $groupType = $group->getGroupType();
 
-            $dto = new ExtendedAnswersDTO();
-            $dto->setAnswers($answer->getAnswers());
-            $dto->setComputedAnswers($answer->getComputedAnswers());
-            $dto->setGroupId($answerGroup->getId());
-            $dto->setGroupName($answerGroup->getName());
-            $dto->setGroupTypeId($answerGroup->getGroupType()->getId());
-            $dto->setGroupType($answerGroup->getGroupType()->getGroupType());
+        $ids = $this->getDepartmentIdsFromGroup($group);
 
-            $dtos[] = $dto;
+        $dateString = $date !== null ? $date->format('Y-m-d') : null;
+        $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
+
+        if ($groupType->getGroupType() === GroupType::REGION) {
+            $dtos = array_map(
+                fn($aggregatedQuap) => AnswersMapper::mapNestedExtendedAnswers($aggregatedQuap),
+                $quaps
+            );
+
+            // group all departments
+            return array(new NestedExtendedAnswersDTO(null, $dtos));
+        }
+
+        $remainingQuaps = $quaps;
+        // because not every group shares their answers, the tree has gaps and therefore we need multiple trees
+        $trees = [];
+
+        while (count($remainingQuaps) > 0) {
+            [$tree, $remaining] = $this->createQuapTree($remainingQuaps);
+            $remainingQuaps = $remaining;
+            $trees[] = $tree;
+        }
+
+        $dtos = array_map(fn($tree) => QuapNodeMapper::map($tree), $trees);
+
+        // if only departments are shown it makes more sense to group them
+        if ($this->onlyDepartmentAnswers($dtos)) {
+            return array(new NestedExtendedAnswersDTO(null, $dtos));
         }
 
         return $dtos;
     }
 
     /**
+     * @param NestedExtendedAnswersDTO[] $answers
+     * @return bool
+     */
+    private function onlyDepartmentAnswers(array $answers): bool
+    {
+        foreach ($answers as $answer) {
+            $value = $answer->getValue();
+            if ($value === null || $value->getGroupType() !== GroupType::DEPARTMENT) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param Group $group
      * @return int[]
-     * @throws \Exception
+     * @throws Exception
      */
     private function getDepartmentIdsFromGroup(Group $group): array
     {
         switch ($group->getGroupType()->getGroupType()) {
             case GroupType::FEDERATION:
-                $children = [GroupType::CANTON];
+                $children = [GroupType::CANTON, GroupType::REGION];
                 break;
             case GroupType::CANTON:
                 $children = [GroupType::REGION, GroupType::DEPARTMENT];
@@ -221,12 +281,76 @@ class QuapService
                 $children = [GroupType::DEPARTMENT];
                 break;
             default:
-                throw new \Exception("can't get departments of a department");
+                throw new Exception("can't get departments of a department");
         }
 
         return $this->statisticGroupRepository->findAllRelevantChildGroups(
             $group->getId(),
             $children,
         );
+    }
+
+    /**
+     * @param AggregatedQuap $a
+     * @param AggregatedQuap $b
+     * @return int
+     */
+    private function sortByGroupType(AggregatedQuap $a, AggregatedQuap $b): int
+    {
+        return $a->getGroup()->getGroupType()->getId() - $b->getGroup()->getGroupType()->getId();
+    }
+
+    private function findParentQuapNode(QuapNode $root, QuapNode $child): ?QuapNode
+    {
+        if ($root->hasSameGroupType($child)) {
+            return null;
+        }
+
+        if ($root->isGroupParent($child)) {
+            return $root;
+        }
+
+        foreach ($root->getChildren() as $node) {
+            $match = $this->findParentQuapNode($node, $child);
+            if ($match !== null) {
+                return $match;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * createQuapTree creates a tree where the root is the first element in the quaps array
+     * @param AggregatedQuap[] $quaps
+     * @return array The array consists of [Tree $tree, AggregatedQuap[] $remaining]
+     */
+    private function createQuapTree(array $quaps): array
+    {
+        usort($quaps, fn($a, $b) => $this->sortByGroupType($a, $b));
+
+        /**
+         * @var AggregatedQuap $rootQuap
+         */
+        $rootQuap = array_shift($quaps);
+        $root = new QuapNode($rootQuap);
+
+        $length = count($quaps);
+
+        for ($i = 0; $i < $length; $i++) {
+            $element = array_shift($quaps);
+
+            $node = new QuapNode($element);
+
+            $parent = $this->findParentQuapNode($root, $node);
+            if ($parent === null) {
+                $quaps[] = $element;
+                continue;
+            }
+
+            $parent->addChild($node);
+        }
+
+        return [$root, $quaps];
     }
 }
