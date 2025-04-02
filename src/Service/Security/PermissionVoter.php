@@ -54,11 +54,8 @@ class PermissionVoter extends Voter
         assert($user instanceof PbsUserDTO);
         assert($subject instanceof Group);
 
-        // allow access if user in special email list and environment is either dev or stage
-        if (
-            in_array($this->environment, ['dev', 'stage']) &&
-            in_array($user->getEmail(), $this->specialAccessEmails)
-        ) {
+        // allow access if user in special email list or environment is dev
+        if ($this->environment === 'dev' || in_array($user->getEmail(), $this->specialAccessEmails)) {
             return true;
         }
 
