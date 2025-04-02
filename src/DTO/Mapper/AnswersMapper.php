@@ -3,6 +3,8 @@
 namespace App\DTO\Mapper;
 
 use App\DTO\Model\Apps\Quap\AnswersDTO;
+use App\DTO\Model\Apps\Quap\ExtendedAnswersDTO;
+use App\DTO\Model\Apps\Quap\NestedExtendedAnswersDTO;
 use App\Entity\Aggregated\AggregatedQuap;
 
 class AnswersMapper
@@ -14,5 +16,31 @@ class AnswersMapper
         $dto->setComputedAnswers($widgetQuap->getComputedAnswers());
         $dto->setShareAccess($widgetQuap->getAllowAccess());
         return $dto;
+    }
+
+    public static function mapExtendedAnswers(AggregatedQuap $widgetQuap): ExtendedAnswersDTO
+    {
+        $answerGroup = $widgetQuap->getGroup();
+
+        $dto = new ExtendedAnswersDTO();
+        $dto->setAnswers($widgetQuap->getAnswers());
+        $dto->setComputedAnswers($widgetQuap->getComputedAnswers());
+        $dto->setGroupId($answerGroup->getId());
+        $dto->setGroupName($answerGroup->getName());
+        $dto->setGroupTypeId($answerGroup->getGroupType()->getId());
+        $dto->setGroupType($answerGroup->getGroupType()->getGroupType());
+
+        return $dto;
+    }
+
+    /**
+     * @param AggregatedQuap $quap
+     * @return NestedExtendedAnswersDTO
+     */
+    public static function mapNestedExtendedAnswers(AggregatedQuap $quap): NestedExtendedAnswersDTO
+    {
+        $extendedAnswer = self::mapExtendedAnswers($quap);
+
+        return new NestedExtendedAnswersDTO($extendedAnswer, []);
     }
 }

@@ -64,7 +64,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.0.0/28
+        - subnet: 172.20.0.0/24
 
 volumes:
   healthcheck-postgres-data:

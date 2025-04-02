@@ -94,22 +94,15 @@ class PbsAuthService
     {
         $token = $this->getTokenUsingCode($code);
         $user = $this->getUserWithToken($token);
-        switch ($this->environment) {
-            case 'dev':
-                $this->processRolesForDev($user);
-                $pbsUser = PbsUserMapper::createFromArray($user);
-                $this->processGroupsForDev($pbsUser, $locale);
-                break;
-            case 'stage':
-                $this->processRolesForStage($user);
-                $pbsUser = PbsUserMapper::createFromArray($user);
-                $this->processGroupsForStage($pbsUser, $locale);
-                break;
-            default:
-                $this->processRoles($user);
-                $pbsUser = PbsUserMapper::createFromArray($user);
-                $this->processGroups($pbsUser, $locale);
+
+        if ($this->environment === 'dev') {
+            $this->assignLeaderRoleOfAllGroups($user);
+        } else {
+            $this->assignRoles($user);
         }
+
+        $pbsUser = PbsUserMapper::createFromArray($user);
+        $this->assignGroups($pbsUser, $locale);
 
         $allGroups = $pbsUser->getGroups();
         usort($allGroups, function (GroupDTO $a, GroupDTO $b) {
@@ -152,9 +145,42 @@ class PbsAuthService
     }
 
     /**
+     * Assigns the roles from the database if the user has no special access.
+     * Else the leader roles of all groups are assigned.
      * @param array $user
      */
-    private function processRoles(array &$user)
+    private function assignRoles(array &$user)
+    {
+        if (in_array($user['email'], $this->specialAccessEmails)) {
+            $this->assignLeaderRoleOfAllGroups($user);
+            return;
+        }
+
+        $this->assignOwnRoles($user);
+    }
+
+    /**
+     * This will assign a main-group leader role to every existing main group to the user.
+     * We do this so we can select any main-group in the front-end.
+     * @param array $user
+     */
+    private function assignLeaderRoleOfAllGroups(array &$user)
+    {
+        $groups = $this->groupRepository->findAllParentGroups();
+        $user['roles'] = [];
+        foreach ($groups as $group) {
+            $user['roles'][] = [
+                'group_id' => $group->getId(),
+                'group_name' => $group->getName(),
+                'role_type' => WidgetAggregator::$mainGroupRoleTypes[0]
+            ];
+        }
+    }
+
+    /**
+     * @param array $user
+     */
+    private function assignOwnRoles(array &$user)
     {
         $groupIds = array_unique(array_map(function ($role) {
             return $role['group_id'];
@@ -180,12 +206,28 @@ class PbsAuthService
     }
 
     /**
+     * If the user email is in the special access array,
+     * we add all main-groups to the user object so that we can select all of them in the front-end.
+     * @param PbsUserDTO $pbsUser
+     * @param string $locale
+     */
+    private function assignGroups(PbsUserDTO $pbsUser, string $locale)
+    {
+        if (in_array($pbsUser->getEmail(), $this->specialAccessEmails)) {
+            $this->assignOwnerAccessOfAllGroups($pbsUser, $locale);
+            return;
+        }
+
+        $this->assignGroupsBasedOnPermissions($pbsUser, $locale);
+    }
+
+    /**
      * This will add all groups to the user object where the user has a main-group leader role.
      * Additionally, we get all groups to where the user was invited to and them to the user object as well.
      * @param PbsUserDTO $pbsUser
      * @param string $locale
      */
-    private function processGroups(PbsUserDTO $pbsUser, string $locale)
+    private function assignGroupsBasedOnPermissions(PbsUserDTO $pbsUser, string $locale)
     {
         $groupMapping = [];
 
@@ -224,66 +266,12 @@ class PbsAuthService
     }
 
     /**
-     * @param array $user
-     */
-    private function processRolesForStage(array &$user)
-    {
-        if (!in_array($user['email'], $this->specialAccessEmails)) {
-            $this->processRoles($user);
-            return;
-        }
-        $this->processRolesForDev($user);
-    }
-
-    /**
+     * Assigns groups to the user he has permissions for.
      * @param PbsUserDTO $pbsUser
      * @param string $locale
+     * @return void
      */
-    private function processGroupsForStage(PbsUserDTO $pbsUser, string $locale)
-    {
-        if (in_array($pbsUser->getEmail(), $this->specialAccessEmails)) {
-            $this->processGroupsForSpecialAccess($pbsUser, $locale);
-            return;
-        }
-
-        $this->processGroups($pbsUser, $locale);
-    }
-
-    /**
-     * This will assign a main-group leader role to every existing main group to the user.
-     * We do this so we can select any main-group in the front-end.
-     * @param array $user
-     */
-    private function processRolesForDev(array &$user)
-    {
-        $groups = $this->groupRepository->findAllParentGroups();
-        $user['roles'] = [];
-        foreach ($groups as $group) {
-            $user['roles'][] = [
-                'group_id' => $group->getId(),
-                'group_name' => $group->getName(),
-                'role_type' => WidgetAggregator::$mainGroupRoleTypes[0]
-            ];
-        }
-    }
-
-    /**
-     * In dev we add all main-groups to the user object so that we can select all of them in the front-end.
-     * This behaviour is only for dev, since we are working with test data from the MiData INT environment.
-     * @param PbsUserDTO $pbsUser
-     * @param string $locale
-     */
-    private function processGroupsForDev(PbsUserDTO $pbsUser, string $locale)
-    {
-        if (in_array($pbsUser->getEmail(), $this->specialAccessEmails)) {
-            $this->processGroupsForSpecialAccess($pbsUser, $locale);
-            return;
-        }
-
-        $this->processGroups($pbsUser, $locale);
-    }
-
-    private function processGroupsForSpecialAccess(PbsUserDTO $pbsUser, string $locale)
+    private function assignOwnerAccessOfAllGroups(PbsUserDTO $pbsUser, string $locale)
     {
         $groups = $this->groupRepository->findAllParentGroups();
 

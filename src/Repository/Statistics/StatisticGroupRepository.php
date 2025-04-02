@@ -3,8 +3,10 @@
 namespace App\Repository\Statistics;
 
 use App\Entity\Midata\CensusGroup;
+use App\Entity\Midata\GroupType;
 use App\Entity\Statistics\StatisticGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\Id\AssignedGenerator;
@@ -73,22 +75,23 @@ class StatisticGroupRepository extends ServiceEntityRepository
      * @return int[]
      * @throws Exception
      */
-    public function findAllRelevantChildGroups(int $groupId): array
+    public function findAllRelevantChildGroups(int $groupId, array $types = [GroupType::DEPARTMENT, GroupType::REGION, GroupType::CANTON]): array
     {
         $conn = $this->_em->getConnection();
         $query = $conn->executeQuery(
             "WITH RECURSIVE parent as (
-                    SELECT statistic_group.*, midata_group_type.group_type
+                    SELECT statistic_group.*, midata_group_type.group_type as group_type
                     FROM statistic_group
                     JOIN midata_group_type ON group_type_id = midata_group_type.id
                     WHERE statistic_group.id = (?)
                     UNION
                     SELECT child.*, midata_group_type.group_type
                     FROM statistic_group child, parent p, midata_group_type
-                    Where child.parent_group_id = p.id AND midata_group_type.group_type IN ('Group::Abteilung', 'Group::Region', 'Group::Kantonalverband') AND child.group_type_id = midata_group_type.id
-                ) SELECT * from parent;",
-            [$groupId],
-            [ParameterType::INTEGER]
+                    Where child.parent_group_id = p.id AND child.group_type_id = midata_group_type.id
+                ) SELECT * from parent
+                Where parent.group_type IN (?);",
+            [$groupId, $types],
+            [ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
         return $query->fetchFirstColumn();
     }

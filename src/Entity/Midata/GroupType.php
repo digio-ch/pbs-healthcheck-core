@@ -16,6 +16,7 @@ class GroupType
     public const CANTON = 'Group::Kantonalverband';
     public const REGION = 'Group::Region';
     public const DEPARTMENT = 'Group::Abteilung';
+    public const DEPARTMENTS_ALLOWING_HIERARCHY = [self::FEDERATION, self::CANTON, self::REGION, self::DEPARTMENT];
 
     public const BIBER = 'Group::Biber';
     public const WOELFE = 'Group::Woelfe';
