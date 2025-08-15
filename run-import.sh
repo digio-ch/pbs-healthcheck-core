@@ -1,19 +1,24 @@
 #! /bin/bash
 
+# This script should be scheduled by the cronjob once a day at 2 AM in the morning.
+# Change the names of the docker containers according to the environment
+# dev -> healthcheck-importer-dev and healthcheck-core-dev
+# stage -> healthcheck-importer-stage and healthcheck-core-stage
+# prod -> healthcheck-importer-prod and healthcheck-core-prod
+
 # exit when any command fails
 set -e
 
+# Run import commands from go importer
+docker exec healthcheck-importer-dev pbs-healthcheck-importer -v import
+
 # Run import commands from symfony project
-/usr/local/bin/php /srv/bin/console app:fetch-data
+docker exec --user=www-data healthcheck-core-dev /usr/local/bin/php /srv/bin/console app:map-peoples-addresses
+docker exec --user=www-data healthcheck-core-dev /usr/local/bin/php /srv/bin/console app:quap:import-questionnaire
 
-/usr/local/bin/php /srv/bin/console app:import-data
-/usr/local/bin/php /srv/bin/console app:map-peoples-addresses
-/usr/local/bin/php /srv/bin/console app:quap:import-questionnaire
+# run the aggregator command from the go importer
+docker exec healthcheck-importer-dev pbs-healthcheck-importer -v aggregate
 
-/usr/local/bin/php /srv/bin/console app:fetch-all-groups # Also fetches Group Meeting points.
+docker exec --user=www-data healthcheck-core-dev /usr/local/bin/php /srv/bin/console app:quap:compute-answers
 
-/usr/local/bin/php /srv/bin/console app:aggregate-data
-/usr/local/bin/php /srv/bin/console app:quap:compute-answers
-
-/usr/local/bin/php /srv/bin/console app:compute-permissions
-
+docker exec --user=www-data healthcheck-core-dev /usr/local/bin/php /srv/bin/console app:compute-permissions
