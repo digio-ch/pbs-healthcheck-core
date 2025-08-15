@@ -75,12 +75,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 1024 }
 
-    # Commands
-    App\Command\FetchDataCommand:
-        arguments:
-            $importDirectory: '%import_data_dir%'
-
-
     # PBS Services
     App\Service\Pbs\PbsApiService:
         arguments:
