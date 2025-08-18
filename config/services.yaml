@@ -75,12 +75,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 1024 }
 
-    # Commands
-    App\Command\FetchDataCommand:
-        arguments:
-            $importDirectory: '%import_data_dir%'
-
-
     # PBS Services
     App\Service\Pbs\PbsApiService:
         arguments:
@@ -102,47 +96,6 @@ services:
         arguments:
             $environment: '%kernel.environment%'
             $specialAccessEmails: '%env(SPECIAL_ACCESS)%'
-
-
-    App\Service\Aggregator\DemographicGroupAggregator:
-        tags:
-            - { name: 'widget.aggregator', key: 'widget.demographic-group' }
-
-    App\Service\Aggregator\DemographicCampAggregator:
-        tags:
-            - { name: 'widget.aggregator', key: 'widget.demographic-camp' }
-
-    App\Service\Aggregator\LeaderOverviewAggregator:
-        tags:
-            - { name: 'widget.aggregator', key: 'widget.leader-overview' }
-
-    App\Service\Aggregator\DepartmentDemographicAggregator:
-        tags:
-            - { name: 'widget.aggregator', key: 'widget.demographic-department' }
-
-    App\Service\Aggregator\DemographicEnteredLeftAggregator:
-        tags:
-            - { name: 'widget.aggregator', key: 'widget.demographic-entered-left' }
-
-    App\Service\Aggregator\GeoLocationAggregator:
-        tags:
-            - { name: 'widget.aggregator', key: 'widget.geo-location' }
-
-    App\Service\Aggregator\QuapAggregator:
-        tags:
-            - { name: 'widget.aggregator', key: 'widget.quap' }
-
-    App\Service\Aggregator\RoleAggregator:
-        tags:
-            - { name: 'widget.aggregator', key: 'widget.roles' }
-
-    # This must be the last aggregator
-    App\Service\Aggregator\DateAggregator:
-        tags:
-            - { name: 'widget.aggregator', key: 'general.date' }
-
-    App\Service\Aggregator\AggregatorRegistry:
-        arguments: [ !tagged { tag: 'widget.aggregator', index_by: 'key' } ]
 
     App\Service\GroupStructureAPIService:
         arguments:
