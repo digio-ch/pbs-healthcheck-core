@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "address": "Testaddress 1",
+        "zip_code": "1234",
+        "town": "Testtown",
+        "country": "CH",
+        "gender": "m",
+        "birthday": "1990-01-01",
+        "primary_group_id": 0,
+        "entry_date": null,
+        "leaving_date": null,
+        "pbs_number": "000-000-000",
+        "name": "in Meute (m)"
+    },
+    {
+        "id": 2,
+        "address": "Testaddress 1",
+        "zip_code": "1234",
+        "town": "Testtown",
+        "country": "CH",
+        "gender": "m",
+        "birthday": "1990-01-01",
+        "primary_group_id": 0,
+        "entry_date": null,
+        "leaving_date": null,
+        "pbs_number": "000-000-000",
+        "name": "in Stufe (m)"
+    },
+    {
+        "id": 3,
+        "address": "Testaddress 1",
+        "zip_code": "1234",
+        "town": "Testtown",
+        "country": "CH",
+        "gender": "m",
+        "birthday": "1990-01-01",
+        "primary_group_id": 0,
+        "entry_date": null,
+        "leaving_date": null,
+        "pbs_number": "000-000-000",
+        "name": "in Abteilung (m)"
+    }
+]
