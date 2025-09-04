@@ -1,0 +1,122 @@
+[
+    {
+        "label_de": "Bund",
+        "label_fr": "Niveau f\u00e9d\u00e9ral",
+        "label_it": "Confederazione",
+        "group_type": "Group::Bund"
+    },
+    {
+        "label_de": "Kantonalverband",
+        "label_fr": "Association cantonale",
+        "label_it": "associazione cantonale",
+        "group_type": "Group::Kantonalverband"
+    },
+    {
+        "label_de": "Region",
+        "label_fr": "R\u00e9gion",
+        "label_it": "zona",
+        "group_type": "Group::Region"
+    },
+    {
+        "label_de": "Rover",
+        "label_fr": "Routier",
+        "label_it": "Rover",
+        "group_type": "Group::RegionaleRover"
+    },
+    {
+        "label_de": "Gremium",
+        "label_fr": "Commission",
+        "label_it": "Gremio",
+        "group_type": "Group::RegionalesGremium"
+    },
+    {
+        "label_de": "Kommission",
+        "label_fr": "Commission",
+        "label_it": "Commissione",
+        "group_type": "Group::RegionaleKommission"
+    },
+    {
+        "label_de": "Abteilung",
+        "label_fr": "Groupe",
+        "label_it": "sezione",
+        "group_type": "Group::Abteilung"
+    },
+    {
+        "label_de": "Biber",
+        "label_fr": "Castor",
+        "label_it": "castoro",
+        "group_type": "Group::Biber"
+    },
+    {
+        "label_de": "W\u00f6lfe",
+        "label_fr": "Louveteau",
+        "label_it": "lupo\nlupetto\nlupetta",
+        "group_type": "Group::Woelfe"
+    },
+    {
+        "label_de": "Pfadi",
+        "label_fr": "Eclaireur",
+        "label_it": "esplo\nesploratore (m)\nesploratrice (f)\nscout",
+        "group_type": "Group::Pfadi"
+    },
+    {
+        "label_de": "Pio",
+        "label_fr": "Pico",
+        "label_it": "pio\npioniere",
+        "group_type": "Group::Pio"
+    },
+    {
+        "label_de": "Rover",
+        "label_fr": "Routier",
+        "label_it": "Rover",
+        "group_type": "Group::AbteilungsRover"
+    },
+    {
+        "label_de": "PTA",
+        "label_fr": "SMT",
+        "label_it": "Scout ad Ogni Costo\nSOC",
+        "group_type": "Group::Pta"
+    },
+    {
+        "label_de": "Elternrat",
+        "label_fr": "Comit\u00e9 des parents",
+        "label_it": "consiglio dei genitori",
+        "group_type": "Group::Elternrat"
+    },
+    {
+        "label_de": "Gremium",
+        "label_fr": "Commission",
+        "label_it": "Gremio",
+        "group_type": "Group::AbteilungsGremium"
+    },
+    {
+        "label_de": "Gremium",
+        "label_fr": "Commission",
+        "label_it": "Gremio",
+        "group_type": "Group::KantonalesGremium"
+    },
+    {
+        "label_de": "Kommission",
+        "label_fr": "Commission",
+        "label_it": "Commissione",
+        "group_type": "Group::KantonaleKommission"
+    },
+    {
+        "label_de": "Ausbildungskommission",
+        "label_fr": "Commission formation",
+        "label_it": "Commissione della formazione",
+        "group_type": "Group::Ausbildungskommission"
+    },
+    {
+        "label_de": "Gremium",
+        "label_fr": "Commission",
+        "label_it": "Gremio MSS",
+        "group_type": "Group::BundesGremium"
+    },
+    {
+        "label_de": "Kommission",
+        "label_fr": "Commission",
+        "label_it": "Commissione",
+        "group_type": "Group::BundesKommission"
+    }
+]
