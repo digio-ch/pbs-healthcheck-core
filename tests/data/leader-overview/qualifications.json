@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "person_id": 1,
+    "qualification_kind_id": 23,
+    "start_at": "2019-01-02",
+    "finish_at": "2021-12-31",
+    "origin": "?",
+    "event_participation_id": null
+  },
+  {
+    "id": 2,
+    "person_id": 1,
+    "qualification_kind_id": 24,
+    "start_at": "2019-01-02",
+    "finish_at": "2021-12-31",
+    "origin": "?",
+    "event_participation_id": null
+  },
+  {
+    "id": 3,
+    "person_id": 2,
+    "qualification_kind_id": 23,
+    "start_at": "2019-01-02",
+    "finish_at": "2021-12-31",
+    "origin": "?",
+    "event_participation_id": null
+  },
+  {
+    "id": 4,
+    "person_id": 2,
+    "qualification_kind_id": 24,
+    "start_at": "2019-01-02",
+    "finish_at": "2021-12-31",
+    "origin": "?",
+    "event_participation_id": null
+  },
+  {
+    "id": 5,
+    "person_id": 3,
+    "qualification_kind_id": 23,
+    "start_at": "2019-01-02",
+    "finish_at": "2021-12-31",
+    "origin": "?",
+    "event_participation_id": null
+  },
+  {
+    "id": 6,
+    "person_id": 3,
+    "qualification_kind_id": 24,
+    "start_at": "2018-01-02",
+    "finish_at": "2020-12-31",
+    "origin": "?",
+    "event_participation_id": null
+  },
+  {
+    "id": 7,
+    "person_id": 3,
+    "qualification_kind_id": 25,
+    "start_at": "2019-01-02",
+    "finish_at": "2021-12-31",
+    "origin": "?",
+    "event_participation_id": null
+  }
+]

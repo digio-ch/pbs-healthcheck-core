@@ -11,21 +11,21 @@ env:
 
 jobs:
   build-prod:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Login to github docker packages registry
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u ${{ github.actor }} $DOCKER_REGISTRY_URL --password-stdin
       - name: Build, tag and push stage/rc image
         run: |
-          docker build -f docker/Dockerfile -t $DOCKER_REGISTRY_PATH:${GITHUB_REF#refs/*/} .
+          docker build --no-cache -f docker/Dockerfile -t $DOCKER_REGISTRY_PATH:${GITHUB_REF#refs/*/} .
           docker push $DOCKER_REGISTRY_PATH:${GITHUB_REF#refs/*/}
           docker tag $DOCKER_REGISTRY_PATH:${GITHUB_REF#refs/*/} $DOCKER_REGISTRY_PATH:prod
           docker push $DOCKER_REGISTRY_PATH:prod
 
   dispatch_deploy:
     needs: [build-prod]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Trigger Deployment
         uses: peter-evans/repository-dispatch@v1

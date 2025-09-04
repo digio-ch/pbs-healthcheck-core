@@ -191,9 +191,6 @@ class QuapController extends AbstractController
 
 
         $date = $request->get('date', null);
-        $date = $date
-            ? \DateTimeImmutable::createFromFormat('Y-m-d', $date)
-            : new \DateTimeImmutable('now');
 
 
         try {
