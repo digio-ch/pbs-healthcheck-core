@@ -64,17 +64,17 @@
       "required": false,
       "de": {
         "title": "Überblick - unterschiedliche Layer der Karte benutzt",
-        "information": "Kartenlayer ein- und ausgeblendet",
+        "information": "Kartenlayer ein- und ausgeblendet. Diese Aktion ist auf kantonaler oder regionaler Ebene nicht verfügbar.",
         "help": ""
       },
       "fr": {
         "title": "Aperçu - calques de carte",
-        "information": "Tu affiches/caches un calque de la carte.",
+        "information": "Tu affiches/caches un calque de la carte. Cette action n'est pas disponible au niveau cantonal ou régional.",
         "help": ""
       },
       "it": {
         "title": "Panoramica - utilizza diversi livelli della cartina",
-        "information": "Visualizza/nascondi un livello della mappa.",
+        "information": "Visualizza/nascondi un livello della mappa. Questa azione non è disponibile a livello cantonale o regionale.",
         "help": ""
       }
     },
@@ -83,18 +83,18 @@
       "level": 1,
       "required": true,
       "de": {
-        "title": "Überblick - eine genaue Analyse eines Teils deiner Mitglieder",
-        "information": "In der Übersicht einen Datenfilter ausgewählt",
+        "title": "Eine genaue Analyse eines Teils deiner Mitglieder",
+        "information": "In der Übersicht oder der Abteilungen im Vergleich einen Datenfilter ausgewählt (je nachdem, ob du Zugriff zu einer Abteilung oder einer KV/Region hast)",
         "help": ""
       },
       "fr": {
-        "title": "Aperçu - analyse d'une partie de tes membres",
-        "information": "Tu filtres les données dans l'aperçu.",
+        "title": "Analyse d'une partie de tes membres",
+        "information": "Tu filtres les données dans l'aperçu ou la comparaison des groupes (selon si tu as accès à un groupe ou une AC/région).",
         "help": ""
       },
       "it": {
-        "title": "Panoramica - analisi di una parte dei membri",
-        "information": "Filtra i dati nella panoramica.",
+        "title": "Analisi di una parte dei membri",
+        "information": "Filtra i dati nella panoramica o confronta tra sezioni (a seconda che si abbia accesso a una sezione o a una AC/regione).",
         "help": ""
       }
     },
@@ -104,17 +104,17 @@
       "required": false,
       "de": {
         "title": "Überblick - Zeitspanne analysiert",
-        "information": "In der Übersicht eine Zeitspanne ausgewählt",
+        "information": "In der Übersicht eine Zeitspanne ausgewählt. Diese Aktion ist auf kantonaler oder regionaler Ebene nicht verfügbar.",
         "help": ""
       },
       "fr": {
         "title": "Aperçu - analyse temporelle",
-        "information": "Tu observes l'évolution de tes données pour une période.",
+        "information": "Tu observes l'évolution de tes données pour une période. Cette action n'est pas disponible au niveau cantonal ou régional.",
         "help": ""
       },
       "it": {
         "title": "Panoramica - analisi temporale",
-        "information": "Osserva come i tuoi dati cambiano nel tempo.",
+        "information": "Osserva come i tuoi dati cambiano nel tempo. Questa azione non è disponibile a livello cantonale o regionale.",
         "help": ""
       }
     },
@@ -204,17 +204,17 @@
       "required": false,
       "de": {
         "title": "Erfolgslogik - ein Aspekt überarbeitet",
-        "information": "Mindestens ein volles Kästchen später nochmals editiert",
+        "information": "Mindestens ein Kästchen später nochmals editiert",
         "help": ""
       },
       "fr": {
         "title": "Diagramme de succès - révision d'un aspect",
-        "information": "Tu modifies une réponse dans une case remplie.",
+        "information": "Tu modifies une réponse dans une case.",
         "help": ""
       },
       "it": {
         "title": "Logica del successo - revisione di un aspetto",
-        "information": "Modifica una risposta in un riquadro compilato.",
+        "information": "Modifica una risposta in un riquadro.",
         "help": ""
       }
     },
