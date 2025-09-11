@@ -6,6 +6,7 @@ use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
 use App\Entity\Quap\Questionnaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -34,5 +35,33 @@ class QuestionnaireRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getSingleResult();
+    }
+
+    /**
+     * Returns an array that maps the questionnaire type to the amount of aspects that can be answered manually.
+     *
+     * Aspects that have at least one question that has no evaluation_function are considered manually answerable.
+     * @return array<string,int>
+     * @throws Exception
+     */
+    public function getAmountOfAnswerableAspects(): array
+    {
+        $conn = $this->_em->getConnection();
+        $query = $conn->executeQuery(
+            "SELECT \"type\", COUNT(*) FROM (
+                    SELECT 
+                        hc_quap_questionnaire.\"type\",
+                        BOOL_AND(
+                            hc_quap_question.evaluation_function IS NOT NULL
+                        ) as automatic
+                    FROM hc_quap_questionnaire
+                    JOIN hc_quap_aspect ON hc_quap_aspect.questionnaire_id = hc_quap_questionnaire.id
+                    JOIN hc_quap_question ON hc_quap_question.aspect_id = hc_quap_aspect.id
+                    GROUP BY hc_quap_questionnaire.id, hc_quap_questionnaire.\"type\", hc_quap_aspect.id
+                ) as p
+                WHERE automatic = FALSE
+                GROUP BY \"type\";",
+        );
+        return $query->fetchAllKeyValue();
     }
 }
