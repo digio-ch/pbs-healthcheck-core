@@ -159,7 +159,7 @@ class PersonGamificationService
         $nextLevel = $nextLevel[0];
         $levelUp = false;
         if ($currentLevel->getKey() === 0) {
-            if ($person->getHasUsedCardLayer() && ($person->getHasUsedDatafilter() || $person->getHasUsedTimefilter() || $person->getHasSharedEl())) {
+            if ($person->getHasUsedDatafilter() && ($person->getHasUsedCardLayer() || $person->getHasUsedTimefilter() || $person->getHasSharedEl())) {
                 $levelUp = true;
             }
         }
