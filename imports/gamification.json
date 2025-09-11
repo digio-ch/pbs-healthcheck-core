@@ -64,17 +64,17 @@
       "required": false,
       "de": {
         "title": "Überblick - unterschiedliche Layer der Karte benutzt",
-        "information": "Kartenlayer ein- und ausgeblendet. Diese Aktion ist auf kantonaler oder regionaler Ebene nicht verfügbar.",
+        "information": "Kartenlayer ein- und ausgeblendet.\nDiese Aktion ist auf kantonaler oder regionaler Ebene nicht verfügbar.",
         "help": ""
       },
       "fr": {
         "title": "Aperçu - calques de carte",
-        "information": "Tu affiches/caches un calque de la carte. Cette action n'est pas disponible au niveau cantonal ou régional.",
+        "information": "Tu affiches/caches un calque de la carte.\nCette action n'est pas disponible au niveau cantonal ou régional.",
         "help": ""
       },
       "it": {
         "title": "Panoramica - utilizza diversi livelli della cartina",
-        "information": "Visualizza/nascondi un livello della mappa. Questa azione non è disponibile a livello cantonale o regionale.",
+        "information": "Visualizza/nascondi un livello della mappa.\nQuesta azione non è disponibile a livello cantonale o regionale.",
         "help": ""
       }
     },
@@ -104,17 +104,17 @@
       "required": false,
       "de": {
         "title": "Überblick - Zeitspanne analysiert",
-        "information": "In der Übersicht eine Zeitspanne ausgewählt. Diese Aktion ist auf kantonaler oder regionaler Ebene nicht verfügbar.",
+        "information": "In der Übersicht eine Zeitspanne ausgewählt.\nDiese Aktion ist auf kantonaler oder regionaler Ebene nicht verfügbar.",
         "help": ""
       },
       "fr": {
         "title": "Aperçu - analyse temporelle",
-        "information": "Tu observes l'évolution de tes données pour une période. Cette action n'est pas disponible au niveau cantonal ou régional.",
+        "information": "Tu observes l'évolution de tes données pour une période.\nCette action n'est pas disponible au niveau cantonal ou régional.",
         "help": ""
       },
       "it": {
         "title": "Panoramica - analisi temporale",
-        "information": "Osserva come i tuoi dati cambiano nel tempo. Questa azione non è disponibile a livello cantonale o regionale.",
+        "information": "Osserva come i tuoi dati cambiano nel tempo.\nQuesta azione non è disponibile a livello cantonale o regionale.",
         "help": ""
       }
     },
