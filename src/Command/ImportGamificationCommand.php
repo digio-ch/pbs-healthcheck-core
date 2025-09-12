@@ -4,11 +4,11 @@ namespace App\Command;
 
 use App\Entity\Gamification\Goal;
 use App\Entity\Gamification\Level;
+use App\Entity\Gamification\LevelAccess;
 use App\Model\CommandStatistics;
 use App\Repository\Gamification\GoalRepository;
 use App\Repository\Gamification\LevelRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use JsonMachine\JsonMachine;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -51,12 +51,21 @@ class ImportGamificationCommand extends StatisticsCommand
         $this->em->getConnection()->executeQuery('DELETE FROM goal');
         $this->em->getConnection()->executeQuery('DELETE FROM level_up_log');
         $this->em->getConnection()->executeQuery('DELETE FROM level');
+        $this->em->getConnection()->executeQuery('DELETE FROM level_access');
+
+        if (is_null($json['level_access'])) {
+            $output->writeln('No level access requirements found.');
+            return 1;
+        }
+        $output->writeln('importing level accesses');
+        $accessLevelDBIdLookUp = $this->importLevelAccess($json['level_access'], $output);
+
         if (is_null($json['levels'])) {
             $output->writeln('No levels found.');
             return 1;
         }
         $output->writeln('importing levels');
-        $this->importLevels($json['levels'], $output);
+        $this->importLevels($json['levels'], $accessLevelDBIdLookUp, $output);
 
         if (is_null($json["goals"])) {
             $output->writeln('No goals found.');
@@ -68,7 +77,32 @@ class ImportGamificationCommand extends StatisticsCommand
         return 0;
     }
 
-    protected function importLevels(array $jsonLevels, OutputInterface $output)
+    /**
+     * Imports the level access and returns a map to convert the json access level id to the DB id.
+     * @param array $jsonLevelAccesses
+     * @param OutputInterface $output
+     * @return array[string]int
+     */
+    protected function importLevelAccess(array $jsonLevelAccesses, OutputInterface $output): array
+    {
+        $jsonIDToDBId = [];
+
+        foreach ($jsonLevelAccesses as $jsonLevelAccess) {
+            $output->writeln("Creating " . $jsonLevelAccess["de_description"] . " (" . $jsonLevelAccess["id"] . ")");
+            $access = new LevelAccess();
+            $access->setDeDescription($jsonLevelAccess["de_description"]);
+            $access->setFrDescription($jsonLevelAccess["fr_description"]);
+            $access->setItDescription($jsonLevelAccess["it_description"]);
+
+            $this->em->persist($access);
+            $jsonIDToDBId[$jsonLevelAccess["id"]] = $access->getId();
+        }
+        $this->em->flush();
+
+        return $jsonIDToDBId;
+    }
+
+    protected function importLevels(array $jsonLevels, array $levelAccessJsonToDBId, OutputInterface $output)
     {
         foreach ($jsonLevels as $jsonLevel) {
             $level = $this->levelRepository->findOneBy(["key" => $jsonLevel["key"]]);
@@ -79,6 +113,14 @@ class ImportGamificationCommand extends StatisticsCommand
                     $level->setNextKey(intval($jsonLevel["next_key"]));
                 }
                 $output->writeln("Creating " . $jsonLevel["de_title"] . " (" . $jsonLevel["key"] . ")");
+            }
+            if (!is_null($jsonLevel["access_id"])) {
+                $id = $levelAccessJsonToDBId[$jsonLevel["access_id"]];
+                if (is_null($id)) {
+                    throw new \Exception("access id " . $jsonLevel["access_id"] . " not found");
+                }
+                $reference = $this->em->getReference(LevelAccess::class, $id);
+                $level->setAccess($reference);
             }
             $level->setRequired($jsonLevel["required"]);
             $level->setType($jsonLevel["type"]);

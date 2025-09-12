@@ -22,6 +22,13 @@ class Level
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity=LevelAccess::class)
+     * @ORM\JoinColumn(nullable=true)
+     * @var LevelAccess | null $access
+     */
+    private $access;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $type;
@@ -103,6 +110,16 @@ class Level
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getAccess(): ?LevelAccess
+    {
+        return $this->access;
+    }
+
+    public function setAccess(?LevelAccess $access): void
+    {
+        $this->access = $access;
     }
 
     public function getType(): ?int

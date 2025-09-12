@@ -5,6 +5,7 @@
       "next_key": 1,
       "type": 0,
       "required": 0,
+      "access_id": null,
       "de_title": "Newcomer*in",
       "fr_title": "Nouvel·le arrivant·e",
       "it_title": "Pricipiante"
@@ -14,6 +15,7 @@
       "next_key": 2,
       "type": 0,
       "required": 3,
+      "access_id": null,
       "de_title": "Datenentdecker*in",
       "fr_title": "Amateur·trice de données",
       "it_title": "Moogli dei dati"
@@ -23,6 +25,7 @@
       "next_key": 3,
       "type": 0,
       "required": 3,
+      "access_id": 1,
       "de_title": "Statistikforscher*in",
       "fr_title": "Statisticien·ne confirmé·e",
       "it_title": "Freak della statistica"
@@ -32,6 +35,7 @@
       "next_key": null,
       "type": 0,
       "required": 2,
+      "access_id": 1,
       "de_title": "Healthcheck Guru",
       "fr_title": "Gourou du Healthcheck",
       "it_title": "Guru di Healthcheck "
@@ -277,6 +281,14 @@
         "information": "Condividi l'accesso con almeno altre tre persone.",
         "help": "Hai condiviso l'accesso con % persone su 3."
       }
+    }
+  ],
+  "level_access": [
+    {
+      "id": 1,
+      "de_description": "nur mit Zugriff Bearbeiter*in oder Besitzer*in verfügbar",
+      "fr_description": "seulement disponible avec un accès Edition ou Propriétaire",
+      "it_description": "disponibile solo con l'accesso Modifica o Proprietario"
     }
   ]
 }
