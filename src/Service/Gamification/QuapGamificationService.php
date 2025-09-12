@@ -4,6 +4,7 @@ namespace App\Service\Gamification;
 
 use App\DTO\Model\PbsUserDTO;
 use App\Entity\Aggregated\AggregatedQuap;
+use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 
@@ -66,13 +67,13 @@ class QuapGamificationService
         }
 
         if ($revision) {
-            $this->personGamificationService->genericGoalProgress($pbsUserDTO, 'revised');
+            $this->personGamificationService->genericGoalProgress($pbsUserDTO, Goal::TYPE_EL_REVISION);
         }
         if ($irrelevant) {
-            $this->personGamificationService->genericGoalProgress($pbsUserDTO, 'irrelevant');
+            $this->personGamificationService->genericGoalProgress($pbsUserDTO, Goal::TYPE_EL_IRRELEVANT);
         }
         if ($improvement) {
-            $this->personGamificationService->genericGoalProgress($pbsUserDTO, 'improvement');
+            $this->personGamificationService->genericGoalProgress($pbsUserDTO, Goal::TYPE_EL_IMPROVEMENT);
         }
 
         $this->personGamificationService->logEvent($changedQuestionnaires, $aggregatedQuap, $pbsUserDTO);

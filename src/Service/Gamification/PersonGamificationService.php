@@ -10,6 +10,7 @@ use App\DTO\Model\PbsUserDTO;
 use App\Entity\Aggregated\AggregatedQuap;
 use App\Entity\Gamification\GamificationPersonProfile;
 use App\Entity\Gamification\GamificationQuapEvent;
+use App\Entity\Gamification\Goal;
 use App\Entity\Gamification\Level;
 use App\Entity\Gamification\LevelUpLog;
 use App\Entity\Midata\Person;
@@ -44,9 +45,9 @@ class PersonGamificationService
 
     public function __construct(
         LevelRepository $levelRepository,
-        GamificationPersonProfileRepository $personGoalRepository,
         PersonRepository $personRepository,
         QuestionnaireRepository $questionnaireRepository,
+        GamificationPersonProfileRepository $personGoalRepository,
         EntityManagerInterface $em,
         LevelUpLogRepository $levelUpLogRepository,
         GamificationQuapEventRepository $gamificationQuapEventRepository,
@@ -95,51 +96,58 @@ class PersonGamificationService
         return $gamificationProfile;
     }
 
+    /**
+     * Processes the goal progress of the given type.
+     * The progress is sometimes ignored if the goal is in a level that is more than 1 level ahead.
+     * @param PbsUserDTO $pbsUserDTO
+     * @param string $type of the goal
+     * @throws \Exception
+     */
     public function genericGoalProgress(PbsUserDTO $pbsUserDTO, string $type)
     {
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $pgp = $this->getPersonGamification($person);
 
         switch ($type) {
-            case 'card':
+            case Goal::TYPE_CARD_LAYERS:
                 $pgp->setHasUsedCardLayer(true);
                 break;
-            case 'time':
+            case Goal::TYPE_TIME_FILTER:
                 $pgp->setHasUsedTimefilter(true);
                 break;
-            case 'data':
+            case Goal::TYPE_DATA_FILTER:
                 $pgp->setHasUsedDatafilter(true);
                 break;
-            case 'shareEL':
+            case Goal::TYPE_SHARE_EL:
                 $pgp->setHasSharedEl(true);
                 break;
-            case 'invite':
+            case Goal::TYPE_SHARE_THREE:
+            case Goal::TYPE_SHARE_ONE:
                 $newCount = $pgp->getAccessGrantedCount() + 1;
                 $pgp->setAccessGrantedCount($newCount);
                 break;
-            case 'revised':
+            case Goal::TYPE_EL_REVISION:
                 if ($pgp->getLevel()->getKey() >= 1) {
                     $pgp->setElRevised(true);
                 }
                 break;
-            case 'improvement':
+            case Goal::TYPE_EL_IMPROVEMENT:
                 if ($pgp->getLevel()->getKey() >= 2) {
                     $pgp->setElImproved(true);
                 }
                 break;
-            case 'irrelevant':
+            case Goal::TYPE_EL_IRRELEVANT:
                 if ($pgp->getLevel()->getKey() >= 1) {
                     $pgp->setElIrrelevant(true);
                 }
                 break;
-            case 'filledOut':
+            case Goal::TYPE_EL_FILL_OUT:
                 if ($this->isElFilledOut($person)) {
                     $pgp->setElFilledOut(true);
                 }
                 break;
             default:
                 throw new \Exception('typo in type');
-                break;
         }
 
         $this->checkLevelUp($pgp);
@@ -236,42 +244,42 @@ class PersonGamificationService
             $goals = $level->getGoals();
             foreach ($goals as $goal) {
                 switch ($goal->getKey()) {
-                    case 'FIRST_LOGIN':
+                    case Goal::TYPE_FIRST_LOGIN:
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, true, 0);
                         break;
-                    case 'CARD_LAYERS':
+                    case Goal::TYPE_CARD_LAYERS:
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedCardLayer(), 0);
                         break;
-                    case 'DATAFILTER':
+                    case Goal::TYPE_DATA_FILTER:
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedDatafilter(), 0);
                         break;
-                    case 'TIMEFILTER':
+                    case Goal::TYPE_TIME_FILTER:
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasUsedTimefilter(), 0);
                         break;
-                    case 'SHARE_WITH_PARENTS':
+                    case Goal::TYPE_SHARE_EL:
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getHasSharedEl(), 0);
                         break;
-                    case 'EL_FILL_OUT':
+                    case Goal::TYPE_EL_FILL_OUT:
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElFilledOut(), $this->getElFilledOutProgress($person));
                         break;
-                    case 'SHARE_1':
+                    case Goal::TYPE_SHARE_ONE:
                         $completed = $personGamification->getAccessGrantedCount() >= 1;
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $completed, $personGamification->getAccessGrantedCount());
                         break;
-                    case 'EL_IRRELEVANT':
+                    case Goal::TYPE_EL_IRRELEVANT:
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElIrrelevant(), 0);
                         break;
-                    case 'EL_CHANGE':
+                    case Goal::TYPE_EL_REVISION:
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElRevised(), 0);
                         break;
-                    case 'EL_IMPROVE':
+                    case Goal::TYPE_EL_IMPROVEMENT:
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $personGamification->getElImproved(), 0);
                         break;
-                    case 'LOGIN_FOUR_A_YEAR':
+                    case Goal::TYPE_LOGIN_FOUR_A_YEAR:
                         $logins = $person->getLogins();
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $this->checkLoginGoal($personGamification), count($logins));
                         break;
-                    case 'SHARE_THREE':
+                    case Goal::TYPE_SHARE_THREE:
                         $completed = $personGamification->getAccessGrantedCount() >= 3;
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $completed, $personGamification->getAccessGrantedCount());
                         break;
@@ -316,7 +324,7 @@ class PersonGamificationService
     {
         $filledOutAspects = $this->getElFilledOutAspectsCount($person);
 
-        return max($filledOutAspects[Questionnaire::TYPE_DEPARTMENT], $filledOutAspects[Questionnaire::TYPE_DEPARTMENT]);
+        return max($filledOutAspects[Questionnaire::TYPE_CANTON], $filledOutAspects[Questionnaire::TYPE_DEPARTMENT]);
     }
 
     /**
@@ -357,7 +365,7 @@ class PersonGamificationService
                 $this->gamificationQuapEventRepository->add($eventLog);
             }
         }
-        $this->genericGoalProgress($pbsUserDTO, 'filledOut');
+        $this->genericGoalProgress($pbsUserDTO, Goal::TYPE_EL_FILL_OUT);
     }
 
     public function getBetaAccess(PbsUserDTO $pbsUserDTO): bool

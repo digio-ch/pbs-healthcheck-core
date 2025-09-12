@@ -10,6 +10,19 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Goal
 {
+    public const TYPE_FIRST_LOGIN = "FIRST_LOGIN";
+    public const TYPE_CARD_LAYERS = "CARD_LAYERS";
+    public const TYPE_DATA_FILTER = "DATAFILTER";
+    public const TYPE_TIME_FILTER = "TIMEFILTER";
+    public const TYPE_SHARE_EL = "SHARE_WITH_PARENTS";
+    public const TYPE_EL_FILL_OUT = "EL_FILL_OUT";
+    public const TYPE_SHARE_ONE = "SHARE_1";
+    public const TYPE_EL_IRRELEVANT = "EL_IRRELEVANT";
+    public const TYPE_EL_REVISION = "EL_CHANGE";
+    public const TYPE_EL_IMPROVEMENT = "EL_IMPROVE";
+    public const TYPE_LOGIN_FOUR_A_YEAR = "LOGIN_FOUR_A_YEAR";
+    public const TYPE_SHARE_THREE = "SHARE_THREE";
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

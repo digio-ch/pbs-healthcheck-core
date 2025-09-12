@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
 use App\Entity\Security\Permission;
 use App\Exception\ApiException;
@@ -44,7 +45,7 @@ class GamificationController extends AbstractController
         Request $request,
         PersonGamificationService $personGamificationService
     ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), 'card');
+        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_CARD_LAYERS);
         return new Response('', 200);
     }
 
@@ -52,7 +53,7 @@ class GamificationController extends AbstractController
         Request $request,
         PersonGamificationService $personGamificationService
     ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), 'data');
+        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_DATA_FILTER);
         return new Response('', 200);
     }
 
@@ -60,7 +61,7 @@ class GamificationController extends AbstractController
         Request $request,
         PersonGamificationService $personGamificationService
     ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), 'time');
+        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_TIME_FILTER);
         return new Response('', 200);
     }
 
