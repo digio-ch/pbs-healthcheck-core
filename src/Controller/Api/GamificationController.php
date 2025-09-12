@@ -19,8 +19,23 @@ use Symfony\Component\HttpFoundation\Response;
 class GamificationController extends AbstractController
 {
     /**
+     * Specifies whether the reset endpoint should be enabled.
+     *
+     * This value is injected by the environment variable GAMIFICATION_RESET_ENDPOINT_ENABLED.
+     * If the variable is not present it fallbacks to false.
+     * @var bool $resetEndpointEnabled
+     */
+    private bool $resetEndpointEnabled;
+
+    public function __construct(bool $resetEndpointEnabled)
+    {
+        $this->resetEndpointEnabled = $resetEndpointEnabled;
+    }
+
+    /**
      * @param Request $request
      * @param LoginService $loginService
+     * @param GroupRepository $groupRepository
      * @return Response
      */
     public function postGroupChange(
@@ -75,6 +90,13 @@ class GamificationController extends AbstractController
 
     public function resetGamification(Request $request, PersonGamificationService $personGamificationService): Response
     {
+        if (!$this->resetEndpointEnabled) {
+            return new JsonResponse([
+                "code" => 404,
+                "error" => "reset endpoint is disabled"
+            ], 404);
+        }
+
         $personGamificationService->reset($this->getUser());
         return new Response('');
     }

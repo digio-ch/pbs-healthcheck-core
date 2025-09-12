@@ -7,9 +7,12 @@ parameters:
     api_prefix: "/api/v1"
     api_regex: "^/api/v1"
 
-    #pbs
+    # pbs
     import_data_dir: '%kernel.project_dir%/%env(IMPORT_TARGET_DIR)%'
     test_data_dir: '%kernel.project_dir%/tests/data'
+
+   # gamification
+    reset_endpoint_enabled_default: false
 
 services:
     # default configuration for services in *this* file
@@ -110,3 +113,9 @@ services:
     App\Service\MailService:
         arguments:
             $recipient: '%env(GAMIFICATION_RECIPIENT)%'
+
+    # Controllers
+    App\Controller\Api\GamificationController:
+        arguments:
+            # if the environment variable is not present it fallbacks to reset_endpoint_enabled_default which is false
+            $resetEndpointEnabled: '%env(bool:default:reset_endpoint_enabled_default:GAMIFICATION_RESET_ENDPOINT_ENABLED)%'
