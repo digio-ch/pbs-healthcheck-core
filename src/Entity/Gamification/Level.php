@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="hc_gamification_level")
  * @ORM\Entity(repositoryClass=LevelRepository::class)
  */
 class Level

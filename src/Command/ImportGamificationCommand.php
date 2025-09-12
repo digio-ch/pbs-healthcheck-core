@@ -47,11 +47,11 @@ class ImportGamificationCommand extends StatisticsCommand
         $start = microtime(true);
         $json = json_decode(file_get_contents($this->pathToJson), true);
 
-        $this->em->getConnection()->executeQuery('DELETE FROM gamification_person_profile');
-        $this->em->getConnection()->executeQuery('DELETE FROM goal');
-        $this->em->getConnection()->executeQuery('DELETE FROM level_up_log');
-        $this->em->getConnection()->executeQuery('DELETE FROM level');
-        $this->em->getConnection()->executeQuery('DELETE FROM level_access');
+        $this->em->getConnection()->executeQuery('DELETE FROM hc_gamification_person_profile');
+        $this->em->getConnection()->executeQuery('DELETE FROM hc_gamification_goal');
+        $this->em->getConnection()->executeQuery('DELETE FROM hc_gamification_level_up_log');
+        $this->em->getConnection()->executeQuery('DELETE FROM hc_gamification_level');
+        $this->em->getConnection()->executeQuery('DELETE FROM hc_gamification_level_access');
 
         if (is_null($json['level_access'])) {
             $output->writeln('No level access requirements found.');

@@ -7,6 +7,7 @@ use App\Repository\Gamification\GamificationPersonProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="hc_gamification_person_profile")
  * @ORM\Entity(repositoryClass=GamificationPersonProfileRepository::class)
  */
 class GamificationPersonProfile

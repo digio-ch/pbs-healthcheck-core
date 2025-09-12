@@ -6,6 +6,7 @@ use App\Repository\Gamification\GoalRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="hc_gamification_goal")
  * @ORM\Entity(repositoryClass=GoalRepository::class)
  */
 class Goal

@@ -6,6 +6,7 @@ use App\Repository\Gamification\LevelAccessRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="hc_gamification_level_access")
  * @ORM\Entity(repositoryClass=LevelAccessRepository::class)
  */
 class LevelAccess

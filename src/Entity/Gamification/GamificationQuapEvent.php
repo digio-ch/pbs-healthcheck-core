@@ -10,6 +10,7 @@ use App\Repository\Gamification\GamificationQuapEventRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="hc_gamification_quap_event")
  * @ORM\Entity(repositoryClass=GamificationQuapEventRepository::class)
  */
 class GamificationQuapEvent
