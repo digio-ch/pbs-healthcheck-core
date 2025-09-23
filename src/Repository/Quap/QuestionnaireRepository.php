@@ -48,19 +48,19 @@ class QuestionnaireRepository extends ServiceEntityRepository
     {
         $conn = $this->_em->getConnection();
         $query = $conn->executeQuery(
-            "SELECT \"type\", COUNT(*) FROM (
+            'SELECT "type", COUNT(*) FROM (
                     SELECT 
-                        hc_quap_questionnaire.\"type\",
+                        hc_quap_questionnaire."type",
                         BOOL_AND(
                             hc_quap_question.evaluation_function IS NOT NULL
                         ) as automatic
                     FROM hc_quap_questionnaire
                     JOIN hc_quap_aspect ON hc_quap_aspect.questionnaire_id = hc_quap_questionnaire.id
                     JOIN hc_quap_question ON hc_quap_question.aspect_id = hc_quap_aspect.id
-                    GROUP BY hc_quap_questionnaire.id, hc_quap_questionnaire.\"type\", hc_quap_aspect.id
+                    GROUP BY hc_quap_questionnaire.id, hc_quap_questionnaire."type", hc_quap_aspect.id
                 ) as p
                 WHERE automatic = FALSE
-                GROUP BY \"type\";",
+                GROUP BY "type";',
         );
         return $query->fetchAllKeyValue();
     }
