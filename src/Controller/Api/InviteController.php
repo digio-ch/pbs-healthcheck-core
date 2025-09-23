@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\DTO\Model\InviteDTO;
+use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
 use App\Entity\Security\Permission;
 use App\Exception\ApiException;
@@ -90,7 +91,7 @@ class InviteController extends AbstractController
         }
 
         $createdInviteDTO = $this->inviteService->createInvite($group, $inviteDTO);
-        $personGamificationService->genericGoalProgress($this->getUser(), 'invite');
+        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_SHARE_ONE);
 
         return $this->json($createdInviteDTO, JsonResponse::HTTP_CREATED);
     }

@@ -5,6 +5,7 @@ namespace App\Controller\Api\Apps;
 use App\DTO\Mapper\QuestionnaireMapper;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\OptionalDateRequestData;
+use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
 use App\Exception\ApiException;
@@ -178,7 +179,7 @@ class QuapController extends AbstractController
         }
 
         $this->quapService->updateAllowAccess($group, $payload['allow_access']);
-        $personGamificationService->genericGoalProgress($this->getUser(), 'shareEL');
+        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_SHARE_EL);
 
         return $this->json([], JsonResponse::HTTP_NO_CONTENT);
     }

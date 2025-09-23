@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="hc_gamification_level")
  * @ORM\Entity(repositoryClass=LevelRepository::class)
  */
 class Level
@@ -20,6 +21,13 @@ class Level
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=LevelAccess::class)
+     * @ORM\JoinColumn(nullable=true)
+     * @var LevelAccess | null $access
+     */
+    private $access;
 
     /**
      * @ORM\Column(type="integer")
@@ -103,6 +111,16 @@ class Level
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getAccess(): ?LevelAccess
+    {
+        return $this->access;
+    }
+
+    public function setAccess(?LevelAccess $access): void
+    {
+        $this->access = $access;
     }
 
     public function getType(): ?int

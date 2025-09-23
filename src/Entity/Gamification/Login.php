@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="hc_gamification_login")
  * @ORM\Entity(repositoryClass=LoginRepository::class)
  */
 class Login
