@@ -72,6 +72,4 @@ class LevelAccess
     {
         $this->it_description = $it_description;
     }
-
-
 }
