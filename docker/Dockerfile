@@ -3,7 +3,7 @@ ARG BUILD_TEST=0
 ARG PHP_INI=php.ini
 
 # Install dependencies
-FROM composer:1.10.19 as dependencies
+FROM composer:2.8.12 AS dependencies
 COPY composer.* /app/
 WORKDIR /app
 RUN composer install --no-interaction --ignore-platform-reqs --no-scripts --prefer-dist
@@ -40,7 +40,7 @@ RUN if [ "$BUILD_TEST" -eq "1" ] || [ "$BUILD_DEBUG" -eq "1" ]; then \
         # add git to allow cloning of logger
         apt-get install -y git && \
         # install composer
-        curl -sS https://getcomposer.org/installer | php -- --version=1.10.19 --install-dir=/usr/local/bin --filename=composer \
+        curl -sS https://getcomposer.org/installer | php -- --version=2.8.12 --install-dir=/usr/local/bin --filename=composer \
     ; fi
 
 WORKDIR /srv
