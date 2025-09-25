@@ -5,10 +5,6 @@ ARG PHP_INI=php.ini
 # Install dependencies
 FROM composer:2.8.12 AS dependencies
 
-# Defines where the composer stores repositories
-ENV COMPOSER_HOME=/tmp/composer
-RUN mkdir -p $COMPOSER_HOME && chmod -R 777 $COMPOSER_HOME
-
 COPY composer.* /app/
 WORKDIR /app
 RUN composer install --no-interaction --ignore-platform-reqs --no-scripts --prefer-dist
@@ -17,6 +13,7 @@ FROM php:7.4.14-fpm
 ARG BUILD_DEBUG
 ARG BUILD_TEST
 ARG PHP_INI
+ENV COMPOSER_HOME=var/composer
 
 # Point apt to Debians archive server because the packages needed aren't on the main mirror servers anymore
 # This is because the image we are using is based on Debian 10 which is EOL
