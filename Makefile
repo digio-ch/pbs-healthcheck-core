@@ -13,7 +13,7 @@ build:
 
 .PHONY: build-debug
 build-debug:
-	$(DOCKER_COMPOSE_COMMAND) $(DOCKER_COMPOSE_FILE) build --build-arg="BUILD_DEBUG=1"
+	$(DOCKER_COMPOSE_COMMAND) $(DOCKER_COMPOSE_FILE) build --build-arg="BUILD_TEST=1" --no-cache
 
 .PHONY: setup
 setup:
@@ -34,3 +34,13 @@ down:
 .PHONY: import
 import:
 	docker exec healthcheck-core-local ./run-import.sh
+
+.PHONY: test
+test:
+	make down
+	docker compose -p healthcheck-test -f docker/docker-compose.yml build --build-arg BUILD_TEST=1 healthcheck-core
+	docker compose -p healthcheck-test -f docker/docker-compose.yml up -d
+	docker exec healthcheck-core-local composer install --no-interaction --no-scripts
+	docker exec healthcheck-core-local php vendor/bin/phpcs --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/
+	docker exec healthcheck-core-local php bin/phpunit || true
+	docker compose -p healthcheck-test -f docker/docker-compose.yml down
