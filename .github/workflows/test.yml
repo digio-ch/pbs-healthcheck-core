@@ -6,6 +6,7 @@ on:
       - develop
       - stage
       - master
+  pull_request:
 
 jobs:
   test:
