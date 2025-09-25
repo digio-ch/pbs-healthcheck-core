@@ -4,6 +4,11 @@ ARG PHP_INI=php.ini
 
 # Install dependencies
 FROM composer:2.8.12 AS dependencies
+
+# Defines where the composer stores repositories
+ENV COMPOSER_HOME=/tmp/composer
+RUN mkdir -p $COMPOSER_HOME && chmod -R 777 $COMPOSER_HOME
+
 COPY composer.* /app/
 WORKDIR /app
 RUN composer install --no-interaction --ignore-platform-reqs --no-scripts --prefer-dist
