@@ -38,30 +38,39 @@ class QuestionnaireRepository extends ServiceEntityRepository
     }
 
     /**
-     * Returns an array that maps the questionnaire type to the amount of aspects that can be answered manually.
+     * Returns an array that maps the questionnaire type to an array of local_aspect_ids of aspects that can be answered manually.
      *
      * Aspects that have at least one question that has no evaluation_function are considered manually answerable.
-     * @return array<string,int>
+     * @return array<string,int[]>
      * @throws Exception
      */
-    public function getAmountOfAnswerableAspects(): array
+    public function getAnswerableAspects(): array
     {
         $conn = $this->_em->getConnection();
         $query = $conn->executeQuery(
-            'SELECT "type", COUNT(*) FROM (
-                    SELECT 
+            'SELECT "type", JSON_AGG(local_aspect_id) as aspects FROM (
+                    SELECT
                         hc_quap_questionnaire."type",
+                        hc_quap_aspect.local_id as local_aspect_id,
                         BOOL_AND(
                             hc_quap_question.evaluation_function IS NOT NULL
                         ) as automatic
                     FROM hc_quap_questionnaire
                     JOIN hc_quap_aspect ON hc_quap_aspect.questionnaire_id = hc_quap_questionnaire.id
                     JOIN hc_quap_question ON hc_quap_question.aspect_id = hc_quap_aspect.id
-                    GROUP BY hc_quap_questionnaire.id, hc_quap_questionnaire."type", hc_quap_aspect.id
+                    GROUP BY hc_quap_questionnaire.id, hc_quap_questionnaire."type", hc_quap_aspect.id, hc_quap_aspect.local_id
                 ) as p
                 WHERE automatic = FALSE
                 GROUP BY "type";',
         );
-        return $query->fetchAllKeyValue();
+
+        $res = [Questionnaire::TYPE_DEPARTMENT => [], Questionnaire::TYPE_CANTON => []];
+
+        // convert the aspects "{0,1,2,..}" to an array [0,1,2,...]
+        foreach($query->fetchAllAssociative() as $row) {
+            $res[$row['type']] = json_decode($row['aspects']);
+        }
+
+        return $res;
     }
 }

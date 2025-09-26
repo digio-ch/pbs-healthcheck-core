@@ -4,12 +4,10 @@ namespace App\Repository\Gamification;
 
 use App\Entity\Gamification\GamificationQuapEvent;
 use App\Entity\Midata\Person;
-use App\Entity\Quap\Questionnaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
-use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @extends ServiceEntityRepository<GamificationQuapEvent>
@@ -63,33 +61,4 @@ class GamificationQuapEventRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-    // /**
-    //  * @return GamificationQuapEvent[] Returns an array of GamificationQuapEvent objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?GamificationQuapEvent
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
