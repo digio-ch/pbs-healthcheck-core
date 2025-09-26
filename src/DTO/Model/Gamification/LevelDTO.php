@@ -10,6 +10,7 @@ class LevelDTO
     private array $goals;
     private bool $active;
     private int $required;
+    private ?string $access;
 
     /**
      * @return int
@@ -89,5 +90,22 @@ class LevelDTO
     public function setGoals(array $goals): void
     {
         $this->goals = $goals;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAccess(): ?string
+    {
+        return $this->access;
+    }
+
+    /**
+     * @param string|null $access
+     * @return void
+     */
+    public function setAccess(?string $access): void
+    {
+        $this->access = $access;
     }
 }

@@ -52,7 +52,11 @@
         },
         "sort-packages": true,
         "allow-plugins": {
+            "php-http/discovery": true,
             "symfony/flex": false
+        },
+        "platform": {
+            "php": "7.4.14"
         }
     },
     "autoload": {

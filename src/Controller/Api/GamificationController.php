@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
 use App\Entity\Security\Permission;
 use App\Exception\ApiException;
@@ -18,8 +19,23 @@ use Symfony\Component\HttpFoundation\Response;
 class GamificationController extends AbstractController
 {
     /**
+     * Specifies whether the reset endpoint should be enabled.
+     *
+     * This value is injected by the environment variable GAMIFICATION_RESET_ENDPOINT_ENABLED.
+     * If the variable is not present it fallbacks to false.
+     * @var bool $resetEndpointEnabled
+     */
+    private bool $resetEndpointEnabled;
+
+    public function __construct(bool $resetEndpointEnabled)
+    {
+        $this->resetEndpointEnabled = $resetEndpointEnabled;
+    }
+
+    /**
      * @param Request $request
      * @param LoginService $loginService
+     * @param GroupRepository $groupRepository
      * @return Response
      */
     public function postGroupChange(
@@ -44,7 +60,7 @@ class GamificationController extends AbstractController
         Request $request,
         PersonGamificationService $personGamificationService
     ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), 'card');
+        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_CARD_LAYERS);
         return new Response('', 200);
     }
 
@@ -52,7 +68,7 @@ class GamificationController extends AbstractController
         Request $request,
         PersonGamificationService $personGamificationService
     ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), 'data');
+        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_DATA_FILTER);
         return new Response('', 200);
     }
 
@@ -60,7 +76,7 @@ class GamificationController extends AbstractController
         Request $request,
         PersonGamificationService $personGamificationService
     ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), 'time');
+        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_TIME_FILTER);
         return new Response('', 200);
     }
 
@@ -74,6 +90,13 @@ class GamificationController extends AbstractController
 
     public function resetGamification(Request $request, PersonGamificationService $personGamificationService): Response
     {
+        if (!$this->resetEndpointEnabled) {
+            return new JsonResponse([
+                "code" => 404,
+                "error" => "reset endpoint is disabled"
+            ], 404);
+        }
+
         $personGamificationService->reset($this->getUser());
         return new Response('');
     }

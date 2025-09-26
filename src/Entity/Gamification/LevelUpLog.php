@@ -7,6 +7,7 @@ use App\Repository\Gamification\LevelUpLogRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="hc_gamification_level_up_log")
  * @ORM\Entity(repositoryClass=LevelUpLogRepository::class)
  */
 class LevelUpLog
