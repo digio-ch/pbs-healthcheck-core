@@ -67,7 +67,7 @@ class QuestionnaireRepository extends ServiceEntityRepository
         $res = [Questionnaire::TYPE_DEPARTMENT => [], Questionnaire::TYPE_CANTON => []];
 
         // convert the aspects "{0,1,2,..}" to an array [0,1,2,...]
-        foreach($query->fetchAllAssociative() as $row) {
+        foreach ($query->fetchAllAssociative() as $row) {
             $res[$row['type']] = json_decode($row['aspects']);
         }
 
