@@ -338,12 +338,22 @@ class PersonGamificationService
      */
     private function isElFilledOut(Person $person): bool
     {
-        $filledOutAspects = $this->getElFilledOutAspectsCount($person);
+        $counters = [Questionnaire::TYPE_DEPARTMENT => 0, Questionnaire::TYPE_CANTON => 0];
+        $filledAspects = $this->gamificationQuapEventRepository->getUniquieIds($person);
+        $answerableAspects = $this->questionnaireRepository->getAnswerableAspects();
 
-        $amountOfAspects = $this->questionnaireRepository->getAmountOfAnswerableAspects();
+        foreach ($filledAspects as $item) {
+            $aspectId = $item['local_change_index'];
+            $questionnaireType = $item['type'];
 
-        foreach ($filledOutAspects as $type => $count) {
-            if ($amountOfAspects[$type] <= $count) {
+            // only count the aspect as answered if it is answerable (no evaluation_function)
+            if (in_array($aspectId, $answerableAspects[$questionnaireType])) {
+                $counters[$questionnaireType]++;
+            }
+        }
+
+        foreach ($counters as $type => $count) {
+            if (count($answerableAspects[$type]) <= $count) {
                 return true;
             }
         }
