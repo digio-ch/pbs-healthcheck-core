@@ -14,6 +14,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AggregatedQuap extends AggregatedEntity
 {
+    public const NO_ANSWER = 0;
+    public const ANSWER_IRRELEVANT = 5;
+    public const ANSWER_NOT_IMPLEMENTED = 4;
+    public const ANSWER_PARTIALLY_FULFILLED = 3;
+    public const ANSWER_MOSTLY_FULFILLED = 2;
+    public const ANSWER_FULFILLED = 1;
+
     /**
      * @ORM\ManyToOne(targetEntity=Questionnaire::class, inversedBy = "widgetQuap")
      * @ORM\JoinColumn(nullable=false)

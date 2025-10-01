@@ -5,11 +5,14 @@ namespace App\Controller\Api\Apps;
 use App\DTO\Mapper\QuestionnaireMapper;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\OptionalDateRequestData;
+use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
 use App\Exception\ApiException;
 use App\Service\Apps\Quap\QuapService;
 use App\Service\DataProvider\QuapSubdepartmentDateDataProvider;
+use App\Service\Gamification\PersonGamificationService;
+use App\Service\Gamification\QuapGamificationService;
 use App\Service\Security\PermissionVoter;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -139,7 +142,8 @@ class QuapController extends AbstractController
      */
     public function submitAnswers(
         Group $group,
-        Request $request
+        Request $request,
+        QuapGamificationService $quapGamificationService
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionVoter::EDITOR, $group);
 
@@ -148,6 +152,8 @@ class QuapController extends AbstractController
             throw new ApiException(400, "Invalid JSON");
         }
 
+        // has to be before answers are saved!
+        $quapGamificationService->processQuapEvent($json, $group, $this->getUser());
         $savedWidgetQuap = $this->quapService->submitAnswers($group, $json);
 
         return $this->json($savedWidgetQuap->getAnswers());
@@ -162,7 +168,8 @@ class QuapController extends AbstractController
      */
     public function setAccess(
         Group $group,
-        Request $request
+        Request $request,
+        PersonGamificationService $personGamificationService
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
 
@@ -172,6 +179,7 @@ class QuapController extends AbstractController
         }
 
         $this->quapService->updateAllowAccess($group, $payload['allow_access']);
+        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_SHARE_EL);
 
         return $this->json([], JsonResponse::HTTP_NO_CONTENT);
     }

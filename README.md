@@ -77,6 +77,9 @@ We use the PSR-12 PHP standard. You can check your code using the following comm
 
 `docker exec healthcheck-core-local php vendor/bin/phpcs --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/`
 
+Auto linting:
+`docker exec healthcheck-core-local php vendor/bin/phpcbf --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/`
+
 #### Running Tests
 
 To run tests locally make sure to use the `env.test` instead of the created `.env`. You can do that by replacing the

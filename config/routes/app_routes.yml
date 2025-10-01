@@ -17,7 +17,14 @@ general:
   prefix: /general
   name_prefix: general_
 
+# Census
 census:
   resource: "apps/census.yml"
   prefix: /census
   name_prefix: census_
+
+# Gamification
+gamification:
+  resource: "apps/gamification.yml"
+  prefix: /gamification
+  name_prefix: gamification_

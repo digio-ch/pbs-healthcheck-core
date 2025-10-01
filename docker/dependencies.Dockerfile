@@ -1,5 +1,4 @@
-
-FROM composer:1.10.19 as dependencies
+FROM composer:2.8.12
 
 WORKDIR /srv
 COPY composer.* .
