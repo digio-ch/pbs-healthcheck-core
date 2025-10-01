@@ -17,6 +17,7 @@ docker exec --user=www-data healthcheck-core-dev /usr/local/bin/php /srv/bin/con
 docker exec --user=www-data healthcheck-core-dev /usr/local/bin/php /srv/bin/console app:quap:import-questionnaire
 docker exec --user=www-data healthcheck-core-dev /usr/local/bin/php /srv/bin/console app:import-gamification
 
+
 # run the aggregator command from the go importer
 docker exec healthcheck-importer-dev pbs-healthcheck-importer -v aggregate
 

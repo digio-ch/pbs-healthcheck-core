@@ -230,6 +230,7 @@ class GroupRepository extends ServiceEntityRepository
             ->andWhere('gt.groupType IN (:groupType)')
             ->setParameter('cantonId', $cantonId)
             ->setParameter('groupType', [GroupType::DEPARTMENT, GroupType::REGION])
+
             ->getQuery()
             ->getArrayResult();
     }
