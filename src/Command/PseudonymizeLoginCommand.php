@@ -27,7 +27,7 @@ class PseudonymizeLoginCommand extends StatisticsCommand
     protected function configure()
     {
         $this
-            ->setName("app:pseudonomize-login")
+            ->setName("app:pseudonymize-login")
             ->addOption("log", '', InputArgument::OPTIONAL, "List all pseudonymized Logins.", false);
     }
 
@@ -35,9 +35,12 @@ class PseudonymizeLoginCommand extends StatisticsCommand
     {
         $start = microtime(true);
         $pseudonymizedLogins = $this->loginRepository->pseudonymizeAllOlderThan18Months(function ($personId) {
+            // sha256 is mostly collision free and currently irreversible, sufficient for our purposes.
             return hash('sha256', $personId);
-        }); // sha256 is mostly collision free and currently irreversible, sufficient for our purposes.
+        });
+
         $log = $input->getOption('log');
+
         if ($log) {
             $output->writeln('Following Logins (id) have been pseudonymized:');
             foreach ($pseudonymizedLogins as $login) {

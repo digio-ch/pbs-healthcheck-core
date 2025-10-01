@@ -5,7 +5,6 @@ namespace App\Repository\Gamification;
 use App\Entity\Gamification\Login;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -55,50 +54,40 @@ class LoginRepository extends ServiceEntityRepository
         }
     }
 
-    public function pseudonymizeAllOlderThan18Months(callable $hashFunc)
+    /**
+     * Pseudonymizes all login entries that
+     *  - are older than 18 months
+     *  - aren't already pseudonymized (hashed_person_id is null)
+     *  - have a person (person_id not null)
+     *
+     * @param callable<int, string> $hashFunc
+     * @return Login[] pseudonymized logins
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws \Doctrine\ORM\Exception\ORMException
+     */
+    public function pseudonymizeAllOlderThan18Months(callable $hashFunc): array
     {
         $thresholdDate = new DateTime('-18 months');
+        /**
+         * @var $entities Login[]
+         */
         $entities = $this->createQueryBuilder('e')
             ->where('e.date < :thresholdDate')
+            ->andWhere('e.hashed_person_id IS NULL')
+            ->andWhere('e.person IS NOT NULL')
             ->setParameter('thresholdDate', $thresholdDate)
             ->getQuery()
             ->getResult();
+
         foreach ($entities as $entity) {
             $hashedId = $hashFunc($entity->getPerson()->getId());
             $entity->setPerson(null);
             $entity->setHashedPersonId($hashedId);
             $this->_em->persist($entity);
         }
+
         $this->_em->flush();
         return $entities;
     }
-
-    // /**
-    //  * @return Login[] Returns an array of Login objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Login
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
