@@ -62,6 +62,38 @@ class OverviewSharedService
         return !is_null($entry);
     }
 
+    public function validateOverviewAccess(Group $parent, Group $department): bool
+    {
+        // validate group type of the parent group
+        $parentGroupType = $parent->getGroupType()->getGroupType();
+        if ($parentGroupType !== GroupType::REGION && $parentGroupType !== GroupType::CANTON) {
+            return false;
+        }
+
+        // validate group type of the department
+        if ($department->getGroupType()->getGroupType() !== GroupType::DEPARTMENT) {
+            return false;
+        }
+
+        // check if the department is shared
+        if (!$this->isShared($department->getId())) {
+            return false;
+        }
+
+        // check if the parent group is the canton of the department
+        if ($department->getCantonId() === $parent->getId()) {
+            return true;
+        }
+
+        // validate if the department is the direct child of the parent
+        $departmentParentGroup = $department->getParentGroup();
+        if (!is_null($departmentParentGroup) && $departmentParentGroup->getId() === $parent->getId()) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * @param int $groupId
      * @param bool $share whether the group should share the overview
