@@ -40,7 +40,7 @@ class MembersGroupController extends AbstractController
             $data = $membersGroupDateDataProvider->getData(
                 $group,
                 $date->format('Y-m-d'),
-                $membersGroupPreviewService->getGroupTypes($group),
+                $membersGroupPreviewService->getGroupTypes($group->getId()),
                 ['members', 'leaders']
             );
         }

@@ -8,3 +8,8 @@ share:
   path: /share
   methods: POST
   controller: App\Controller\Api\Apps\OverviewController::shareOverview
+
+departments-preview:
+  path: /departments/preview
+  methods: GET
+  controller: App\Controller\Api\Apps\OverviewController::getOverviewOfDepartmentsPreview
