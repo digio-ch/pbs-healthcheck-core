@@ -27,4 +27,18 @@ class OverviewSharedRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function save(OverviewShared $overviewShared)
+    {
+        $em = $this->getEntityManager();
+        $em->persist($overviewShared);
+        $em->flush();
+    }
+
+    public function remove(OverviewShared $overviewShared)
+    {
+        $em = $this->getEntityManager();
+        $em->remove($overviewShared);
+        $em->flush();
+    }
 }

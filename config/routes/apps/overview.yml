@@ -3,3 +3,8 @@ sharing:
   path: /share
   methods: GET
   controller: App\Controller\Api\Apps\OverviewController::getOverviewSharing
+
+share:
+  path: /share
+  methods: POST
+  controller: App\Controller\Api\Apps\OverviewController::shareOverview
