@@ -1,19 +1,27 @@
 
+# Department Overview Endpoints
 sharing:
   path: /share
   methods: GET
-  controller: App\Controller\Api\Apps\OverviewController::getOverviewSharing
+  controller: App\Controller\Api\Apps\OverviewController:getOverviewSharing
 
 share:
   path: /share
   methods: POST
-  controller: App\Controller\Api\Apps\OverviewController::shareOverview
+  controller: App\Controller\Api\Apps\OverviewController:shareOverview
 
+# Region/Canton Overview Endpoints
 departments_preview:
   path: /departments/preview
   methods: GET
-  controller: App\Controller\Api\Apps\OverviewController::getOverviewOfDepartmentsPreview
+  controller: App\Controller\Api\Apps\OverviewController:getOverviewOfDepartmentsPreview
 
+departments:
+  path: /departments
+  methods: GET
+  controller: App\Controller\Api\Apps\OverviewController:getOverviewOfDepartments
+
+# Widget Endpoints for Regions/Cantons
 departments_filter:
   path: /departments/{departmentId}/filter
   methods: GET

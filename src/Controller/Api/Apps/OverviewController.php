@@ -8,6 +8,7 @@ use App\Entity\Midata\GroupType;
 use App\Exception\ApiException;
 use App\Service\Apps\Overview\OverviewSharedService;
 use App\Service\Security\PermissionVoter;
+use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -78,6 +79,7 @@ class OverviewController extends AbstractController
      * @return JsonResponse
      *
      * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
+     * @throws Exception
      */
     public function getOverviewOfDepartmentsPreview(Group $group): JsonResponse
     {
@@ -90,6 +92,26 @@ class OverviewController extends AbstractController
         $preview = $this->overviewSharedService->getDepartmentsPreview($group);
 
         return $this->json($preview);
+    }
+
+    /**
+     * @param Group $group
+     * @return JsonResponse
+     *
+     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
+     * @throws Exception
+     */
+    public function getOverviewOfDepartments(Group $group): JsonResponse
+    {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+
+        if (!$this->isRegionOrCanton($group)) {
+            throw new ApiException(400, "Only for regions and cantons");
+        }
+
+        $data = $this->overviewSharedService->getDepartments($group);
+
+        return $this->json($data);
     }
 
     private function isDepartment(Group $group): bool
