@@ -27,6 +27,11 @@ departments_filter:
   methods: GET
   controller: App\Controller\Api\Apps\Widgets\FilterController:getFilterDataOfDepartment
 
+members_gender:
+  path: /departments/{departmentId}/members-gender
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\MembersGenderController:getDemographicGroupDataOfDepartment
+
 departments_members_group:
   path: /departments/{departmentId}/members-group
   methods: GET
