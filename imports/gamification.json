@@ -127,18 +127,18 @@
       "level": 1,
       "required": false,
       "de": {
-        "title": "Erfolgslogik - Freude suchen und weitergeben",
-        "information": "Erfolgslogik an KV/Region freigegeben",
+        "title": "Gesundheitskompass - Freude suchen und weitergeben",
+        "information": "Gesundheitskompass an KV/Region freigegeben",
         "help": ""
       },
       "fr": {
-        "title": "Diagramme de succès - Partager",
-        "information": "Tu transmets le diagramme de succès aux niveaux supérieurs.",
+        "title": "Boussole de santé - Partager",
+        "information": "Tu transmets la boussole de santé aux niveaux supérieurs.",
         "help": ""
       },
       "it": {
-        "title": "Logica del successo - Condividere",
-        "information": "Trasmetteti la logica del successo al livello superiore.",
+        "title": "Bussola di salute - Condividere",
+        "information": "Trasmetteti la bussola di salute al livello superiore.",
         "help": ""
       }
     },
@@ -147,17 +147,17 @@
       "level": 2,
       "required": true,
       "de": {
-        "title": "Erfolgslogik - alle Aspekte vollständig bearbeitet",
-        "information": "Erfolgslogik - Alle Fragen von allen Kästchen beantwortet",
+        "title": "Gesundheitskompass - alle Aspekte vollständig bearbeitet",
+        "information": "Gesundheitskompass - Alle Fragen von allen Kästchen beantwortet",
         "help": "Du hast noch nicht jedes der verschiedenen Kästchen bearbeitet und/oder ausgefüllt."
       },
       "fr": {
-        "title": "Diagramme de succès - traitement complet de tous les domaines",
+        "title": "Boussole de santé - traitement complet de tous les domaines",
         "information": "Tu réponds à toutes les questions de toutes les cases.",
         "help": "Tu n'as pas encore rempli ou modifié chacune des cases."
       },
       "it": {
-        "title": "Logica del successo - elaborazione completa di tutte le aree",
+        "title": "Bussola di salute - elaborazione completa di tutte le aree",
         "information": "Rispondi a tutte le domande in tutte le caselle.",
         "help": "Non hai ancora compilato o modificato ogni casella."
       }
@@ -187,17 +187,17 @@
       "level": 2,
       "required": false,
       "de": {
-        "title": "Erfolgslogik - ausblenden, was nicht relevant ist",
+        "title": "Gesundheitskompass - ausblenden, was nicht relevant ist",
         "information": "In  in einem vollen Kästchen mind. eine nicht relevante Frage ausgeblendet",
         "help": ""
       },
       "fr": {
-        "title": "Diagramme de succès - ce qui n'est pas pertinent est transparent",
+        "title": "Boussole de santé - ce qui n'est pas pertinent est transparent",
         "information": "Tu indiques quelles questions en sont pas importantes au sein d'une case (la case doit être remplie).",
         "help": ""
       },
       "it": {
-        "title": "Logica del successo - ciò che è irrilevante è trasparente",
+        "title": "Bussola di salute - ciò che è irrilevante è trasparente",
         "information": "Indica quali domande non sono importanti all'interno di una casella (la casella deve essere riempita).",
         "help": ""
       }
@@ -207,17 +207,17 @@
       "level": 2,
       "required": false,
       "de": {
-        "title": "Erfolgslogik - ein Aspekt überarbeitet",
+        "title": "Gesundheitskompass - ein Aspekt überarbeitet",
         "information": "Mindestens ein Kästchen später nochmals editiert",
         "help": ""
       },
       "fr": {
-        "title": "Diagramme de succès - révision d'un aspect",
+        "title": "Boussole de santé - révision d'un aspect",
         "information": "Tu modifies une réponse dans une case.",
         "help": ""
       },
       "it": {
-        "title": "Logica del successo - revisione di un aspetto",
+        "title": "Bussola di salute - revisione di un aspetto",
         "information": "Modifica una risposta in un riquadro.",
         "help": ""
       }
@@ -227,17 +227,17 @@
       "level": 3,
       "required": true,
       "de": {
-        "title": "Erfolgslogik - ein Aspekt verbessert",
+        "title": "Gesundheitskompass - ein Aspekt verbessert",
         "information": "Mindestens in einem vollen Kästchen eine Frage besser beantwortet als vorher",
         "help": ""
       },
       "fr": {
-        "title": "Diagramme de succès - amélioration d'un aspect",
+        "title": "Boussole de santé - amélioration d'un aspect",
         "information": "Tu améliores une réponse dans une case remplie.",
         "help": ""
       },
       "it": {
-        "title": "Logica del successo - migliora un aspetto",
+        "title": "Bussola di salute - migliora un aspetto",
         "information": "Migliora una risposta in un riquadro completato.",
         "help": ""
       }
