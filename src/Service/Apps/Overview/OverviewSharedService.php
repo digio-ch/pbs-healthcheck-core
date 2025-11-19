@@ -86,24 +86,10 @@ class OverviewSharedService
         if ($department->getGroupType()->getGroupType() !== GroupType::DEPARTMENT) {
             return false;
         }
+        
+        $departmentIds = $this->getSharedDepartments($parent);
 
-        // check if the department is shared
-        if (!$this->isShared($department->getId())) {
-            return false;
-        }
-
-        // check if the parent group is the canton of the department
-        if ($department->getCantonId() === $parent->getId()) {
-            return true;
-        }
-
-        // validate if the department is the direct child of the parent
-        $departmentParentGroup = $department->getParentGroup();
-        if (!is_null($departmentParentGroup) && $departmentParentGroup->getId() === $parent->getId()) {
-            return true;
-        }
-
-        return false;
+        return in_array($department->getId(), $departmentIds);
     }
 
     /**
