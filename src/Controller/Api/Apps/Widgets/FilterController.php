@@ -3,6 +3,8 @@
 namespace App\Controller\Api\Apps\Widgets;
 
 use App\Entity\Midata\Group;
+use App\Exception\ApiException;
+use App\Service\Apps\Overview\OverviewSharedService;
 use App\Service\DataProvider\FilterDataProvider;
 use App\Service\Security\PermissionVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -28,6 +30,34 @@ class FilterController extends AbstractController
         $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
 
         $data = $filterDataProvider->getData($group, $request->getLocale());
+
+        return $this->json($data);
+    }
+
+    /**
+     * @param Request $request
+     * @param Group $group
+     * @param Group $department
+     * @param FilterDataProvider $filterDataProvider
+     * @return JsonResponse
+     *
+     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
+     * @ParamConverter("department", options={"mapping": {"departmentId": "id"}})
+     */
+    public function getFilterDataOfDepartment(
+        Request $request,
+        Group $group,
+        Group $department,
+        FilterDataProvider $filterDataProvider,
+        OverviewSharedService $overviewSharedService
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+
+        if (!$overviewSharedService->validateOverviewAccess($group, $department)) {
+            throw new ApiException(400, "Department has to be shared and a child of the parent group");
+        }
+
+        $data = $filterDataProvider->getData($department, $request->getLocale());
 
         return $this->json($data);
     }

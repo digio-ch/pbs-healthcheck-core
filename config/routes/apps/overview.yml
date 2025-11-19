@@ -1,0 +1,68 @@
+
+# Department Overview Endpoints
+sharing:
+  path: /share
+  methods: GET
+  controller: App\Controller\Api\Apps\OverviewController:getOverviewSharing
+
+share:
+  path: /share
+  methods: POST
+  controller: App\Controller\Api\Apps\OverviewController:shareOverview
+
+# Region/Canton Overview Endpoints
+departments_preview:
+  path: /departments/preview
+  methods: GET
+  controller: App\Controller\Api\Apps\OverviewController:getOverviewOfDepartmentsPreview
+
+departments:
+  path: /departments
+  methods: GET
+  controller: App\Controller\Api\Apps\OverviewController:getOverviewOfDepartments
+
+# Widget Endpoints for Regions/Cantons
+departments_filter:
+  path: /departments/{departmentId}/filter
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\FilterController:getFilterDataOfDepartment
+
+members_gender:
+  path: /departments/{departmentId}/members-gender
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\MembersGenderController:getDemographicGroupDataOfDepartment
+
+departments_members_group:
+  path: /departments/{departmentId}/members-group
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\MembersGroupController:getGroupMembersDataOfDepartment
+
+departments_demographic_camp:
+  path: /departments/{departmentId}/camps
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\CampController:getDemographicCampDataOfDepartment
+
+departments_leader_overview:
+  path: /departments/{departmentId}/leader-overview
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\LeaderOverviewController:getLeaderOverviewDataOfDepartment
+
+departments_members_birthyear:
+  path: /departments/{departmentId}/age-group-demographic
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\MembersBirthyearController:getMembersBirthyearDataOfDepartment
+
+departments_members_entered_left:
+  path: /departments/{departmentId}/entered-left
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\MembersEnteredLeftController:getEnteredLeftMembersDataOfDepartment
+
+departments_geo_location:
+  path: /departments/{departmentId}/geo-location
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\GeoLocationController::getGeoLocationsOfDepartment
+
+departments_role_overview:
+  path: /departments/{departmentId}/role-overview
+  methods: GET
+  controller: App\Controller\Api\Apps\Widgets\RoleOverviewController:getRoleOverviewOfDepartment

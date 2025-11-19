@@ -3,6 +3,7 @@
 namespace App\Controller\Api\Apps\Widgets;
 
 use App\DTO\Model\FilterRequestData\DateRequestData;
+use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Service\DataProvider\MembersBirthyearDateDataProvider;
 use App\Service\Security\PermissionVoter;
@@ -28,6 +29,28 @@ class MembersBirthyearController extends AbstractController
 
         $data = $membersBirthyearDateDataProvider->getData(
             $widgetRequestData->getGroup(),
+            $dateRequestData->getDate()->format('Y-m-d'),
+            $widgetRequestData->getGroupTypes(),
+            $widgetRequestData->getPeopleTypes()
+        );
+        return $this->json($data);
+    }
+
+    /**
+     * @param DateRequestData $dateRequestData
+     * @param WidgetOfDepartmentRequestData $widgetRequestData
+     * @param MembersBirthyearDateDataProvider $membersBirthyearDateDataProvider
+     * @return JsonResponse
+     */
+    public function getMembersBirthyearDataOfDepartment(
+        DateRequestData $dateRequestData,
+        WidgetOfDepartmentRequestData $widgetRequestData,
+        MembersBirthyearDateDataProvider $membersBirthyearDateDataProvider
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+
+        $data = $membersBirthyearDateDataProvider->getData(
+            $widgetRequestData->getDepartment(),
             $dateRequestData->getDate()->format('Y-m-d'),
             $widgetRequestData->getGroupTypes(),
             $widgetRequestData->getPeopleTypes()
