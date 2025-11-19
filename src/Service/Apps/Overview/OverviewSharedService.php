@@ -86,7 +86,7 @@ class OverviewSharedService
         if ($department->getGroupType()->getGroupType() !== GroupType::DEPARTMENT) {
             return false;
         }
-        
+
         $departmentIds = $this->getSharedDepartments($parent);
 
         return in_array($department->getId(), $departmentIds);
