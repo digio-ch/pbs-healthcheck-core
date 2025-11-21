@@ -20,6 +20,16 @@ class AggregatedQuapRepository extends AggregatedEntityRepository
         parent::__construct($registry, AggregatedQuap::class);
     }
 
+    /**
+     * @return iterable<AggregatedQuap>
+     */
+    public function iterateAll(): iterable
+    {
+        return $this->createQueryBuilder('q')
+            ->getQuery()
+            ->toIterable();
+    }
+
     public function findCurrentForGroup(int $groupId): ?AggregatedQuap
     {
         return $this->createQueryBuilder('quap')
@@ -61,6 +71,25 @@ class AggregatedQuapRepository extends AggregatedEntityRepository
     {
         $this->getEntityManager()->persist($widgetQuap);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param AggregatedQuap $widgetQuap
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function updateAnswers(AggregatedQuap $widgetQuap)
+    {
+        $json = json_encode($widgetQuap->getAnswers(), JSON_FORCE_OBJECT);
+
+        $connection = $this->getEntityManager()->getConnection();
+        $connection->executeStatement(
+            'UPDATE hc_aggregated_quap SET answers = :answers WHERE id = :id',
+            [
+                'answers' => $json,
+                'id' => $widgetQuap->getId(),
+            ]
+        );
     }
 
     public function getQuestionnaireByGroup(Group $group): Questionnaire
