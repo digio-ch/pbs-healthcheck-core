@@ -340,7 +340,7 @@ class PersonGamificationService
     {
         $counters = [Questionnaire::TYPE_DEPARTMENT => 0, Questionnaire::TYPE_CANTON => 0];
         $filledAspects = $this->gamificationQuapEventRepository->getUniqueIds($person);
-        $answerableAspects = $this->questionnaireRepository->getAnswerableAspects();
+        $answerableAspects = $this->questionnaireRepository->getExistingAnswerableAspects();
 
         foreach ($filledAspects as $item) {
             $aspectId = $item['aspect_local_id'];

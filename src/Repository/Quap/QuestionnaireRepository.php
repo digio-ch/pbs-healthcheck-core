@@ -40,11 +40,13 @@ class QuestionnaireRepository extends ServiceEntityRepository
     /**
      * Returns an array that maps the questionnaire type to an array of local_aspect_ids of aspects that can be answered manually.
      *
-     * Aspects that have at least one question that has no evaluation_function are considered manually answerable.
+     * Aspects that have been deleted are ignored.
+     *
+     * Aspects that have at least one existing question that has no evaluation_function are considered manually answerable.
      * @return array<string,int[]>
      * @throws Exception
      */
-    public function getAnswerableAspects(): array
+    public function getExistingAnswerableAspects(): array
     {
         $conn = $this->_em->getConnection();
         $query = $conn->executeQuery(
@@ -58,6 +60,8 @@ class QuestionnaireRepository extends ServiceEntityRepository
                     FROM hc_quap_questionnaire
                     JOIN hc_quap_aspect ON hc_quap_aspect.questionnaire_id = hc_quap_questionnaire.id
                     JOIN hc_quap_question ON hc_quap_question.aspect_id = hc_quap_aspect.id
+                    WHERE hc_quap_aspect.deleted_at IS NULL
+                    AND hc_quap_question.deleted_at IS NULL
                     GROUP BY hc_quap_questionnaire.id, hc_quap_questionnaire."type", hc_quap_aspect.id, hc_quap_aspect.local_id
                 ) as p
                 WHERE automatic = FALSE

@@ -28,25 +28,52 @@ class QuapGamificationService
      */
     public function processQuapEvent(array $newAnswers, Group $group, PbsUserDTO $pbsUserDTO)
     {
+        // we can assume that there already exists an aggregatedQuap because the aggregator creates one every day
         $aggregatedQuap = $this->aggregatedQuapRepository->findCurrentForGroup($group->getId());
         $oldAnswers = $aggregatedQuap->getAnswers();
 
-        $changedQuestionnaires = [];
+        $changedAspectLocalIds = [];
         $irrelevant = false;
         $improvement = false;
         $revision = false;
 
-        for ($questionnaireIndex = 0; $questionnaireIndex < count($oldAnswers); $questionnaireIndex++) {
-            for ($i = 0; $i < count($oldAnswers[$questionnaireIndex]); $i++) {
-                $oldAnswer = $oldAnswers[$questionnaireIndex][$i];
-                $newAnswer = $newAnswers[$questionnaireIndex][$i];
+        foreach ($newAnswers as $aspectId => $newAspect) {
 
-                // continue if the answer hasn't changed
+            // aspect didn't exist before
+            if (!array_key_exists($aspectId, $oldAnswers)) {
+
+                if (!$this->isAspectUnanswered($newAspect)) {
+                    // mark the aspect as changed
+                    $changedAspectLocalIds[$aspectId] = true;
+                }
+
+                continue;
+            }
+
+            $oldAspect = $oldAnswers[$aspectId];
+
+            foreach ($newAspect as $questionId => $newAnswer) {
+
+                // aspect didn't exist on the day before
+                if (!array_key_exists($questionId, $oldAspect)) {
+
+                    if ($newAnswer !== AggregatedQuap::NO_ANSWER) {
+                        // mark the aspect as changed
+                        $changedAspectLocalIds[$aspectId] = true;
+                    }
+
+                    continue;
+                }
+
+                $oldAnswer = $oldAspect[$questionId];
+
+                // continue because the answer didn't change
                 if ($oldAnswer === $newAnswer) {
                     continue;
                 }
 
-                $changedQuestionnaires[] = $questionnaireIndex;
+                // mark the aspect as changed
+                $changedAspectLocalIds[$aspectId] = true;
 
                 if ($newAnswer === AggregatedQuap::ANSWER_IRRELEVANT) {
                     $irrelevant = true;
@@ -76,6 +103,27 @@ class QuapGamificationService
             $this->personGamificationService->genericGoalProgress($pbsUserDTO, Goal::TYPE_EL_IMPROVEMENT);
         }
 
-        $this->personGamificationService->logEvent($changedQuestionnaires, $aggregatedQuap, $pbsUserDTO);
+        $this->personGamificationService->logEvent(
+            array_keys($changedAspectLocalIds),
+            $aggregatedQuap,
+            $pbsUserDTO,
+        );
+    }
+
+    /**
+     * Returns true if all the questions are NO_ANSWER
+     *
+     * @param int[] $aspect
+     * @return bool
+     */
+    private function isAspectUnanswered(array $aspect): bool
+    {
+        foreach ($aspect as $answer) {
+            if ($answer !== AggregatedQuap::NO_ANSWER) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
