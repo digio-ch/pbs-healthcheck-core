@@ -39,13 +39,12 @@ class ConvertQuestionnaireAnswersCommand extends StatisticsCommand
         $start = microtime(true);
         $output->writeln('Converting questionnaire answers...');
 
-        $this->em->wrapInTransaction(function(EntityManagerInterface $em) use ($output) {
+        $this->em->wrapInTransaction(function (EntityManagerInterface $em) {
 
             $connection = $em->getConnection();
 
             // iterate through aggregated quap entries and convert the answers to objects
             foreach ($this->quapRepository->iterateAll() as $aggregatedQuap) {
-
                 $json = json_encode($aggregatedQuap->getAnswers(), JSON_FORCE_OBJECT);
 
                 $connection->executeStatement(

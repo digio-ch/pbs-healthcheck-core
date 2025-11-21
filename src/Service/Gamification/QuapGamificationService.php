@@ -38,10 +38,8 @@ class QuapGamificationService
         $revision = false;
 
         foreach ($newAnswers as $aspectId => $newAspect) {
-
             // aspect didn't exist before
             if (!array_key_exists($aspectId, $oldAnswers)) {
-
                 if (!$this->isAspectUnanswered($newAspect)) {
                     // mark the aspect as changed
                     $changedAspectLocalIds[$aspectId] = true;
@@ -53,10 +51,8 @@ class QuapGamificationService
             $oldAspect = $oldAnswers[$aspectId];
 
             foreach ($newAspect as $questionId => $newAnswer) {
-
                 // aspect didn't exist on the day before
                 if (!array_key_exists($questionId, $oldAspect)) {
-
                     if ($newAnswer !== AggregatedQuap::NO_ANSWER) {
                         // mark the aspect as changed
                         $changedAspectLocalIds[$aspectId] = true;
