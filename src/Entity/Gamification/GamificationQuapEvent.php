@@ -40,17 +40,9 @@ class GamificationQuapEvent
     private $date;
 
     /**
-     * When submitting QUAP answers sadly the payload includes no information about the aspect
-     * that was changed. It only includes the raw information of the answers in an array, the association
-     * seems to happen magically?
-     * I decided to embrace that system and to log the ID in said array and not the aspect which it
-     * corresponds to. This also comes with the advantage that only human changable aspects are inside that
-     * array, so we don't need to filter later in the evaluation.
-     * If you would like to understand what im talking about, check the request that happens
-     * when you change a QUAP Aspect.
      * @ORM\Column(type="integer")
      */
-    private $local_change_index;
+    private int $aspect_local_id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Questionnaire::class)
@@ -99,14 +91,14 @@ class GamificationQuapEvent
         return $this;
     }
 
-    public function getLocalChangeIndex(): ?int
+    public function getAspectLocalId(): int
     {
-        return $this->local_change_index;
+        return $this->aspect_local_id;
     }
 
-    public function setLocalChangeIndex(int $local_change_index): self
+    public function setAspectLocalId(int $aspect_local_id): self
     {
-        $this->local_change_index = $local_change_index;
+        $this->aspect_local_id = $aspect_local_id;
 
         return $this;
     }
