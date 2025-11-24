@@ -21,6 +21,11 @@ class LevelAccess
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private string $key;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private string $de_description;
 
     /**
@@ -41,6 +46,16 @@ class LevelAccess
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    public function setKey(string $key): void
+    {
+        $this->key = $key;
     }
 
     public function getDeDescription(): string
