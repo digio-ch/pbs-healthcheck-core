@@ -197,7 +197,8 @@ class ImportGamificationCommand extends StatisticsCommand
      * @param bool $updating whether the entity is being created or updated
      * @return void
      */
-    private function logEntityChange(OutputInterface $output, string $id, string $name, bool $updating) {
+    private function logEntityChange(OutputInterface $output, string $id, string $name, bool $updating)
+    {
         $action = $updating ? 'Updating' : 'Creating';
 
         $output->writeln("$action \"$name\" ($id)");
