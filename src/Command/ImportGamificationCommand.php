@@ -7,6 +7,7 @@ use App\Entity\Gamification\Level;
 use App\Entity\Gamification\LevelAccess;
 use App\Model\CommandStatistics;
 use App\Repository\Gamification\GoalRepository;
+use App\Repository\Gamification\LevelAccessRepository;
 use App\Repository\Gamification\LevelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,6 +17,8 @@ class ImportGamificationCommand extends StatisticsCommand
 {
     /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
+
+    private LevelAccessRepository $levelAccessRepository;
 
     private LevelRepository $levelRepository;
 
@@ -27,11 +30,13 @@ class ImportGamificationCommand extends StatisticsCommand
 
     public function __construct(
         EntityManagerInterface $em,
+        LevelAccessRepository $levelAccessRepository,
         LevelRepository $levelRepository,
         GoalRepository $goalRepository
     ) {
         parent::__construct();
         $this->em = $em;
+        $this->levelAccessRepository = $levelAccessRepository;
         $this->levelRepository = $levelRepository;
         $this->goalRepository = $goalRepository;
     }
@@ -39,7 +44,7 @@ class ImportGamificationCommand extends StatisticsCommand
     protected function configure()
     {
         $this
-            ->setName("app:import-gamification");
+            ->setName('app:import-gamification');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -47,118 +52,155 @@ class ImportGamificationCommand extends StatisticsCommand
         $start = microtime(true);
         $json = json_decode(file_get_contents($this->pathToJson), true);
 
-        $this->em->getConnection()->executeQuery('DELETE FROM hc_gamification_person_profile');
-        $this->em->getConnection()->executeQuery('DELETE FROM hc_gamification_goal');
-        $this->em->getConnection()->executeQuery('DELETE FROM hc_gamification_level_up_log');
-        $this->em->getConnection()->executeQuery('DELETE FROM hc_gamification_level');
-        $this->em->getConnection()->executeQuery('DELETE FROM hc_gamification_level_access');
+        $result = $this->em->wrapInTransaction(function ($em) use ($json, $output): int {
+            if (!array_key_exists('level_access', $json) || !is_array($json['level_access'])) {
+                $output->writeln('No level access entries found.');
+                return 1;
+            }
 
-        if (is_null($json['level_access'])) {
-            $output->writeln('No level access requirements found.');
-            return 1;
-        }
-        $output->writeln('importing level accesses');
-        $accessLevelDBIdLookUp = $this->importLevelAccess($json['level_access'], $output);
+            $output->writeln('Importing level accesses');
+            $this->importLevelAccess($em, $json['level_access'], $output);
 
-        if (is_null($json['levels'])) {
-            $output->writeln('No levels found.');
-            return 1;
-        }
-        $output->writeln('importing levels');
-        $this->importLevels($json['levels'], $accessLevelDBIdLookUp, $output);
+            if (!array_key_exists('levels', $json) || !is_array($json['levels'])) {
+                $output->writeln('No levels found.');
+                return 1;
+            }
 
-        if (is_null($json["goals"])) {
-            $output->writeln('No goals found.');
-            return 1;
-        }
-        $this->importGoals($json['goals'], $output);
+            $output->writeln("\nImporting levels");
+            $this->importLevels($em, $json['levels'], $output);
+
+            if (!array_key_exists('goals', $json) || !is_array($json['goals'])) {
+                $output->writeln('No goals found.');
+                return 1;
+            }
+
+            $output->writeln("\nImporting goals");
+            $this->importGoals($em, $json['goals'], $output);
+
+            return 0;
+        });
 
         $this->duration = microtime(true) - $start;
-        return 0;
+        return $result;
     }
 
     /**
-     * Imports the level access and returns a map to convert the json access level id to the DB id.
+     * @param EntityManagerInterface $em
      * @param array $jsonLevelAccesses
      * @param OutputInterface $output
-     * @return array[string]int
      */
-    protected function importLevelAccess(array $jsonLevelAccesses, OutputInterface $output): array
+    private function importLevelAccess(EntityManagerInterface $em, array $jsonLevelAccesses, OutputInterface $output)
     {
-        $jsonIDToDBId = [];
-
         foreach ($jsonLevelAccesses as $jsonLevelAccess) {
-            $output->writeln("Creating " . $jsonLevelAccess["de_description"] . " (" . $jsonLevelAccess["id"] . ")");
-            $access = new LevelAccess();
-            $access->setDeDescription($jsonLevelAccess["de_description"]);
-            $access->setFrDescription($jsonLevelAccess["fr_description"]);
-            $access->setItDescription($jsonLevelAccess["it_description"]);
+            $key = intval($jsonLevelAccess['key']);
+            $access = $this->levelAccessRepository->findOneBy(['key' => $key]);
 
-            $this->em->persist($access);
-            $jsonIDToDBId[$jsonLevelAccess["id"]] = $access->getId();
+            $this->logEntityChange($output, "$key", $jsonLevelAccess['de_description'], $access !== null);
+
+            if (is_null($access)) {
+                $access = new LevelAccess();
+                $access->setKey($key);
+            }
+
+            $access->setDeDescription($jsonLevelAccess['de_description']);
+            $access->setFrDescription($jsonLevelAccess['fr_description']);
+            $access->setItDescription($jsonLevelAccess['it_description']);
+
+            $em->persist($access);
         }
-        $this->em->flush();
 
-        return $jsonIDToDBId;
+        $em->flush();
     }
 
-    protected function importLevels(array $jsonLevels, array $levelAccessJsonToDBId, OutputInterface $output)
+    /**
+     * @param EntityManagerInterface $em
+     * @param array $jsonLevels
+     * @param OutputInterface $output
+     * @return void
+     */
+    private function importLevels(EntityManagerInterface $em, array $jsonLevels, OutputInterface $output)
     {
         foreach ($jsonLevels as $jsonLevel) {
-            $level = $this->levelRepository->findOneBy(["key" => $jsonLevel["key"]]);
+            $key = intval($jsonLevel['key']);
+            $level = $this->levelRepository->findOneBy(['key' => $key]);
+
+            $this->logEntityChange($output, "$key", $jsonLevel['de_title'], $level !== null);
+
             if (is_null($level)) {
                 $level = new Level();
-                $level->setKey(intval($jsonLevel["key"]));
-                if (!is_null($jsonLevel["next_key"])) {
-                    $level->setNextKey(intval($jsonLevel["next_key"]));
-                }
-                $output->writeln("Creating " . $jsonLevel["de_title"] . " (" . $jsonLevel["key"] . ")");
+                $level->setKey($key);
             }
-            if (!is_null($jsonLevel["access_id"])) {
-                $id = $levelAccessJsonToDBId[$jsonLevel["access_id"]];
-                if (is_null($id)) {
-                    throw new \Exception("access id " . $jsonLevel["access_id"] . " not found");
-                }
-                $reference = $this->em->getReference(LevelAccess::class, $id);
-                $level->setAccess($reference);
-            }
-            $level->setRequired($jsonLevel["required"]);
-            $level->setType($jsonLevel["type"]);
-            $level->setDeTitle($jsonLevel["de_title"]);
-            $level->setFrTitle($jsonLevel["fr_title"]);
-            $level->setItTitle($jsonLevel["it_title"]);
 
-            $this->em->persist($level);
+            $levelAccess = null;
+            $rawNextKey = $jsonLevel['next_key'];
+
+            $rawAccessLevelKey = $jsonLevel['access_key'];
+
+            if (!is_null($rawAccessLevelKey)) {
+                $levelAccess = $this->levelAccessRepository->findOneBy(['key' => intval($rawAccessLevelKey)]);
+            }
+
+            $level->setAccess($levelAccess);
+            $level->setNextKey($rawNextKey ? intval($rawNextKey) : null);
+            $level->setType($jsonLevel['type']);
+            $level->setRequired($jsonLevel['required']);
+
+            $level->setDeTitle($jsonLevel['de_title']);
+            $level->setFrTitle($jsonLevel['fr_title']);
+            $level->setItTitle($jsonLevel['it_title']);
+
+            $em->persist($level);
         }
-        $this->em->flush();
+        $em->flush();
     }
 
-    protected function importGoals(array $jsonGoals, OutputInterface $output)
+    private function importGoals(EntityManagerInterface $em, array $jsonGoals, OutputInterface $output)
     {
         foreach ($jsonGoals as $jsonGoal) {
-            $goal = $this->goalRepository->findOneBy(['key' => $jsonGoal['key']]);
+            $key = $jsonGoal['key'];
+            $goal = $this->goalRepository->findOneBy(['key' => $key]);
+
+            $this->logEntityChange($output, $key, $jsonGoal['de']['title'], $goal !== null);
+
             if (is_null($goal)) {
                 $goal = new Goal();
-                $goal->setKey($jsonGoal['key']);
-                $output->writeln("Creating " . $jsonGoal["de"]["title"] . " (" . $jsonGoal["key"] . ")");
+                $goal->setKey($key);
             }
+
             $level = $this->levelRepository->findOneBy(['key' => $jsonGoal['level']]);
+
             $goal->setLevel($level);
             $goal->setRequired($jsonGoal['required']);
 
             $goal->setDeTitle($jsonGoal['de']['title']);
             $goal->setDeInformation($jsonGoal['de']['information']);
             $goal->setDeHelp($jsonGoal['de']['help']);
+
             $goal->setFrTitle($jsonGoal['fr']['title']);
             $goal->setFrInformation($jsonGoal['fr']['information']);
             $goal->setFrHelp($jsonGoal['fr']['help']);
+
             $goal->setItTitle($jsonGoal['it']['title']);
             $goal->setItInformation($jsonGoal['it']['information']);
             $goal->setItHelp($jsonGoal['it']['help']);
 
-            $this->em->persist($goal);
+            $em->persist($goal);
         }
-        $this->em->flush();
+
+        $em->flush();
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param string $id
+     * @param string $name
+     * @param bool $updating whether the entity is being created or updated
+     * @return void
+     */
+    private function logEntityChange(OutputInterface $output, string $id, string $name, bool $updating) {
+        $action = $updating ? 'Updating' : 'Creating';
+
+        $output->writeln("$action \"$name\" ($id)");
     }
 
     public function getStats(): CommandStatistics
