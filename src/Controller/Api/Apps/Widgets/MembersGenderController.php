@@ -3,6 +3,7 @@
 namespace App\Controller\Api\Apps\Widgets;
 
 use App\DTO\Model\FilterRequestData\DateAndDateRangeRequestData;
+use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Service\DataProvider\MembersGenderDateDataProvider;
 use App\Service\DataProvider\MembersGenderDateRangeDataProvider;
@@ -43,6 +44,45 @@ class MembersGenderController extends AbstractController
         if ($dateAndDateRangeRequestData->getFrom() && $dateAndDateRangeRequestData->getTo()) {
             $data = $membersGenderDateRangeDataProvider->getData(
                 $widgetRequestData->getGroup(),
+                $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
+                $dateAndDateRangeRequestData->getTo()->format('Y-m-d'),
+                $widgetRequestData->getGroupTypes(),
+                $widgetRequestData->getPeopleTypes()
+            );
+        }
+
+        return $this->json($data);
+    }
+
+    /**
+     * @param DateAndDateRangeRequestData $dateAndDateRangeRequestData
+     * @param WidgetOfDepartmentRequestData $widgetRequestData
+     * @param MembersGenderDateDataProvider $membersGenderDateDataProvider
+     * @param MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider
+     * @return Response
+     */
+    public function getDemographicGroupDataOfDepartment(
+        DateAndDateRangeRequestData $dateAndDateRangeRequestData,
+        WidgetOfDepartmentRequestData $widgetRequestData,
+        MembersGenderDateDataProvider $membersGenderDateDataProvider,
+        MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider
+    ): Response {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+
+        $data = [];
+
+        if ($dateAndDateRangeRequestData->getDate()) {
+            $data = $membersGenderDateDataProvider->getData(
+                $widgetRequestData->getDepartment(),
+                $dateAndDateRangeRequestData->getDate()->format('Y-m-d'),
+                $widgetRequestData->getPeopleTypes(),
+                $widgetRequestData->getGroupTypes()
+            );
+        }
+
+        if ($dateAndDateRangeRequestData->getFrom() && $dateAndDateRangeRequestData->getTo()) {
+            $data = $membersGenderDateRangeDataProvider->getData(
+                $widgetRequestData->getDepartment(),
                 $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
                 $dateAndDateRangeRequestData->getTo()->format('Y-m-d'),
                 $widgetRequestData->getGroupTypes(),

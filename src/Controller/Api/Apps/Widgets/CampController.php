@@ -3,6 +3,7 @@
 namespace App\Controller\Api\Apps\Widgets;
 
 use App\DTO\Model\FilterRequestData\DateRangeRequestData;
+use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Service\DataProvider\DemographicCampDataProvider;
 use App\Service\Security\PermissionVoter;
@@ -28,6 +29,30 @@ class CampController extends AbstractController
 
         $data = $demographicCampDataProvider->getData(
             $widgetRequestData->getGroup(),
+            $dateRangeRequestData->getFrom()->format('Y-m-d'),
+            $dateRangeRequestData->getTo()->format('Y-m-d'),
+            $widgetRequestData->getGroupTypes(),
+            $widgetRequestData->getPeopleTypes()
+        );
+
+        return $this->json($data);
+    }
+
+    /**
+     * @param DateRangeRequestData $dateRangeRequestData
+     * @param WidgetOfDepartmentRequestData $widgetRequestData
+     * @param DemographicCampDataProvider $demographicCampDataProvider
+     * @return JsonResponse
+     */
+    public function getDemographicCampDataOfDepartment(
+        DateRangeRequestData $dateRangeRequestData,
+        WidgetOfDepartmentRequestData $widgetRequestData,
+        DemographicCampDataProvider $demographicCampDataProvider
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+
+        $data = $demographicCampDataProvider->getData(
+            $widgetRequestData->getDepartment(),
             $dateRangeRequestData->getFrom()->format('Y-m-d'),
             $dateRangeRequestData->getTo()->format('Y-m-d'),
             $widgetRequestData->getGroupTypes(),
