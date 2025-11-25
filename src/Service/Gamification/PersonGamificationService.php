@@ -216,7 +216,7 @@ class PersonGamificationService
 
     public function getPersonGamificationDTO(PbsUserDTO $pbsUserDTO, string $locale): PersonGamificationDTO
     {
-        $levels = $this->levelRepository->findBy(['type' => Level::USER]);
+        $levels = $this->levelRepository->findBy(['type' => Level::USER], ['key' => 'ASC']);
         /** @var Person $person */
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $personGamification = $this->getPersonGamification($person);
