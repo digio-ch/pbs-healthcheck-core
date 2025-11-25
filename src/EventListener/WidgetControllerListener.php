@@ -8,10 +8,12 @@ use App\DTO\Model\FilterRequestData\DateRangeRequestData;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\FilterRequestData;
 use App\DTO\Model\FilterRequestData\OptionalDateRequestData;
+use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Entity\Midata\Group;
 use App\Exception\ApiException;
 use App\Repository\Midata\GroupRepository;
+use App\Service\Apps\Overview\OverviewSharedService;
 use App\Service\DataProvider\WidgetDataProvider;
 use DateTime;
 use ReflectionClass;
@@ -29,32 +31,40 @@ class WidgetControllerListener
     /**
      * @var GroupRepository
      */
-    private $groupRepository;
+    private GroupRepository $groupRepository;
 
     /**
      * @var TranslatorInterface
      */
-    private $translator;
+    private TranslatorInterface $translator;
 
     /**
      * @var ValidatorInterface
      */
-    private $validator;
+    private ValidatorInterface $validator;
+
+    /**
+     * @var OverviewSharedService
+     */
+    private OverviewSharedService $overviewSharedService;
 
     /**
      * WidgetControllerListener constructor.
      * @param GroupRepository $groupRepository
      * @param TranslatorInterface $translator
      * @param ValidatorInterface $validator
+     * @param OverviewSharedService $overviewSharedService
      */
     public function __construct(
         GroupRepository $groupRepository,
         TranslatorInterface $translator,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        OverviewSharedService $overviewSharedService
     ) {
         $this->groupRepository = $groupRepository;
         $this->translator = $translator;
         $this->validator = $validator;
+        $this->overviewSharedService = $overviewSharedService;
     }
 
 
@@ -94,18 +104,7 @@ class WidgetControllerListener
      */
     private function validateRequest(Request $request, ReflectionParameter $parameter)
     {
-        $groupId = $request->get('groupId');
-        $group = $this->groupRepository->findOneByIdAndType($groupId, [
-            'Group::Abteilung',
-            'Group::Region',
-            'Group::Kantonalverband',
-            'Group::Bund',
-        ]);
-        if (!$group) {
-            $entity = $this->translator->trans('api.entity.group');
-            $message = $this->translator->trans('api.error.notFound', ['entityName' => $entity]);
-            throw new ApiException(Response::HTTP_NOT_FOUND, $message);
-        }
+        $group = $this->extractGroup($request, 'groupId');
 
         switch ($parameter->getClass()->getName()) {
             case DateAndDateRangeRequestData::class:
@@ -118,6 +117,8 @@ class WidgetControllerListener
                 return $this->validateDateRangeRequest($group, $request);
             case WidgetRequestData::class:
                 return $this->validateWidgetRequest($group, $request);
+            case WidgetOfDepartmentRequestData::class:
+                return $this->validateWidgetOfDepartmentRequest($group, $request);
             case CensusRequestData::class:
                 return $this->validateCensusRequest($group, $request);
         }
@@ -219,6 +220,25 @@ class WidgetControllerListener
         return $data;
     }
 
+    private function validateWidgetOfDepartmentRequest(Group $group, Request $request): WidgetOfDepartmentRequestData
+    {
+        $department = $this->extractGroup($request, 'departmentId');
+
+        if (!$this->overviewSharedService->validateOverviewAccess($group, $department)) {
+            throw new ApiException(400, "Department has to be shared and a child of the parent group");
+        }
+
+        $widgetData = $this->validateWidgetRequest($group, $request);
+
+        $data = new WidgetOfDepartmentRequestData();
+        $data->setDepartment($department);
+        $data->setGroup($widgetData->getGroup());
+        $data->setGroupTypes($widgetData->getGroupTypes());
+        $data->setPeopleTypes($widgetData->getPeopleTypes());
+
+        return $data;
+    }
+
     private function validateCensusRequest(Group $group, Request $request): CensusRequestData
     {
         $m = $request->get('census-filter-males');
@@ -277,5 +297,26 @@ class WidgetControllerListener
             return;
         }
         throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
+    }
+
+    /**
+     * @param Request $request
+     * @return float|int|mixed|string
+     */
+    public function extractGroup(Request $request, string $key)
+    {
+        $groupId = $request->get($key);
+        $group = $this->groupRepository->findOneByIdAndType($groupId, [
+            'Group::Abteilung',
+            'Group::Region',
+            'Group::Kantonalverband',
+            'Group::Bund',
+        ]);
+        if (!$group) {
+            $entity = $this->translator->trans('api.entity.group');
+            $message = $this->translator->trans('api.error.notFound', ['entityName' => $entity]);
+            throw new ApiException(Response::HTTP_NOT_FOUND, $message);
+        }
+        return $group;
     }
 }

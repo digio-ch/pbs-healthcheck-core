@@ -22,8 +22,9 @@ class GroupType
     public const WOELFE = 'Group::Woelfe';
     public const PFADI = 'Group::Pfadi';
     public const PIO = 'Group::Pio';
+    public const ABTEILUNGS_ROVER = 'Group::AbteilungsRover';
     public const ROVER = 'Group::RegionaleRover';
-    public const PTA = 13;
+    public const PTA = 'Group::Pta';
 
     /**
      * @ORM\Id()

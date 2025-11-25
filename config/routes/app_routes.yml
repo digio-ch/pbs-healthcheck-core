@@ -5,6 +5,12 @@ widgets:
   prefix: /widgets
   name_prefix: widgets_
 
+# Overview routes
+overview:
+  resource: "apps/overview.yml"
+  prefix: /overview
+  name_prefix: overview_
+
 # QUAP routes
 quap:
   resource: "apps/quap.yml"

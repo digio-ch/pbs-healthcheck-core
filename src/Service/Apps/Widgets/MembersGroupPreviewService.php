@@ -32,9 +32,9 @@ class MembersGroupPreviewService
         return $aggregatedData[0]->getDataPointDate();
     }
 
-    public function getGroupTypes(Group $group): array
+    public function getGroupTypes(int $groupId): array
     {
-        $subGroups = $this->groupRepository->findAllRelevantSubGroupIdsByParentGroupId($group->getId());
+        $subGroups = $this->groupRepository->findAllRelevantSubGroupIdsByParentGroupId($groupId);
 
         return array_unique(array_map(function ($groupId): string {
             $g = $this->groupRepository->find($groupId);

@@ -44,3 +44,7 @@ test:
 	docker exec healthcheck-core-local php vendor/bin/phpcs --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/
 	docker exec healthcheck-core-local php bin/phpunit || true
 	docker compose -p healthcheck-test -f docker/docker-compose.yml down
+
+.PHONY: lint
+lint:
+	docker exec healthcheck-core-local php vendor/bin/phpcs --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/
