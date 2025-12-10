@@ -85,13 +85,15 @@ class InviteController extends AbstractController
             throw new ApiException(Response::HTTP_FORBIDDEN, 'You may not add group Owners.');
         }
 
-        if ($inviteDTO->getPermissionType() === PermissionVoter::EDITOR_PLUS) {
-            if ($group->getGroupType()->getGroupType() === GroupType::DEPARTMENT) {
-                throw new ApiException(
-                    Response::HTTP_BAD_REQUEST,
-                    $this->translator->trans('api.error.invalidRequest')
-                );
-            }
+        // invited persons should not receive the editor plus role if they are in a department, since they do not get any benefits of it.
+        if (
+            $inviteDTO->getPermissionType() === PermissionVoter::EDITOR_PLUS
+            && $group->getGroupType()->getGroupType() === GroupType::DEPARTMENT
+        ) {
+            throw new ApiException(
+                Response::HTTP_BAD_REQUEST,
+                $this->translator->trans('api.error.invalidRequest')
+            );
         }
 
         if ($this->inviteService->inviteExists($group, $inviteDTO->getEmail())) {
