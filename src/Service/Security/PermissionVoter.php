@@ -13,6 +13,7 @@ class PermissionVoter extends Voter
 {
     public const VIEWER = 'viewer';
     public const EDITOR = 'editor';
+    public const EDITOR_PLUS = 'editor-plus';
     public const OWNER = 'owner';
 
     /** @var PermissionRepository $permissionRepository */
@@ -37,7 +38,7 @@ class PermissionVoter extends Voter
 
     protected function supports(string $attribute, $subject)
     {
-        if (!in_array($attribute, [self::VIEWER, self::EDITOR, self::OWNER])) {
+        if (!in_array($attribute, [self::VIEWER, self::EDITOR, self::EDITOR_PLUS, self::OWNER])) {
             return false;
         }
 
@@ -64,15 +65,31 @@ class PermissionVoter extends Voter
             return false;
         }
 
+        $id = $this->mapPermissionVoterToPermissionType($permission->getPermissionType()->getKey());
+
         switch ($attribute) {
             case PermissionVoter::OWNER:
-                return $permission->getPermissionType()->getId() === PermissionType::OWNER;
+                return $id === PermissionType::OWNER;
+            case PermissionVoter::EDITOR_PLUS:
+                return $id <= PermissionType::EDITOR_PLUS;
             case PermissionVoter::EDITOR:
-                return $permission->getPermissionType()->getId() <= PermissionType::EDITOR;
+                return $id <= PermissionType::EDITOR;
             case PermissionVoter::VIEWER:
-                return $permission->getPermissionType()->getId() <= PermissionType::VIEWER;
+                return $id <= PermissionType::VIEWER;
         }
 
         return false;
+    }
+
+    private function mapPermissionVoterToPermissionType(string $attribute): int
+    {
+        $map = [
+            self::OWNER        => PermissionType::OWNER,
+            self::EDITOR_PLUS  => PermissionType::EDITOR_PLUS,
+            self::EDITOR       => PermissionType::EDITOR,
+            self::VIEWER       => PermissionType::VIEWER,
+        ];
+
+        return $map[$attribute];
     }
 }

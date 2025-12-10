@@ -83,7 +83,7 @@ class OverviewController extends AbstractController
      */
     public function getOverviewOfDepartmentsPreview(Group $group): JsonResponse
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $group);
 
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(400, "Only for regions and cantons");
@@ -103,7 +103,7 @@ class OverviewController extends AbstractController
      */
     public function getOverviewOfDepartments(Group $group): JsonResponse
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $group);
 
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(400, "Only for regions and cantons");

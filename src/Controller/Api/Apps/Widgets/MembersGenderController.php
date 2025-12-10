@@ -67,7 +67,7 @@ class MembersGenderController extends AbstractController
         MembersGenderDateDataProvider $membersGenderDateDataProvider,
         MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider
     ): Response {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $widgetRequestData->getGroup());
 
         $data = [];
 

@@ -47,7 +47,7 @@ class LeaderOverviewController extends AbstractController
         WidgetOfDepartmentRequestData $widgetRequestData,
         LeaderOverviewDatePointDataProvider $dataProvider
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $widgetRequestData->getGroup());
 
         $data = $dataProvider->getData(
             $widgetRequestData->getDepartment(),
