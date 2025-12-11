@@ -13,31 +13,34 @@ class PermissionVoter extends Voter
 {
     public const VIEWER = 'viewer';
     public const EDITOR = 'editor';
+    public const EDITOR_PLUS = 'editor-plus';
     public const OWNER = 'owner';
+
+    private const PERMISSION_VOTER_TO_PERMISSION_TYPE = [
+            self::OWNER        => PermissionType::OWNER,
+            self::EDITOR_PLUS  => PermissionType::EDITOR_PLUS,
+            self::EDITOR       => PermissionType::EDITOR,
+            self::VIEWER       => PermissionType::VIEWER,
+        ];
 
     /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
-
-    /** @var string $environment */
-    private string $environment;
 
     /** @var array|string[] $specialAccess */
     private array $specialAccessEmails;
 
     public function __construct(
         PermissionRepository $permissionRepository,
-        string $environment,
         string $specialAccessEmails
     ) {
         $this->permissionRepository = $permissionRepository;
 
-        $this->environment = $environment;
         $this->specialAccessEmails = explode(',', $specialAccessEmails);
     }
 
     protected function supports(string $attribute, $subject)
     {
-        if (!in_array($attribute, [self::VIEWER, self::EDITOR, self::OWNER])) {
+        if (!in_array($attribute, [self::VIEWER, self::EDITOR, self::EDITOR_PLUS, self::OWNER])) {
             return false;
         }
 
@@ -54,8 +57,8 @@ class PermissionVoter extends Voter
         assert($user instanceof PbsUserDTO);
         assert($subject instanceof Group);
 
-        // allow access if user in special email list or environment is dev
-        if ($this->environment === 'dev' || in_array($user->getEmail(), $this->specialAccessEmails)) {
+        // allow access if user exists in SPECIAL_ACCESS variable
+        if (in_array($user->getEmail(), $this->specialAccessEmails)) {
             return true;
         }
 
@@ -64,15 +67,24 @@ class PermissionVoter extends Voter
             return false;
         }
 
+        $permissionTypeID = $this->mapPermissionVoterToPermissionType($permission->getPermissionType()->getKey());
+
         switch ($attribute) {
             case PermissionVoter::OWNER:
-                return $permission->getPermissionType()->getId() === PermissionType::OWNER;
+                return $permissionTypeID === PermissionType::OWNER;
+            case PermissionVoter::EDITOR_PLUS:
+                return $permissionTypeID <= PermissionType::EDITOR_PLUS;
             case PermissionVoter::EDITOR:
-                return $permission->getPermissionType()->getId() <= PermissionType::EDITOR;
+                return $permissionTypeID <= PermissionType::EDITOR;
             case PermissionVoter::VIEWER:
-                return $permission->getPermissionType()->getId() <= PermissionType::VIEWER;
+                return $permissionTypeID <= PermissionType::VIEWER;
         }
 
         return false;
+    }
+
+    private function mapPermissionVoterToPermissionType(string $attribute): int
+    {
+        return self::PERMISSION_VOTER_TO_PERMISSION_TYPE[$attribute];
     }
 }

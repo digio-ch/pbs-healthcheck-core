@@ -30,9 +30,6 @@ class PbsAuthService
     /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
-    /** @var string $environment */
-    private string $environment;
-
     /** @var string $pbsUrl */
     private string $pbsUrl;
 
@@ -54,7 +51,6 @@ class PbsAuthService
      * @param PersonRoleRepository $personRoleRepository
      * @param GroupRepository $groupRepository
      * @param PermissionRepository $permissionRepository
-     * @param string $environment
      * @param string $pbsUrl
      * @param string $pbsClientId
      * @param string $pbsClientSecret
@@ -66,7 +62,6 @@ class PbsAuthService
         PersonRoleRepository $personRoleRepository,
         GroupRepository $groupRepository,
         PermissionRepository $permissionRepository,
-        string $environment,
         string $pbsUrl,
         string $pbsClientId,
         string $pbsClientSecret,
@@ -77,7 +72,6 @@ class PbsAuthService
         $this->personRoleRepository = $personRoleRepository;
         $this->groupRepository = $groupRepository;
         $this->permissionRepository = $permissionRepository;
-        $this->environment = $environment;
         $this->pbsUrl = $pbsUrl;
         $this->pbsClientId = $pbsClientId;
         $this->pbsClientSecret = $pbsClientSecret;
@@ -95,11 +89,7 @@ class PbsAuthService
         $token = $this->getTokenUsingCode($code);
         $user = $this->getUserWithToken($token);
 
-        if ($this->environment === 'dev') {
-            $this->assignLeaderRoleOfAllGroups($user);
-        } else {
-            $this->assignRoles($user);
-        }
+        $this->assignRoles($user);
 
         $pbsUser = PbsUserMapper::createFromArray($user);
         $this->assignGroups($pbsUser, $locale);

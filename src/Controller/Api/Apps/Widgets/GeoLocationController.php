@@ -52,7 +52,7 @@ class GeoLocationController extends AbstractController
         DateRequestData $dateRequestData,
         WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $widgetRequestData->getGroup());
 
         $data = [];
 

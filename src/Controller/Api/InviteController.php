@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\DTO\Model\InviteDTO;
 use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
+use App\Entity\Midata\GroupType;
 use App\Entity\Security\Permission;
 use App\Exception\ApiException;
 use App\Service\Gamification\PersonGamificationService;
@@ -82,6 +83,17 @@ class InviteController extends AbstractController
 
         if ($inviteDTO->getPermissionType() === PermissionVoter::OWNER) {
             throw new ApiException(Response::HTTP_FORBIDDEN, 'You may not add group Owners.');
+        }
+
+        // invited persons should not receive the editor plus role if they are in a department, since they do not get any benefits of it.
+        if (
+            $inviteDTO->getPermissionType() === PermissionVoter::EDITOR_PLUS
+            && $group->getGroupType()->getGroupType() === GroupType::DEPARTMENT
+        ) {
+            throw new ApiException(
+                Response::HTTP_BAD_REQUEST,
+                $this->translator->trans('api.error.invalidRequest')
+            );
         }
 
         if ($this->inviteService->inviteExists($group, $inviteDTO->getEmail())) {

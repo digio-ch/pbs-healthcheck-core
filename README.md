@@ -58,11 +58,43 @@ This command will only work if you added the `BUILD_TEST=1` build argument since
 
 `docker exec healthcheck-core-local composer install --no-interaction --no-scripts`
 
+#### Setup PHPStorm for Debugging
+
+To enable debugging inside you PHPStorm you need add the following configuration in the settings under PHP -> Servers:
+![phpstorm-php-servers.png](docs/assets/phpstorm-php-servers.png)
+
 #### Set-Up Database
 
 Make sure you execute all the migrations so the schema and tables are in sync with the entities:
 
 `docker exec healthcheck-core-local php bin/console doctrine:migrations:migrate -n`
+
+#### Creating a Migration
+
+With the following command a migration can be created.
+
+```shell script
+docker exec healthcheck-core-local php bin/console doctrine:migrations:generate 
+```
+
+#### List all Commands
+With the following command all commands can be listed.
+
+```shell script
+docker exec healthcheck-core-local php bin/console list
+```
+
+#### Setting up local role based testing
+
+If you need to test locally with different roles or groups you can do this with the following adjustments:
+
+1. In the .env file adjust the following fields
+   1. `APP_ENV=local`
+   2. `SPECIAL_ACCESS=`
+
+2. Make sure the cache is cleared. (`make down` and `make up` may help). Check with: `docker exec healthcheck-core-local env`
+
+3. In the database add entries as needed in the table `hc_security_permission`
 
 #### Import Data
 
