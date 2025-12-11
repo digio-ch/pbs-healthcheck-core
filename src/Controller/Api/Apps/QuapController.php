@@ -58,7 +58,7 @@ class QuapController extends AbstractController
     public function getDepartmentPreview(
         Group $group
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $group);
 
         try {
             $data = $this->quapService->getAnswersForSubDepartments(
@@ -98,7 +98,7 @@ class QuapController extends AbstractController
         QuapSubdepartmentDateDataProvider $dataProvider,
         DateRequestData $dateRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $dateRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $dateRequestData->getGroup());
 
         $data = $dataProvider->getData(
             $dateRequestData->getGroup(),
@@ -195,7 +195,7 @@ class QuapController extends AbstractController
         Group $group,
         Request $request
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $group);
 
 
         $date = $request->get('date', null);

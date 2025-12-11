@@ -49,7 +49,7 @@ class MembersEnteredLeftController extends AbstractController
         WidgetOfDepartmentRequestData $widgetRequestData,
         MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $widgetRequestData->getGroup());
 
         $data = $membersEnteredLeftDateRangeDataProvider->getData(
             $widgetRequestData->getDepartment(),

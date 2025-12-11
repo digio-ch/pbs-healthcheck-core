@@ -51,7 +51,7 @@ class FilterController extends AbstractController
         FilterDataProvider $filterDataProvider,
         OverviewSharedService $overviewSharedService
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $group);
 
         if (!$overviewSharedService->validateOverviewAccess($group, $department)) {
             throw new ApiException(400, "Department has to be shared and a child of the parent group");

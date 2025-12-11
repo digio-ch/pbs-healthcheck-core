@@ -47,7 +47,7 @@ class MembersBirthyearController extends AbstractController
         WidgetOfDepartmentRequestData $widgetRequestData,
         MembersBirthyearDateDataProvider $membersBirthyearDateDataProvider
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $widgetRequestData->getGroup());
 
         $data = $membersBirthyearDateDataProvider->getData(
             $widgetRequestData->getDepartment(),

@@ -49,7 +49,7 @@ class CampController extends AbstractController
         WidgetOfDepartmentRequestData $widgetRequestData,
         DemographicCampDataProvider $demographicCampDataProvider
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $widgetRequestData->getGroup());
 
         $data = $demographicCampDataProvider->getData(
             $widgetRequestData->getDepartment(),

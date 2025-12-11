@@ -46,7 +46,7 @@ class RoleOverviewController extends AbstractController
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $widgetRequestData->getGroup());
         $result = $roleOverviewDateRangeDataProvider->getData(
             $widgetRequestData->getDepartment(),
             $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
