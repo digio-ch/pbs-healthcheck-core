@@ -2,10 +2,9 @@
 
 namespace App\Service;
 
-use App\DTO\Model\PbsUserDTO;
 use App\Entity\Midata\Person;
-use App\Repository\Gamification\LevelUpLogRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Model\InvitationMailInput;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -14,13 +13,18 @@ class MailService
 {
     private MailerInterface $mailer;
 
-    private string $recipient;
+    private array $pbsRecipients;
+
+    private string $frontendBaseURL;
+
 
     public function __construct(
-        string $recipient,
+        string $pbsRecipients,
+        string $frontendBaseURL,
         MailerInterface $mailer
     ) {
-        $this->recipient = $recipient;
+        $this->pbsRecipients = explode(",", $pbsRecipients);
+        $this->frontendBaseURL = $frontendBaseURL;
         $this->mailer = $mailer;
     }
 
@@ -38,21 +42,46 @@ Birmensdorferstrasse 94
 
 +41 44 523 40 40
 www.digio.swiss";
-        $email = new Email();
-        $email->from(new Address('no-reply@hc-prod.cust.digio.ch', 'Digio'))
-            ->to($this->recipient)
-            ->subject('BetaAccess: ' . $person->getNickName())
+
+        $subject = 'BetaAccess: ' . $person->getNickName();
+
+        $this->sendMailToPBSTeam($subject, $content);
+    }
+
+    public function sendMailToPBSTeam(string $subject, string $content)
+    {
+        $email = (new Email())
+            ->from($this->getFromAddress())
+            ->to(...$this->pbsRecipients)
+            ->subject($subject)
             ->text($content);
+
         $this->mailer->send($email);
     }
 
-    public function sendGeneralMail(string $subject, string $content)
+    public function sendInvitationMail(string $receiver, InvitationMailInput $input)
     {
-        $email = new Email();
-        $email->from(new Address('no-reply@hc-prod.cust.digio.ch', 'Digio'))
-            ->to($this->recipient)
-            ->subject($subject)
-            ->text($content);
+        $email = (new TemplatedEmail())
+            ->from($this->getFromAddress())
+            ->to($receiver)
+            ->subject($input->getSubject())
+            ->htmlTemplate('invitation.html.twig')
+            ->context([
+                'baseURL' => $this->frontendBaseURL,
+
+                'title' => $input->getTitle(),
+                'name' => $input->getName(),
+                'intro' => $input->getIntroductionText(),
+                'context' => $input->getContextText(),
+                'link' => $input->getLink(),
+                'cta' => $input->getCtaText(),
+            ]);
+
         $this->mailer->send($email);
+    }
+
+    private function getFromAddress(): Address
+    {
+        return new Address('no-reply@hc-prod.cust.digio.ch', 'Digio');
     }
 }

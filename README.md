@@ -42,7 +42,7 @@ If you are not sure which ones you need I recommend reading the docs starting fr
 Run the following commands to start the docker-compose services/containers.
 
 ```shell script
-docker-compose -f docker/docker-compose.yml build --build-arg BUILD_TEST=1 healthcheck-core
+docker-compose -f docker/docker-compose.yml build --build-arg BUILD_DEBUG=1 healthcheck-core
 docker-compose -f docker/docker-compose.yml up -d
 ```
 
@@ -54,7 +54,7 @@ does not conflict with any of your existing networks:
 
 #### Install Dependencies
 
-This command will only work if you added the `BUILD_TEST=1` build argument since composer is needed to add dependencies.
+This command will only work if you added the `BUILD_TEST=1` or `BUILD_DEBUG=1` build argument since composer is needed to add dependencies.
 
 `docker exec healthcheck-core-local composer install --no-interaction --no-scripts`
 
@@ -66,19 +66,31 @@ Make sure you execute all the migrations so the schema and tables are in sync wi
 
 #### Import Data
 
-To run the import you can execute the `run-import.sh` script inside the healthcheck-core service container. 
-Notice: This might take a while to finish.
+Usually we don't import the data using the Go importer locally. Instead, restore your local database with a backup made from the development environment.
 
-`docker exec healthcheck-core-local ./run-import.sh`
+### Development
+
+#### Testing Mails Locally
+
+If you want to test mails locally, you can use symphony's `mailer` container. \
+Set the `MAILER_DSN=smtp://mailer:1025` environment variable and make sure the `mailer` container is running.
+
+Then navigate to [localhost:8025](http://localhost:8025) to access the mail inbox.
 
 #### Code Format Checking
 
 We use the PSR-12 PHP standard. You can check your code using the following command:
 
-`docker exec healthcheck-core-local php vendor/bin/phpcs --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/`
+```shell
+make lint
+```
 
 Auto linting:
-`docker exec healthcheck-core-local php vendor/bin/phpcbf --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/`
+
+
+```shell
+make lint:fix
+```
 
 #### Running Tests
 

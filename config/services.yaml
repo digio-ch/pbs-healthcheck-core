@@ -112,7 +112,8 @@ services:
 
     App\Service\MailService:
         arguments:
-            $recipient: '%env(GAMIFICATION_RECIPIENT)%'
+            $pbsRecipients: '%env(GAMIFICATION_RECIPIENT)%'
+            $frontendBaseURL: '%env(FRONTEND_BASE_URL)%'
 
     # Controllers
     App\Controller\Api\GamificationController:

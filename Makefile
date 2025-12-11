@@ -31,6 +31,11 @@ up:
 down:
 	$(DOCKER_COMPOSE_COMMAND) $(DOCKER_COMPOSE_FILE) down
 
+.PHONY: reload-env
+reload-env:
+	$(DOCKER_COMPOSE_COMMAND) $(DOCKER_COMPOSE_FILE) down healthcheck-core
+	$(DOCKER_COMPOSE_COMMAND) $(DOCKER_COMPOSE_FILE) up healthcheck-core -d
+
 .PHONY: import
 import:
 	docker exec healthcheck-core-local ./run-import.sh
@@ -48,3 +53,9 @@ test:
 .PHONY: lint
 lint:
 	docker exec healthcheck-core-local php vendor/bin/phpcs --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/
+	docker exec healthcheck-core-local php bin/console lint:twig templates
+
+.PHONY: lint\:fix
+lint\:fix:
+	docker exec healthcheck-core-local php vendor/bin/phpcbf --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/
+	docker exec healthcheck-core-local php bin/console lint:twig templates
