@@ -42,7 +42,7 @@ If you are not sure which ones you need I recommend reading the docs starting fr
 Run the following commands to start the docker-compose services/containers.
 
 ```shell script
-docker-compose -f docker/docker-compose.yml build --build-arg BUILD_DEBUG=1 healthcheck-core
+docker-compose -f docker/docker-compose.yml build --build-arg BUILD_TEST=1 healthcheck-core
 docker-compose -f docker/docker-compose.yml up -d
 ```
 
@@ -54,9 +54,11 @@ does not conflict with any of your existing networks:
 
 #### Install Dependencies
 
-This command will only work if you added the `BUILD_TEST=1` or `BUILD_DEBUG=1` build argument since composer is needed to add dependencies.
+This command will only work if you added the `BUILD_TEST=1` build argument since composer is needed to add dependencies.
 
-`docker exec healthcheck-core-local composer install --no-interaction --no-scripts`
+```shell
+docker exec healthcheck-core-local composer install --no-interaction --no-scripts
+```
 
 #### Setup PHPStorm for Debugging
 
@@ -69,7 +71,20 @@ Make sure you execute all the migrations so the schema and tables are in sync wi
 
 `docker exec healthcheck-core-local php bin/console doctrine:migrations:migrate -n`
 
-#### Creating a Migration
+#### Import Data
+
+Usually we don't import the data using the Go importer locally. Instead, restore your local database with a backup made from the development environment.
+
+## Development
+
+### List all Commands
+With the following command all commands can be listed.
+
+```shell script
+docker exec healthcheck-core-local php bin/console list
+```
+
+### Creating a Migration
 
 With the following command a migration can be created.
 
@@ -77,39 +92,7 @@ With the following command a migration can be created.
 docker exec healthcheck-core-local php bin/console doctrine:migrations:generate 
 ```
 
-#### List all Commands
-With the following command all commands can be listed.
-
-```shell script
-docker exec healthcheck-core-local php bin/console list
-```
-
-#### Setting up local role based testing
-
-If you need to test locally with different roles or groups you can do this with the following adjustments:
-
-1. In the .env file adjust the following fields
-   1. `APP_ENV=local`
-   2. `SPECIAL_ACCESS=`
-
-2. Make sure the cache is cleared. (`make down` and `make up` may help). Check with: `docker exec healthcheck-core-local env`
-
-3. In the database add entries as needed in the table `hc_security_permission`
-
-#### Import Data
-
-Usually we don't import the data using the Go importer locally. Instead, restore your local database with a backup made from the development environment.
-
-### Development
-
-#### Testing Mails Locally
-
-If you want to test mails locally, you can use symphony's `mailer` container. \
-Set the `MAILER_DSN=smtp://mailer:1025` environment variable and make sure the `mailer` container is running.
-
-Then navigate to [localhost:8025](http://localhost:8025) to access the mail inbox.
-
-#### Code Format Checking
+### Code Format Checking
 
 We use the PSR-12 PHP standard. You can check your code using the following command:
 
@@ -124,10 +107,35 @@ Auto linting:
 make lint:fix
 ```
 
+### Testing
+
+#### Setting up local role based testing
+
+If you need to test locally with different roles or groups you can do this with the following adjustments:
+
+1. In the .env file adjust the following fields
+    1. `APP_ENV=local`
+    2. `SPECIAL_ACCESS=`
+
+2. Reload the environment variables. Check with: `docker exec healthcheck-core-local env`
+
+```shell
+make reload-env
+```
+
+3. In the database add entries as needed in the table `hc_security_permission`
+
+#### Testing Mails Locally
+
+If you want to test mails locally, you can use symphony's `mailer` container. \
+Set the `MAILER_DSN=smtp://mailer:1025` environment variable and make sure the `mailer` container is running.
+
+Then navigate to [localhost:8025](http://localhost:8025) to access the mail inbox.
+
 #### Running Tests
 
 To run tests locally make sure to use the `env.test` instead of the created `.env`. You can do that by replacing the
-contents of the `.env` file with the contents of the `.env.test` file. You will need to completely stop and 
+contents of the `.env` file with the contents of the `.env.test` file. You will need to completely stop and
 restart the healthcheck-core service container in order for the changes to take effect.
 
 Once you are up and running with the new env run:
