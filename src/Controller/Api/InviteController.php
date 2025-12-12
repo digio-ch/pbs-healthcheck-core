@@ -8,6 +8,7 @@ use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
 use App\Entity\Security\Permission;
 use App\Exception\ApiException;
+use App\Model\UseCaseError;
 use App\Service\Gamification\PersonGamificationService;
 use App\Service\PermissionService;
 use App\Service\Security\PermissionVoter;
@@ -102,10 +103,12 @@ class InviteController extends AbstractController
             throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
         }
 
-        $createdInviteDTO = $this->inviteService->createInvite($group, $inviteDTO);
+        $createdInviteDTO = $this->inviteService->createInvite($group, $inviteDTO, $this->getUser());
         $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_SHARE_ONE);
 
-        return $this->json($createdInviteDTO, JsonResponse::HTTP_CREATED);
+        // TODO send email
+
+        return $this->json($createdInviteDTO, Response::HTTP_CREATED);
     }
 
     /**
@@ -118,6 +121,26 @@ class InviteController extends AbstractController
         $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
 
         return $this->json($this->inviteService->getAllInvites($group));
+    }
+
+    /**
+     * @param Group $group
+     * @param Permission $permission
+     * @return JsonResponse
+     * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
+     * @ParamConverter(name="invite", options={"mapping":{"inviteId":"id"}})
+     */
+    public function renewInvite(Group $group, Permission $permission): JsonResponse
+    {
+        $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
+
+        try {
+            $result = $this->inviteService->renewInvite($group, $permission, $this->getUser());
+        } catch (UseCaseError $err) {
+            throw new ApiException($err->getUCCode(), $err->getUCMessage(), $err);
+        }
+
+        return $this->json($result, Response::HTTP_OK);
     }
 
     /**

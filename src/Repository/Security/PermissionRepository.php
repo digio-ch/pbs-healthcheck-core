@@ -6,6 +6,7 @@ use App\Entity\Midata\Group;
 use App\Entity\Security\Permission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -195,5 +196,51 @@ class PermissionRepository extends ServiceEntityRepository
                 ParameterType::STRING,
             ]
         );
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findPermissionByGroupIDAndEmail(string $email, int $groupId)
+    {
+        return $this->createQueryBuilder('permission')
+            ->join('permission.group', 'g')
+            ->where('permission.email = :email')
+            ->andWhere('g.id = :groupId')
+            ->setParameter('email', $email)
+            ->setParameter('groupId', $groupId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findAllExpiringPermissionsToNotify()
+    {
+        $query = $this->createQueryBuilder('permission');
+
+        return $query
+            ->where('permission.expirationDate BETWEEN :now AND :inOneMonth')
+            ->andWhere('permission.preExpiryNotified = false')
+            ->setParameter('inOneMonth', new \DateTime(date('Y-m-d H:i:s.u', strtotime('+1 month'))))
+            ->setParameter('now', new \DateTime())
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findOneByPersonIDAndGroupID(int $personId, int $groupId): ?Permission
+    {
+        $query = $this->createQueryBuilder('permission');
+
+        return $query
+            ->where('permission.person = :personId')
+            ->andWhere('permission.group = :groupId')
+            ->andWhere('permission.expirationDate > :now')
+            ->setParameter('personId', $personId)
+            ->setParameter('groupId', $groupId)
+            ->setParameter('now', new \DateTime())
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

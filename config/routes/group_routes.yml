@@ -10,6 +10,11 @@ invite_read:
   methods: GET
   controller: App\Controller\Api\InviteController:getInvites
 
+invite_renew:
+  path: /invite/{inviteId}/renew
+  methods: POST
+  controller: App\Controller\Api\InviteController:renewInvite
+
 invite_delete:
   path: /invite/{inviteId}
   methods: DELETE
