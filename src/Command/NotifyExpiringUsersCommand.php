@@ -24,9 +24,8 @@ class NotifyExpiringUsersCommand extends Command
 
     public function __construct(
         PermissionRepository $permissionRepository,
-        PersonRepository     $personRepository
-    )
-    {
+        PersonRepository $personRepository
+    ) {
         $this->permissionRepository = $permissionRepository;
         $this->personRepository = $personRepository;
         parent::__construct();
@@ -42,7 +41,7 @@ class NotifyExpiringUsersCommand extends Command
         $permissions = $this->permissionRepository->findAllExpiringPermissionsToNotify();
 
         foreach ($permissions as $permission) {
-            if (is_null($permission->getOwner())){
+            if (is_null($permission->getOwner())) {
                 // TODO send email to user without owner information
 
                 $this->persistPermission($permission);
@@ -51,8 +50,9 @@ class NotifyExpiringUsersCommand extends Command
             }
 
             $dbOwner = $this->personRepository->findOneBy(['id' => $permission->getOwner()->getId()]);
-            if (is_null($dbOwner))
+            if (is_null($dbOwner)) {
                 throw new CommandException("no owner found in the database");
+            }
 
             $ownerPermission = null;
             try {
@@ -61,12 +61,14 @@ class NotifyExpiringUsersCommand extends Command
                 throw new CommandException($err->getMessage(), 0, $err);
             }
 
-            if (is_null($ownerPermission))
+            if (is_null($ownerPermission)) {
                 continue;
+            }
 
 
-            if ($ownerPermission->getPermissionType()->getKey() !== PermissionVoter::OWNER)
+            if ($ownerPermission->getPermissionType()->getKey() !== PermissionVoter::OWNER) {
                 continue;
+            }
 
             // TODO send email to user and owner
 

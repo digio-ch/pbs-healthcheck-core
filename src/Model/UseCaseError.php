@@ -11,11 +11,13 @@ class UseCaseError extends \Error
         parent::__construct($message, $code, $previous);
     }
 
-    public function getUCMessage(): string {
+    public function getUCMessage(): string
+    {
         return parent::getMessage();
     }
 
-    public function getUCCode(): ?int {
+    public function getUCCode(): ?int
+    {
         return parent::getCode();
     }
 }

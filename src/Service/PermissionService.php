@@ -38,11 +38,6 @@ class PermissionService
     private PersonRepository $personRepository;
 
     /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
      * InviteService constructor.
      * @param PermissionRepository $permissionRepository
      * @param PermissionTypeRepository $permissionTypeRepository
@@ -52,17 +47,14 @@ class PermissionService
         PermissionRepository $permissionRepository,
         PermissionTypeRepository $permissionTypeRepository,
         MailService $mailService,
-        TranslatorInterface $translator
-        PermissionTypeRepository $permissionTypeRepository,
-        PersonRepository $personRepository,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        PersonRepository $personRepository
     ) {
         $this->permissionRepository = $permissionRepository;
         $this->permissionTypeRepository = $permissionTypeRepository;
-        $this->personRepository = $personRepository;
-        $this->translator = $translator;
         $this->mailService = $mailService;
         $this->translator = $translator;
+        $this->personRepository = $personRepository;
     }
 
     /**
@@ -88,7 +80,6 @@ class PermissionService
      * @param Person $owner
      * @return InviteDTO
      */
-    public function createInvite(Group $group, InviteDTO $inviteDTO, PbsUserDTO $owner): InviteDTO
     public function createInvite(Group $group, PbsUserDTO $owner, InviteDTO $inviteDTO): InviteDTO
     {
         $permission = new Permission();
@@ -161,14 +152,17 @@ class PermissionService
             throw new UseCaseError($NotFoundMessage, 404, $err);
         }
 
-        if (is_null($dbPermission))
+        if (is_null($dbPermission)) {
             throw new UseCaseError($NotFoundMessage, 404);
+        }
 
-        if ($dbPermission->isExpired())
+        if ($dbPermission->isExpired()) {
             throw new UseCaseError($NotFoundMessage, 404);
+        }
 
-        if (is_null($dbPermission->getOwner()))
+        if (is_null($dbPermission->getOwner())) {
             throw new UseCaseError($NotFoundMessage, 404);
+        }
 
         if (!$dbPermission->isExpiring()) {
             $message = $this->translator->trans('api.error.invalidEntries', ['entityName' => $invite]);
