@@ -16,6 +16,10 @@ build:
 build-debug:
 	$(DOCKER_COMPOSE_COMMAND) $(DOCKER_COMPOSE_FILE) build --build-arg="BUILD_DEBUG=1"
 
+.PHONY: build-test
+build-test:
+	$(DOCKER_COMPOSE_COMMAND) $(DOCKER_COMPOSE_FILE) build --build-arg="BUILD_TEST=1"
+
 .PHONY: setup
 setup:
 	make build
