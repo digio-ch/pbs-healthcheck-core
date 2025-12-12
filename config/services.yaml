@@ -114,6 +114,9 @@ services:
 
     App\Service\MailService:
         arguments:
+            $senderAddress: '%env(MAIL_SENDER_ADDRESS)%'
+            $senderName: '%env(MAIL_SENDER_NAME)%'
+            $inviteMailWhitelist: '%env(INVITE_MAIL_WHITELIST)%'
             $pbsRecipients: '%env(GAMIFICATION_RECIPIENT)%'
             $frontendBaseURL: '%env(FRONTEND_BASE_URL)%'
 

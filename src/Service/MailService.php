@@ -13,16 +13,25 @@ class MailService
 {
     private MailerInterface $mailer;
 
+    private string $inviteMailWhitelist;
+
     private array $pbsRecipients;
 
     private string $frontendBaseURL;
 
+    private Address $sender;
+
 
     public function __construct(
+        string $senderAddress,
+        string $senderName,
+        string $inviteMailWhitelist,
         string $pbsRecipients,
         string $frontendBaseURL,
         MailerInterface $mailer
     ) {
+        $this->sender = new Address($senderAddress, $senderName);
+        $this->inviteMailWhitelist = $inviteMailWhitelist;
         $this->pbsRecipients = explode(",", $pbsRecipients);
         $this->frontendBaseURL = $frontendBaseURL;
         $this->mailer = $mailer;
@@ -51,7 +60,7 @@ www.digio.swiss";
     public function sendMailToPBSTeam(string $subject, string $content)
     {
         $email = (new Email())
-            ->from($this->getFromAddress())
+            ->from($this->sender)
             ->to(...$this->pbsRecipients)
             ->subject($subject)
             ->text($content);
@@ -61,8 +70,12 @@ www.digio.swiss";
 
     public function sendInvitationMail(string $receiver, InvitationMailInput $input)
     {
+        if (!$this->allowInviteEmailFor($receiver)) {
+            return;
+        }
+
         $email = (new TemplatedEmail())
-            ->from($this->getFromAddress())
+            ->from($this->sender)
             ->to($receiver)
             ->subject($input->getSubject())
             ->htmlTemplate('invitation.html.twig')
@@ -80,8 +93,12 @@ www.digio.swiss";
         $this->mailer->send($email);
     }
 
-    private function getFromAddress(): Address
+    private function allowInviteEmailFor(string $receiver): bool
     {
-        return new Address('no-reply@hc-prod.cust.digio.ch', 'Digio');
+        if ($this->inviteMailWhitelist === "*") {
+            return true;
+        }
+
+        return str_contains($this->inviteMailWhitelist, $receiver);
     }
 }
