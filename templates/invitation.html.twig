@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block greetings %}
+    {{ 'email.invitation.greeting'|trans({ 'name': name ?? '' }) }}
+{% endblock %}
+{% block content %}
+    {# introduction text #}
+    <p style="margin: 0 0 16px 0;">
+        {{ intro|raw }}
+    </p>
+    {# context text #}
+    <p style="margin: 0 0 16px 0;">
+        {{ context|raw }}
+    </p>
+    {# only display the cta if cta and link are set #}
+    {% if link is defined and cta is defined and cta is not empty %}
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 32px 0;">
+            <tr>
+                <td align="center">
+                    <a href="{{ baseURL }}{{ link }}"
+                       style="color:black; text-decoration: none; background-color: #91C4F4; padding: 8px 12px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
+                        {{ cta }}
+                    </a>
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+{% endblock %}

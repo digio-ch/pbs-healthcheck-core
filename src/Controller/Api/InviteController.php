@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\DTO\Model\InviteDTO;
+use App\DTO\Model\PbsUserDTO;
 use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
@@ -103,8 +104,11 @@ class InviteController extends AbstractController
             throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
         }
 
-        $createdInviteDTO = $this->inviteService->createInvite($group, $inviteDTO, $this->getUser());
-        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_SHARE_ONE);
+        /** @var PbsUserDTO $user */
+        $user = $this->getUser();
+
+        $createdInviteDTO = $this->inviteService->createInvite($group, $user, $inviteDTO);
+        $personGamificationService->genericGoalProgress($user, Goal::TYPE_SHARE_ONE);
 
         // TODO send email
 

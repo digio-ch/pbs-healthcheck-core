@@ -56,7 +56,9 @@ does not conflict with any of your existing networks:
 
 This command will only work if you added the `BUILD_TEST=1` build argument since composer is needed to add dependencies.
 
-`docker exec healthcheck-core-local composer install --no-interaction --no-scripts`
+```shell
+docker exec healthcheck-core-local composer install --no-interaction --no-scripts
+```
 
 #### Setup PHPStorm for Debugging
 
@@ -69,7 +71,30 @@ Make sure you execute all the migrations so the schema and tables are in sync wi
 
 `docker exec healthcheck-core-local php bin/console doctrine:migrations:migrate -n`
 
-#### Creating a Migration
+#### Import Data
+
+Usually we don't import the data using the Go importer locally. Instead, restore your local database with a backup made from the development environment.
+
+## Development
+
+### Error Debugging
+
+1. Leave the `SENTRY_DSN` environment variable empty (`SENTRY_DSN=`) \
+    This routes errors to the file `var/log/errors.log` instead of sentry
+2. Run the following command to see real time error logs
+
+```shell
+make logs
+```
+
+### List all Commands
+With the following command all commands can be listed.
+
+```shell script
+docker exec healthcheck-core-local php bin/console list
+```
+
+### Creating a Migration
 
 With the following command a migration can be created.
 
@@ -77,45 +102,50 @@ With the following command a migration can be created.
 docker exec healthcheck-core-local php bin/console doctrine:migrations:generate 
 ```
 
-#### List all Commands
-With the following command all commands can be listed.
+### Code Format Checking
 
-```shell script
-docker exec healthcheck-core-local php bin/console list
+We use the PSR-12 PHP standard. You can check your code using the following command:
+
+```shell
+make lint
 ```
+
+Auto linting:
+
+
+```shell
+make lint:fix
+```
+
+### Testing
 
 #### Setting up local role based testing
 
 If you need to test locally with different roles or groups you can do this with the following adjustments:
 
 1. In the .env file adjust the following fields
-   1. `APP_ENV=local`
-   2. `SPECIAL_ACCESS=`
+    1. `APP_ENV=local`
+    2. `SPECIAL_ACCESS=`
 
-2. Make sure the cache is cleared. (`make down` and `make up` may help). Check with: `docker exec healthcheck-core-local env`
+2. Reload the environment variables. Check with: `docker exec healthcheck-core-local env`
+
+```shell
+make reload-env
+```
 
 3. In the database add entries as needed in the table `hc_security_permission`
 
-#### Import Data
+#### Testing Mails Locally
 
-To run the import you can execute the `run-import.sh` script inside the healthcheck-core service container. 
-Notice: This might take a while to finish.
+If you want to test mails locally, you can use symphony's `mailer` container. \
+Set the `MAILER_DSN=smtp://mailer:1025` environment variable and make sure the `mailer` container is running.
 
-`docker exec healthcheck-core-local ./run-import.sh`
-
-#### Code Format Checking
-
-We use the PSR-12 PHP standard. You can check your code using the following command:
-
-`docker exec healthcheck-core-local php vendor/bin/phpcs --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/`
-
-Auto linting:
-`docker exec healthcheck-core-local php vendor/bin/phpcbf --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/`
+Then navigate to [localhost:8025](http://localhost:8025) to access the mail inbox.
 
 #### Running Tests
 
 To run tests locally make sure to use the `env.test` instead of the created `.env`. You can do that by replacing the
-contents of the `.env` file with the contents of the `.env.test` file. You will need to completely stop and 
+contents of the `.env` file with the contents of the `.env.test` file. You will need to completely stop and
 restart the healthcheck-core service container in order for the changes to take effect.
 
 Once you are up and running with the new env run:

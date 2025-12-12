@@ -36,6 +36,12 @@ gender:
   male: 'Männlich'
   unknown: 'Unbekannt'
 
+permissions:
+  owner: "Besitzer"
+  editor-plus: "Bearbeiter Plus"
+  editor: "Bearbeiter"
+  viewer: "Zuschauer"
+
 auth:
   unauthorized: 'Dein Login ist abgelaufen, du wurdest automatisch ausgeloggt.'
 
@@ -58,3 +64,16 @@ api:
     accessDenied: 'Unzureichende Berechtigung diese aktion auszuführen'
 
   success: '{entityName} erfolgreich {action}.'
+
+email:
+  general:
+    regards: 'Freundliche Grüsse'
+    signature: 'Das HealthCheck Team'
+  invitation:
+    greeting: 'Hallo {name}'
+    new:
+      subject: 'HealthCheck - Du wurdest eingeladen'
+      title: 'Einladung'
+      intro: 'Sie wurden von <strong>{owner}</strong> für ein Jahr in die Gruppe <strong>{group}</strong> als <strong>{role}</strong> eingeladen.'
+      context: 'Bitte melden Sie sich mit dieser Email-Adresse bei HealthCheck an um die Gruppe einzusehen. Der Button führt Sie zunächst zum Login.'
+      cta: 'Gruppe ansehen'

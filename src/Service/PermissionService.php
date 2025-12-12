@@ -12,6 +12,7 @@ use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Model\UseCaseError;
 use App\Repository\Midata\PersonRepository;
+use App\Model\InvitationMailInput;
 use App\Repository\Security\PermissionRepository;
 use App\Repository\Security\PermissionTypeRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -26,6 +27,12 @@ class PermissionService
 
     /** @var PermissionTypeRepository $permissionTypeRepository */
     private PermissionTypeRepository $permissionTypeRepository;
+
+    /** @var MailService $mailService */
+    private MailService $mailService;
+
+    /** @var TranslatorInterface $translator */
+    private TranslatorInterface $translator;
 
     /** @var PersonRepository $personRepository */
     private PersonRepository $personRepository;
@@ -44,12 +51,17 @@ class PermissionService
     public function __construct(
         PermissionRepository $permissionRepository,
         PermissionTypeRepository $permissionTypeRepository,
+        MailService $mailService,
+        TranslatorInterface $translator
+        PermissionTypeRepository $permissionTypeRepository,
         PersonRepository $personRepository,
         TranslatorInterface $translator
     ) {
         $this->permissionRepository = $permissionRepository;
         $this->permissionTypeRepository = $permissionTypeRepository;
         $this->personRepository = $personRepository;
+        $this->translator = $translator;
+        $this->mailService = $mailService;
         $this->translator = $translator;
     }
 
@@ -71,11 +83,13 @@ class PermissionService
 
     /**
      * @param Group $group
+     * @param PbsUserDTO $owner
      * @param InviteDTO $inviteDTO
      * @param Person $owner
      * @return InviteDTO
      */
     public function createInvite(Group $group, InviteDTO $inviteDTO, PbsUserDTO $owner): InviteDTO
+    public function createInvite(Group $group, PbsUserDTO $owner, InviteDTO $inviteDTO): InviteDTO
     {
         $permission = new Permission();
         $expirationDate = (new \DateTimeImmutable())->add(new \DateInterval('P12M'));
@@ -96,6 +110,20 @@ class PermissionService
         $permission->setPreExpiryNotified(false);
 
         $this->permissionRepository->save($permission);
+
+        $input = (new InvitationMailInput())
+            ->setSubject($this->translator->trans('email.invitation.new.subject'))
+            ->setTitle($this->translator->trans('email.invitation.new.title'))
+            ->setIntroductionText($this->translator->trans('email.invitation.new.intro', [
+                'owner' => $owner->getNickName(),
+                'group' => $this->formatGroupName($group),
+                'role' => $this->translator->trans('permissions.' . $permissionType->getKey())
+            ]))
+            ->setContextText($this->translator->trans('email.invitation.new.context'))
+            ->setLink('/login')
+            ->setCtaText($this->translator->trans('email.invitation.new.cta'));
+
+        $this->mailService->sendInvitationMail($permission->getEmail(), $input);
 
         return InviteMapper::createFromEntity($permission);
     }
@@ -171,5 +199,18 @@ class PermissionService
             throw new NotFoundHttpException("Invite for current group not found");
         }
         $this->permissionRepository->remove($invite);
+    }
+
+    private function formatGroupName(Group $group): string
+    {
+        $str = $group->getName();
+
+        $canton = $group->getCantonName();
+
+        if (is_null($canton)) {
+            return $str;
+        }
+
+        return $str . " (" . $canton . ")";
     }
 }
