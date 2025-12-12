@@ -52,7 +52,11 @@ services:
             $environment: '%kernel.environment%' # the kernel environment of the application
 
 
-    # Listeners
+    App\Service\Sentry:
+        arguments:
+            $sentryDSN: '%env(SENTRY_DSN)%'
+
+  # Listeners
     App\EventListener\ConsoleEventListener:
         tags:
             - { name: kernel.event_listener, event: console.command }

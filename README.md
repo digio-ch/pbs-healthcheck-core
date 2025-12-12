@@ -77,6 +77,16 @@ Usually we don't import the data using the Go importer locally. Instead, restore
 
 ## Development
 
+### Error Debugging
+
+1. Leave the `SENTRY_DSN` environment variable empty (`SENTRY_DSN=`) \
+    This routes errors to the file `var/log/errors.log` instead of sentry
+2. Run the following command to see real time error logs
+
+```shell
+make logs
+```
+
 ### List all Commands
 With the following command all commands can be listed.
 
