@@ -6,6 +6,7 @@ use App\DTO\Model\FilterRequestData\DateAndDateRangeRequestData;
 use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Entity\Midata\Group;
+use App\Entity\Security\PermissionType;
 use App\Service\Apps\Widgets\MembersGroupPreviewService;
 use App\Service\DataProvider\MembersGenderDateDataProvider;
 use App\Service\DataProvider\MembersGroupDateDataProvider;
@@ -33,7 +34,7 @@ class MembersGroupController extends AbstractController
         MembersGroupDateDataProvider $membersGroupDateDataProvider,
         MembersGroupPreviewService $membersGroupPreviewService
     ): Response {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
 
         $data = [];
 
@@ -63,7 +64,7 @@ class MembersGroupController extends AbstractController
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetRequestData $widgetRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
 
         $data = [];
 
@@ -103,7 +104,7 @@ class MembersGroupController extends AbstractController
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
 
         $data = [];
 

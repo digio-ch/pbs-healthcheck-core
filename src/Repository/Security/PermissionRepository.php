@@ -4,6 +4,7 @@ namespace App\Repository\Security;
 
 use App\Entity\Midata\Group;
 use App\Entity\Security\Permission;
+use App\Entity\Security\PermissionType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\NonUniqueResultException;
@@ -213,34 +214,43 @@ class PermissionRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findAllExpiringPermissionsToNotify()
+    /**
+     * @return Permission[]
+     * @throws \Exception
+     */
+    public function findAllExpiringPermissionsToNotify(): array
     {
         $query = $this->createQueryBuilder('permission');
 
         return $query
             ->where('permission.expirationDate BETWEEN :now AND :inOneMonth')
             ->andWhere('permission.preExpiryNotified = false')
-            ->setParameter('inOneMonth', new \DateTime(date('Y-m-d H:i:s.u', strtotime('+1 month'))))
-            ->setParameter('now', new \DateTime())
+            ->setParameter('now', new \DateTimeImmutable())
+            ->setParameter('inOneMonth', new \DateTimeImmutable('+1 month'))
             ->getQuery()
             ->getResult();
     }
 
     /**
-     * @throws NonUniqueResultException
+     * @param int $groupId
+     * @param int $personId
+     * @return Permission[]
      */
-    public function findOneByPersonIDAndGroupID(int $personId, int $groupId): ?Permission
+    public function findActiveOwnerPermissions(int $groupId, int $personId): array
     {
         $query = $this->createQueryBuilder('permission');
 
         return $query
+            ->join('permission.type', 'type')
             ->where('permission.person = :personId')
             ->andWhere('permission.group = :groupId')
-            ->andWhere('permission.expirationDate > :now')
+            ->andWhere('type.key = :ownerType')
+            ->andWhere('permission.expirationDate IS NULL')
             ->setParameter('personId', $personId)
             ->setParameter('groupId', $groupId)
+            ->setParameter('ownerType', PermissionType::OWNER)
             ->setParameter('now', new \DateTime())
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
     }
 }

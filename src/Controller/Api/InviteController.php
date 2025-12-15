@@ -8,11 +8,11 @@ use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
 use App\Entity\Security\Permission;
+use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Model\UseCaseError;
 use App\Service\Gamification\PersonGamificationService;
 use App\Service\PermissionService;
-use App\Service\Security\PermissionVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -61,7 +61,7 @@ class InviteController extends AbstractController
         ValidatorInterface $validator,
         PersonGamificationService $personGamificationService
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
 
         try {
             /** @var InviteDTO $inviteDTO */
@@ -83,13 +83,13 @@ class InviteController extends AbstractController
             );
         }
 
-        if ($inviteDTO->getPermissionType() === PermissionVoter::OWNER) {
+        if ($inviteDTO->getPermissionType() === PermissionType::OWNER) {
             throw new ApiException(Response::HTTP_FORBIDDEN, 'You may not add group Owners.');
         }
 
         // invited persons should not receive the editor plus role if they are in a department, since they do not get any benefits of it.
         if (
-            $inviteDTO->getPermissionType() === PermissionVoter::EDITOR_PLUS
+            $inviteDTO->getPermissionType() === PermissionType::EDITOR_PLUS
             && $group->getGroupType()->getGroupType() === GroupType::DEPARTMENT
         ) {
             throw new ApiException(
@@ -122,7 +122,7 @@ class InviteController extends AbstractController
      */
     public function getInvites(Group $group): JsonResponse
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
 
         return $this->json($this->inviteService->getAllInvites($group));
     }
@@ -136,7 +136,7 @@ class InviteController extends AbstractController
      */
     public function renewInvite(Group $group, Permission $permission): JsonResponse
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
 
         try {
             $result = $this->inviteService->renewInvite($group, $permission, $this->getUser());
@@ -156,7 +156,7 @@ class InviteController extends AbstractController
      */
     public function deleteInvite(Group $group, Permission $invite): JsonResponse
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
 
         $this->inviteService->deleteInvite($invite, $group);
         $action = $this->translator->trans('api.action.deleted');
