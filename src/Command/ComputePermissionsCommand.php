@@ -2,10 +2,10 @@
 
 namespace App\Command;
 
-use App\Entity\Security\PermissionType;
 use App\Model\CommandStatistics;
 use App\Repository\Midata\PersonRoleRepository;
 use App\Repository\Security\PermissionRepository;
+use App\Service\Security\PermissionVoter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -35,7 +35,7 @@ class ComputePermissionsCommand extends StatisticsCommand
             ->setName("app:compute-permissions");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $start = microtime(true);
         $output->writeln('Computing peoples default permissions...');
@@ -53,7 +53,7 @@ class ComputePermissionsCommand extends StatisticsCommand
             'Group::Kantonalverband::Coach',
             'Group::Bund::Coach',
         ]);
-        $this->assignPermissionToRoles($coaches, PermissionType::VIEWER);
+        $this->assignPermissionToRoles($coaches, PermissionVoter::ORDER_VIEWER);
 
         $leaders = $this->personRoleRepository->findAllPersonInGroupByRole([
             'Group::Abteilung',
@@ -66,13 +66,14 @@ class ComputePermissionsCommand extends StatisticsCommand
             'Group::Region::Regionalleitung',
             'Group::Kantonalverband::Kantonsleitung',
         ]);
-        $this->assignPermissionToRoles($leaders, PermissionType::OWNER);
+        $this->assignPermissionToRoles($leaders, PermissionVoter::ORDER_OWNER);
 
         $output->writeln('finished computing all default permissions.');
         $this->totalDuration = microtime(true) - $start;
         return 0;
     }
 
+    // TODO: use PermissionType key instead of id because it is not guaranteed
     private function assignPermissionToRoles(array $roles, int $permissionType)
     {
         foreach ($roles as $role) {

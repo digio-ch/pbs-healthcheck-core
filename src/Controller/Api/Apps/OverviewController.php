@@ -5,9 +5,9 @@ namespace App\Controller\Api\Apps;
 use App\DTO\Model\Apps\Overview\OverviewSharingDTO;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
+use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Service\Apps\Overview\OverviewSharedService;
-use App\Service\Security\PermissionVoter;
 use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -32,7 +32,7 @@ class OverviewController extends AbstractController
      */
     public function getOverviewSharing(Group $group): JsonResponse
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
 
         if (!$this->isDepartment($group)) {
             throw new ApiException(400, "Only for departments");
@@ -52,7 +52,7 @@ class OverviewController extends AbstractController
      */
     public function shareOverview(Request $request, Group $group): JsonResponse
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
 
         if (!$this->isDepartment($group)) {
             throw new ApiException(400, "Only for departments");
@@ -83,7 +83,7 @@ class OverviewController extends AbstractController
      */
     public function getOverviewOfDepartmentsPreview(Group $group): JsonResponse
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $group);
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
 
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(400, "Only for regions and cantons");
@@ -103,7 +103,7 @@ class OverviewController extends AbstractController
      */
     public function getOverviewOfDepartments(Group $group): JsonResponse
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $group);
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
 
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(400, "Only for regions and cantons");

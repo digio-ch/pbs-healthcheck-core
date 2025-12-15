@@ -1,0 +1,11 @@
+monolog:
+  handlers:
+    # this "file_log" key could be anything
+    file_log:
+      type: stream
+      # log to var/log/errors.log
+      path: "%kernel.logs_dir%/errors.log"
+      # log error logs
+      level: error
+      max_files: 3  # keep only the last 3 days
+      formatter: 'monolog.formatter.line'

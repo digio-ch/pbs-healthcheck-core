@@ -36,6 +36,12 @@ gender:
   male: 'Männlich'
   unknown: 'Unbekannt'
 
+permissions:
+  owner: "Besitzer"
+  editor-plus: "Bearbeiter Plus"
+  editor: "Bearbeiter"
+  viewer: "Zuschauer"
+
 auth:
   unauthorized: 'Dein Login ist abgelaufen, du wurdest automatisch ausgeloggt.'
 
@@ -58,3 +64,37 @@ api:
     accessDenied: 'Unzureichende Berechtigung diese aktion auszuführen'
 
   success: '{entityName} erfolgreich {action}.'
+
+email:
+  general:
+    regards: 'Freundliche Grüsse'
+    signature: 'Das HealthCheck Team'
+  invitation:
+    greeting: 'Hallo {name}'
+    new:
+      subject: 'HealthCheck - Du wurdest eingeladen'
+      title: 'Einladung'
+      intro: 'Sie wurden von <strong>{owner}</strong> für ein Jahr in die Gruppe <strong>{group}</strong> als <strong>{role}</strong> eingeladen.'
+      context: 'Bitte melden Sie sich mit dieser Email-Adresse bei HealthCheck an um die Gruppe einzusehen. Der Button führt Sie zunächst zum Login.'
+      cta: 'Gruppe ansehen'
+    renew:
+      subject: 'HealthCheck - Deine Einladung wurde verlängert'
+      title: 'Einladung verlängert'
+      intro: '<strong>{owner}</strong> hat ihre Einladung in die Gruppe <strong>{group}</strong> als <strong>{role}</strong> für ein weiteres Jahr verlängert.'
+      nex_expiration_date: 'Neues Ablaufdatum: <strong>{expirationDate}</strong>'
+      context: 'Bitte melden Sie sich mit dieser Email-Adresse bei HealthCheck an um die Gruppe einzusehen. Der Button führt Sie zunächst zum Login.'
+      cta: 'Gruppe ansehen'
+    pre_expiry:
+      invitee:
+        subject: 'HealthCheck - Deine Einladung läuft ab'
+        title: 'Einladung läuft ab'
+        intro: 'Ihre Einladung in die Gruppe <strong>{group}</strong> als <strong>{role}</strong> läuft am <strong>{expirationDate}</strong> ab.'
+        context:
+          without_owner: 'Bitte wenden Sie sich an einen Besitzer der Gruppe, falls Sie die Einladung verlängern lassen möchten.'
+          with_owner: 'Bitte wenden Sie sich an <strong>{ownerNickname} ({ownerEmail})</strong> oder einen anderen Besitzer der Gruppe, falls Sie die Einladung verlängern lassen möchten.'
+      creator:
+        subject: 'HealthCheck - Eine Einladung läuft ab'
+        title: 'Einladung läuft ab'
+        intro: 'Die Einladung an <strong>{invitee}</strong> in die Gruppe <strong>{group}</strong> als <strong>{role}</strong> läuft am <strong>{expirationDate}</strong> ab.'
+        context: 'Möchten Sie die Einladung um ein weiteres Jahr verlängern, können sie das auf HealthCheck im <strong>Berechtigungen</strong> Menu tun. Der Button führt Sie zunächst zum Login.'
+        cta: 'Einladung verlängern'

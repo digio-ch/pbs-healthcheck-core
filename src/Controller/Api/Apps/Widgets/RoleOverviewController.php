@@ -5,10 +5,10 @@ namespace App\Controller\Api\Apps\Widgets;
 use App\DTO\Model\FilterRequestData\DateAndDateRangeRequestData;
 use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
+use App\Entity\Security\PermissionType;
 use App\Service\DataProvider\MembersGroupDateDataProvider;
 use App\Service\DataProvider\MembersGroupDateRangeDataProvider;
 use App\Service\DataProvider\RoleOverviewDateRangeDataProvider;
-use App\Service\Security\PermissionVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -25,7 +25,7 @@ class RoleOverviewController extends AbstractController
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetRequestData $widgetRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
         $result = $roleOverviewDateRangeDataProvider->getData(
             $widgetRequestData->getGroup(),
             $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
@@ -46,7 +46,7 @@ class RoleOverviewController extends AbstractController
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR_PLUS, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
         $result = $roleOverviewDateRangeDataProvider->getData(
             $widgetRequestData->getDepartment(),
             $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),

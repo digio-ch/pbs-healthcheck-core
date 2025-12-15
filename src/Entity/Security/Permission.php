@@ -50,6 +50,22 @@ class Permission
      */
     private ?\DateTimeImmutable $expirationDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Person::class)
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=true)
+     */
+    private ?Person $owner = null;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true, options={"default": null})
+     */
+    private ?string $ownerEmail = null;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true, options={"default": null})
+     */
+    private ?bool $preExpiryNotified = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -125,5 +141,35 @@ class Permission
         $this->expirationDate = $expirationDate;
 
         return $this;
+    }
+
+    public function getOwner(): ?Person
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Person $owner): void
+    {
+        $this->owner = $owner;
+    }
+
+    public function getOwnerEmail(): ?string
+    {
+        return $this->ownerEmail;
+    }
+
+    public function setOwnerEmail(?string $ownerEmail): void
+    {
+        $this->ownerEmail = $ownerEmail;
+    }
+
+    public function getPreExpiryNotified(): ?bool
+    {
+        return $this->preExpiryNotified;
+    }
+
+    public function setPreExpiryNotified(?bool $preExpiryNotified): void
+    {
+        $this->preExpiryNotified = $preExpiryNotified;
     }
 }

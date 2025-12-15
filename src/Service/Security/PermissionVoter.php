@@ -4,6 +4,7 @@ namespace App\Service\Security;
 
 use App\DTO\Model\PbsUserDTO;
 use App\Entity\Midata\Group;
+use App\Entity\Security\Permission;
 use App\Entity\Security\PermissionType;
 use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -11,17 +12,18 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class PermissionVoter extends Voter
 {
-    public const VIEWER = 'viewer';
-    public const EDITOR = 'editor';
-    public const EDITOR_PLUS = 'editor-plus';
-    public const OWNER = 'owner';
+    // TODO: make private as soon as the compute permissions command isn't using these anymore
+    public const ORDER_OWNER = 1;
+    public const ORDER_EDITOR_PLUS = 2;
+    public const ORDER_EDITOR = 3;
+    public const ORDER_VIEWER = 4;
 
-    private const PERMISSION_VOTER_TO_PERMISSION_TYPE = [
-            self::OWNER        => PermissionType::OWNER,
-            self::EDITOR_PLUS  => PermissionType::EDITOR_PLUS,
-            self::EDITOR       => PermissionType::EDITOR,
-            self::VIEWER       => PermissionType::VIEWER,
-        ];
+    private const PERMISSION_TYPE_KEY_TO_PERMISSION_ORDER = [
+        PermissionType::OWNER => PermissionVoter::ORDER_OWNER,
+        PermissionType::EDITOR_PLUS => PermissionVoter::ORDER_EDITOR_PLUS,
+        PermissionType::EDITOR => PermissionVoter::ORDER_EDITOR,
+        PermissionType::VIEWER => PermissionVoter::ORDER_VIEWER,
+    ];
 
     /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
@@ -40,7 +42,7 @@ class PermissionVoter extends Voter
 
     protected function supports(string $attribute, $subject)
     {
-        if (!in_array($attribute, [self::VIEWER, self::EDITOR, self::EDITOR_PLUS, self::OWNER])) {
+        if (!in_array($attribute, [PermissionType::VIEWER, PermissionType::EDITOR, PermissionType::EDITOR_PLUS, PermissionType::OWNER])) {
             return false;
         }
 
@@ -67,24 +69,26 @@ class PermissionVoter extends Voter
             return false;
         }
 
-        $permissionTypeID = $this->mapPermissionVoterToPermissionType($permission->getPermissionType()->getKey());
+        return $this->validatePermissionAccess($permission, $attribute);
+    }
 
-        switch ($attribute) {
-            case PermissionVoter::OWNER:
-                return $permissionTypeID === PermissionType::OWNER;
-            case PermissionVoter::EDITOR_PLUS:
-                return $permissionTypeID <= PermissionType::EDITOR_PLUS;
-            case PermissionVoter::EDITOR:
-                return $permissionTypeID <= PermissionType::EDITOR;
-            case PermissionVoter::VIEWER:
-                return $permissionTypeID <= PermissionType::VIEWER;
+    private function validatePermissionAccess(Permission $permission, string $required): bool
+    {
+        $PermissionTypekey = $permission->getPermissionType()->getKey();
+
+        $actualOrder = self::PERMISSION_TYPE_KEY_TO_PERMISSION_ORDER[$PermissionTypekey];
+
+        switch ($required) {
+            case PermissionType::OWNER:
+                return $actualOrder === self::ORDER_OWNER;
+            case PermissionType::EDITOR_PLUS:
+                return $actualOrder <= self::ORDER_EDITOR_PLUS;
+            case PermissionType::EDITOR:
+                return $actualOrder <= self::ORDER_EDITOR;
+            case PermissionType::VIEWER:
+                return $actualOrder <= self::ORDER_VIEWER;
         }
 
         return false;
-    }
-
-    private function mapPermissionVoterToPermissionType(string $attribute): int
-    {
-        return self::PERMISSION_VOTER_TO_PERMISSION_TYPE[$attribute];
     }
 }

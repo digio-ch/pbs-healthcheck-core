@@ -4,9 +4,9 @@ namespace App\Controller\Api\Apps;
 
 use App\DTO\Model\FilterRequestData\CensusRequestData;
 use App\Entity\Midata\Group;
+use App\Entity\Security\PermissionType;
 use App\Service\DataProvider\CensusDataProvider;
 use App\Service\DataProvider\CensusFilterDataProvider;
-use App\Service\Security\PermissionVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,7 +32,7 @@ class CensusController extends AbstractController
      */
     public function getPreview(Group $group)
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         return $this->json($this->censusDataProvider->getPreviewData($group));
     }
 
@@ -44,7 +44,7 @@ class CensusController extends AbstractController
      */
     public function getTableData(Group $group, CensusRequestData $censusRequestData)
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getTableData($group, $censusRequestData);
         return $this->json($data);
     }
@@ -57,7 +57,7 @@ class CensusController extends AbstractController
      */
     public function getDevelopmentData(Group $group, CensusRequestData $censusRequestData)
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getDevelopmentData($group, $censusRequestData);
         return $this->json($data);
     }
@@ -71,7 +71,7 @@ class CensusController extends AbstractController
      */
     public function getMembersData(Group $group, CensusRequestData $censusRequestData)
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getMembersData($group, $censusRequestData);
         return $this->json($data);
     }
@@ -84,7 +84,7 @@ class CensusController extends AbstractController
      */
     public function getTreemapData(Group $group, CensusRequestData $censusRequestData)
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getTreemapData($group, $censusRequestData);
         return $this->json($data);
     }
@@ -97,7 +97,7 @@ class CensusController extends AbstractController
      */
     public function getFilterData(Group $group)
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         return $this->json($this->censusFilterDataProvider->getFilterData($group));
     }
 
@@ -110,7 +110,7 @@ class CensusController extends AbstractController
      */
     public function postFilterData(Group $group, CensusRequestData $censusRequestData)
     {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         return $this->json($this->censusFilterDataProvider->setFilterData($group, $censusRequestData));
     }
 }
