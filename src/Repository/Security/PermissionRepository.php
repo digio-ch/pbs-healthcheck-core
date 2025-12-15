@@ -7,7 +7,6 @@ use App\Entity\Security\Permission;
 use App\Entity\Security\PermissionType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -200,21 +199,6 @@ class PermissionRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws NonUniqueResultException
-     */
-    public function findPermissionByGroupIDAndEmail(string $email, int $groupId)
-    {
-        return $this->createQueryBuilder('permission')
-            ->join('permission.group', 'g')
-            ->where('permission.email = :email')
-            ->andWhere('g.id = :groupId')
-            ->setParameter('email', $email)
-            ->setParameter('groupId', $groupId)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    /**
      * @return Permission[]
      * @throws \Exception
      */
@@ -241,7 +225,7 @@ class PermissionRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('permission');
 
         return $query
-            ->join('permission.type', 'type')
+            ->join('permission.permissionType', 'type')
             ->where('permission.person = :personId')
             ->andWhere('permission.group = :groupId')
             ->andWhere('type.key = :ownerType')
@@ -249,7 +233,6 @@ class PermissionRepository extends ServiceEntityRepository
             ->setParameter('personId', $personId)
             ->setParameter('groupId', $groupId)
             ->setParameter('ownerType', PermissionType::OWNER)
-            ->setParameter('now', new \DateTime())
             ->getQuery()
             ->getResult();
     }

@@ -84,8 +84,7 @@ www.digio.swiss";
 
                 'title' => $input->getTitle(),
                 'name' => $input->getName(),
-                'intro' => $input->getIntroductionText(),
-                'context' => $input->getContextText(),
+                'sections' => $input->getSections(),
                 'link' => $input->getLink(),
                 'cta' => $input->getCtaText(),
             ]);

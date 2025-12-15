@@ -35,7 +35,7 @@ class ComputePermissionsCommand extends StatisticsCommand
             ->setName("app:compute-permissions");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $start = microtime(true);
         $output->writeln('Computing peoples default permissions...');

@@ -39,43 +39,33 @@ First you need to set up the environment. To do this you can simply copy the dis
 Make sure to add the needed environment variables to the newly created file (`.env`). 
 If you are not sure which ones you need I recommend reading the docs starting from `doc/index.md`.
 
-Run the following commands to start the docker-compose services/containers.
-
-```shell script
-docker-compose -f docker/docker-compose.yml build --build-arg BUILD_TEST=1 healthcheck-core
-docker-compose -f docker/docker-compose.yml up -d
-```
-
-You can add some arguments for building the dockerfile for the healthcheck-core service. `BUILD_DEBUG=1` will add 
-xdebug to it to ease development/debugging and `BUILD_TEST=1` will add composer to the image.
-
-If you are gettings any docker network errors make sure that the subnet defined inside the `docker/docker-compose.yml`
-does not conflict with any of your existing networks:
-
-#### Install Dependencies
-
-This command will only work if you added the `BUILD_TEST=1` build argument since composer is needed to add dependencies.
+Run the following commands to install the dependencies, apply migrations and start the docker-compose services/containers.
 
 ```shell
-docker exec healthcheck-core-local composer install --no-interaction --no-scripts
+make setup
 ```
+
+If you are getting any docker network errors make sure that the subnet defined inside the `docker/docker-compose.yml`
+does not conflict with any of your existing networks.
 
 #### Setup PHPStorm for Debugging
 
 To enable debugging inside you PHPStorm you need add the following configuration in the settings under PHP -> Servers:
 ![phpstorm-php-servers.png](docs/assets/phpstorm-php-servers.png)
 
-#### Set-Up Database
-
-Make sure you execute all the migrations so the schema and tables are in sync with the entities:
-
-`docker exec healthcheck-core-local php bin/console doctrine:migrations:migrate -n`
-
 #### Import Data
 
 Usually we don't import the data using the Go importer locally. Instead, restore your local database with a backup made from the development environment.
 
 ## Development
+
+### Update dependencies
+
+If you find yourself updating the `composer.json` make sure to update the dependencies. This can be done by running:
+
+```shell
+make install-dependencies
+```
 
 ### Error Debugging
 
@@ -101,6 +91,11 @@ With the following command a migration can be created.
 ```shell script
 docker exec healthcheck-core-local php bin/console doctrine:migrations:generate 
 ```
+
+#### Migrate Database
+
+`docker exec healthcheck-core-local php bin/console doctrine:migrations:migrate -n`
+
 
 ### Code Format Checking
 

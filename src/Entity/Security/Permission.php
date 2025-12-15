@@ -172,15 +172,4 @@ class Permission
     {
         $this->preExpiryNotified = $preExpiryNotified;
     }
-
-    public function isExpired(): bool
-    {
-        return $this->expirationDate < new \DateTime();
-    }
-
-    public function isExpiring(): bool
-    {
-        $temp = new \DateTime(date('Y-m-d H:i:s.u', strtotime('+3 months')));
-        return $this->expirationDate < new \DateTime(date('Y-m-d H:i:s.u', strtotime('+3 months')));
-    }
 }

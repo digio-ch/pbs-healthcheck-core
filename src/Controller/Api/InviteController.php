@@ -10,7 +10,6 @@ use App\Entity\Midata\GroupType;
 use App\Entity\Security\Permission;
 use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
-use App\Model\UseCaseError;
 use App\Service\Gamification\PersonGamificationService;
 use App\Service\PermissionService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -110,8 +109,6 @@ class InviteController extends AbstractController
         $createdInviteDTO = $this->inviteService->createInvite($group, $user, $inviteDTO);
         $personGamificationService->genericGoalProgress($user, Goal::TYPE_SHARE_ONE);
 
-        // TODO send email
-
         return $this->json($createdInviteDTO, Response::HTTP_CREATED);
     }
 
@@ -132,17 +129,13 @@ class InviteController extends AbstractController
      * @param Permission $permission
      * @return JsonResponse
      * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
-     * @ParamConverter(name="invite", options={"mapping":{"inviteId":"id"}})
+     * @ParamConverter(name="permission", options={"mapping":{"inviteId":"id"}})
      */
     public function renewInvite(Group $group, Permission $permission): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
 
-        try {
-            $result = $this->inviteService->renewInvite($group, $permission, $this->getUser());
-        } catch (UseCaseError $err) {
-            throw new ApiException($err->getUCCode(), $err->getUCMessage(), $err);
-        }
+        $result = $this->inviteService->renewInvite($group, $this->getUser(), $permission);
 
         return $this->json($result, Response::HTTP_OK);
     }

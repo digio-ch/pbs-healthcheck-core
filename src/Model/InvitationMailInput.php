@@ -10,9 +10,10 @@ class InvitationMailInput
 
     private ?string $name = null;
 
-    private string $introductionText;
-
-    private string $contextText;
+    /**
+     * @var string[] $sections
+     */
+    private array $sections;
 
     private ?string $link = null;
 
@@ -51,25 +52,22 @@ class InvitationMailInput
         return $this;
     }
 
-    public function getIntroductionText(): string
+    /**
+     * @return string[]
+     */
+    public function getSections(): array
     {
-        return $this->introductionText;
+        return $this->sections;
     }
 
-    public function setIntroductionText(string $introductionText): InvitationMailInput
+    /**
+     * @param string[] $sections
+     * @return void
+     */
+    public function setSections(array $sections): InvitationMailInput
     {
-        $this->introductionText = $introductionText;
-        return $this;
-    }
+        $this->sections = $sections;
 
-    public function getContextText(): string
-    {
-        return $this->contextText;
-    }
-
-    public function setContextText(string $contextText): InvitationMailInput
-    {
-        $this->contextText = $contextText;
         return $this;
     }
 

@@ -8,6 +8,16 @@ ERROR_LOG_FILE=var/log/errors.log
 pull:
 	$(DOCKER_COMPOSE_COMMAND) $(DOCKER_COMPOSE_FILE) pull
 
+.PHONY: install-dependencies
+install-dependencies:
+	docker build -t hc_core_local_image -f ./docker/dependencies.Dockerfile .
+	docker create --name hc_core_local hc_core_local_image
+	docker cp hc_core_local:/srv/vendor ./vendor
+	docker cp hc_core_local:/srv/composer.json ./composer.json
+	docker cp hc_core_local:/srv/composer.lock ./composer.lock
+	docker rm hc_core_local
+	docker rmi hc_core_local_image
+
 .PHONY: build
 build:
 	$(DOCKER_COMPOSE_COMMAND) $(DOCKER_COMPOSE_FILE) build
@@ -22,8 +32,8 @@ build-test:
 
 .PHONY: setup
 setup:
-	make build
-	./scripts/install_dependencies_locally.sh
+	make install-dependencies
+	make build-debug
 	make up
 	sleep 5
 	docker exec healthcheck-core-local /usr/local/bin/php /srv/bin/console doctrine:migrations:migrate

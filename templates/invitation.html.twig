@@ -6,14 +6,11 @@
     {{ 'email.invitation.greeting'|trans({ 'name': name ?? '' }) }}
 {% endblock %}
 {% block content %}
-    {# introduction text #}
-    <p style="margin: 0 0 16px 0;">
-        {{ intro|raw }}
-    </p>
-    {# context text #}
-    <p style="margin: 0 0 16px 0;">
-        {{ context|raw }}
-    </p>
+    {% for section in sections %}
+        <p style="margin: 0 0 16px 0;">
+            {{ section|raw }}
+        </p>
+    {% endfor %}
     {# only display the cta if cta and link are set #}
     {% if link is defined and cta is defined and cta is not empty %}
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 32px 0;">

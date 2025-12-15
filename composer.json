@@ -35,7 +35,8 @@
         "symfony/http-foundation": "5.4.*",
         "symfony/twig-bridge": "5.4.*",
         "symfony/security-http": "5.4.*",
-        "symfony/security-core": "5.4.*"
+        "symfony/security-core": "5.4.*",
+        "ext-intl": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",

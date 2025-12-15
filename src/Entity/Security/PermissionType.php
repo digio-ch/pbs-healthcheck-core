@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PermissionType
 {
-
     public const EDITOR = 'editor';
     public const OWNER = 'owner';
     public const VIEWER = 'viewer';
