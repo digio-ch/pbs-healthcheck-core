@@ -91,10 +91,10 @@ email:
         intro: 'Deine Einladung in die Abteilung/Region/KV <strong>{group}</strong> als <strong>{role}</strong> läuft am <strong>{expirationDate}</strong> ab.'
         context:
           without_owner: 'Bitte wende dich sich an einen Besitzer der Abteilung/Region/KV, falls du die Einladung verlängern lassen möchten.'
-          with_owner: 'Bitte wenden Sie sich an <strong>{ownerNickname} ({ownerEmail})</strong> oder einen anderen Besitzer der Gruppe, falls Sie die Einladung verlängern lassen möchten.' # TODO missing
+          with_owner: 'Bitte wenden Sie sich an <strong>{ownerNickname} ({ownerEmail})</strong> oder einen anderen Besitzer der Gruppe, falls Sie die Einladung verlängern lassen möchten.'
       creator:
         subject: 'HealthCheck - Eine Einladung läuft ab'
         title: 'Einladung läuft ab'
-        intro: 'Die Einladung an <strong>{invitee}</strong> in die Gruppe <strong>{group}</strong> als <strong>{role}</strong> läuft am <strong>{expirationDate}</strong> ab.'# TODO missing
-        context: 'Möchten Sie die Einladung um ein weiteres Jahr verlängern, können sie das auf HealthCheck im <strong>Berechtigungen</strong> Menu tun. Der Button führt Sie zunächst zum Login.'# TODO missing
-        cta: 'Einladung verlängern' # TODO missing
+        intro: 'Die Einladung an <strong>{invitee}</strong> in die Gruppe <strong>{group}</strong> als <strong>{role}</strong> läuft am <strong>{expirationDate}</strong> ab.'
+        context: 'Möchten Sie die Einladung um ein weiteres Jahr verlängern, können sie das auf HealthCheck im <strong>Berechtigungen</strong> Menu tun. Der Button führt Sie zunächst zum Login.'
+        cta: 'Einladung verlängern'
