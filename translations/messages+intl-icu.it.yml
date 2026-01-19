@@ -36,6 +36,8 @@ gender:
   male: 'Maschile'
   unknown: 'Sconosciuto'
 
+# TODO permission are missing
+
 auth:
   unauthorized: 'Il tuo login è scaduto, sei stato disconnesso automaticamente.'
 
@@ -58,3 +60,37 @@ api:
     accessDenied: 'Autorizzazione insufficiente per eseguire questa azione'
 
   success: '{entityName} {action} con successo.'
+
+  email:
+    general:
+      regards: 'Cordiali saluti'
+      signature: 'Il team HealthCheck'
+    invitation:
+      greeting: 'Ciao {name}'
+      new:
+        subject: 'HealthCheck - ' # TODO missing
+        title: '' # TODO missing
+        intro: "Sei stato invitato da <strong>{owner}</strong> a unirti alla sezione/alla regione/all'AC <strong>{group}</strong> come <strong>{role}</strong> per un anno."
+        context: "Iscriviti con questo indirizzo e-mail su HealthCheck per vedere la sezione/la regione/l'AC. Il pulsante ti porterà prima alla pagina di accesso."
+        cta: 'Vedi HealthCheck'
+      renew:
+        subject: 'HealthCheck - ' # TODO missing
+        title: '' # TODO missing
+        intro: "<strong>{owner}</strong> ha prolungato il tuo invito alla sezione/alla regione/all'AC <strong>{group}</strong> come <strong>{role}</strong> per un altro anno."
+        nex_expiration_date: 'Nuova data di scadenza: <strong>{expirationDate}</strong>'
+        context: "Iscriviti con questo indirizzo e-mail su HealthCheck per vedere la sezione/la regione/l'AC. Il pulsante ti reindirizza prima alla pagina di accesso."
+        cta: 'Vedi HealthCheck'
+      pre_expiry:
+        invitee:
+          subject: 'HealthCheck - ' # TODO missing
+          title: '' # TODO missing
+          intro: "Il tuo invito alla sezione/alla regione/all'AC <strong>{group}</strong> come <strong>{role}</strong> scade il <strong>{expirationDate}</strong>."
+          context:
+            without_owner: "Se vuoi prolungare l'invito, contatta un proprietario della sezione/regione/AC."
+            with_owner: '<strong>{ownerNickname} ({ownerEmail})</strong>' # TODO missing
+        creator:
+          subject: 'HealthCheck - ' # TODO missing
+          title: ''
+          intro: '<strong>{invitee}</strong> <strong>{group}</strong> <strong>{role}</strong> <strong>{expirationDate}</strong>' # TODO missing
+          context: '<strong>Berechtigungen</strong>' # TODO missing
+          cta: '' # TODO missing
