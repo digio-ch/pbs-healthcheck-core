@@ -168,7 +168,6 @@ class ComputePermissionsCommand extends StatisticsCommand
             'Group::Abteilung::StufenleitungPta',
             'Group::Abteilung::Coach',
 
-            // TODO assumption that the group is correct -> How can I check?
             'Group::Biber::Einheitsleitung',
             'Group::Biber::Mitleitung',
 
@@ -203,7 +202,7 @@ class ComputePermissionsCommand extends StatisticsCommand
             'Group::Kantonalverband::VerantwortungPfadiTrotzAllem',
             'Group::Kantonalverband::VerantwortungAbteilungen',
             'Group::Kantonalverband::VerantwortungAnimationSpirituelle',
-            // TODO I have not found the direct match to Verantwortliche*r Diversität und Inklusion
+            'Group::Kantonalverband::VerantwortungIntegration',
             'Group::Kantonalverband::VerantwortungInternationales',
             'Group::Kantonalverband::VerantwortungSuchtpraeventionsprogramm',
             'Group::Kantonalverband::VerantwortungKrisenteam',
@@ -219,7 +218,7 @@ class ComputePermissionsCommand extends StatisticsCommand
             'Group::Region::VerantwortungPfadiTrotzAllem',
             'Group::Region::VerantwortungAbteilungen',
             'Group::Region::VerantwortungAnimationSpirituelle',
-            // TODO I have not found the direct match to Verantwortliche*r Diversität und Inklusion
+            'Group::Region::VerantwortungIntegration',
             'Group::Region::VerantwortungInternationales',
             'Group::Region::VerantwortungSuchtpraeventionsprogramm',
             'Group::Region::VerantwortungKrisenteam',
