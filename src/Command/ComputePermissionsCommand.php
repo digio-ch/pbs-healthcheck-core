@@ -45,19 +45,19 @@ class ComputePermissionsCommand extends StatisticsCommand
         $this->permissionRepository->endAllOpenPermissions();
 
         $viewers = $this->getViewers();
-        $this->assignPermissionToRoles($viewers, PermissionVoter::ORDER_VIEWER, $output);
+        $this->assignPermissionToRoles($viewers, PermissionVoter::ORDER_VIEWER);
         $output->writeln('finished computing all viewer permissions.');
 
         $editors = $this->getEditors();
-        $this->assignPermissionToRoles($editors, PermissionVoter::ORDER_EDITOR, $output);
+        $this->assignPermissionToRoles($editors, PermissionVoter::ORDER_EDITOR);
         $output->writeln('finished computing all editor permissions.');
 
         $editorsPlus = $this->getEditorsPlus();
-        $this->assignPermissionToRoles($editorsPlus, PermissionVoter::ORDER_EDITOR_PLUS, $output);
+        $this->assignPermissionToRoles($editorsPlus, PermissionVoter::ORDER_EDITOR_PLUS);
         $output->writeln('finished computing all editor plus permissions.');
 
         $owners = $this->getOwners();
-        $this->assignPermissionToRoles($owners, PermissionVoter::ORDER_OWNER, $output);
+        $this->assignPermissionToRoles($owners, PermissionVoter::ORDER_OWNER);
         $output->writeln('finished computing all owner permissions.');
 
         $output->writeln('finished computing all default permissions.');
@@ -66,10 +66,9 @@ class ComputePermissionsCommand extends StatisticsCommand
     }
 
     // TODO: use PermissionType key instead of id because it is not guaranteed
-    private function assignPermissionToRoles(array $roles, int $permissionType, OutputInterface $output)
+    private function assignPermissionToRoles(array $roles, int $permissionType)
     {
         foreach ($roles as $key => $role) {
-            $output->writeln($key . ' of ' . count($roles));
             $personId = $role['person_id'];
             $groupId = $role['group_id'];
 
