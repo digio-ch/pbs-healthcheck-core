@@ -36,8 +36,6 @@ gender:
   male: 'Maschile'
   unknown: 'Sconosciuto'
 
-# TODO permission are missing
-
 auth:
   unauthorized: 'Il tuo login è scaduto, sei stato disconnesso automaticamente.'
 
@@ -68,29 +66,29 @@ api:
     invitation:
       greeting: 'Ciao {name}'
       new:
-        subject: 'HealthCheck - ' # TODO missing
-        title: '' # TODO missing
+        subject: 'HealthCheck - Sei stato invitato'
+        title: 'Invito'
         intro: "Sei stato invitato da <strong>{owner}</strong> a unirti alla sezione/alla regione/all'AC <strong>{group}</strong> come <strong>{role}</strong> per un anno."
         context: "Iscriviti con questo indirizzo e-mail su HealthCheck per vedere la sezione/la regione/l'AC. Il pulsante ti porterà prima alla pagina di accesso."
         cta: 'Vedi HealthCheck'
       renew:
-        subject: 'HealthCheck - ' # TODO missing
-        title: '' # TODO missing
+        subject: 'HealthCheck - Il tuo invito è stato prorogato'
+        title: 'Invito prorogato'
         intro: "<strong>{owner}</strong> ha prolungato il tuo invito alla sezione/alla regione/all'AC <strong>{group}</strong> come <strong>{role}</strong> per un altro anno."
         nex_expiration_date: 'Nuova data di scadenza: <strong>{expirationDate}</strong>'
         context: "Iscriviti con questo indirizzo e-mail su HealthCheck per vedere la sezione/la regione/l'AC. Il pulsante ti reindirizza prima alla pagina di accesso."
         cta: 'Vedi HealthCheck'
       pre_expiry:
         invitee:
-          subject: 'HealthCheck - ' # TODO missing
-          title: '' # TODO missing
+          subject: 'HealthCheck - Il tuo invito scadrà presto'
+          title: "Scadenza dell'invito"
           intro: "Il tuo invito alla sezione/alla regione/all'AC <strong>{group}</strong> come <strong>{role}</strong> scade il <strong>{expirationDate}</strong>."
           context:
             without_owner: "Se vuoi prolungare l'invito, contatta un proprietario della sezione/regione/AC."
-            with_owner: '<strong>{ownerNickname} ({ownerEmail})</strong>' # TODO missing
+            with_owner: "Se vuoi prolungare l'invito, contatta <strong>{ownerNickname} ({ownerEmail})</strong> o un altro/un'altra proprietario/a della sezione/regione/AC."
         creator:
-          subject: 'HealthCheck - ' # TODO missing
-          title: ''
-          intro: '<strong>{invitee}</strong> <strong>{group}</strong> <strong>{role}</strong> <strong>{expirationDate}</strong>' # TODO missing
-          context: '<strong>Berechtigungen</strong>' # TODO missing
-          cta: '' # TODO missing
+          subject: 'HealthCheck - Un invito scadrà presto'
+          title: "Scadenza dell'invito"
+          intro: "L'invito di <strong>{invitee}</strong> nel gruppo/regione/AC <strong>{group}</strong> come <strong>{role}</strong> scadrà il <strong>{expirationDate}</strong>."
+          context: "Se desideri prolungare l'invito di un anno, puoi farlo nel menu <strong>Dare l'accesso</strong> di HealthCheck. Il pulsante sottostante ti reindirizza al login."
+          cta: "Prolungare l'invito"
