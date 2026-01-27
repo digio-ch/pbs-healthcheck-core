@@ -107,7 +107,7 @@ class ComputePermissionsCommand extends StatisticsCommand
     private function getViewers(): array
     {
         return $this->personRoleRepository->findAllPersonInGroupByRole([
-            'Group::Bund', // TODO still required? is not present in the list
+            'Group::Bund',
             'Group::Kantonalverband',
             'Group::Region',
             'Group::Abteilung',
@@ -119,7 +119,7 @@ class ComputePermissionsCommand extends StatisticsCommand
             'Group::AbteilungsRover',
             'Group::Pta',
         ], [
-            'Group::Bund::Coach', // TODO still required? is not present in the list
+            'Group::Bund::Coach',
 
             'Group::Kantonalverband::Sekretariat',
             'Group::Kantonalverband::Adressverwaltung',
@@ -249,6 +249,7 @@ class ComputePermissionsCommand extends StatisticsCommand
     private function getOwners(): array
     {
         return $this->personRoleRepository->findAllPersonInGroupByRole([
+            'Group::Bund',
             'Group::Kantonalverband',
             'Group::Region',
             'Group::Abteilung',
