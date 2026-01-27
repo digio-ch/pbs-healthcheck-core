@@ -36,6 +36,12 @@ gender:
   male: 'Maschile'
   unknown: 'Sconosciuto'
 
+permissions:
+  owner: "Proprietario"
+  editor-plus: "Edizione più"
+  editor: "Edizione"
+  viewer: "Lettura"
+
 auth:
   unauthorized: 'Il tuo login è scaduto, sei stato disconnesso automaticamente.'
 

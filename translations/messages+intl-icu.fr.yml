@@ -36,6 +36,12 @@ gender:
   male: "Masculin"
   unknown: "Inconnu"
 
+permissions:
+  owner: "Propriétaire"
+  editor-plus: "Edition plus"
+  editor: "Edition"
+  viewer: "Lecture"
+
 auth:
   unauthorized: "Ta session a expiré, tu as été déconnecté.e automatiquement"
 
