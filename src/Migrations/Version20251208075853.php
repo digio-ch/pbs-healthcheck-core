@@ -19,7 +19,7 @@ final class Version20251208075853 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql("INSERT INTO hc_security_permission_type (id, key, name_de, name_fr, name_it) VALUES (4, 'editor-plus', 'Bearbeiter Plus', 'Éditeur Plus', 'Editore Plus')");
+        $this->addSql("INSERT INTO hc_security_permission_type (id, key, name_de, name_fr, name_it) VALUES (4, 'editor-plus', 'Bearbeiter Plus', 'Edition plus', 'Edizione più')");
 
     }
 
