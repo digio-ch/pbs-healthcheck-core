@@ -28,6 +28,16 @@ class PermissionRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
+    public function persist(Permission $permission)
+    {
+        $this->_em->persist($permission);
+    }
+
+    public function flush()
+    {
+        $this->_em->flush();
+    }
+
     public function remove(Permission $invite)
     {
         $this->_em->remove($invite);
