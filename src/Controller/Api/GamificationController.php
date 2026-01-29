@@ -91,8 +91,7 @@ class GamificationController extends AbstractController
     public function checkLevel(
         Request $request,
         PersonGamificationService $personGamificationService
-    )
-    {
+    ) {
         $dto = $personGamificationService->getCheckLevelDTO($this->getUser(), $request->getLocale());
         return $this->json($dto);
     }
