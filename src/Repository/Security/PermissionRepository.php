@@ -28,11 +28,13 @@ class PermissionRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    public function persist(Permission $permission) {
+    public function persist(Permission $permission)
+    {
         $this->_em->persist($permission);
     }
 
-    public function flush() {
+    public function flush()
+    {
         $this->_em->flush();
     }
 

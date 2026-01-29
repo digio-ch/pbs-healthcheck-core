@@ -8,6 +8,7 @@ use App\Repository\Security\PermissionRepository;
 use App\Service\Security\PermissionVoter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+
 use function Sentry\continueTrace;
 
 class ComputePermissionsCommand extends StatisticsCommand
@@ -23,8 +24,7 @@ class ComputePermissionsCommand extends StatisticsCommand
     public function __construct(
         PersonRoleRepository $personRoleRepository,
         PermissionRepository $permissionRepository
-    )
-    {
+    ) {
         parent::__construct();
 
         $this->personRoleRepository = $personRoleRepository;
