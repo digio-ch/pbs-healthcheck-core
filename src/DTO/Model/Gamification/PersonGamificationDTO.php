@@ -7,7 +7,6 @@ class PersonGamificationDTO
     private string $name;
     private string $title;
     private string $levelKey;
-    private bool $levelUp;
     /** @var LevelDTO[] $levels */
     private array $levels;
     private bool $betaRequested;
@@ -74,22 +73,6 @@ class PersonGamificationDTO
     public function setLevelKey(string $levelKey): void
     {
         $this->levelKey = $levelKey;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLevelUp(): bool
-    {
-        return $this->levelUp;
-    }
-
-    /**
-     * @param bool $levelUp
-     */
-    public function setLevelUp(bool $levelUp): void
-    {
-        $this->levelUp = $levelUp;
     }
 
     /**

@@ -88,6 +88,15 @@ class GamificationController extends AbstractController
         return $this->json($dto);
     }
 
+    public function checkLevel(
+        Request $request,
+        PersonGamificationService $personGamificationService
+    )
+    {
+        $dto = $personGamificationService->getCheckLevelDTO($this->getUser(), $request->getLocale());
+        return $this->json($dto);
+    }
+
     public function resetGamification(Request $request, PersonGamificationService $personGamificationService): Response
     {
         if (!$this->resetEndpointEnabled) {
