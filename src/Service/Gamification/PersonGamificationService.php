@@ -5,6 +5,7 @@ namespace App\Service\Gamification;
 use App\DTO\Mapper\GamificationGoalMapper;
 use App\DTO\Mapper\GamificationLevelMapper;
 use App\DTO\Mapper\GamificationPersonProfileMapper;
+use App\DTO\Model\Gamification\CheckLevelDTO;
 use App\DTO\Model\Gamification\PersonGamificationDTO;
 use App\DTO\Model\PbsUserDTO;
 use App\Entity\Aggregated\AggregatedQuap;
@@ -23,6 +24,8 @@ use App\Repository\Midata\PersonRepository;
 use App\Repository\Quap\QuestionnaireRepository;
 use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 
 class PersonGamificationService
 {
@@ -224,13 +227,6 @@ class PersonGamificationService
 
         $personGamificationDTO = GamificationPersonProfileMapper::createFromEntity($personGamification, $locale);
 
-        $levelUp = $this->levelUpLogRepository->findOneBy(['person' => $person, 'displayed' => false]);
-        if (!is_null($levelUp)) {
-            $levelUp->setDisplayed(true);
-            $this->levelUpLogRepository->add($levelUp);
-            $personGamificationDTO->setLevelUp(true);
-        }
-
         if (count($levels) === 0) {
             throw new \Exception('no levels found?!');
         }
@@ -296,6 +292,34 @@ class PersonGamificationService
 
         $personGamificationDTO->setLevels($levelDtos);
         return $personGamificationDTO;
+    }
+
+    public function getCheckLevelDTO(PbsUserDTO $pbsUserDTO, string $locale): CheckLevelDTO
+    {
+        /** @var Person $person */
+        $person = $this->personRepository->find($pbsUserDTO->getId());
+
+        $pgp = $this->getPersonGamification($person);
+
+        $dto = new CheckLevelDTO();
+        $dto->setLevelUp(false);
+
+        if ($locale === 'de') {
+            $dto->setTitle($pgp->getLevel()->getDeTitle());
+        } elseif ($locale === 'it') {
+            $dto->setTitle($pgp->getLevel()->getItTitle());
+        } else {
+            $dto->setTitle($pgp->getLevel()->getFrTitle());
+        }
+
+        $levelUp = $this->levelUpLogRepository->findOneBy(['person' => $person, 'displayed' => false]);
+        if (!is_null($levelUp)) {
+            $levelUp->setDisplayed(true);
+            $this->levelUpLogRepository->flush();
+            $dto->setLevelUp(true);
+        }
+
+        return $dto;
     }
 
     /**

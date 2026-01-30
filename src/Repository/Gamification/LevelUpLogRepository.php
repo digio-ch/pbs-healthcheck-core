@@ -47,6 +47,11 @@ class LevelUpLogRepository extends ServiceEntityRepository
         }
     }
 
+    public function flush()
+    {
+        $this->_em->flush();
+    }
+
     public function retrieveLastMonth()
     {
         $cutoffDate = (new \DateTimeImmutable('first day of last month'))->setTime(0, 0);
