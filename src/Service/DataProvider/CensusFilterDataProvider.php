@@ -4,42 +4,89 @@ namespace App\Service\DataProvider;
 
 use App\DTO\Model\Apps\Census\CensusFilterDTO;
 use App\DTO\Model\FilterRequestData\CensusRequestData;
-use App\Entity\General\GroupSettings;
+use App\Entity\General\PersonSettings;
 use App\Entity\Midata\Group;
-use App\Repository\General\GroupSettingsRepository;
+use App\Entity\Midata\Person;
+use App\Repository\General\PersonSettingsRepository;
+use App\Repository\Midata\PersonRepository;
+use Doctrine\ORM\NonUniqueResultException;
 
 class CensusFilterDataProvider
 {
-    private GroupSettingsRepository $groupSettingsRepository;
-    public function __construct(GroupSettingsRepository $groupSettingsRepository)
-    {
-        $this->groupSettingsRepository = $groupSettingsRepository;
+    private PersonSettingsRepository $personSettingsRepository;
+    private PersonRepository $personRepository;
+
+    public function __construct(
+        PersonSettingsRepository $personSettingsRepository,
+        PersonRepository $personRepository
+    ) {
+        $this->personSettingsRepository = $personSettingsRepository;
+        $this->personRepository = $personRepository;
     }
 
-    public function getFilterData(Group $group)
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function getFilterData(Group $group, int $persinId): CensusFilterDTO
     {
-        $groupSettings = $this->groupSettingsRepository->find($group->getId());
-        return $this->mapGroupSettingsToCensusFilter($groupSettings);
+        $filter = $this->personSettingsRepository->findByGroupIDAndPersonID($group->getId(), $persinId);
+
+        return $this->mapGroupSettingsToCensusFilter($filter);
     }
 
-    private function mapGroupSettingsToCensusFilter(GroupSettings $groupSettings): CensusFilterDTO
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function setFilterData(Group $group, int $personId, CensusRequestData $censusRequestData): CensusFilterDTO
+    {
+        $person = $this->provideDBPerson($personId);
+        $filter = $this->buildFilterFromRequest($group, $person, $censusRequestData);
+
+        if ($censusRequestData->isEmpty()) {
+            $this->personSettingsRepository->removeByGroupIDAndPersonID($group->getId(), $personId);
+        } else {
+            $filter = $this->personSettingsRepository->upsert($filter);
+        }
+
+        return $this->mapGroupSettingsToCensusFilter($filter);
+    }
+
+    private function mapGroupSettingsToCensusFilter(?PersonSettings $filter): CensusFilterDTO
     {
         $filterData = new CensusFilterDTO();
-        $filterData->setFilterFemales(is_null($groupSettings->getCensusFilterFemales()) ? true : $groupSettings->getCensusFilterFemales());
-        $filterData->setFilterMales(is_null($groupSettings->getCensusFilterMales()) ? true : $groupSettings->getCensusFilterMales());
-        $filterData->setRoles($groupSettings->getCensusRoles() ?? []);
-        $filterData->setGroups($groupSettings->getCensusGroups() ?? []);
+        if (is_null($filter)) {
+            $filterData->setRoles([]);
+            $filterData->setGroups([]);
+            $filterData->setFilterFemales(true);
+            $filterData->setFilterMales(true);
+        } else {
+            $filterData->setRoles($filter->getCensusFilterRoles() ?? []);
+            $filterData->setGroups($filter->getCensusFilterGroups() ?? []);
+            $filterData->setFilterFemales(is_null($filter->getCensusFilterFemales()) ? true : $filter->getCensusFilterFemales());
+            $filterData->setFilterMales(is_null($filter->getCensusFilterMales()) ? true : $filter->getCensusFilterMales());
+        }
+
         return $filterData;
     }
 
-    public function setFilterData(Group $group, CensusRequestData $censusRequestData): CensusFilterDTO
+    private function buildFilterFromRequest(Group $group, Person $person, CensusRequestData $censusRequestData): PersonSettings
     {
-        $groupSettings = $this->groupSettingsRepository->find($group->getId());
-        $groupSettings->setCensusGroups($censusRequestData->getGroups());
-        $groupSettings->setCensusRoles($censusRequestData->getRoles());
-        $groupSettings->setCensusFilterFemales($censusRequestData->isFilterFemales());
-        $groupSettings->setCensusFilterMales($censusRequestData->isFilterMales());
-        $this->groupSettingsRepository->flush();
-        return $this->mapGroupSettingsToCensusFilter($groupSettings);
+        $filter = new PersonSettings();
+        $filter->setPerson($person);
+        $filter->setGroup($group);
+        $filter->setCensusFilterRoles($censusRequestData->getRoles());
+        $filter->setCensusFilterGroups($censusRequestData->getGroups());
+        $filter->setCensusFilterMales($censusRequestData->getFilterMales());
+        $filter->setCensusFilterFemales($censusRequestData->getFilterFemales());
+
+        return $filter;
+    }
+
+    private function provideDBPerson(int $id): ?Person
+    {
+        /** @var Person $person */
+        $person = $this->personRepository->findOneBy(['id' => $id]);
+
+        return $person;
     }
 }
