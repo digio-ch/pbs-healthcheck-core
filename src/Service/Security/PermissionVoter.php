@@ -14,9 +14,9 @@ class PermissionVoter extends Voter
 {
     // TODO: make private as soon as the compute permissions command isn't using these anymore
     public const ORDER_OWNER = 1;
-    public const ORDER_EDITOR_PLUS = 2;
-    public const ORDER_EDITOR = 3;
-    public const ORDER_VIEWER = 4;
+    public const ORDER_EDITOR = 2;
+    public const ORDER_VIEWER = 3;
+    public const ORDER_EDITOR_PLUS = 4;
 
     private const PERMISSION_TYPE_KEY_TO_PERMISSION_ORDER = [
         PermissionType::OWNER => PermissionVoter::ORDER_OWNER,
