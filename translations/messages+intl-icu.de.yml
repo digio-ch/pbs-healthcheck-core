@@ -90,7 +90,7 @@ email:
         title: 'Einladung läuft ab'
         intro: 'Deine Einladung in die Abteilung/Region/KV <strong>{group}</strong> als <strong>{role}</strong> läuft am <strong>{expirationDate}</strong> ab.'
         context:
-          without_owner: 'Bitte wende dich sich an einen Besitzer der Abteilung/Region/KV, falls du die Einladung verlängern lassen möchten.'
+          without_owner: 'Bitte wende dich an einen Besitzer der Abteilung/Region/KV, falls du die Einladung verlängern lassen möchtest.'
           with_owner: 'Bitte wende dich an <strong>{ownerNickname} ({ownerEmail})</strong> oder einen anderen Besitzer der Abteilung/Region/KV, falls du die Einladung verlängern lassen möchtest.'
       creator:
         subject: 'HealthCheck - Eine Einladung läuft ab'
