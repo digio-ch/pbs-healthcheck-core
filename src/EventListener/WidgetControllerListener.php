@@ -259,8 +259,8 @@ class WidgetControllerListener
         $data->setGroup($group);
         $data->setGroups($groups);
         $data->setRoles($roles);
-        $data->setFilterMales($m === 'true');
-        $data->setFilterFemales($f === 'true');
+        $data->setFilterMales(is_null($m) ? null : $m === 'true');
+        $data->setFilterFemales(is_null($f) ? null : $f === 'true');
 
         return $data;
     }

@@ -5,11 +5,11 @@ namespace App\Controller\Api;
 use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
 use App\Entity\Security\Permission;
+use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Repository\Midata\GroupRepository;
 use App\Service\Gamification\LoginService;
 use App\Service\Gamification\PersonGamificationService;
-use App\Service\Security\PermissionVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -51,7 +51,7 @@ class GamificationController extends AbstractController
         if (is_null($group)) {
             throw new ApiException(400, "Invalid Group");
         }
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $loginService->logByPersonAndGroup($this->getUser(), $group);
         return new Response('', 201);
     }
@@ -85,6 +85,14 @@ class GamificationController extends AbstractController
         PersonGamificationService $personGamificationService
     ) {
         $dto = $personGamificationService->getPersonGamificationDTO($this->getUser(), $request->getLocale());
+        return $this->json($dto);
+    }
+
+    public function checkLevel(
+        Request $request,
+        PersonGamificationService $personGamificationService
+    ) {
+        $dto = $personGamificationService->getCheckLevelDTO($this->getUser(), $request->getLocale());
         return $this->json($dto);
     }
 

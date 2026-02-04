@@ -23,6 +23,11 @@ getPersonProfile:
   methods: GET
   controller: App\Controller\Api\GamificationController::getUserProfile
 
+checkLevel:
+  path: /check-level
+  methods: GET
+  controller: App\Controller\Api\GamificationController::checkLevel
+
 reset:
   path: /reset
   methods: POST

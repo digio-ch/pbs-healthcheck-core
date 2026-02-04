@@ -21,10 +21,11 @@ RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /
     sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list && \
     sed -i '/^deb.*buster-updates/d' /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get install -y libzip-dev libpq-dev zip unzip
+RUN apt-get install -y libzip-dev libpq-dev zip unzip zlib1g-dev libicu-dev g++
 
-# add zip to php
-RUN docker-php-ext-install zip
+# add zip and intl to php
+RUN docker-php-ext-configure intl
+RUN docker-php-ext-install zip intl
 
 # add postgresql
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql

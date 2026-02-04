@@ -36,6 +36,12 @@ gender:
   male: 'Männlich'
   unknown: 'Unbekannt'
 
+permissions:
+  owner: "Besitzer"
+  editor-plus: "Bearbeiter Plus"
+  editor: "Bearbeiter"
+  viewer: "Zuschauer"
+
 auth:
   unauthorized: 'Dein Login ist abgelaufen, du wurdest automatisch ausgeloggt.'
 
@@ -58,3 +64,37 @@ api:
     accessDenied: 'Unzureichende Berechtigung diese aktion auszuführen'
 
   success: '{entityName} erfolgreich {action}.'
+
+email:
+  general:
+    regards: 'Freundliche Grüsse'
+    signature: 'Das HealthCheck Team'
+  invitation:
+    greeting: 'Hallo {name}'
+    new:
+      subject: 'HealthCheck - Du wurdest eingeladen'
+      title: 'Einladung'
+      intro: 'Du wurdest von <strong>{owner}</strong> für ein Jahr in die Abteilung/Region/KV <strong>{group}</strong> als <strong>{role}</strong> eingeladen.'
+      context: 'Bitte melde dich mit dieser Email-Adresse bei HealthCheck an um die Abteilung/Region/KV einzusehen. Der Button führt dich zunächst zum Login.'
+      cta: 'HealthCheck ansehen'
+    renew:
+      subject: 'HealthCheck - Deine Einladung wurde verlängert'
+      title: 'Einladung verlängert'
+      intro: '<strong>{owner}</strong> hat deine Einladung in die Abteilung/Region/KV <strong>{group}</strong> als <strong>{role}</strong> für ein weiteres Jahr verlängert.'
+      nex_expiration_date: 'Neues Ablaufdatum: <strong>{expirationDate}</strong>'
+      context: 'Bitte melde dich mit dieser Email-Adresse bei HealthCheck an um die Abteilung/Region/KV einzusehen. Der Button führt dich zunächst zum Login.'
+      cta: 'HealthCheck ansehen'
+    pre_expiry:
+      invitee:
+        subject: 'HealthCheck - Deine Einladung läuft ab'
+        title: 'Einladung läuft ab'
+        intro: 'Deine Einladung in die Abteilung/Region/KV <strong>{group}</strong> als <strong>{role}</strong> läuft am <strong>{expirationDate}</strong> ab.'
+        context:
+          without_owner: 'Bitte wende dich an einen Besitzer der Abteilung/Region/KV, falls du die Einladung verlängern lassen möchtest.'
+          with_owner: 'Bitte wende dich an <strong>{ownerNickname} ({ownerEmail})</strong> oder einen anderen Besitzer der Abteilung/Region/KV, falls du die Einladung verlängern lassen möchtest.'
+      creator:
+        subject: 'HealthCheck - Eine Einladung läuft ab'
+        title: 'Einladung läuft ab'
+        intro: 'Die Einladung an <strong>{invitee}</strong> in die Abteilung/Region/KV <strong>{group}</strong> als <strong>{role}</strong>  läuft am <strong>{expirationDate}</strong> ab.'
+        context: 'Möchtest du die Einladung um ein weiteres Jahr verlängern, kannst du das auf HealthCheck im <strong>Berechtigungen</strong> Menu tun. Der Button führt dich zunächst zum Login.'
+        cta: 'Einladung verlängern'

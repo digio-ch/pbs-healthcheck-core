@@ -12,9 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PermissionType
 {
-    public const OWNER = 1;
-    public const EDITOR = 2;
-    public const VIEWER = 3;
+    public const EDITOR = 'editor';
+    public const OWNER = 'owner';
+    public const VIEWER = 'viewer';
+    public const EDITOR_PLUS = 'editor-plus';
 
     /**
      * @ORM\Id()

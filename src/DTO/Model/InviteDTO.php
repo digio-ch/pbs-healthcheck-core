@@ -16,9 +16,6 @@ class InviteDTO
      */
     private string $email;
 
-    /** @var string $groupName */
-    private string $groupName;
-
     /** @var ?string $expirationDate */
     private ?string $expirationDate;
 
@@ -55,22 +52,6 @@ class InviteDTO
     public function setEmail(string $email): void
     {
         $this->email = $email;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGroupName(): string
-    {
-        return $this->groupName;
-    }
-
-    /**
-     * @param string $groupName
-     */
-    public function setGroupName(string $groupName): void
-    {
-        $this->groupName = $groupName;
     }
 
     /**

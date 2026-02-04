@@ -5,8 +5,8 @@ namespace App\Controller\Api\Apps\Widgets;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
+use App\Entity\Security\PermissionType;
 use App\Service\DataProvider\GeoLocationDateDataProvider;
-use App\Service\Security\PermissionVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -24,7 +24,7 @@ class GeoLocationController extends AbstractController
         DateRequestData $dateRequestData,
         WidgetRequestData $widgetRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
 
         $data = [];
 
@@ -52,7 +52,7 @@ class GeoLocationController extends AbstractController
         DateRequestData $dateRequestData,
         WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
 
         $data = [];
 

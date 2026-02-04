@@ -23,3 +23,4 @@ docker exec healthcheck-importer-dev pbs-healthcheck-importer -v aggregate
 docker exec --user=www-data healthcheck-core-dev /usr/local/bin/php /srv/bin/console app:quap:compute-answers
 
 docker exec --user=www-data healthcheck-core-dev /usr/local/bin/php /srv/bin/console app:compute-permissions
+docker exec --user=www-data healthcheck-core-dev /usr/local/bin/php /srv/bin/console app:notify-expiring-permissions

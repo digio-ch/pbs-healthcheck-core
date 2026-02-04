@@ -5,8 +5,8 @@ namespace App\Controller\Api\Apps\Widgets;
 use App\DTO\Model\FilterRequestData\DateRangeRequestData;
 use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
+use App\Entity\Security\PermissionType;
 use App\Service\DataProvider\MembersEnteredLeftDateRangeDataProvider;
-use App\Service\Security\PermissionVoter;
 use Doctrine\DBAL\DBALException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,7 +25,7 @@ class MembersEnteredLeftController extends AbstractController
         WidgetRequestData $widgetRequestData,
         MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
 
         $data = $membersEnteredLeftDateRangeDataProvider->getData(
             $widgetRequestData->getGroup(),
@@ -49,7 +49,7 @@ class MembersEnteredLeftController extends AbstractController
         WidgetOfDepartmentRequestData $widgetRequestData,
         MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
 
         $data = $membersEnteredLeftDateRangeDataProvider->getData(
             $widgetRequestData->getDepartment(),

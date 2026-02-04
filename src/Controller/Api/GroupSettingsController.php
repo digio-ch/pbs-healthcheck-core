@@ -4,8 +4,8 @@ namespace App\Controller\Api;
 
 use App\Entity\General\GroupSettings;
 use App\Entity\Midata\Group;
+use App\Entity\Security\PermissionType;
 use App\Repository\General\GroupSettingsRepository;
-use App\Service\Security\PermissionVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -26,7 +26,7 @@ class GroupSettingsController extends AbstractController
         Group $group,
         EntityManagerInterface $entityManager
     ) {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $groupSettings = $group->getGroupSettings();
         $groupSettings->setRoleOverviewFilter(json_decode($request->getContent()));
         $entityManager->persist($groupSettings);

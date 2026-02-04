@@ -5,8 +5,8 @@ namespace App\Controller\Api\Apps\Widgets;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
+use App\Entity\Security\PermissionType;
 use App\Service\DataProvider\MembersBirthyearDateDataProvider;
-use App\Service\Security\PermissionVoter;
 use Doctrine\DBAL\DBALException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,7 +25,7 @@ class MembersBirthyearController extends AbstractController
         WidgetRequestData $widgetRequestData,
         MembersBirthyearDateDataProvider $membersBirthyearDateDataProvider
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
 
         $data = $membersBirthyearDateDataProvider->getData(
             $widgetRequestData->getGroup(),
@@ -47,7 +47,7 @@ class MembersBirthyearController extends AbstractController
         WidgetOfDepartmentRequestData $widgetRequestData,
         MembersBirthyearDateDataProvider $membersBirthyearDateDataProvider
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
 
         $data = $membersBirthyearDateDataProvider->getData(
             $widgetRequestData->getDepartment(),
