@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Service\DigioLogger;
 
 use Gelf\Transport\SslOptions;

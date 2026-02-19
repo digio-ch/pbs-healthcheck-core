@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Service\DigioLogger\Messages;
 
 abstract class LogMessage

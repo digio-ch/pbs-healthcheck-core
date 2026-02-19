@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Service\DigioLogger\Messages;
 
 class CommandEndLogMessage extends LogMessage

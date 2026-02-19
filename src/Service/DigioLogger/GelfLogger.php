@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Service\DigioLogger;
 
 use App\Service\DigioLogger\Handlers\GelfLoggerHandler;
@@ -138,7 +137,7 @@ class GelfLogger
             $serialized = $value;
             if (is_array($value) || is_object($value)) {
                 $serialized = $this->serializer->serialize($value, 'json');
-            } else if (!is_string($value)) {
+            } elseif (!is_string($value)) {
                 $serialized = strval($value);
             }
 
@@ -150,9 +149,9 @@ class GelfLogger
         $msg->setAdditional('execution_id', $this->executionId);
         $msg->setAdditional('execution', $this->execution);
 
-       foreach ($this->handlers as $handler) {
-           $handler->log($msg);
-       }
+        foreach ($this->handlers as $handler) {
+            $handler->log($msg);
+        }
     }
 
     private function findLastStackElement(): array

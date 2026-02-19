@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Service\DigioLogger\Handlers;
 
 use App\Service\DigioLogger\ClientAuthSslOptions;
