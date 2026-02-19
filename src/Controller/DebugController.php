@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Service\Aggregator\DemographicCampAggregator;
 use App\Service\Aggregator\DemographicGroupAggregator;
-use Digio\Logging\GelfLogger;
-use Digio\Logging\Messages\ExceptionLogMessage;
+use App\Service\DigioLogger\GelfLogger;
+use App\Service\DigioLogger\Messages\ExceptionLogMessage;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

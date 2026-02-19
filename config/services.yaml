@@ -37,7 +37,7 @@ services:
 
 
     # Logger
-    Digio\Logging\GelfTransportOptions:
+    App\Service\DigioLogger\Handlers\TcpTransportHandler:
         arguments:
             $host: '%env(GRAYLOG_HOST)%' # host of the graylog server to connect to
             $port: '%env(GRAYLOG_PORT)%' # port of the input of the graylog server
@@ -45,9 +45,11 @@ services:
             $clientKey: '%env(GRAYLOG_CLIENT_KEY)%' # path of the private key of this client
             $ignoreError: true # whether errors in the logging library should be ignored or not
 
-    Digio\Logging\GelfLogger:
+    App\Service\DigioLogger\GelfLogger:
         arguments:
-            $options: '@Digio\Logging\GelfTransportOptions'
+            $handlers:
+              - '@App\Service\DigioLogger\Handlers\TcpTransportHandler'
+              - '@App\Service\DigioLogger\Handlers\ConsoleLoggerHandler'
             $source: '%env(APP_HOST)%' # the name of the application (to filter the streams on graylog e.g. dev-api.flow.swiss)
             $environment: '%kernel.environment%' # the kernel environment of the application
 
