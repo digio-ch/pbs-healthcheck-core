@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\DigioLogger\Handlers;
+namespace App\Service\Logger\Handlers;
 
 use Gelf\Message;
 

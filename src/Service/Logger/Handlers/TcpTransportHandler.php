@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\DigioLogger\Handlers;
+namespace App\Service\Logger\Handlers;
 
-use App\Service\DigioLogger\ClientAuthSslOptions;
+use App\Service\Logger\ClientAuthSslOptions;
 use Gelf\Message;
 use Gelf\Publisher;
 use Gelf\Transport\IgnoreErrorTransportWrapper;

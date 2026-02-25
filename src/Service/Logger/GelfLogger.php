@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\DigioLogger;
+namespace App\Service\Logger;
 
-use App\Service\DigioLogger\Handlers\GelfLoggerHandler;
-use App\Service\DigioLogger\Messages\ExceptionLogMessage;
-use App\Service\DigioLogger\Messages\LogMessage;
+use App\Service\Logger\Handlers\GelfLoggerHandler;
+use App\Service\Logger\Messages\ExceptionLogMessage;
+use App\Service\Logger\Messages\LogMessage;
 use Gelf\Message;
 use Random\RandomException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\DigioLogger\Messages;
+namespace App\Service\Logger\Messages;
 
-use App\Service\DigioLogger\SecretRedactor;
+use App\Service\Logger\SecretRedactor;
 
 class ThirdPartyResponseLogMessage extends HttpLogMessage
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\DigioLogger\Handlers;
+namespace App\Service\Logger\Handlers;
 
-use App\Service\DigioLogger\Handlers\GelfLoggerHandler;
+use App\Service\Logger\Handlers\GelfLoggerHandler;
 use Gelf\Message;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;

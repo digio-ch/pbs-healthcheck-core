@@ -2,7 +2,7 @@
 
 namespace App\Model\LogMessage;
 
-use App\Service\DigioLogger\Messages\LogMessage;
+use App\Service\Logger\Messages\LogMessage;
 
 class SimpleLogMessage extends LogMessage
 {

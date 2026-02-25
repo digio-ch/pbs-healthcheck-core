@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\DigioLogger;
+namespace App\Service\Logger;
 
 class SecretRedactor
 {
