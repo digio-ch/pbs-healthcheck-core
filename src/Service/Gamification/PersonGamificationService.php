@@ -331,7 +331,7 @@ class PersonGamificationService
     {
         $counters = [Questionnaire::TYPE_DEPARTMENT => 0, Questionnaire::TYPE_CANTON => 0];
 
-        $filledAspects = $this->gamificationQuapEventRepository->getUniquieIds($person);
+        $filledAspects = $this->gamificationQuapEventRepository->getUniqueIds($person);
 
         foreach ($filledAspects as $item) {
             $counters[$item['type']]++;
@@ -363,11 +363,11 @@ class PersonGamificationService
     private function isElFilledOut(Person $person): bool
     {
         $counters = [Questionnaire::TYPE_DEPARTMENT => 0, Questionnaire::TYPE_CANTON => 0];
-        $filledAspects = $this->gamificationQuapEventRepository->getUniquieIds($person);
-        $answerableAspects = $this->questionnaireRepository->getAnswerableAspects();
+        $filledAspects = $this->gamificationQuapEventRepository->getUniqueIds($person);
+        $answerableAspects = $this->questionnaireRepository->getExistingAnswerableAspects();
 
         foreach ($filledAspects as $item) {
-            $aspectId = $item['local_change_index'];
+            $aspectId = $item['aspect_local_id'];
             $questionnaireType = $item['type'];
 
             // only count the aspect as answered if it is answerable (no evaluation_function)
@@ -385,17 +385,17 @@ class PersonGamificationService
         return false;
     }
 
-    public function logEvent(array $changedIds, AggregatedQuap $aggregatedQuap, PbsUserDTO $pbsUserDTO)
+    public function logEvent(array $changedAspectLocalIds, AggregatedQuap $aggregatedQuap, PbsUserDTO $pbsUserDTO)
     {
         $person = $this->personRepository->find($pbsUserDTO->getId());
         if ($this->getPersonGamification($person)->getLevel()->getKey() >= 1) {
-            foreach ($changedIds as $id) {
+            foreach ($changedAspectLocalIds as $aspectLocalId) {
                 $eventLog = new GamificationQuapEvent();
                 $eventLog->setQuestionnaire($aggregatedQuap->getQuestionnaire());
                 $eventLog->setDate(new \DateTimeImmutable());
                 $eventLog->setGroup($aggregatedQuap->getGroup());
                 $eventLog->setPerson($this->personRepository->find($pbsUserDTO->getId()));
-                $eventLog->setLocalChangeIndex($id);
+                $eventLog->setAspectLocalId($aspectLocalId);
                 $this->gamificationQuapEventRepository->add($eventLog);
             }
         }

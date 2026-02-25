@@ -29,7 +29,7 @@ class AggregatedQuap extends AggregatedEntity
     private $questionnaire;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json_object")
      */
     private $answers;
 

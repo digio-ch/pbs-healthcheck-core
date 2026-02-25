@@ -48,16 +48,16 @@ class GamificationQuapEventRepository extends ServiceEntityRepository
         }
     }
 
-    public function getUniquieIds(Person $person)
+    public function getUniqueIds(Person $person)
     {
         return $this->createQueryBuilder('e')
             ->join('e.questionnaire', 'q')
-            ->select('e.local_change_index, q.type')
+            ->select('e.aspect_local_id, q.type')
             ->where('e.person = :person')
-            ->groupBy('e.local_change_index')
+            ->groupBy('e.aspect_local_id')
             ->addGroupBy('q.id')
             ->setParameter('person', $person)
-            ->orderBy('e.local_change_index', 'ASC')
+            ->orderBy('e.aspect_local_id', 'ASC')
             ->getQuery()
             ->getResult();
     }
