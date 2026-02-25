@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Apps;
 
+use App\DTO\Mapper\AnswersMapper;
 use App\DTO\Mapper\QuestionnaireMapper;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\OptionalDateRequestData;
@@ -147,16 +148,18 @@ class QuapController extends AbstractController
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR, $group);
 
-        $json = json_decode($request->getContent(), true);
-        if (is_null($json)) {
+        $answers = json_decode($request->getContent(), true);
+        if (is_null($answers)) {
             throw new ApiException(400, "Invalid JSON");
         }
 
         // has to be before answers are saved!
-        $quapGamificationService->processQuapEvent($json, $group, $this->getUser());
-        $savedWidgetQuap = $this->quapService->submitAnswers($group, $json);
+        $quapGamificationService->processQuapEvent($answers, $group, $this->getUser());
+        $savedWidgetQuap = $this->quapService->submitAnswers($group, $answers);
 
-        return $this->json($savedWidgetQuap->getAnswers());
+        // we want to reverse sort the aspects so that the JSON parser encodes them as object instead of array
+        $newAnswers = AnswersMapper::reverseSortAspects($savedWidgetQuap->getAnswers());
+        return $this->json($newAnswers);
     }
 
     /**
