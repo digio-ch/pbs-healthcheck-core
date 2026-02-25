@@ -3,8 +3,8 @@
 namespace App\EventListener;
 
 use App\Model\LogMessage\IpBlockMessage;
-use Digio\Logging\GelfLogger;
-use Digio\Logging\Messages\ExceptionLogMessage;
+use App\Service\Logger\GelfLogger;
+use App\Service\Logger\Messages\ExceptionLogMessage;
 use Exception;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
