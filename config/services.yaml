@@ -45,6 +45,10 @@ services:
             $clientKey: '%env(GRAYLOG_CLIENT_KEY)%' # path of the private key of this client
             $ignoreError: true # whether errors in the logging library should be ignored or not
 
+    App\Service\Logger\Handlers\ConsoleLoggerHandler:
+        arguments:
+            $level: '%env(CONSOLE_LOG_LEVEL)%'
+
     App\Service\Logger\GelfLogger:
         arguments:
             $handlers:
