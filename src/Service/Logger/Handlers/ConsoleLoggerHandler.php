@@ -2,39 +2,45 @@
 
 namespace App\Service\Logger\Handlers;
 
+use App\Service\Logger\ContextOnlyJsonFormatter;
 use App\Service\Logger\Handlers\GelfLoggerHandler;
 use Gelf\Message;
-use Psr\Log\LoggerInterface;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Psr\Log\LogLevel;
-use Symfony\Component\HttpKernel\Log\Logger;
 
 class ConsoleLoggerHandler implements GelfLoggerHandler
 {
-    private LoggerInterface $logger;
+    private Logger $logger;
 
     /**
      * @param string $level
      */
     public function __construct(string $level)
     {
-        $this->logger = new Logger($level);
+        $this->logger = new Logger('app');
+
+        $handler = new StreamHandler('php://stdout', Logger::toMonologLevel($level));
+        $handler->setFormatter(new ContextOnlyJsonFormatter());
+
+        $this->logger->pushHandler($handler);
     }
 
     public function log(Message $msg)
     {
-        $jsonMsg = json_encode($msg->toArray());
+        // the first parameter is for the message wich is ignored in the ContextOnlyJsonFormatter. Therefore, it can be left empty.
         switch ($msg->getLevel()) {
             case LogLevel::DEBUG:
-                $this->logger->debug($jsonMsg);
+                $this->logger->debug(null, $msg->toArray());
                 break;
             case LogLevel::INFO:
-                $this->logger->info($jsonMsg);
+                $this->logger->info(null, $msg->toArray());
                 break;
             case LogLevel::WARNING:
-                $this->logger->warning($jsonMsg);
+                $this->logger->warning(null, $msg->toArray());
                 break;
             case LogLevel::CRITICAL:
-                $this->logger->critical($jsonMsg);
+                $this->logger->critical(null, $msg->toArray());
                 break;
         }
     }
