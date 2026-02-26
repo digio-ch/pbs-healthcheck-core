@@ -28,7 +28,7 @@ class ConsoleLoggerHandler implements GelfLoggerHandler
 
     public function log(Message $msg)
     {
-        // the first parameter is for the message wich is ignored in the ContextOnlyJsonFormatter. Therefore, it can be left empty.
+        // the first parameter is for the message, which is ignored in the ContextOnlyJsonFormatter. Therefore, it can be left empty.
         switch ($msg->getLevel()) {
             case LogLevel::DEBUG:
                 $this->logger->debug(null, $msg->toArray());
