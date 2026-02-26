@@ -6,14 +6,18 @@ use App\Service\Logger\Handlers\GelfLoggerHandler;
 use Gelf\Message;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Symfony\Component\HttpKernel\Log\Logger;
 
 class ConsoleLoggerHandler implements GelfLoggerHandler
 {
     private LoggerInterface $logger;
 
-    public function __construct(LoggerInterface $logger)
+    /**
+     * @param string $level
+     */
+    public function __construct(string $level)
     {
-        $this->logger = $logger;
+        $this->logger = new Logger($level);
     }
 
     public function log(Message $msg)
