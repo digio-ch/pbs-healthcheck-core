@@ -17,6 +17,11 @@ class PermissionType
     public const VIEWER = 'viewer';
     public const EDITOR_PLUS = 'editor-plus';
 
+    public const OWNER_ID = 1;
+    public const EDITOR_ID = 2;
+    public const VIEWER_ID = 3;
+    public const EDITOR_PLUS_ID = 4;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

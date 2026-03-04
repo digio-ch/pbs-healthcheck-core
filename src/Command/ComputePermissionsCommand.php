@@ -2,10 +2,10 @@
 
 namespace App\Command;
 
+use App\Entity\Security\PermissionType;
 use App\Model\CommandStatistics;
 use App\Repository\Midata\PersonRoleRepository;
 use App\Repository\Security\PermissionRepository;
-use App\Service\Security\PermissionVoter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -47,19 +47,19 @@ class ComputePermissionsCommand extends StatisticsCommand
         $assigned = [];
 
         $owners = $this->getOwners();
-        $this->assignPermissionToRoles($owners, PermissionVoter::ORDER_OWNER, $assigned);
+        $this->assignPermissionToRoles($owners, PermissionType::OWNER_ID, $assigned);
         $output->writeln('finished computing all owner permissions.');
 
         $editorsPlus = $this->getEditorsPlus();
-        $this->assignPermissionToRoles($editorsPlus, PermissionVoter::ORDER_EDITOR_PLUS, $assigned);
+        $this->assignPermissionToRoles($editorsPlus, PermissionType::EDITOR_PLUS_ID, $assigned);
         $output->writeln('finished computing all editor plus permissions.');
 
         $editors = $this->getEditors();
-        $this->assignPermissionToRoles($editors, PermissionVoter::ORDER_EDITOR, $assigned);
+        $this->assignPermissionToRoles($editors, PermissionType::EDITOR_ID, $assigned);
         $output->writeln('finished computing all editor permissions.');
 
         $viewers = $this->getViewers();
-        $this->assignPermissionToRoles($viewers, PermissionVoter::ORDER_VIEWER, $assigned);
+        $this->assignPermissionToRoles($viewers, PermissionType::VIEWER_ID, $assigned);
         $output->writeln('finished computing all viewer permissions.');
 
         $output->writeln('finished computing all default permissions.');
