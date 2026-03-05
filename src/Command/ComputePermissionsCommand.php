@@ -86,7 +86,6 @@ class ComputePermissionsCommand extends StatisticsCommand
             if (!is_null($permission)) {
                 $permission->setExpirationDate(null);
                 $this->permissionRepository->persist($permission);
-
             } else {
                 $this->permissionRepository->insertPermission(
                     $groupId,
