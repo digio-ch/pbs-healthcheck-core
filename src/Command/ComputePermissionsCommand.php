@@ -2,10 +2,10 @@
 
 namespace App\Command;
 
+use App\Entity\Security\PermissionType;
 use App\Model\CommandStatistics;
 use App\Repository\Midata\PersonRoleRepository;
 use App\Repository\Security\PermissionRepository;
-use App\Service\Security\PermissionVoter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -44,21 +44,23 @@ class ComputePermissionsCommand extends StatisticsCommand
 
         $this->permissionRepository->endAllOpenPermissions();
 
-        $viewers = $this->getViewers();
-        $this->assignPermissionToRoles($viewers, PermissionVoter::ORDER_VIEWER);
-        $output->writeln('finished computing all viewer permissions.');
-
-        $editors = $this->getEditors();
-        $this->assignPermissionToRoles($editors, PermissionVoter::ORDER_EDITOR);
-        $output->writeln('finished computing all editor permissions.');
-
-        $editorsPlus = $this->getEditorsPlus();
-        $this->assignPermissionToRoles($editorsPlus, PermissionVoter::ORDER_EDITOR_PLUS);
-        $output->writeln('finished computing all editor plus permissions.');
+        $assigned = [];
 
         $owners = $this->getOwners();
-        $this->assignPermissionToRoles($owners, PermissionVoter::ORDER_OWNER);
+        $this->assignPermissionToRoles($owners, PermissionType::OWNER_ID, $assigned);
         $output->writeln('finished computing all owner permissions.');
+
+        $editorsPlus = $this->getEditorsPlus();
+        $this->assignPermissionToRoles($editorsPlus, PermissionType::EDITOR_PLUS_ID, $assigned);
+        $output->writeln('finished computing all editor plus permissions.');
+
+        $editors = $this->getEditors();
+        $this->assignPermissionToRoles($editors, PermissionType::EDITOR_ID, $assigned);
+        $output->writeln('finished computing all editor permissions.');
+
+        $viewers = $this->getViewers();
+        $this->assignPermissionToRoles($viewers, PermissionType::VIEWER_ID, $assigned);
+        $output->writeln('finished computing all viewer permissions.');
 
         $output->writeln('finished computing all default permissions.');
         $this->totalDuration = microtime(true) - $start;
@@ -66,11 +68,15 @@ class ComputePermissionsCommand extends StatisticsCommand
     }
 
     // TODO: use PermissionType key instead of id because it is not guaranteed
-    private function assignPermissionToRoles(array $roles, int $permissionType)
+    private function assignPermissionToRoles(array $roles, int $permissionType, array &$assigned)
     {
         foreach ($roles as $key => $role) {
             $personId = $role['person_id'];
             $groupId = $role['group_id'];
+
+            if (isset($assigned[$groupId][$personId])) {
+                continue;
+            }
 
             $permission = $this->permissionRepository->findByPersonGroupAndPermission(
                 $groupId,
@@ -80,20 +86,21 @@ class ComputePermissionsCommand extends StatisticsCommand
             if (!is_null($permission)) {
                 $permission->setExpirationDate(null);
                 $this->permissionRepository->persist($permission);
-
-                if ($key > 0 && $key % 500 == 0) {
-                    $this->permissionRepository->flush();
-                }
-                continue;
+            } else {
+                $this->permissionRepository->insertPermission(
+                    $groupId,
+                    $permissionType,
+                    null,
+                    $personId,
+                    null
+                );
             }
 
-            $this->permissionRepository->insertPermission(
-                $groupId,
-                $permissionType,
-                null,
-                $personId,
-                null
-            );
+            $assigned[$groupId][$personId] = true;
+
+            if ($key > 0 && $key % 500 == 0) {
+                $this->permissionRepository->flush();
+            }
         }
 
         $this->permissionRepository->flush();
