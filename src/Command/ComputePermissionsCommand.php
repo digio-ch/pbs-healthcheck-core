@@ -289,7 +289,8 @@ class ComputePermissionsCommand extends StatisticsCommand
         ]);
     }
 
-    private function isSubGroup(string $groupType): bool {
+    private function isSubGroup(string $groupType): bool
+    {
         if (in_array($groupType, self::SUB_DEPARTMENTS, true)) {
             return true;
         }
