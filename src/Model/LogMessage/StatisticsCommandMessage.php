@@ -3,7 +3,7 @@
 namespace App\Model\LogMessage;
 
 use App\Model\CommandStatistics;
-use Digio\Logging\Messages\LogMessage;
+use App\Service\Logger\Messages\LogMessage;
 
 class StatisticsCommandMessage extends LogMessage
 {
