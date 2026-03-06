@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Midata\GroupType;
 use App\Entity\Security\PermissionType;
 use App\Model\CommandStatistics;
 use App\Repository\Midata\PersonRoleRepository;
@@ -20,6 +21,15 @@ class ComputePermissionsCommand extends StatisticsCommand
     private PermissionRepository $permissionRepository;
 
     private float $totalDuration = 0;
+
+    private const SUB_DEPARTMENTS = [
+        GroupType::BIBER,
+        GroupType::WOELFE,
+        GroupType::PFADI,
+        GroupType::PIO,
+        GroupType::ABTEILUNGS_ROVER,
+        GroupType::PTA,
+    ];
 
     public function __construct(
         PersonRoleRepository $personRoleRepository,
@@ -73,13 +83,19 @@ class ComputePermissionsCommand extends StatisticsCommand
         foreach ($roles as $key => $role) {
             $personId = $role['person_id'];
             $groupId = $role['group_id'];
+            $groupType = $role['group_type'];
 
-            if (isset($assigned[$groupId][$personId])) {
+            $permissionGroupId = $groupId;
+            if ($this->isSubGroup($groupType)) {
+                $permissionGroupId = $role['parent_group_id'];
+            }
+
+            if (isset($assigned[$permissionGroupId][$personId])) {
                 continue;
             }
 
             $permission = $this->permissionRepository->findByPersonGroupAndPermission(
-                $groupId,
+                $permissionGroupId,
                 $personId,
                 $permissionType
             );
@@ -88,7 +104,7 @@ class ComputePermissionsCommand extends StatisticsCommand
                 $this->permissionRepository->persist($permission);
             } else {
                 $this->permissionRepository->insertPermission(
-                    $groupId,
+                    $permissionGroupId,
                     $permissionType,
                     null,
                     $personId,
@@ -96,7 +112,7 @@ class ComputePermissionsCommand extends StatisticsCommand
                 );
             }
 
-            $assigned[$groupId][$personId] = true;
+            $assigned[$permissionGroupId][$personId] = true;
 
             if ($key > 0 && $key % 500 == 0) {
                 $this->permissionRepository->flush();
@@ -114,17 +130,17 @@ class ComputePermissionsCommand extends StatisticsCommand
     private function getViewers(): array
     {
         return $this->personRoleRepository->findAllPersonInGroupByRole([
-            'Group::Bund',
-            'Group::Kantonalverband',
-            'Group::Region',
-            'Group::Abteilung',
+            GroupType::FEDERATION,
+            GroupType::CANTON,
+            GroupType::REGION,
+            GroupType::DEPARTMENT,
 
-            'Group::Biber',
-            'Group::Woelfe',
-            'Group::Pfadi',
-            'Group::Pio',
-            'Group::AbteilungsRover',
-            'Group::Pta',
+            GroupType::BIBER,
+            GroupType::WOELFE,
+            GroupType::PFADI,
+            GroupType::PIO,
+            GroupType::ABTEILUNGS_ROVER,
+            GroupType::PTA,
         ], [
             'Group::Bund::Coach',
 
@@ -198,8 +214,8 @@ class ComputePermissionsCommand extends StatisticsCommand
     private function getEditors(): array
     {
         return $this->personRoleRepository->findAllPersonInGroupByRole([
-            'Group::Kantonalverband',
-            'Group::Region',
+            GroupType::CANTON,
+            GroupType::REGION,
         ], [
             'Group::Kantonalverband::VerantwortungBiberstufe',
             'Group::Kantonalverband::VerantwortungWolfstufe',
@@ -236,8 +252,8 @@ class ComputePermissionsCommand extends StatisticsCommand
     private function getEditorsPlus(): array
     {
         return $this->personRoleRepository->findAllPersonInGroupByRole([
-            'Group::Kantonalverband',
-            'Group::Region',
+            GroupType::CANTON,
+            GroupType::REGION,
         ], [
             'Group::Kantonalverband::Praesidium',
             'Group::Kantonalverband::VizePraesidium',
@@ -256,10 +272,10 @@ class ComputePermissionsCommand extends StatisticsCommand
     private function getOwners(): array
     {
         return $this->personRoleRepository->findAllPersonInGroupByRole([
-            'Group::Bund',
-            'Group::Kantonalverband',
-            'Group::Region',
-            'Group::Abteilung',
+            GroupType::FEDERATION,
+            GroupType::CANTON,
+            GroupType::REGION,
+            GroupType::DEPARTMENT,
         ], [
             'Group::Kantonalverband::Kantonsleitung',
             'Group::Kantonalverband::PowerUser',
@@ -271,5 +287,13 @@ class ComputePermissionsCommand extends StatisticsCommand
             'Group::Abteilung::AbteilungsleitungStv',
             'Group::Abteilung::PowerUser',
         ]);
+    }
+
+    private function isSubGroup(string $groupType): bool
+    {
+        if (in_array($groupType, self::SUB_DEPARTMENTS, true)) {
+            return true;
+        }
+        return false;
     }
 }
