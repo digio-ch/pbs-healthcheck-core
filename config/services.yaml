@@ -47,7 +47,7 @@ services:
 
     App\Service\Logger\Handlers\ConsoleLoggerHandler:
         arguments:
-            $level: '%env(CONSOLE_LOG_LEVEL)%'
+            $level: '%env(LOG_LEVEL)%'
 
     App\Service\Logger\GelfLogger:
         arguments:
