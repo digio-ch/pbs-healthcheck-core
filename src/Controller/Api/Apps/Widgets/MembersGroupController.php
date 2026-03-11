@@ -3,8 +3,10 @@
 namespace App\Controller\Api\Apps\Widgets;
 
 use App\DTO\Model\FilterRequestData\DateAndDateRangeRequestData;
+use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Entity\Midata\Group;
+use App\Entity\Security\PermissionType;
 use App\Service\Apps\Widgets\MembersGroupPreviewService;
 use App\Service\DataProvider\MembersGenderDateDataProvider;
 use App\Service\DataProvider\MembersGroupDateDataProvider;
@@ -32,7 +34,7 @@ class MembersGroupController extends AbstractController
         MembersGroupDateDataProvider $membersGroupDateDataProvider,
         MembersGroupPreviewService $membersGroupPreviewService
     ): Response {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
 
         $data = [];
 
@@ -40,7 +42,7 @@ class MembersGroupController extends AbstractController
             $data = $membersGroupDateDataProvider->getData(
                 $group,
                 $date->format('Y-m-d'),
-                $membersGroupPreviewService->getGroupTypes($group),
+                $membersGroupPreviewService->getGroupTypes($group->getId()),
                 ['members', 'leaders']
             );
         }
@@ -62,7 +64,7 @@ class MembersGroupController extends AbstractController
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetRequestData $widgetRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $widgetRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
 
         $data = [];
 
@@ -78,6 +80,46 @@ class MembersGroupController extends AbstractController
         if ($dateAndDateRangeRequestData->getFrom() && $dateAndDateRangeRequestData->getTo()) {
             $data = $membersGroupDateRangeDataProvider->getData(
                 $widgetRequestData->getGroup(),
+                $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
+                $dateAndDateRangeRequestData->getTo()->format('Y-m-d'),
+                $widgetRequestData->getGroupTypes(),
+                $widgetRequestData->getPeopleTypes()
+            );
+        }
+
+        return $this->json($data);
+    }
+
+    /**
+     * @param MembersGroupDateRangeDataProvider $membersGroupDateRangeDataProvider
+     * @param MembersGroupDateDataProvider $membersGroupDateDataProvider
+     * @param DateAndDateRangeRequestData $dateAndDateRangeRequestData
+     * @param WidgetOfDepartmentRequestData $widgetRequestData
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function getGroupMembersDataOfDepartment(
+        MembersGroupDateRangeDataProvider $membersGroupDateRangeDataProvider,
+        MembersGroupDateDataProvider $membersGroupDateDataProvider,
+        DateAndDateRangeRequestData $dateAndDateRangeRequestData,
+        WidgetOfDepartmentRequestData $widgetRequestData
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
+
+        $data = [];
+
+        if ($dateAndDateRangeRequestData->getDate()) {
+            $data = $membersGroupDateDataProvider->getData(
+                $widgetRequestData->getDepartment(),
+                $dateAndDateRangeRequestData->getDate()->format('Y-m-d'),
+                $widgetRequestData->getGroupTypes(),
+                $widgetRequestData->getPeopleTypes()
+            );
+        }
+
+        if ($dateAndDateRangeRequestData->getFrom() && $dateAndDateRangeRequestData->getTo()) {
+            $data = $membersGroupDateRangeDataProvider->getData(
+                $widgetRequestData->getDepartment(),
                 $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
                 $dateAndDateRangeRequestData->getTo()->format('Y-m-d'),
                 $widgetRequestData->getGroupTypes(),

@@ -2,11 +2,61 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>HealthCheck Notification</title>
+        {# for gmail #}
+        <style>
+            .im {
+                color: inherit !important;
+            }
+
+            div>span.im {
+                color: inherit !important;
+            }
+
+            p>span.im {
+                color: inherit !important;
+            }
+        </style>
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    <body style="background-color: #ECEEF0; font-family: Arial, sans-serif; font-size: 15px; font-weight: 400; color: #1D1E1F; margin: 0; padding: 0;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="width: 100%; background-color: #ECEEF0; padding: 40px 20px;">
+            <tr>
+                <td align="center">
+                    {# Header #}
+                    <table width="560px" style="margin: 0 0 16px; background: #FFFFFF; padding: 12px; border-radius: 6px;">
+                        <tr>
+                            <td style="text-align: left;">
+                                <img src="{{ baseURL }}/assets/images/hc-logo-long.png" alt="HealthCheck Logo" title="HealthCheck Logo" style="height: 27px; vertical-align: top;">
+                            </td>
+                            <td style="text-align: right;">
+                                <h2 style="font-weight: 400; font-size: 18px; margin: 0">
+                                    {% block title %}Notification{% endblock %}
+                                </h2>
+                            </td>
+                        </tr>
+                    </table>
+                    {# Content #}
+                    <table width="560" border="0" cellspacing="0" cellpadding="0" style="width: 560px; background-color: #FFFFFF; border-radius: 6px;">
+                        <tr>
+                            <td style="padding: 12px;">
+                                <p style="margin: 0 0 16px 0;">
+                                    {% block greetings %}Hello{% endblock %}
+                                </p>
+
+                                {% block content %}{% endblock %}
+
+                                <p style="margin: 0 0 16px 0;">
+                                    {{ 'email.general.regards'|trans }}
+                                </p>
+                                <p style="margin: 0;">
+                                    {{ 'email.general.signature'|trans }}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
     </body>
 </html>

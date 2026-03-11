@@ -37,7 +37,7 @@ services:
 
 
     # Logger
-    Digio\Logging\GelfTransportOptions:
+    App\Service\Logger\Handlers\TcpTransportHandler:
         arguments:
             $host: '%env(GRAYLOG_HOST)%' # host of the graylog server to connect to
             $port: '%env(GRAYLOG_PORT)%' # port of the input of the graylog server
@@ -45,14 +45,24 @@ services:
             $clientKey: '%env(GRAYLOG_CLIENT_KEY)%' # path of the private key of this client
             $ignoreError: true # whether errors in the logging library should be ignored or not
 
-    Digio\Logging\GelfLogger:
+    App\Service\Logger\Handlers\ConsoleLoggerHandler:
         arguments:
-            $options: '@Digio\Logging\GelfTransportOptions'
+            $level: '%env(LOG_LEVEL)%'
+
+    App\Service\Logger\GelfLogger:
+        arguments:
+            $handlers:
+              - '@App\Service\Logger\Handlers\TcpTransportHandler'
+              - '@App\Service\Logger\Handlers\ConsoleLoggerHandler'
             $source: '%env(APP_HOST)%' # the name of the application (to filter the streams on graylog e.g. dev-api.flow.swiss)
             $environment: '%kernel.environment%' # the kernel environment of the application
 
 
-    # Listeners
+    App\Service\Sentry:
+        arguments:
+            $sentryDSN: '%env(SENTRY_DSN)%'
+
+  # Listeners
     App\EventListener\ConsoleEventListener:
         tags:
             - { name: kernel.event_listener, event: console.command }
@@ -86,7 +96,6 @@ services:
 
     App\Service\Pbs\PbsAuthService:
         arguments:
-            $environment: '%kernel.environment%'
             $pbsUrl: '%env(PBS_URL)%'
             $pbsClientId: '%env(PBS_CLIENT_ID)%'
             $pbsClientSecret: '%env(PBS_CLIENT_SECRET)%'
@@ -97,7 +106,6 @@ services:
     # Permissions
     App\Service\Security\PermissionVoter:
         arguments:
-            $environment: '%kernel.environment%'
             $specialAccessEmails: '%env(SPECIAL_ACCESS)%'
 
     App\Service\GroupStructureAPIService:
@@ -112,7 +120,11 @@ services:
 
     App\Service\MailService:
         arguments:
-            $recipient: '%env(GAMIFICATION_RECIPIENT)%'
+            $senderAddress: '%env(MAIL_SENDER_ADDRESS)%'
+            $senderName: '%env(MAIL_SENDER_NAME)%'
+            $inviteMailWhitelist: '%env(INVITE_MAIL_WHITELIST)%'
+            $pbsRecipients: '%env(GAMIFICATION_RECIPIENT)%'
+            $frontendBaseURL: '%env(FRONTEND_BASE_URL)%'
 
     # Controllers
     App\Controller\Api\GamificationController:

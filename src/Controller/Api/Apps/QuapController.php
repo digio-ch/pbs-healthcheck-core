@@ -2,18 +2,19 @@
 
 namespace App\Controller\Api\Apps;
 
+use App\DTO\Mapper\AnswersMapper;
 use App\DTO\Mapper\QuestionnaireMapper;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\OptionalDateRequestData;
 use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
+use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Service\Apps\Quap\QuapService;
 use App\Service\DataProvider\QuapSubdepartmentDateDataProvider;
 use App\Service\Gamification\PersonGamificationService;
 use App\Service\Gamification\QuapGamificationService;
-use App\Service\Security\PermissionVoter;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,7 +40,7 @@ class QuapController extends AbstractController
     public function getPreview(
         Group $group
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
 
         $data = $this->quapService->getAnswers(
             $group,
@@ -58,7 +59,7 @@ class QuapController extends AbstractController
     public function getDepartmentPreview(
         Group $group
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
 
         try {
             $data = $this->quapService->getAnswersForSubDepartments(
@@ -79,7 +80,7 @@ class QuapController extends AbstractController
     public function getAnswers(
         OptionalDateRequestData $dateRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $dateRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $dateRequestData->getGroup());
 
         $data = $this->quapService->getAnswers(
             $dateRequestData->getGroup(),
@@ -98,7 +99,7 @@ class QuapController extends AbstractController
         QuapSubdepartmentDateDataProvider $dataProvider,
         DateRequestData $dateRequestData
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $dateRequestData->getGroup());
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $dateRequestData->getGroup());
 
         $data = $dataProvider->getData(
             $dateRequestData->getGroup(),
@@ -145,18 +146,20 @@ class QuapController extends AbstractController
         Request $request,
         QuapGamificationService $quapGamificationService
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::EDITOR, $group);
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR, $group);
 
-        $json = json_decode($request->getContent(), true);
-        if (is_null($json)) {
+        $answers = json_decode($request->getContent(), true);
+        if (is_null($answers)) {
             throw new ApiException(400, "Invalid JSON");
         }
 
         // has to be before answers are saved!
-        $quapGamificationService->processQuapEvent($json, $group, $this->getUser());
-        $savedWidgetQuap = $this->quapService->submitAnswers($group, $json);
+        $quapGamificationService->processQuapEvent($answers, $group, $this->getUser());
+        $savedWidgetQuap = $this->quapService->submitAnswers($group, $answers);
 
-        return $this->json($savedWidgetQuap->getAnswers());
+        // we want to reverse sort the aspects so that the JSON parser encodes them as object instead of array
+        $newAnswers = AnswersMapper::reverseSortAspects($savedWidgetQuap->getAnswers());
+        return $this->json($newAnswers);
     }
 
     /**
@@ -171,7 +174,7 @@ class QuapController extends AbstractController
         Request $request,
         PersonGamificationService $personGamificationService
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::OWNER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
 
         $payload = json_decode($request->getContent(), true);
         if (!isset($payload['allow_access'])) {
@@ -195,7 +198,7 @@ class QuapController extends AbstractController
         Group $group,
         Request $request
     ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionVoter::VIEWER, $group);
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
 
 
         $date = $request->get('date', null);

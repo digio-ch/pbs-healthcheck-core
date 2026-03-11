@@ -4,6 +4,7 @@ namespace App\Service\Security;
 
 use App\DTO\Model\PbsUserDTO;
 use App\Entity\Midata\Group;
+use App\Entity\Security\Permission;
 use App\Entity\Security\PermissionType;
 use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -11,33 +12,36 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class PermissionVoter extends Voter
 {
-    public const VIEWER = 'viewer';
-    public const EDITOR = 'editor';
-    public const OWNER = 'owner';
+    private const ORDER_OWNER = 1;
+    private const ORDER_EDITOR_PLUS = 2;
+    private const ORDER_EDITOR = 3;
+    private const ORDER_VIEWER = 4;
+
+    private const PERMISSION_TYPE_KEY_TO_PERMISSION_ORDER = [
+        PermissionType::OWNER => PermissionVoter::ORDER_OWNER,
+        PermissionType::EDITOR_PLUS => PermissionVoter::ORDER_EDITOR_PLUS,
+        PermissionType::EDITOR => PermissionVoter::ORDER_EDITOR,
+        PermissionType::VIEWER => PermissionVoter::ORDER_VIEWER,
+    ];
 
     /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
-
-    /** @var string $environment */
-    private string $environment;
 
     /** @var array|string[] $specialAccess */
     private array $specialAccessEmails;
 
     public function __construct(
         PermissionRepository $permissionRepository,
-        string $environment,
         string $specialAccessEmails
     ) {
         $this->permissionRepository = $permissionRepository;
 
-        $this->environment = $environment;
         $this->specialAccessEmails = explode(',', $specialAccessEmails);
     }
 
     protected function supports(string $attribute, $subject)
     {
-        if (!in_array($attribute, [self::VIEWER, self::EDITOR, self::OWNER])) {
+        if (!in_array($attribute, [PermissionType::VIEWER, PermissionType::EDITOR, PermissionType::EDITOR_PLUS, PermissionType::OWNER])) {
             return false;
         }
 
@@ -54,8 +58,8 @@ class PermissionVoter extends Voter
         assert($user instanceof PbsUserDTO);
         assert($subject instanceof Group);
 
-        // allow access if user in special email list or environment is dev
-        if ($this->environment === 'dev' || in_array($user->getEmail(), $this->specialAccessEmails)) {
+        // allow access if user exists in SPECIAL_ACCESS variable
+        if (in_array($user->getEmail(), $this->specialAccessEmails)) {
             return true;
         }
 
@@ -64,13 +68,24 @@ class PermissionVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case PermissionVoter::OWNER:
-                return $permission->getPermissionType()->getId() === PermissionType::OWNER;
-            case PermissionVoter::EDITOR:
-                return $permission->getPermissionType()->getId() <= PermissionType::EDITOR;
-            case PermissionVoter::VIEWER:
-                return $permission->getPermissionType()->getId() <= PermissionType::VIEWER;
+        return $this->validatePermissionAccess($permission, $attribute);
+    }
+
+    private function validatePermissionAccess(Permission $permission, string $required): bool
+    {
+        $PermissionTypekey = $permission->getPermissionType()->getKey();
+
+        $actualOrder = self::PERMISSION_TYPE_KEY_TO_PERMISSION_ORDER[$PermissionTypekey];
+
+        switch ($required) {
+            case PermissionType::OWNER:
+                return $actualOrder === self::ORDER_OWNER;
+            case PermissionType::EDITOR_PLUS:
+                return $actualOrder <= self::ORDER_EDITOR_PLUS;
+            case PermissionType::EDITOR:
+                return $actualOrder <= self::ORDER_EDITOR;
+            case PermissionType::VIEWER:
+                return $actualOrder <= self::ORDER_VIEWER;
         }
 
         return false;

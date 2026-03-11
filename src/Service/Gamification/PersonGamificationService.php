@@ -5,6 +5,7 @@ namespace App\Service\Gamification;
 use App\DTO\Mapper\GamificationGoalMapper;
 use App\DTO\Mapper\GamificationLevelMapper;
 use App\DTO\Mapper\GamificationPersonProfileMapper;
+use App\DTO\Model\Gamification\CheckLevelDTO;
 use App\DTO\Model\Gamification\PersonGamificationDTO;
 use App\DTO\Model\PbsUserDTO;
 use App\Entity\Aggregated\AggregatedQuap;
@@ -23,6 +24,8 @@ use App\Repository\Midata\PersonRepository;
 use App\Repository\Quap\QuestionnaireRepository;
 use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 
 class PersonGamificationService
 {
@@ -216,20 +219,13 @@ class PersonGamificationService
 
     public function getPersonGamificationDTO(PbsUserDTO $pbsUserDTO, string $locale): PersonGamificationDTO
     {
-        $levels = $this->levelRepository->findBy(['type' => Level::USER]);
+        $levels = $this->levelRepository->findBy(['type' => Level::USER], ['key' => 'ASC']);
         /** @var Person $person */
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $personGamification = $this->getPersonGamification($person);
         $personGamification = $this->checkLevelUp($personGamification);
 
         $personGamificationDTO = GamificationPersonProfileMapper::createFromEntity($personGamification, $locale);
-
-        $levelUp = $this->levelUpLogRepository->findOneBy(['person' => $person, 'displayed' => false]);
-        if (!is_null($levelUp)) {
-            $levelUp->setDisplayed(true);
-            $this->levelUpLogRepository->add($levelUp);
-            $personGamificationDTO->setLevelUp(true);
-        }
 
         if (count($levels) === 0) {
             throw new \Exception('no levels found?!');
@@ -298,6 +294,34 @@ class PersonGamificationService
         return $personGamificationDTO;
     }
 
+    public function getCheckLevelDTO(PbsUserDTO $pbsUserDTO, string $locale): CheckLevelDTO
+    {
+        /** @var Person $person */
+        $person = $this->personRepository->find($pbsUserDTO->getId());
+
+        $pgp = $this->getPersonGamification($person);
+
+        $dto = new CheckLevelDTO();
+        $dto->setLevelUp(false);
+
+        if ($locale === 'de') {
+            $dto->setTitle($pgp->getLevel()->getDeTitle());
+        } elseif ($locale === 'it') {
+            $dto->setTitle($pgp->getLevel()->getItTitle());
+        } else {
+            $dto->setTitle($pgp->getLevel()->getFrTitle());
+        }
+
+        $levelUp = $this->levelUpLogRepository->findOneBy(['person' => $person, 'displayed' => false]);
+        if (!is_null($levelUp)) {
+            $levelUp->setDisplayed(true);
+            $this->levelUpLogRepository->flush();
+            $dto->setLevelUp(true);
+        }
+
+        return $dto;
+    }
+
     /**
      * Maps the questionnaires to the amount of filled out aspects
      * @param Person $person
@@ -307,7 +331,7 @@ class PersonGamificationService
     {
         $counters = [Questionnaire::TYPE_DEPARTMENT => 0, Questionnaire::TYPE_CANTON => 0];
 
-        $filledAspects = $this->gamificationQuapEventRepository->getUniquieIds($person);
+        $filledAspects = $this->gamificationQuapEventRepository->getUniqueIds($person);
 
         foreach ($filledAspects as $item) {
             $counters[$item['type']]++;
@@ -339,11 +363,11 @@ class PersonGamificationService
     private function isElFilledOut(Person $person): bool
     {
         $counters = [Questionnaire::TYPE_DEPARTMENT => 0, Questionnaire::TYPE_CANTON => 0];
-        $filledAspects = $this->gamificationQuapEventRepository->getUniquieIds($person);
-        $answerableAspects = $this->questionnaireRepository->getAnswerableAspects();
+        $filledAspects = $this->gamificationQuapEventRepository->getUniqueIds($person);
+        $answerableAspects = $this->questionnaireRepository->getExistingAnswerableAspects();
 
         foreach ($filledAspects as $item) {
-            $aspectId = $item['local_change_index'];
+            $aspectId = $item['aspect_local_id'];
             $questionnaireType = $item['type'];
 
             // only count the aspect as answered if it is answerable (no evaluation_function)
@@ -361,17 +385,17 @@ class PersonGamificationService
         return false;
     }
 
-    public function logEvent(array $changedIds, AggregatedQuap $aggregatedQuap, PbsUserDTO $pbsUserDTO)
+    public function logEvent(array $changedAspectLocalIds, AggregatedQuap $aggregatedQuap, PbsUserDTO $pbsUserDTO)
     {
         $person = $this->personRepository->find($pbsUserDTO->getId());
         if ($this->getPersonGamification($person)->getLevel()->getKey() >= 1) {
-            foreach ($changedIds as $id) {
+            foreach ($changedAspectLocalIds as $aspectLocalId) {
                 $eventLog = new GamificationQuapEvent();
                 $eventLog->setQuestionnaire($aggregatedQuap->getQuestionnaire());
                 $eventLog->setDate(new \DateTimeImmutable());
                 $eventLog->setGroup($aggregatedQuap->getGroup());
                 $eventLog->setPerson($this->personRepository->find($pbsUserDTO->getId()));
-                $eventLog->setLocalChangeIndex($id);
+                $eventLog->setAspectLocalId($aspectLocalId);
                 $this->gamificationQuapEventRepository->add($eventLog);
             }
         }

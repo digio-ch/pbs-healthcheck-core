@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\DTO\Model\PbsUserDTO;
 use App\Model\LogMessage\SimpleLogMessage;
 use App\Service\Gamification\LoginService;
-use Digio\Logging\GelfLogger;
+use App\Service\Logger\GelfLogger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

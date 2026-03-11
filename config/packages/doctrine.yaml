@@ -4,6 +4,10 @@ doctrine:
         mapping_types:
             enum: string
 
+        # register custom doctrine type
+        types:
+          json_object: App\Entity\Types\JsonObjectType
+
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '5.7'

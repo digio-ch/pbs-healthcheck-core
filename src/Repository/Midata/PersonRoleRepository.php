@@ -721,7 +721,7 @@ class PersonRoleRepository extends ServiceEntityRepository
     {
         $conn = $this->_em->getConnection();
         $statement = $conn->executeQuery(
-            "SELECT DISTINCT midata_person_role.person_id, midata_person_role.group_id
+            "SELECT DISTINCT midata_person_role.person_id, midata_person_role.group_id, parent_group_id, midata_group_type.group_type
                 FROM midata_person_role
                 JOIN midata_role ON midata_person_role.role_id = midata_role.id
                 JOIN midata_group ON midata_person_role.group_id = midata_group.id

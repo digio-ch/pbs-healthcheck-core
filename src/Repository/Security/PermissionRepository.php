@@ -4,6 +4,7 @@ namespace App\Repository\Security;
 
 use App\Entity\Midata\Group;
 use App\Entity\Security\Permission;
+use App\Entity\Security\PermissionType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,6 +25,16 @@ class PermissionRepository extends ServiceEntityRepository
     public function save(Permission $invite)
     {
         $this->_em->persist($invite);
+        $this->_em->flush();
+    }
+
+    public function persist(Permission $permission)
+    {
+        $this->_em->persist($permission);
+    }
+
+    public function flush()
+    {
         $this->_em->flush();
     }
 
@@ -195,5 +206,44 @@ class PermissionRepository extends ServiceEntityRepository
                 ParameterType::STRING,
             ]
         );
+    }
+
+    /**
+     * @return Permission[]
+     * @throws \Exception
+     */
+    public function findAllExpiringPermissionsToNotify(): array
+    {
+        $query = $this->createQueryBuilder('permission');
+
+        return $query
+            ->where('permission.expirationDate BETWEEN :now AND :inOneMonth')
+            ->andWhere('permission.preExpiryNotified = false')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->setParameter('inOneMonth', new \DateTimeImmutable('+1 month'))
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param int $groupId
+     * @param int $personId
+     * @return Permission[]
+     */
+    public function findActiveOwnerPermissions(int $groupId, int $personId): array
+    {
+        $query = $this->createQueryBuilder('permission');
+
+        return $query
+            ->join('permission.permissionType', 'type')
+            ->where('permission.person = :personId')
+            ->andWhere('permission.group = :groupId')
+            ->andWhere('type.key = :ownerType')
+            ->andWhere('permission.expirationDate IS NULL')
+            ->setParameter('personId', $personId)
+            ->setParameter('groupId', $groupId)
+            ->setParameter('ownerType', PermissionType::OWNER)
+            ->getQuery()
+            ->getResult();
     }
 }

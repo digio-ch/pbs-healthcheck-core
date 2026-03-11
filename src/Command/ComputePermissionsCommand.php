@@ -2,12 +2,15 @@
 
 namespace App\Command;
 
+use App\Entity\Midata\GroupType;
 use App\Entity\Security\PermissionType;
 use App\Model\CommandStatistics;
 use App\Repository\Midata\PersonRoleRepository;
 use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+
+use function Sentry\continueTrace;
 
 class ComputePermissionsCommand extends StatisticsCommand
 {
@@ -18,6 +21,15 @@ class ComputePermissionsCommand extends StatisticsCommand
     private PermissionRepository $permissionRepository;
 
     private float $totalDuration = 0;
+
+    private const SUB_DEPARTMENTS = [
+        GroupType::BIBER,
+        GroupType::WOELFE,
+        GroupType::PFADI,
+        GroupType::PIO,
+        GroupType::ABTEILUNGS_ROVER,
+        GroupType::PTA,
+    ];
 
     public function __construct(
         PersonRoleRepository $personRoleRepository,
@@ -35,73 +47,253 @@ class ComputePermissionsCommand extends StatisticsCommand
             ->setName("app:compute-permissions");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $start = microtime(true);
         $output->writeln('Computing peoples default permissions...');
 
         $this->permissionRepository->endAllOpenPermissions();
 
-        $coaches = $this->personRoleRepository->findAllPersonInGroupByRole([
-            'Group::Abteilung',
-            'Group::Region',
-            'Group::Kantonalverband',
-            'Group::Bund',
-        ], [
-            'Group::Abteilung::Coach',
-            'Group::Region::Coach',
-            'Group::Kantonalverband::Coach',
-            'Group::Bund::Coach',
-        ]);
-        $this->assignPermissionToRoles($coaches, PermissionType::VIEWER);
+        $assigned = [];
 
-        $leaders = $this->personRoleRepository->findAllPersonInGroupByRole([
-            'Group::Abteilung',
-            'Group::Region',
-            'Group::Kantonalverband',
-            'Group::Bund',
-        ], [
-            'Group::Abteilung::Abteilungsleitung',
-            'Group::Abteilung::AbteilungsleitungStv',
-            'Group::Region::Regionalleitung',
-            'Group::Kantonalverband::Kantonsleitung',
-        ]);
-        $this->assignPermissionToRoles($leaders, PermissionType::OWNER);
+        $owners = $this->getOwners();
+        $this->assignPermissionToRoles($owners, PermissionType::OWNER_ID, $assigned);
+        $output->writeln('finished computing all owner permissions.');
+
+        $editorsPlus = $this->getEditorsPlus();
+        $this->assignPermissionToRoles($editorsPlus, PermissionType::EDITOR_PLUS_ID, $assigned);
+        $output->writeln('finished computing all editor plus permissions.');
+
+        $editors = $this->getEditors();
+        $this->assignPermissionToRoles($editors, PermissionType::EDITOR_ID, $assigned);
+        $output->writeln('finished computing all editor permissions.');
+
+        $viewers = $this->getViewers();
+        $this->assignPermissionToRoles($viewers, PermissionType::VIEWER_ID, $assigned);
+        $output->writeln('finished computing all viewer permissions.');
 
         $output->writeln('finished computing all default permissions.');
         $this->totalDuration = microtime(true) - $start;
         return 0;
     }
 
-    private function assignPermissionToRoles(array $roles, int $permissionType)
+    // TODO: use PermissionType key instead of id because it is not guaranteed
+    private function assignPermissionToRoles(array $roles, int $permissionType, array &$assigned)
     {
-        foreach ($roles as $role) {
+        foreach ($roles as $key => $role) {
             $personId = $role['person_id'];
             $groupId = $role['group_id'];
+            $groupType = $role['group_type'];
+
+            $permissionGroupId = $groupId;
+            if ($this->isSubGroup($groupType)) {
+                $permissionGroupId = $role['parent_group_id'];
+            }
+
+            if (isset($assigned[$permissionGroupId][$personId])) {
+                continue;
+            }
 
             $permission = $this->permissionRepository->findByPersonGroupAndPermission(
-                $groupId,
+                $permissionGroupId,
                 $personId,
                 $permissionType
             );
             if (!is_null($permission)) {
                 $permission->setExpirationDate(null);
-                $this->permissionRepository->save($permission);
-                continue;
+                $this->permissionRepository->persist($permission);
+            } else {
+                $this->permissionRepository->insertPermission(
+                    $permissionGroupId,
+                    $permissionType,
+                    null,
+                    $personId,
+                    null
+                );
             }
 
-            $this->permissionRepository->insertPermission(
-                $groupId,
-                $permissionType,
-                null,
-                $personId,
-                null
-            );
+            $assigned[$permissionGroupId][$personId] = true;
+
+            if ($key > 0 && $key % 500 == 0) {
+                $this->permissionRepository->flush();
+            }
         }
+
+        $this->permissionRepository->flush();
     }
 
     public function getStats(): CommandStatistics
     {
         return new CommandStatistics($this->totalDuration, '');
+    }
+
+    private function getViewers(): array
+    {
+        return $this->personRoleRepository->findAllPersonInGroupByRole([
+            GroupType::FEDERATION,
+            GroupType::CANTON,
+            GroupType::REGION,
+            GroupType::DEPARTMENT,
+
+            GroupType::BIBER,
+            GroupType::WOELFE,
+            GroupType::PFADI,
+            GroupType::PIO,
+            GroupType::ABTEILUNGS_ROVER,
+            GroupType::PTA,
+        ], [
+            'Group::Bund::Coach',
+
+            'Group::Kantonalverband::Sekretariat',
+            'Group::Kantonalverband::Adressverwaltung',
+            'Group::Kantonalverband::PraesidiumApv',
+            'Group::Kantonalverband::Mitarbeiter',
+            'Group::Kantonalverband::Beisitz',
+            'Group::Kantonalverband::Kassier',
+            'Group::Kantonalverband::Rechnungen',
+            'Group::Kantonalverband::Redaktor',
+            'Group::Kantonalverband::Webmaster',
+            'Group::Kantonalverband::Mediensprecher',
+            'Group::Kantonalverband::MitgliedKrisenteam',
+            'Group::Kantonalverband::Coach',
+            'Group::Kantonalverband::VerantwortungKantonsarchiv',
+            'Group::Kantonalverband::VerantwortungLagermeldung',
+            'Group::Kantonalverband::VerantwortungLagerplaetze',
+            'Group::Kantonalverband::VerantwortungMaterialverkaufsstelle',
+
+            'Group::Region::Sekretariat',
+            'Group::Region::Adressverwaltung',
+            'Group::Region::PraesidiumApv',
+            'Group::Region::Praeses',
+            'Group::Region::Mitarbeiter',
+            'Group::Region::Beisitz',
+            'Group::Region::Kassier',
+            'Group::Region::Rechnungen',
+            'Group::Region::Redaktor',
+            'Group::Region::Webmaster',
+            'Group::Region::Mediensprecher',
+            'Group::Region::MitgliedKrisenteam',
+            'Group::Region::Coach',
+            'Group::Region::VerantwortungLagerplaetze',
+            'Group::Region::VerantwortungLagermeldung',
+            'Group::Region::VerantwortungMaterialverkaufsstelle',
+            'Group::Region::VerantwortungPr',
+
+            'Group::Abteilung::Praesidium',
+            'Group::Abteilung::VizePraesidium',
+            'Group::Abteilung::Praeses',
+            'Group::Abteilung::Beisitz',
+            'Group::Abteilung::StufenleitungBiber',
+            'Group::Abteilung::StufenleitungWoelfe',
+            'Group::Abteilung::StufenleitungPfadi',
+            'Group::Abteilung::StufenleitungPio',
+            'Group::Abteilung::StufenleitungRover',
+            'Group::Abteilung::StufenleitungPta',
+            'Group::Abteilung::Coach',
+
+            'Group::Biber::Einheitsleitung',
+            'Group::Biber::Mitleitung',
+
+            'Group::Woelfe::Einheitsleitung',
+            'Group::Woelfe::Mitleitung',
+
+            'Group::Pfadi::Einheitsleitung',
+            'Group::Pfadi::Mitleitung',
+
+            'Group::Pio::Einheitsleitung',
+            'Group::Pio::Mitleitung',
+
+            'Group::AbteilungsRover::Einheitsleitung',
+            'Group::AbteilungsRover::Mitleitung',
+
+            'Group::Pta::Einheitsleitung',
+            'Group::Pta::Mitleitung',
+        ]);
+    }
+
+    private function getEditors(): array
+    {
+        return $this->personRoleRepository->findAllPersonInGroupByRole([
+            GroupType::CANTON,
+            GroupType::REGION,
+        ], [
+            'Group::Kantonalverband::VerantwortungBiberstufe',
+            'Group::Kantonalverband::VerantwortungWolfstufe',
+            'Group::Kantonalverband::VerantwortungPfadistufe',
+            'Group::Kantonalverband::VerantwortungPiostufe',
+            'Group::Kantonalverband::VerantwortungRoverstufe',
+            'Group::Kantonalverband::VerantwortungPfadiTrotzAllem',
+            'Group::Kantonalverband::VerantwortungAbteilungen',
+            'Group::Kantonalverband::VerantwortungAnimationSpirituelle',
+            'Group::Kantonalverband::VerantwortungIntegration',
+            'Group::Kantonalverband::VerantwortungInternationales',
+            'Group::Kantonalverband::VerantwortungSuchtpraeventionsprogramm',
+            'Group::Kantonalverband::VerantwortungKrisenteam',
+            'Group::Kantonalverband::VerantwortungPr',
+            'Group::Kantonalverband::VerantwortungPraeventionSexuellerAusbeutung',
+            'Group::Kantonalverband::VerantwortungNachhaltigkeit',
+
+            'Group::Region::VerantwortungBiberstufe',
+            'Group::Region::VerantwortungWolfstufe',
+            'Group::Region::VerantwortungPfadistufe',
+            'Group::Region::VerantwortungPiostufe',
+            'Group::Region::VerantwortungRoverstufe',
+            'Group::Region::VerantwortungPfadiTrotzAllem',
+            'Group::Region::VerantwortungAbteilungen',
+            'Group::Region::VerantwortungAnimationSpirituelle',
+            'Group::Region::VerantwortungIntegration',
+            'Group::Region::VerantwortungInternationales',
+            'Group::Region::VerantwortungSuchtpraeventionsprogramm',
+            'Group::Region::VerantwortungKrisenteam',
+            'Group::Region::VerantwortungPraeventionSexuellerAusbeutung',
+        ]);
+    }
+
+    private function getEditorsPlus(): array
+    {
+        return $this->personRoleRepository->findAllPersonInGroupByRole([
+            GroupType::CANTON,
+            GroupType::REGION,
+        ], [
+            'Group::Kantonalverband::Praesidium',
+            'Group::Kantonalverband::VizePraesidium',
+            'Group::Kantonalverband::VerantwortungAusbildung',
+            'Group::Kantonalverband::VerantwortungBetreuung',
+            'Group::Kantonalverband::VerantwortungProgramm',
+
+            'Group::Region::Praesidium',
+            'Group::Region::VizePraesidium',
+            'Group::Region::VerantwortungAusbildung',
+            'Group::Region::VerantwortungBetreuung',
+            'Group::Region::VerantwortungProgramm',
+        ]);
+    }
+
+    private function getOwners(): array
+    {
+        return $this->personRoleRepository->findAllPersonInGroupByRole([
+            GroupType::FEDERATION,
+            GroupType::CANTON,
+            GroupType::REGION,
+            GroupType::DEPARTMENT,
+        ], [
+            'Group::Kantonalverband::Kantonsleitung',
+            'Group::Kantonalverband::PowerUser',
+
+            'Group::Region::Regionalleitung',
+            'Group::Region::PowerUser',
+
+            'Group::Abteilung::Abteilungsleitung',
+            'Group::Abteilung::AbteilungsleitungStv',
+            'Group::Abteilung::PowerUser',
+        ]);
+    }
+
+    private function isSubGroup(string $groupType): bool
+    {
+        if (in_array($groupType, self::SUB_DEPARTMENTS, true)) {
+            return true;
+        }
+        return false;
     }
 }
