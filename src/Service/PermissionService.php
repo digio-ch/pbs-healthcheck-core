@@ -123,6 +123,12 @@ class PermissionService
         foreach ($invites as $invite) {
             $dtos[] = InviteMapper::createFromEntity($invite);
         }
+
+        usort($dtos, fn($a, $b) => strcmp(
+            strtolower($a->getEmail()),
+            strtolower($b->getEmail())
+        ));
+
         return $dtos;
     }
 
