@@ -2,3 +2,8 @@ filter:
   path: /filter
   methods: GET
   controller: App\Controller\Api\Apps\MyOrganizationController:getFilter
+
+gender_stats:
+  path: /gender-stats
+  methods: GET
+  controller: App\Controller\Api\Apps\MyOrganizationController:getGenderStats

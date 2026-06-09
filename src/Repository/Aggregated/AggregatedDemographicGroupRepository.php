@@ -4,6 +4,7 @@ namespace App\Repository\Aggregated;
 
 use App\Entity\Aggregated\AggregatedDemographicGroup;
 use App\Service\DataProvider\WidgetDataProvider;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\ParameterType;
@@ -298,6 +299,89 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$from, $to, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
+        return $statement->fetchAllAssociative();
+    }
+
+    /**
+     * @param string $date
+     * @param int[] $groupIds
+     * @param string[] $groupTypes
+     * @return array{'m_count': int, 'f_count': int, 'u_count': int, 'm_count_leader': int, 'f_count_leader': int, 'u_count_leader': int}
+     */
+    public function findGenderTotalCountForDateOfGroups(
+        string $date,
+        array $groupIds,
+        array $groupTypes
+    ): array {
+        $statement = $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "SELECT
+                	SUM(m_count) as m_count,
+                	SUM(f_count) as f_count,
+                	SUM(u_count) as u_count,
+                	SUM(m_count_leader) as m_count_leader,
+                	SUM(f_count_leader) as f_count_leader,
+                	SUM(u_count_leader) as u_count_leader
+                FROM hc_aggregated_demographic_group
+                WHERE data_point_date = ?
+                AND group_id IN (?)
+                AND group_type IN (?); 
+                ",
+                [$date, $groupIds, $groupTypes],
+                [ParameterType::STRING, ArrayParameterType::INTEGER, ArrayParameterType::STRING]
+            );
+
+        // there should only be one row
+        return $statement->fetchAllAssociative()[0];
+    }
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @param int[] $groupIds
+     * @param string[] $groupTypes
+     * @return array<array{
+     *      'data_point_date': string, 'departments': int,
+     *      'm_count': int, 'f_count': int, 'u_count': int,
+     *      'm_count_leader': int, 'f_count_leader': int, 'u_count_leader': int
+     * }>
+     */
+    public function findGenderTotalCountForPeriodOfGroups(
+        string $from,
+        string $to,
+        array $groupIds,
+        array $groupTypes
+    ): array {
+        $statement = $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "SELECT
+                    data_point_date,
+                    COUNT(DISTINCT group_id) as departments,
+                	SUM(m_count) as m_count,
+                	SUM(f_count) as f_count,
+                	SUM(u_count) as u_count,
+                	SUM(m_count_leader) as m_count_leader,
+                	SUM(f_count_leader) as f_count_leader,
+                	SUM(u_count_leader) as u_count_leader
+                FROM hc_aggregated_demographic_group
+                WHERE data_point_date >= ?
+                AND data_point_date <= ?
+                AND group_id IN (?)
+                AND group_type IN (?)
+                GROUP BY data_point_date
+                ORDER BY data_point_date DESC; 
+                ",
+                [$from, $to, $groupIds, $groupTypes],
+                [
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                    ArrayParameterType::INTEGER,
+                    ArrayParameterType::STRING,
+                ]
+            );
+
         return $statement->fetchAllAssociative();
     }
 }

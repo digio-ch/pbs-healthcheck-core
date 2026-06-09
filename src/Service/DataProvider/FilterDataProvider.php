@@ -73,15 +73,15 @@ class FilterDataProvider
      */
     public function getMyOrganizationData(Group $association, string $locale)
     {
-        $groupIds = $this->statisticGroupRepository->findAllRelevantChildGroups(
+        $departmentIds = $this->statisticGroupRepository->findAllRelevantChildGroups(
             $association->getId(),
             [GroupType::DEPARTMENT],
         );
 
-        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroups($groupIds);
+        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroups($departmentIds);
 
         $dates = $this->widgetDateRepository->findDataPointDatesByGroupIds(
-            $groupIds
+            $departmentIds
         );
 
         return FilterDataMapper::createFromEntities($groupTypes, $dates, $locale);
