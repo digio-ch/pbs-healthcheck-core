@@ -1,4 +1,3 @@
-
 # Widget routes
 widgets:
   resource: "apps/widgets.yml"
@@ -34,3 +33,9 @@ gamification:
   resource: "apps/gamification.yml"
   prefix: /gamification
   name_prefix: gamification_
+
+# My Organization
+my_organization:
+  resource: "apps/my_organization.yml"
+  prefix: /my-organization
+  name_prefix: my_organization_

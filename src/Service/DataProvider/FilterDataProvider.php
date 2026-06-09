@@ -5,15 +5,21 @@ namespace App\Service\DataProvider;
 use App\DTO\Mapper\FilterDataMapper;
 use App\DTO\Model\Apps\Widgets\FilterDataDTO;
 use App\Entity\Midata\Group;
+use App\Entity\Midata\GroupType;
 use App\Repository\Aggregated\AggregatedDateRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
+use App\Repository\Statistics\StatisticGroupRepository;
 use App\Service\Aggregator\WidgetAggregator;
+use DateTimeImmutable;
 
 class FilterDataProvider
 {
     /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
+
+    /** @var StatisticGroupRepository $statisticGroupRepository */
+    private StatisticGroupRepository $statisticGroupRepository;
 
     /** @var GroupTypeRepository $groupTypeRepository */
     private GroupTypeRepository $groupTypeRepository;
@@ -23,41 +29,62 @@ class FilterDataProvider
 
     public function __construct(
         GroupRepository $groupRepository,
+        StatisticGroupRepository $statisticGroupRepository,
         GroupTypeRepository $groupTypeRepository,
         AggregatedDateRepository $widgetDateRepository
     ) {
         $this->groupRepository = $groupRepository;
+        $this->statisticGroupRepository = $statisticGroupRepository;
         $this->groupTypeRepository = $groupTypeRepository;
         $this->widgetDateRepository = $widgetDateRepository;
     }
 
-    public function getGroupTypes(Group $group, string $locale)
+    public function getGroupTypes(Group $group, string $locale): array
     {
-        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroup($group->getId());
+        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroups(
+            [$group->getId()]
+        );
         return FilterDataMapper::createGroupTypes($groupTypes, $locale);
     }
 
-    /***
+    /**
      * @param Group $group
      * @param string $locale
      * @return FilterDataDTO
      */
     public function getData(Group $group, string $locale): FilterDataDTO
     {
-        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroup($group->getId());
+        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroups(
+            [$group->getId()]
+        );
         $this->sortParentGroupTypes($groupTypes);
 
-        $subGroups = $this->groupRepository->getAllSubGroupsByGroupId($group->getId());
         $dates = $this->widgetDateRepository->findDataPointDatesByGroupIds(
-            array_merge([$group->getId()], $subGroups)
+            [$group->getId()]
         );
 
-        $dateStrings = [];
-        foreach ($dates as $date) {
-            $dateStrings[] = $date['dataPointDate']->format('Y-m-d');
-        }
+        return FilterDataMapper::createFromEntities($groupTypes, $dates, $locale);
+    }
 
-        return FilterDataMapper::createFromEntities($groupTypes, $dateStrings, $locale);
+    /**
+     * @param Group $association
+     * @param string $locale
+     * @return FilterDataDTO
+     */
+    public function getMyOrganizationData(Group $association, string $locale)
+    {
+        $groupIds = $this->statisticGroupRepository->findAllRelevantChildGroups(
+            $association->getId(),
+            [GroupType::DEPARTMENT],
+        );
+
+        $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroups($groupIds);
+
+        $dates = $this->widgetDateRepository->findDataPointDatesByGroupIds(
+            $groupIds
+        );
+
+        return FilterDataMapper::createFromEntities($groupTypes, $dates, $locale);
     }
 
     private function sortParentGroupTypes(array &$groupTypes)
