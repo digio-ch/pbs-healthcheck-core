@@ -15,18 +15,19 @@ use App\Repository\Statistics\StatisticGroupRepository;
 use App\Service\DataProvider\WidgetDataProvider;
 use DateTime;
 use DateTimeInterface;
+use Doctrine\DBAL\Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GenderStatsDataProvider extends WidgetDataProvider
 {
-  /**
-   * @var StatisticGroupRepository $statisticGroupRepository
-   */
+    /**
+    * @var StatisticGroupRepository $statisticGroupRepository
+    */
     private StatisticGroupRepository $statisticGroupRepository;
 
-  /**
-   * @var AggregatedDemographicGroupRepository $aggregatedGenderRepository
-   */
+    /**
+    * @var AggregatedDemographicGroupRepository $aggregatedGenderRepository
+    */
     private AggregatedDemographicGroupRepository $aggregatedGenderRepository;
 
 
@@ -46,7 +47,15 @@ class GenderStatsDataProvider extends WidgetDataProvider
         );
     }
 
-    public function getData(Group $association, TimeFrame $timeframe, array $peopleTypes, array $groupTypes)
+    /**
+     * @param Group $association
+     * @param TimeFrame $timeframe
+     * @param array $peopleTypes
+     * @param array $groupTypes
+     * @return PieChartDataDTO[]
+     * @throws Exception
+     */
+    public function getData(Group $association, TimeFrame $timeframe, array $peopleTypes, array $groupTypes): array
     {
         $departmentIds = $this->statisticGroupRepository->findAllRelevantChildGroups(
             $association->getId(),
@@ -126,14 +135,15 @@ class GenderStatsDataProvider extends WidgetDataProvider
         ];
     }
 
-  /**
-   * @param int[] $departmentIds
-   * @param DateTimeInterface $from
-   * @param DateTimeInterface $to
-   * @param string[] $peopleTypes
-   * @param string[] $groupTypes
-   * @return PieChartDataDTO[]
-   */
+    /**
+     * @param int[] $departmentIds
+     * @param DateTimeInterface $from
+     * @param DateTimeInterface $to
+     * @param string[] $peopleTypes
+     * @param string[] $groupTypes
+     * @return PieChartDataDTO[]
+     * @throws \Exception
+     */
     public function getDataForPeriod(
         array $departmentIds,
         DateTimeInterface $from,
@@ -149,7 +159,7 @@ class GenderStatsDataProvider extends WidgetDataProvider
         );
 
         $departmentsData = new LineChartDataDTO();
-        $departmentsData->setName('departments');
+        $departmentsData->setName(self::DEPARTMENT_COUNT_KEY);
         $departmentsData->setColor('');
 
         $maleData = new LineChartDataDTO();

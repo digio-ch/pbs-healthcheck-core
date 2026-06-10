@@ -7,3 +7,8 @@ gender_stats:
   path: /gender-stats
   methods: GET
   controller: App\Controller\Api\Apps\MyOrganizationController:getGenderStats
+
+stage_stats:
+  path: /stage-stats
+  methods: GET
+  controller: App\Controller\Api\Apps\MyOrganizationController:getStageStats

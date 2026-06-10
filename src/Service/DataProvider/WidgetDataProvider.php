@@ -29,6 +29,9 @@ class WidgetDataProvider
      */
     protected $translator;
 
+    /** @var string */
+    public const DEPARTMENT_COUNT_KEY = 'departments';
+
     /** @var string[] */
     public const GROUP_TYPE_COLORS = [
         'Group::Biber' => '#EEE09F',
@@ -38,7 +41,8 @@ class WidgetDataProvider
         'Group::AbteilungsRover' => '#1DA650',
         'Group::Pta' => '#d9b826',
         'Group::Abteilung' => '#005716',
-        'leaders' => '#005716'
+        'leaders' => '#005716',
+        self::DEPARTMENT_COUNT_KEY => ''
     ];
 
     /** @var string[] */

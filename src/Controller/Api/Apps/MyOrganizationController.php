@@ -11,6 +11,7 @@ use App\Exception\ApiException;
 use App\Model\TimeFrame;
 use App\Service\DataProvider\FilterDataProvider;
 use App\Service\DataProvider\MyOrganization\GenderStatsDataProvider;
+use App\Service\DataProvider\MyOrganization\StageStatsDataProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -66,6 +67,37 @@ class MyOrganizationController extends AbstractController
         $timeframe = $this->requestToTimeFrame($datesRequestData);
 
         $data = $genderStatsProvider->getData(
+            $group,
+            $timeframe,
+            $widgetRequestData->getPeopleTypes(),
+            $widgetRequestData->getGroupTypes()
+        );
+
+        return $this->json($data);
+    }
+
+    /**
+     * @param DateAndDateRangeRequestData $datesRequestData
+     * @param WidgetRequestData $widgetRequestData
+     * @param StageStatsDataProvider $statsDataProvider
+     * @return JsonResponse
+     */
+    public function getStageStats(
+        DateAndDateRangeRequestData $datesRequestData,
+        WidgetRequestData $widgetRequestData,
+        StageStatsDataProvider $statsDataProvider
+    ): JsonResponse {
+        $group = $widgetRequestData->getGroup();
+
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
+
+        if (!$this->isAssociation($group)) {
+            throw new ApiException(400, "Only for regions and cantons");
+        }
+
+        $timeframe = $this->requestToTimeFrame($datesRequestData);
+
+        $data = $statsDataProvider->getData(
             $group,
             $timeframe,
             $widgetRequestData->getPeopleTypes(),
