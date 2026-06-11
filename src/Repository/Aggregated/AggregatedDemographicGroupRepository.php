@@ -306,7 +306,14 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param string $date
      * @param int[] $groupIds
      * @param string[] $groupTypes
-     * @return array{'m_count': int, 'f_count': int, 'u_count': int, 'm_count_leader': int, 'f_count_leader': int, 'u_count_leader': int}
+     * @return array{
+     *     'male_count': int,
+     *     'female_count': int,
+     *     'unknown_count': int,
+     *     'male_count_leader': int,
+     *     'female_count_leader': int,
+     *     'unknown_count_leader': int
+     * }
      */
     public function findGenderTotalCountForDateOfGroups(
         string $date,
@@ -317,12 +324,12 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             ->getConnection()
             ->executeQuery(
                 "SELECT
-                	SUM(m_count) as m_count,
-                	SUM(f_count) as f_count,
-                	SUM(u_count) as u_count,
-                	SUM(m_count_leader) as m_count_leader,
-                	SUM(f_count_leader) as f_count_leader,
-                	SUM(u_count_leader) as u_count_leader
+                	SUM(m_count) as male_count,
+                	SUM(f_count) as female_count,
+                	SUM(u_count) as unknown_count,
+                	SUM(m_count_leader) as male_count_leader,
+                	SUM(f_count_leader) as female_count_leader,
+                	SUM(u_count_leader) as unknown_count_leader
                 FROM hc_aggregated_demographic_group
                 WHERE data_point_date = ?
                 AND group_id IN (?)
@@ -342,9 +349,14 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param int[] $groupIds
      * @param string[] $groupTypes
      * @return array<array{
-     *      'data_point_date': string, 'departments': int,
-     *      'm_count': int, 'f_count': int, 'u_count': int,
-     *      'm_count_leader': int, 'f_count_leader': int, 'u_count_leader': int
+     *      'data_point_date': string,
+ *          'departments': int,
+*           'male_count': int,
+     *      'female_count': int,
+     *      'unknown_count': int,
+     *      'male_count_leader': int,
+     *      'female_count_leader': int,
+     *      'unknown_count_leader': int
      * }>
      */
     public function findGenderTotalCountForPeriodOfGroups(
@@ -359,12 +371,12 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
                 "SELECT
                     data_point_date,
                     COUNT(DISTINCT group_id) as departments,
-                	SUM(m_count) as m_count,
-                	SUM(f_count) as f_count,
-                	SUM(u_count) as u_count,
-                	SUM(m_count_leader) as m_count_leader,
-                	SUM(f_count_leader) as f_count_leader,
-                	SUM(u_count_leader) as u_count_leader
+                	SUM(m_count) as male_count,
+                	SUM(f_count) as female_count,
+                	SUM(u_count) as unknown_count,
+                	SUM(m_count_leader) as male_count_leader,
+                	SUM(f_count_leader) as female_count_leader,
+                	SUM(u_count_leader) as unknown_count_leader
                 FROM hc_aggregated_demographic_group
                 WHERE data_point_date >= ?
                 AND data_point_date <= ?

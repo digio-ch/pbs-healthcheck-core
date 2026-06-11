@@ -30,6 +30,16 @@ class GenderStatsDataProvider extends WidgetDataProvider
     */
     private AggregatedDemographicGroupRepository $aggregatedGenderRepository;
 
+    private const GENDER_MALE = 'male';
+    private const GENDER_FEMALE = 'female';
+    private const GENDER_OTHER = 'unknown';
+
+    private const GENDERS = [
+        self::GENDER_MALE,
+        self::GENDER_FEMALE,
+        self::GENDER_OTHER,
+    ];
+
 
     public function __construct(
         GroupRepository $groupRepository,
@@ -52,7 +62,7 @@ class GenderStatsDataProvider extends WidgetDataProvider
      * @param TimeFrame $timeframe
      * @param array $peopleTypes
      * @param array $groupTypes
-     * @return PieChartDataDTO[]
+     * @return array<PieChartDataDTO|LineChartDataDTO>
      * @throws Exception
      */
     public function getData(Group $association, TimeFrame $timeframe, array $peopleTypes, array $groupTypes): array
@@ -95,44 +105,15 @@ class GenderStatsDataProvider extends WidgetDataProvider
             $groupTypes
         );
 
-        $total = [
-        "m" => 0,
-        "f" => 0,
-        "u" => 0
-        ];
+        $total = $this->calculateGenderTotal($genderCount, $peopleTypes);
 
-        if (in_array(WidgetDataProvider::PEOPLE_TYPE_LEADERS, $peopleTypes)) {
-            $total['m'] += $genderCount['m_count_leader'];
-            $total['f'] += $genderCount['f_count_leader'];
-            $total['u'] += $genderCount['u_count_leader'];
+        $res = [];
+
+        foreach (self::GENDERS as $gender) {
+            $res[] = $this->mapToPieChart($gender, $total[$gender]);
         }
 
-        if (in_array(WidgetDataProvider::PEOPLE_TYPE_MEMBERS, $peopleTypes)) {
-            $total['m'] += $genderCount['m_count'];
-            $total['f'] += $genderCount['f_count'];
-            $total['u'] += $genderCount['u_count'];
-        }
-
-        $maleData = new PieChartDataDTO();
-        $maleData->setName($this->translator->trans('gender.male'));
-        $maleData->setValue($total['m']);
-        $maleData->setColor('');
-
-        $femaleData = new PieChartDataDTO();
-        $femaleData->setName($this->translator->trans('gender.female'));
-        $femaleData->setValue($total['f']);
-        $femaleData->setColor('');
-
-        $otherData = new PieChartDataDTO();
-        $otherData->setName($this->translator->trans('gender.unknown'));
-        $otherData->setValue($total['u']);
-        $otherData->setColor('');
-
-        return [
-        $maleData,
-        $femaleData,
-        $otherData
-        ];
+        return $res;
     }
 
     /**
@@ -141,7 +122,7 @@ class GenderStatsDataProvider extends WidgetDataProvider
      * @param DateTimeInterface $to
      * @param string[] $peopleTypes
      * @param string[] $groupTypes
-     * @return PieChartDataDTO[]
+     * @return LineChartDataDTO[]
      * @throws \Exception
      */
     public function getDataForPeriod(
@@ -162,17 +143,18 @@ class GenderStatsDataProvider extends WidgetDataProvider
         $departmentsData->setName(self::DEPARTMENT_COUNT_KEY);
         $departmentsData->setColor('');
 
-        $maleData = new LineChartDataDTO();
-        $maleData->setName($this->translator->trans('gender.male'));
-        $maleData->setColor('');
+        /**
+         * @var array<string, LineChartDataDTO> $genderCharts
+         */
+        $genderCharts = [];
 
-        $femaleData = new LineChartDataDTO();
-        $femaleData->setName($this->translator->trans('gender.female'));
-        $femaleData->setColor('');
+        foreach (self::GENDERS as $gender) {
+            $chart = new LineChartDataDTO();
+            $chart->setName($this->translator->trans('gender.' . $gender));
+            $chart->setColor('');
 
-        $otherData = new LineChartDataDTO();
-        $otherData->setName($this->translator->trans('gender.unknown'));
-        $otherData->setColor('');
+            $genderCharts[$gender] = $chart;
+        }
 
         foreach ($genderCounts as $genderCount) {
             $date = (new DateTime($genderCount['data_point_date']))
@@ -180,50 +162,66 @@ class GenderStatsDataProvider extends WidgetDataProvider
 
             $departmentsPoint = new LineChartDataPointDTO();
             $departmentsPoint->setName($date);
-
-            $malePoint = new LineChartDataPointDTO();
-            $malePoint->setName($date);
-
-            $femalePoint = new LineChartDataPointDTO();
-            $femalePoint->setName($date);
-
-            $otherPoint = new LineChartDataPointDTO();
-            $otherPoint->setName($date);
-
-            $total = [
-            "m" => 0,
-            "f" => 0,
-            "u" => 0
-            ];
-
-            if (in_array(WidgetDataProvider::PEOPLE_TYPE_LEADERS, $peopleTypes)) {
-                $total['m'] += $genderCount['m_count_leader'];
-                $total['f'] += $genderCount['f_count_leader'];
-                $total['u'] += $genderCount['u_count_leader'];
-            }
-
-            if (in_array(WidgetDataProvider::PEOPLE_TYPE_MEMBERS, $peopleTypes)) {
-                $total['m'] += $genderCount['m_count'];
-                $total['f'] += $genderCount['f_count'];
-                $total['u'] += $genderCount['u_count'];
-            }
-
             $departmentsPoint->setValue($genderCount['departments']);
-            $malePoint->setValue($total['m']);
-            $femalePoint->setValue($total['f']);
-            $otherPoint->setValue($total['u']);
-
             $departmentsData->addSeries($departmentsPoint);
-            $maleData->addSeries($malePoint);
-            $femaleData->addSeries($femalePoint);
-            $otherData->addSeries($otherPoint);
+
+            $total = $this->calculateGenderTotal($genderCount, $peopleTypes);
+
+            foreach (self::GENDERS as $gender) {
+                $point = new LineChartDataPointDTO();
+                $point->setName($date);
+                $point->setValue($total[$gender]);
+
+                $genderCharts[$gender]->addSeries($point);
+            }
         }
 
         return [
         $departmentsData,
-        $maleData,
-        $femaleData,
-        $otherData,
+        ...array_values($genderCharts),
         ];
+    }
+
+    /**
+     * @param string[] $peopleTypes
+     * @param array $genderCount
+     * @return array<string, int>
+     */
+    private function calculateGenderTotal(array $genderCount, array $peopleTypes): array
+    {
+        $total = [];
+
+        foreach (self::GENDERS as $gender) {
+            $total[$gender] = 0;
+        }
+
+        if (in_array(WidgetDataProvider::PEOPLE_TYPE_LEADERS, $peopleTypes)) {
+            foreach (self::GENDERS as $gender) {
+                $total[$gender] += $genderCount[$gender . '_count_leader'];
+            }
+        }
+
+        if (in_array(WidgetDataProvider::PEOPLE_TYPE_MEMBERS, $peopleTypes)) {
+            foreach (self::GENDERS as $gender) {
+                $total[$gender] += $genderCount[$gender . '_count'];
+            }
+        }
+
+        return $total;
+    }
+
+    /**
+     * @param string $gender
+     * @param int $total
+     * @return PieChartDataDTO
+     */
+    private function mapToPieChart(string $gender, int $total): PieChartDataDTO
+    {
+        $pieChart = new PieChartDataDTO();
+        $pieChart->setName($this->translator->trans('gender.' . $gender));
+        $pieChart->setValue($total);
+        $pieChart->setColor('');
+
+        return $pieChart;
     }
 }
