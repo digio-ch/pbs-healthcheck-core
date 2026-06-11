@@ -39,10 +39,10 @@ class BarChartDataDTO
     }
 
     /**
-     * @param BarChartBarDataDTO $series
+     * @param BarChartBarDataDTO ...$series
      */
-    public function addSeries(BarChartBarDataDTO $series)
+    public function addSeries(BarChartBarDataDTO ...$series)
     {
-        $this->series[] = $series;
+        array_push($this->series, ...$series);
     }
 }

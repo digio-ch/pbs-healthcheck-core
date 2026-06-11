@@ -232,6 +232,22 @@ class MembersBirthyearDateDataProvider extends WidgetDataProvider
                 $items[$groupData['birthyear']][$groupTypeName . ' (F)'] = 0 - $groupData['f'];
             }
         }
+
+        foreach ($items as $year => $series)
+        {
+            $hasAtLeastOneNonZeroCount = false;
+
+            foreach ($series as $_ => $count) {
+                if ($count !== 0) {
+                    $hasAtLeastOneNonZeroCount = true;
+                }
+            }
+
+            if (!$hasAtLeastOneNonZeroCount) {
+                unset($items[$year]);
+            }
+        }
+
         return $items;
     }
 

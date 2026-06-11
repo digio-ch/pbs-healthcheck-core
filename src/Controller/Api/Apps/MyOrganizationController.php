@@ -3,6 +3,7 @@
 namespace App\Controller\Api\Apps;
 
 use App\DTO\Model\FilterRequestData\DateAndDateRangeRequestData;
+use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
@@ -10,6 +11,7 @@ use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Model\TimeFrame;
 use App\Service\DataProvider\FilterDataProvider;
+use App\Service\DataProvider\MyOrganization\DemographicStatsDataProvider;
 use App\Service\DataProvider\MyOrganization\GenderStatsDataProvider;
 use App\Service\DataProvider\MyOrganization\StageStatsDataProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -100,6 +102,35 @@ class MyOrganizationController extends AbstractController
         $data = $statsDataProvider->getData(
             $group,
             $timeframe,
+            $widgetRequestData->getPeopleTypes(),
+            $widgetRequestData->getGroupTypes()
+        );
+
+        return $this->json($data);
+    }
+
+    /**
+     * @param DateRequestData $dateRequestData
+     * @param WidgetRequestData $widgetRequestData
+     * @param DemographicStatsDataProvider $demographicStatsProvider
+     * @return JsonResponse
+     */
+    public function getDemographicStats(
+        DateRequestData              $dateRequestData,
+        WidgetRequestData            $widgetRequestData,
+        DemographicStatsDataProvider $demographicStatsProvider
+    ): JsonResponse {
+        $group = $widgetRequestData->getGroup();
+
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
+
+        if (!$this->isAssociation($group)) {
+            throw new ApiException(400, "Only for regions and cantons");
+        }
+
+        $data = $demographicStatsProvider->getData(
+            $group,
+            $dateRequestData->getDate(),
             $widgetRequestData->getPeopleTypes(),
             $widgetRequestData->getGroupTypes()
         );
