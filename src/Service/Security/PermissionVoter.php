@@ -39,7 +39,7 @@ class PermissionVoter extends Voter
         $this->specialAccessEmails = explode(',', $specialAccessEmails);
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         if (!in_array($attribute, [PermissionType::VIEWER, PermissionType::EDITOR, PermissionType::EDITOR_PLUS, PermissionType::OWNER])) {
             return false;
@@ -52,7 +52,7 @@ class PermissionVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         assert($user instanceof PbsUserDTO);

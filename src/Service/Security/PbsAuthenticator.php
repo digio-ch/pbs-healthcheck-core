@@ -2,7 +2,6 @@
 
 namespace App\Service\Security;
 
-use App\Repository\Midata\GroupRepository;
 use App\Service\Pbs\PbsAuthService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,120 +9,83 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class PbsAuthenticator extends AbstractGuardAuthenticator
+/**
+ * PbsAuthenticator implements a custom authenticator that works with PBS OAuth.
+ * AbstractAuthenticator implements methods used for authentication (oauth/v2/code endpoint)
+ * (see https://symfony.com/doc/current/security/custom_authenticator.html)
+ * AuthenticationEntryPointInterface handles the response that is sent when an unauthenticated user
+ * tries to access a protected endpoint.
+ * (see https://symfony.com/doc/current/security/entry_point.html)
+ */
+class PbsAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
     private const LOGIN_ROUTE = 'app_oauth';
 
-    /**
-     * @var PbsAuthService
-     */
-    private $pbsAuthService;
+    private PbsAuthService $pbsAuthService;
+    private RequestStack $requestStack;
+    private TranslatorInterface $translator;
 
-    /**
-     * @var GroupRepository
-     */
-    private $groupRepository;
-
-    /**
-     * @var Request
-     */
-    private $request;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * PbsAuthenticator constructor.
-     * @param PbsAuthService $pbsAuthService
-     * @param GroupRepository $groupRepository
-     * @param RequestStack $requestStack
-     * @param TranslatorInterface $translator
-     */
     public function __construct(
         PbsAuthService $pbsAuthService,
-        GroupRepository $groupRepository,
         RequestStack $requestStack,
         TranslatorInterface $translator
     ) {
         $this->pbsAuthService = $pbsAuthService;
-        $this->groupRepository = $groupRepository;
-        $this->request = $requestStack->getCurrentRequest();
+        $this->requestStack = $requestStack;
         $this->translator = $translator;
     }
 
     /**
-     * @inheritDoc
+     * Defines the response for when an unauthenticated user tries to access a protected endpoint
      */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): Response
     {
         return new JsonResponse($this->translator->trans('auth.unauthorized'), Response::HTTP_UNAUTHORIZED);
     }
 
     /**
-     * @inheritDoc
+     * Checks whether the current request supports authentication (only the oauth/v2/code endpoint)
      */
-    public function supports(Request $request)
+    public function supports(Request $request): ?bool
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route');
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getCredentials(Request $request)
+    public function authenticate(Request $request): SelfValidatingPassport
     {
-        return json_decode($request->getContent(), true);
-    }
+        $credentials = json_decode($request->getContent(), true);
 
-    /**
-     * @inheritDoc
-     */
-    public function getUser($credentials, UserProviderInterface $userProvider)
-    {
-        if (!array_key_exists('code', $credentials)) {
-            return null;
+        if (!is_array($credentials) || !array_key_exists('code', $credentials)) {
+            throw new CustomUserMessageAuthenticationException('Invalid or missing credentials.');
         }
 
-        return $this->pbsAuthService->getUser($credentials['code'], $this->request->getLocale());
+        $code = $credentials['code'];
+        $locale = $this->requestStack->getCurrentRequest()->getLocale() ?? 'en';
+
+        // fetch the user using the provided code
+        $user = $this->pbsAuthService->getUser($code, $locale);
+
+        return new SelfValidatingPassport(
+            new UserBadge($user->getUserIdentifier(), function () use ($user) {
+                return $user;
+            })
+        );
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function checkCredentials($credentials, UserInterface $user)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
-        return new JsonResponse($exception->getMessage(), Response::HTTP_UNAUTHORIZED);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
-    {
-        // continue in login route
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function supportsRememberMe()
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        return false;
+        return new JsonResponse($exception->getMessageKey(), Response::HTTP_UNAUTHORIZED);
     }
 }

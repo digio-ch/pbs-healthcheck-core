@@ -265,9 +265,17 @@ class PbsUserDTO implements UserInterface
     }
 
     /**
-     * @inheritDoc
+     * @deprecated
+     * since Symfony 5.3, use getUserIdentifier() instead.
+     * Implementation is still needed for conformance to interface.
+     * May be removed after upgrading to future version.
      */
-    public function getUsername()
+    public function getUsername(): string
+    {
+        return $this->email;
+    }
+
+    public function getUserIdentifier(): string
     {
         return $this->email;
     }
@@ -283,7 +291,7 @@ class PbsUserDTO implements UserInterface
     /**
      * @inheritDoc
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return ['ROLE_USER'];
     }

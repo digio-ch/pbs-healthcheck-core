@@ -62,7 +62,7 @@ class AuthController extends AbstractController
         if ($user instanceof PbsUserDTO) {
             $this->logger->info(new SimpleLogMessage(md5($user->getNickName()) . ' logged out.'));
         } else {
-            $this->logger->info(new SimpleLogMessage(md5($user->getUsername()) . ' logged out.'));
+            $this->logger->info(new SimpleLogMessage(md5($user->getUserIdentifier()) . ' logged out.'));
         }
 
         return $this->json('logout successful');
