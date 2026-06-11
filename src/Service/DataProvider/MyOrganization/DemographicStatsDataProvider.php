@@ -114,7 +114,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
         $groupTypeAndGenderPerYear = [];
 
         $leadersOnly = $this->isLeadersOnly($peopleTypes);
-        $isBothPeopleTypes = $this->isBothTypes($peopleTypes);
+        $isBothPeopleTypes = $this->isBothPeopleTypes($peopleTypes);
 
         // depending on the people type we want to count leaders instead of members
         $rowCountKeyPostFix = '';
@@ -397,21 +397,4 @@ class DemographicStatsDataProvider extends WidgetDataProvider
         return $unknownGenderCount;
     }
 
-    /**
-     * @param array $peopleTypes
-     * @return bool
-     */
-    private function isLeadersOnly(array $peopleTypes): bool
-    {
-        return count($peopleTypes) === 1 && $peopleTypes[0] === self::PEOPLE_TYPE_LEADERS;
-    }
-
-    /**
-     * @param array $peopleTypes
-     * @return bool
-     */
-    private function isBothTypes(array $peopleTypes): bool
-    {
-        return count($peopleTypes) === 2;
-    }
 }

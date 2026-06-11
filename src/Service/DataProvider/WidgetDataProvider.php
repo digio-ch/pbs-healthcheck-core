@@ -170,4 +170,22 @@ class WidgetDataProvider
             . '.' . $groupType;
         return $this->translator->trans($translation);
     }
+
+    /**
+     * @param array $peopleTypes
+     * @return bool
+     */
+    protected function isLeadersOnly(array $peopleTypes): bool
+    {
+        return count($peopleTypes) === 1 && $peopleTypes[0] === $this::PEOPLE_TYPE_LEADERS;
+    }
+
+    /**
+     * @param array $peopleTypes
+     * @return bool
+     */
+    protected function isBothPeopleTypes(array $peopleTypes): bool
+    {
+        return count($peopleTypes) === 2;
+    }
 }

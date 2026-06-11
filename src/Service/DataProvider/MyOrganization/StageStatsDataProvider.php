@@ -52,7 +52,7 @@ class StageStatsDataProvider extends WidgetDataProvider
      * @param TimeFrame $timeframe
      * @param array $peopleTypes
      * @param array $groupTypes
-     * @return PieChartDataDTO[]
+     * @return array<PieChartDataDTO|LineChartDataDTO>
      * @throws Exception
      */
     public function getData(Group $association, TimeFrame $timeframe, array $peopleTypes, array $groupTypes): array
@@ -87,39 +87,20 @@ class StageStatsDataProvider extends WidgetDataProvider
    * @param string[] $groupTypes
    * @return PieChartDataDTO[]
    */
-    private function getDataForDate(array $departmentIds, DateTimeInterface $date, array $peopleTypes, array $groupTypes): array
+    private function getDataForDate(
+        array $departmentIds,
+        DateTimeInterface $date,
+        array $peopleTypes,
+        array $groupTypes
+    ): array
     {
-        $stages = $this->aggregatedGenderRepository->findGroupTypeTotalCountForDateOfGroups(
+        $rows = $this->aggregatedGenderRepository->findGroupTypeTotalCountForDateOfGroups(
             $date->format('Y-m-d'),
             $departmentIds,
             $groupTypes
         );
 
-        /**
-         * @var array<string, int> $groupTypeCount
-         */
-        $groupTypeCount = [];
-
-        // count members and leaders
-        if (count($peopleTypes) === 2) {
-            $groupTypeCount[self::PEOPLE_TYPE_LEADERS] = 0;
-
-            foreach ($stages as $stage) {
-                $groupTypeCount[self::PEOPLE_TYPE_LEADERS] += $stage['leaders'];
-
-                $groupType = $stage['group_type'];
-                $groupTypeCount[$groupType] = $stage['members'];
-            }
-        } else {
-            // there has to be at least one because of middleware checks
-            // count whatever people type is in the array
-            $peopleType = $peopleTypes[0];
-
-            foreach ($stages as $stage) {
-                $groupType = $stage['group_type'];
-                $groupTypeCount[$groupType] = $stage[$peopleType];
-            }
-        }
+        $groupTypeCount = $this->buildGroupTypeCount($rows, $peopleTypes);
 
         $result = [];
 
@@ -135,9 +116,7 @@ class StageStatsDataProvider extends WidgetDataProvider
             $result[] = $pieChartDataDTO;
         }
 
-        $leadersOnly = count($peopleTypes) === 1 && $peopleTypes[0] === self::PEOPLE_TYPE_LEADERS;
-
-        $this->translateGroupNames($result, $leadersOnly);
+        $this->translateGroupNames($result, $this->isLeadersOnly($peopleTypes));
 
         return $result;
     }
@@ -157,64 +136,163 @@ class StageStatsDataProvider extends WidgetDataProvider
         array $peopleTypes,
         array $groupTypes
     ): array {
-        $entries = $this->aggregatedGenderRepository->findGroupTypeTotalCountForPeriodOfGroups(
+        $rows = $this->aggregatedGenderRepository->findGroupTypeTotalCountForPeriodOfGroups(
             $from->format('Y-m-d'),
             $to->format('Y-m-d'),
             $departmentIds,
             $groupTypes
         );
 
+        $chartPointsPerGroupType = $this->buildChartPointsPerGroupType($rows, $peopleTypes);
+
+        $lineCharts = [];
+
+        foreach ($chartPointsPerGroupType as $groupType => $series) {
+            $lineCharts[] = $this->mapToLineChart($groupType, $series);
+        }
+
+        $this->translateGroupNames($lineCharts, $this->isLeadersOnly($peopleTypes));
+
+        // we want the department count to be identifiable by the departments key so no translating needed
+        $lineCharts[] = $this->getDepartmentLineChart($from, $to, $departmentIds, $groupTypes);
+
+        return $lineCharts;
+    }
+
+    /**
+     * @param string $groupType
+     * @param array $series
+     * @return LineChartDataDTO
+     */
+    public function mapToLineChart(
+        string $groupType,
+        array $series
+    ): LineChartDataDTO {
+        $lineChart = new LineChartDataDTO();
+        $lineChart->setName($groupType);
+        $lineChart->setColor(self::GROUP_TYPE_COLORS[$groupType]);
+        $lineChart->addSeries(...$series);
+
+        return $lineChart;
+    }
+
+    /**
+     * @param array $rows
+     * @param string[] $peopleTypes
+     * @return array<string, int>
+     */
+    private function buildGroupTypeCount(array $rows, array $peopleTypes): array
+    {
         /**
-         * @var array<string, array<string, int>> $groupTypeCount
+         * @var array<string, int> $groupTypeCount
          */
         $groupTypeCount = [];
 
-        // count members and leaders
-        if (count($peopleTypes) === 2) {
-            $groupTypeCount[self::PEOPLE_TYPE_LEADERS] = [];
+        $isBothPeopleTypes = $this->isBothPeopleTypes($peopleTypes);
 
-            foreach ($entries as $entry) {
-                $groupType = $entry['group_type'];
-
-                if (!array_key_exists($groupType, $groupTypeCount)) {
-                    $groupTypeCount[$groupType] = [];
-                }
-
-                $dataPointDate = $entry['data_point_date'];
-
-                $groupTypeCount[$groupType][$dataPointDate] = $entry['members'];
-                $groupTypeCount[self::PEOPLE_TYPE_LEADERS][$dataPointDate] = $entry['leaders'];
-            }
-        } else {
-            // there has to be at least one because of middleware checks
-            // count whatever people type is in the array
-            $peopleType = $peopleTypes[0];
-
-            foreach ($entries as $entry) {
-                $groupType = $entry['group_type'];
-
-                if (!array_key_exists($groupType, $groupTypeCount)) {
-                    $groupTypeCount[$groupType] = [];
-                }
-
-                $dataPointDate = $entry['data_point_date'];
-
-                $groupTypeCount[$groupType][$dataPointDate] = $entry[$peopleType];
-            }
+        if ($isBothPeopleTypes) {
+            $groupTypeCount[self::PEOPLE_TYPE_LEADERS] = 0;
         }
 
-        $result = [];
+        // defines from which field of the $row array the count is used
+        // usually a group type reflects the members count except when leaders only is selected
+        $peopleTypeKey = $this::PEOPLE_TYPE_MEMBERS;
 
-        foreach ($groupTypeCount as $groupType => $series) {
-            $lineChart = $this->toLineChartDataDTO($groupType, $series);
-
-            $result[] = $lineChart;
+        if ($this->isLeadersOnly($peopleTypes)) {
+            $peopleTypeKey = $this::PEOPLE_TYPE_LEADERS;
         }
 
-        $leadersOnly = count($peopleTypes) === 1 && $peopleTypes[0] === self::PEOPLE_TYPE_LEADERS;
+        foreach ($rows as $row) {
+            $groupType = $row['group_type'];
+            $groupTypeCount[$groupType] = $row[$peopleTypeKey];
 
-        $this->translateGroupNames($result, $leadersOnly);
+            // we only need to add leaders as separate count if both types are selected
+            if (!$isBothPeopleTypes) {
+                continue;
+            }
 
+            $groupTypeCount[self::PEOPLE_TYPE_LEADERS] += $row[self::PEOPLE_TYPE_LEADERS];
+        }
+
+        return $groupTypeCount;
+    }
+
+    private function mapToChartPoint(string $dataPointDate, int $count): LineChartDataPointDTO
+    {
+        $name = DateTime::createFromFormat('Y-m-d H:i:s', $dataPointDate)->format('Y-m-d');
+        $chartPoint = new LineChartDataPointDTO();
+        $chartPoint->setName($name);
+        $chartPoint->setValue($count);
+
+        return $chartPoint;
+    }
+
+    /**
+     * @param array $rows
+     * @param string[] $peopleTypes
+     * @return array
+     */
+    public function buildChartPointsPerGroupType(array $rows, array $peopleTypes): array
+    {
+        /**
+         * @var array<string, LineChartDataPointDTO[]> $chartPointsPerGroupType
+         */
+        $chartPointsPerGroupType = [];
+
+        $isBothPeopleTypes = $this->isBothPeopleTypes($peopleTypes);
+
+        if ($isBothPeopleTypes) {
+            $chartPointsPerGroupType[self::PEOPLE_TYPE_LEADERS] = [];
+        }
+
+        // defines from which field of the $row array the count is used
+        // usually a group type reflects the members count except when leaders only is selected
+        $peopleTypeKey = $this::PEOPLE_TYPE_MEMBERS;
+
+        if ($this->isLeadersOnly($peopleTypes)) {
+            $peopleTypeKey = $this::PEOPLE_TYPE_LEADERS;
+        }
+
+        foreach ($rows as $row) {
+            $groupType = $row['group_type'];
+
+            if (!array_key_exists($groupType, $chartPointsPerGroupType)) {
+                $chartPointsPerGroupType[$groupType] = [];
+            }
+
+            $dataPointDate = $row['data_point_date'];
+
+            $chartPointsPerGroupType[$groupType][] = $this->mapToChartPoint(
+                $dataPointDate,
+                $row[$peopleTypeKey]
+            );
+
+            if (!$isBothPeopleTypes) {
+                continue;
+            }
+
+            $chartPointsPerGroupType[self::PEOPLE_TYPE_LEADERS][] = $this->mapToChartPoint(
+                $dataPointDate,
+                $row[self::PEOPLE_TYPE_LEADERS]
+            );
+        }
+        return $chartPointsPerGroupType;
+    }
+
+    /**
+     * @param DateTimeInterface $from
+     * @param DateTimeInterface $to
+     * @param array $departmentIds
+     * @param array $groupTypes
+     * @return LineChartDataDTO
+     */
+    private function getDepartmentLineChart(
+        DateTimeInterface $from,
+        DateTimeInterface $to,
+        array $departmentIds,
+        array $groupTypes
+    ): LineChartDataDTO
+    {
         $departmentCount = $this->aggregatedGenderRepository->findDepartmentTotalCountForPeriodOfGroups(
             $from->format('Y-m-d'),
             $to->format('Y-m-d'),
@@ -222,40 +300,14 @@ class StageStatsDataProvider extends WidgetDataProvider
             $groupTypes
         );
 
-        $series = [];
+        $series = array_map(
+            fn($row) => $this->mapToChartPoint(
+                $row['data_point_date'],
+                $row['departments']
+            ),
+            $departmentCount
+        );
 
-        foreach ($departmentCount as $row) {
-            $series[$row['data_point_date']] = $row['departments'];
-        }
-
-        // we want the department count to be identifiable by the departments key so no translating needed
-        $result[] = $this->toLineChartDataDTO(self::DEPARTMENT_COUNT_KEY, $series);
-
-        return $result;
-    }
-
-    /**
-     * @param string $name
-     * @param array<string, int> $series
-     * @return LineChartDataDTO
-     * @throws \Exception
-     */
-    public function toLineChartDataDTO(
-        string $name,
-        array $series
-    ): LineChartDataDTO {
-        $lineChart = new LineChartDataDTO();
-        $lineChart->setName($name);
-        $lineChart->setColor(self::GROUP_TYPE_COLORS[$name]);
-
-        foreach ($series as $dataPointDate => $count) {
-            $lineChartPoint = new LineChartDataPointDTO();
-            $date = new DateTime($dataPointDate);
-            $lineChartPoint->setName($date->format('d.m.Y'));
-            $lineChartPoint->setValue($count);
-            $lineChart->addSeries($lineChartPoint);
-        }
-
-        return $lineChart;
+        return $this->mapToLineChart(self::DEPARTMENT_COUNT_KEY, $series);
     }
 }
