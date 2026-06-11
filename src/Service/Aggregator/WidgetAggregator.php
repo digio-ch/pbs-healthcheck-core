@@ -2,12 +2,7 @@
 
 namespace App\Service\Aggregator;
 
-use App\Entity\Midata\PersonRole;
-use App\Repository\Aggregated\AggregatedEntityRepository;
-use App\Repository\Midata\GroupRepository;
-use DateTime;
 use Doctrine\DBAL\DBALException;
-use Doctrine\ORM\ORMException;
 
 /**
  * This class was part of the legacy aggregators and is retained

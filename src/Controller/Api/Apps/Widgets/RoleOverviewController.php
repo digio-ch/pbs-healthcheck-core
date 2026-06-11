@@ -6,8 +6,6 @@ use App\DTO\Model\FilterRequestData\DateAndDateRangeRequestData;
 use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Entity\Security\PermissionType;
-use App\Service\DataProvider\MembersGroupDateDataProvider;
-use App\Service\DataProvider\MembersGroupDateRangeDataProvider;
 use App\Service\DataProvider\RoleOverviewDateRangeDataProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

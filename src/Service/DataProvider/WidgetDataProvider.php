@@ -134,7 +134,7 @@ class WidgetDataProvider
                     'groups' => []
                 ];
             }
-            array_push($groupsByType[$subGroup['group_type_id']]['groups'], $subGroup['id']);
+            $groupsByType[$subGroup['group_type_id']]['groups'][] = $subGroup['id'];
         }
         return $groupsByType;
     }

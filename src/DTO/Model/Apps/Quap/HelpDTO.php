@@ -66,6 +66,6 @@ class HelpDTO
 
     public function addLink(LinkDTO $linkDTO): void
     {
-        array_push($this->links, $linkDTO);
+        $this->links[] = $linkDTO;
     }
 }

@@ -103,7 +103,6 @@ class DemographicCampDataProvider extends WidgetDataProvider
                 $this->getAdditionalLeadersData($barChart, $event, $group->getId(), $subGroupTypes);
                 $this->addCampToChart($result, $barChart);
                 $this->translateGroupNames($barChart->getSeries());
-                continue;
             }
         }
 

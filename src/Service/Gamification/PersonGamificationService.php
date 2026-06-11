@@ -24,8 +24,6 @@ use App\Repository\Midata\PersonRepository;
 use App\Repository\Quap\QuestionnaireRepository;
 use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 
 class PersonGamificationService
 {
@@ -281,7 +279,6 @@ class PersonGamificationService
                         break;
                     default:
                         throw new \Exception('Couldnt find goal');
-                        break;
                 }
             }
             if (count($goalDTOs) !== 0) {

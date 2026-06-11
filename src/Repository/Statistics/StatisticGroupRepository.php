@@ -2,7 +2,6 @@
 
 namespace App\Repository\Statistics;
 
-use App\Entity\Midata\CensusGroup;
 use App\Entity\Midata\GroupType;
 use App\Entity\Statistics\StatisticGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

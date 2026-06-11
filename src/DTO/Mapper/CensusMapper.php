@@ -8,7 +8,6 @@ use App\DTO\Model\Apps\Census\TableDTO;
 use App\DTO\Model\FilterRequestData\CensusRequestData;
 use App\Entity\Midata\CensusGroup;
 use App\Entity\Statistics\StatisticGroup;
-use Symfony\Component\Validator\Constraints\Date;
 
 class CensusMapper
 {

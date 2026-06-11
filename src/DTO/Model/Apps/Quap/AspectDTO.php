@@ -95,6 +95,6 @@ class AspectDTO
 
     public function addQuestion(QuestionDTO $questionDTO)
     {
-        array_push($this->questions, $questionDTO);
+        $this->questions[] = $questionDTO;
     }
 }

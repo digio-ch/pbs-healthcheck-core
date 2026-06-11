@@ -2,8 +2,6 @@
 
 namespace App\DTO\Model\FilterRequestData;
 
-use App\Entity\Midata\Group;
-
 class WidgetRequestData extends FilterRequestData
 {
     /**

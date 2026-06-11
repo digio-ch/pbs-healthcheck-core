@@ -18,7 +18,6 @@ class FetchCensusCommand extends StatisticsCommand
     protected CensusGroupRepository $censusGroupRepository;
     protected GroupTypeRepository $groupTypeRepository;
 
-    private SymfonyStyle $io;
     private $start;
 
     public function __construct(
@@ -39,16 +38,16 @@ class FetchCensusCommand extends StatisticsCommand
             ->setDescription('Fetch and aggregate census data');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->start = microtime(true);
-        $this->io = new SymfonyStyle($input, $output);
+        $io = new SymfonyStyle($input, $output);
 
         $year = (int) date('Y');
         $minYear = $year - 6;
         // Fetch groups
         while ($year > $minYear) {
-            $this->io->writeln('year ' . $year);
+            $io->writeln('year ' . $year);
             $rawCensusData = $this->apiService->getCensusData($year);
             $rawCensusGroups = $rawCensusData->getContent()['census_evaluations']['groups'];
             foreach ($rawCensusGroups as $rawCensusGroup) {

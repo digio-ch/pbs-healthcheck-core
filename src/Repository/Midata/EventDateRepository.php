@@ -6,7 +6,6 @@ use App\Entity\Midata\Camp;
 use App\Entity\Midata\EventDate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\Persistence\ManagerRegistry;
 
 class EventDateRepository extends ServiceEntityRepository

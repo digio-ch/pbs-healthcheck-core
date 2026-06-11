@@ -4,7 +4,6 @@ namespace App\Entity\Gamification;
 
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Person;
-use App\Entity\Quap\Aspect;
 use App\Entity\Quap\Questionnaire;
 use App\Repository\Gamification\GamificationQuapEventRepository;
 use Doctrine\ORM\Mapping as ORM;

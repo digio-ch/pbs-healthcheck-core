@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Service\Http\GuzzleWrapper;
-use App\Service\Http;
 
 class GroupStructureAPIService
 {

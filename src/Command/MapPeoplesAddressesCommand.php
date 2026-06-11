@@ -224,14 +224,14 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
             $file,
             sprintf(
                 '%s;%d;%s;%s;%s;%s;%s;%s;',
-                $addressMappingDTO->getMidataAddress() ? $addressMappingDTO->getMidataAddress() : '',
-                $addressMappingDTO->getMidataZip() ? $addressMappingDTO->getMidataZip() : '',
-                $addressMappingDTO->getMidataTown() ? $addressMappingDTO->getMidataTown() : '',
-                $addressMappingDTO->getStreetWithoutNumber() ? $addressMappingDTO->getStreetWithoutNumber() : '',
-                $addressMappingDTO->getHouseNumber() ? $addressMappingDTO->getHouseNumber() : '',
-                $addressMappingDTO->getCorrectedStreet() ? $addressMappingDTO->getCorrectedStreet() : '',
-                $addressMappingDTO->getNormalizedStreet() ? $addressMappingDTO->getNormalizedStreet() : '',
-                $addressMappingDTO->getCode() ? $addressMappingDTO->getCode() : ''
+                $addressMappingDTO->getMidataAddress() ?: '',
+                $addressMappingDTO->getMidataZip() ?: '',
+                $addressMappingDTO->getMidataTown() ?: '',
+                $addressMappingDTO->getStreetWithoutNumber() ?: '',
+                $addressMappingDTO->getHouseNumber() ?: '',
+                $addressMappingDTO->getCorrectedStreet() ?: '',
+                $addressMappingDTO->getNormalizedStreet() ?: '',
+                $addressMappingDTO->getCode() ?: ''
             ) . PHP_EOL
         );
     }

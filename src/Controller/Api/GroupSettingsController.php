@@ -2,7 +2,6 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\General\GroupSettings;
 use App\Entity\Midata\Group;
 use App\Entity\Security\PermissionType;
 use App\Repository\General\GroupSettingsRepository;

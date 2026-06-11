@@ -3,7 +3,6 @@
 namespace App\Repository\Statistics;
 
 use App\Entity\Statistics\GroupGeoLocation;
-use App\Entity\Statistics\StatisticGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\OptimisticLockException;

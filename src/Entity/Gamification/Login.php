@@ -5,8 +5,6 @@ namespace App\Entity\Gamification;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Person;
 use App\Repository\Gamification\LoginRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

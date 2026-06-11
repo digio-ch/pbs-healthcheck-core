@@ -6,10 +6,8 @@ use App\DTO\Mapper\CensusMapper;
 use App\DTO\Model\Apps\Census\DevelopmentWidgetDTO;
 use App\DTO\Model\Apps\Census\MembersWidgetDTO;
 use App\DTO\Model\Apps\Census\StackedBarElementDTO;
-use App\DTO\Model\Apps\Census\TableDTO;
 use App\DTO\Model\Apps\Census\TreemapWidgetDTO;
 use App\DTO\Model\FilterRequestData\CensusRequestData;
-use App\Entity\Midata\CensusGroup;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
 use App\Entity\Statistics\StatisticGroup;
@@ -17,10 +15,7 @@ use App\Repository\Midata\CensusGroupRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use App\Repository\Statistics\StatisticGroupRepository;
-use App\Service\Apps\Census\CensusFilter;
 use App\Service\Census\CensusDateProvider;
-use Doctrine\DBAL\Schema\Table;
-use Sentry\Util\JSON;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CensusDataProvider extends WidgetDataProvider

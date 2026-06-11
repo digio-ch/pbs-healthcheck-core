@@ -17,7 +17,6 @@ use App\Entity\Quap\Questionnaire;
 use App\Exception\ApiException;
 use App\Model\QuapNode;
 use App\Repository\Aggregated\AggregatedQuapRepository;
-use App\Repository\Midata\GroupRepository;
 use App\Repository\Quap\AspectRepository;
 use App\Repository\Quap\HelpRepository;
 use App\Repository\Quap\LinkRepository;

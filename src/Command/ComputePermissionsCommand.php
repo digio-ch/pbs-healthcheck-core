@@ -10,8 +10,6 @@ use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use function Sentry\continueTrace;
-
 class ComputePermissionsCommand extends StatisticsCommand
 {
     /** @var PersonRoleRepository $personRoleRepository */

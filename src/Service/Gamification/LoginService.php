@@ -5,7 +5,6 @@ namespace App\Service\Gamification;
 use App\DTO\Model\PbsUserDTO;
 use App\Entity\Gamification\Login;
 use App\Entity\Midata\Group;
-use App\Entity\Midata\Person;
 use App\Repository\Gamification\LoginRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\PersonRepository;
@@ -41,7 +40,7 @@ class LoginService
         $activeGroup = $this->groupRepository->find($activeGroupDTO->getId());
         $user = $this->personRepository->find($userDTO->getId());
         if (is_null($user)) {
-            new \Exception("user couldn't be found.");
+            throw new \Exception("user couldn't be found.");
         }
         if (sizeof($userDTO->getRoles()) !== 1) {
             throwException("Invalid amount of roles.");

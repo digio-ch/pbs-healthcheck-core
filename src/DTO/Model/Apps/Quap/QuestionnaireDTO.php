@@ -74,6 +74,6 @@ class QuestionnaireDTO
 
     public function addAspect(AspectDTO $aspect): void
     {
-        array_push($this->aspects, $aspect);
+        $this->aspects[] = $aspect;
     }
 }

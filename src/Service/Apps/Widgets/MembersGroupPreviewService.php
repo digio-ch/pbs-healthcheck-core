@@ -2,7 +2,6 @@
 
 namespace App\Service\Apps\Widgets;
 
-use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use App\Repository\Midata\GroupRepository;
 

@@ -4,7 +4,6 @@ namespace App\Repository\Aggregated;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;

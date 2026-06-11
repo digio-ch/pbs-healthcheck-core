@@ -4,7 +4,7 @@ namespace App\Entity\General;
 
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Role;
-use App\Repository\General\GroupSettingsRepository;
+use App\Repository\General\PersonSettingsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

@@ -3,14 +3,11 @@
 namespace App\Controller\Api;
 
 use App\Entity\Gamification\Goal;
-use App\Entity\Midata\Group;
-use App\Entity\Security\Permission;
 use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Repository\Midata\GroupRepository;
 use App\Service\Gamification\LoginService;
 use App\Service\Gamification\PersonGamificationService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

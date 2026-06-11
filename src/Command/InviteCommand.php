@@ -53,7 +53,7 @@ class InviteCommand extends Command
             ->addOption('days', 'd', InputOption::VALUE_OPTIONAL, '# of days the invite is valid for, default is 30', 30);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -80,7 +80,7 @@ class InviteCommand extends Command
             return Command::SUCCESS;
         }
 
-        if ($days < 1 && $days > 30) {
+        if ($days < 1 || $days > 30) {
             $io->error("Invite must be valid between 1 and 30 days");
             return Command::SUCCESS;
         }

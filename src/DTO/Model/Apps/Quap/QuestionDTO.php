@@ -95,6 +95,6 @@ class QuestionDTO
 
     public function addHelp(HelpDTO $helpDTO): void
     {
-        array_push($this->help, $helpDTO);
+        $this->help[] = $helpDTO;
     }
 }

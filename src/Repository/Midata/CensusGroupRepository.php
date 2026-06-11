@@ -4,7 +4,6 @@ namespace App\Repository\Midata;
 
 use App\Entity\Midata\CensusGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\ResultSetMapping;

@@ -3,7 +3,6 @@
 namespace App\Service\Logger\Handlers;
 
 use App\Service\Logger\ContextOnlyJsonFormatter;
-use App\Service\Logger\Handlers\GelfLoggerHandler;
 use Gelf\Message;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;

@@ -4,7 +4,6 @@ namespace App\Repository\Midata;
 
 use App\Entity\Midata\QualificationType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -4,12 +4,10 @@ namespace App\Controller\Api;
 
 use App\Entity\Midata\Group;
 use App\Entity\Security\PermissionType;
-use App\Service\DataProvider\FilterDataProvider;
 use App\Service\DateFilterService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class DateFilterController extends AbstractController
 {

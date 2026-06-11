@@ -3,13 +3,8 @@
 namespace App\Service\DataProvider;
 
 use App\DTO\Mapper\RoleOverviewMapper;
-use App\DTO\Model\Apps\Widgets\RoleOverview\RoleOccupation;
 use App\DTO\Model\Apps\Widgets\RoleOverview\RoleOccupationWrapper;
-use App\DTO\Model\Apps\Widgets\RoleOverview\RoleOverviewDTO;
-use App\Entity\General\GroupSettings;
 use App\Entity\Midata\Group;
-use App\Entity\Midata\GroupType;
-use App\Repository\Aggregated\AggregatedDemographicEnteredLeftRepository;
 use App\Repository\Aggregated\AggregatedPersonRoleRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
