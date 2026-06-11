@@ -116,8 +116,8 @@ class MyOrganizationController extends AbstractController
      * @return JsonResponse
      */
     public function getDemographicStats(
-        DateRequestData              $dateRequestData,
-        WidgetRequestData            $widgetRequestData,
+        DateRequestData $dateRequestData,
+        WidgetRequestData $widgetRequestData,
         DemographicStatsDataProvider $demographicStatsProvider
     ): JsonResponse {
         $group = $widgetRequestData->getGroup();

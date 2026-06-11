@@ -233,8 +233,7 @@ class MembersBirthyearDateDataProvider extends WidgetDataProvider
             }
         }
 
-        foreach ($items as $year => $series)
-        {
+        foreach ($items as $year => $series) {
             $hasAtLeastOneNonZeroCount = false;
 
             foreach ($series as $_ => $count) {

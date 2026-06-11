@@ -58,8 +58,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
         DateTimeInterface $date,
         array $peopleTypes,
         array $groupTypes
-    ): ExcludeUnknownGenderChartDTO
-    {
+    ): ExcludeUnknownGenderChartDTO {
         $departmentIds = $this->statisticGroupRepository->findAllRelevantChildGroups(
             $association->getId(),
             [GroupType::DEPARTMENT],
@@ -169,8 +168,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
                 ];
             }
 
-            foreach ($countTypes as $countType)
-            {
+            foreach ($countTypes as $countType) {
                 $count = $row[$countType['key']];
 
                 if ($countType['isFemale']) {
@@ -191,8 +189,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
          */
         $barsPerYear = [];
 
-        foreach ($groupTypeAndGenderPerYear as $birthYear => $groupTypeAndGenderCount)
-        {
+        foreach ($groupTypeAndGenderPerYear as $birthYear => $groupTypeAndGenderCount) {
             // we don't care about birth years without people
             if (count($groupTypeAndGenderCount) === 0) {
                 continue;
@@ -200,8 +197,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
 
             $barsPerYear[$birthYear] = [];
 
-            foreach ($groupTypeAndGenderCount as $groupTypeAndGender => $count)
-            {
+            foreach ($groupTypeAndGenderCount as $groupTypeAndGender => $count) {
                 $barsPerYear[$birthYear][] = $this->mapKeyToBar($groupTypeAndGender, $count);
             }
         }
@@ -319,8 +315,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
             $lastYear = $year;
         }
 
-        foreach ($missingYears as $missingYear)
-        {
+        foreach ($missingYears as $missingYear) {
             $barsPerYear[$missingYear] = [];
         }
 
@@ -376,8 +371,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
         array $departmentIds,
         array $groupTypes,
         array $peopleTypes
-    ): int
-    {
+    ): int {
         $unknownGenderCount = 0;
 
         list($unknownMemberCount, $unknownLeaderCount) = $this->demographicsRepository->findUnknownGenderCount(
@@ -396,5 +390,4 @@ class DemographicStatsDataProvider extends WidgetDataProvider
 
         return $unknownGenderCount;
     }
-
 }

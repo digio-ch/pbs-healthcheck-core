@@ -92,8 +92,7 @@ class StageStatsDataProvider extends WidgetDataProvider
         DateTimeInterface $date,
         array $peopleTypes,
         array $groupTypes
-    ): array
-    {
+    ): array {
         $rows = $this->aggregatedGenderRepository->findGroupTypeTotalCountForDateOfGroups(
             $date->format('Y-m-d'),
             $departmentIds,
@@ -291,8 +290,7 @@ class StageStatsDataProvider extends WidgetDataProvider
         DateTimeInterface $to,
         array $departmentIds,
         array $groupTypes
-    ): LineChartDataDTO
-    {
+    ): LineChartDataDTO {
         $departmentCount = $this->aggregatedGenderRepository->findDepartmentTotalCountForPeriodOfGroups(
             $from->format('Y-m-d'),
             $to->format('Y-m-d'),
