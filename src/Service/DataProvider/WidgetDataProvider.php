@@ -8,7 +8,7 @@ use App\DTO\Model\Charts\LineChartDataDTO;
 use App\DTO\Model\Charts\PieChartDataDTO;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -94,7 +94,7 @@ class WidgetDataProvider
      * @param int $parentGroupId
      * @param array $subGroupTypes
      * @return array|int[]
-     * @throws DBALException
+     * @throws Exception
      */
     protected function getSubGroupIds(
         int $parentGroupId,
@@ -115,7 +115,7 @@ class WidgetDataProvider
      * @param int $parentGroupId
      * @param array|string[] $subGroupTypes
      * @return array
-     * @throws DBALException
+     * @throws Exception
      */
     protected function getSubGroupsByType(
         int $parentGroupId,

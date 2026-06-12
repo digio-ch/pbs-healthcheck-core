@@ -44,7 +44,7 @@ class ClientAuthSslOptions extends SslOptions
         $this->clientKey = $clientKey;
     }
 
-    public function toStreamContext($serverName = null)
+    public function toStreamContext($serverName = null): array
     {
         $context = parent::toStreamContext($serverName);
 

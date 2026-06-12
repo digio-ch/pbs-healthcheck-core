@@ -27,7 +27,7 @@ class QualificationTypeRepository extends ServiceEntityRepository
             default:
                 $fieldPrefix .= 'mqt.de_label';
         }
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $statement = $connection->executeQuery(
             "
             SELECT $fieldPrefix, mqt.id

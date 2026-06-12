@@ -5,8 +5,6 @@ namespace App\Repository\Statistics;
 use App\Entity\Statistics\GroupGeoLocation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -24,72 +22,35 @@ class GroupGeoLocationRepository extends ServiceEntityRepository
         parent::__construct($registry, GroupGeoLocation::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(GroupGeoLocation $entity, bool $flush = true): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
     public function deleteAll()
     {
-        $this->_em->createQueryBuilder()
+        $this->getEntityManager()->createQueryBuilder()
             ->delete(GroupGeoLocation::class, 'g')
             ->getQuery()
             ->execute();
-        $this->_em->flush();
-        $metadata = $this->_em->getClassMetaData(GroupGeoLocation::class);
+        $this->getEntityManager()->flush();
+        $metadata = $this->getEntityManager()->getClassMetaData(GroupGeoLocation::class);
         $metadata->setIdGenerator(new AssignedGenerator());
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(GroupGeoLocation $entity, bool $flush = true): void
     {
-        $this->_em->remove($entity);
+        $this->getEntityManager()->remove($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
     public function flush()
     {
-        $this->_em->flush();
+        $this->getEntityManager()->flush();
     }
-
-    // /**
-    //  * @return GroupGeoLocation[] Returns an array of GroupGeoLocation objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?GroupGeoLocation
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

@@ -67,7 +67,7 @@ class PbsAuthenticator extends AbstractAuthenticator implements AuthenticationEn
         }
 
         $code = $credentials['code'];
-        $locale = $this->requestStack->getCurrentRequest()->getLocale() ?? 'en';
+        $locale = $this->requestStack->getCurrentRequest()->getLocale() ?? 'de';
 
         // fetch the user using the provided code
         $user = $this->pbsAuthService->getUser($code, $locale);

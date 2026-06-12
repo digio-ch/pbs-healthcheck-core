@@ -7,7 +7,7 @@ use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MembersGenderDateDataProvider extends WidgetDataProvider
@@ -15,7 +15,7 @@ class MembersGenderDateDataProvider extends WidgetDataProvider
     /**
      * @var AggregatedDemographicGroupRepository
      */
-    protected $widgetDemographicGroupRepository;
+    protected AggregatedDemographicGroupRepository $widgetDemographicGroupRepository;
 
     /**
      * MembersGenderDateDataProvider constructor.
@@ -45,7 +45,7 @@ class MembersGenderDateDataProvider extends WidgetDataProvider
      * @param array $peopleTypes
      * @param array $subGroupTypes
      * @return array
-     * @throws DBALException
+     * @throws Exception
      */
     public function getData(Group $group, string $date, array $peopleTypes, array $subGroupTypes)
     {

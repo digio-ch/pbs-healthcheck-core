@@ -35,7 +35,7 @@ class AspectRepository extends ServiceEntityRepository
         $rsm->addFieldResult('a', 'description_de', 'descriptionDe');
         $rsm->addFieldResult('a', 'description_fr', 'descriptionFr');
         $rsm->addFieldResult('a', 'description_it', 'descriptionIt');
-        $query = $this->_em->createNativeQuery(
+        $query = $this->getEntityManager()->createNativeQuery(
             "SELECT
                     *
                 FROM

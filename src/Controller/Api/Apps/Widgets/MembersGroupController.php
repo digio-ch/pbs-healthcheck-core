@@ -10,7 +10,6 @@ use App\Entity\Security\PermissionType;
 use App\Service\Apps\Widgets\MembersGroupPreviewService;
 use App\Service\DataProvider\MembersGroupDateDataProvider;
 use App\Service\DataProvider\MembersGroupDateRangeDataProvider;
-use Doctrine\DBAL\DBALException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,7 +22,6 @@ class MembersGroupController extends AbstractController
      * @param MembersGroupDateDataProvider $membersGroupDateDataProvider
      * @param MembersGroupPreviewService $membersGroupPreviewService
      * @return Response
-     * @throws DBALException
      *
      * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */

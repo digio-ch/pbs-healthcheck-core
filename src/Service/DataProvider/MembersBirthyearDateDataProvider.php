@@ -9,7 +9,6 @@ use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicDepartmentRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
-use Doctrine\DBAL\DBALException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MembersBirthyearDateDataProvider extends WidgetDataProvider
@@ -17,7 +16,7 @@ class MembersBirthyearDateDataProvider extends WidgetDataProvider
     /**
      * @var AggregatedDemographicDepartmentRepository
      */
-    protected $widgetDemographicDepartmentRepository;
+    protected AggregatedDemographicDepartmentRepository $widgetDemographicDepartmentRepository;
 
     /**
      * MembersBirthyearDateDataProvider constructor.
@@ -47,7 +46,6 @@ class MembersBirthyearDateDataProvider extends WidgetDataProvider
      * @param array|string[] $subGroupTypes
      * @param array|string[] $peopleTypes
      * @return ExcludeUnknownGenderChartDTO
-     * @throws DBALException
      */
     public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes)
     {
@@ -116,7 +114,6 @@ class MembersBirthyearDateDataProvider extends WidgetDataProvider
      * @param array $subGroupTypes
      * @param int $mainGroupId
      * @param array $data
-     * @throws DBALException
      */
     private function prepareMembersData(string $date, array $subGroupTypes, int $mainGroupId, array &$data)
     {
@@ -134,7 +131,6 @@ class MembersBirthyearDateDataProvider extends WidgetDataProvider
      * @param array $subGroupTypes
      * @param int $mainGroupId
      * @param array $data
-     * @throws DBALException
      */
     private function prepareLeadersData(string $date, array $subGroupTypes, int $mainGroupId, array &$data)
     {
@@ -152,7 +148,6 @@ class MembersBirthyearDateDataProvider extends WidgetDataProvider
      * @param array $subGroupTypes
      * @param int $mainGroupId
      * @param array $data
-     * @throws DBALException
      */
     private function prepareMembersAndLeadersData(string $date, array $subGroupTypes, int $mainGroupId, array &$data)
     {

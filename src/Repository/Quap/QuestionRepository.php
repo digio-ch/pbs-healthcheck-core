@@ -58,7 +58,7 @@ class QuestionRepository extends ServiceEntityRepository
         $rsm->addFieldResult('q', 'created_at', 'createdAt');
         $rsm->addFieldResult('q', 'deleted_at', 'deletedAt');
         $rsm->addFieldResult('q', 'evaluation_function', 'evaluation_function');
-        $query = $this->_em->createNativeQuery(
+        $query = $this->getEntityManager()->createNativeQuery(
             "SELECT
                     *
                 FROM

@@ -8,7 +8,7 @@ use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Entity\Security\PermissionType;
 use App\Service\DataProvider\MembersGenderDateDataProvider;
 use App\Service\DataProvider\MembersGenderDateRangeDataProvider;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,7 +20,7 @@ class MembersGenderController extends AbstractController
      * @param MembersGenderDateDataProvider $membersGenderDateDataProvider
      * @param MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider
      * @return Response
-     * @throws DBALException
+     * @throws Exception
      */
     public function getDemographicGroupData(
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,

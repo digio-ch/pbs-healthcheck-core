@@ -9,7 +9,7 @@ use App\Repository\Aggregated\AggregatedDemographicEnteredLeftRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use DateTime;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
@@ -17,7 +17,7 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
     /**
      * @var AggregatedDemographicEnteredLeftRepository
      */
-    protected $widgetDemographicEnteredLeftRepository;
+    protected AggregatedDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository;
 
     /**
      * MembersEnteredLeftDateRangeDataProvider constructor.
@@ -48,7 +48,6 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
      * @param array $subGroupTypes
      * @param array $peopleTypes
      * @return array
-     * @throws DBALException
      */
     public function getData(Group $group, string $from, string $to, array $subGroupTypes, array $peopleTypes)
     {
@@ -114,7 +113,7 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
      * @param int $parentGroupId
      * @param array $subGroupTypes
      * @return array
-     * @throws DBALException
+     * @throws Exception
      */
     private function prepareMembersData(string $from, string $to, int $parentGroupId, array $subGroupTypes): array
     {
@@ -138,7 +137,7 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
      * @param int $parentGroupId
      * @param array $subGroupTypes
      * @return array
-     * @throws DBALException
+     * @throws Exception
      */
     private function prepareLeadersData(string $from, string $to, int $parentGroupId, array $subGroupTypes)
     {
@@ -162,7 +161,7 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
      * @param int $parentGroupId
      * @param array $subGroupTypes
      * @return array
-     * @throws DBALException
+     * @throws Exception
      */
     private function prepareAdditionalLeadersData(string $from, string $to, int $parentGroupId, array $subGroupTypes)
     {

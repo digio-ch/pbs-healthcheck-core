@@ -8,7 +8,7 @@ use App\Entity\Midata\QualificationType;
 use App\Entity\Midata\Role;
 use App\Entity\Quap\Question;
 use App\Repository\Midata\GroupRepository;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -215,11 +215,11 @@ class QuapComputeAnswersService
                 $qualificationIds
             ],
             [
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER
             ]
         )->fetchOne();
 
@@ -274,14 +274,14 @@ class QuapComputeAnswersService
                 $additionalQualificationIds
             ],
             [
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER
             ]
         )->fetchOne();
 
@@ -318,10 +318,10 @@ class QuapComputeAnswersService
                 QualificationType::JS_LAGERLEITER,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
                 ParameterType::INTEGER,
             ]
         )->fetchOne();
@@ -370,13 +370,13 @@ class QuapComputeAnswersService
                 QualificationType::ABSOLVENT_PANORAMAKURS,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
                 ParameterType::INTEGER,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
                 ParameterType::INTEGER,
             ]
         )->fetchOne();
@@ -418,9 +418,9 @@ class QuapComputeAnswersService
                 Role::PARENTS_COUNCIL_PRESIDENT,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
             ]
         )->fetchOne();
@@ -473,9 +473,9 @@ class QuapComputeAnswersService
                 $maxDate->format('Y-m-d'),
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
@@ -539,7 +539,7 @@ class QuapComputeAnswersService
                 $groupType,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
             ]
         )->fetchOne();
@@ -583,11 +583,11 @@ class QuapComputeAnswersService
                 GroupType::ROVER,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::INTEGER,
             ]
         )->fetchOne();
@@ -657,8 +657,8 @@ class QuapComputeAnswersService
             ],
             [
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
             ]
         )->fetchOne();
 
@@ -730,17 +730,17 @@ class QuapComputeAnswersService
                 Role::DEPARTMENT_LEADER_PTA,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
             ]
         )->fetchOne();
@@ -836,7 +836,7 @@ class QuapComputeAnswersService
                 $role,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
             ]
         )->fetchOne();
@@ -859,7 +859,7 @@ class QuapComputeAnswersService
                 $role,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
             ]
         )->fetchOne();
@@ -894,10 +894,10 @@ class QuapComputeAnswersService
                 Role::LEADER_ROLES,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
             ]
         )->fetchOne();
 

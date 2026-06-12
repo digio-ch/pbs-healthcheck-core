@@ -4,7 +4,6 @@ namespace App\Service\Apps\Census;
 
 use App\DTO\Model\FilterRequestData\CensusRequestData;
 use App\Entity\Midata\CensusGroup;
-use PHPUnit\Runner\Exception;
 
 class CensusFilter
 {

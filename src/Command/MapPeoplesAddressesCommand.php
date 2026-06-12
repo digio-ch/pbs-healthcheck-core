@@ -16,16 +16,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MapPeoplesAddressesCommand extends StatisticsCommand
 {
     /** @var EntityManagerInterface $em */
-    private $em;
+    private EntityManagerInterface $em;
 
     /** @var PersonRepository $personRepository */
-    private $personRepository;
+    private PersonRepository $personRepository;
 
     /** @var GeoAddressRepository $geoLocationRepository */
-    private $geoLocationRepository;
+    private GeoAddressRepository $geoLocationRepository;
 
     /** @var float */
-    private $stats;
+    private float $stats;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -50,18 +50,12 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
+     * */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $start = microtime(true);
 
         $output->writeln(['Mapping people to their geo location via their address...']);
-
-        $sqlLogger = $this->em->getConnection()->getConfiguration()->getSQLLogger();
-        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
 
         $mapped = 0;
         $total = 0;
@@ -95,8 +89,6 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
                 $output->writeln(sprintf('<info>processed %d addresses</info>', $total));
             }
         }
-
-        $this->em->getConnection()->getConfiguration()->setSQLLogger($sqlLogger);
 
         $this->stats = microtime(true) - $start;
 
@@ -236,7 +228,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         );
     }
 
-    public static function normaliseAddress(string $address)
+    public static function normaliseAddress(string $address): string
     {
         $address = strtolower($address);
         $address = preg_replace('/[éèêë]+/i', 'e', $address);

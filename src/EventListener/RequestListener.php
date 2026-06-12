@@ -40,7 +40,7 @@ class RequestListener
 
     public function onKernelRequest(RequestEvent $event)
     {
-        if (!$event->isMasterRequest() || !in_array($this->environment, self::ACTIVE_ENVS)) {
+        if (!$event->isMainRequest() || !in_array($this->environment, self::ACTIVE_ENVS)) {
             return;
         }
 

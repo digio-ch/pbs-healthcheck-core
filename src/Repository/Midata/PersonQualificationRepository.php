@@ -16,7 +16,7 @@ class PersonQualificationRepository extends ServiceEntityRepository
 
     public function getPersonQualificationByDatePoint(int $personId, string $date)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT midata_qualification_type.validity, midata_qualification_type.de_label, midata_person_qualification.start_at, midata_person_qualification.end_at, midata_person_qualification.event_origin
                   FROM midata_person_qualification 
@@ -32,7 +32,7 @@ class PersonQualificationRepository extends ServiceEntityRepository
 
     public function findQualificationsForPersonByDate(int $personId, string $date)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT midata_qualification_type.validity, midata_qualification_type.id, midata_person_qualification.start_at, midata_person_qualification.end_at, midata_person_qualification.event_origin
                   FROM midata_person_qualification 

@@ -32,7 +32,7 @@ class HelpRepository extends ServiceEntityRepository
         $rsm->addFieldResult('a', 'severity', 'severity');
         $rsm->addFieldResult('a', 'created_at', 'createdAt');
         $rsm->addFieldResult('a', 'deleted_at', 'deletedAt');
-        $query = $this->_em->createNativeQuery(
+        $query = $this->getEntityManager()->createNativeQuery(
             "SELECT
                     *
                 FROM

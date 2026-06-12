@@ -5,8 +5,8 @@ namespace App\Repository\Midata;
 use App\Entity\Midata\PersonRole;
 use App\Service\Aggregator\WidgetAggregator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -55,7 +55,7 @@ class PersonRoleRepository extends ServiceEntityRepository
         array $memberRoles,
         array $rolePriority
     ): array {
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $statement = $connection->executeQuery(
             "SELECT * FROM (
                 SELECT DISTINCT
@@ -139,20 +139,20 @@ class PersonRoleRepository extends ServiceEntityRepository
                 $date
             ],
             [
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
                 ParameterType::STRING
             ]
@@ -165,14 +165,14 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param array $groupIds
      * @param string $gender
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findMemberCountForPeriodByGenderGroupTypeAndGroupIds(
         string $date,
         array $groupIds,
         string $gender = ''
     ) {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT count(DISTINCT person_id) 
                   FROM midata_person_role 
@@ -199,13 +199,13 @@ class PersonRoleRepository extends ServiceEntityRepository
                 WidgetAggregator::$leadersRoleTypes
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING
             ]
         );
         return $statement->fetchFirstColumn();
@@ -213,7 +213,7 @@ class PersonRoleRepository extends ServiceEntityRepository
 
     public function findAllWithRoleCountInGroup(string $endDate, array $groupIds)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT DISTINCT person_id, midata_person.gender as gender, (
                     SELECT DISTINCT count(midata_person_role.id) FROM midata_person_role
@@ -245,12 +245,12 @@ class PersonRoleRepository extends ServiceEntityRepository
             [
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             ]
         );
         return $statement->fetchAllAssociative();
@@ -285,7 +285,7 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param string $groupType
      * @param string $gender
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findLeaderCountForPeriodByGenderGroupTypeAndGroupIds(
         string $date,
@@ -293,7 +293,7 @@ class PersonRoleRepository extends ServiceEntityRepository
         string $groupType,
         string $gender = ''
     ) {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT count(DISTINCT person_id) 
                   FROM midata_person_role 
@@ -306,12 +306,12 @@ class PersonRoleRepository extends ServiceEntityRepository
                     AND midata_role.role_type IN (?);",
             [$groupIds, $date, $gender, $date, $date, WidgetAggregator::$leaderRoleTypesByGroupType[$groupType]],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             ]
         );
         return $statement->fetchFirstColumn();
@@ -322,14 +322,14 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param string $date
      * @param string $gender
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findTotalLeaderCountForGenderAllSubGroupTypesAndDate(
         array $groupIds,
         string $date,
         string $gender = ''
     ) {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT count(DISTINCT person_id) 
                   FROM midata_person_role 
@@ -342,12 +342,12 @@ class PersonRoleRepository extends ServiceEntityRepository
                     AND midata_role.role_type IN (?);",
             [$groupIds, $date, $gender, $date, $date, WidgetAggregator::$leadersRoleTypes],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             ]
         );
         return $statement->fetchFirstColumn();
@@ -358,11 +358,11 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param int $eventId
      * @param string $date
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function getMemberParticipants(array $groupIds, int $eventId, string $date)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT DISTINCT midata_person_role.person_id 
                 FROM midata_person_role 
@@ -380,8 +380,8 @@ class PersonRoleRepository extends ServiceEntityRepository
             [
                 ParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING
             ]
@@ -394,11 +394,11 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param int $eventId
      * @param string $date
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function getLeaderParticipants(array $groupIds, int $eventId, string $date)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT DISTINCT midata_person_role.person_id 
                 FROM midata_person_role 
@@ -414,8 +414,8 @@ class PersonRoleRepository extends ServiceEntityRepository
             [$eventId, $groupIds, WidgetAggregator::$leadersRoleTypes, $date, $date],
             [
                 ParameterType::INTEGER,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING
             ]
@@ -438,11 +438,11 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param array $groupIds
      * @param string $groupType
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findAllLeadersByDateAndGroupType(string $date, array $groupIds, string $groupType)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT DISTINCT midata_person.id, midata_person.gender, midata_person.nickname, midata_person.birthday
                   FROM midata_person_role 
@@ -452,7 +452,7 @@ class PersonRoleRepository extends ServiceEntityRepository
                     AND (created_at <= ? AND (deleted_at IS NULL or deleted_at > ?)) 
                     AND midata_role.role_type IN (?);",
             [$groupIds, $date, $date, WidgetAggregator::$leaderRoleTypesByGroupType[$groupType]],
-            [Connection::PARAM_INT_ARRAY, ParameterType::STRING, ParameterType::STRING, Connection::PARAM_STR_ARRAY]
+            [ArrayParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING, ArrayParameterType::STRING]
         );
         return $statement->fetchAllAssociative();
     }
@@ -461,7 +461,7 @@ class PersonRoleRepository extends ServiceEntityRepository
 
     public function findAllByYearWithRoleCountInGroup(string $endDate, string $year, array $groupIds)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT DISTINCT person_id, extract(year from midata_person.birthday) as birthyear, midata_person.gender as gender, (
                     SELECT DISTINCT count(midata_person_role.id) FROM midata_person_role
@@ -497,14 +497,14 @@ class PersonRoleRepository extends ServiceEntityRepository
             [
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             ]
         );
         return $statement->fetchAllAssociative();
@@ -514,11 +514,11 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param string $date
      * @param array $groupIds
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findBirthYearsForDepartment(string $date, array $groupIds)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT DISTINCT extract(year from midata_person.birthday) as year
                     FROM midata_person_role 
@@ -535,10 +535,10 @@ class PersonRoleRepository extends ServiceEntityRepository
                 array_merge(WidgetAggregator::$leadersRoleTypes, WidgetAggregator::$memberRoleTypes)
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             ]
         );
         return $statement->fetchFirstColumn();
@@ -551,11 +551,11 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param string $previousDate
      * @param string $currentDate
      * @return array|false|mixed
-     * @throws DBALException
+     * @throws Exception
      */
     public function findAllNewPeopleByIdsAndGroup(array $groupIds, string $previousDate, string $currentDate)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT DISTINCT mpr.person_id, midata_person.gender as gender, (
                         SELECT DISTINCT count(midata_person_role.id) FROM midata_person_role
@@ -586,13 +586,13 @@ class PersonRoleRepository extends ServiceEntityRepository
             ],
             [
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             ]
         );
         return $statement->fetchAllAssociative();
@@ -603,11 +603,11 @@ class PersonRoleRepository extends ServiceEntityRepository
      * @param string $previousDate
      * @param string $currentDate
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findAllLeftPeopleByIdsAndGroup(array $groupIds, string $previousDate, string $currentDate)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT DISTINCT mpr.person_id, midata_person.gender as gender, (
                         SELECT DISTINCT count(midata_person_role.id) FROM midata_person_role
@@ -640,13 +640,13 @@ class PersonRoleRepository extends ServiceEntityRepository
             [
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             ]
         );
         return $statement->fetchAllAssociative();
@@ -718,7 +718,7 @@ class PersonRoleRepository extends ServiceEntityRepository
 
     public function findAllPersonInGroupByRole(array $groupTypes, array $roleTypes): array
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT DISTINCT midata_person_role.person_id, midata_person_role.group_id, parent_group_id, midata_group_type.group_type
                 FROM midata_person_role
@@ -733,8 +733,8 @@ class PersonRoleRepository extends ServiceEntityRepository
                 $roleTypes,
             ],
             [
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::STRING,
+                ArrayParameterType::STRING,
             ]
         );
         return $statement->fetchAllAssociative();

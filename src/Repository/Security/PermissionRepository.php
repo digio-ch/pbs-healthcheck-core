@@ -24,24 +24,24 @@ class PermissionRepository extends ServiceEntityRepository
 
     public function save(Permission $invite)
     {
-        $this->_em->persist($invite);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($invite);
+        $this->getEntityManager()->flush();
     }
 
     public function persist(Permission $permission)
     {
-        $this->_em->persist($permission);
+        $this->getEntityManager()->persist($permission);
     }
 
     public function flush()
     {
-        $this->_em->flush();
+        $this->getEntityManager()->flush();
     }
 
     public function remove(Permission $invite)
     {
-        $this->_em->remove($invite);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($invite);
+        $this->getEntityManager()->flush();
     }
 
     public function findByPersonGroupAndPermission(int $groupId, int $personId, int $permissionTypeId): ?Permission
@@ -109,7 +109,7 @@ class PermissionRepository extends ServiceEntityRepository
 
     public function insertPermission(int $groupId, int $permissionTypeId, ?\DateTimeImmutable $expirationDate, ?int $personId, ?string $email): void
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $conn->executeStatement(
             "INSERT INTO hc_security_permission
                     (id, person_id, permission_type_id, group_id, email, expiration_date)
@@ -194,7 +194,7 @@ class PermissionRepository extends ServiceEntityRepository
     {
         $now = new \DateTimeImmutable();
 
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $conn->executeStatement(
             "UPDATE hc_security_permission
                     SET expiration_date = ?

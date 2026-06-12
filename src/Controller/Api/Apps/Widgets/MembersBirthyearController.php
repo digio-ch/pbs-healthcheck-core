@@ -7,7 +7,6 @@ use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Entity\Security\PermissionType;
 use App\Service\DataProvider\MembersBirthyearDateDataProvider;
-use Doctrine\DBAL\DBALException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -18,7 +17,6 @@ class MembersBirthyearController extends AbstractController
      * @param WidgetRequestData $widgetRequestData
      * @param MembersBirthyearDateDataProvider $membersBirthyearDateDataProvider
      * @return JsonResponse
-     * @throws DBALException
      */
     public function getMembersBirthyearData(
         DateRequestData $dateRequestData,

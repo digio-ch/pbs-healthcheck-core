@@ -9,7 +9,6 @@ use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -49,7 +48,6 @@ class MembersGroupDateRangeDataProvider extends WidgetDataProvider
      * @param array $subGroupTypes
      * @param array $peopleTypes
      * @return array
-     * @throws DBALException
      * @throws Exception
      */
     public function getData(Group $group, string $from, string $to, array $subGroupTypes, array $peopleTypes)
@@ -109,7 +107,6 @@ class MembersGroupDateRangeDataProvider extends WidgetDataProvider
      * @param array $subGroupTypes
      * @param int $mainGroupId
      * @return LineChartDataDTO
-     * @throws DBALException
      * @throws Exception
      */
     private function getSummedLeaderData(

@@ -5,8 +5,8 @@ namespace App\Repository\Midata;
 use App\Entity\Midata\Person;
 use App\Service\Aggregator\WidgetAggregator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -27,11 +27,11 @@ class PersonRepository extends ServiceEntityRepository
      * @param string $gender
      * @param array $groupIds
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findAllMembersLeftByPeriodGender(string $prevDate, string $currentDate, string $gender, array $groupIds)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT midata_person.id
                   FROM midata_person
@@ -42,7 +42,7 @@ class PersonRepository extends ServiceEntityRepository
                         (leaving_date >= ? AND leaving_date < ?) AND 
                         midata_role.role_type IN (?);",
             [$groupIds, $gender, $prevDate, $currentDate, WidgetAggregator::$memberRoleTypes],
-            [Connection::PARAM_INT_ARRAY, ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, Connection::PARAM_STR_ARRAY]
+            [ArrayParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, ArrayParameterType::STRING]
         );
         return $statement->fetchAllAssociative();
     }
@@ -53,7 +53,7 @@ class PersonRepository extends ServiceEntityRepository
      * @param string $gender
      * @param array $groupIds
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findAllLeadersLeftByPeriodGender(
         string $prevDate,
@@ -61,7 +61,7 @@ class PersonRepository extends ServiceEntityRepository
         string $gender,
         array $groupIds
     ) {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT midata_person.id
                   FROM midata_person
@@ -72,7 +72,7 @@ class PersonRepository extends ServiceEntityRepository
                         (leaving_date >= ? AND leaving_date < ?) AND 
                         midata_role.role_type IN (?);",
             [$groupIds, $gender, $prevDate, $currentDate, WidgetAggregator::$leadersRoleTypes],
-            [Connection::PARAM_INT_ARRAY, ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, Connection::PARAM_STR_ARRAY]
+            [ArrayParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, ArrayParameterType::STRING]
         );
 
         return $statement->fetchAllAssociative();
@@ -80,7 +80,7 @@ class PersonRepository extends ServiceEntityRepository
 
     public function mapGeoAddress(int $personId, int $geoLocationId)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "UPDATE midata_person
             SET geo_address_id = ?
@@ -94,7 +94,7 @@ class PersonRepository extends ServiceEntityRepository
     {
         $now = (new \DateTime())->format("Y-m-d H:i:s");
 
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "UPDATE midata_person
             SET leaving_date = ?

@@ -5,8 +5,6 @@ namespace App\Repository\Gamification;
 use App\Entity\Gamification\Login;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -24,33 +22,19 @@ class LoginRepository extends ServiceEntityRepository
         parent::__construct($registry, Login::class);
     }
 
-    public function findAllActiveBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $criteria['hashed_id'] = null;
-        return $this->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Login $entity, bool $flush = true): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Login $entity, bool $flush = true): void
     {
-        $this->_em->remove($entity);
+        $this->getEntityManager()->remove($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
@@ -62,9 +46,6 @@ class LoginRepository extends ServiceEntityRepository
      *
      * @param callable<int, string> $hashFunc
      * @return Login[] pseudonymized logins
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws \Doctrine\ORM\Exception\ORMException
      */
     public function pseudonymizeAllOlderThan18Months(callable $hashFunc): array
     {
@@ -84,10 +65,10 @@ class LoginRepository extends ServiceEntityRepository
             $hashedId = $hashFunc($entity->getPerson()->getId());
             $entity->setPerson(null);
             $entity->setHashedPersonId($hashedId);
-            $this->_em->persist($entity);
+            $this->getEntityManager()->persist($entity);
         }
 
-        $this->_em->flush();
+        $this->getEntityManager()->flush();
         return $entities;
     }
 }

@@ -5,8 +5,9 @@ namespace App\Command;
 use App\Entity\Admin\GeoAddress;
 use App\Model\CommandStatistics;
 use App\Repository\Admin\GeoAddressRepository;
-use App\Repository\Midata\PersonRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\Mapping\MappingException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,27 +22,22 @@ class FetchGeoAddressesCommand extends StatisticsCommand
     private const ADDRESS_TOWN = 18;
 
     /** @var EntityManagerInterface $em */
-    private $em;
+    private EntityManagerInterface $em;
 
     /** @var GeoAddressRepository $geoLocationRepository */
-    private $geoLocationRepository;
-
-    /** @var PersonRepository $personRepository */
-    private $personRepository;
+    private GeoAddressRepository $geoLocationRepository;
 
     /** @var float */
     private $stats;
 
     public function __construct(
         EntityManagerInterface $em,
-        GeoAddressRepository $geoLocationRepository,
-        PersonRepository $personRepository
+        GeoAddressRepository $geoLocationRepository
     ) {
         parent::__construct();
 
         $this->em = $em;
         $this->geoLocationRepository = $geoLocationRepository;
-        $this->personRepository = $personRepository;
 
         $this->stats = 0;
     }
@@ -57,9 +53,7 @@ class FetchGeoAddressesCommand extends StatisticsCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\Persistence\Mapping\MappingException|\Doctrine\DBAL\Exception
+     * @throws MappingException|Exception
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -119,9 +113,6 @@ class FetchGeoAddressesCommand extends StatisticsCommand
 
         $output->writeln(['Caching geo locations in the db...']);
 
-        $sqlLogger = $this->em->getConnection()->getConfiguration()->getSQLLogger();
-        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
-
         if ($file) {
             $index = 0;
 
@@ -171,8 +162,6 @@ class FetchGeoAddressesCommand extends StatisticsCommand
 
             fclose($file);
         }
-
-        $this->em->getConnection()->getConfiguration()->setSQLLogger($sqlLogger);
     }
 
     /**

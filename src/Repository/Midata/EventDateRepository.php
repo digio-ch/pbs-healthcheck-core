@@ -5,7 +5,6 @@ namespace App\Repository\Midata;
 use App\Entity\Midata\Camp;
 use App\Entity\Midata\EventDate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
 
 class EventDateRepository extends ServiceEntityRepository
@@ -25,7 +24,7 @@ class EventDateRepository extends ServiceEntityRepository
      */
     public function getMinStartAtDateForSubGroups(array $subGroups)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         return $conn->createQueryBuilder()
             ->select("MIN(ed.start_at)")
             ->from("midata_event_date", "ed")
@@ -33,7 +32,7 @@ class EventDateRepository extends ServiceEntityRepository
             ->innerJoin("e", 'midata_event_group', 'eg', 'eg.event_id = e.id')
             ->where("e.type = 'camp'")
             ->andWhere('eg.group_id IN (:ids)')
-            ->setParameter('ids', $subGroups, Connection::PARAM_INT_ARRAY)
+            ->setParameter('ids', $subGroups, ArrayParameterType::INTEGER)
             ->executeQuery()
             ->fetchOne();
     }
@@ -53,10 +52,10 @@ class EventDateRepository extends ServiceEntityRepository
             ->andWhere('ed.startAt < :to')
             ->andWhere('eg.group IN (:ids)')
             ->andWhere('e INSTANCE OF :class')
-            ->setParameter('ids', $subGroups, Connection::PARAM_INT_ARRAY)
+            ->setParameter('ids', $subGroups, ArrayParameterType::INTEGER)
             ->setParameter('from', $from)
             ->setParameter('to', $to)
-            ->setParameter('class', $this->_em->getClassMetadata(Camp::class))
+            ->setParameter('class', $this->getEntityManager()->getClassMetadata(Camp::class))
             ->getQuery()
             ->getResult();
     }

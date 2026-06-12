@@ -251,17 +251,17 @@ class PbsUserDTO implements UserInterface
     /**
      * @inheritDoc
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
-        // TODO: Implement getPassword() method.
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
-        // TODO: Implement getSalt() method.
+        return null;
     }
 
     /**

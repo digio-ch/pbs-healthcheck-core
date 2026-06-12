@@ -5,12 +5,10 @@ namespace App\Repository\Statistics;
 use App\Entity\Midata\GroupType;
 use App\Entity\Statistics\StatisticGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -28,55 +26,48 @@ class StatisticGroupRepository extends ServiceEntityRepository
         parent::__construct($registry, StatisticGroup::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(StatisticGroup $entity, bool $flush = true): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(StatisticGroup $entity, bool $flush = true): void
     {
-        $this->_em->remove($entity);
+        $this->getEntityManager()->remove($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
     public function deleteAll()
     {
-        $this->_em->createQueryBuilder()
+        $this->getEntityManager()->createQueryBuilder()
             ->delete(StatisticGroup::class, 'g')
             ->getQuery()
             ->execute();
-        $this->_em->flush();
-        $metadata = $this->_em->getClassMetaData(StatisticGroup::class);
+        $this->getEntityManager()->flush();
+        $metadata = $this->getEntityManager()->getClassMetaData(StatisticGroup::class);
         $metadata->setIdGenerator(new AssignedGenerator());
     }
 
     public function flush()
     {
-        $this->_em->flush();
+        $this->getEntityManager()->flush();
     }
 
     /**
      * Finds all the children of the group that are group type 2,3 or 8. (Kanton, Region, Abteilung)
      * @param int $groupId
+     * @param string[] $types
      * @return int[]
      * @throws Exception
      */
     public function findAllRelevantChildGroups(int $groupId, array $types = [GroupType::DEPARTMENT, GroupType::REGION, GroupType::CANTON]): array
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $query = $conn->executeQuery(
             "WITH RECURSIVE parent as (
                     SELECT statistic_group.*, midata_group_type.group_type as group_type
@@ -90,37 +81,8 @@ class StatisticGroupRepository extends ServiceEntityRepository
                 ) SELECT * from parent
                 Where parent.group_type IN (?);",
             [$groupId, $types],
-            [ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
+            [ParameterType::INTEGER, ArrayParameterType::STRING]
         );
         return $query->fetchFirstColumn();
     }
-
-    // /**
-    //  * @return StatisticGroup[] Returns an array of StatisticGroup objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?StatisticGroup
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

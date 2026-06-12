@@ -7,7 +7,7 @@ use App\Entity\Midata\GroupType;
 use App\Service\Aggregator\WidgetAggregator;
 use App\Service\DataProvider\WidgetDataProvider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -46,11 +46,11 @@ class GroupRepository extends ServiceEntityRepository
                 'Group::Abteilung',
                 'Group::Kantonalverband',
                 'Group::Bund',
-            ], Connection::PARAM_STR_ARRAY)
+            ], ArrayParameterType::STRING)
             ->setParameter(
                 'roleTypes',
                 array_merge(WidgetAggregator::$mainGroupRoleTypes, ['Group::Abteilung::Coach']),
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             )
             ->setParameter('personId', $personId, ParameterType::INTEGER)
             ->getQuery()
@@ -109,7 +109,7 @@ class GroupRepository extends ServiceEntityRepository
     public function getAllSubGroupsByGroupId(int $groupId)
     {
         // todo: only fetch relevant group_types
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $query = "WITH RECURSIVE tree AS (
               SELECT id
               FROM midata_group WHERE parent_group_id = :groupId
@@ -138,7 +138,7 @@ class GroupRepository extends ServiceEntityRepository
 
     public function findAllRelevantSubGroupIdsByParentGroupId(int $groupId)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $query = $conn->executeQuery(
             "
             WITH RECURSIVE tree AS (
@@ -156,14 +156,14 @@ class GroupRepository extends ServiceEntityRepository
                     g.parent_group_id = tree.id
             ) SELECT * FROM tree;",
             [$groupId, WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES, WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES],
-            [ParameterType::STRING, Connection::PARAM_STR_ARRAY, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ArrayParameterType::STRING, ArrayParameterType::STRING]
         );
         return $query->fetchFirstColumn();
     }
 
     public function findAllSubGroupIdsByParentGroupId(int $groupId)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $query = $conn->executeQuery(
             "
             WITH RECURSIVE tree AS (
@@ -194,7 +194,7 @@ class GroupRepository extends ServiceEntityRepository
         string $parentGroupId,
         array $subGroupTypes = WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES
     ) {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $query = $conn->executeQuery(
             "
             WITH RECURSIVE tree AS (
@@ -212,7 +212,7 @@ class GroupRepository extends ServiceEntityRepository
                     g.parent_group_id = tree.id
             ) SELECT * FROM tree;",
             [$parentGroupId, $subGroupTypes, $subGroupTypes],
-            [ParameterType::STRING, Connection::PARAM_STR_ARRAY, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ArrayParameterType::STRING, ArrayParameterType::STRING]
         );
         return $query->fetchAllAssociative();
     }

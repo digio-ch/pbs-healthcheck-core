@@ -5,7 +5,7 @@ namespace App\Repository\Midata;
 use App\Entity\Midata\GroupType;
 use App\Service\DataProvider\WidgetDataProvider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,7 +18,7 @@ class GroupTypeRepository extends ServiceEntityRepository
 
     public function findGroupTypesForParentGroup(int $groupId)
     {
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $statement = $connection->executeQuery(
             "
             SELECT DISTINCT gt.group_type, gt.id, gt.de_label, gt.fr_label, gt.it_label
@@ -27,7 +27,7 @@ class GroupTypeRepository extends ServiceEntityRepository
             WHERE midata_group.parent_group_id = ? AND 
                   gt.group_type IN (?);",
             [$groupId, WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES],
-            [ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
+            [ParameterType::INTEGER, ArrayParameterType::STRING]
         );
         return $statement->fetchAllAssociative();
     }

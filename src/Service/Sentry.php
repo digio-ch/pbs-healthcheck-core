@@ -40,7 +40,7 @@ class Sentry
                 $userBag->setMetadata('Nickname', $user->getNickName());
                 $event->setUser($userBag);
             } elseif (!is_null($user)) {
-                $userBag = new UserDataBag(null, null, null, $user->getUsername(), null);
+                $userBag = new UserDataBag(null, null, null, $user->getUserIdentifier(), null);
                 $userBag->setMetadata('Is PbsUserDTO', false);
                 $event->setUser($userBag);
             }

@@ -7,7 +7,7 @@ use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MembersGroupDateDataProvider extends WidgetDataProvider
@@ -45,7 +45,6 @@ class MembersGroupDateDataProvider extends WidgetDataProvider
      * @param array|string[] $subGroupTypes
      * @param array|string[] $peopleTypes
      * @return array
-     * @throws DBALException
      */
     public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes)
     {
@@ -80,7 +79,7 @@ class MembersGroupDateDataProvider extends WidgetDataProvider
      * @param int $mainGroupId
      * @param array $subGroupTypes
      * @return array|PieChartDataDTO[]
-     * @throws DBALException
+     * @throws Exception
      */
     private function getMemberData($date, int $mainGroupId, array $subGroupTypes): array
     {
@@ -102,7 +101,7 @@ class MembersGroupDateDataProvider extends WidgetDataProvider
      * @param int $mainGroupId
      * @param array $groupTypes
      * @return PieChartDataDTO
-     * @throws DBALException
+     * @throws Exception
      */
     private function getSummedLeaderData($date, int $mainGroupId, array $groupTypes): PieChartDataDTO
     {
@@ -120,7 +119,7 @@ class MembersGroupDateDataProvider extends WidgetDataProvider
      * @param array $subGroupsTypes
      * @param int $mainGroupId
      * @return array|PieChartDataDTO[]
-     * @throws DBALException
+     * @throws Exception
      */
     private function getLeaderDataForSubGroups($date, array $subGroupsTypes, int $mainGroupId): array
     {

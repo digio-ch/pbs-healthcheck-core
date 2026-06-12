@@ -4,8 +4,8 @@ namespace App\Repository\Aggregated;
 
 use App\Entity\Aggregated\AggregatedDemographicGroup;
 use App\Service\DataProvider\WidgetDataProvider;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -27,11 +27,11 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param string $groupType
      * @param int $parentGroupId
      * @return bool|false|mixed
-     * @throws DBALException
+     * @throws Exception
      */
     public function findMembersCountForDateAndGroupType(string $date, string $groupType, int $parentGroupId)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT SUM(m_count + f_count + u_count) 
                     FROM hc_aggregated_demographic_group 
@@ -48,11 +48,11 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param int $parentGroupId
      * @param array $groupTypes
      * @return bool|false|mixed
-     * @throws DBALException
+     * @throws Exception
      */
     public function findTotalLeadersCountForDate(string $date, int $parentGroupId, array $groupTypes)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT SUM(m_count_leader + f_count_leader + u_count_leader) 
                     FROM hc_aggregated_demographic_group 
@@ -60,7 +60,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
                     group_id = ? AND
                     group_type IN (?)",
             [$date, $parentGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ParameterType::INTEGER, ArrayParameterType::STRING]
         );
         $res = $statement->fetchFirstColumn();
         return $res ? $res[0] : null;
@@ -71,11 +71,11 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param string $groupType
      * @param int $parentGroupId
      * @return bool|false|mixed
-     * @throws DBALException
+     * @throws Exception
      */
     public function findLeadersCountForDateAndGroupType(string $date, string $groupType, int $parentGroupId)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT SUM(m_count_leader + f_count_leader)
                     FROM hc_aggregated_demographic_group 
@@ -95,7 +95,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param int $parentGroupId
      * @param string $groupType
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findMembersCountForDateRangeAndGroupType(
         string $from,
@@ -103,7 +103,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
         int $parentGroupId,
         string $groupType
     ) {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT data_point_date, SUM(m_count + f_count) as total
                     FROM hc_aggregated_demographic_group
@@ -121,7 +121,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param int $parentGroupId
      * @param array $groupTypes
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findLeadersCountForDateRangeAndGroupTypes(
         string $from,
@@ -129,14 +129,14 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
         int $parentGroupId,
         array $groupTypes
     ) {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT data_point_date, SUM(m_count_leader + f_count_leader) as total
                     FROM hc_aggregated_demographic_group
                     WHERE data_point_date BETWEEN ? AND ? AND group_id = ? AND group_type IN (?)
                     GROUP BY data_point_date ORDER BY data_point_date ASC;",
             [$from, $to, $parentGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, ArrayParameterType::STRING]
         );
         return $statement->fetchAllAssociative();
     }
@@ -148,11 +148,11 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param int $mainGroupId
      * @param array $groupTypes
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function getAllGenderMemberCountForDate(string $date, int $mainGroupId, array $groupTypes)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT SUM(m_count) as m, SUM(f_count) as f, SUM(u_count) as u 
                   FROM hc_aggregated_demographic_group 
@@ -160,7 +160,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
                     AND hc_aggregated_demographic_group.group_id = ?
                     AND hc_aggregated_demographic_group.group_type IN (?)",
             [$date, $mainGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ParameterType::INTEGER, ArrayParameterType::STRING]
         );
         return $statement->fetchAllAssociative();
     }
@@ -170,11 +170,11 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param int $mainGroupId
      * @param array $groupTypes
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function getLeaderCountForDate(string $date, int $mainGroupId, array $groupTypes)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT SUM(m_count_leader) as m, SUM(f_count_leader) as f, SUM(u_count_leader) as u
                   FROM hc_aggregated_demographic_group 
@@ -182,7 +182,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
                     AND hc_aggregated_demographic_group.group_id = ?
                     AND hc_aggregated_demographic_group.group_type IN (?);",
             [$date, $mainGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ParameterType::INTEGER, ArrayParameterType::STRING]
         );
         return $statement->fetchAllAssociative();
     }
@@ -192,11 +192,11 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param int $mainGroupId
      * @param array $subGroupTypes
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function getAllGenderTotalCountForDate(string $date, int $mainGroupId, array $subGroupTypes)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT (SUM(m_count) + SUM(m_count_leader)) as m, (SUM(f_count) + SUM(f_count_leader)) as f, (SUM(u_count) + SUM(u_count_leader)) as u 
                   FROM hc_aggregated_demographic_group 
@@ -204,7 +204,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
                     AND hc_aggregated_demographic_group.group_id = ?
                     AND hc_aggregated_demographic_group.group_type IN (?);",
             [$date, $mainGroupId, $subGroupTypes],
-            [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ParameterType::INTEGER, ArrayParameterType::STRING]
         );
         return $statement->fetchAllAssociative();
     }
@@ -217,7 +217,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param int $mainGroupId
      * @param array $groupTypes
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findMemberCountForDatePeriodByGroupTypes(
         string $from,
@@ -225,7 +225,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
         int $mainGroupId,
         array $groupTypes = WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES
     ) {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT data_point_date, SUM(m_count) as m, SUM(f_count) as f, SUM(u_count) as u 
                   FROM hc_aggregated_demographic_group 
@@ -235,7 +235,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
                         hc_aggregated_demographic_group.group_type IN (?)
                   GROUP BY data_point_date ORDER BY data_point_date ASC;",
             [$from, $to, $mainGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, ArrayParameterType::STRING]
         );
         return $statement->fetchAllAssociative();
     }
@@ -246,7 +246,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param int $mainGroupId
      * @param array $groupTypes
      * @return mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findLeaderCountForDatePeriodByGroupTypes(
         string $from,
@@ -254,7 +254,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
         int $mainGroupId,
         array $groupTypes = WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES
     ) {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT data_point_date, SUM(m_count_leader) as m, SUM(f_count_leader) as f, SUM(u_count_leader) as u 
                   FROM hc_aggregated_demographic_group 
@@ -264,7 +264,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
                         hc_aggregated_demographic_group.group_type IN (?) 
                   GROUP BY data_point_date ORDER BY data_point_date ASC;",
             [$from, $to, $mainGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, ArrayParameterType::STRING]
         );
         return $statement->fetchAllAssociative();
     }
@@ -275,7 +275,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
      * @param int $mainGroupId
      * @param array $groupTypes
      * @return mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
     public function findAllGenderTotalCountForDatePeriodByGroupType(
         string $from,
@@ -283,7 +283,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
         int $mainGroupId,
         array $groupTypes = WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES
     ) {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT data_point_date, 
                         (SUM(m_count) + SUM(m_count_leader)) as m, 
@@ -296,7 +296,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
                         hc_aggregated_demographic_group.group_type IN (?)
                   GROUP BY data_point_date ORDER BY data_point_date ASC;",
             [$from, $to, $mainGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, ArrayParameterType::STRING]
         );
         return $statement->fetchAllAssociative();
     }

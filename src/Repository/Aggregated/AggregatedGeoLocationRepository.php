@@ -3,7 +3,8 @@
 namespace App\Repository\Aggregated;
 
 use App\Entity\Aggregated\AggregatedGeoLocation;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
+
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,7 +41,7 @@ class AggregatedGeoLocationRepository extends AggregatedEntityRepository
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::INTEGER,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             ]
         );
         return $statement->fetchAllAssociative();

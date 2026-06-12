@@ -2,7 +2,6 @@
 
 namespace App\Service\Aggregator;
 
-use Doctrine\DBAL\DBALException;
 
 /**
  * This class was part of the legacy aggregators and is retained

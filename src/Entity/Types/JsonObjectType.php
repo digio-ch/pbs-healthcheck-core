@@ -38,7 +38,13 @@ class JsonObjectType extends Type
         return $json;
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    /**
+     * @param mixed $value
+     * @param AbstractPlatform $platform
+     * @return array
+     * @throws ConversionException
+     */
+    public function convertToPHPValue($value, AbstractPlatform $platform): array
     {
         if ($value === null || $value === '') {
             return [];

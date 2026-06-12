@@ -7,7 +7,6 @@ use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Entity\Security\PermissionType;
 use App\Service\DataProvider\DemographicCampDataProvider;
-use Doctrine\DBAL\DBALException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -18,7 +17,6 @@ class CampController extends AbstractController
      * @param WidgetRequestData $widgetRequestData
      * @param DemographicCampDataProvider $demographicCampDataProvider
      * @return JsonResponse
-     * @throws DBALException
      */
     public function getDemographicCampData(
         DateRangeRequestData $dateRangeRequestData,
