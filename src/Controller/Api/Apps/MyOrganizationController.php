@@ -12,6 +12,7 @@ use App\Exception\ApiException;
 use App\Model\TimeFrame;
 use App\Service\DataProvider\FilterDataProvider;
 use App\Service\DataProvider\MyOrganization\DemographicStatsDataProvider;
+use App\Service\DataProvider\MyOrganization\DepartmentNamesDataProvider;
 use App\Service\DataProvider\MyOrganization\GenderStatsDataProvider;
 use App\Service\DataProvider\MyOrganization\StageStatsDataProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -136,6 +137,32 @@ class MyOrganizationController extends AbstractController
         );
 
         return $this->json($data);
+    }
+
+    /**
+     * @param DateRequestData $dateRequestData
+     * @param Group $group
+     * @param DepartmentNamesDataProvider $departmentNamesProvider
+     * @return JsonResponse
+     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
+     */
+    public function getDepartmentNames(
+        DateRequestData $dateRequestData,
+        Group $group,
+        DepartmentNamesDataProvider $departmentNamesProvider
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
+
+        if (!$this->isAssociation($group)) {
+            throw new ApiException(400, "Only for regions and cantons");
+        }
+
+        $names = $departmentNamesProvider->getDepartmentNames(
+            $group,
+            $dateRequestData->getDate()
+        );
+
+        return $this->json($names);
     }
 
     private function isAssociation(Group $group): bool
