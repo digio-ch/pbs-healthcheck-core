@@ -14,7 +14,9 @@ use App\Service\DataProvider\FilterDataProvider;
 use App\Service\DataProvider\MyOrganization\DemographicStatsDataProvider;
 use App\Service\DataProvider\MyOrganization\DepartmentNamesDataProvider;
 use App\Service\DataProvider\MyOrganization\GenderStatsDataProvider;
+use App\Service\DataProvider\MyOrganization\PreviewDataProvider;
 use App\Service\DataProvider\MyOrganization\StageStatsDataProvider;
+use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -163,6 +165,30 @@ class MyOrganizationController extends AbstractController
         );
 
         return $this->json($names);
+    }
+
+    /**
+     * @param Group $group
+     * @param PreviewDataProvider $previewProvider
+     * @return JsonResponse
+     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
+     * @throws Exception
+     */
+    public function getPreview(
+        Group $group,
+        PreviewDataProvider $previewProvider
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
+
+        if (!$this->isAssociation($group)) {
+            throw new ApiException(400, "Only for regions and cantons");
+        }
+
+        $data = $previewProvider->getPreview(
+            $group,
+        );
+
+        return $this->json($data);
     }
 
     private function isAssociation(Group $group): bool

@@ -349,6 +349,11 @@ class DemographicStatsDataProvider extends WidgetDataProvider
         foreach ($barsPerYear as $year => $bars) {
             $barChart = new BarChartDataDTO();
             $barChart->setName($year);
+
+            usort($bars, function (BarChartBarDataDTO $a, BarChartBarDataDTO $b) {
+                return $this->sortByGroupTypes($a->getName(), $b->getName());
+            });
+
             $barChart->addSeries(...$bars);
 
             $this->translateGroupNames($barChart->getSeries(), $leadersOnly);

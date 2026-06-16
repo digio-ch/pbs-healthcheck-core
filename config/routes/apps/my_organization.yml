@@ -1,3 +1,8 @@
+preview:
+  path: /preview
+  methods: GET
+  controller: App\Controller\Api\Apps\MyOrganizationController:getPreview
+
 filter:
   path: /filter
   methods: GET

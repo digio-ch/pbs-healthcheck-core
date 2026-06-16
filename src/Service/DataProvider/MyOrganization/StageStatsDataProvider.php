@@ -115,6 +115,10 @@ class StageStatsDataProvider extends WidgetDataProvider
             $result[] = $pieChartDataDTO;
         }
 
+        usort($result, function (PieChartDataDTO $a, PieChartDataDTO $b) {
+            return $this->sortByGroupTypes($a->getName(), $b->getName());
+        });
+
         $this->translateGroupNames($result, $this->isLeadersOnly($peopleTypes));
 
         return $result;

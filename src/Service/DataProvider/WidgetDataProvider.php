@@ -6,6 +6,7 @@ use App\DTO\Model\Apps\Widgets\LeaderOverviewDTO;
 use App\DTO\Model\Charts\BarChartBarDataDTO;
 use App\DTO\Model\Charts\LineChartDataDTO;
 use App\DTO\Model\Charts\PieChartDataDTO;
+use App\Entity\Midata\GroupType;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use Doctrine\DBAL\DBALException;
@@ -69,6 +70,17 @@ class WidgetDataProvider
     public const PEOPLE_TYPE_LEADERS = 'leaders';
     /** @var string */
     public const PEOPLE_TYPE_MEMBERS = 'members';
+
+    public const DEPARTMENT_GROUP_TYPE_ORDER = [
+        GroupType::BIBER,
+        GroupType::WOELFE,
+        GroupType::PFADI,
+        GroupType::PIO,
+        GroupType::ABTEILUNGS_ROVER,
+        GroupType::PTA,
+        GroupType::DEPARTMENT,
+        self::PEOPLE_TYPE_LEADERS, // same as department
+    ];
 
     /**
      * WidgetDataProvider constructor.
@@ -187,5 +199,23 @@ class WidgetDataProvider
     protected function isBothPeopleTypes(array $peopleTypes): bool
     {
         return count($peopleTypes) === 2;
+    }
+
+    /**
+     * Orders group types by {@see self::DEPARTMENT_GROUP_TYPE_ORDER}
+     * @param string $a
+     * @param string $b
+     * @return int
+     */
+    protected function sortByGroupTypes(string $a, string $b): int
+    {
+        if ($a === $b) {
+            return 0;
+        }
+
+        $indexA = array_search($a, self::DEPARTMENT_GROUP_TYPE_ORDER);
+        $indexB = array_search($b, self::DEPARTMENT_GROUP_TYPE_ORDER);
+
+        return $indexA <=> $indexB;
     }
 }

@@ -93,15 +93,24 @@ class MembersBirthyearDateDataProvider extends WidgetDataProvider
             $barChartDataDTO = new BarChartDataDTO();
             $barChartDataDTO->setName($year);
 
+            $series = [];
+
             foreach ($items as $groupName => $cnt) {
                 $barChartBarDataDTO = new BarChartBarDataDTO();
                 $barChartBarDataDTO->setValue($cnt);
                 $groupTypeName = substr_replace($groupName, '', -4);
                 $barChartBarDataDTO->setName($groupTypeName);
                 $barChartBarDataDTO->setColor(WidgetDataProvider::GROUP_TYPE_COLORS[$groupTypeName]);
-                $barChartDataDTO->addSeries($barChartBarDataDTO);
+                $series[] = $barChartBarDataDTO;
             }
-            $this->translateGroupNames($barChartDataDTO->getSeries(), $leadersOnly);
+
+            usort($series, function (BarChartBarDataDTO $a, BarChartBarDataDTO $b) {
+                return $this->sortByGroupTypes($a->getName(), $b->getName());
+            });
+
+            $this->translateGroupNames($series, $leadersOnly);
+
+            $barChartDataDTO->addSeries(...$series);
             $result[] = $barChartDataDTO;
         }
 

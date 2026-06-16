@@ -35,9 +35,9 @@ class GenderStatsDataProvider extends WidgetDataProvider
     private const GENDER_OTHER = 'unknown';
 
     private const GENDERS = [
-        self::GENDER_MALE,
         self::GENDER_FEMALE,
         self::GENDER_OTHER,
+        self::GENDER_MALE,
     ];
 
 
