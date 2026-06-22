@@ -10,24 +10,18 @@ use App\Repository\Aggregated\AggregatedDateRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use App\Repository\Statistics\StatisticGroupRepository;
-use App\Service\Aggregator\WidgetAggregator;
-use DateTimeImmutable;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class FilterDataProvider
+class FilterDataProvider extends WidgetDataProvider
 {
-    /** @var GroupRepository $groupRepository */
-    private GroupRepository $groupRepository;
-
     /** @var StatisticGroupRepository $statisticGroupRepository */
     private StatisticGroupRepository $statisticGroupRepository;
-
-    /** @var GroupTypeRepository $groupTypeRepository */
-    private GroupTypeRepository $groupTypeRepository;
 
     /** @var AggregatedDateRepository $widgetDateRepository */
     private AggregatedDateRepository $widgetDateRepository;
 
     public function __construct(
+        TranslatorInterface $translator,
         GroupRepository $groupRepository,
         StatisticGroupRepository $statisticGroupRepository,
         GroupTypeRepository $groupTypeRepository,
@@ -37,6 +31,11 @@ class FilterDataProvider
         $this->statisticGroupRepository = $statisticGroupRepository;
         $this->groupTypeRepository = $groupTypeRepository;
         $this->widgetDateRepository = $widgetDateRepository;
+        parent::__construct(
+            $groupRepository,
+            $groupTypeRepository,
+            $translator
+        );
     }
 
     public function getGroupTypes(Group $group, string $locale): array
@@ -80,6 +79,8 @@ class FilterDataProvider
 
         $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroups($departmentIds);
 
+        $this->sortParentGroupTypes($groupTypes);
+
         $dates = $this->widgetDateRepository->findDataPointDatesByGroupIds(
             $departmentIds
         );
@@ -90,12 +91,7 @@ class FilterDataProvider
     private function sortParentGroupTypes(array &$groupTypes)
     {
         usort($groupTypes, function (array $a, array $b) {
-            $indexA = array_search($a['group_type'], WidgetAggregator::$typeOrder);
-            $indexB = array_search($b['group_type'], WidgetAggregator::$typeOrder);
-            if ($indexA === $indexB) {
-                return 0;
-            }
-            return ($indexA > $indexB) ? 1 : -1;
+            return $this->sortByGroupTypes($a['group_type'], $b['group_type']);
         });
     }
 }

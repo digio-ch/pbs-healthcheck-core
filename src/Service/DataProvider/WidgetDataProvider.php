@@ -76,8 +76,8 @@ class WidgetDataProvider
         GroupType::WOELFE,
         GroupType::PFADI,
         GroupType::PIO,
-        GroupType::ABTEILUNGS_ROVER,
         GroupType::PTA,
+        GroupType::ABTEILUNGS_ROVER,
         GroupType::DEPARTMENT,
         self::PEOPLE_TYPE_LEADERS, // same as department
     ];
