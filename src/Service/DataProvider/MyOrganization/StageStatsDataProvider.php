@@ -154,6 +154,10 @@ class StageStatsDataProvider extends WidgetDataProvider
             $lineCharts[] = $this->mapToLineChart($groupType, $series);
         }
 
+        usort($lineCharts, function (LineChartDataDTO $a, LineChartDataDTO $b) {
+            return $this->sortByGroupTypes($a->getName(), $b->getName());
+        });
+
         $this->translateGroupNames($lineCharts, $this->isLeadersOnly($peopleTypes));
 
         // we want the department count to be identifiable by the departments key so no translating needed
@@ -222,7 +226,7 @@ class StageStatsDataProvider extends WidgetDataProvider
 
     private function mapToChartPoint(string $dataPointDate, int $count): LineChartDataPointDTO
     {
-        $name = DateTime::createFromFormat('Y-m-d H:i:s', $dataPointDate)->format('Y-m-d');
+        $name = DateTime::createFromFormat('Y-m-d H:i:s', $dataPointDate)->format('d.m.Y');
         $chartPoint = new LineChartDataPointDTO();
         $chartPoint->setName($name);
         $chartPoint->setValue($count);
@@ -242,11 +246,15 @@ class StageStatsDataProvider extends WidgetDataProvider
          */
         $chartPointsPerGroupType = [];
 
-        $isBothPeopleTypes = $this->isBothPeopleTypes($peopleTypes);
+        /**
+         * Represents the leader count
+         * Needed when both people types are selected
+         *
+         * @var array<string, int> $leaderCountPerDataPoint
+         */
+        $leaderCountPerDataPoint = [];
 
-        if ($isBothPeopleTypes) {
-            $chartPointsPerGroupType[self::PEOPLE_TYPE_LEADERS] = [];
-        }
+        $isBothPeopleTypes = $this->isBothPeopleTypes($peopleTypes);
 
         // defines from which field of the $row array the count is used
         // usually a group type reflects the members count except when leaders only is selected
@@ -274,11 +282,22 @@ class StageStatsDataProvider extends WidgetDataProvider
                 continue;
             }
 
-            $chartPointsPerGroupType[self::PEOPLE_TYPE_LEADERS][] = $this->mapToChartPoint(
-                $dataPointDate,
-                $row[self::PEOPLE_TYPE_LEADERS]
-            );
+            if (!array_key_exists($dataPointDate, $leaderCountPerDataPoint)) {
+                $leaderCountPerDataPoint[$dataPointDate] = 0;
+            }
+
+            $leaderCountPerDataPoint[$dataPointDate] += $row[self::PEOPLE_TYPE_LEADERS];
         }
+
+        if ($isBothPeopleTypes) {
+            $chartPointsPerGroupType[self::PEOPLE_TYPE_LEADERS] = [];
+
+            foreach ($leaderCountPerDataPoint as $dataPointDate => $count) {
+                $chartPoint = $this->mapToChartPoint($dataPointDate, $count);
+                $chartPointsPerGroupType[self::PEOPLE_TYPE_LEADERS][] = $chartPoint;
+            }
+        }
+
         return $chartPointsPerGroupType;
     }
 

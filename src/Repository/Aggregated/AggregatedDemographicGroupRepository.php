@@ -383,7 +383,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
                 AND group_id IN (?)
                 AND group_type IN (?)
                 GROUP BY data_point_date
-                ORDER BY data_point_date DESC; 
+                ORDER BY data_point_date; 
                 ",
                 [$from, $to, $groupIds, $groupTypes],
                 [
@@ -456,7 +456,7 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
                 AND group_id IN (?)
                 AND group_type IN (?)
                 GROUP BY data_point_date, group_type
-                ORDER BY group_type, data_point_date DESC;
+                ORDER BY group_type, data_point_date;
                 ",
                 [$from, $to, $groupIds, $groupTypes],
                 [
