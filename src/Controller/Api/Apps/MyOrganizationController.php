@@ -10,8 +10,8 @@ use App\Entity\Midata\GroupType;
 use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Model\TimeFrame;
+use App\Service\DataProvider\DemographicStatsDataProvider;
 use App\Service\DataProvider\FilterDataProvider;
-use App\Service\DataProvider\MyOrganization\DemographicStatsDataProvider;
 use App\Service\DataProvider\MyOrganization\DepartmentNamesDataProvider;
 use App\Service\DataProvider\MyOrganization\GenderStatsDataProvider;
 use App\Service\DataProvider\MyOrganization\PreviewDataProvider;
@@ -131,7 +131,7 @@ class MyOrganizationController extends AbstractController
             throw new ApiException(400, "Only for regions and cantons");
         }
 
-        $data = $demographicStatsProvider->getData(
+        $data = $demographicStatsProvider->getDataForAssociation(
             $group,
             $dateRequestData->getDate(),
             $widgetRequestData->getPeopleTypes(),
