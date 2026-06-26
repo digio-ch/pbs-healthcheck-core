@@ -84,14 +84,4 @@ abstract class WidgetAggregator
         'Group::Abteilung::Abteilungsleitung',
         'Group::Abteilung::AbteilungsleitungStv',
     ];
-
-    public static array $typeOrder = [
-        'Group::Biber',
-        'Group::Woelfe',
-        'Group::Pfadi',
-        'Group::Pio',
-        'Group::Pta',
-        'Group::AbteilungsRover',
-        'Group::Abteilung'
-    ];
 }

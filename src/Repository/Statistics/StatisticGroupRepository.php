@@ -85,4 +85,45 @@ class StatisticGroupRepository extends ServiceEntityRepository
         );
         return $query->fetchFirstColumn();
     }
+
+    /**
+     * @param int $associationId
+     * @param string $date
+     * @return string[]
+     * @throws Exception
+     */
+    public function findDepartmentNames(int $associationId, string $date): array
+    {
+        $query = $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "WITH RECURSIVE parent as (
+                SELECT 
+                    statistic_group.id, 
+                    statistic_group.\"name\",
+                    midata_group_type.group_type as group_type
+                FROM statistic_group
+                JOIN midata_group_type ON group_type_id = midata_group_type.id
+                WHERE statistic_group.id = ?
+                UNION
+                SELECT
+                    child.id,
+                    child.\"name\",
+                    midata_group_type.group_type
+                FROM statistic_group child
+                JOIN parent p ON child.parent_group_id = p.id
+                JOIN midata_group_type ON child.group_type_id = midata_group_type.id
+            ) SELECT DISTINCT  
+                result.\"name\" 
+            FROM parent result
+            -- join with aggregation table to only select the ones that existed on the given date
+            JOIN hc_aggregated_demographic_group ON hc_aggregated_demographic_group.group_id = result.id
+            Where result.group_type = ?
+            AND hc_aggregated_demographic_group.data_point_date = ?;",
+                [$associationId, GroupType::DEPARTMENT, $date],
+                [ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
+            );
+
+        return $query->fetchFirstColumn();
+    }
 }

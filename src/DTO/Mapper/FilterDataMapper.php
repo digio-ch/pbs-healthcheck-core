@@ -8,11 +8,11 @@ class FilterDataMapper
 {
     /**
      * @param array $groupTypes
-     * @param array|string[] $dates
+     * @param string[] $dates
      * @param string $locale
      * @return FilterDataDTO
      */
-    public static function createFromEntities(array $groupTypes, array $dates, string $locale)
+    public static function createFromEntities(array $groupTypes, array $dates, string $locale): FilterDataDTO
     {
         $filterData = new FilterDataDTO();
         $groupTypeDTOs = [];
@@ -26,7 +26,7 @@ class FilterDataMapper
         return $filterData;
     }
 
-    public static function createGroupTypes(array $groupTypes, string $locale)
+    public static function createGroupTypes(array $groupTypes, string $locale): array
     {
         $groupTypeDTOs = [];
         foreach ($groupTypes as $type) {

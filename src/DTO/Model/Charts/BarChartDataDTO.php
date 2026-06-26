@@ -15,6 +15,11 @@ class BarChartDataDTO
     protected $series = [];
 
     /**
+     * @var bool|null $isSummed
+     */
+    protected ?bool $isSummed;
+
+    /**
      * @param string $name
      */
     public function setName(string $name)
@@ -39,10 +44,26 @@ class BarChartDataDTO
     }
 
     /**
-     * @param BarChartBarDataDTO $series
+     * @param BarChartBarDataDTO ...$series
      */
-    public function addSeries(BarChartBarDataDTO $series)
+    public function addSeries(BarChartBarDataDTO ...$series)
     {
-        $this->series[] = $series;
+        array_push($this->series, ...$series);
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsSummed(): ?bool
+    {
+        return $this->isSummed;
+    }
+
+    /**
+     * @param bool|null $isSummed
+     */
+    public function setIsSummed(?bool $isSummed): void
+    {
+        $this->isSummed = $isSummed;
     }
 }

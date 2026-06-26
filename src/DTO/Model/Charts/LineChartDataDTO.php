@@ -60,10 +60,10 @@ class LineChartDataDTO
     }
 
     /**
-     * @param LineChartDataPointDTO $series
+     * @param LineChartDataPointDTO ...$series
      */
-    public function addSeries(LineChartDataPointDTO $series)
+    public function addSeries(LineChartDataPointDTO ...$series)
     {
-        $this->series[] = $series;
+        array_push($this->series, ...$series);
     }
 }

@@ -67,17 +67,17 @@
       "level": 1,
       "required": false,
       "de": {
-        "title": "Überblick - unterschiedliche Layer der Karte benutzt",
+        "title": "Meine Übersicht - unterschiedliche Layer der Karte benutzt",
         "information": "Kartenlayer ein- und ausgeblendet.\nDiese Aktion ist auf kantonaler oder regionaler Ebene nicht verfügbar.",
         "help": ""
       },
       "fr": {
-        "title": "Aperçu - calques de carte",
+        "title": "Mon aperçu - calques de carte",
         "information": "Tu affiches/caches un calque de la carte.\nCette action n'est pas disponible au niveau cantonal ou régional.",
         "help": ""
       },
       "it": {
-        "title": "Panoramica - utilizza diversi livelli della cartina",
+        "title": "La mia panoramica - utilizza diversi livelli della cartina",
         "information": "Visualizza/nascondi un livello della mappa.\nQuesta azione non è disponibile a livello cantonale o regionale.",
         "help": ""
       }
@@ -107,17 +107,17 @@
       "level": 1,
       "required": false,
       "de": {
-        "title": "Überblick - Zeitspanne analysiert",
+        "title": "Meine Übersicht - Zeitspanne analysiert",
         "information": "In der Übersicht eine Zeitspanne ausgewählt.\nDiese Aktion ist auf kantonaler oder regionaler Ebene nicht verfügbar.",
         "help": ""
       },
       "fr": {
-        "title": "Aperçu - analyse temporelle",
+        "title": "Mon aperçu - analyse temporelle",
         "information": "Tu observes l'évolution de tes données pour une période.\nCette action n'est pas disponible au niveau cantonal ou régional.",
         "help": ""
       },
       "it": {
-        "title": "Panoramica - analisi temporale",
+        "title": "La mia panoramica - analisi temporale",
         "information": "Osserva come i tuoi dati cambiano nel tempo.\nQuesta azione non è disponibile a livello cantonale o regionale.",
         "help": ""
       }
@@ -127,17 +127,17 @@
       "level": 1,
       "required": false,
       "de": {
-        "title": "Gesundheitskompass - Freude suchen und weitergeben",
+        "title": "Mein Gesundheitskompass - Freude suchen und weitergeben",
         "information": "Gesundheitskompass an KV/Region freigegeben",
         "help": ""
       },
       "fr": {
-        "title": "Boussole de santé - Partager",
+        "title": "Ma boussole de santé - Partager",
         "information": "Tu transmets la boussole de santé aux niveaux supérieurs.",
         "help": ""
       },
       "it": {
-        "title": "Bussola di salute - Condividere",
+        "title": "La mia bussola di salute - Condividere",
         "information": "Trasmetteti la bussola di salute al livello superiore.",
         "help": ""
       }
@@ -147,17 +147,17 @@
       "level": 2,
       "required": true,
       "de": {
-        "title": "Gesundheitskompass - alle Aspekte vollständig bearbeitet",
-        "information": "Gesundheitskompass - Alle Fragen von allen Kästchen beantwortet",
+        "title": "Mein Gesundheitskompass - alle Aspekte vollständig bearbeitet",
+        "information": "Alle Fragen von allen Kästchen beantwortet",
         "help": "Du hast noch nicht jedes der verschiedenen Kästchen bearbeitet und/oder ausgefüllt."
       },
       "fr": {
-        "title": "Boussole de santé - traitement complet de tous les domaines",
+        "title": "Ma boussole de santé - traitement complet de tous les domaines",
         "information": "Tu réponds à toutes les questions de toutes les cases.",
         "help": "Tu n'as pas encore rempli ou modifié chacune des cases."
       },
       "it": {
-        "title": "Bussola di salute - elaborazione completa di tutte le aree",
+        "title": "La mia bussola di salute - elaborazione completa di tutte le aree",
         "information": "Rispondi a tutte le domande in tutte le caselle.",
         "help": "Non hai ancora compilato o modificato ogni casella."
       }
@@ -187,17 +187,17 @@
       "level": 2,
       "required": false,
       "de": {
-        "title": "Gesundheitskompass - ausblenden, was nicht relevant ist",
-        "information": "In  in einem vollen Kästchen mind. eine nicht relevante Frage ausgeblendet",
+        "title": "Mein Gesundheitskompass - ausblenden, was nicht relevant ist",
+        "information": "In in einem vollen Kästchen mind. eine nicht relevante Frage ausgeblendet",
         "help": ""
       },
       "fr": {
-        "title": "Boussole de santé - ce qui n'est pas pertinent est transparent",
+        "title": "Ma boussole de santé - ce qui n'est pas pertinent est transparent",
         "information": "Tu indiques quelles questions en sont pas importantes au sein d'une case (la case doit être remplie).",
         "help": ""
       },
       "it": {
-        "title": "Bussola di salute - ciò che è irrilevante è trasparente",
+        "title": "La mia bussola di salute - ciò che è irrilevante è trasparente",
         "information": "Indica quali domande non sono importanti all'interno di una casella (la casella deve essere riempita).",
         "help": ""
       }
@@ -207,17 +207,17 @@
       "level": 2,
       "required": false,
       "de": {
-        "title": "Gesundheitskompass - ein Aspekt überarbeitet",
+        "title": "Mein Gesundheitskompass - ein Aspekt überarbeitet",
         "information": "Mindestens ein Kästchen später nochmals editiert",
         "help": ""
       },
       "fr": {
-        "title": "Boussole de santé - révision d'un aspect",
+        "title": "Ma boussole de santé - révision d'un aspect",
         "information": "Tu modifies une réponse dans une case.",
         "help": ""
       },
       "it": {
-        "title": "Bussola di salute - revisione di un aspetto",
+        "title": "La mia bussola di salute - revisione di un aspetto",
         "information": "Modifica una risposta in un riquadro.",
         "help": ""
       }
@@ -227,17 +227,17 @@
       "level": 3,
       "required": true,
       "de": {
-        "title": "Gesundheitskompass - ein Aspekt verbessert",
+        "title": "Mein Gesundheitskompass - ein Aspekt verbessert",
         "information": "Mindestens in einem vollen Kästchen eine Frage besser beantwortet als vorher",
         "help": ""
       },
       "fr": {
-        "title": "Boussole de santé - amélioration d'un aspect",
+        "title": "Ma boussole de santé - amélioration d'un aspect",
         "information": "Tu améliores une réponse dans une case remplie.",
         "help": ""
       },
       "it": {
-        "title": "Bussola di salute - migliora un aspetto",
+        "title": "La mia bussola di salute - migliora un aspetto",
         "information": "Migliora una risposta in un riquadro completato.",
         "help": ""
       }

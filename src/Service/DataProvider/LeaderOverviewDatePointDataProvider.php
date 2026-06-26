@@ -11,7 +11,6 @@ use App\Repository\Aggregated\AggregatedLeaderOverviewQualificationRepository;
 use App\Repository\Aggregated\AggregatedLeaderOverviewRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
-use App\Service\Aggregator\WidgetAggregator;
 use App\Service\QualificationProcessor;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -141,12 +140,7 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
     private function sortLeaderDataByType(array &$leaderOverviewDTOs): void
     {
         usort($leaderOverviewDTOs, function (LeaderOverviewDTO $a, LeaderOverviewDTO $b) {
-            $indexA = array_search($a->getName(), WidgetAggregator::$typeOrder);
-            $indexB = array_search($b->getName(), WidgetAggregator::$typeOrder);
-            if ($indexA === $indexB) {
-                return 0;
-            }
-            return ($indexA > $indexB) ? 1 : -1;
+            return $this->sortByGroupTypes($a->getName(), $b->getName());
         });
     }
 }

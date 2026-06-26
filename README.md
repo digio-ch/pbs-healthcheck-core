@@ -94,7 +94,9 @@ docker exec healthcheck-core-local php bin/console doctrine:migrations:generate
 
 #### Migrate Database
 
-`docker exec healthcheck-core-local php bin/console doctrine:migrations:migrate -n`
+```shell script
+docker exec healthcheck-core-local php bin/console doctrine:migrations:migrate -n
+```
 
 
 ### Code Format Checking
@@ -145,4 +147,6 @@ restart the healthcheck-core service container in order for the changes to take 
 
 Once you are up and running with the new env run:
 
-`docker exec healthcheck-core-local php bin/phpunit`
+```shell script
+docker exec healthcheck-core-local php bin/phpunit
+```

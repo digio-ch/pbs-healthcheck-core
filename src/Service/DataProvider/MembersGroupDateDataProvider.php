@@ -68,6 +68,10 @@ class MembersGroupDateDataProvider extends WidgetDataProvider
                 return $result;
         }
 
+        usort($result, function (PieChartDataDTO $a, PieChartDataDTO $b) {
+            return $this->sortByGroupTypes($a->getName(), $b->getName());
+        });
+
         $this->translateGroupNames($result, $leadersOnly);
 
         return $result;
