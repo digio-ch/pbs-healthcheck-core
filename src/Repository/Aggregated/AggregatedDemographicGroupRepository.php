@@ -4,6 +4,7 @@ namespace App\Repository\Aggregated;
 
 use App\Entity\Aggregated\AggregatedDemographicGroup;
 use App\Service\DataProvider\WidgetDataProvider;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\ParameterType;
@@ -298,6 +299,213 @@ class AggregatedDemographicGroupRepository extends AggregatedEntityRepository
             [$from, $to, $mainGroupId, $groupTypes],
             [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
         );
+        return $statement->fetchAllAssociative();
+    }
+
+    /**
+     * @param string $date
+     * @param int[] $groupIds
+     * @param string[] $groupTypes
+     * @return array{
+     *     'male_count': int,
+     *     'female_count': int,
+     *     'unknown_count': int,
+     *     'male_count_leader': int,
+     *     'female_count_leader': int,
+     *     'unknown_count_leader': int
+     * }
+     */
+    public function findGenderTotalCountForDateOfGroups(
+        string $date,
+        array $groupIds,
+        array $groupTypes
+    ): array {
+        $statement = $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "SELECT
+                	SUM(m_count) as male_count,
+                	SUM(f_count) as female_count,
+                	SUM(u_count) as unknown_count,
+                	SUM(m_count_leader) as male_count_leader,
+                	SUM(f_count_leader) as female_count_leader,
+                	SUM(u_count_leader) as unknown_count_leader
+                FROM hc_aggregated_demographic_group
+                WHERE data_point_date = ?
+                AND group_id IN (?)
+                AND group_type IN (?); 
+                ",
+                [$date, $groupIds, $groupTypes],
+                [ParameterType::STRING, ArrayParameterType::INTEGER, ArrayParameterType::STRING]
+            );
+
+        // there should only be one row
+        return $statement->fetchAllAssociative()[0];
+    }
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @param int[] $groupIds
+     * @param string[] $groupTypes
+     * @return array<array{
+     *      'data_point_date': string,
+ *          'departments': int,
+*           'male_count': int,
+     *      'female_count': int,
+     *      'unknown_count': int,
+     *      'male_count_leader': int,
+     *      'female_count_leader': int,
+     *      'unknown_count_leader': int
+     * }>
+     */
+    public function findGenderTotalCountForPeriodOfGroups(
+        string $from,
+        string $to,
+        array $groupIds,
+        array $groupTypes
+    ): array {
+        $statement = $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "SELECT
+                    data_point_date,
+                    COUNT(DISTINCT group_id) as departments,
+                	SUM(m_count) as male_count,
+                	SUM(f_count) as female_count,
+                	SUM(u_count) as unknown_count,
+                	SUM(m_count_leader) as male_count_leader,
+                	SUM(f_count_leader) as female_count_leader,
+                	SUM(u_count_leader) as unknown_count_leader
+                FROM hc_aggregated_demographic_group
+                WHERE data_point_date >= ?
+                AND data_point_date <= ?
+                AND group_id IN (?)
+                AND group_type IN (?)
+                GROUP BY data_point_date
+                ORDER BY data_point_date; 
+                ",
+                [$from, $to, $groupIds, $groupTypes],
+                [
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                    ArrayParameterType::INTEGER,
+                    ArrayParameterType::STRING,
+                ]
+            );
+
+        return $statement->fetchAllAssociative();
+    }
+
+    /**
+     * @param string $date
+     * @param int[] $groupIds
+     * @param string[] $groupTypes
+     * @return array<array{'group_type': string, 'leaders': int, 'members': int}>
+     */
+    public function findGroupTypeTotalCountForDateOfGroups(
+        string $date,
+        array $groupIds,
+        array $groupTypes
+    ): array {
+        $statement = $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "SELECT
+                	group_type,
+                	SUM(m_count + f_count + u_count) as members,
+                	SUM(m_count_leader + f_count_leader + u_count_leader) as leaders
+                FROM hc_aggregated_demographic_group
+                WHERE data_point_date = ?
+                AND group_id IN (?)
+                AND group_type IN (?)
+                GROUP BY group_type;
+
+                ",
+                [$date, $groupIds, $groupTypes],
+                [ParameterType::STRING, ArrayParameterType::INTEGER, ArrayParameterType::STRING]
+            );
+
+        return $statement->fetchAllAssociative();
+    }
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @param int[] $groupIds
+     * @param string[] $groupTypes
+     * @return array<array{'data_point_date': string, 'group_type': string, 'members': int, 'leaders': int}>
+     */
+    public function findGroupTypeTotalCountForPeriodOfGroups(
+        string $from,
+        string $to,
+        array $groupIds,
+        array $groupTypes
+    ): array {
+        $statement = $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "SELECT
+                    group_type,
+                	data_point_date,
+                	SUM(m_count + f_count + u_count) as members,
+                	SUM(m_count_leader + f_count_leader + u_count_leader) as leaders
+                FROM hc_aggregated_demographic_group
+                WHERE data_point_date >= ?
+                AND data_point_date <= ?
+                AND group_id IN (?)
+                AND group_type IN (?)
+                GROUP BY data_point_date, group_type
+                ORDER BY group_type, data_point_date;
+                ",
+                [$from, $to, $groupIds, $groupTypes],
+                [
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                    ArrayParameterType::INTEGER,
+                    ArrayParameterType::STRING,
+                ]
+            );
+
+        return $statement->fetchAllAssociative();
+    }
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @param int[] $groupIds
+     * @param string[] $groupTypes
+     * @return array<array{'data_point_date': string, 'departments': int}>
+     */
+    public function findDepartmentTotalCountForPeriodOfGroups(
+        string $from,
+        string $to,
+        array $groupIds,
+        array $groupTypes
+    ): array {
+        $statement = $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "SELECT
+                	data_point_date,
+                	COUNT(DISTINCT group_id) as departments
+                FROM hc_aggregated_demographic_group
+                WHERE data_point_date >= ?
+                AND data_point_date <= ?
+                AND group_id IN (?)
+                AND group_type IN (?)
+                GROUP BY data_point_date
+                ORDER BY data_point_date DESC;
+                ",
+                [$from, $to, $groupIds, $groupTypes],
+                [
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                    ArrayParameterType::INTEGER,
+                    ArrayParameterType::STRING,
+                ]
+            );
+
         return $statement->fetchAllAssociative();
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Repository\Statistics;
 
-use App\Entity\Midata\CensusGroup;
 use App\Entity\Midata\GroupType;
 use App\Entity\Statistics\StatisticGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -96,32 +95,44 @@ class StatisticGroupRepository extends ServiceEntityRepository
         return $query->fetchFirstColumn();
     }
 
-    // /**
-    //  * @return StatisticGroup[] Returns an array of StatisticGroup objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param int $associationId
+     * @param string $date
+     * @return string[]
+     * @throws Exception
+     */
+    public function findDepartmentNames(int $associationId, string $date): array
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $query = $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                "WITH RECURSIVE parent as (
+                SELECT 
+                    statistic_group.id, 
+                    statistic_group.\"name\",
+                    midata_group_type.group_type as group_type
+                FROM statistic_group
+                JOIN midata_group_type ON group_type_id = midata_group_type.id
+                WHERE statistic_group.id = ?
+                UNION
+                SELECT
+                    child.id,
+                    child.\"name\",
+                    midata_group_type.group_type
+                FROM statistic_group child
+                JOIN parent p ON child.parent_group_id = p.id
+                JOIN midata_group_type ON child.group_type_id = midata_group_type.id
+            ) SELECT DISTINCT  
+                result.\"name\" 
+            FROM parent result
+            -- join with aggregation table to only select the ones that existed on the given date
+            JOIN hc_aggregated_demographic_group ON hc_aggregated_demographic_group.group_id = result.id
+            Where result.group_type = ?
+            AND hc_aggregated_demographic_group.data_point_date = ?;",
+                [$associationId, GroupType::DEPARTMENT, $date],
+                [ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
+            );
 
-    /*
-    public function findOneBySomeField($value): ?StatisticGroup
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $query->fetchFirstColumn();
     }
-    */
 }

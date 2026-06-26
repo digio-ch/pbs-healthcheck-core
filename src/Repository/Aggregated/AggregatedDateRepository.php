@@ -12,15 +12,27 @@ class AggregatedDateRepository extends AggregatedEntityRepository
         parent::__construct($registry, AggregatedDate::class);
     }
 
-    public function findDataPointDatesByGroupIds($groups)
+    /**
+     * Gathers all data point dates for the given groups
+     * The dates are returned as string (2026-01-01)
+     *
+     * @param int[] $groupIds
+     * @return string[]
+     */
+    public function findDataPointDatesByGroupIds($groupIds): array
     {
-        return $this->createQueryBuilder('widget')
+        $result = $this->createQueryBuilder('widget')
             ->select('widget.dataPointDate')
             ->distinct(true)
             ->where('widget.group IN (:groups)')
             ->addOrderBy('widget.dataPointDate', 'DESC')
-            ->setParameter('groups', $groups)
+            ->setParameter('groups', $groupIds)
             ->getQuery()
             ->getArrayResult();
+
+        return array_map(
+            fn($column) => $column['dataPointDate']->format('Y-m-d'),
+            $result
+        );
     }
 }

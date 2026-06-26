@@ -23,13 +23,8 @@ class DateFilterService
             [$group->getId()]
         );
 
-        $dateStrings = [];
-        foreach ($dates as $date) {
-            $dateStrings[] = $date['dataPointDate']->format('Y-m-d');
-        }
-
         $dto = new DateFilterDataDTO();
-        $dto->setDates($dateStrings);
+        $dto->setDates($dates);
 
         return $dto;
     }
