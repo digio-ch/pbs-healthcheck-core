@@ -806,12 +806,6 @@ class QuapComputeAnswersService
         return $this->hasNumRole($groupIds, Role::REGIONAL_LEADER, 2);
     }
 
-    private function hasRoleWrapper(Group $group, string $role): int
-    {
-        $groupIds = $this->getGroupIds($group);
-        return $this->hasRole($groupIds, $role);
-    }
-
     private function hasAnyRole(Group $group, string $cantonalRole, string $regionalRole): int
     {
         $groupIds = $this->getGroupIds($group);

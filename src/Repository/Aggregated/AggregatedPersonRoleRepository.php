@@ -21,25 +21,6 @@ class AggregatedPersonRoleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return AggregatedPersonRole[]
-     */
-    public function getUnfinished(): array
-    {
-        return $this->createQueryBuilder('a')
-            ->where('a.end_at IS NULL')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function getHighestAggregatedMidataIndex(): int
-    {
-        return $this->createQueryBuilder('a')
-            ->select('MAX(a.midata)')
-            ->getQuery()
-            ->getResult()[0][1] ?? 0;
-    }
-
-    /**
      * @param Group $group
      * @param $start
      * @param $end

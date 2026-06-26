@@ -85,17 +85,4 @@ class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
         );
         return $statement->fetchAssociative();
     }
-
-    public function deleteAllByCampGroupAndGroupType(int $campId, int $groupId, string $groupType)
-    {
-        $conn = $this->getEntityManager()->getConnection();
-        $conn->executeQuery(
-            "DELETE FROM hc_aggregated_demographic_camp_group
-                  WHERE demographic_camp_id = ? 
-                    AND group_type = ?
-                    AND group_id = ?;",
-            [$campId, $groupType, $groupId],
-            [ParameterType::INTEGER, ParameterType::INTEGER, ParameterType::STRING]
-        );
-    }
 }

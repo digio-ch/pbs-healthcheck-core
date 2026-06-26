@@ -15,10 +15,10 @@ class CensusAPIService
     protected $apiToken;
 
     /**
-     * PbsApiService constructor.
+     * CensusAPIService constructor.
      * @param GuzzleWrapper $guzzleWrapper
      * @param string $url
-     * @param string $apiKey
+     * @param string $apiToken
      */
     public function __construct(GuzzleWrapper $guzzleWrapper, string $url, string $apiToken)
     {

@@ -12,13 +12,4 @@ class RoleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Role::class);
     }
-
-    public function getOneByRoleType(string $roleType)
-    {
-        return $this->createQueryBuilder('r')
-            ->where('r.roleType =:roleType')
-            ->setParameter('roleType', $roleType)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
 }
