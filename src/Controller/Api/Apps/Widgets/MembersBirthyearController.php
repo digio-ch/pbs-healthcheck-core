@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MembersBirthyearController extends AbstractController
 {
+    public function __construct(private readonly \App\Service\DataProvider\DemographicStatsDataProvider $demographicStatsProvider)
+    {
+    }
     /***
      * @param DateRequestData $dateRequestData
      * @param WidgetRequestData $widgetRequestData
@@ -22,12 +25,11 @@ class MembersBirthyearController extends AbstractController
      */
     public function getMembersBirthyearData(
         DateRequestData $dateRequestData,
-        WidgetRequestData $widgetRequestData,
-        DemographicStatsDataProvider $demographicStatsProvider
+        WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
 
-        $data = $demographicStatsProvider->getDataForDepartment(
+        $data = $this->demographicStatsProvider->getDataForDepartment(
             $widgetRequestData->getGroup(),
             $dateRequestData->getDate(),
             $widgetRequestData->getPeopleTypes(),
@@ -45,12 +47,11 @@ class MembersBirthyearController extends AbstractController
      */
     public function getMembersBirthyearDataOfDepartment(
         DateRequestData $dateRequestData,
-        WidgetOfDepartmentRequestData $widgetRequestData,
-        DemographicStatsDataProvider $demographicStatsProvider
+        WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
 
-        $data = $demographicStatsProvider->getDataForDepartment(
+        $data = $this->demographicStatsProvider->getDataForDepartment(
             $widgetRequestData->getDepartment(),
             $dateRequestData->getDate(),
             $widgetRequestData->getPeopleTypes(),

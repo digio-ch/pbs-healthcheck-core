@@ -39,7 +39,7 @@ class InviteController extends AbstractController
      * @param PermissionService $inviteService
      * @param TranslatorInterface $translator
      */
-    public function __construct(PermissionService $inviteService, TranslatorInterface $translator)
+    public function __construct(PermissionService $inviteService, TranslatorInterface $translator, private readonly \Symfony\Component\Serializer\SerializerInterface $serializer, private readonly \Symfony\Component\Validator\Validator\ValidatorInterface $validator, private readonly \App\Service\Gamification\PersonGamificationService $personGamificationService)
     {
         $this->inviteService = $inviteService;
         $this->translator = $translator;
@@ -55,16 +55,13 @@ class InviteController extends AbstractController
      */
     public function createInvite(
         Request $request,
-        Group $group,
-        SerializerInterface $serializer,
-        ValidatorInterface $validator,
-        PersonGamificationService $personGamificationService
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
 
         try {
             /** @var InviteDTO $inviteDTO */
-            $inviteDTO = $serializer->deserialize($request->getContent(), InviteDTO::class, 'json', [
+            $inviteDTO = $this->serializer->deserialize($request->getContent(), InviteDTO::class, 'json', [
                 AbstractNormalizer::IGNORED_ATTRIBUTES => ['id', 'group', 'expirationDate']
             ]);
         } catch (\Exception $exception) {
@@ -74,7 +71,7 @@ class InviteController extends AbstractController
             );
         }
 
-        $errors = $validator->validate($inviteDTO);
+        $errors = $this->validator->validate($inviteDTO);
         if (count($errors) > 0) {
             throw new ApiException(
                 Response::HTTP_UNPROCESSABLE_ENTITY,
@@ -107,7 +104,7 @@ class InviteController extends AbstractController
         $user = $this->getUser();
 
         $createdInviteDTO = $this->inviteService->createInvite($group, $user, $inviteDTO);
-        $personGamificationService->genericGoalProgress($user, Goal::TYPE_SHARE_ONE);
+        $this->personGamificationService->genericGoalProgress($user, Goal::TYPE_SHARE_ONE);
 
         return $this->json($createdInviteDTO, Response::HTTP_CREATED);
     }

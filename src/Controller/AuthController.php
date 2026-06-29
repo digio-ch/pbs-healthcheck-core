@@ -25,7 +25,7 @@ class AuthController extends AbstractController
      * AuthController constructor.
      * @param GelfLogger $logger
      */
-    public function __construct(GelfLogger $logger, LoginService $loginService)
+    public function __construct(GelfLogger $logger, LoginService $loginService, private readonly \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage)
     {
         $this->logger = $logger;
         $this->loginService = $loginService;
@@ -47,7 +47,7 @@ class AuthController extends AbstractController
         ]);
     }
 
-    public function logout(Request $request, TokenStorageInterface $tokenStorage)
+    public function logout(Request $request)
     {
         /** @var PbsUserDTO|UserInterface|null|object $user */
         $user = $this->getUser();
@@ -56,7 +56,7 @@ class AuthController extends AbstractController
             return $this->json('logged out');
         }
 
-        $tokenStorage->setToken(null);
+        $this->tokenStorage->setToken(null);
         $request->getSession()->invalidate();
 
         if ($user instanceof PbsUserDTO) {

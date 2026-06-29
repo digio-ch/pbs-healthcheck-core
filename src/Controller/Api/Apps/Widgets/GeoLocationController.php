@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GeoLocationController extends AbstractController
 {
+    public function __construct(private readonly \App\Service\DataProvider\GeoLocationDateDataProvider $dataProvider)
+    {
+    }
     /**
      * @param GeoLocationDateDataProvider $dataProvider
      * @param DateRequestData $dateRequestData
@@ -20,7 +23,6 @@ class GeoLocationController extends AbstractController
      * @throws \Doctrine\DBAL\Exception
      */
     public function getGeoLocations(
-        GeoLocationDateDataProvider $dataProvider,
         DateRequestData $dateRequestData,
         WidgetRequestData $widgetRequestData
     ): JsonResponse {
@@ -29,7 +31,7 @@ class GeoLocationController extends AbstractController
         $data = [];
 
         if ($dateRequestData->getDate()) {
-            $data = $dataProvider->getData(
+            $data = $this->dataProvider->getData(
                 $widgetRequestData->getGroup(),
                 $dateRequestData->getDate()->format('Y-m-d'),
                 $widgetRequestData->getGroupTypes(),
@@ -48,7 +50,6 @@ class GeoLocationController extends AbstractController
      * @throws \Doctrine\DBAL\Exception
      */
     public function getGeoLocationsOfDepartment(
-        GeoLocationDateDataProvider $dataProvider,
         DateRequestData $dateRequestData,
         WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
@@ -57,7 +58,7 @@ class GeoLocationController extends AbstractController
         $data = [];
 
         if ($dateRequestData->getDate()) {
-            $data = $dataProvider->getData(
+            $data = $this->dataProvider->getData(
                 $widgetRequestData->getDepartment(),
                 $dateRequestData->getDate()->format('Y-m-d'),
                 $widgetRequestData->getGroupTypes(),

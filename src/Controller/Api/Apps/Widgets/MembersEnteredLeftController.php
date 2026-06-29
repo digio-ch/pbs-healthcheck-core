@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MembersEnteredLeftController extends AbstractController
 {
+    public function __construct(private readonly \App\Service\DataProvider\MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider)
+    {
+    }
     /**
      * @param DateRangeRequestData $dateRangeRequestData
      * @param WidgetRequestData $widgetRequestData
@@ -20,12 +23,11 @@ class MembersEnteredLeftController extends AbstractController
      */
     public function getEnteredLeftMembersData(
         DateRangeRequestData $dateRangeRequestData,
-        WidgetRequestData $widgetRequestData,
-        MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
+        WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
 
-        $data = $membersEnteredLeftDateRangeDataProvider->getData(
+        $data = $this->membersEnteredLeftDateRangeDataProvider->getData(
             $widgetRequestData->getGroup(),
             $dateRangeRequestData->getFrom()->format('Y-m-d'),
             $dateRangeRequestData->getTo()->format('Y-m-d'),
@@ -44,12 +46,11 @@ class MembersEnteredLeftController extends AbstractController
      */
     public function getEnteredLeftMembersDataOfDepartment(
         DateRangeRequestData $dateRangeRequestData,
-        WidgetOfDepartmentRequestData $widgetRequestData,
-        MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
+        WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
 
-        $data = $membersEnteredLeftDateRangeDataProvider->getData(
+        $data = $this->membersEnteredLeftDateRangeDataProvider->getData(
             $widgetRequestData->getDepartment(),
             $dateRangeRequestData->getFrom()->format('Y-m-d'),
             $dateRangeRequestData->getTo()->format('Y-m-d'),

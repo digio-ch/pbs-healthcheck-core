@@ -13,23 +13,25 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GroupSettingsController extends AbstractController
 {
+    public function __construct(private readonly \Doctrine\ORM\EntityManagerInterface $entityManager)
+    {
+    }
     /**
      * @param Request $request
      * @param Group $group
      * @param GroupSettingsRepository $groupSettingsRepository
-     * @return void
+     * @return Response
      * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
      */
     public function postRoleOverviewFilter(
         Request $request,
-        Group $group,
-        EntityManagerInterface $entityManager
+        Group $group
     ) {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $groupSettings = $group->getGroupSettings();
         $groupSettings->setRoleOverviewFilter(json_decode($request->getContent()));
-        $entityManager->persist($groupSettings);
-        $entityManager->flush();
-        return new Response('', 204);
+        $this->entityManager->persist($groupSettings);
+        $this->entityManager->flush();
+        return new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_NO_CONTENT);
     }
 }

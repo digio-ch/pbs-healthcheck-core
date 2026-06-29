@@ -11,20 +11,22 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DateFilterController extends AbstractController
 {
+    public function __construct(private readonly \App\Service\DateFilterService $dateFilterService)
+    {
+    }
+
     /**
      * @param Group $group
-     * @param DateFilterService $dateFilterService
      * @return JsonResponse
      *
      * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function getDateFilterData(
-        Group $group,
-        DateFilterService $dateFilterService
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
 
-        $data = $dateFilterService->getAvailableDates($group);
+        $data = $this->dateFilterService->getAvailableDates($group);
 
         return $this->json($data);
     }

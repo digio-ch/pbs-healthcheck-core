@@ -26,7 +26,7 @@ class QuapController extends AbstractController
     /** @var QuapService $quapService */
     private QuapService $quapService;
 
-    public function __construct(QuapService $quapService)
+    public function __construct(QuapService $quapService, private readonly \App\Service\DataProvider\QuapSubdepartmentDateDataProvider $dataProvider, private readonly \App\Service\Gamification\QuapGamificationService $quapGamificationService, private readonly \App\Service\Gamification\PersonGamificationService $personGamificationService)
     {
         $this->quapService = $quapService;
     }
@@ -96,12 +96,11 @@ class QuapController extends AbstractController
      * @return JsonResponse
      */
     public function getDepartmentsOverview(
-        QuapSubdepartmentDateDataProvider $dataProvider,
         DateRequestData $dateRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $dateRequestData->getGroup());
 
-        $data = $dataProvider->getData(
+        $data = $this->dataProvider->getData(
             $dateRequestData->getGroup(),
             $dateRequestData->getDate()->format('Y-m-d')
         );
@@ -143,8 +142,7 @@ class QuapController extends AbstractController
      */
     public function submitAnswers(
         Group $group,
-        Request $request,
-        QuapGamificationService $quapGamificationService
+        Request $request
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR, $group);
 
@@ -154,7 +152,7 @@ class QuapController extends AbstractController
         }
 
         // has to be before answers are saved!
-        $quapGamificationService->processQuapEvent($answers, $group, $this->getUser());
+        $this->quapGamificationService->processQuapEvent($answers, $group, $this->getUser());
         $savedWidgetQuap = $this->quapService->submitAnswers($group, $answers);
 
         // we want to reverse sort the aspects so that the JSON parser encodes them as object instead of array
@@ -171,8 +169,7 @@ class QuapController extends AbstractController
      */
     public function setAccess(
         Group $group,
-        Request $request,
-        PersonGamificationService $personGamificationService
+        Request $request
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
 
@@ -182,7 +179,7 @@ class QuapController extends AbstractController
         }
 
         $this->quapService->updateAllowAccess($group, $payload['allow_access']);
-        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_SHARE_EL);
+        $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_SHARE_EL);
 
         return $this->json([], JsonResponse::HTTP_NO_CONTENT);
     }

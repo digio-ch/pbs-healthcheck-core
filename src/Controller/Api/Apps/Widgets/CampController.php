@@ -12,20 +12,22 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CampController extends AbstractController
 {
+    public function __construct(private readonly \App\Service\DataProvider\DemographicCampDataProvider $demographicCampDataProvider)
+    {
+    }
+
     /**
      * @param DateRangeRequestData $dateRangeRequestData
      * @param WidgetRequestData $widgetRequestData
-     * @param DemographicCampDataProvider $demographicCampDataProvider
      * @return JsonResponse
      */
     public function getDemographicCampData(
         DateRangeRequestData $dateRangeRequestData,
-        WidgetRequestData $widgetRequestData,
-        DemographicCampDataProvider $demographicCampDataProvider
+        WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
 
-        $data = $demographicCampDataProvider->getData(
+        $data = $this->demographicCampDataProvider->getData(
             $widgetRequestData->getGroup(),
             $dateRangeRequestData->getFrom()->format('Y-m-d'),
             $dateRangeRequestData->getTo()->format('Y-m-d'),
@@ -39,17 +41,15 @@ class CampController extends AbstractController
     /**
      * @param DateRangeRequestData $dateRangeRequestData
      * @param WidgetOfDepartmentRequestData $widgetRequestData
-     * @param DemographicCampDataProvider $demographicCampDataProvider
      * @return JsonResponse
      */
     public function getDemographicCampDataOfDepartment(
         DateRangeRequestData $dateRangeRequestData,
-        WidgetOfDepartmentRequestData $widgetRequestData,
-        DemographicCampDataProvider $demographicCampDataProvider
+        WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
 
-        $data = $demographicCampDataProvider->getData(
+        $data = $this->demographicCampDataProvider->getData(
             $widgetRequestData->getDepartment(),
             $dateRangeRequestData->getFrom()->format('Y-m-d'),
             $dateRangeRequestData->getTo()->format('Y-m-d'),

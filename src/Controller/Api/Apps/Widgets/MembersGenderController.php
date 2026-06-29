@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MembersGenderController extends AbstractController
 {
+    public function __construct(private readonly \App\Service\DataProvider\MembersGenderDateDataProvider $membersGenderDateDataProvider, private readonly \App\Service\DataProvider\MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider)
+    {
+    }
     /**
      * @param DateAndDateRangeRequestData $dateAndDateRangeRequestData
      * @param WidgetRequestData $widgetRequestData
@@ -24,16 +27,14 @@ class MembersGenderController extends AbstractController
      */
     public function getDemographicGroupData(
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
-        WidgetRequestData $widgetRequestData,
-        MembersGenderDateDataProvider $membersGenderDateDataProvider,
-        MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider
+        WidgetRequestData $widgetRequestData
     ): Response {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
 
         $data = [];
 
         if ($dateAndDateRangeRequestData->getDate()) {
-            $data = $membersGenderDateDataProvider->getData(
+            $data = $this->membersGenderDateDataProvider->getData(
                 $widgetRequestData->getGroup(),
                 $dateAndDateRangeRequestData->getDate()->format('Y-m-d'),
                 $widgetRequestData->getPeopleTypes(),
@@ -42,7 +43,7 @@ class MembersGenderController extends AbstractController
         }
 
         if ($dateAndDateRangeRequestData->getFrom() && $dateAndDateRangeRequestData->getTo()) {
-            $data = $membersGenderDateRangeDataProvider->getData(
+            $data = $this->membersGenderDateRangeDataProvider->getData(
                 $widgetRequestData->getGroup(),
                 $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
                 $dateAndDateRangeRequestData->getTo()->format('Y-m-d'),
@@ -63,16 +64,14 @@ class MembersGenderController extends AbstractController
      */
     public function getDemographicGroupDataOfDepartment(
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
-        WidgetOfDepartmentRequestData $widgetRequestData,
-        MembersGenderDateDataProvider $membersGenderDateDataProvider,
-        MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider
+        WidgetOfDepartmentRequestData $widgetRequestData
     ): Response {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
 
         $data = [];
 
         if ($dateAndDateRangeRequestData->getDate()) {
-            $data = $membersGenderDateDataProvider->getData(
+            $data = $this->membersGenderDateDataProvider->getData(
                 $widgetRequestData->getDepartment(),
                 $dateAndDateRangeRequestData->getDate()->format('Y-m-d'),
                 $widgetRequestData->getPeopleTypes(),
@@ -81,7 +80,7 @@ class MembersGenderController extends AbstractController
         }
 
         if ($dateAndDateRangeRequestData->getFrom() && $dateAndDateRangeRequestData->getTo()) {
-            $data = $membersGenderDateRangeDataProvider->getData(
+            $data = $this->membersGenderDateRangeDataProvider->getData(
                 $widgetRequestData->getDepartment(),
                 $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
                 $dateAndDateRangeRequestData->getTo()->format('Y-m-d'),

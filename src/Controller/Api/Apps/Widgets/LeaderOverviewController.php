@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class LeaderOverviewController extends AbstractController
 {
+    public function __construct(private readonly \App\Service\DataProvider\LeaderOverviewDatePointDataProvider $dataProvider)
+    {
+    }
     /**
      * @param DateRequestData $dateRequestData
      * @param WidgetRequestData $widgetRequestData
@@ -20,12 +23,11 @@ class LeaderOverviewController extends AbstractController
      */
     public function getLeaderOverviewData(
         DateRequestData $dateRequestData,
-        WidgetRequestData $widgetRequestData,
-        LeaderOverviewDatePointDataProvider $dataProvider
+        WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
 
-        $data = $dataProvider->getData(
+        $data = $this->dataProvider->getData(
             $widgetRequestData->getGroup(),
             $dateRequestData->getDate()->format('Y-m-d'),
             $widgetRequestData->getGroupTypes(),
@@ -44,12 +46,11 @@ class LeaderOverviewController extends AbstractController
      */
     public function getLeaderOverviewDataOfDepartment(
         DateRequestData $dateRequestData,
-        WidgetOfDepartmentRequestData $widgetRequestData,
-        LeaderOverviewDatePointDataProvider $dataProvider
+        WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
 
-        $data = $dataProvider->getData(
+        $data = $this->dataProvider->getData(
             $widgetRequestData->getDepartment(),
             $dateRequestData->getDate()->format('Y-m-d'),
             $widgetRequestData->getGroupTypes(),

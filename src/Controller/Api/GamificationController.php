@@ -24,7 +24,7 @@ class GamificationController extends AbstractController
      */
     private bool $resetEndpointEnabled;
 
-    public function __construct(bool $resetEndpointEnabled)
+    public function __construct(bool $resetEndpointEnabled, private readonly \App\Service\Gamification\LoginService $loginService, private readonly \App\Repository\Midata\GroupRepository $groupRepository, private readonly \App\Service\Gamification\PersonGamificationService $personGamificationService)
     {
         $this->resetEndpointEnabled = $resetEndpointEnabled;
     }
@@ -36,80 +36,69 @@ class GamificationController extends AbstractController
      * @return Response
      */
     public function postGroupChange(
-        Request $request,
-        LoginService $loginService,
-        GroupRepository $groupRepository
+        Request $request
     ): Response {
         $json = json_decode($request->getContent(), true);
         if (is_null($json) || is_null($json['group'])) {
             throw new ApiException(400, "Invalid JSON");
         }
-        $group = $groupRepository->find($json['group']);
+        $group = $this->groupRepository->find($json['group']);
         if (is_null($group)) {
             throw new ApiException(400, "Invalid Group");
         }
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-        $loginService->logByPersonAndGroup($this->getUser(), $group);
-        return new Response('', 201);
+        $this->loginService->logByPersonAndGroup($this->getUser(), $group);
+        return new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_CREATED);
     }
 
-    public function usedCardLayer(
-        Request $request,
-        PersonGamificationService $personGamificationService
-    ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_CARD_LAYERS);
-        return new Response('', 200);
+    public function usedCardLayer()
+    {
+        $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_CARD_LAYERS);
+        return new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_OK);
     }
 
-    public function usedDataFilter(
-        Request $request,
-        PersonGamificationService $personGamificationService
-    ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_DATA_FILTER);
-        return new Response('', 200);
+    public function usedDataFilter()
+    {
+        $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_DATA_FILTER);
+        return new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_OK);
     }
 
-    public function usedTimeFilter(
-        Request $request,
-        PersonGamificationService $personGamificationService
-    ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_TIME_FILTER);
-        return new Response('', 200);
+    public function usedTimeFilter()
+    {
+        $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_TIME_FILTER);
+        return new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_OK);
     }
 
     public function getUserProfile(
-        Request $request,
-        PersonGamificationService $personGamificationService
+        Request $request
     ) {
-        $dto = $personGamificationService->getPersonGamificationDTO($this->getUser(), $request->getLocale());
+        $dto = $this->personGamificationService->getPersonGamificationDTO($this->getUser(), $request->getLocale());
         return $this->json($dto);
     }
 
     public function checkLevel(
-        Request $request,
-        PersonGamificationService $personGamificationService
+        Request $request
     ) {
-        $dto = $personGamificationService->getCheckLevelDTO($this->getUser(), $request->getLocale());
+        $dto = $this->personGamificationService->getCheckLevelDTO($this->getUser(), $request->getLocale());
         return $this->json($dto);
     }
 
-    public function resetGamification(Request $request, PersonGamificationService $personGamificationService): Response
+    public function resetGamification(): Response
     {
         if (!$this->resetEndpointEnabled) {
             return new JsonResponse([
                 "code" => 404,
                 "error" => "reset endpoint is disabled"
-            ], 404);
+            ], \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
         }
-
-        $personGamificationService->reset($this->getUser());
+        $this->personGamificationService->reset($this->getUser());
         return new Response('');
     }
 
-    public function requestBetaAccess(Request $request, PersonGamificationService $personGamificationService)
+    public function requestBetaAccess()
     {
         $user = $this->getUser();
-        $result = $personGamificationService->getBetaAccess($user);
-        return $result ? new Response('', 200) : new Response('', 403);
+        $result = $this->personGamificationService->getBetaAccess($user);
+        return $result ? new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_OK) : new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
     }
 }

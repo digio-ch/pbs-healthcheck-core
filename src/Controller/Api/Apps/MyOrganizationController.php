@@ -24,6 +24,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MyOrganizationController extends AbstractController
 {
+    public function __construct(private readonly \App\Service\DataProvider\FilterDataProvider $filterDataProvider, private readonly \App\Service\DataProvider\MyOrganization\GenderStatsDataProvider $genderStatsProvider, private readonly \App\Service\DataProvider\MyOrganization\StageStatsDataProvider $statsDataProvider, private readonly \App\Service\DataProvider\DemographicStatsDataProvider $demographicStatsProvider, private readonly \App\Service\DataProvider\MyOrganization\DepartmentNamesDataProvider $departmentNamesProvider, private readonly \App\Service\DataProvider\MyOrganization\PreviewDataProvider $previewProvider)
+    {
+    }
     /**
      * @param Request $request
      * @param Group $group
@@ -33,8 +36,7 @@ class MyOrganizationController extends AbstractController
      */
     public function getFilter(
         Request $request,
-        Group $group,
-        FilterDataProvider $filterDataProvider
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
 
@@ -42,7 +44,7 @@ class MyOrganizationController extends AbstractController
             throw new ApiException(400, "Only for regions and cantons");
         }
 
-        $data = $filterDataProvider->getMyOrganizationData(
+        $data = $this->filterDataProvider->getMyOrganizationData(
             $group,
             $request->getLocale()
         );
@@ -58,8 +60,7 @@ class MyOrganizationController extends AbstractController
      */
     public function getGenderStats(
         DateAndDateRangeRequestData $datesRequestData,
-        WidgetRequestData $widgetRequestData,
-        GenderStatsDataProvider $genderStatsProvider
+        WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $group = $widgetRequestData->getGroup();
 
@@ -71,7 +72,7 @@ class MyOrganizationController extends AbstractController
 
         $timeframe = $this->requestToTimeFrame($datesRequestData);
 
-        $data = $genderStatsProvider->getData(
+        $data = $this->genderStatsProvider->getData(
             $group,
             $timeframe,
             $widgetRequestData->getPeopleTypes(),
@@ -89,8 +90,7 @@ class MyOrganizationController extends AbstractController
      */
     public function getStageStats(
         DateAndDateRangeRequestData $datesRequestData,
-        WidgetRequestData $widgetRequestData,
-        StageStatsDataProvider $statsDataProvider
+        WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $group = $widgetRequestData->getGroup();
 
@@ -102,7 +102,7 @@ class MyOrganizationController extends AbstractController
 
         $timeframe = $this->requestToTimeFrame($datesRequestData);
 
-        $data = $statsDataProvider->getData(
+        $data = $this->statsDataProvider->getData(
             $group,
             $timeframe,
             $widgetRequestData->getPeopleTypes(),
@@ -120,8 +120,7 @@ class MyOrganizationController extends AbstractController
      */
     public function getDemographicStats(
         DateRequestData $dateRequestData,
-        WidgetRequestData $widgetRequestData,
-        DemographicStatsDataProvider $demographicStatsProvider
+        WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $group = $widgetRequestData->getGroup();
 
@@ -131,7 +130,7 @@ class MyOrganizationController extends AbstractController
             throw new ApiException(400, "Only for regions and cantons");
         }
 
-        $data = $demographicStatsProvider->getDataForAssociation(
+        $data = $this->demographicStatsProvider->getDataForAssociation(
             $group,
             $dateRequestData->getDate(),
             $widgetRequestData->getPeopleTypes(),
@@ -150,8 +149,7 @@ class MyOrganizationController extends AbstractController
      */
     public function getDepartmentNames(
         DateRequestData $dateRequestData,
-        Group $group,
-        DepartmentNamesDataProvider $departmentNamesProvider
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
 
@@ -159,7 +157,7 @@ class MyOrganizationController extends AbstractController
             throw new ApiException(400, "Only for regions and cantons");
         }
 
-        $names = $departmentNamesProvider->getDepartmentNames(
+        $names = $this->departmentNamesProvider->getDepartmentNames(
             $group,
             $dateRequestData->getDate()
         );
@@ -175,8 +173,7 @@ class MyOrganizationController extends AbstractController
      * @throws Exception
      */
     public function getPreview(
-        Group $group,
-        PreviewDataProvider $previewProvider
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
 
@@ -184,7 +181,7 @@ class MyOrganizationController extends AbstractController
             throw new ApiException(400, "Only for regions and cantons");
         }
 
-        $data = $previewProvider->getPreview(
+        $data = $this->previewProvider->getPreview(
             $group,
         );
 

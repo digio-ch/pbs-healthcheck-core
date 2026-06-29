@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class FilterController extends AbstractController
 {
+    public function __construct(private readonly \App\Service\DataProvider\FilterDataProvider $filterDataProvider, private readonly \App\Service\Apps\Overview\OverviewSharedService $overviewSharedService)
+    {
+    }
     /**
      * @param Request $request
      * @param Group $group
@@ -24,12 +27,11 @@ class FilterController extends AbstractController
      */
     public function getFilterData(
         Request $request,
-        Group $group,
-        FilterDataProvider $filterDataProvider
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
 
-        $data = $filterDataProvider->getData($group, $request->getLocale());
+        $data = $this->filterDataProvider->getData($group, $request->getLocale());
 
         return $this->json($data);
     }
@@ -47,17 +49,15 @@ class FilterController extends AbstractController
     public function getFilterDataOfDepartment(
         Request $request,
         Group $group,
-        Group $department,
-        FilterDataProvider $filterDataProvider,
-        OverviewSharedService $overviewSharedService
+        Group $department
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
 
-        if (!$overviewSharedService->validateOverviewAccess($group, $department)) {
+        if (!$this->overviewSharedService->validateOverviewAccess($group, $department)) {
             throw new ApiException(400, "Department has to be shared and a child of the parent group");
         }
 
-        $data = $filterDataProvider->getData($department, $request->getLocale());
+        $data = $this->filterDataProvider->getData($department, $request->getLocale());
 
         return $this->json($data);
     }
@@ -72,11 +72,10 @@ class FilterController extends AbstractController
      */
     public function getGroupTypes(
         Request $request,
-        Group $group,
-        FilterDataProvider $filterDataProvider
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-        $data = $filterDataProvider->getGroupTypes($group, $request->getLocale());
+        $data = $this->filterDataProvider->getGroupTypes($group, $request->getLocale());
         return $this->json($data);
     }
 }

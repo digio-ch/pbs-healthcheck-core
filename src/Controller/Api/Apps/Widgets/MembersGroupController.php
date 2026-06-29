@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MembersGroupController extends AbstractController
 {
+    public function __construct(private readonly \App\Service\DataProvider\MembersGroupDateDataProvider $membersGroupDateDataProvider, private readonly \App\Service\Apps\Widgets\MembersGroupPreviewService $membersGroupPreviewService, private readonly \App\Service\DataProvider\MembersGroupDateRangeDataProvider $membersGroupDateRangeDataProvider)
+    {
+    }
     /**
      * @param Group $group
      * @param MembersGroupDateDataProvider $membersGroupDateDataProvider
@@ -26,19 +29,17 @@ class MembersGroupController extends AbstractController
      * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function getPreview(
-        Group $group,
-        MembersGroupDateDataProvider $membersGroupDateDataProvider,
-        MembersGroupPreviewService $membersGroupPreviewService
+        Group $group
     ): Response {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
 
         $data = [];
 
-        if ($date = $membersGroupPreviewService->getNewestDate()) {
-            $data = $membersGroupDateDataProvider->getData(
+        if ($date = $this->membersGroupPreviewService->getNewestDate()) {
+            $data = $this->membersGroupDateDataProvider->getData(
                 $group,
                 $date->format('Y-m-d'),
-                $membersGroupPreviewService->getGroupTypes($group->getId()),
+                $this->membersGroupPreviewService->getGroupTypes($group->getId()),
                 ['members', 'leaders']
             );
         }
@@ -55,8 +56,6 @@ class MembersGroupController extends AbstractController
      * @throws DBALException
      */
     public function getGroupMembersData(
-        MembersGroupDateRangeDataProvider $membersGroupDateRangeDataProvider,
-        MembersGroupDateDataProvider $membersGroupDateDataProvider,
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetRequestData $widgetRequestData
     ): JsonResponse {
@@ -65,7 +64,7 @@ class MembersGroupController extends AbstractController
         $data = [];
 
         if ($dateAndDateRangeRequestData->getDate()) {
-            $data = $membersGroupDateDataProvider->getData(
+            $data = $this->membersGroupDateDataProvider->getData(
                 $widgetRequestData->getGroup(),
                 $dateAndDateRangeRequestData->getDate()->format('Y-m-d'),
                 $widgetRequestData->getGroupTypes(),
@@ -74,7 +73,7 @@ class MembersGroupController extends AbstractController
         }
 
         if ($dateAndDateRangeRequestData->getFrom() && $dateAndDateRangeRequestData->getTo()) {
-            $data = $membersGroupDateRangeDataProvider->getData(
+            $data = $this->membersGroupDateRangeDataProvider->getData(
                 $widgetRequestData->getGroup(),
                 $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
                 $dateAndDateRangeRequestData->getTo()->format('Y-m-d'),
@@ -95,8 +94,6 @@ class MembersGroupController extends AbstractController
      * @throws \Exception
      */
     public function getGroupMembersDataOfDepartment(
-        MembersGroupDateRangeDataProvider $membersGroupDateRangeDataProvider,
-        MembersGroupDateDataProvider $membersGroupDateDataProvider,
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
@@ -105,7 +102,7 @@ class MembersGroupController extends AbstractController
         $data = [];
 
         if ($dateAndDateRangeRequestData->getDate()) {
-            $data = $membersGroupDateDataProvider->getData(
+            $data = $this->membersGroupDateDataProvider->getData(
                 $widgetRequestData->getDepartment(),
                 $dateAndDateRangeRequestData->getDate()->format('Y-m-d'),
                 $widgetRequestData->getGroupTypes(),
@@ -114,7 +111,7 @@ class MembersGroupController extends AbstractController
         }
 
         if ($dateAndDateRangeRequestData->getFrom() && $dateAndDateRangeRequestData->getTo()) {
-            $data = $membersGroupDateRangeDataProvider->getData(
+            $data = $this->membersGroupDateRangeDataProvider->getData(
                 $widgetRequestData->getDepartment(),
                 $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
                 $dateAndDateRangeRequestData->getTo()->format('Y-m-d'),

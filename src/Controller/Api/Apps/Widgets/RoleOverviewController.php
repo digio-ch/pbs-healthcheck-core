@@ -12,19 +12,21 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RoleOverviewController extends AbstractController
 {
+    public function __construct(private readonly \App\Service\DataProvider\RoleOverviewDateRangeDataProvider $roleOverviewDateRangeDataProvider)
+    {
+    }
+
     /**
-     * @param RoleOverviewDateRangeDataProvider $roleOverviewDateRangeDataProvider
      * @param DateAndDateRangeRequestData $dateAndDateRangeRequestData
      * @param WidgetRequestData $widgetRequestData
      * @return JsonResponse
      */
     public function getRoleOverview(
-        RoleOverviewDateRangeDataProvider $roleOverviewDateRangeDataProvider,
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
-        $result = $roleOverviewDateRangeDataProvider->getData(
+        $result = $this->roleOverviewDateRangeDataProvider->getData(
             $widgetRequestData->getGroup(),
             $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
             $dateAndDateRangeRequestData->getTo()->format('Y-m-d'),
@@ -40,12 +42,11 @@ class RoleOverviewController extends AbstractController
      * @return JsonResponse
      */
     public function getRoleOverviewOfDepartment(
-        RoleOverviewDateRangeDataProvider $roleOverviewDateRangeDataProvider,
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
-        $result = $roleOverviewDateRangeDataProvider->getData(
+        $result = $this->roleOverviewDateRangeDataProvider->getData(
             $widgetRequestData->getDepartment(),
             $dateAndDateRangeRequestData->getFrom()->format('Y-m-d'),
             $dateAndDateRangeRequestData->getTo()->format('Y-m-d'),
