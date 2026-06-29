@@ -9,9 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class AggregatedQuap
  * @package App\Entity
- * @ORM\Entity(repositoryClass=AggregatedQuapRepository::class)
- * @ORM\Table(name = "hc_aggregated_quap")
  */
+#[ORM\Table(name: 'hc_aggregated_quap')]
+#[ORM\Entity(repositoryClass: AggregatedQuapRepository::class)]
 class AggregatedQuap extends AggregatedEntity
 {
     public const NO_ANSWER = 0;
@@ -22,31 +22,25 @@ class AggregatedQuap extends AggregatedEntity
     public const ANSWER_FULFILLED = 1;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Questionnaire::class, inversedBy = "widgetQuap")
-     * @ORM\JoinColumn(nullable=false)
      * @var Questionnaire $questionnaire
      */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Questionnaire::class, inversedBy: 'widgetQuap')]
     private $questionnaire;
 
-    /**
-     * @ORM\Column(type="json_object")
-     */
+    #[ORM\Column(type: 'json_object')]
     private $answers;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: 'json')]
     private $computedAnswers;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     protected $dataPointDate;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": false})
      * @var bool $allowAccess
      */
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $allowAccess = false;
 
     /**

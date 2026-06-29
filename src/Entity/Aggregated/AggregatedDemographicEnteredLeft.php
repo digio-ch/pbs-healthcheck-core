@@ -5,91 +5,62 @@ namespace App\Entity\Aggregated;
 use App\Repository\Aggregated\AggregatedDemographicEnteredLeftRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_demographic_entered_left", indexes={
- *     @ORM\Index(columns={"new_count_m"}),
- *     @ORM\Index(columns={"new_count_leader_m"}),
- *     @ORM\Index(columns={"exit_count_m"}),
- *     @ORM\Index(columns={"exit_count_leader_m"}),
- *     @ORM\Index(columns={"new_count_f"}),
- *     @ORM\Index(columns={"new_count_leader_f"}),
- *     @ORM\Index(columns={"exit_count_leader_f"}),
- *     @ORM\Index(columns={"exit_count_f"}),
- *     @ORM\Index(columns={"new_count_u"}),
- *     @ORM\Index(columns={"new_count_leader_u"}),
- *     @ORM\Index(columns={"exit_count_u"}),
- *     @ORM\Index(columns={"exit_count_leader_u"}),
- *     @ORM\Index(columns={"group_type"}),
- *     @ORM\Index(columns={"data_point_date"}),
- * })
- * @ORM\Entity(repositoryClass=AggregatedDemographicEnteredLeftRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_demographic_entered_left')]
+#[ORM\Index(columns: ['new_count_m'])]
+#[ORM\Index(columns: ['new_count_leader_m'])]
+#[ORM\Index(columns: ['exit_count_m'])]
+#[ORM\Index(columns: ['exit_count_leader_m'])]
+#[ORM\Index(columns: ['new_count_f'])]
+#[ORM\Index(columns: ['new_count_leader_f'])]
+#[ORM\Index(columns: ['exit_count_leader_f'])]
+#[ORM\Index(columns: ['exit_count_f'])]
+#[ORM\Index(columns: ['new_count_u'])]
+#[ORM\Index(columns: ['new_count_leader_u'])]
+#[ORM\Index(columns: ['exit_count_u'])]
+#[ORM\Index(columns: ['exit_count_leader_u'])]
+#[ORM\Index(columns: ['group_type'])]
+#[ORM\Index(columns: ['data_point_date'])]
+#[ORM\Entity(repositoryClass: AggregatedDemographicEnteredLeftRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicEnteredLeft extends AggregatedEntity
 {
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $newCountM = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $newCountLeaderM = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $exitCountM = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $exitCountLeaderM = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $newCountF = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $newCountLeaderF = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $exitCountLeaderF = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $exitCountF = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $newCountU = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $newCountLeaderU = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $exitCountU = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $exitCountLeaderU = 0;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $groupType;
 
     /**

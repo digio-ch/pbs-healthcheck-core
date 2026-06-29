@@ -7,57 +7,38 @@ use App\Repository\Admin\GeoAddressRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="admin_geo_address", indexes={
- *     @ORM\Index(columns={"zip"}),
- *     @ORM\Index(columns={"town"}),
- *     @ORM\Index(columns={"address"}),
- *     @ORM\Index(columns={"house"}),
- * })
- * @ORM\Entity(repositoryClass=GeoAddressRepository::class)
- */
+#[ORM\Table(name: 'admin_geo_address')]
+#[ORM\Index(columns: ['zip'])]
+#[ORM\Index(columns: ['town'])]
+#[ORM\Index(columns: ['address'])]
+#[ORM\Index(columns: ['house'])]
+#[ORM\Entity(repositoryClass: GeoAddressRepository::class)]
 class GeoAddress
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $zip;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private $town;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private $address;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private $house;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private $longitude;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private $latitude;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="geoAddress")
-     */
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'geoAddress')]
     private $people;
 
     public function __construct()

@@ -4,30 +4,22 @@ namespace App\Entity\Midata;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_event_group")
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_event_group')]
+#[ORM\Entity]
+#[ORM\HasLifecycleCallbacks]
 class EventGroup
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="groups")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'groups')]
     private $event;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="events")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'events')]
     private $group;
 
     public function getId()

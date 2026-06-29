@@ -5,27 +5,19 @@ namespace App\Entity\Overview;
 use App\Repository\Overview\OverviewSharedRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=OverviewSharedRepository::class)
- * @ORM\Table(name="hc_overview_shared")
- */
+#[ORM\Table(name: 'hc_overview_shared')]
+#[ORM\Entity(repositoryClass: OverviewSharedRepository::class)]
 class OverviewShared
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    /**
-     * @ORM\Column(name="group_id", type="integer")
-     */
+    #[ORM\Column(name: 'group_id', type: 'integer')]
     private int $groupId;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
+    #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
     public function getId(): int

@@ -4,30 +4,22 @@ namespace App\Entity\Midata;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_event_type_qualification_type")
- * @ORM\HasLifecycleCallbacks()
- * @ORM\Entity()
- */
+#[ORM\Table(name: 'midata_event_type_qualification_type')]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 class EventTypeQualificationType
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=EventType::class)
-     * @ORM\JoinColumn(name="event_type_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'event_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: EventType::class, inversedBy: "eventTypeQualificationTypes")]
     private $eventType;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=QualificationType::class)
-     * @ORM\JoinColumn(name="qualification_type_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'qualification_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: QualificationType::class)]
     private $qualificationType;
 
     /***

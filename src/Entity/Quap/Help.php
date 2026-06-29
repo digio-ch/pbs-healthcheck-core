@@ -10,80 +10,64 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Help
  * @package App\Entity
- * @ORM\Entity(repositoryClass=HelpRepository::class)
- * @ORM\Table(name = "hc_quap_help", uniqueConstraints={
- *     @ORM\UniqueConstraint(
- *          name="help_local_id",
- *          columns={
- *              "severity", "question_id"
- *          }
- *     )
- * })
- * @ORM\HasLifecycleCallbacks()
  */
+#[ORM\Table(name: 'hc_quap_help')]
+#[ORM\UniqueConstraint(name: 'help_local_id', columns: ['severity', 'question_id'])]
+#[ORM\Entity(repositoryClass: HelpRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Help
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type = "integer")
      * @var int $id
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
     /**
-     * @ORM\Column(type="text")
      * @var string $help_de
      */
+    #[ORM\Column(type: 'text')]
     private $help_de;
 
     /**
-     * @ORM\Column(type="text")
      * @var string $help_fr
      */
+    #[ORM\Column(type: 'text')]
     private $help_fr;
 
     /**
-     * @ORM\Column(type="text")
      * @var string $help_it
      */
+    #[ORM\Column(type: 'text')]
     private $help_it;
 
     /**
-     * @ORM\Column(type="integer")
      * @var int $severity
      */
+    #[ORM\Column(type: 'integer')]
     private $severity;
 
     /**
-     * @ORM\ManyToOne(targetEntity = "Question", inversedBy="help")
      * @var Question $question
      */
+    #[ORM\ManyToOne(targetEntity: \Question::class, inversedBy: 'help')]
     private $question;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpDe", cascade={"persist"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'helpDe', cascade: ['persist'], orphanRemoval: true)]
     private $linksDe;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpFr", cascade={"persist"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'helpFr', cascade: ['persist'], orphanRemoval: true)]
     private $linksFr;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="helpIt", cascade={"persist"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'helpIt', cascade: ['persist'], orphanRemoval: true)]
     private $linksIt;
 
     public function __construct()

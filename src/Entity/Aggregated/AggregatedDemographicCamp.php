@@ -8,26 +8,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_demographic_camp", indexes={@ORM\Index(name="data_point_date_idx", columns={"data_point_date"}), @ORM\Index(name="start_date_idx", columns={"start_date"})})
- * @ORM\Entity(repositoryClass=AggregatedDemographicCampRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_demographic_camp')]
+#[ORM\Index(name: 'data_point_date_idx', columns: ['data_point_date'])]
+#[ORM\Index(name: 'start_date_idx', columns: ['start_date'])]
+#[ORM\Entity(repositoryClass: AggregatedDemographicCampRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicCamp extends AggregatedEntity
 {
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
+    #[ORM\Column(type: 'datetime_immutable')]
     protected $startDate;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     protected $campName;
 
-    /**
-     * @ORM\OneToMany(targetEntity=AggregatedDemographicCampGroup::class, mappedBy="demographicCamp", cascade={"remove"})
-     */
+    #[ORM\OneToMany(targetEntity: AggregatedDemographicCampGroup::class, mappedBy: 'demographicCamp', cascade: ['remove'])]
     protected $demographicCampGroups;
 
     public function __construct()

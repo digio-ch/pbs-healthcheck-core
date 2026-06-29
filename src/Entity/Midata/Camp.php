@@ -5,26 +5,18 @@ namespace App\Entity\Midata;
 use App\Repository\Midata\CampRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=CampRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Entity(repositoryClass: CampRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Camp extends Event
 {
-    /**
-     * @ORM\Column(type="string", length=512, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 512, nullable: true)]
     private $location;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $state;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=YouthSportType::class)
-     * @ORM\JoinColumn(name="youth_sport_type_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'youth_sport_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: YouthSportType::class)]
     private $youthYouthType;
 
     /**

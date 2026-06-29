@@ -5,31 +5,21 @@ namespace App\Entity\Statistics;
 use App\Repository\Statistics\GroupGeoLocationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=GroupGeoLocationRepository::class)
- */
+#[ORM\Entity(repositoryClass: GroupGeoLocationRepository::class)]
 class GroupGeoLocation
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=StatisticGroup::class, inversedBy="geoLocations")
-     */
+    #[ORM\ManyToOne(targetEntity: StatisticGroup::class, inversedBy: 'geoLocations')]
     private $group;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $lat;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $long;
 
     public function getId(): ?int

@@ -5,11 +5,9 @@ namespace App\Entity\Midata;
 use App\Repository\Midata\GroupTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_group_type")
- * @ORM\Entity(repositoryClass=GroupTypeRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_group_type')]
+#[ORM\Entity(repositoryClass: GroupTypeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class GroupType
 {
     public const FEDERATION = 'Group::Bund';
@@ -26,31 +24,21 @@ class GroupType
     public const ROVER = 'Group::RegionaleRover';
     public const PTA = 'Group::Pta';
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $deLabel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $itLabel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $frLabel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $groupType;
 
     /**

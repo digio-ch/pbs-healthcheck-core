@@ -14,120 +14,79 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_person", indexes={
- *     @ORM\Index(columns={"nickname"}),
- *     @ORM\Index(columns={"gender"}),
- *     @ORM\Index(columns={"birthday"}),
- *     @ORM\Index(columns={"entry_date"}),
- *     @ORM\Index(columns={"leaving_date"})
- * })
- * @ORM\Entity(repositoryClass=PersonRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_person')]
+#[ORM\Index(columns: ['nickname'])]
+#[ORM\Index(columns: ['gender'])]
+#[ORM\Index(columns: ['birthday'])]
+#[ORM\Index(columns: ['entry_date'])]
+#[ORM\Index(columns: ['leaving_date'])]
+#[ORM\Entity(repositoryClass: PersonRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Person
 {
     public const GENDER_M = 'm';
     public const GENDER_F = 'w';
     public const GENDER_U = '';
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $nickname;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $pbsNumber;
 
-    /**
-     * @ORM\Column(type="string", length=1, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 1, nullable: true)]
     private $gender;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $birthday;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $address;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $country;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $town;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $zip;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $entryDate;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $leavingDate;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class)
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Group::class)]
     private $group;
 
-    /**
-     * @ORM\OneToMany(targetEntity=PersonEvent::class, mappedBy="person", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: PersonEvent::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
     private $events;
 
-    /**
-     * @ORM\OneToMany(targetEntity=PersonQualification::class, mappedBy="person", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: PersonQualification::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
     private $qualifications;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=GeoAddress::class, inversedBy="people")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     */
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    #[ORM\ManyToOne(targetEntity: GeoAddress::class, inversedBy: 'people')]
     private $geoAddress;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Login::class, mappedBy="person")
-     */
+    #[ORM\OneToMany(targetEntity: Login::class, mappedBy: 'person')]
     private $logins;
 
-    /**
-     * @ORM\OneToOne(targetEntity=GamificationPersonProfile::class, mappedBy="person", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: GamificationPersonProfile::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
     private $gamification;
 
-    /**
-     * @ORM\OneToMany(targetEntity=LevelUpLog::class, mappedBy="person", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: LevelUpLog::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
     private $levelUps;
 
-    /**
-     * @ORM\OneToMany(targetEntity=GamificationQuapEvent::class, mappedBy="person", orphanRemoval=true, cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: GamificationQuapEvent::class, mappedBy: 'person', orphanRemoval: true, cascade: ['persist', 'remove'])]
     private $gamificationQuapEvents;
 
     public function __construct()

@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\DTO\Mapper\StatusBannerMapper;
 use App\DTO\Model\StatusBannerDTO;
-use App\Entity\General\StatusMessage;
+use App\Entity\General\StatusMessageSeverity;
 use App\Exception\ApiException;
 use App\Repository\General\StatusMessageRepository;
 
@@ -32,8 +32,8 @@ class StatusMessageService
     {
         $state = $this->statusRepo->findOneBy([]);
 
-        if ($state === null || $state->getSeverity() === StatusMessage::NONE) {
-            return new StatusBannerDTO(StatusMessage::NONE);
+        if ($state === null || $state->getSeverity() === StatusMessageSeverity::NONE) {
+            return new StatusBannerDTO(StatusMessageSeverity::NONE->value);
         }
 
         return StatusBannerMapper::map($state, $lang);

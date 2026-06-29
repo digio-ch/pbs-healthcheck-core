@@ -5,11 +5,8 @@ namespace App\Entity\Security;
 use App\Repository\Security\PermissionTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_security_permission_type")
- * @ORM\Entity()
- * @ORM\Entity(repositoryClass=PermissionTypeRepository::class)
- */
+#[ORM\Table(name: 'hc_security_permission_type')]
+#[ORM\Entity(repositoryClass: PermissionTypeRepository::class)]
 class PermissionType
 {
     public const EDITOR = 'editor';
@@ -22,31 +19,21 @@ class PermissionType
     public const VIEWER_ID = 3;
     public const EDITOR_PLUS_ID = 4;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private string $key;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private string $nameDe;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private string $nameFr;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private string $nameIt;
 
     /**

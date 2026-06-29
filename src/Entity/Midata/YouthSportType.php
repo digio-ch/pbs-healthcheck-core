@@ -7,37 +7,27 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Entity represents j_s_kinds table
- * @ORM\Table(name="midata_youth_sport_type")
- * @ORM\Entity(repositoryClass=YouthSportTypeRepository::class)
- * @ORM\HasLifecycleCallbacks()
  */
+#[ORM\Table(name: 'midata_youth_sport_type')]
+#[ORM\Entity(repositoryClass: YouthSportTypeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class YouthSportType
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $type;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $deLabel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $itLabel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $frLabel;
 
     /**

@@ -5,11 +5,9 @@ namespace App\Entity\Midata;
 use App\Repository\Midata\QualificationTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_qualification_type")
- * @ORM\Entity(repositoryClass=QualificationTypeRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_qualification_type')]
+#[ORM\Entity(repositoryClass: QualificationTypeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class QualificationType
 {
     public const ABSOLVENT_AL = 1;
@@ -23,31 +21,21 @@ class QualificationType
     public const JS_LEITER_JUGENDSPORT = 23;
     public const JS_LEITER_KINDERSPORT = 24;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $validity;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $deLabel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $itLabel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $frLabel;
 
     public static $qualificationTypesShortcuts = [

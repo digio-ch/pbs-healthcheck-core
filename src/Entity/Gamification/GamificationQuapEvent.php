@@ -8,45 +8,31 @@ use App\Entity\Quap\Questionnaire;
 use App\Repository\Gamification\GamificationQuapEventRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_gamification_quap_event")
- * @ORM\Entity(repositoryClass=GamificationQuapEventRepository::class)
- */
+#[ORM\Table(name: 'hc_gamification_quap_event')]
+#[ORM\Entity(repositoryClass: GamificationQuapEventRepository::class)]
 class GamificationQuapEvent
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="gamificationQuapEvents")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'gamificationQuapEvents')]
     private $person;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="gamificationQuapEvents")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'gamificationQuapEvents')]
     private $group;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
+    #[ORM\Column(type: 'datetime_immutable')]
     private $date;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private int $aspect_local_id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Questionnaire::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Questionnaire::class)]
     private $questionnaire;
 
     public function getId(): ?int

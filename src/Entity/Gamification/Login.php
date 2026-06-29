@@ -7,49 +7,33 @@ use App\Entity\Midata\Person;
 use App\Repository\Gamification\LoginRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_gamification_login")
- * @ORM\Entity(repositoryClass=LoginRepository::class)
- */
+#[ORM\Table(name: 'hc_gamification_login')]
+#[ORM\Entity(repositoryClass: LoginRepository::class)]
 class Login
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $date;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private $is_group_change;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="logins")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     */
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'logins')]
     private $person;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="logins")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'logins')]
     private $group;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $hashed_person_id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     private $role;
 
 

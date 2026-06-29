@@ -7,38 +7,26 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_event_type")
- * @ORM\Entity(repositoryClass=EventTypeRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_event_type')]
+#[ORM\Entity(repositoryClass: EventTypeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class EventType
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $deLabel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $itLabel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $frLabel;
 
-    /**
-     * @ORM\OneToMany(targetEntity=EventTypeQualificationType::class, mappedBy="eventType")
-     */
+    #[ORM\OneToMany(mappedBy: 'eventType', targetEntity: EventTypeQualificationType::class)]
     private $eventTypeQualificationTypes;
 
     /**

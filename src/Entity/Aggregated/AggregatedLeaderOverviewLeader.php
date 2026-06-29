@@ -6,48 +6,33 @@ use App\Repository\Aggregated\AggregatedLeaderOverviewLeaderRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_leader_overview_leader", indexes={
- *     @ORM\Index(columns={"gender"}),
- *     @ORM\Index(columns={"name"}),
- *     @ORM\Index(columns={"birthday"})
- * })
- * @ORM\Entity(repositoryClass=AggregatedLeaderOverviewLeaderRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_leader_overview_leader')]
+#[ORM\Index(columns: ['gender'])]
+#[ORM\Index(columns: ['name'])]
+#[ORM\Index(columns: ['birthday'])]
+#[ORM\Entity(repositoryClass: AggregatedLeaderOverviewLeaderRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedLeaderOverviewLeader
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=AggregatedLeaderOverview::class, inversedBy="leaders", cascade={"persist"}))
-     * @ORM\JoinColumn(name="widget_leader_overview_id", referencedColumnName="id", onDelete="CASCADE")
-     */
+    #[ORM\JoinColumn(name: 'widget_leader_overview_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: AggregatedLeaderOverview::class, inversedBy: 'leaders', cascade: ['persist'])]
     private $leaderOverview;
 
-    /**
-     * @ORM\OneToMany(targetEntity=AggregatedLeaderOverviewQualification::class, mappedBy="leaderOverviewLeader", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: AggregatedLeaderOverviewQualification::class, mappedBy: 'leaderOverviewLeader', cascade: ['persist', 'remove'])]
     private $qualifications;
 
-    /**
-     * @ORM\Column(type="string", length=1, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 1, nullable: true)]
     private $gender;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\Column(type="date_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'date_immutable', nullable: true)]
     private $birthday;
 
     /**

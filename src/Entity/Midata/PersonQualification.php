@@ -6,48 +6,33 @@ use App\Repository\Midata\PersonQualificationRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_person_qualification", indexes={
- *     @ORM\Index(columns={"start_at"}),
- *     @ORM\Index(columns={"end_at"})
- * })
- * @ORM\Entity(repositoryClass=PersonQualificationRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_person_qualification')]
+#[ORM\Index(columns: ['start_at'])]
+#[ORM\Index(columns: ['end_at'])]
+#[ORM\Entity(repositoryClass: PersonQualificationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class PersonQualification
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=QualificationType::class)
-     * @ORM\JoinColumn(name="qualification_type_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'qualification_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: QualificationType::class)]
     private $qualificationType;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="qualifications")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'qualifications')]
     private $person;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     **/
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $eventOrigin;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $startAt;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $endAt;
 
     /**

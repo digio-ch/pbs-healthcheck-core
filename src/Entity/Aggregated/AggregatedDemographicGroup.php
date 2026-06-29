@@ -5,55 +5,38 @@ namespace App\Entity\Aggregated;
 use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_demographic_group", indexes={
- *     @ORM\Index(columns={"m_count"}),
- *     @ORM\Index(columns={"f_count"}),
- *     @ORM\Index(columns={"u_count"}),
- *     @ORM\Index(columns={"m_count_leader"}),
- *     @ORM\Index(columns={"f_count_leader"}),
- *     @ORM\Index(columns={"u_count_leader"}),
- *     @ORM\Index(columns={"group_type"}),
- *     @ORM\Index(columns={"data_point_date"}),
- * })
- * @ORM\Entity(repositoryClass=AggregatedDemographicGroupRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_demographic_group')]
+#[ORM\Index(columns: ['m_count'])]
+#[ORM\Index(columns: ['f_count'])]
+#[ORM\Index(columns: ['u_count'])]
+#[ORM\Index(columns: ['m_count_leader'])]
+#[ORM\Index(columns: ['f_count_leader'])]
+#[ORM\Index(columns: ['u_count_leader'])]
+#[ORM\Index(columns: ['group_type'])]
+#[ORM\Index(columns: ['data_point_date'])]
+#[ORM\Entity(repositoryClass: AggregatedDemographicGroupRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicGroup extends AggregatedEntity
 {
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $mCount;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $fCount;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $uCount;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $mCountLeader;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $fCountLeader;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $uCountLeader;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $groupType;
 
     /**

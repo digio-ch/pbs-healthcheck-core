@@ -7,47 +7,32 @@ use App\Repository\Aggregated\AggregatedLeaderOverviewQualificationRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_leader_overview_qualification", indexes={
- *     @ORM\Index(columns={"state"})
- * })
- * @ORM\Entity(repositoryClass=AggregatedLeaderOverviewQualificationRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_leader_overview_qualification')]
+#[ORM\Index(columns: ['state'])]
+#[ORM\Entity(repositoryClass: AggregatedLeaderOverviewQualificationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedLeaderOverviewQualification
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=AggregatedLeaderOverviewLeader::class, inversedBy="qualifications"))
-     * @ORM\JoinColumn(name="leader_overview_leader_id", referencedColumnName="id", onDelete="CASCADE")
-     */
+    #[ORM\JoinColumn(name: 'leader_overview_leader_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: AggregatedLeaderOverviewLeader::class, inversedBy: 'qualifications')]
     private $leaderOverviewLeader;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $state;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $expiresAt;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $eventOrigin;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=QualificationType::class)
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: QualificationType::class)]
     private $qualificationType;
 
     /**

@@ -5,42 +5,25 @@ namespace App\Entity\General;
 use App\Repository\General\StatusMessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_status_message")
- * @ORM\Entity(repositoryClass=StatusMessageRepository::class)
- */
+#[ORM\Table(name: 'hc_status_message')]
+#[ORM\Entity(repositoryClass: StatusMessageRepository::class)]
 class StatusMessage
 {
-    public const NONE = "none";
-    public const INFO = "info";
-    public const WARNING = "warning";
-    public const ERROR = "error";
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private string $id;
+    #[ORM\Column(type: 'hc_status_message_severity')]
+    private StatusMessageSeverity $severity;
 
-    /**
-     * @ORM\Column(type="string", columnDefinition="ENUM('none', 'info', 'warning', 'error')")
-     */
-    private string $severity;
-
-    /**
-     * @ORM\Column(type="string", length=500)
-     */
+    #[ORM\Column(type: 'string', length: 500)]
     private string $deMessage;
 
-    /**
-     * @ORM\Column(type="string", length=500)
-     */
+    #[ORM\Column(type: 'string', length: 500)]
     private string $itMessage;
 
-    /**
-     * @ORM\Column(type="string", length=500)
-     */
+    #[ORM\Column(type: 'string', length: 500)]
     private string $frMessage;
 
 
@@ -71,16 +54,6 @@ class StatusMessage
         $this->id = $id;
     }
 
-    public function getSeverity(): string
-    {
-        return $this->severity;
-    }
-
-    public function setSeverity(string $severity): void
-    {
-        $this->severity = $severity;
-    }
-
     public function getDeMessage(): string
     {
         return $this->deMessage;
@@ -109,5 +82,15 @@ class StatusMessage
     public function setFrMessage(string $frMessage): void
     {
         $this->frMessage = $frMessage;
+    }
+
+    public function getSeverity(): StatusMessageSeverity
+    {
+        return $this->severity;
+    }
+
+    public function setSeverity(StatusMessageSeverity $severity): void
+    {
+        $this->severity = $severity;
     }
 }

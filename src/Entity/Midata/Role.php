@@ -5,13 +5,10 @@ namespace App\Entity\Midata;
 use App\Repository\Midata\RoleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=RoleRepository::class)
- * @ORM\Table(name="midata_role", indexes={
- *     @ORM\Index(columns={"role_type"})
- * })
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_role')]
+#[ORM\Index(columns: ['role_type'])]
+#[ORM\Entity(repositoryClass: RoleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Role
 {
     public const LEADER_ROLES = [
@@ -138,41 +135,27 @@ class Role
     public const PARENTS_COUNCIL_MEMBER = 'Group::Elternrat::Mitglied';
     public const PARENTS_COUNCIL_PRESIDENT = 'Group::Elternrat::Praesidium';
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $layerType;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $roleType;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $groupType;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $deLabel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $itLabel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $frLabel;
 
     /**

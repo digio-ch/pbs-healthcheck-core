@@ -6,73 +6,50 @@ use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicCampGroupRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_demographic_camp_group", indexes={
- *     @ORM\Index(columns={"m_count"}),
- *     @ORM\Index(columns={"f_count"}),
- *     @ORM\Index(columns={"u_count"}),
- *     @ORM\Index(columns={"f_count_leader"}),
- *     @ORM\Index(columns={"m_count_leader"}),
- *     @ORM\Index(columns={"u_count_leader"}),
- *     @ORM\Index(columns={"group_type"})
- * })
- * @ORM\Entity(repositoryClass=AggregatedDemographicCampGroupRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_demographic_camp_group')]
+#[ORM\Index(columns: ['m_count'])]
+#[ORM\Index(columns: ['f_count'])]
+#[ORM\Index(columns: ['u_count'])]
+#[ORM\Index(columns: ['f_count_leader'])]
+#[ORM\Index(columns: ['m_count_leader'])]
+#[ORM\Index(columns: ['u_count_leader'])]
+#[ORM\Index(columns: ['group_type'])]
+#[ORM\Entity(repositoryClass: AggregatedDemographicCampGroupRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicCampGroup
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=AggregatedDemographicCamp::class, inversedBy="demographicCampGroups")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: AggregatedDemographicCamp::class, inversedBy: 'demographicCampGroups')]
     private $demographicCamp;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $mCount;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $fCount;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $uCount;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $mCountLeader;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $fCountLeader;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $uCountLeader;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $groupType;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class)
-     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Group::class)]
     private $group;
 
     /**

@@ -6,39 +6,28 @@ use App\Repository\Midata\PersonRoleRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_person_role", indexes={
- *     @ORM\Index(columns={"created_at"}),
- *     @ORM\Index(columns={"deleted_at"})
- * })
- * @ORM\Entity(repositoryClass=PersonRoleRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_person_role')]
+#[ORM\Index(columns: ['created_at'])]
+#[ORM\Index(columns: ['deleted_at'])]
+#[ORM\Entity(repositoryClass: PersonRoleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class PersonRole
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="personRoles")
-     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'personRoles')]
     private $group;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class)
-     * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'person_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Person::class)]
     private $person;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Role::class)
-     * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Role::class)]
     private $role;
 
     /***
@@ -46,14 +35,10 @@ class PersonRole
      */
     private $name;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
     /**

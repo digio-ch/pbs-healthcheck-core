@@ -9,51 +9,33 @@ use App\Entity\Midata\Role;
 use App\Repository\Aggregated\AggregatedPersonRoleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=AggregatedPersonRoleRepository::class)
- */
+#[ORM\Entity(repositoryClass: AggregatedPersonRoleRepository::class)]
 class AggregatedPersonRole
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Role::class)
-     */
+    #[ORM\ManyToOne(targetEntity: Role::class)]
     private $role;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class)
-     */
+    #[ORM\ManyToOne(targetEntity: Group::class)]
     private $group;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class)
-     */
+    #[ORM\ManyToOne(targetEntity: Person::class)]
     private $person;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=PersonRole::class)
-     */
+    #[ORM\ManyToOne(targetEntity: PersonRole::class)]
     private $midata;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $nickname;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $start_at;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $end_at;
 
     public function getId(): ?int

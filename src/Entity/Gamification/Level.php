@@ -7,67 +7,47 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_gamification_level")
- * @ORM\Entity(repositoryClass=LevelRepository::class)
- */
+#[ORM\Table(name: 'hc_gamification_level')]
+#[ORM\Entity(repositoryClass: LevelRepository::class)]
 class Level
 {
     public const USER = 0;
     public const GROUP = 1;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=LevelAccess::class)
-     * @ORM\JoinColumn(nullable=true)
      * @var LevelAccess | null $access
      */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: LevelAccess::class)]
     private $access;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $type;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $de_title;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $fr_title;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $it_title;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Goal::class, mappedBy="level")
-     * @ORM\OrderBy({"id" = "DESC"})
-     */
+    #[ORM\OneToMany(targetEntity: Goal::class, mappedBy: 'level')]
+    #[ORM\OrderBy(['id' => 'DESC'])]
     private $goals;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $key;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $next_key;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $required;
 
     /**

@@ -6,39 +6,27 @@ use App\Entity\Midata\Person;
 use App\Repository\Gamification\LevelUpLogRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_gamification_level_up_log")
- * @ORM\Entity(repositoryClass=LevelUpLogRepository::class)
- */
+#[ORM\Table(name: 'hc_gamification_level_up_log')]
+#[ORM\Entity(repositoryClass: LevelUpLogRepository::class)]
 class LevelUpLog
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="displayed")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'levelUps')]
     private $person;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Level::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Level::class)]
     private $level;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
+    #[ORM\Column(type: 'datetime_immutable')]
     private $date;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true, options={"default": false})
-     */
+    #[ORM\Column(type: 'boolean', nullable: true, options: ['default' => false])]
     private $displayed;
 
     public function getId(): ?int

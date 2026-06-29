@@ -5,104 +5,56 @@ namespace App\Entity\Midata;
 use App\Repository\Midata\CensusGroupRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=CensusGroupRepository::class)
- */
+#[ORM\Entity(repositoryClass: CensusGroupRepository::class)]
 class CensusGroup
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=GroupType::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: GroupType::class)]
     private $group_type;
-     /**
-      * @ORM\Column(type="integer")
-      */
+     #[ORM\Column(type: 'integer')]
      private $total_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
-
+      #[ORM\Column(type: 'integer')]
       private $total_m_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $total_f_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $leiter_m_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $leiter_f_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $biber_m_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $biber_f_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $woelfe_m_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $woelfe_f_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $pfadis_m_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $pfadis_f_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $pios_m_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $pios_f_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $rover_m_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $rover_f_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $pta_m_count;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $pta_f_count;
-      /**
-       * @ORM\Column(type="string", length=255)
-       */
+      #[ORM\Column(type: 'string', length: 255)]
       private $name;
-      /**
-       * @ORM\Column(type="integer")
-       */
+      #[ORM\Column(type: 'integer')]
       private $group_id;
-      /**
-       * @ORM\Column(type="string", length=255)
-       */
-
+      #[ORM\Column(type: 'string', length: 255)]
     private $year;
     public function getId(): ?int
     {

@@ -8,37 +8,31 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=QuestionnaireRepository::class)
- * @ORM\Table(name="hc_quap_questionnaire")
- */
+#[ORM\Table(name: 'hc_quap_questionnaire')]
+#[ORM\Entity(repositoryClass: QuestionnaireRepository::class)]
 class Questionnaire
 {
     public const TYPE_DEPARTMENT = 'Questionnaire::Group::Default';
     public const TYPE_CANTON = 'Questionnaire::Group::Canton';
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      * @var int $id
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
      * @var string $type
      */
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $type;
 
-    /**
-     * @ORM\OneToMany(targetEntity=AggregatedQuap::class, mappedBy="questionnaire")
-     */
+    #[ORM\OneToMany(targetEntity: AggregatedQuap::class, mappedBy: 'questionnaire')]
     private $widgetQuap;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Aspect::class, mappedBy="questionnaire", cascade={"persist"})
-     */
+    #[ORM\OneToMany(mappedBy: 'questionnaire', targetEntity: Aspect::class, cascade: ['persist'])]
     private $aspects;
 
     public function __construct()

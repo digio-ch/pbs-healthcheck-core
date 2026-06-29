@@ -6,37 +6,26 @@ use App\Repository\Midata\EventDateRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_event_date", indexes={
- *     @ORM\Index(columns={"start_at"}),
- *     @ORM\Index(columns={"end_at"})
- * })
- * @ORM\Entity(repositoryClass=EventDateRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_event_date')]
+#[ORM\Index(columns: ['start_at'])]
+#[ORM\Index(columns: ['end_at'])]
+#[ORM\Entity(repositoryClass: EventDateRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class EventDate
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Event::class)
-     * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'eventDates')]
     private $event;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
+    #[ORM\Column(type: 'datetime_immutable')]
     private $startAt;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
+    #[ORM\Column(type: 'datetime_immutable')]
     private $endAt;
 
     /**

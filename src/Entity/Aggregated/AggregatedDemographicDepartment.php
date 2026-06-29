@@ -5,61 +5,42 @@ namespace App\Entity\Aggregated;
 use App\Repository\Aggregated\AggregatedDemographicDepartmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_demographic_department", indexes={
- *     @ORM\Index(columns={"birthyear"}),
- *     @ORM\Index(columns={"m_count"}),
- *     @ORM\Index(columns={"f_count"}),
- *     @ORM\Index(columns={"u_count"}),
- *     @ORM\Index(columns={"m_count_leader"}),
- *     @ORM\Index(columns={"f_count_leader"}),
- *     @ORM\Index(columns={"u_count_leader"}),
- *     @ORM\Index(columns={"group_type"}),
- *     @ORM\Index(columns={"data_point_date"}),
- * })
- * @ORM\Entity(repositoryClass=AggregatedDemographicDepartmentRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_demographic_department')]
+#[ORM\Index(columns: ['birthyear'])]
+#[ORM\Index(columns: ['m_count'])]
+#[ORM\Index(columns: ['f_count'])]
+#[ORM\Index(columns: ['u_count'])]
+#[ORM\Index(columns: ['m_count_leader'])]
+#[ORM\Index(columns: ['f_count_leader'])]
+#[ORM\Index(columns: ['u_count_leader'])]
+#[ORM\Index(columns: ['group_type'])]
+#[ORM\Index(columns: ['data_point_date'])]
+#[ORM\Entity(repositoryClass: AggregatedDemographicDepartmentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicDepartment extends AggregatedEntity
 {
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $birthyear;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
-     */
+    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
     private $mCount = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
-     */
+    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
     private $fCount = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
-     */
+    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
     private $uCount = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
-     */
+    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
     private $mCountLeader = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
-     */
+    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
     private $fCountLeader = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
-     */
+    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
     private $uCountLeader = 0;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $groupType;
 
     /**

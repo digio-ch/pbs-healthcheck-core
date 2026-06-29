@@ -10,17 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Question
  * @package App\Entity
- * @ORM\Entity(repositoryClass=QuestionRepository::class)
- * @ORM\Table(name="hc_quap_question", uniqueConstraints={
- *     @ORM\UniqueConstraint(
- *          name="question_local_id",
- *          columns={
- *              "local_id", "aspect_id"
- *          }
- *     )
- * })
- * @ORM\HasLifecycleCallbacks()
  */
+#[ORM\Table(name: 'hc_quap_question')]
+#[ORM\UniqueConstraint(name: 'question_local_id', columns: ['local_id', 'aspect_id'])]
+#[ORM\Entity(repositoryClass: QuestionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Question
 {
     const ANSWER_OPTION_BINARY = 'binary';
@@ -36,67 +30,59 @@ class Question
     const ANSWER_NOT_RELEVANT = 5;
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      * @var int $id
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $local_id;
 
     /**
-     * @ORM\Column(type="text")
      * @var string $question_de
      */
+    #[ORM\Column(type: 'text')]
     private $question_de;
 
     /**
-     * @ORM\Column(type="text")
      * @var string $question_fr
      */
+    #[ORM\Column(type: 'text')]
     private $question_fr;
 
     /**
-     * @ORM\Column(type="text")
      * @var string $question_it
      */
+    #[ORM\Column(type: 'text')]
     private $question_it;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @var string $answer_options
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $answer_options;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @var string|null $evaluation_function
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $evaluation_function;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Help::class, mappedBy="question", cascade={"persist"})
-     */
+    #[ORM\OneToMany(targetEntity: Help::class, mappedBy: 'question', cascade: ['persist'])]
     private $help;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Aspect::class, inversedBy="question")
      * @var Aspect $aspect
      */
+    #[ORM\ManyToOne(targetEntity: Aspect::class, inversedBy: 'questions')]
     private $aspect;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
     public function __construct()

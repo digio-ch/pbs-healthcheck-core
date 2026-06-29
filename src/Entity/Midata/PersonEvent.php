@@ -6,30 +6,22 @@ use App\Repository\Midata\PersonEventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_person_event")
- * @ORM\Entity(repositoryClass=PersonEventRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_person_event')]
+#[ORM\Entity(repositoryClass: PersonEventRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class PersonEvent
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="persons")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'persons')]
     private $event;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="events")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'events')]
     private $person;
 
     /***
@@ -37,13 +29,10 @@ class PersonEvent
      */
     private $qualified;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=PersonEventType::class)
-     * @ORM\JoinTable(name="midata_person_event_person_event_type",
-     *      joinColumns={@ORM\JoinColumn(name="person_event_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="person_event_type_id", referencedColumnName="id")}
-     *      )
-     */
+    #[ORM\JoinTable(name: 'midata_person_event_person_event_type')]
+    #[ORM\JoinColumn(name: 'person_event_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'person_event_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: PersonEventType::class)]
     private $personEventTypes;
 
     /**

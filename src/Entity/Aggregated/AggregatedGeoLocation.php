@@ -5,51 +5,34 @@ namespace App\Entity\Aggregated;
 use App\Repository\Aggregated\AggregatedGeoLocationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_geo_location", indexes={
- *     @ORM\Index(columns={"longitude"}),
- *     @ORM\Index(columns={"latitude"}),
- *     @ORM\Index(columns={"label"}),
- *     @ORM\Index(columns={"shape"}),
- *     @ORM\Index(columns={"group_type"}),
- *     @ORM\Index(columns={"person_type"}),
- *     @ORM\Index(columns={"data_point_date"}),
- * })
- * @ORM\Entity(repositoryClass=AggregatedGeoLocationRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_geo_location')]
+#[ORM\Index(columns: ['longitude'])]
+#[ORM\Index(columns: ['latitude'])]
+#[ORM\Index(columns: ['label'])]
+#[ORM\Index(columns: ['shape'])]
+#[ORM\Index(columns: ['group_type'])]
+#[ORM\Index(columns: ['person_type'])]
+#[ORM\Index(columns: ['data_point_date'])]
+#[ORM\Entity(repositoryClass: AggregatedGeoLocationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedGeoLocation extends AggregatedEntity
 {
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $longitude;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $latitude;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $label;
 
-    /**
-     * @ORM\Column(type="string")
-     *
-     * default value 'circle'
-     */
+    #[ORM\Column(type: 'string')]
     private $shape = 'circle';
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private $groupType;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $personType;
 
     /**

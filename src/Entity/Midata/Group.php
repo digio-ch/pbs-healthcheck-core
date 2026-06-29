@@ -11,90 +11,59 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_group", indexes={
- *     @ORM\Index(columns={"name"}),
- *     @ORM\Index(columns={"created_at"}),
- *     @ORM\Index(columns={"deleted_at"})
- * })
- * @ORM\Entity(repositoryClass=GroupRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_group')]
+#[ORM\Index(columns: ['name'])]
+#[ORM\Index(columns: ['created_at'])]
+#[ORM\Index(columns: ['deleted_at'])]
+#[ORM\Entity(repositoryClass: GroupRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Group
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Group::class, mappedBy="parentGroup")
-     */
+    #[ORM\OneToMany(targetEntity: Group::class, mappedBy: 'parentGroup')]
     private $children;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="children")
-     * @ORM\JoinColumn(name="parent_group_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'parent_group_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'children')]
     private $parentGroup;
 
-    /**
-     * @ORM\OneToMany(targetEntity=EventGroup::class, mappedBy="group", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\OneToMany(targetEntity: EventGroup::class, mappedBy: 'group', cascade: ['persist', 'remove'])]
     private $events;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $cantonId;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $cantonName;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $name;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=GroupType::class)
-     * @ORM\JoinColumn(name="group_type_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'group_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: GroupType::class)]
     private $groupType;
 
-    /**
-     * @ORM\OneToMany(targetEntity=PersonRole::class, mappedBy="group")
-     */
+    #[ORM\OneToMany(targetEntity: PersonRole::class, mappedBy: 'group')]
     private $personRoles;
 
-    /**
-     * @ORM\OneToOne(targetEntity=GroupSettings::class, mappedBy="group", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: GroupSettings::class, mappedBy: 'group', cascade: ['persist', 'remove'])]
     private $groupSettings;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Login::class, mappedBy="group")
-     */
+    #[ORM\OneToMany(targetEntity: Login::class, mappedBy: 'group')]
     private $logins;
 
-    /**
-     * @ORM\OneToMany(targetEntity=GamificationQuapEvent::class, mappedBy="group")
-     */
+    #[ORM\OneToMany(targetEntity: GamificationQuapEvent::class, mappedBy: 'group')]
     private $gamificationQuapEvents;
 
     public function __construct()

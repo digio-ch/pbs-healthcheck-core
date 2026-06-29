@@ -7,86 +7,63 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=AspectRepository::class)
- * @ORM\Table(
- *     name="hc_quap_aspect",
- *     uniqueConstraints={@ORM\UniqueConstraint(
- *          name="aspect_local_id",
- *          columns={
- *              "local_id", "questionnaire_id"
- *          }
- *     )
- * })
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_quap_aspect')]
+#[ORM\UniqueConstraint(name: 'aspect_local_id', columns: ['local_id', 'questionnaire_id'])]
+#[ORM\Entity(repositoryClass: AspectRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Aspect
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      * @var int $id
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $local_id;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @var string $name_de
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name_de;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @var string $name_fr
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name_fr;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @var string $name_it
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name_it;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="aspect", cascade={"persist"})
-     */
+    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'aspect', cascade: ['persist'])]
     private $questions;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Questionnaire::class, inversedBy="aspect")
      * @var Questionnaire $questionnaire
      */
+    #[ORM\ManyToOne(targetEntity: Questionnaire::class, inversedBy: 'aspects')]
     private $questionnaire;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: 'text')]
     private $descriptionDe;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: 'text')]
     private $descriptionFr;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: 'text')]
     private $descriptionIt;
 
     public function __construct()

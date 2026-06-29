@@ -8,49 +8,33 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=StatisticGroupRepository::class)
- */
+#[ORM\Entity(repositoryClass: StatisticGroupRepository::class)]
 class StatisticGroup
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=StatisticGroup::class, inversedBy="children")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: StatisticGroup::class, inversedBy: 'children')]
     private $parent_group;
 
-    /**
-     * @ORM\OneToMany(targetEntity=StatisticGroup::class, mappedBy="parent_group")
-     */
+    #[ORM\OneToMany(targetEntity: StatisticGroup::class, mappedBy: 'parent_group')]
     private $children;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=GroupType::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: GroupType::class)]
     private $group_type;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=StatisticGroup::class)
-     */
+    #[ORM\ManyToOne(targetEntity: StatisticGroup::class)]
     private $canton;
 
 
-    /**
-     * @ORM\OneToMany(targetEntity=GroupGeoLocation::class, mappedBy="group")
-     */
+    #[ORM\OneToMany(targetEntity: GroupGeoLocation::class, mappedBy: 'group')]
     private $geoLocations;
 
 

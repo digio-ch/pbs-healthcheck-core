@@ -6,43 +6,30 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="midata_event", indexes={
- *     @ORM\Index(columns={"name"})
- * })
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"course" = "Course", "camp" = "Camp"})
- */
+#[ORM\Table(name: 'midata_event')]
+#[ORM\Index(columns: ['name'])]
+#[ORM\Entity]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
+#[ORM\DiscriminatorMap(['course' => 'Course', 'camp' => 'Camp'])]
 abstract class Event
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name = '';
 
-    /**
-     * @ORM\OneToMany(targetEntity=EventGroup::class, mappedBy="event", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: EventGroup::class, cascade: ['persist', 'remove'])]
     private $groups;
 
-    /**
-     * @ORM\OneToMany(targetEntity=PersonEvent::class, mappedBy="event", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: PersonEvent::class, cascade: ['persist', 'remove'])]
     private $persons;
 
-    /**
-     * @ORM\OneToMany(targetEntity=EventDate::class, mappedBy="event")
-     */
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: EventDate::class)]
     private $eventDates;
 
     /**
