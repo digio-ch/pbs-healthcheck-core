@@ -14,6 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: self::NAME)]
 class InviteCommand extends Command
 {
     private const NAME = 'app:invite';
@@ -47,8 +48,7 @@ class InviteCommand extends Command
 
     protected function configure()
     {
-        $this->setName(self::NAME)
-            ->addArgument('email', InputArgument::REQUIRED, 'The email address of the user to invite')
+        $this->addArgument('email', InputArgument::REQUIRED, 'The email address of the user to invite')
             ->addArgument('group_id', InputArgument::REQUIRED, 'Access will be allowed to the supplied group')
             ->addOption('days', 'd', InputOption::VALUE_OPTIONAL, '# of days the invite is valid for, default is 30', 30);
     }

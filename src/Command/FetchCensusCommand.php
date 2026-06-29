@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'app:fetch-census', description: 'Fetch and aggregate census data')]
 class FetchCensusCommand extends StatisticsCommand
 {
     protected CensusAPIService $apiService;
@@ -29,13 +30,6 @@ class FetchCensusCommand extends StatisticsCommand
         $this->censusGroupRepository = $censusGroupRepository;
         $this->groupTypeRepository = $groupTypeRepository;
         parent::__construct();
-    }
-
-
-    public function configure()
-    {
-        $this->setName('app:fetch-census')
-            ->setDescription('Fetch and aggregate census data');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int

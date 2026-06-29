@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:convert-quap-answers")]
 class ConvertQuestionnaireAnswersCommand extends StatisticsCommand
 {
     /** @var EntityManagerInterface $em */
@@ -27,11 +28,6 @@ class ConvertQuestionnaireAnswersCommand extends StatisticsCommand
 
         $this->em = $em;
         $this->quapRepository = $quapRepository;
-    }
-
-    protected function configure()
-    {
-        $this->setName("app:convert-quap-answers");
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int

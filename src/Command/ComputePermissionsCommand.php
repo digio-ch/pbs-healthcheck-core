@@ -10,6 +10,7 @@ use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:compute-permissions")]
 class ComputePermissionsCommand extends StatisticsCommand
 {
     /** @var PersonRoleRepository $personRoleRepository */
@@ -37,12 +38,6 @@ class ComputePermissionsCommand extends StatisticsCommand
 
         $this->personRoleRepository = $personRoleRepository;
         $this->permissionRepository = $permissionRepository;
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName("app:compute-permissions");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

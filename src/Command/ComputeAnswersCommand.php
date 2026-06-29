@@ -14,6 +14,7 @@ use App\Service\Apps\Quap\QuapComputeAnswersService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:quap:compute-answers")]
 class ComputeAnswersCommand extends StatisticsCommand
 {
     /** @var GroupRepository $groupRepository */
@@ -47,12 +48,6 @@ class ComputeAnswersCommand extends StatisticsCommand
         $this->questionRepository = $questionRepository;
         $this->quapComputeAnswersService = $quapComputeAnswersService;
         $this->questionnaireRepository = $questionnaireRepository;
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName("app:quap:compute-answers");
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int

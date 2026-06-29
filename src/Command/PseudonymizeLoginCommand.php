@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:pseudonymize-login")]
 class PseudonymizeLoginCommand extends StatisticsCommand
 {
     private LoginRepository $loginRepository;
@@ -23,9 +24,7 @@ class PseudonymizeLoginCommand extends StatisticsCommand
 
     protected function configure()
     {
-        $this
-            ->setName("app:pseudonymize-login")
-            ->addOption("log", '', InputArgument::OPTIONAL, "List all pseudonymized Logins.", false);
+        $this->addOption("log", '', InputArgument::OPTIONAL, "List all pseudonymized Logins.", false);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

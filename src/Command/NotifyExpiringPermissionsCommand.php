@@ -10,6 +10,7 @@ use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: self::NAME)]
 class NotifyExpiringPermissionsCommand extends StatisticsCommand
 {
     private const NAME = 'app:notify-expiring-permissions';
@@ -31,12 +32,6 @@ class NotifyExpiringPermissionsCommand extends StatisticsCommand
         $this->permissionRepository = $permissionRepository;
         parent::__construct();
     }
-
-    protected function configure()
-    {
-        $this->setName(self::NAME);
-    }
-
 
     /**
      * @param InputInterface $input

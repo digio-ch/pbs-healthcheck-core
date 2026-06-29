@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'app:import-gamification')]
 class ImportGamificationCommand extends StatisticsCommand
 {
     /** @var EntityManagerInterface $em */
@@ -39,12 +40,6 @@ class ImportGamificationCommand extends StatisticsCommand
         $this->levelAccessRepository = $levelAccessRepository;
         $this->levelRepository = $levelRepository;
         $this->goalRepository = $goalRepository;
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName('app:import-gamification');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

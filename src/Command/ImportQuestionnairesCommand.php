@@ -17,6 +17,7 @@ use JsonMachine\JsonMachine;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'app:quap:import-questionnaire')]
 class ImportQuestionnairesCommand extends StatisticsCommand
 {
     /** @var EntityManagerInterface $em */
@@ -59,12 +60,6 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         $this->aspectRepo = $aspectRepo;
         $this->questionRepo = $questionRepo;
         $this->helpRepo = $helpRepo;
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName('app:quap:import-questionnaire');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int

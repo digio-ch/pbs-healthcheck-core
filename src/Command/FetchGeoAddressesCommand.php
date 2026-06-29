@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:import-geo-addresses")]
 class FetchGeoAddressesCommand extends StatisticsCommand
 {
     private const COORDINATION_EASTERN = 8;
@@ -44,9 +45,7 @@ class FetchGeoAddressesCommand extends StatisticsCommand
 
     protected function configure()
     {
-        $this
-            ->setName("app:import-geo-addresses")
-            ->addOption("overwrite", null, InputArgument::OPTIONAL, "", false);
+        $this->addOption("overwrite", null, InputArgument::OPTIONAL, "", false);
     }
 
     /**

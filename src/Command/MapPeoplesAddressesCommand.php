@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:map-peoples-addresses")]
 class MapPeoplesAddressesCommand extends StatisticsCommand
 {
     /** @var EntityManagerInterface $em */
@@ -41,9 +42,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
 
     protected function configure()
     {
-        $this
-            ->setName("app:map-peoples-addresses")
-            ->addOption("log-level", null, InputArgument::OPTIONAL, "", 2);
+        $this->addOption("log-level", null, InputArgument::OPTIONAL, "", 2);
     }
 
     /**
