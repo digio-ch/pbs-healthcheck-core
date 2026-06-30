@@ -6,6 +6,7 @@ use App\DTO\Model\Apps\Widgets\LeaderOverviewDTO;
 use App\DTO\Model\Charts\BarChartBarDataDTO;
 use App\DTO\Model\Charts\LineChartDataDTO;
 use App\DTO\Model\Charts\PieChartDataDTO;
+use App\Entity\Midata\GroupType;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use Doctrine\DBAL\DBALException;
@@ -29,6 +30,9 @@ class WidgetDataProvider
      */
     protected $translator;
 
+    /** @var string */
+    public const DEPARTMENT_COUNT_KEY = 'departments';
+
     /** @var string[] */
     public const GROUP_TYPE_COLORS = [
         'Group::Biber' => '#EEE09F',
@@ -38,7 +42,8 @@ class WidgetDataProvider
         'Group::AbteilungsRover' => '#1DA650',
         'Group::Pta' => '#d9b826',
         'Group::Abteilung' => '#005716',
-        'leaders' => '#005716'
+        'leaders' => '#005716',
+        self::DEPARTMENT_COUNT_KEY => ''
     ];
 
     /** @var string[] */
@@ -65,6 +70,17 @@ class WidgetDataProvider
     public const PEOPLE_TYPE_LEADERS = 'leaders';
     /** @var string */
     public const PEOPLE_TYPE_MEMBERS = 'members';
+
+    public const DEPARTMENT_GROUP_TYPE_ORDER = [
+        GroupType::BIBER,
+        GroupType::WOELFE,
+        GroupType::PFADI,
+        GroupType::PIO,
+        GroupType::PTA,
+        GroupType::ABTEILUNGS_ROVER,
+        GroupType::DEPARTMENT,
+        self::PEOPLE_TYPE_LEADERS, // same as department
+    ];
 
     /**
      * WidgetDataProvider constructor.
@@ -165,5 +181,41 @@ class WidgetDataProvider
             . ($leadersOnly ? self::PEOPLE_TYPE_LEADERS : self::PEOPLE_TYPE_MEMBERS)
             . '.' . $groupType;
         return $this->translator->trans($translation);
+    }
+
+    /**
+     * @param array $peopleTypes
+     * @return bool
+     */
+    protected function isLeadersOnly(array $peopleTypes): bool
+    {
+        return count($peopleTypes) === 1 && $peopleTypes[0] === $this::PEOPLE_TYPE_LEADERS;
+    }
+
+    /**
+     * @param array $peopleTypes
+     * @return bool
+     */
+    protected function isBothPeopleTypes(array $peopleTypes): bool
+    {
+        return count($peopleTypes) === 2;
+    }
+
+    /**
+     * Orders group types by {@see self::DEPARTMENT_GROUP_TYPE_ORDER}
+     * @param string $a
+     * @param string $b
+     * @return int
+     */
+    protected function sortByGroupTypes(string $a, string $b): int
+    {
+        if ($a === $b) {
+            return 0;
+        }
+
+        $indexA = array_search($a, self::DEPARTMENT_GROUP_TYPE_ORDER);
+        $indexB = array_search($b, self::DEPARTMENT_GROUP_TYPE_ORDER);
+
+        return $indexA <=> $indexB;
     }
 }
