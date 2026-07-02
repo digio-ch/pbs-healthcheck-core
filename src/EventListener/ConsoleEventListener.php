@@ -8,9 +8,11 @@ use App\Model\LogMessage\StatisticsCommandMessage;
 use App\Service\Logger\AppLogger;
 use App\Service\Logger\Messages\CommandStartLogMessage;
 use App\Service\Logger\Messages\ExceptionLogMessage;
+use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class ConsoleEventListener
@@ -32,6 +34,7 @@ class ConsoleEventListener
         $this->stopwatch = $stopwatch;
     }
 
+    #[AsEventListener(event: ConsoleEvents::COMMAND)]
     public function onConsoleCommand(ConsoleCommandEvent $event)
     {
         $logMessage = new CommandStartLogMessage(
@@ -42,6 +45,7 @@ class ConsoleEventListener
         $this->stopwatch->start($event->getCommand()->getName());
     }
 
+    #[AsEventListener(event: ConsoleEvents::TERMINATE)]
     public function onConsoleTerminate(ConsoleTerminateEvent $event)
     {
         $stopwatchEvent = $this->stopwatch->stop($event->getCommand()->getName());
@@ -64,6 +68,7 @@ class ConsoleEventListener
         $this->logger->info($logMessage);
     }
 
+    #[AsEventListener(event: ConsoleEvents::ERROR)]
     public function onConsoleError(ConsoleErrorEvent $event)
     {
         $this->stopwatch->stop($event->getCommand()->getName());

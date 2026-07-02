@@ -64,30 +64,14 @@ services:
             $sentryDSN: '%env(SENTRY_DSN)%'
 
   # Listeners
-    App\EventListener\ConsoleEventListener:
-        tags:
-            - { name: kernel.event_listener, event: console.command }
-            - { name: kernel.event_listener, event: console.terminate }
-            - { name: kernel.event_listener, event: console.error }
+    App\EventListener\WidgetControllerListener: ~
+    App\EventListener\ExceptionListener: ~
+    App\EventListener\LocaleListener: ~
 
-    App\EventListener\RequestListener:
+    App\EventListener\IpRestrictionRequestListener:
         arguments:
             $environment: '%kernel.environment%'
             $projectDir: '%kernel.project_dir%'
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }
-
-    App\EventListener\WidgetControllerListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller }
-
-    App\EventListener\ExceptionListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
-
-    App\EventListener\LocaleListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 1024 }
 
     # PBS Services
     App\Service\Pbs\PbsApiService:

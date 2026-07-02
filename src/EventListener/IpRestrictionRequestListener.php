@@ -8,10 +8,12 @@ use App\Service\Logger\Messages\ExceptionLogMessage;
 use Exception;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-class RequestListener
+class IpRestrictionRequestListener
 {
     /** @var string */
     private $environment;
@@ -38,6 +40,7 @@ class RequestListener
         $this->logger = $logger;
     }
 
+    #[AsEventListener(event: KernelEvents::REQUEST)]
     public function onKernelRequest(RequestEvent $event)
     {
         if (!$event->isMainRequest() || !in_array($this->environment, self::ACTIVE_ENVS)) {
