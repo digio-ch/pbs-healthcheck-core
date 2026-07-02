@@ -5,7 +5,7 @@ namespace App\EventListener;
 use App\Command\StatisticsCommand;
 use App\Model\CommandStatistics;
 use App\Model\LogMessage\StatisticsCommandMessage;
-use App\Service\Logger\GelfLogger;
+use App\Service\Logger\AppLogger;
 use App\Service\Logger\Messages\CommandStartLogMessage;
 use App\Service\Logger\Messages\ExceptionLogMessage;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -15,7 +15,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 class ConsoleEventListener
 {
-    /** @var GelfLogger */
+    /** @var AppLogger */
     private $logger;
 
     /** @var Stopwatch */
@@ -23,10 +23,10 @@ class ConsoleEventListener
 
     /**
      * ConsoleEventListener constructor.
-     * @param GelfLogger $logger
+     * @param AppLogger $logger
      * @param Stopwatch $stopwatch
      */
-    public function __construct(GelfLogger $logger, Stopwatch $stopwatch)
+    public function __construct(AppLogger $logger, Stopwatch $stopwatch)
     {
         $this->logger = $logger;
         $this->stopwatch = $stopwatch;

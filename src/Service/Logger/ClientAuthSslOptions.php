@@ -4,6 +4,9 @@ namespace App\Service\Logger;
 
 use Gelf\Transport\SslOptions;
 
+/**
+ * Wrapper around {@link SslOptions} because it does not support passing client cert and key via variable instead of file.
+ */
 class ClientAuthSslOptions extends SslOptions
 {
     /** @var string|null $clientCert */

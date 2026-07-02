@@ -3,7 +3,7 @@
 namespace App\EventListener;
 
 use App\Model\LogMessage\IpBlockMessage;
-use App\Service\Logger\GelfLogger;
+use App\Service\Logger\AppLogger;
 use App\Service\Logger\Messages\ExceptionLogMessage;
 use Exception;
 use GeoIp2\Database\Reader;
@@ -17,7 +17,7 @@ class RequestListener
     private $environment;
     /** @var string */
     private $projectDir;
-    /** @var GelfLogger */
+    /** @var AppLogger */
     private $logger;
 
     /** @var string[] */
@@ -29,9 +29,9 @@ class RequestListener
      * RequestListener constructor.
      * @param string $environment
      * @param string $projectDir
-     * @param GelfLogger $logger
+     * @param AppLogger $logger
      */
-    public function __construct(string $environment, string $projectDir, GelfLogger $logger)
+    public function __construct(string $environment, string $projectDir, AppLogger $logger)
     {
         $this->environment = $environment;
         $this->projectDir = $projectDir;

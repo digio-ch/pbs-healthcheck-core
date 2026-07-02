@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DebugController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\Logger\GelfLogger $logger)
+    public function __construct(private readonly \App\Service\Logger\AppLogger $logger)
     {
     }
 

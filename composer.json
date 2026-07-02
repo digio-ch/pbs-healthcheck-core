@@ -6,7 +6,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "digio/digio-logger": "^0.1.0",
         "doctrine/annotations": "^1.10",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "3.0.*",
@@ -37,6 +36,7 @@
         "symfony/security-http": "5.4.*",
         "symfony/security-core": "5.4.*",
         "ext-intl": "*"
+        "graylog2/gelf-php": "2.0.2"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
@@ -46,12 +46,6 @@
         "symfony/twig-bundle": "5.2.*",
         "symfony/web-profiler-bundle": "5.2.*"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://gitlab.digio.ch/digio-public/digio-logger.git"
-        }
-    ],
     "config": {
         "preferred-install": {
             "*": "dist"

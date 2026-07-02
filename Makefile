@@ -1,7 +1,7 @@
 
 DOCKER_COMPOSE_COMMAND=$(if $(shell docker compose 2>/dev/null),docker compose,docker-compose)
 DOCKER_COMPOSE_FILE=-f ./docker/docker-compose.yml
-ERROR_LOG_FILE=var/log/errors.log
+ERROR_LOG_FILE=var/log/dev.errors.log
 
 
 .PHONY: pull
@@ -77,5 +77,4 @@ lint\:fix:
 
 .PHONY: logs
 logs:
-	echo "\n\n\nListening to errors...\n\n" >> $(ERROR_LOG_FILE)
-	tail -f $(ERROR_LOG_FILE)
+	tail -f -n 1 $(ERROR_LOG_FILE)

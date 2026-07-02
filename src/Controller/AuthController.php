@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\DTO\Model\PbsUserDTO;
 use App\Model\LogMessage\SimpleLogMessage;
 use App\Service\Gamification\LoginService;
-use App\Service\Logger\GelfLogger;
+use App\Service\Logger\AppLogger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,16 +16,16 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 class AuthController extends AbstractController
 {
     /**
-     * @var GelfLogger
+     * @var AppLogger
      */
     private $logger;
     private LoginService $loginService;
 
     /**
      * AuthController constructor.
-     * @param GelfLogger $logger
+     * @param AppLogger $logger
      */
-    public function __construct(GelfLogger $logger, LoginService $loginService, private readonly \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage)
+    public function __construct(AppLogger $logger, LoginService $loginService, private readonly \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage)
     {
         $this->logger = $logger;
         $this->loginService = $loginService;
@@ -39,7 +39,7 @@ class AuthController extends AbstractController
             $this->logger->info(new SimpleLogMessage(md5($user->getNickname()) . ' logged in.'));
             $this->loginService->logByUserDTOForLogin($user);
         } else {
-            $this->logger->info('Non User was logged in.');
+            $this->logger->info(new SimpleLogMessage('Non User was logged in.'));
         }
 
         return $this->json($user, JsonResponse::HTTP_OK, [], [
