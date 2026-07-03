@@ -5,9 +5,6 @@
     "composer/ca-bundle": {
         "version": "1.2.7"
     },
-    "digio/digio-logger": {
-        "version": "0.1"
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -105,14 +102,8 @@
     "egulias/email-validator": {
         "version": "2.1.25"
     },
-    "friendsofphp/proxy-manager-lts": {
-        "version": "v1.0.16"
-    },
     "geoip2/geoip2": {
         "version": "v2.10.0"
-    },
-    "graylog2/gelf-php": {
-        "version": "1.6.5"
     },
     "guzzlehttp/guzzle": {
         "version": "6.5.4"
@@ -131,9 +122,6 @@
     },
     "jean85/pretty-package-versions": {
         "version": "1.6.0"
-    },
-    "laminas/laminas-code": {
-        "version": "4.7.1"
     },
     "maxmind-db/reader": {
         "version": "v1.6.0"
@@ -165,14 +153,23 @@
     "ocramius/proxy-manager": {
         "version": "2.2.3"
     },
-    "paragonie/constant_time_encoding": {
-        "version": "v2.3.0"
-    },
     "php": {
         "version": "7.4"
     },
     "php-http/client-common": {
         "version": "2.7.0"
+    },
+    "php-http/discovery": {
+        "version": "1.20",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.18",
+            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
+        },
+        "files": [
+            "config/packages/http_discovery.yaml"
+        ]
     },
     "php-http/httplug": {
         "version": "2.4.0"
@@ -186,17 +183,8 @@
     "php-http/promise": {
         "version": "1.1.0"
     },
-    "phpdocumentor/reflection-common": {
-        "version": "2.1.0"
-    },
-    "phpdocumentor/reflection-docblock": {
-        "version": "5.1.0"
-    },
-    "phpdocumentor/type-resolver": {
-        "version": "1.1.0"
-    },
-    "phpstan/phpdoc-parser": {
-        "version": "1.22.0"
+    "phpstan/phpstan": {
+        "version": "2.2.2"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -239,6 +227,9 @@
     },
     "sentry/sentry": {
         "version": "3.19.1"
+    },
+    "sentry/sentry-symfony": {
+        "version": "4.14.0"
     },
     "squizlabs/php_codesniffer": {
         "version": "3.0",
@@ -369,11 +360,20 @@
     "symfony/mime": {
         "version": "v5.1.11"
     },
+    "symfony/monolog-bundle": {
+        "version": "3.11",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.7",
+            "ref": "1b9efb10c54cb51c713a9391c9300ff8bceda459"
+        },
+        "files": [
+            "config/packages/monolog.yaml"
+        ]
+    },
     "symfony/options-resolver": {
         "version": "v5.4.21"
-    },
-    "symfony/orm-pack": {
-        "version": "v1.0.8"
     },
     "symfony/phpunit-bridge": {
         "version": "4.3",
@@ -405,14 +405,8 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.17.0"
     },
-    "symfony/polyfill-php73": {
-        "version": "v1.17.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.17.0"
-    },
-    "symfony/polyfill-php81": {
-        "version": "v1.27.0"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.4"
@@ -458,17 +452,11 @@
     "symfony/security-csrf": {
         "version": "v5.1.2"
     },
-    "symfony/security-guard": {
-        "version": "v5.1.2"
-    },
     "symfony/security-http": {
         "version": "v5.1.2"
     },
     "symfony/serializer": {
         "version": "v5.0.9"
-    },
-    "symfony/serializer-pack": {
-        "version": "v1.0.3"
     },
     "symfony/service-contracts": {
         "version": "v2.1.2"
@@ -550,9 +538,6 @@
     },
     "twig/twig": {
         "version": "v3.0.3"
-    },
-    "webmozart/assert": {
-        "version": "1.9.0"
     },
     "zendframework/zend-code": {
         "version": "3.4.1"

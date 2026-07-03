@@ -70,10 +70,10 @@ class WidgetControllerListener
         $actionReflection = (new ReflectionClass($controller[0]))->getMethod($controller[1]);
 
         foreach ($actionReflection->getParameters() as $argument) {
-            if (is_null($argument->getClass())) {
+            if(is_null($argument->getType())) {
                 continue;
             }
-            if (!is_a($argument->getClass()->getName(), FilterRequestData::class, true) && !is_a($argument->getClass()->getName(), CensusRequestData::class, true)) {
+            if (!is_a($argument->getType()->getName(), FilterRequestData::class, true) && !is_a($argument->getType()->getName(), CensusRequestData::class, true)) {
                 continue;
             }
             $data = $this->validateRequest($request, $argument);
@@ -91,7 +91,7 @@ class WidgetControllerListener
     {
         $group = $this->extractGroup($request, 'groupId');
 
-        switch ($parameter->getClass()->getName()) {
+        switch ($parameter->getType()->getName()) {
             case DateAndDateRangeRequestData::class:
                 return $this->validateDateAndDateRangeRequest($group, $request);
             case DateRequestData::class:
