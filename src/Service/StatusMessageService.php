@@ -10,22 +10,14 @@ use App\Repository\General\StatusMessageRepository;
 
 class StatusMessageService
 {
-    /**
-     * @var StatusMessageRepository $statusRepo
-     */
     private StatusMessageRepository $statusRepo;
 
-    /**
-     * @param StatusMessageRepository $statusRepo
-     */
     public function __construct(StatusMessageRepository $statusRepo)
     {
         $this->statusRepo = $statusRepo;
     }
 
     /**
-     * @param string $lang
-     * @return StatusBannerDTO
      * @throws ApiException
      */
     public function getStatus(string $lang): StatusBannerDTO

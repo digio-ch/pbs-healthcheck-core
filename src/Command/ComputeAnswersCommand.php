@@ -19,19 +19,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: "app:quap:compute-answers")]
 class ComputeAnswersCommand extends StatisticsCommand
 {
-    /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
-    /** @var AggregatedQuapRepository $quapRepository */
     private AggregatedQuapRepository $quapRepository;
 
-    /** @var QuestionRepository $questionRepository */
     private QuestionRepository $questionRepository;
 
-    /** @var QuapComputeAnswersService $quapComputeAnswersService */
     private QuapComputeAnswersService $quapComputeAnswersService;
 
-    /** @var QuestionnaireRepository $questionnaireRepository */
     private QuestionnaireRepository $questionnaireRepository;
 
     private float $totalDuration = 0;

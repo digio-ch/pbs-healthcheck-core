@@ -8,7 +8,6 @@ use App\Entity\Midata\CensusGroup;
 class CensusFilter
 {
     /**
-     * @param CensusRequestData $censusRequestData
      * @param CensusGroup[] $censusGroups
      * @return CensusGroup[]
      */

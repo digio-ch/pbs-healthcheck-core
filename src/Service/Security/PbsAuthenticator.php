@@ -2,6 +2,7 @@
 
 namespace App\Service\Security;
 
+use App\DTO\Model\PbsUserDTO;
 use App\Service\Pbs\PbsAuthService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,7 +74,7 @@ class PbsAuthenticator extends AbstractAuthenticator implements AuthenticationEn
         $user = $this->pbsAuthService->getUser($code, $locale);
 
         return new SelfValidatingPassport(
-            new UserBadge($user->getUserIdentifier(), function () use ($user) {
+            new UserBadge($user->getUserIdentifier(), function () use ($user): PbsUserDTO {
                 return $user;
             })
         );

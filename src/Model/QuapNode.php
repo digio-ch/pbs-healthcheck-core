@@ -9,18 +9,6 @@ use Tree\Node\Node;
 
 class QuapNode extends Node
 {
-    /**
-     * @param AggregatedQuap $value
-     * @param Node[] $children
-     */
-    public function __construct($value = null, array $children = [])
-    {
-        parent::__construct($value, $children);
-    }
-
-    /**
-     * @return AggregatedQuap
-     */
     public function getQuap(): AggregatedQuap
     {
         return $this->getValue();

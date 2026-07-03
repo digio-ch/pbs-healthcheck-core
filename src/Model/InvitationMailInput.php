@@ -62,7 +62,6 @@ class InvitationMailInput
 
     /**
      * @param string[] $sections
-     * @return void
      */
     public function setSections(array $sections): InvitationMailInput
     {

@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class LocaleListener
 {
     #[AsEventListener(event: KernelEvents::REQUEST, priority: 1024)]
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->getRequest()->headers->has('X-Locale')) {
             return;

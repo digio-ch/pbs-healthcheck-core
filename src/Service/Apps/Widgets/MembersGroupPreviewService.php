@@ -8,10 +8,8 @@ use App\Repository\Midata\GroupRepository;
 
 class MembersGroupPreviewService
 {
-    /** @var AggregatedDemographicGroupRepository $aggregatedDemographicGroupRepository */
     private AggregatedDemographicGroupRepository $aggregatedDemographicGroupRepository;
 
-    /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
     public function __construct(

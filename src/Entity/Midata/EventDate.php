@@ -24,55 +24,37 @@ class EventDate
     private ?Event $event = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private $startAt;
+    private ?DateTimeImmutable $startAt = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private $endAt;
+    private ?DateTimeImmutable $endAt = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getStartAt(): ?DateTimeImmutable
     {
         return $this->startAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $startAt
-     */
-    public function setStartAt(?DateTimeImmutable $startAt)
+    public function setStartAt(?DateTimeImmutable $startAt): void
     {
         $this->startAt = $startAt;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getEndAt(): ?DateTimeImmutable
     {
         return $this->endAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $endAt
-     */
-    public function setEndAt(?DateTimeImmutable $endAt)
+    public function setEndAt(?DateTimeImmutable $endAt): void
     {
         $this->endAt = $endAt;
     }
@@ -80,7 +62,7 @@ class EventDate
     /**
      * @param Event|null $event
      */
-    public function setEvent(?Event $event)
+    public function setEvent(?Event $event): void
     {
         $this->event = $event;
     }
@@ -88,7 +70,7 @@ class EventDate
     /**
      * @return Event
      */
-    public function getEvent()
+    public function getEvent(): ?Event
     {
         return $this->event;
     }

@@ -12,10 +12,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class QuapSubdepartmentDateDataProvider extends WidgetDataProvider
 {
-    /**
-     * @var QuapService $quapService
-     */
-    private $quapService;
+    private QuapService $quapService;
 
     public function __construct(
         GroupRepository $groupRepository,

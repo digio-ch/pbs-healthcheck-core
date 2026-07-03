@@ -73,7 +73,7 @@ class GroupRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findAllRelevantSubGroupIdsByParentGroupId(int $groupId)
+    public function findAllRelevantSubGroupIdsByParentGroupId(int $groupId): array
     {
         $conn = $this->getEntityManager()->getConnection();
         $query = $conn->executeQuery(
@@ -98,7 +98,7 @@ class GroupRepository extends ServiceEntityRepository
         return $query->fetchFirstColumn();
     }
 
-    public function findAllSubGroupIdsByParentGroupId(int $groupId)
+    public function findAllSubGroupIdsByParentGroupId(int $groupId): array
     {
         $conn = $this->getEntityManager()->getConnection();
         $query = $conn->executeQuery(
@@ -122,7 +122,6 @@ class GroupRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $parentGroupId
      * @param array|string[] $subGroupTypes
      * @return array|mixed[]
      * @throws Exception
@@ -130,7 +129,7 @@ class GroupRepository extends ServiceEntityRepository
     public function findAllRelevantSubGroupsByParentGroupId(
         string $parentGroupId,
         array $subGroupTypes = WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES
-    ) {
+    ): array {
         $conn = $this->getEntityManager()->getConnection();
         $query = $conn->executeQuery(
             "

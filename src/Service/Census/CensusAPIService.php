@@ -7,18 +7,12 @@ use App\Service\Http\GuzzleWrapper;
 
 class CensusAPIService
 {
-    /** @var GuzzleWrapper */
-    protected $guzzleWrapper;
-    /** @var string */
-    protected $url;
-    /** @var string */
-    protected $apiToken;
+    protected GuzzleWrapper $guzzleWrapper;
+    protected string $url;
+    protected string $apiToken;
 
     /**
      * CensusAPIService constructor.
-     * @param GuzzleWrapper $guzzleWrapper
-     * @param string $url
-     * @param string $apiToken
      */
     public function __construct(GuzzleWrapper $guzzleWrapper, string $url, string $apiToken)
     {
@@ -34,9 +28,6 @@ class CensusAPIService
         return $this->guzzleWrapper->getJson($endpoint, null, []);
     }
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->url;

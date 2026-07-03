@@ -5,7 +5,7 @@ namespace App\Service\Logger\Messages;
 class CommandStartLogMessage extends LogMessage
 {
     /** @var string[] */
-    private $args;
+    private array $args;
 
     public function __construct(string $command, array $args)
     {

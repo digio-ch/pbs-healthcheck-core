@@ -39,10 +39,6 @@ class AnswersMapper
         return $dto;
     }
 
-    /**
-     * @param AggregatedQuap $quap
-     * @return NestedExtendedAnswersDTO
-     */
     public static function mapNestedExtendedAnswers(AggregatedQuap $quap): NestedExtendedAnswersDTO
     {
         $extendedAnswer = self::mapExtendedAnswers($quap);

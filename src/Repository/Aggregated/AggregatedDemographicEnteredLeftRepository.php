@@ -12,7 +12,6 @@ class AggregatedDemographicEnteredLeftRepository extends AggregatedEntityReposit
 {
     /**
      * AggregatedDemographicEnteredLeftRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -20,14 +19,10 @@ class AggregatedDemographicEnteredLeftRepository extends AggregatedEntityReposit
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     * @param int $mainGroupId
-     * @param string $groupType
      * @return array|mixed[]
      * @throws Exception
      */
-    public function findNewExitMembersCount(string $from, string $to, int $mainGroupId, string $groupType)
+    public function findNewExitMembersCount(string $from, string $to, int $mainGroupId, string $groupType): array
     {
         $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
@@ -44,14 +39,10 @@ class AggregatedDemographicEnteredLeftRepository extends AggregatedEntityReposit
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     * @param int $mainGroupId
-     * @param array $groupTypes
      * @return array|mixed[]
      * @throws Exception
      */
-    public function findNewExitLeadersCount(string $from, string $to, int $mainGroupId, array $groupTypes)
+    public function findNewExitLeadersCount(string $from, string $to, int $mainGroupId, array $groupTypes): array
     {
         $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(

@@ -13,7 +13,6 @@ class CourseRepository extends ServiceEntityRepository
 {
     /**
      * CourseRepository constructor.
-     * @param ManagerRegistry $managerRegistry
      */
     public function __construct(ManagerRegistry $managerRegistry)
     {

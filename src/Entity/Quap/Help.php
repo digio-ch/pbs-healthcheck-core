@@ -18,43 +18,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class Help
 {
-    /**
-     * @var int $id
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @var string $help_de
-     */
     #[ORM\Column(type: Types::TEXT)]
     private ?string $help_de = null;
 
-    /**
-     * @var string $help_fr
-     */
     #[ORM\Column(type: Types::TEXT)]
     private ?string $help_fr = null;
 
-    /**
-     * @var string $help_it
-     */
     #[ORM\Column(type: Types::TEXT)]
     private ?string $help_it = null;
 
-    /**
-     * @var int $severity
-     */
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $severity = null;
 
-    /**
-     * @var Question $question
-     */
     #[ORM\ManyToOne(targetEntity: \Question::class, inversedBy: 'help')]
-    private $question;
+    private Question $question;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $createdAt;
@@ -63,13 +45,13 @@ class Help
     private $deletedAt;
 
     #[ORM\OneToMany(mappedBy: 'helpDe', targetEntity: Link::class, cascade: ['persist'], orphanRemoval: true)]
-    private $linksDe;
+    private ArrayCollection|Collection $linksDe;
 
     #[ORM\OneToMany(mappedBy: 'helpFr', targetEntity: Link::class, cascade: ['persist'], orphanRemoval: true)]
-    private $linksFr;
+    private ArrayCollection|Collection $linksFr;
 
     #[ORM\OneToMany(mappedBy: 'helpIt', targetEntity: Link::class, cascade: ['persist'], orphanRemoval: true)]
-    private $linksIt;
+    private ArrayCollection|Collection $linksIt;
 
     public function __construct()
     {
@@ -79,97 +61,61 @@ class Help
         $this->linksIt = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
     public function getHelpDe(): string
     {
         return $this->help_de;
     }
 
-    /**
-     * @param string $help_de
-     */
     public function setHelpDe(string $help_de): void
     {
         $this->help_de = $help_de;
     }
 
-    /**
-     * @return string
-     */
     public function getHelpFr(): string
     {
         return $this->help_fr;
     }
 
-    /**
-     * @param string $help_fr
-     */
     public function setHelpFr(string $help_fr): void
     {
         $this->help_fr = $help_fr;
     }
 
-    /**
-     * @return string
-     */
     public function getHelpIt(): string
     {
         return $this->help_it;
     }
 
-    /**
-     * @param string $help_it
-     */
     public function setHelpIt(string $help_it): void
     {
         $this->help_it = $help_it;
     }
 
-    /**
-     * @return int
-     */
     public function getSeverity(): int
     {
         return $this->severity;
     }
 
-    /**
-     * @param int $severity
-     */
     public function setSeverity(int $severity): void
     {
         $this->severity = $severity;
     }
 
-    /**
-     * @return Question
-     */
     public function getQuestion(): Question
     {
         return $this->question;
     }
 
-    /**
-     * @param Question $question
-     */
     public function setQuestion(Question $question): void
     {
         $this->question = $question;
@@ -215,9 +161,6 @@ class Help
         return $this->linksDe;
     }
 
-    /**
-     * @param ArrayCollection $linksDe
-     */
     public function setLinksDe(ArrayCollection $linksDe): void
     {
         $this->linksDe = $linksDe;
@@ -253,9 +196,6 @@ class Help
         return $this->linksFr;
     }
 
-    /**
-     * @param ArrayCollection $linksFr
-     */
     public function setLinksFr(ArrayCollection $linksFr): void
     {
         $this->linksFr = $linksFr;
@@ -291,9 +231,6 @@ class Help
         return $this->linksIt;
     }
 
-    /**
-     * @param ArrayCollection $linksIt
-     */
     public function setLinksIt(ArrayCollection $linksIt): void
     {
         $this->linksIt = $linksIt;

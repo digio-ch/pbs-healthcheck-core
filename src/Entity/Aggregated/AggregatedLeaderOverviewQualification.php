@@ -36,46 +36,37 @@ class AggregatedLeaderOverviewQualification
     #[ORM\ManyToOne(targetEntity: QualificationType::class)]
     private ?QualificationType $qualificationType = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setLeaderOverviewLeader(AggregatedLeaderOverviewLeader $leaderOverviewLeader)
+    public function setLeaderOverviewLeader(AggregatedLeaderOverviewLeader $leaderOverviewLeader): void
     {
         $this->leaderOverviewLeader = $leaderOverviewLeader;
     }
 
-    public function getLeaderOverviewLeader()
+    public function getLeaderOverviewLeader(): ?AggregatedLeaderOverviewLeader
     {
         return $this->leaderOverviewLeader;
     }
 
-    public function setState(string $state)
+    public function setState(string $state): void
     {
         $this->state = $state;
     }
 
-    public function getState()
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEventOrigin()
+    public function getEventOrigin(): ?string
     {
         return $this->eventOrigin;
     }
@@ -83,7 +74,7 @@ class AggregatedLeaderOverviewQualification
     /**
      * @param mixed $eventOrigin
      */
-    public function setEventOrigin($eventOrigin): void
+    public function setEventOrigin(?string $eventOrigin): void
     {
         $this->eventOrigin = $eventOrigin;
     }
@@ -104,10 +95,7 @@ class AggregatedLeaderOverviewQualification
         $this->expiresAt = $expiresAt;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getQualificationType()
+    public function getQualificationType(): ?QualificationType
     {
         return $this->qualificationType;
     }
@@ -115,7 +103,7 @@ class AggregatedLeaderOverviewQualification
     /**
      * @param mixed $qualificationType
      */
-    public function setQualificationType($qualificationType): void
+    public function setQualificationType(?QualificationType $qualificationType): void
     {
         $this->qualificationType = $qualificationType;
     }

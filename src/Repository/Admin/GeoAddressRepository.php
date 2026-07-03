@@ -14,7 +14,6 @@ class GeoAddressRepository extends AggregatedEntityRepository
 {
     /**
      * GeoAddressRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -22,11 +21,6 @@ class GeoAddressRepository extends AggregatedEntityRepository
     }
 
     /**
-     * @param int $zip
-     * @param string $town
-     * @param string $street
-     * @param string $house
-     * @return GeoAddress|null
      * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      * @throws NonUniqueResultException

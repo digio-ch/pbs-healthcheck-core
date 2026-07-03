@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: "app:convert-quap-answers")]
 class ConvertQuestionnaireAnswersCommand extends StatisticsCommand
 {
-    /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
     private AggregatedQuapRepository $quapRepository;
@@ -36,7 +35,7 @@ class ConvertQuestionnaireAnswersCommand extends StatisticsCommand
         $start = microtime(true);
         $output->writeln('Converting questionnaire answers...');
 
-        $this->em->wrapInTransaction(function (EntityManagerInterface $em) {
+        $this->em->wrapInTransaction(function (EntityManagerInterface $em): void {
 
             $connection = $em->getConnection();
 

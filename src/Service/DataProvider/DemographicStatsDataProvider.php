@@ -17,14 +17,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DemographicStatsDataProvider extends WidgetDataProvider
 {
-    /**
-    * @var StatisticGroupRepository $statisticGroupRepository
-    */
     private StatisticGroupRepository $statisticGroupRepository;
 
-    /**
-    * @var AggregatedDemographicDepartmentRepository $demographicsRepository
-    */
     private AggregatedDemographicDepartmentRepository $demographicsRepository;
 
 
@@ -45,11 +39,6 @@ class DemographicStatsDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param Group $association
-     * @param DateTimeInterface $date
-     * @param array $peopleTypes
-     * @param array $groupTypes
-     * @return ExcludeUnknownGenderChartDTO
      * @throws Exception
      */
     public function getDataForAssociation(
@@ -67,11 +56,6 @@ class DemographicStatsDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param Group $department
-     * @param DateTimeInterface $date
-     * @param array $peopleTypes
-     * @param array $groupTypes
-     * @return ExcludeUnknownGenderChartDTO
      * @throws Exception
      */
     public function getDataForDepartment(
@@ -87,10 +71,8 @@ class DemographicStatsDataProvider extends WidgetDataProvider
 
     /**
      * @param int[] $departmentIds
-     * @param DateTimeInterface $date
      * @param string[] $peopleTypes
      * @param string[] $groupTypes
-     * @return ExcludeUnknownGenderChartDTO
      * @throws Exception
      */
     private function getData(
@@ -98,7 +80,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
         DateTimeInterface $date,
         array $peopleTypes,
         array $groupTypes
-    ) {
+    ): ExcludeUnknownGenderChartDTO {
         // query member and leader count per group type and birthyear
         $rows = $this->demographicsRepository->findCountForDateAndGroupType(
             $date->format('Y-m-d'),
@@ -128,7 +110,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param array $rows
+     * @param array<mixed, array<string, string|int>> $rows
      * @param string[] $peopleTypes
      * @return BarChartBarDataDTO[]
      */
@@ -248,11 +230,9 @@ class DemographicStatsDataProvider extends WidgetDataProvider
     /**
      * Sums up all bars older than the defined threshold starting from the given date
      * @param BarChartBarDataDTO[] &$barsPerYear
-     * @param DateTimeInterface $startingDate
-     * @param int $threshold
      * @return int|null summedBirthYear
      */
-    private function sumOldBirthyears(array &$barsPerYear, DateTimeInterface $startingDate, int $threshold = 25)
+    private function sumOldBirthyears(array &$barsPerYear, DateTimeInterface $startingDate, int $threshold = 25): ?int
     {
         $startingYear = intval($startingDate->format('Y'));
         $thresholdBirthYear = $startingYear - $threshold;
@@ -307,9 +287,6 @@ class DemographicStatsDataProvider extends WidgetDataProvider
      * ```
      * <group_type>_<m|f>
      * ```
-     * @param string $groupType
-     * @param int $count
-     * @return string
      */
     private function mapToGroupTypeGenderKey(string $groupType, int $count): string
     {
@@ -323,9 +300,6 @@ class DemographicStatsDataProvider extends WidgetDataProvider
      * ```
      * <group_type>_<m|f>
      * ```
-     * @param string $groupTypeGenderKey
-     * @param int $count
-     * @return BarChartBarDataDTO
      */
     private function mapKeyToBar(string $groupTypeGenderKey, int $count): BarChartBarDataDTO
     {
@@ -339,7 +313,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
      * Adds the missing years and sorts the array
      * @param BarChartBarDataDTO &$barsPerYear
      */
-    private function addMissingYears(array &$barsPerYear)
+    private function addMissingYears(array &$barsPerYear): void
     {
         $lastYear = null;
         /**
@@ -370,11 +344,6 @@ class DemographicStatsDataProvider extends WidgetDataProvider
         krsort($barsPerYear);
     }
 
-    /**
-     * @param string $groupType
-     * @param int $count
-     * @return BarChartBarDataDTO
-     */
     private function mapToBarChartBar(string $groupType, int $count): BarChartBarDataDTO
     {
         $bar = new BarChartBarDataDTO();
@@ -386,9 +355,6 @@ class DemographicStatsDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param array $barsPerYear
-     * @param int|null $summedBirthYear
-     * @param bool $leadersOnly
      * @return BarChartDataDTO[]
      */
     private function mapToBarChart(array $barsPerYear, ?int $summedBirthYear, bool $leadersOnly): array
@@ -403,7 +369,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
                 $barChart->setIsSummed(true);
             }
 
-            usort($bars, function (BarChartBarDataDTO $a, BarChartBarDataDTO $b) {
+            usort($bars, function (BarChartBarDataDTO $a, BarChartBarDataDTO $b): int {
                 return $this->sortByGroupTypes($a->getName(), $b->getName());
             });
 
@@ -417,11 +383,9 @@ class DemographicStatsDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param DateTimeInterface $date
      * @param int[] $departmentIds
      * @param string[] $groupTypes
      * @param string[] $peopleTypes
-     * @return int
      * @throws Exception
      */
     private function getUnknownGenderCount(

@@ -16,11 +16,6 @@ class CampController extends AbstractController
     {
     }
 
-    /**
-     * @param DateRangeRequestData $dateRangeRequestData
-     * @param WidgetRequestData $widgetRequestData
-     * @return JsonResponse
-     */
     public function getDemographicCampData(
         DateRangeRequestData $dateRangeRequestData,
         WidgetRequestData $widgetRequestData
@@ -38,11 +33,6 @@ class CampController extends AbstractController
         return $this->json($data);
     }
 
-    /**
-     * @param DateRangeRequestData $dateRangeRequestData
-     * @param WidgetOfDepartmentRequestData $widgetRequestData
-     * @return JsonResponse
-     */
     public function getDemographicCampDataOfDepartment(
         DateRangeRequestData $dateRangeRequestData,
         WidgetOfDepartmentRequestData $widgetRequestData

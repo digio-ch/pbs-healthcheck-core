@@ -14,10 +14,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FilterDataProvider extends WidgetDataProvider
 {
-    /** @var StatisticGroupRepository $statisticGroupRepository */
     private StatisticGroupRepository $statisticGroupRepository;
 
-    /** @var AggregatedDateRepository $widgetDateRepository */
     private AggregatedDateRepository $widgetDateRepository;
 
     public function __construct(
@@ -46,11 +44,6 @@ class FilterDataProvider extends WidgetDataProvider
         return FilterDataMapper::createGroupTypes($groupTypes, $locale);
     }
 
-    /**
-     * @param Group $group
-     * @param string $locale
-     * @return FilterDataDTO
-     */
     public function getData(Group $group, string $locale): FilterDataDTO
     {
         $groupTypes = $this->groupTypeRepository->findGroupTypesForParentGroups(
@@ -65,12 +58,7 @@ class FilterDataProvider extends WidgetDataProvider
         return FilterDataMapper::createFromEntities($groupTypes, $dates, $locale);
     }
 
-    /**
-     * @param Group $association
-     * @param string $locale
-     * @return FilterDataDTO
-     */
-    public function getMyOrganizationData(Group $association, string $locale)
+    public function getMyOrganizationData(Group $association, string $locale): FilterDataDTO
     {
         $departmentIds = $this->statisticGroupRepository->findAllRelevantChildGroups(
             $association->getId(),
@@ -88,9 +76,12 @@ class FilterDataProvider extends WidgetDataProvider
         return FilterDataMapper::createFromEntities($groupTypes, $dates, $locale);
     }
 
-    private function sortParentGroupTypes(array &$groupTypes)
+    /**
+     * @param mixed[][] $groupTypes
+     */
+    private function sortParentGroupTypes(array &$groupTypes): void
     {
-        usort($groupTypes, function (array $a, array $b) {
+        usort($groupTypes, function (array $a, array $b): int {
             return $this->sortByGroupTypes($a['group_type'], $b['group_type']);
         });
     }

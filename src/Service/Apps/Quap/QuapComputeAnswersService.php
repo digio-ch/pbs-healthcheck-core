@@ -16,10 +16,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class QuapComputeAnswersService
 {
-    /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
-    /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
     public function __construct(
@@ -186,6 +184,10 @@ class QuapComputeAnswersService
         );
     }
 
+    /**
+     * @param string[] $leaderRoles
+     * @param int[] $qualificationIds
+     */
     private function hasPercentage(array $groupIds, array $leaderRoles, array $qualificationIds): int
     {
         $result = $this->em->getConnection()->executeQuery(
@@ -228,6 +230,11 @@ class QuapComputeAnswersService
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
+    /**
+     * @param string[] $leaderRoles
+     * @param int[] $mainQualificationIds
+     * @param int[] $additionalQualificationIds
+     */
     private function hasPercentageComplex(
         array $groupIds,
         array $leaderRoles,
@@ -639,6 +646,9 @@ class QuapComputeAnswersService
         return $this->leaderAge($groupIds, Role::LEADER_ROLES_BIBER, $maxDate->format('Y-m-d'));
     }
 
+    /**
+     * @param string[] $leaderRoles
+     */
     private function leaderAge(array $groupIds, array $leaderRoles, string $date): int
     {
         $result = $this->em->getConnection()->executeQuery(

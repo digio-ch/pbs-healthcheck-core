@@ -23,7 +23,6 @@ class QuestionRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Questionnaire $questionnaire
      * @return Question[]
      */
     public function findEvaluableByQuestionnaire(Questionnaire $questionnaire): array

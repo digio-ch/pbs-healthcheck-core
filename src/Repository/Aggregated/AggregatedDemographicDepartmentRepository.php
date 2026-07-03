@@ -12,7 +12,6 @@ class AggregatedDemographicDepartmentRepository extends AggregatedEntityReposito
 {
     /**
      * AggregatedDemographicDepartmentRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -20,9 +19,7 @@ class AggregatedDemographicDepartmentRepository extends AggregatedEntityReposito
     }
 
     /**
-     * @param string $date
      * @param int[] $groupIds
-     * @param array $groupTypes
      * @return array<array{
      *     'birthyear': int,
      *     'group_type': string,
@@ -59,9 +56,7 @@ class AggregatedDemographicDepartmentRepository extends AggregatedEntityReposito
      * ```
      * list($members, $leaders) = findUnknownGenderCount(...);
      * ```
-     * @param string $date
      * @param int[] $groupIds
-     * @param array $groupTypes
      * @return array{0: int, 1: int}
      * @throws Exception
      */

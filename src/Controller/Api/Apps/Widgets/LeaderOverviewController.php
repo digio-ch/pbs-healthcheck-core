@@ -16,10 +16,7 @@ class LeaderOverviewController extends AbstractController
     {
     }
     /**
-     * @param DateRequestData $dateRequestData
-     * @param WidgetRequestData $widgetRequestData
      * @param LeaderOverviewDatePointDataProvider $dataProvider
-     * @return JsonResponse
      */
     public function getLeaderOverviewData(
         DateRequestData $dateRequestData,
@@ -38,10 +35,7 @@ class LeaderOverviewController extends AbstractController
     }
 
     /**
-     * @param DateRequestData $dateRequestData
-     * @param WidgetOfDepartmentRequestData $widgetRequestData
      * @param LeaderOverviewDatePointDataProvider $dataProvider
-     * @return JsonResponse
      *
      */
     public function getLeaderOverviewDataOfDepartment(

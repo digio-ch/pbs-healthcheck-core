@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class QuapController extends AbstractController
 {
-    /** @var QuapService $quapService */
     private QuapService $quapService;
 
     public function __construct(QuapService $quapService, private readonly QuapSubdepartmentDateDataProvider $dataProvider, private readonly QuapGamificationService $quapGamificationService, private readonly PersonGamificationService $personGamificationService)
@@ -32,10 +31,6 @@ class QuapController extends AbstractController
         $this->quapService = $quapService;
     }
 
-    /**
-     * @param Group $group
-     * @return JsonResponse
-     */
     public function getPreview(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
@@ -50,8 +45,6 @@ class QuapController extends AbstractController
     }
 
     /**
-     * @param Group $group
-     * @return JsonResponse
      * @throws ApiException
      */
     public function getDepartmentPreview(
@@ -72,8 +65,6 @@ class QuapController extends AbstractController
     }
 
     /**
-     * @param OptionalDateRequestData $dateRequestData
-     * @return JsonResponse
      * @throws Exception
      */
     public function getAnswers(
@@ -91,8 +82,6 @@ class QuapController extends AbstractController
 
     /**
      * @param QuapSubdepartmentDateDataProvider $dataProvider
-     * @param DateRequestData $dateRequestData
-     * @return JsonResponse
      */
     public function getDepartmentsOverview(
         DateRequestData $dateRequestData
@@ -107,16 +96,11 @@ class QuapController extends AbstractController
         return $this->json($data);
     }
 
-    /**
-     * @param Request $request
-     * @param string $type
-     * @return JsonResponse
-     */
     public function getQuestionnaireData(
         Request $request,
         string $type
     ): JsonResponse {
-        $date = $request->get('date', null);
+        $date = $request->get('date');
         $date = $date
             ? DateTimeImmutable::createFromFormat('Y-m-d', $date)
             : new DateTimeImmutable('now');
@@ -132,11 +116,6 @@ class QuapController extends AbstractController
         return $this->json($questionnaireDTO);
     }
 
-    /**
-     * @param Group $group
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function submitAnswers(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -156,11 +135,6 @@ class QuapController extends AbstractController
         return $this->json($newAnswers);
     }
 
-    /**
-     * @param Group $group
-     * @param Request $request
-     * @return void
-     */
     public function setAccess(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -178,9 +152,6 @@ class QuapController extends AbstractController
     }
 
     /**
-     * @param Group $group
-     * @param Request $request
-     * @return JsonResponse
      * @throws ApiException
      */
     public function getAnswersForSubDepartments(
@@ -190,7 +161,7 @@ class QuapController extends AbstractController
     ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
-        $date = $request->get('date', null);
+        $date = $request->get('date');
         $date = $date
             ? DateTimeImmutable::createFromFormat('Y-m-d', $date)
             : new DateTimeImmutable('now');

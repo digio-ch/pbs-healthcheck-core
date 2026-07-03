@@ -24,7 +24,6 @@ class PermissionVoter extends Voter
         PermissionType::VIEWER => PermissionVoter::ORDER_VIEWER,
     ];
 
-    /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
 
     /** @var array|string[] $specialAccess */

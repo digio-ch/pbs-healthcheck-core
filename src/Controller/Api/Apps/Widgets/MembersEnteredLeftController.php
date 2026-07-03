@@ -16,10 +16,7 @@ class MembersEnteredLeftController extends AbstractController
     {
     }
     /**
-     * @param DateRangeRequestData $dateRangeRequestData
-     * @param WidgetRequestData $widgetRequestData
      * @param MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
-     * @return JsonResponse
      */
     public function getEnteredLeftMembersData(
         DateRangeRequestData $dateRangeRequestData,
@@ -39,10 +36,7 @@ class MembersEnteredLeftController extends AbstractController
     }
 
     /**
-     * @param DateRangeRequestData $dateRangeRequestData
-     * @param WidgetOfDepartmentRequestData $widgetRequestData
      * @param MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
-     * @return JsonResponse
      */
     public function getEnteredLeftMembersDataOfDepartment(
         DateRangeRequestData $dateRangeRequestData,

@@ -15,15 +15,11 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class AuthController extends AbstractController
 {
-    /**
-     * @var AppLogger
-     */
-    private $logger;
+    private AppLogger $logger;
     private LoginService $loginService;
 
     /**
      * AuthController constructor.
-     * @param AppLogger $logger
      */
     public function __construct(AppLogger $logger, LoginService $loginService, private readonly TokenStorageInterface $tokenStorage)
     {
@@ -31,7 +27,7 @@ class AuthController extends AbstractController
         $this->loginService = $loginService;
     }
 
-    public function login()
+    public function login(): JsonResponse
     {
         /** @var PbsUserDTO|UserInterface|null|object $user */
         $user = $this->getUser();
@@ -47,7 +43,7 @@ class AuthController extends AbstractController
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         /** @var PbsUserDTO|UserInterface|null|object $user */
         $user = $this->getUser();

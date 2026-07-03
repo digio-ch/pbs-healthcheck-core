@@ -11,6 +11,9 @@ namespace App\Service\Aggregator;
  */
 abstract class WidgetAggregator
 {
+    /**
+     * @var string[]
+     */
     public static array $memberRoleTypes = [
         'Group::Pta::Mitglied',
         'Group::AbteilungsRover::Rover',
@@ -22,6 +25,9 @@ abstract class WidgetAggregator
         'Group::Biber::Biber'
     ];
 
+    /**
+     * @var array<string, string[]>
+     */
     public static array $leaderRoleTypesByGroupType = [
         'Group::Abteilung' => [
             'Group::Abteilung::Abteilungsleitung',
@@ -59,6 +65,9 @@ abstract class WidgetAggregator
         ],
     ];
 
+    /**
+     * @var string[]
+     */
     public static array $leadersRoleTypes = [
         'Group::Abteilung::StufenleitungPta',
         'Group::Abteilung::StufenleitungRover',
@@ -80,6 +89,9 @@ abstract class WidgetAggregator
         'Group::Biber::Mitleitung',
     ];
 
+    /**
+     * @var string[]
+     */
     public static array $mainGroupRoleTypes = [
         'Group::Abteilung::Abteilungsleitung',
         'Group::Abteilung::AbteilungsleitungStv',

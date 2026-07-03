@@ -29,7 +29,7 @@ class PersonEvent
     /***
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $qualified;
+    private ?string $qualified = null;
 
     #[ORM\JoinTable(name: 'midata_person_event_person_event_type')]
     #[ORM\JoinColumn(name: 'person_event_id', referencedColumnName: 'id')]
@@ -45,34 +45,22 @@ class PersonEvent
         $this->personEventTypes = new ArrayCollection();
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param Person|null $person
-     */
-    public function setPerson(?Person $person)
+    public function setPerson(?Person $person): void
     {
         $this->person = $person;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPerson()
+    public function getPerson(): ?Person
     {
         return $this->person;
     }
@@ -80,31 +68,22 @@ class PersonEvent
     /**
      * @param Event|null $event
      */
-    public function setEvent(?Event $event)
+    public function setEvent(?Event $event): void
     {
         $this->event = $event;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEvent()
+    public function getEvent(): ?Event
     {
         return $this->event;
     }
 
-    /**
-     * @param null|string $qualified
-     */
-    public function setQualified(?string $qualified)
+    public function setQualified(?string $qualified): void
     {
         $this->qualified = $qualified;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getQualified()
+    public function getQualified(): ?string
     {
         return $this->qualified;
     }
@@ -117,20 +96,14 @@ class PersonEvent
         return $this->personEventTypes;
     }
 
-    /**
-     * @param PersonEventType $personEventType
-     */
-    public function addPersonEventType(PersonEventType $personEventType)
+    public function addPersonEventType(PersonEventType $personEventType): void
     {
         if (!$this->personEventTypes->contains($personEventType)) {
             $this->personEventTypes[] = $personEventType;
         }
     }
 
-    /**
-     * @param PersonEventType $personEventType
-     */
-    public function removePersonEventType(PersonEventType $personEventType)
+    public function removePersonEventType(PersonEventType $personEventType): void
     {
         if ($this->personEventTypes->contains($personEventType)) {
             $this->personEventTypes->removeElement($personEventType);

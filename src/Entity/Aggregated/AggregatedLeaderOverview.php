@@ -42,42 +42,27 @@ class AggregatedLeaderOverview extends AggregatedEntity
     }
 
 
-    /**
-     * @param int $mCount
-     */
-    public function setMCount(int $mCount)
+    public function setMCount(int $mCount): void
     {
         $this->mCount = $mCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMCount()
+    public function getMCount(): ?int
     {
         return $this->mCount;
     }
 
-    /**
-     * @param int $fCount
-     */
-    public function setFCount(int $fCount)
+    public function setFCount(int $fCount): void
     {
         $this->fCount = $fCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFCount()
+    public function getFCount(): ?int
     {
         return $this->fCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUCount()
+    public function getUCount(): ?int
     {
         return $this->uCount;
     }
@@ -85,23 +70,17 @@ class AggregatedLeaderOverview extends AggregatedEntity
     /**
      * @param mixed $uCount
      */
-    public function setUCount($uCount): void
+    public function setUCount(?int $uCount): void
     {
         $this->uCount = $uCount;
     }
 
-    /**
-     * @param string $groupType
-     */
-    public function setGroupType(string $groupType)
+    public function setGroupType(string $groupType): void
     {
         $this->groupType = $groupType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroupType()
+    public function getGroupType(): ?string
     {
         return $this->groupType;
     }

@@ -7,12 +7,11 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ExceptionLogMessage extends LogMessage
 {
-    /** @var EntityManagerInterface|null $em */
-    private $em;
+    private ?EntityManagerInterface $em;
 
-    private $exception;
+    private string $exception;
 
-    private $stackTrace;
+    private string $stackTrace;
 
     public function __construct(Throwable $thrown, ?EntityManagerInterface $em = null)
     {
@@ -23,17 +22,11 @@ class ExceptionLogMessage extends LogMessage
         $this->stackTrace = $this->serializeStackTrace($thrown);
     }
 
-    /**
-     * @return string
-     */
     public function getException(): string
     {
         return $this->exception;
     }
 
-    /**
-     * @return string
-     */
     public function getStackTrace(): string
     {
         return $this->stackTrace;
@@ -76,7 +69,7 @@ class ExceptionLogMessage extends LogMessage
         return $serialized;
     }
 
-    private function serializeValue($value)
+    private function serializeValue(object $value)
     {
         switch (true) {
             case is_array($value):
@@ -90,7 +83,7 @@ class ExceptionLogMessage extends LogMessage
         }
     }
 
-    private function getDoctrineIdentifier($obj): ?string
+    private function getDoctrineIdentifier(object $obj): ?string
     {
         if ($obj === null) {
             return null;

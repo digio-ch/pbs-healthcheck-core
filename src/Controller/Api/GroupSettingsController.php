@@ -17,8 +17,6 @@ class GroupSettingsController extends AbstractController
     {
     }
     /**
-     * @param Request $request
-     * @param Group $group
      * @param GroupSettingsRepository $groupSettingsRepository
      * @return Response
      */

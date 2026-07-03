@@ -4,74 +4,47 @@ namespace App\DTO\Model\Apps\Quap;
 
 class AspectDTO
 {
-    /**
-     * @var int $id
-     */
-    private $id;
+    private int $id = 0;
 
-    /**
-     * @var string $name
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string $description
-     */
-    private $description;
+    private string $description;
 
     /**
      * @var QuestionDTO[] $questions
      */
-    private $questions;
+    private array $questions;
 
     public function __construct()
     {
         $this->questions = [];
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
     public function setDescription(string $description): void
     {
         $this->description = $description;
@@ -93,7 +66,7 @@ class AspectDTO
         $this->questions = $questions;
     }
 
-    public function addQuestion(QuestionDTO $questionDTO)
+    public function addQuestion(QuestionDTO $questionDTO): void
     {
         $this->questions[] = $questionDTO;
     }

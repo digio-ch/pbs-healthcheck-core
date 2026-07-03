@@ -21,20 +21,14 @@ class InviteCommand extends Command
 {
     private const NAME = 'app:invite';
 
-    /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
-    /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
 
-    /** @var ValidatorInterface $validator */
     private ValidatorInterface $validator;
 
     /**
      * InviteCommand constructor.
-     * @param GroupRepository $groupRepository
-     * @param PermissionRepository $permissionRepository
-     * @param ValidatorInterface $validator
      */
     public function __construct(
         GroupRepository $groupRepository,

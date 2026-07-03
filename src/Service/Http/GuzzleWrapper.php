@@ -14,7 +14,7 @@ use GuzzleHttp\Psr7\Response;
 
 class GuzzleWrapper
 {
-    private $guzzle;
+    private Client $guzzle;
 
     /**
      * GuzzleWrapper constructor.
@@ -33,7 +33,7 @@ class GuzzleWrapper
             Request $request,
             Response $response = null,
             RequestException $exception = null
-        ) {
+        ): bool {
             // Limit the number of retries to 5
             if ($retries >= 5) {
                 return false;
@@ -62,7 +62,7 @@ class GuzzleWrapper
      */
     public function retryDelay()
     {
-        return function ($numberOfRetries) {
+        return function ($numberOfRetries): int|float {
             return 1000 * $numberOfRetries;
         };
     }

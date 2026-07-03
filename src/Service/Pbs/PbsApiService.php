@@ -2,23 +2,17 @@
 
 namespace App\Service\Pbs;
 
-use App\Service\Http;
+use App\Service\Http\CurlResponse;
 use App\Service\Http\GuzzleWrapper;
 
 class PbsApiService
 {
-    /** @var GuzzleWrapper */
-    protected $guzzleWrapper;
-    /** @var string */
-    protected $url;
-    /** @var string */
-    protected $apiKey;
+    protected GuzzleWrapper $guzzleWrapper;
+    protected string $url;
+    protected string $apiKey;
 
     /**
      * PbsApiService constructor.
-     * @param GuzzleWrapper $guzzleWrapper
-     * @param string $url
-     * @param string $apiKey
      */
     public function __construct(GuzzleWrapper $guzzleWrapper, string $url, string $apiKey)
     {
@@ -29,12 +23,10 @@ class PbsApiService
 
 
     /**
-     * @param string $tableName
      * @param int|null $page
      * @param int|null $itemsPerPage
-     * @return Http\CurlResponse
      */
-    public function getTableData(string $tableName, int $page = null, int $itemsPerPage = null)
+    public function getTableData(string $tableName, int $page = null, int $itemsPerPage = null): CurlResponse
     {
         $endpoint = $this->url . '/group_health/' . $tableName;
         if ($page !== null && $itemsPerPage !== null) {

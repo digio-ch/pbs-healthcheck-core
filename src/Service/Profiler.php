@@ -6,14 +6,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Profiler
 {
-    private $output;
-    private $name;
-    private $started;
+    private OutputInterface $output;
+    private string $name;
+    private int|float $started;
 
     /**
      * Profiler constructor.
-     * @param OutputInterface $output
-     * @param string $name
      */
     public function __construct(OutputInterface $output, string $name)
     {

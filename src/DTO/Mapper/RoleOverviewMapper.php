@@ -52,7 +52,7 @@ class RoleOverviewMapper
         return new RoleOccupationWrapper($roleName, $role->getRoleType(), self::getRoleColor($role->getRoleType())); // Colors not yet implemented
     }
 
-    private static function getRoleColor(string $roleType)
+    private static function getRoleColor(string $roleType): array
     {
         foreach (RoleOverviewMapper::GROUP_TYPE_COLORS as $key => $value) {
             if (str_contains($roleType, $key)) {

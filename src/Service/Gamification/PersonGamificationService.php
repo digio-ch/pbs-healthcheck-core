@@ -37,7 +37,6 @@ class PersonGamificationService
 
     private GamificationPersonProfileRepository $personGoalRepository;
 
-    /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
     private LevelUpLogRepository $levelUpLogRepository;
@@ -66,7 +65,7 @@ class PersonGamificationService
         $this->mailService = $mailService;
     }
 
-    public function reset(PbsUserDTO $pbsUserDTO)
+    public function reset(PbsUserDTO $pbsUserDTO): void
     {
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $pgp = $this->getPersonGamification($person);
@@ -102,11 +101,10 @@ class PersonGamificationService
     /**
      * Processes the goal progress of the given type.
      * The progress is sometimes ignored if the goal is in a level that is more than 1 level ahead.
-     * @param PbsUserDTO $pbsUserDTO
      * @param string $type of the goal
      * @throws Exception
      */
-    public function genericGoalProgress(PbsUserDTO $pbsUserDTO, string $type)
+    public function genericGoalProgress(PbsUserDTO $pbsUserDTO, string $type): void
     {
         $person = $this->personRepository->find($pbsUserDTO->getId());
         $pgp = $this->getPersonGamification($person);
@@ -159,7 +157,7 @@ class PersonGamificationService
         $this->em->flush();
     }
 
-    public function checkLevelUp(GamificationPersonProfile $person)
+    public function checkLevelUp(GamificationPersonProfile $person): GamificationPersonProfile
     {
         $currentLevel = $person->getLevel();
         $nextLevel = $this->levelRepository->findNextLevel($currentLevel);
@@ -323,7 +321,6 @@ class PersonGamificationService
 
     /**
      * Maps the questionnaires to the amount of filled out aspects
-     * @param Person $person
      * @return array<string,int>
      */
     private function getElFilledOutAspectsCount(Person $person): array
@@ -355,8 +352,6 @@ class PersonGamificationService
      *
      * This check is done by comparing the gamification_quap_event table to the amount of aspects
      * that exist in the hc_aggregated_quap table.
-     * @param Person $person
-     * @return bool
      * @throws Exception
      */
     private function isElFilledOut(Person $person): bool
@@ -384,7 +379,7 @@ class PersonGamificationService
         return false;
     }
 
-    public function logEvent(array $changedAspectLocalIds, AggregatedQuap $aggregatedQuap, PbsUserDTO $pbsUserDTO)
+    public function logEvent(array $changedAspectLocalIds, AggregatedQuap $aggregatedQuap, PbsUserDTO $pbsUserDTO): void
     {
         $person = $this->personRepository->find($pbsUserDTO->getId());
         if ($this->getPersonGamification($person)->getLevel()->getKey() >= 1) {

@@ -19,10 +19,8 @@ class NotifyExpiringPermissionsCommand extends StatisticsCommand
     private float $totalDuration;
     private int $preExpiringPermissionsToNotify;
 
-    /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
 
-    /** @var PermissionService $permissionService */
     private PermissionService $permissionService;
 
     public function __construct(
@@ -35,9 +33,6 @@ class NotifyExpiringPermissionsCommand extends StatisticsCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -61,7 +56,7 @@ class NotifyExpiringPermissionsCommand extends StatisticsCommand
         return 0;
     }
 
-    private function notifyPreExpiry(Permission $permission)
+    private function notifyPreExpiry(Permission $permission): void
     {
         $owner = $permission->getOwner();
 

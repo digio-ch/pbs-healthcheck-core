@@ -12,7 +12,6 @@ class AggregatedLeaderOverviewRepository extends AggregatedEntityRepository
 {
     /**
      * AggregatedLeaderOverviewRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -20,9 +19,6 @@ class AggregatedLeaderOverviewRepository extends AggregatedEntityRepository
     }
 
     /**
-     * @param int $mainGroupId
-     * @param array $groupTypes
-     * @param string $date
      * @return array|bool|mixed
      * @throws Exception
      */

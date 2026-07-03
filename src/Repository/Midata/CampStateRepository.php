@@ -13,7 +13,6 @@ class CampStateRepository extends ServiceEntityRepository
 {
     /**
      * CampStateRepository constructor.
-     * @param ManagerRegistry $managerRegistry
      */
     public function __construct(ManagerRegistry $managerRegistry)
     {

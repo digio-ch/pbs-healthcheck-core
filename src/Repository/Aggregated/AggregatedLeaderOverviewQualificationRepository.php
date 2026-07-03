@@ -13,7 +13,6 @@ class AggregatedLeaderOverviewQualificationRepository extends ServiceEntityRepos
 {
     /**
      * AggregatedLeaderOverviewQualificationRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {

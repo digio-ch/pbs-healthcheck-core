@@ -17,16 +17,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: "app:map-peoples-addresses")]
 class MapPeoplesAddressesCommand extends StatisticsCommand
 {
-    /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
-    /** @var PersonRepository $personRepository */
     private PersonRepository $personRepository;
 
-    /** @var GeoAddressRepository $geoLocationRepository */
     private GeoAddressRepository $geoLocationRepository;
 
-    /** @var float */
     private float $stats;
 
     public function __construct(
@@ -46,11 +42,6 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $this->addOption("log-level", null, InputArgument::OPTIONAL, "", 2);
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     * */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $start = microtime(true);
@@ -206,7 +197,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         return $street;
     }
 
-    private function writeData($file, AddressMappingDTO $addressMappingDTO)
+    private function writeData($file, AddressMappingDTO $addressMappingDTO): void
     {
         if (!$file) {
             return;

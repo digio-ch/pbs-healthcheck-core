@@ -22,49 +22,31 @@ class CensusRequestData
 
     private ?bool $filterFemales = false;
 
-    /**
-     * @return Group
-     */
     public function getGroup(): Group
     {
         return $this->group;
     }
 
-    /**
-     * @param Group $group
-     */
     public function setGroup(Group $group): void
     {
         $this->group = $group;
     }
 
-    /**
-     * @return array|null
-     */
     public function getRoles(): ?array
     {
         return $this->roles;
     }
 
-    /**
-     * @param array|null $roles
-     */
     public function setRoles(?array $roles): void
     {
         $this->roles = $roles;
     }
 
-    /**
-     * @return array|null
-     */
     public function getGroups(): ?array
     {
         return $this->groups;
     }
 
-    /**
-     * @param array|null $groups
-     */
     public function setGroups(?array $groups): void
     {
         $this->groups = $groups;
@@ -72,8 +54,6 @@ class CensusRequestData
 
     /**
      * Returns the actual value  of the ?bool
-     *
-     * @return ?bool
      */
     public function getFilterMales(): ?bool
     {
@@ -82,8 +62,6 @@ class CensusRequestData
 
     /**
      * Returns a bool and false if null
-     *
-     * @return bool
      */
     public function isFilterMales(): bool
     {
@@ -100,8 +78,6 @@ class CensusRequestData
 
     /**
      * Returns the actual value  of the ?bool
-     *
-     * @return ?bool
      */
     public function getFilterFemales(): ?bool
     {
@@ -110,8 +86,6 @@ class CensusRequestData
 
     /**
      * Returns a bool and false if null
-     *
-     * @return bool
      */
     public function isFilterFemales(): bool
     {

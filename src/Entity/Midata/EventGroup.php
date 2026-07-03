@@ -23,7 +23,7 @@ class EventGroup
     #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'events')]
     private ?Group $group = null;
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -33,12 +33,12 @@ class EventGroup
         return $this->event;
     }
 
-    public function setEvent(?Event $event)
+    public function setEvent(?Event $event): void
     {
         $this->event = $event;
     }
 
-    public function setGroup(?Group $group)
+    public function setGroup(?Group $group): void
     {
         $this->group = $group;
     }

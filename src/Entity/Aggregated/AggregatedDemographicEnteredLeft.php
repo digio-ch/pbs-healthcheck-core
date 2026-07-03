@@ -64,210 +64,132 @@ class AggregatedDemographicEnteredLeft extends AggregatedEntity
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $groupType = null;
 
-    /**
-     * @param int $newCountM
-     */
     public function setNewCountM(int $newCountM): void
     {
         $this->newCountM = $newCountM;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountM()
+    public function getNewCountM(): ?int
     {
         return $this->newCountM;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountLeaderM()
+    public function getNewCountLeaderM(): ?int
     {
         return $this->newCountLeaderM;
     }
 
-    /**
-     * @param int $newCountLeaderM
-     */
     public function setNewCountLeaderM(int $newCountLeaderM): void
     {
         $this->newCountLeaderM = $newCountLeaderM;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountM()
+    public function getExitCountM(): ?int
     {
         return $this->exitCountM;
     }
 
-    /**
-     * @param int $exitCountM
-     */
     public function setExitCountM(int $exitCountM): void
     {
         $this->exitCountM = $exitCountM;
     }
 
-    /**
-     * @param int $exitCountLeaderM
-     */
     public function setExitCountLeaderM(int $exitCountLeaderM): void
     {
         $this->exitCountLeaderM = $exitCountLeaderM;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountLeaderM()
+    public function getExitCountLeaderM(): ?int
     {
         return $this->exitCountLeaderM;
     }
 
-    /**
-     * @param int $newCountF
-     */
-    public function setNewCountF(int $newCountF)
+    public function setNewCountF(int $newCountF): void
     {
         $this->newCountF = $newCountF;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountF()
+    public function getNewCountF(): ?int
     {
         return $this->newCountF;
     }
 
-    /**
-     * @param int $newCountLeaderF
-     */
-    public function setNewCountLeaderF(int $newCountLeaderF)
+    public function setNewCountLeaderF(int $newCountLeaderF): void
     {
         $this->newCountLeaderF = $newCountLeaderF;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountLeaderF()
+    public function getNewCountLeaderF(): ?int
     {
         return $this->newCountLeaderF;
     }
 
-    /**
-     * @param int $exitCountLeaderF
-     */
-    public function setExitCountLeaderF(int $exitCountLeaderF)
+    public function setExitCountLeaderF(int $exitCountLeaderF): void
     {
         $this->exitCountLeaderF = $exitCountLeaderF;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountLeaderF()
+    public function getExitCountLeaderF(): ?int
     {
         return $this->exitCountLeaderF;
     }
 
-    /**
-     * @param int $exitCountF
-     */
-    public function setExitCountF(int $exitCountF)
+    public function setExitCountF(int $exitCountF): void
     {
         $this->exitCountF = $exitCountF;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountF()
+    public function getExitCountF(): ?int
     {
         return $this->exitCountF;
     }
 
-    /**
-     * @param int $newCountU
-     */
-    public function setNewCountU(int $newCountU)
+    public function setNewCountU(int $newCountU): void
     {
         $this->newCountU = $newCountU;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountU()
+    public function getNewCountU(): ?int
     {
         return $this->newCountU;
     }
 
-    /**
-     * @param int $newCountLeaderU
-     */
-    public function setNewCountLeaderU(int $newCountLeaderU)
+    public function setNewCountLeaderU(int $newCountLeaderU): void
     {
         $this->newCountLeaderU = $newCountLeaderU;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountLeaderU()
+    public function getNewCountLeaderU(): ?int
     {
         return $this->newCountLeaderU;
     }
 
-    /**
-     * @param int $exitCountU
-     */
-    public function setExitCountU(int $exitCountU)
+    public function setExitCountU(int $exitCountU): void
     {
         $this->exitCountU = $exitCountU;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountU()
+    public function getExitCountU(): ?int
     {
         return $this->exitCountU;
     }
 
-    /**
-     * @param int $exitCountLeaderU
-     */
-    public function setExitCountLeaderU(int $exitCountLeaderU)
+    public function setExitCountLeaderU(int $exitCountLeaderU): void
     {
         $this->exitCountLeaderU = $exitCountLeaderU;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountLeaderU()
+    public function getExitCountLeaderU(): ?int
     {
         return $this->exitCountLeaderU;
     }
 
-    /**
-     * @param string $groupType
-     */
-    public function setGroupType(string $groupType)
+    public function setGroupType(string $groupType): void
     {
         $this->groupType = $groupType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroupType()
+    public function getGroupType(): ?string
     {
         return $this->groupType;
     }

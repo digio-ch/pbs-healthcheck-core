@@ -29,14 +29,14 @@ class OverviewSharedRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function save(OverviewShared $overviewShared)
+    public function save(OverviewShared $overviewShared): void
     {
         $em = $this->getEntityManager();
         $em->persist($overviewShared);
         $em->flush();
     }
 
-    public function remove(OverviewShared $overviewShared)
+    public function remove(OverviewShared $overviewShared): void
     {
         $em = $this->getEntityManager();
         $em->remove($overviewShared);

@@ -4,9 +4,6 @@ namespace App\DTO\Model\Apps\Overview;
 
 class OverviewRegionDTO
 {
-    /**
-     * @var string|null
-     */
     private ?string $name;
 
     /**
@@ -24,18 +21,11 @@ class OverviewRegionDTO
         $this->children = $children;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     * @return void
-     */
     public function setName(?string $name): void
     {
         $this->name = $name;
@@ -49,10 +39,6 @@ class OverviewRegionDTO
         return $this->children;
     }
 
-    /**
-     * @param array $children
-     * @return void
-     */
     public function setChildren(array $children): void
     {
         $this->children = $children;

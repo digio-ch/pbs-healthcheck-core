@@ -30,32 +30,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WidgetControllerListener
 {
-    /**
-     * @var GroupRepository
-     */
     private GroupRepository $groupRepository;
 
-    /**
-     * @var TranslatorInterface
-     */
     private TranslatorInterface $translator;
 
-    /**
-     * @var ValidatorInterface
-     */
     private ValidatorInterface $validator;
 
-    /**
-     * @var OverviewSharedService
-     */
     private OverviewSharedService $overviewSharedService;
 
     /**
      * WidgetControllerListener constructor.
-     * @param GroupRepository $groupRepository
-     * @param TranslatorInterface $translator
-     * @param ValidatorInterface $validator
-     * @param OverviewSharedService $overviewSharedService
      */
     public function __construct(
         GroupRepository $groupRepository,
@@ -71,7 +55,7 @@ class WidgetControllerListener
 
 
     #[AsEventListener(event: KernelEvents::CONTROLLER)]
-    public function onKernelController(ControllerEvent $event)
+    public function onKernelController(ControllerEvent $event): void
     {
         $controller = $event->getController();
         if (!is_array($controller) || !($controller[0]) instanceof AbstractController) {
@@ -81,7 +65,7 @@ class WidgetControllerListener
         $this->bindData($controller, $event->getRequest());
     }
 
-    private function bindData(callable $controller, Request $request)
+    private function bindData(callable $controller, Request $request): void
     {
         $actionReflection = (new ReflectionClass($controller[0]))->getMethod($controller[1]);
 
@@ -101,11 +85,9 @@ class WidgetControllerListener
     }
 
     /**
-     * @param Request $request
-     * @param ReflectionParameter $parameter
      * @return FilterRequestData|null|CensusRequestData
      */
-    private function validateRequest(Request $request, ReflectionParameter $parameter)
+    private function validateRequest(Request $request, ReflectionParameter $parameter): DateAndDateRangeRequestData|DateRequestData|OptionalDateRequestData|DateRangeRequestData|WidgetRequestData|WidgetOfDepartmentRequestData|CensusRequestData|null
     {
         $group = $this->extractGroup($request, 'groupId');
 
@@ -131,9 +113,9 @@ class WidgetControllerListener
 
     private function validateDateAndDateRangeRequest(Group $group, Request $request): DateAndDateRangeRequestData
     {
-        $from = $request->get('from', null);
-        $to = $request->get('to', null);
-        $date = $request->get('date', null);
+        $from = $request->get('from');
+        $to = $request->get('to');
+        $date = $request->get('date');
 
         $this->checkDates($from, $to, $date, true, true);
         $data = new DateAndDateRangeRequestData();
@@ -147,9 +129,9 @@ class WidgetControllerListener
 
     private function validateDateRequest(Group $group, Request $request): DateRequestData
     {
-        $from = $request->get('from', null);
-        $to = $request->get('to', null);
-        $date = $request->get('date', null);
+        $from = $request->get('from');
+        $to = $request->get('to');
+        $date = $request->get('date');
 
         $this->checkDates($from, $to, $date, false, true);
         $data = new DateRequestData();
@@ -161,9 +143,9 @@ class WidgetControllerListener
 
     private function validateOptionalDateRequest(Group $group, Request $request): OptionalDateRequestData
     {
-        $from = $request->get('from', null);
-        $to = $request->get('to', null);
-        $date = $request->get('date', null);
+        $from = $request->get('from');
+        $to = $request->get('to');
+        $date = $request->get('date');
 
         $data = new OptionalDateRequestData();
         if (!is_null($date)) {
@@ -179,9 +161,9 @@ class WidgetControllerListener
 
     private function validateDateRangeRequest(Group $group, Request $request): DateRangeRequestData
     {
-        $from = $request->get('from', null);
-        $to = $request->get('to', null);
-        $date = $request->get('date', null);
+        $from = $request->get('from');
+        $to = $request->get('to');
+        $date = $request->get('date');
 
         $this->checkDates($from, $to, $date, true, false);
         $data = new DateRangeRequestData();
@@ -272,8 +254,6 @@ class WidgetControllerListener
      * @param $from
      * @param $to
      * @param $date
-     * @param bool $isRange
-     * @param bool $isDate
      */
     private function checkDates($from, $to, $date, bool $isRange, bool $isDate): void
     {
@@ -303,7 +283,6 @@ class WidgetControllerListener
     }
 
     /**
-     * @param Request $request
      * @return float|int|mixed|string
      */
     public function extractGroup(Request $request, string $key)

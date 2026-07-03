@@ -31,7 +31,7 @@ abstract class Event
     private $persons;
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: EventDate::class)]
-    private $eventDates;
+    private Collection $eventDates;
 
     /**
      * Event constructor.
@@ -42,10 +42,7 @@ abstract class Event
         $this->eventDates = new ArrayCollection();
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -58,61 +55,40 @@ abstract class Event
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param null|string $name
-     */
-    public function setName(?string $name)
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return Collection
-     */
     public function getGroups(): Collection
     {
         return $this->groups;
     }
 
-    /**
-     * @param EventGroup $group
-     */
-    public function addGroup(EventGroup $group)
+    public function addGroup(EventGroup $group): void
     {
         if (!$this->groups->contains($group)) {
             $this->groups[] = $group;
         }
     }
 
-    /**
-     * @param EventGroup $group
-     */
-    public function removeGroup(EventGroup $group)
+    public function removeGroup(EventGroup $group): void
     {
         if ($this->groups->contains($group)) {
             $this->groups->removeElement($group);
         }
     }
 
-    /**
-     * @return Collection
-     */
     public function getEventDates(): Collection
     {
         return $this->eventDates;
     }
 
-    /**
-     * @param Collection $eventDates
-     */
     public function setEventDates(Collection $eventDates): void
     {
         $this->eventDates = $eventDates;

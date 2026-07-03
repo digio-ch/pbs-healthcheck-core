@@ -14,10 +14,7 @@ class LineChartDataPointDTO
      */
     protected $value;
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -30,10 +27,7 @@ class LineChartDataPointDTO
         return $this->name;
     }
 
-    /**
-     * @param int $value
-     */
-    public function setValue(int $value)
+    public function setValue(int $value): void
     {
         $this->value = $value;
     }

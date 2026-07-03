@@ -16,11 +16,6 @@ class RoleOverviewController extends AbstractController
     {
     }
 
-    /**
-     * @param DateAndDateRangeRequestData $dateAndDateRangeRequestData
-     * @param WidgetRequestData $widgetRequestData
-     * @return JsonResponse
-     */
     public function getRoleOverview(
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,
         WidgetRequestData $widgetRequestData
@@ -37,9 +32,6 @@ class RoleOverviewController extends AbstractController
 
     /**
      * @param RoleOverviewDateRangeDataProvider $roleOverviewDateRangeDataProvider
-     * @param DateAndDateRangeRequestData $dateAndDateRangeRequestData
-     * @param WidgetOfDepartmentRequestData $widgetRequestData
-     * @return JsonResponse
      */
     public function getRoleOverviewOfDepartment(
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,

@@ -4,9 +4,6 @@ namespace App\DTO\Model\Apps\Widgets\RoleOverview;
 
 class RoleOccupationWrapper
 {
-    /**
-     * @var string
-     */
     private string $role;
 
     private string $roleType;
@@ -22,7 +19,6 @@ class RoleOccupationWrapper
     private array $data = [];
 
     /**
-     * @param string $role
      * @param string[] $colors
      */
     public function __construct(string $role, string $roleType, array $colors)
@@ -32,17 +28,11 @@ class RoleOccupationWrapper
         $this->colors = $colors;
     }
 
-    /**
-     * @return string
-     */
     public function getRole(): string
     {
         return $this->role;
     }
 
-    /**
-     * @param string $role
-     */
     public function setRole(string $role): void
     {
         $this->role = $role;
@@ -85,17 +75,11 @@ class RoleOccupationWrapper
         $this->data[] = $occupation;
     }
 
-    /**
-     * @return string
-     */
     public function getRoleType(): string
     {
         return $this->roleType;
     }
 
-    /**
-     * @param string $roleType
-     */
     public function setRoleType(string $roleType): void
     {
         $this->roleType = $roleType;

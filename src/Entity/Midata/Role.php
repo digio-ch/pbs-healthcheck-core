@@ -159,114 +159,72 @@ class Role
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $frLabel = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getLayerType(): ?string
     {
         return $this->layerType;
     }
 
-    /**
-     * @param null|string $type
-     */
-    public function setLayerType(?string $type)
+    public function setLayerType(?string $type): void
     {
         $this->type = $type;
     }
 
-    /**
-     * @return null|string
-     */
     public function getRoleType(): ?string
     {
         return $this->roleType;
     }
 
-    /**
-     * @param null|string $roleType
-     */
-    public function setRoleType(?string $roleType)
+    public function setRoleType(?string $roleType): void
     {
         $this->roleType = $roleType;
     }
 
-    /**
-     * @return null|string
-     */
     public function getGroupType(): ?string
     {
         return $this->groupType;
     }
 
-    /**
-     * @param null|string $groupType
-     */
-    public function setGroupType(?string $groupType)
+    public function setGroupType(?string $groupType): void
     {
         $this->groupType = $groupType;
     }
 
-    /**
-     * @return null|string
-     */
     public function getDeLabel(): ?string
     {
         return $this->deLabel;
     }
 
-    /**
-     * @param null|string $label
-     */
-    public function setDeLabel(?string $label)
+    public function setDeLabel(?string $label): void
     {
         $this->deLabel = $label;
     }
 
-    /**
-     * @return null|string
-     */
     public function getItLabel(): ?string
     {
         return $this->itLabel;
     }
 
-    /**
-     * @param null|string $label
-     */
-    public function setItLabel(?string $label)
+    public function setItLabel(?string $label): void
     {
         $this->itLabel = $label;
     }
 
-    /**
-     * @return null|string
-     */
     public function getFrLabel(): ?string
     {
         return $this->frLabel;
     }
 
-    /**
-     * @param null|string $label
-     */
-    public function setFrLabel(?string $label)
+    public function setFrLabel(?string $label): void
     {
         $this->frLabel = $label;
     }

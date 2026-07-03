@@ -23,7 +23,6 @@ class AppLogger
 
     private Serializer $serializer;
 
-    /** @var Logger $logger */
     private Logger $logger;
 
     public function __construct()
@@ -34,27 +33,27 @@ class AppLogger
         $this->serializer = new Serializer([$this->normalizer], ['json' => new JsonEncoder()]);
     }
 
-    public function debug(LogMessage $message)
+    public function debug(LogMessage $message): void
     {
         $this->send('debug', $message);
     }
 
-    public function info(LogMessage $message)
+    public function info(LogMessage $message): void
     {
         $this->send('info', $message);
     }
 
-    public function warning(LogMessage $message)
+    public function warning(LogMessage $message): void
     {
         $this->send('warning', $message);
     }
 
-    public function critical(LogMessage $message)
+    public function critical(LogMessage $message): void
     {
         $this->send('critical', $message);
     }
 
-    private function send(string $level, LogMessage $message)
+    private function send(string $level, LogMessage $message): void
     {
         $msg = new Message();
 

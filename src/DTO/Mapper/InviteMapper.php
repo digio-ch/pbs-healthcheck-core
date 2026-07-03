@@ -7,10 +7,6 @@ use App\Entity\Security\Permission;
 
 class InviteMapper
 {
-    /**
-     * @param Permission $permission
-     * @return InviteDTO
-     */
     public static function createFromEntity(Permission $permission): InviteDTO
     {
         $email = $permission->getEmail();

@@ -28,10 +28,6 @@ class StatusMessage
     private string $frMessage;
 
 
-    /**
-     * @param string $lang
-     * @return string
-     */
     public function getMessage(string $lang): string
     {
         switch ($lang) {

@@ -29,10 +29,6 @@ class CensusController extends AbstractController
         $this->censusFilterDataProvider = $censusFilterDataProvider;
     }
 
-    /**
-     * @param Group $group
-     * @return JsonResponse
-     */
     public function getPreview(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
@@ -42,11 +38,6 @@ class CensusController extends AbstractController
         return $this->json($this->censusDataProvider->getPreviewData($group));
     }
 
-    /**
-     * @param Group $group
-     * @param CensusRequestData $censusRequestData
-     * @return JsonResponse
-     */
     public function getTableData(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -58,11 +49,6 @@ class CensusController extends AbstractController
         return $this->json($data);
     }
 
-    /**
-     * @param Group $group
-     * @param CensusRequestData $censusRequestData
-     * @return JsonResponse
-     */
     public function getDevelopmentData(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -75,11 +61,6 @@ class CensusController extends AbstractController
     }
 
 
-    /**
-     * @param Group $group
-     * @param CensusRequestData $censusRequestData
-     * @return JsonResponse
-     */
     public function getMembersData(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -91,11 +72,6 @@ class CensusController extends AbstractController
         return $this->json($data);
     }
 
-    /**
-     * @param Group $group
-     * @param CensusRequestData $censusRequestData
-     * @return JsonResponse
-     */
     public function getTreemapData(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -108,8 +84,6 @@ class CensusController extends AbstractController
     }
 
     /**
-     * @param Group $group
-     * @return JsonResponse
      *
      * @throws NonUniqueResultException
      */
@@ -128,9 +102,6 @@ class CensusController extends AbstractController
     }
 
     /**
-     * @param Group $group
-     * @param CensusRequestData $censusRequestData
-     * @return JsonResponse
      *
      * @throws NonUniqueResultException
      */

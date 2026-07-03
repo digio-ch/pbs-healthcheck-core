@@ -11,17 +11,11 @@ class FilterRequestData
      */
     protected $group;
 
-    /**
-     * @return Group
-     */
     public function getGroup(): Group
     {
         return $this->group;
     }
 
-    /**
-     * @param Group $group
-     */
     public function setGroup(Group $group): void
     {
         $this->group = $group;

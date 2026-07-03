@@ -44,26 +44,17 @@ class AggregatedDemographicDepartment extends AggregatedEntity
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $groupType = null;
 
-    /**
-     * @param int $mCount
-     */
-    public function setMCount(int $mCount)
+    public function setMCount(int $mCount): void
     {
         $this->mCount = $mCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMCount()
+    public function getMCount(): ?int
     {
         return $this->mCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUCount()
+    public function getUCount(): ?int
     {
         return $this->uCount;
     }
@@ -71,15 +62,12 @@ class AggregatedDemographicDepartment extends AggregatedEntity
     /**
      * @param mixed $uCount
      */
-    public function setUCount($uCount): void
+    public function setUCount(?int $uCount): void
     {
         $this->uCount = $uCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUCountLeader()
+    public function getUCountLeader(): ?int
     {
         return $this->uCountLeader;
     }
@@ -87,87 +75,57 @@ class AggregatedDemographicDepartment extends AggregatedEntity
     /**
      * @param mixed $uCountLeader
      */
-    public function setUCountLeader($uCountLeader): void
+    public function setUCountLeader(?int $uCountLeader): void
     {
         $this->uCountLeader = $uCountLeader;
     }
 
-    /**
-     * @param int $fCount
-     */
-    public function setFCount(int $fCount)
+    public function setFCount(int $fCount): void
     {
         $this->fCount = $fCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFCount()
+    public function getFCount(): ?int
     {
         return $this->fCount;
     }
 
-    /**
-     * @param int $mCountLeader
-     */
-    public function setMCountLeader(int $mCountLeader)
+    public function setMCountLeader(int $mCountLeader): void
     {
         $this->mCountLeader = $mCountLeader;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMCountLeader()
+    public function getMCountLeader(): ?int
     {
         return $this->mCountLeader;
     }
 
-    /**
-     * @param int $fCountLeader
-     */
-    public function setFCountLeader(int $fCountLeader)
+    public function setFCountLeader(int $fCountLeader): void
     {
         $this->fCountLeader = $fCountLeader;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFCountLeader()
+    public function getFCountLeader(): ?int
     {
         return $this->fCountLeader;
     }
 
-    /**
-     * @param string $groupType
-     */
-    public function setGroupType(string $groupType)
+    public function setGroupType(string $groupType): void
     {
         $this->groupType = $groupType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroupType()
+    public function getGroupType(): ?string
     {
         return $this->groupType;
     }
 
-    /**
-     * @param int $birthyear
-     */
-    public function setBirthyear(int $birthyear)
+    public function setBirthyear(int $birthyear): void
     {
         $this->birthyear = $birthyear;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBirthyear()
+    public function getBirthyear(): ?int
     {
         return $this->birthyear;
     }

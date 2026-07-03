@@ -23,14 +23,11 @@ class FetchGeoAddressesCommand extends StatisticsCommand
     private const ADDRESS_ZIP = 16;
     private const ADDRESS_TOWN = 18;
 
-    /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
-    /** @var GeoAddressRepository $geoLocationRepository */
     private GeoAddressRepository $geoLocationRepository;
 
-    /** @var float */
-    private $stats;
+    private int $stats;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -50,9 +47,6 @@ class FetchGeoAddressesCommand extends StatisticsCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
      * @throws MappingException|Exception
      */
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -82,9 +76,6 @@ class FetchGeoAddressesCommand extends StatisticsCommand
         return 0;
     }
 
-    /**
-     * @param OutputInterface $output
-     */
     private function downloadCurrentZip(OutputInterface $output): void
     {
         $output->writeln(['Downloading the most recent geo data...']);
@@ -101,9 +92,6 @@ class FetchGeoAddressesCommand extends StatisticsCommand
         $output->writeln(['Downloaded geo data in: ' . number_format($time, 2) . ' seconds']);
     }
 
-    /**
-     * @param OutputInterface $output
-     */
     private function readDataContent(OutputInterface $output): void
     {
         $file = fopen("zip://data/geo-data.zip#CH.csv", "r");
@@ -165,10 +153,7 @@ class FetchGeoAddressesCommand extends StatisticsCommand
     }
 
     /**
-     * @param float $east
-     * @param float $north
-     * @param float $height
-     * @return array
+     * @return array<int, float>
      */
     private function ch1903ToWgs84(float $east, float $north, float $height): array
     {

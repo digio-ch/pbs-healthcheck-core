@@ -13,18 +13,12 @@ class Course extends Event
     #[ORM\ManyToOne(targetEntity: EventType::class)]
     private ?EventType $eventType = null;
 
-    /**
-     * @param EventType|null $eventType
-     */
-    public function setEventType(?EventType $eventType)
+    public function setEventType(?EventType $eventType): void
     {
         $this->eventType = $eventType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEventType()
+    public function getEventType(): ?EventType
     {
         return $this->eventType;
     }

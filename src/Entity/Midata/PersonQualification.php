@@ -31,103 +31,67 @@ class PersonQualification
     private ?string $eventOrigin = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private $startAt;
+    private ?DateTimeImmutable $startAt = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private $endAt;
+    private ?DateTimeImmutable $endAt = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getEventOrigin(): ?string
     {
         return $this->eventOrigin;
     }
 
-    /**
-     * @param null|string $eventOrigin
-     */
-    public function setEventOrigin(?string $eventOrigin)
+    public function setEventOrigin(?string $eventOrigin): void
     {
         $this->eventOrigin = $eventOrigin;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getStartAt(): ?DateTimeImmutable
     {
         return $this->startAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $startAt
-     */
-    public function setStartAt(?DateTimeImmutable $startAt)
+    public function setStartAt(?DateTimeImmutable $startAt): void
     {
         $this->startAt = $startAt;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getEndAt(): ?DateTimeImmutable
     {
         return $this->endAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $endAt
-     */
-    public function setEndAt(?DateTimeImmutable $endAt)
+    public function setEndAt(?DateTimeImmutable $endAt): void
     {
         $this->endAt = $endAt;
     }
 
-    /**
-     * @param Person|null $person
-     */
-    public function setPerson(?Person $person)
+    public function setPerson(?Person $person): void
     {
         $this->person = $person;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPerson()
+    public function getPerson(): ?Person
     {
         return $this->person;
     }
 
-    /**
-     * @param QualificationType|null $qualificationType
-     */
-    public function setQualificationType(?QualificationType $qualificationType)
+    public function setQualificationType(?QualificationType $qualificationType): void
     {
         $this->qualificationType = $qualificationType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getQualificationType()
+    public function getQualificationType(): ?QualificationType
     {
         return $this->qualificationType;
     }

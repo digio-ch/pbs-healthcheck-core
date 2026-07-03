@@ -25,20 +25,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class InviteController extends AbstractController
 {
-    /**
-     * @var PermissionService
-     */
-    private $inviteService;
+    private PermissionService $inviteService;
 
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private TranslatorInterface $translator;
 
     /**
      * InviteController constructor.
-     * @param PermissionService $inviteService
-     * @param TranslatorInterface $translator
      */
     public function __construct(PermissionService $inviteService, TranslatorInterface $translator, private readonly SerializerInterface $serializer, private readonly ValidatorInterface $validator, private readonly PersonGamificationService $personGamificationService)
     {
@@ -47,11 +39,8 @@ class InviteController extends AbstractController
     }
 
     /**
-     * @param Request $request
-     * @param Group $group
      * @param SerializerInterface $serializer
      * @param ValidatorInterface $validator
-     * @return JsonResponse
      */
     public function createInvite(
         Request $request,
@@ -103,10 +92,6 @@ class InviteController extends AbstractController
         return $this->json($createdInviteDTO, Response::HTTP_CREATED);
     }
 
-    /**
-     * @param Group $group
-     * @return JsonResponse
-     */
     public function getInvites(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
@@ -116,11 +101,6 @@ class InviteController extends AbstractController
         return $this->json($this->inviteService->getAllInvites($group));
     }
 
-    /**
-     * @param Group $group
-     * @param Permission $permission
-     * @return JsonResponse
-     */
     public function renewInvite(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -133,11 +113,6 @@ class InviteController extends AbstractController
         return $this->json($result, Response::HTTP_OK);
     }
 
-    /**
-     * @param Group $group
-     * @param Permission $invite
-     * @return JsonResponse
-     */
     public function deleteInvite(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,

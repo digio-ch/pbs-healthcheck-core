@@ -20,50 +20,32 @@ class Camp extends Event
     #[ORM\ManyToOne(targetEntity: YouthSportType::class)]
     private ?YouthSportType $youthYouthType = null;
 
-    /**
-     * @return null|string
-     */
     public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @param null|string $state
-     */
-    public function setState(?string $state)
+    public function setState(?string $state): void
     {
         $this->state = $state;
     }
 
-    /**
-     * @return null|string
-     */
     public function getLocation(): ?string
     {
         return $this->location;
     }
 
-    /**
-     * @param null|string $location
-     */
-    public function setLocation(?string $location)
+    public function setLocation(?string $location): void
     {
         $this->location = $location;
     }
 
-    /**
-     * @return YouthSportType|null
-     */
     public function getYouthSportType(): ?YouthSportType
     {
         return $this->youthYouthType;
     }
 
-    /**
-     * @param YouthSportType|null $youthYouthType
-     */
-    public function setYouthSportType(?YouthSportType $youthYouthType)
+    public function setYouthSportType(?YouthSportType $youthYouthType): void
     {
         $this->youthYouthType = $youthYouthType;
     }

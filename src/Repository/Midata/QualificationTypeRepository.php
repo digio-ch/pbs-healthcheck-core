@@ -17,7 +17,7 @@ class QualificationTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, QualificationType::class);
     }
 
-    public function findTranslation(string $locale, int $qualificationTypeId)
+    public function findTranslation(string $locale, int $qualificationTypeId): array
     {
         $fieldPrefix = '';
         switch ($locale) {

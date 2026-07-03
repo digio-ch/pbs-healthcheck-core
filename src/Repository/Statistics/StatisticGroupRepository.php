@@ -42,7 +42,7 @@ class StatisticGroupRepository extends ServiceEntityRepository
         }
     }
 
-    public function deleteAll()
+    public function deleteAll(): void
     {
         $this->getEntityManager()->createQueryBuilder()
             ->delete(StatisticGroup::class, 'g')
@@ -53,14 +53,13 @@ class StatisticGroupRepository extends ServiceEntityRepository
         $metadata->setIdGenerator(new AssignedGenerator());
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->getEntityManager()->flush();
     }
 
     /**
      * Finds all the children of the group that are group type 2,3 or 8. (Kanton, Region, Abteilung)
-     * @param int $groupId
      * @param string[] $types
      * @return int[]
      * @throws Exception
@@ -87,8 +86,6 @@ class StatisticGroupRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $associationId
-     * @param string $date
      * @return string[]
      * @throws Exception
      */

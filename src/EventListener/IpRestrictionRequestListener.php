@@ -15,12 +15,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class IpRestrictionRequestListener
 {
-    /** @var string */
-    private $environment;
-    /** @var string */
-    private $projectDir;
-    /** @var AppLogger */
-    private $logger;
+    private string $environment;
+    private string $projectDir;
+    private AppLogger $logger;
 
     /** @var string[] */
     private const ALLOWED = ['CH', 'IT', 'FR', 'DE', 'AT'];
@@ -29,9 +26,6 @@ class IpRestrictionRequestListener
 
     /**
      * RequestListener constructor.
-     * @param string $environment
-     * @param string $projectDir
-     * @param AppLogger $logger
      */
     public function __construct(string $environment, string $projectDir, AppLogger $logger)
     {
@@ -41,7 +35,7 @@ class IpRestrictionRequestListener
     }
 
     #[AsEventListener(event: KernelEvents::REQUEST)]
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->isMainRequest() || !in_array($this->environment, self::ACTIVE_ENVS)) {
             return;

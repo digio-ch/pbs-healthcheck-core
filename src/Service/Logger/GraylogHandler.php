@@ -15,12 +15,6 @@ class GraylogHandler extends GelfHandler
 {
     /**
      * @param ProcessorInterface[] $processors
-     * @param string|null $host
-     * @param string|null $port
-     * @param string|null $clientCert
-     * @param string|null $clientKey
-     * @param int|Level|string $level
-     * @param bool $bubble
      */
     public function __construct(
         array $processors,
@@ -45,11 +39,6 @@ class GraylogHandler extends GelfHandler
 
     /**
      * Creates a Ssl transporter when the config is valid. Else it returns a stud transporter
-     * @param string|null $host
-     * @param string|null $port
-     * @param string|null $clientCert
-     * @param string|null $clientKey
-     * @return TransportInterface
      */
     private function getTransporter(
         string|null $host,
@@ -60,7 +49,7 @@ class GraylogHandler extends GelfHandler
     {
         $config = [$host, $port, $clientCert, $clientKey];
 
-        if (array_any($config, fn($c) => empty($c))) {
+        if (array_any($config, fn($c): bool => empty($c))) {
             return new NopTransporter();
         }
 

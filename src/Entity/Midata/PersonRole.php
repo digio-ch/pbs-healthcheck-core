@@ -34,98 +34,65 @@ class PersonRole
     /***
      * @ORM\Column(type="string", length="255", nullable=true)
      */
-    private $name;
+    private ?string $name = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private $createdAt;
+    private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private $deletedAt;
+    private ?DateTimeImmutable $deletedAt = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param null|string $name
-     */
-    public function setName(?string $name)
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $createdAt
-     */
-    public function setCreatedAt(?DateTimeImmutable $createdAt)
+    public function setCreatedAt(?DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getDeletedAt(): ?DateTimeImmutable
     {
         return $this->deletedAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $deletedAt
-     */
-    public function setDeletedAt(?DateTimeImmutable $deletedAt)
+    public function setDeletedAt(?DateTimeImmutable $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
     }
 
-    /**
-     * @param Person|null $person
-     */
-    public function setPerson(?Person $person)
+    public function setPerson(?Person $person): void
     {
         $this->person = $person;
     }
 
-    /**
-     * @return Person
-     */
     public function getPerson(): Person
     {
         return $this->person;
     }
 
-    /**
-     * @param Group|null $group
-     */
-    public function setGroup(?Group $group)
+    public function setGroup(?Group $group): void
     {
         $this->group = $group;
     }
@@ -133,7 +100,7 @@ class PersonRole
     /**
      * @return Group
      */
-    public function getGroup()
+    public function getGroup(): ?Group
     {
         return $this->group;
     }
@@ -141,14 +108,11 @@ class PersonRole
     /**
      * @param Role|null $role
      */
-    public function setRole(Role $role)
+    public function setRole(Role $role): void
     {
         $this->role = $role;
     }
 
-    /**
-     * @return Role|null
-     */
     public function getRole(): ?Role
     {
         return $this->role;

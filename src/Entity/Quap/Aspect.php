@@ -14,9 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class Aspect
 {
-    /**
-     * @var int $id
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
@@ -25,30 +22,18 @@ class Aspect
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $local_id = null;
 
-    /**
-     * @var string $name_de
-     */
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name_de = null;
 
-    /**
-     * @var string $name_fr
-     */
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name_fr = null;
 
-    /**
-     * @var string $name_it
-     */
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name_it = null;
 
     #[ORM\OneToMany(mappedBy: 'aspect', targetEntity: Question::class, cascade: ['persist'])]
     private $questions;
 
-    /**
-     * @var Questionnaire $questionnaire
-     */
     #[ORM\ManyToOne(targetEntity: Questionnaire::class, inversedBy: 'aspects')]
     private ?Questionnaire $questionnaire = null;
 
@@ -72,96 +57,62 @@ class Aspect
         $this->questions = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
     public function getNameDe(): string
     {
         return $this->name_de;
     }
 
-    /**
-     * @param string $name_de
-     */
     public function setNameDe(string $name_de): void
     {
         $this->name_de = $name_de;
     }
 
-    /**
-     * @return string
-     */
     public function getNameFr(): string
     {
         return $this->name_fr;
     }
 
-    /**
-     * @param string $name_fr
-     */
     public function setNameFr(string $name_fr): void
     {
         $this->name_fr = $name_fr;
     }
 
-    /**
-     * @return string
-     */
     public function getNameIt(): string
     {
         return $this->name_it;
     }
 
-    /**
-     * @param string $name_it
-     */
     public function setNameIt(string $name_it): void
     {
         $this->name_it = $name_it;
     }
 
-    /**
-     * @return Questionnaire
-     */
     public function getQuestionnaire(): Questionnaire
     {
         return $this->questionnaire;
     }
 
-    /**
-     * @param Questionnaire $questionnaire
-     */
     public function setQuestionnaire(Questionnaire $questionnaire): void
     {
         $this->questionnaire = $questionnaire;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLocalId(): ?int
     {
         return $this->local_id;
     }
 
     /**
-     * @param int $local_id
      * @return $this
      */
     public function setLocalId(int $local_id): self
@@ -211,9 +162,6 @@ class Aspect
         return $this->questions;
     }
 
-    /**
-     * @param Collection $questions
-     */
     public function setQuestions(Collection $questions): void
     {
         $this->questions = $questions;

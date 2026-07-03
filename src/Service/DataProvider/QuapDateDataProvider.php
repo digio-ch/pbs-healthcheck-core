@@ -13,7 +13,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class QuapDateDataProvider extends WidgetDataProvider
 {
-    /** @var QuapService $quapService */
     private QuapService $quapService;
 
     public function __construct(

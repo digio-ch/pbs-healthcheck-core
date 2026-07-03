@@ -6,9 +6,6 @@ use App\Entity\Midata\Group;
 
 class WidgetOfDepartmentRequestData extends WidgetRequestData
 {
-    /**
-     * @var Group
-     */
     private Group $department;
 
     public function getDepartment(): Group

@@ -22,34 +22,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OverviewSharedService
 {
-    /**
-     * @var TranslatorInterface
-     */
     protected TranslatorInterface $translator;
 
-    /**
-     * @var OverviewSharedRepository $sharedOverviewRepository
-     */
     private OverviewSharedRepository $sharedOverviewRepository;
 
-    /**
-     * @var GroupRepository $groupRepository
-     */
     private GroupRepository $groupRepository;
 
-    /**
-     * @var StatisticGroupRepository $statisticGroupRepository
-     */
     private StatisticGroupRepository $statisticGroupRepository;
 
-    /**
-     * @var MembersGroupPreviewService $membersGroupPreviewService
-     */
     private MembersGroupPreviewService $membersGroupPreviewService;
 
-    /**
-     * @var AggregatedDemographicGroupRepository $demographicGroupRepository
-     */
     private AggregatedDemographicGroupRepository $demographicGroupRepository;
 
     public function __construct(
@@ -94,11 +76,9 @@ class OverviewSharedService
     }
 
     /**
-     * @param int $groupId
      * @param bool $share whether the group should share the overview
-     * @return void
      */
-    public function shareOverview(int $groupId, bool $share)
+    public function shareOverview(int $groupId, bool $share): void
     {
         $entry = $this->sharedOverviewRepository->findByGroupId($groupId);
 
@@ -117,8 +97,6 @@ class OverviewSharedService
     }
 
     /**
-     * @param Group $group
-     * @return OverviewDepartmentsPreviewDTO
      * @throws Exception
      */
     public function getDepartmentsPreview(Group $group): OverviewDepartmentsPreviewDTO
@@ -175,7 +153,6 @@ class OverviewSharedService
     }
 
     /**
-     * @param Group $group
      * @return OverviewRegionDTO[]
      * @throws Exception
      */
@@ -251,14 +228,12 @@ class OverviewSharedService
             $dtos[] = $this->mapToRegionOverviewDTO(null, [$preview]);
         }
 
-        usort($dtos, fn($a, $b) => $this->sortOverviewRegionByName($a, $b));
+        usort($dtos, fn(OverviewRegionDTO $a, OverviewRegionDTO $b): int => $this->sortOverviewRegionByName($a, $b));
 
         return $dtos;
     }
 
     /**
-     * @param Group $group
-     * @return array
      * @throws Exception
      */
     private function getSharedDepartments(Group $group): array
@@ -266,12 +241,9 @@ class OverviewSharedService
         $departmentIds = $this->statisticGroupRepository->findAllRelevantChildGroups($group->getId(), [GroupType::DEPARTMENT]);
 
         // filter out the departments that haven't shared the overview
-        return array_filter($departmentIds, fn($id) => $this->isShared($id));
+        return array_filter($departmentIds, fn(int $id): bool => $this->isShared($id));
     }
 
-    /**
-     * @return string|null
-     */
     private function getLatestDemographicGroupAggregationDate(): ?string
     {
         $date = $this->membersGroupPreviewService->getNewestDate();
@@ -305,9 +277,7 @@ class OverviewSharedService
     }
 
     /**
-     * @param string|null $regionName
      * @param OverviewPreview[] $overviewPreviews
-     * @return OverviewRegionDTO
      */
     public function mapToRegionOverviewDTO(?string $regionName, array $overviewPreviews): OverviewRegionDTO
     {
@@ -326,27 +296,17 @@ class OverviewSharedService
         }
 
         // sort alphabetically
-        usort($overviewDepartments, fn($a, $b) => $this->sortOverviewDepartmentByName($a, $b));
+        usort($overviewDepartments, fn(OverviewDepartmentDTO $a, OverviewDepartmentDTO $b): int => $this->sortOverviewDepartmentByName($a, $b));
 
         return new OverviewRegionDTO($regionName, $overviewDepartments);
     }
 
-    /**
-     * @param OverviewDepartmentDTO $a
-     * @param OverviewDepartmentDTO $b
-     * @return int
-     */
     private function sortOverviewDepartmentByName(OverviewDepartmentDTO $a, OverviewDepartmentDTO $b): int
     {
         return strcmp($a->getName(), $b->getName());
     }
 
 
-    /**
-     * @param OverviewRegionDTO $a
-     * @param OverviewRegionDTO $b
-     * @return int
-     */
     private function sortOverviewRegionByName(OverviewRegionDTO $a, OverviewRegionDTO $b): int
     {
         // compare children names if the region name is null

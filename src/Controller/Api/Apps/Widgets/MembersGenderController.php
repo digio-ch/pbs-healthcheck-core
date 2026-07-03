@@ -18,11 +18,8 @@ class MembersGenderController extends AbstractController
     {
     }
     /**
-     * @param DateAndDateRangeRequestData $dateAndDateRangeRequestData
-     * @param WidgetRequestData $widgetRequestData
      * @param MembersGenderDateDataProvider $membersGenderDateDataProvider
      * @param MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider
-     * @return Response
      * @throws Exception
      */
     public function getDemographicGroupData(
@@ -56,11 +53,8 @@ class MembersGenderController extends AbstractController
     }
 
     /**
-     * @param DateAndDateRangeRequestData $dateAndDateRangeRequestData
-     * @param WidgetOfDepartmentRequestData $widgetRequestData
      * @param MembersGenderDateDataProvider $membersGenderDateDataProvider
      * @param MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider
-     * @return Response
      */
     public function getDemographicGroupDataOfDepartment(
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,

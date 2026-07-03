@@ -40,8 +40,6 @@ class AggregatedQuapRepository extends AggregatedEntityRepository
     }
 
     /**
-     * @param array $groupIds
-     * @param string|null $date
      * @return AggregatedQuap[]
      */
     public function findAllAnswers(array $groupIds, ?string $date): array

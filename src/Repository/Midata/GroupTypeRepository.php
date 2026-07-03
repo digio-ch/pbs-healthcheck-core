@@ -21,7 +21,6 @@ class GroupTypeRepository extends ServiceEntityRepository
 
     /**
      * @param int[] $groupIds
-     * @return array
      * @throws Exception
      */
     public function findGroupTypesForParentGroups(array $groupIds): array

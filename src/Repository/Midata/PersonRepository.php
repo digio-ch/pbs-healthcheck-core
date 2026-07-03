@@ -13,17 +13,13 @@ class PersonRepository extends ServiceEntityRepository
 {
     /**
      * PersonRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Person::class);
     }
 
-    /**
-     * @param Person $person
-     */
-    public function save(Person $person)
+    public function save(Person $person): void
     {
         $this->getEntityManager()->persist($person);
         $this->getEntityManager()->flush();

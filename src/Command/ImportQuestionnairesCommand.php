@@ -22,32 +22,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'app:quap:import-questionnaire')]
 class ImportQuestionnairesCommand extends StatisticsCommand
 {
-    /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
-    /** @var QuestionnaireRepository $questionnaireRepo */
     private QuestionnaireRepository $questionnaireRepo;
 
-    /** @var AspectRepository $aspectRepo */
     private AspectRepository $aspectRepo;
 
-    /** @var QuestionRepository $questionRepo */
     private QuestionRepository $questionRepo;
 
-    /** @var HelpRepository $helpRepo */
     private HelpRepository $helpRepo;
 
-    /** @var string $pathToJson */
     private string $pathToJson = 'imports/questionnaire_imports.json';
 
 
-    /**
-     * @param EntityManagerInterface $em
-     * @param QuestionnaireRepository $questionnaireRepo
-     * @param AspectRepository $aspectRepo
-     * @param QuestionRepository $questionRepo
-     * @param HelpRepository $helpRepo
-     */
     public function __construct(
         EntityManagerInterface $em,
         QuestionnaireRepository $questionnaireRepo,
@@ -87,8 +74,9 @@ class ImportQuestionnairesCommand extends StatisticsCommand
 
     /**
      * @param $questionnaire
+     * @param array<string, mixed> $questionnaire
      */
-    private function importQuestionnaire($questionnaire): void
+    private function importQuestionnaire(array $questionnaire): void
     {
         $db_questionnaire = $this->questionnaireRepo->findOneBy(['type' => $questionnaire['type']]);
 
@@ -109,7 +97,10 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         }
     }
 
-    private function importAspect($aspect, Questionnaire $questionnaire, $isDeprecated = false)
+    /**
+     * @param array<string, mixed> $aspect
+     */
+    private function importAspect(array $aspect, Questionnaire $questionnaire, $isDeprecated = false): void
     {
         $dbAspect = $this->aspectRepo->findOneBy([
             'questionnaire' => $questionnaire->getId(),
@@ -148,7 +139,10 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         $this->em->flush();
     }
 
-    private function importQuestion($question, Aspect $aspect, $isDeprecated)
+    /**
+     * @param array<string, mixed> $question
+     */
+    private function importQuestion(array $question, Aspect $aspect, $isDeprecated): void
     {
         $dbQuestion = null;
         if ($aspect->getId() !== null) {
@@ -219,7 +213,10 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         }
     }
 
-    private function importHelp($helpItem, Question $question, $isDeprecated)
+    /**
+     * @param array<string, mixed> $helpItem
+     */
+    private function importHelp(array $helpItem, Question $question, $isDeprecated): void
     {
         $dbHelp = null;
         if ($question->getId() !== null) {

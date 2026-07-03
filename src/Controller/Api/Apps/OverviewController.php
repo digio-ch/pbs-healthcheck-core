@@ -24,10 +24,6 @@ class OverviewController extends AbstractController
         $this->overviewSharedService = $overviewSharedService;
     }
 
-    /**
-     * @param Group $group
-     * @return JsonResponse
-     */
     public function getOverviewSharing(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
@@ -41,11 +37,6 @@ class OverviewController extends AbstractController
         return $this->json(new OverviewSharingDTO($isShared));
     }
 
-    /**
-     * @param Request $request
-     * @param Group $group
-     * @return JsonResponse
-     */
     public function shareOverview(
         Request $request,
         #[MapEntity(mapping: ['groupId' => 'id'])]
@@ -69,8 +60,6 @@ class OverviewController extends AbstractController
     }
 
     /**
-     * @param Group $group
-     * @return JsonResponse
      *
      * @throws Exception
      */
@@ -88,8 +77,6 @@ class OverviewController extends AbstractController
     }
 
     /**
-     * @param Group $group
-     * @return JsonResponse
      *
      * @throws Exception
      */

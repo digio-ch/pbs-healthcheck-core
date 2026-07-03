@@ -17,20 +17,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExceptionListener
 {
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private SerializerInterface $serializer;
 
-    /**
-     * @var ParameterBagInterface
-     */
-    protected $params;
+    protected ParameterBagInterface $params;
 
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(
         SerializerInterface $serializer,

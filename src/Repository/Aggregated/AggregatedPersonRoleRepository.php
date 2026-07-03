@@ -22,7 +22,6 @@ class AggregatedPersonRoleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Group $group
      * @param $start
      * @param $end
      * @return AggregatedPersonRole[]|null

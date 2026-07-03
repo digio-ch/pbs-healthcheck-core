@@ -13,25 +13,11 @@ use Doctrine\DBAL\Exception;
 
 class PreviewDataProvider
 {
-    /**
-     * @var StageStatsDataProvider
-     */
     private StageStatsDataProvider $stageStatsProvider;
-    /**
-     * @var DepartmentNamesDataProvider
-     */
     private DepartmentNamesDataProvider $departmentNamesProvider;
 
-    /**
-     * @var AggregatedDateRepository
-     */
     private AggregatedDateRepository $aggregatedDateRepository;
 
-    /**
-     * @param StageStatsDataProvider $stageStatsProvider
-     * @param DepartmentNamesDataProvider $departmentNamesProvider
-     * @param AggregatedDateRepository $aggregatedDateRepository
-     */
     public function __construct(
         StageStatsDataProvider $stageStatsProvider,
         DepartmentNamesDataProvider $departmentNamesProvider,
@@ -43,8 +29,6 @@ class PreviewDataProvider
     }
 
     /**
-     * @param Group $association
-     * @return PreviewDTO
      * @throws Exception
      */
     public function getPreview(Group $association): PreviewDTO
@@ -67,10 +51,6 @@ class PreviewDataProvider
         return new PreviewDTO($departments, $groupTypes);
     }
 
-    /**
-     * @param Group $group
-     * @return DateTimeInterface|null
-     */
     private function getLatestAggregatedDate(Group $group): ?DateTimeInterface
     {
         /**

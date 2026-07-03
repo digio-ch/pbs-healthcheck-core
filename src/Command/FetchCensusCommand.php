@@ -20,7 +20,7 @@ class FetchCensusCommand extends StatisticsCommand
     protected CensusGroupRepository $censusGroupRepository;
     protected GroupTypeRepository $groupTypeRepository;
 
-    private $start;
+    private ?float $start = null;
 
     public function __construct(
         CensusAPIService $apiService,
@@ -56,7 +56,10 @@ class FetchCensusCommand extends StatisticsCommand
         return Command::SUCCESS;
     }
 
-    private function mapRawCensusGroupToCensusGroup(array $rawCensusGroup, int $year)
+    /**
+     * @param array<string, mixed> $rawCensusGroup
+     */
+    private function mapRawCensusGroupToCensusGroup(array $rawCensusGroup, int $year): void
     {
         $censusGroup = new CensusGroup();
         $censusGroup->setGroupId($this->sanitizeValue($rawCensusGroup['group_id']));

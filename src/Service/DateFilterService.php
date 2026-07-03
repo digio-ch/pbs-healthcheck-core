@@ -8,7 +8,6 @@ use App\Repository\Aggregated\AggregatedDateRepository;
 
 class DateFilterService
 {
-    /** @var AggregatedDateRepository $aggregatedDateRepository */
     private AggregatedDateRepository $aggregatedDateRepository;
 
     public function __construct(

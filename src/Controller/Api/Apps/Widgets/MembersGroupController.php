@@ -22,10 +22,8 @@ class MembersGroupController extends AbstractController
     {
     }
     /**
-     * @param Group $group
      * @param MembersGroupDateDataProvider $membersGroupDateDataProvider
      * @param MembersGroupPreviewService $membersGroupPreviewService
-     * @return Response
      */
     public function getPreview(
         #[MapEntity(mapping: ['groupId' => 'id'])]
@@ -48,9 +46,6 @@ class MembersGroupController extends AbstractController
     /**
      * @param MembersGroupDateRangeDataProvider $membersGroupDateRangeDataProvider
      * @param MembersGroupDateDataProvider $membersGroupDateDataProvider
-     * @param DateAndDateRangeRequestData $dateAndDateRangeRequestData
-     * @param WidgetRequestData $widgetRequestData
-     * @return JsonResponse
      * @throws DBALException
      */
     public function getGroupMembersData(
@@ -86,9 +81,6 @@ class MembersGroupController extends AbstractController
     /**
      * @param MembersGroupDateRangeDataProvider $membersGroupDateRangeDataProvider
      * @param MembersGroupDateDataProvider $membersGroupDateDataProvider
-     * @param DateAndDateRangeRequestData $dateAndDateRangeRequestData
-     * @param WidgetOfDepartmentRequestData $widgetRequestData
-     * @return JsonResponse
      * @throws Exception
      */
     public function getGroupMembersDataOfDepartment(

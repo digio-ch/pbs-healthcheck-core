@@ -65,7 +65,7 @@ class LoginService
         return $login;
     }
 
-    public function logByPersonAndGroup(PbsUserDTO $userDTO, Group $group)
+    public function logByPersonAndGroup(PbsUserDTO $userDTO, Group $group): Login
     {
         $login = new Login();
         $person = $this->personRepository->find($userDTO->getId());

@@ -14,7 +14,6 @@ class PersonRoleRepository extends ServiceEntityRepository
 {
     /**
      * PersonRoleRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {

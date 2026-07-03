@@ -19,9 +19,6 @@ class Level
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @var LevelAccess | null $access
-     */
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\ManyToOne(targetEntity: LevelAccess::class)]
     private ?LevelAccess $access = null;
@@ -51,9 +48,6 @@ class Level
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $required = null;
 
-    /**
-     * @return mixed
-     */
     public function getRequired(): int
     {
         return $this->required;
@@ -62,15 +56,12 @@ class Level
     /**
      * @param int $required
      */
-    public function setRequired($required): void
+    public function setRequired(?int $required): void
     {
         $this->required = $required;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNextKey()
+    public function getNextKey(): ?int
     {
         return $this->next_key;
     }
@@ -78,7 +69,7 @@ class Level
     /**
      * @param mixed $next_key
      */
-    public function setNextKey($next_key): void
+    public function setNextKey(?int $next_key): void
     {
         $this->next_key = $next_key;
     }
@@ -182,10 +173,7 @@ class Level
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getKey()
+    public function getKey(): ?int
     {
         return $this->key;
     }
@@ -193,7 +181,7 @@ class Level
     /**
      * @param mixed $key
      */
-    public function setKey($key): void
+    public function setKey(?int $key): void
     {
         $this->key = $key;
     }

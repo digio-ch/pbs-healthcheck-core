@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Service\Logger\AppLogger;
 use App\Service\Logger\Messages\ExceptionLogMessage;
 use Exception;
@@ -13,13 +14,13 @@ class DebugController extends AbstractController
     {
     }
 
-    public function testLogger()
+    public function testLogger(): JsonResponse
     {
         $this->logger->info(new ExceptionLogMessage(new Exception('test')));
         return $this->json('ok');
     }
 
-    public function emptyTestRoute()
+    public function emptyTestRoute(): JsonResponse
     {
         return $this->json('ok');
     }

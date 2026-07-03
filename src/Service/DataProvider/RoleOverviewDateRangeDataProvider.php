@@ -12,7 +12,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoleOverviewDateRangeDataProvider extends WidgetDataProvider
 {
-    protected $personRoleRepository;
+    protected AggregatedPersonRoleRepository $personRoleRepository;
     public function __construct(
         GroupRepository $groupRepository,
         GroupTypeRepository $groupTypeRepository,

@@ -15,20 +15,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WidgetDataProvider
 {
-    /**
-     * @var GroupRepository
-     */
-    protected $groupRepository;
+    protected GroupRepository $groupRepository;
 
-    /**
-     * @var GroupTypeRepository
-     */
-    protected $groupTypeRepository;
+    protected GroupTypeRepository $groupTypeRepository;
 
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     /** @var string */
     public const DEPARTMENT_COUNT_KEY = 'departments';
@@ -84,9 +75,6 @@ class WidgetDataProvider
 
     /**
      * WidgetDataProvider constructor.
-     * @param GroupRepository $groupRepository
-     * @param GroupTypeRepository $groupTypeRepository
-     * @param TranslatorInterface $translator
      */
     public function __construct(
         GroupRepository $groupRepository,
@@ -98,17 +86,12 @@ class WidgetDataProvider
         $this->translator = $translator;
     }
 
-    /**
-     * @return string
-     */
     protected function getLeadersColor(): string
     {
         return self::GROUP_TYPE_COLORS['leaders'];
     }
 
     /**
-     * @param int $parentGroupId
-     * @param array $subGroupTypes
      * @return array|int[]
      * @throws Exception
      */
@@ -128,15 +111,13 @@ class WidgetDataProvider
     }
 
     /**
-     * @param int $parentGroupId
      * @param array|string[] $subGroupTypes
-     * @return array
      * @throws Exception
      */
     protected function getSubGroupsByType(
         int $parentGroupId,
         array $subGroupTypes = WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES
-    ) {
+    ): array {
         $subGroups = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($parentGroupId, $subGroupTypes);
         if (!$subGroups) {
             throw new NotFoundHttpException('No subgroups for group with id ' . $parentGroupId . ' found');
@@ -157,7 +138,6 @@ class WidgetDataProvider
 
     /**
      * @param BarChartBarDataDTO[]|LineChartDataDTO[]|PieChartDataDTO[]|LeaderOverviewDTO[] $items
-     * @param bool $leadersOnly
      */
     protected function translateGroupNames(array $items, bool $leadersOnly = false)
     {
@@ -166,11 +146,6 @@ class WidgetDataProvider
         }
     }
 
-    /**
-     * @param string $groupType
-     * @param bool $leadersOnly
-     * @return string
-     */
     protected function translateSingleName(string $groupType, bool $leadersOnly = false): string
     {
         if (!in_array($groupType, self::RELEVANT_SUB_GROUP_TYPES)) {
@@ -184,18 +159,13 @@ class WidgetDataProvider
     }
 
     /**
-     * @param array $peopleTypes
-     * @return bool
+     * @param array<int, mixed> $peopleTypes
      */
     protected function isLeadersOnly(array $peopleTypes): bool
     {
         return count($peopleTypes) === 1 && $peopleTypes[0] === $this::PEOPLE_TYPE_LEADERS;
     }
 
-    /**
-     * @param array $peopleTypes
-     * @return bool
-     */
     protected function isBothPeopleTypes(array $peopleTypes): bool
     {
         return count($peopleTypes) === 2;
@@ -203,9 +173,6 @@ class WidgetDataProvider
 
     /**
      * Orders group types by {@see self::DEPARTMENT_GROUP_TYPE_ORDER}
-     * @param string $a
-     * @param string $b
-     * @return int
      */
     protected function sortByGroupTypes(string $a, string $b): int
     {

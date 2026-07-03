@@ -52,17 +52,11 @@ class Permission
         return $this->id;
     }
 
-    /**
-     * @return Person|null
-     */
     public function getPerson(): ?Person
     {
         return $this->person;
     }
 
-    /**
-     * @param Person|null $person
-     */
     public function setPerson(?Person $person): void
     {
         $this->person = $person;
@@ -80,33 +74,21 @@ class Permission
         return $this;
     }
 
-    /**
-     * @return PermissionType
-     */
     public function getPermissionType(): PermissionType
     {
         return $this->permissionType;
     }
 
-    /**
-     * @param PermissionType $permissionType
-     */
     public function setPermissionType(PermissionType $permissionType): void
     {
         $this->permissionType = $permissionType;
     }
 
-    /**
-     * @return Group
-     */
     public function getGroup(): Group
     {
         return $this->group;
     }
 
-    /**
-     * @param Group $group
-     */
     public function setGroup(Group $group): void
     {
         $this->group = $group;

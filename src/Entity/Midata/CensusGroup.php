@@ -62,10 +62,7 @@ class CensusGroup
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroupType()
+    public function getGroupType(): ?GroupType
     {
         return $this->group_type;
     }
@@ -73,15 +70,12 @@ class CensusGroup
     /**
      * @param mixed $group_type
      */
-    public function setGroupType($group_type): void
+    public function setGroupType(?GroupType $group_type): void
     {
         $this->group_type = $group_type;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTotalCount()
+    public function getTotalCount(): ?int
     {
         return $this->total_count;
     }
@@ -89,15 +83,12 @@ class CensusGroup
     /**
      * @param mixed $total_count
      */
-    public function setTotalCount($total_count): void
+    public function setTotalCount(?int $total_count): void
     {
         $this->total_count = $total_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTotalMCount()
+    public function getTotalMCount(): ?int
     {
         return $this->total_m_count;
     }
@@ -105,15 +96,12 @@ class CensusGroup
     /**
      * @param mixed $total_m_count
      */
-    public function setTotalMCount($total_m_count): void
+    public function setTotalMCount(?int $total_m_count): void
     {
         $this->total_m_count = $total_m_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTotalFCount()
+    public function getTotalFCount(): ?int
     {
         return $this->total_f_count;
     }
@@ -121,15 +109,12 @@ class CensusGroup
     /**
      * @param mixed $total_f_count
      */
-    public function setTotalFCount($total_f_count): void
+    public function setTotalFCount(?int $total_f_count): void
     {
         $this->total_f_count = $total_f_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLeiterMCount()
+    public function getLeiterMCount(): ?int
     {
         return $this->leiter_m_count;
     }
@@ -137,15 +122,12 @@ class CensusGroup
     /**
      * @param mixed $leiter_m_count
      */
-    public function setLeiterMCount($leiter_m_count): void
+    public function setLeiterMCount(?int $leiter_m_count): void
     {
         $this->leiter_m_count = $leiter_m_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLeiterFCount()
+    public function getLeiterFCount(): ?int
     {
         return $this->leiter_f_count;
     }
@@ -153,15 +135,12 @@ class CensusGroup
     /**
      * @param mixed $leiter_f_count
      */
-    public function setLeiterFCount($leiter_f_count): void
+    public function setLeiterFCount(?int $leiter_f_count): void
     {
         $this->leiter_f_count = $leiter_f_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBiberMCount()
+    public function getBiberMCount(): ?int
     {
         return $this->biber_m_count;
     }
@@ -169,15 +148,12 @@ class CensusGroup
     /**
      * @param mixed $biber_m_count
      */
-    public function setBiberMCount($biber_m_count): void
+    public function setBiberMCount(?int $biber_m_count): void
     {
         $this->biber_m_count = $biber_m_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBiberFCount()
+    public function getBiberFCount(): ?int
     {
         return $this->biber_f_count;
     }
@@ -185,15 +161,12 @@ class CensusGroup
     /**
      * @param mixed $biber_f_count
      */
-    public function setBiberFCount($biber_f_count): void
+    public function setBiberFCount(?int $biber_f_count): void
     {
         $this->biber_f_count = $biber_f_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getWoelfeMCount()
+    public function getWoelfeMCount(): ?int
     {
         return $this->woelfe_m_count;
     }
@@ -201,15 +174,12 @@ class CensusGroup
     /**
      * @param mixed $woelfe_m_count
      */
-    public function setWoelfeMCount($woelfe_m_count): void
+    public function setWoelfeMCount(?int $woelfe_m_count): void
     {
         $this->woelfe_m_count = $woelfe_m_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getWoelfeFCount()
+    public function getWoelfeFCount(): ?int
     {
         return $this->woelfe_f_count;
     }
@@ -217,15 +187,12 @@ class CensusGroup
     /**
      * @param mixed $woelfe_f_count
      */
-    public function setWoelfeFCount($woelfe_f_count): void
+    public function setWoelfeFCount(?int $woelfe_f_count): void
     {
         $this->woelfe_f_count = $woelfe_f_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPfadisMCount()
+    public function getPfadisMCount(): ?int
     {
         return $this->pfadis_m_count;
     }
@@ -233,15 +200,12 @@ class CensusGroup
     /**
      * @param mixed $pfadis_m_count
      */
-    public function setPfadisMCount($pfadis_m_count): void
+    public function setPfadisMCount(?int $pfadis_m_count): void
     {
         $this->pfadis_m_count = $pfadis_m_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPfadisFCount()
+    public function getPfadisFCount(): ?int
     {
         return $this->pfadis_f_count;
     }
@@ -249,15 +213,12 @@ class CensusGroup
     /**
      * @param mixed $pfadis_f_count
      */
-    public function setPfadisFCount($pfadis_f_count): void
+    public function setPfadisFCount(?int $pfadis_f_count): void
     {
         $this->pfadis_f_count = $pfadis_f_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPiosMCount()
+    public function getPiosMCount(): ?int
     {
         return $this->pios_m_count;
     }
@@ -265,15 +226,12 @@ class CensusGroup
     /**
      * @param mixed $pios_m_count
      */
-    public function setPiosMCount($pios_m_count): void
+    public function setPiosMCount(?int $pios_m_count): void
     {
         $this->pios_m_count = $pios_m_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPiosFCount()
+    public function getPiosFCount(): ?int
     {
         return $this->pios_f_count;
     }
@@ -281,15 +239,12 @@ class CensusGroup
     /**
      * @param mixed $pios_f_count
      */
-    public function setPiosFCount($pios_f_count): void
+    public function setPiosFCount(?int $pios_f_count): void
     {
         $this->pios_f_count = $pios_f_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRoverMCount()
+    public function getRoverMCount(): ?int
     {
         return $this->rover_m_count;
     }
@@ -297,15 +252,12 @@ class CensusGroup
     /**
      * @param mixed $rover_m_count
      */
-    public function setRoverMCount($rover_m_count): void
+    public function setRoverMCount(?int $rover_m_count): void
     {
         $this->rover_m_count = $rover_m_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRoverFCount()
+    public function getRoverFCount(): ?int
     {
         return $this->rover_f_count;
     }
@@ -313,15 +265,12 @@ class CensusGroup
     /**
      * @param mixed $rover_f_count
      */
-    public function setRoverFCount($rover_f_count): void
+    public function setRoverFCount(?int $rover_f_count): void
     {
         $this->rover_f_count = $rover_f_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPtaMCount()
+    public function getPtaMCount(): ?int
     {
         return $this->pta_m_count;
     }
@@ -329,15 +278,12 @@ class CensusGroup
     /**
      * @param mixed $pta_m_count
      */
-    public function setPtaMCount($pta_m_count): void
+    public function setPtaMCount(?int $pta_m_count): void
     {
         $this->pta_m_count = $pta_m_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPtaFCount()
+    public function getPtaFCount(): ?int
     {
         return $this->pta_f_count;
     }
@@ -345,15 +291,12 @@ class CensusGroup
     /**
      * @param mixed $pta_f_count
      */
-    public function setPtaFCount($pta_f_count): void
+    public function setPtaFCount(?int $pta_f_count): void
     {
         $this->pta_f_count = $pta_f_count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -361,15 +304,12 @@ class CensusGroup
     /**
      * @param mixed $name
      */
-    public function setName($name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroupId()
+    public function getGroupId(): ?int
     {
         return $this->group_id;
     }
@@ -377,15 +317,12 @@ class CensusGroup
     /**
      * @param mixed $group_id
      */
-    public function setGroupId($group_id): void
+    public function setGroupId(?int $group_id): void
     {
         $this->group_id = $group_id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getYear()
+    public function getYear(): ?string
     {
         return $this->year;
     }
@@ -393,7 +330,7 @@ class CensusGroup
     /**
      * @param mixed $year
      */
-    public function setYear($year): void
+    public function setYear(?string $year): void
     {
         $this->year = $year;
     }
@@ -414,7 +351,6 @@ class CensusGroup
         $total += $this->getLeiterMCount();
         $total += $this->getLeiterFCount();
         $total += $this->getPfadisMCount();
-        $total += $this->getPfadisFCount();
-        return $total;
+        return $total + $this->getPfadisFCount();
     }
 }

@@ -13,7 +13,6 @@ class AggregatedLeaderOverviewLeaderRepository extends ServiceEntityRepository
 {
     /**
      * AggregatedLeaderOverviewLeaderRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {

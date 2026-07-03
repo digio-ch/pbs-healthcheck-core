@@ -10,153 +10,97 @@ class AddressMappingDTO
     public const ERROR_NO_GEO_LOCATION = 'error code: 4 (no geo location found)';
     public const STATUS_SUCCESS = 'status code: 0 (mapped)';
 
-    /** @var string $midataAddress */
-    private $midataAddress;
+    private ?string $midataAddress = null;
 
-    /** @var int $midataZip */
-    private $midataZip;
+    private ?int $midataZip = null;
 
-    /** @var string $midataTown */
-    private $midataTown;
+    private ?string $midataTown = null;
 
-    /** @var string $streetWithoutNumber */
-    private $streetWithoutNumber;
+    private ?string $streetWithoutNumber = null;
 
-    /** @var string $houseNumber */
-    private $houseNumber;
+    private ?string $houseNumber = null;
 
-    /** @var string $correctedStreet */
-    private $correctedStreet;
+    private ?string $correctedStreet = null;
 
-    /** @var string $normalizedStreet */
-    private $normalizedStreet;
+    private ?string $normalizedStreet = null;
 
-    /** @var string $code */
-    private $code;
+    private ?string $code = null;
 
-    /**
-     * @return string|null
-     */
     public function getMidataAddress(): ?string
     {
         return $this->midataAddress;
     }
 
-    /**
-     * @param string|null $midataAddress
-     */
     public function setMidataAddress(?string $midataAddress): void
     {
         $this->midataAddress = $midataAddress;
     }
 
-    /**
-     * @return int|null
-     */
     public function getMidataZip(): ?int
     {
         return $this->midataZip;
     }
 
-    /**
-     * @param int|null $midataZip
-     */
     public function setMidataZip(?int $midataZip): void
     {
         $this->midataZip = $midataZip;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMidataTown(): ?string
     {
         return $this->midataTown;
     }
 
-    /**
-     * @param string|null $midataTown
-     */
     public function setMidataTown(?string $midataTown): void
     {
         $this->midataTown = $midataTown;
     }
 
-    /**
-     * @return string|null
-     */
     public function getStreetWithoutNumber(): ?string
     {
         return $this->streetWithoutNumber;
     }
 
-    /**
-     * @param string|null $streetWithoutNumber
-     */
     public function setStreetWithoutNumber(?string $streetWithoutNumber): void
     {
         $this->streetWithoutNumber = $streetWithoutNumber;
     }
 
-    /**
-     * @return string|null
-     */
     public function getHouseNumber(): ?string
     {
         return $this->houseNumber;
     }
 
-    /**
-     * @param string|null $houseNumber
-     */
     public function setHouseNumber(?string $houseNumber): void
     {
         $this->houseNumber = $houseNumber;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCorrectedStreet(): ?string
     {
         return $this->correctedStreet;
     }
 
-    /**
-     * @param string|null $correctedStreet
-     */
     public function setCorrectedStreet(?string $correctedStreet): void
     {
         $this->correctedStreet = $correctedStreet;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNormalizedStreet(): ?string
     {
         return $this->normalizedStreet;
     }
 
-    /**
-     * @param string|null $normalizedStreet
-     */
     public function setNormalizedStreet(?string $normalizedStreet): void
     {
         $this->normalizedStreet = $normalizedStreet;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
-    /**
-     * @param string|null $code
-     */
     public function setCode(?string $code): void
     {
         $this->code = $code;

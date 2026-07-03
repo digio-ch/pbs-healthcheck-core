@@ -15,23 +15,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DemographicCampDataProvider extends WidgetDataProvider
 {
-    /**
-     * @var AggregatedDemographicCampRepository
-     */
     protected AggregatedDemographicCampRepository $widgetDemographicCampRepository;
 
-    /**
-     * @var AggregatedDemographicCampGroupRepository
-     */
     protected AggregatedDemographicCampGroupRepository $demographicCampGroupRepository;
 
     /**
      * DemographicCampDataProvider constructor.
-     * @param GroupRepository $groupRepository
-     * @param GroupTypeRepository $groupTypeRepository
-     * @param TranslatorInterface $translator
-     * @param AggregatedDemographicCampRepository $widgetDemographicCampRepository
-     * @param AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
      */
     public function __construct(
         GroupRepository $groupRepository,
@@ -50,14 +39,6 @@ class DemographicCampDataProvider extends WidgetDataProvider
         );
     }
 
-    /**
-     * @param Group $group
-     * @param string $from
-     * @param string $to
-     * @param array $subGroupTypes
-     * @param array $peopleTypes
-     * @return array
-     */
     public function getData(Group $group, string $from, string $to, array $subGroupTypes, array $peopleTypes): array
     {
         $result = [];
@@ -108,18 +89,12 @@ class DemographicCampDataProvider extends WidgetDataProvider
         return $result;
     }
 
-    /**
-     * @param BarChartDataDTO $barChart
-     * @param AggregatedDemographicCamp $event
-     * @param int $mainGroupId
-     * @param array $groupTypes
-     */
     private function getMembersData(
         BarChartDataDTO $barChart,
         AggregatedDemographicCamp $event,
         int $mainGroupId,
         array $groupTypes
-    ) {
+    ): void {
         foreach ($groupTypes as $type) {
             $sum = $this->demographicCampGroupRepository->getMembersCountByCampAndGroupType(
                 $event,
@@ -137,18 +112,12 @@ class DemographicCampDataProvider extends WidgetDataProvider
         }
     }
 
-    /**
-     * @param BarChartDataDTO $barChart
-     * @param AggregatedDemographicCamp $event
-     * @param int $mainGroupId
-     * @param array $groupTypes
-     */
     private function getLeadersData(
         BarChartDataDTO $barChart,
         AggregatedDemographicCamp $event,
         int $mainGroupId,
         array $groupTypes
-    ) {
+    ): void {
         foreach ($groupTypes as $type) {
             $sum = $this->demographicCampGroupRepository->getLeadersCountByCampAndGroupType(
                 $event,
@@ -167,10 +136,6 @@ class DemographicCampDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param BarChartDataDTO $barChart
-     * @param AggregatedDemographicCamp $event
-     * @param int $mainGroupId
-     * @param array $groupTypes
      * @throws Exception
      */
     private function getAdditionalLeadersData(
@@ -178,7 +143,7 @@ class DemographicCampDataProvider extends WidgetDataProvider
         AggregatedDemographicCamp $event,
         int $mainGroupId,
         array $groupTypes
-    ) {
+    ): void {
         $leaders = $this->demographicCampGroupRepository->getAdditionalLeadersCountByCampAndGroupTypes(
             $event,
             $mainGroupId,
@@ -194,7 +159,10 @@ class DemographicCampDataProvider extends WidgetDataProvider
         $barChart->addSeries($barChartBarDataDTO);
     }
 
-    private function addCampToChart(array &$results, BarChartDataDTO $barChartDataDTO)
+    /**
+     * @param BarChartDataDTO[] $results
+     */
+    private function addCampToChart(array &$results, BarChartDataDTO $barChartDataDTO): void
     {
         if (count($barChartDataDTO->getSeries()) === 0) {
             return;

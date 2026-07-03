@@ -14,10 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: "app:compute-permissions")]
 class ComputePermissionsCommand extends StatisticsCommand
 {
-    /** @var PersonRoleRepository $personRoleRepository */
     private PersonRoleRepository $personRoleRepository;
 
-    /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
 
     private float $totalDuration = 0;
@@ -72,7 +70,7 @@ class ComputePermissionsCommand extends StatisticsCommand
     }
 
     // TODO: use PermissionType key instead of id because it is not guaranteed
-    private function assignPermissionToRoles(array $roles, int $permissionType, array &$assigned)
+    private function assignPermissionToRoles(array $roles, int $permissionType, array &$assigned): void
     {
         foreach ($roles as $key => $role) {
             $personId = $role['person_id'];

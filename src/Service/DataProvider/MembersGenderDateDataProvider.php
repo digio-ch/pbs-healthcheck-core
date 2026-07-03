@@ -12,17 +12,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MembersGenderDateDataProvider extends WidgetDataProvider
 {
-    /**
-     * @var AggregatedDemographicGroupRepository
-     */
     protected AggregatedDemographicGroupRepository $widgetDemographicGroupRepository;
 
     /**
      * MembersGenderDateDataProvider constructor.
-     * @param GroupRepository $groupRepository
-     * @param GroupTypeRepository $groupTypeRepository
-     * @param TranslatorInterface $translator
-     * @param AggregatedDemographicGroupRepository $widgetDemographicGroupRepository
      */
     public function __construct(
         GroupRepository $groupRepository,
@@ -40,14 +33,9 @@ class MembersGenderDateDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param Group $group
-     * @param string $date
-     * @param array $peopleTypes
-     * @param array $subGroupTypes
-     * @return array
      * @throws Exception
      */
-    public function getData(Group $group, string $date, array $peopleTypes, array $subGroupTypes)
+    public function getData(Group $group, string $date, array $peopleTypes, array $subGroupTypes): array
     {
         $result = [];
 

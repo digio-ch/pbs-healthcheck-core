@@ -117,14 +117,14 @@ class AggregatedPersonRole
         return $this;
     }
 
-    public function setGroup($group): self
+    public function setGroup(?Group $group): self
     {
         $this->group = $group;
 
         return $this;
     }
 
-    public function getGroup()
+    public function getGroup(): ?Group
     {
         return $this->group;
     }

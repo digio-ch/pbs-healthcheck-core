@@ -21,29 +21,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PermissionService
 {
-    /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
 
-    /** @var PermissionTypeRepository $permissionTypeRepository */
     private PermissionTypeRepository $permissionTypeRepository;
 
-    /** @var DateFormatter $dateFormatter */
     private DateFormatter $dateFormatter;
 
-    /** @var MailService $mailService */
     private MailService $mailService;
 
-    /** @var TranslatorInterface $translator */
     private TranslatorInterface $translator;
 
-    /** @var PersonRepository $personRepository */
     private PersonRepository $personRepository;
 
     /**
      * InviteService constructor.
-     * @param PermissionRepository $permissionRepository
-     * @param PermissionTypeRepository $permissionTypeRepository
-     * @param TranslatorInterface $translator
      */
     public function __construct(
         PermissionRepository $permissionRepository,
@@ -61,11 +52,6 @@ class PermissionService
         $this->personRepository = $personRepository;
     }
 
-    /**
-     * @param Group $group
-     * @param string $email
-     * @return bool
-     */
     public function inviteExists(Group $group, string $email): bool
     {
         $result = $this->permissionRepository->findAllByGroupIdAndEmail($email, $group->getId());
@@ -77,12 +63,6 @@ class PermissionService
         return count($result) > 0;
     }
 
-    /**
-     * @param Group $group
-     * @param PbsUserDTO $executor
-     * @param InviteDTO $inviteDTO
-     * @return InviteDTO
-     */
     public function createInvite(Group $group, PbsUserDTO $executor, InviteDTO $inviteDTO): InviteDTO
     {
         $permission = new Permission();
@@ -111,10 +91,6 @@ class PermissionService
         return InviteMapper::createFromEntity($permission);
     }
 
-    /**
-     * @param Group $group
-     * @return array
-     */
     public function getAllInvites(Group $group): array
     {
         $invites = $this->permissionRepository->findByGroupId($group->getId());
@@ -126,7 +102,7 @@ class PermissionService
             $dtos[] = InviteMapper::createFromEntity($invite);
         }
 
-        usort($dtos, fn($a, $b) => strcmp(
+        usort($dtos, fn($a, $b): int => strcmp(
             strtolower($a->getEmail()),
             strtolower($b->getEmail())
         ));
@@ -134,12 +110,6 @@ class PermissionService
         return $dtos;
     }
 
-    /**
-     * @param Group $group
-     * @param PbsUserDTO $executor
-     * @param Permission $permission
-     * @return InviteDTO
-     */
     public function renewInvite(Group $group, PbsUserDTO $executor, Permission $permission): InviteDTO
     {
         // can not change permissions outside the group
@@ -183,11 +153,7 @@ class PermissionService
         return InviteMapper::createFromEntity($permission);
     }
 
-    /**
-     * @param Permission $invite
-     * @param Group $group
-     */
-    public function deleteInvite(Permission $invite, Group $group)
+    public function deleteInvite(Permission $invite, Group $group): void
     {
         if ($invite->getGroup()->getId() !== $group->getId()) {
             throw new NotFoundHttpException("Invite for current group not found");
@@ -206,11 +172,6 @@ class PermissionService
         return $str . " (" . $group->getCantonName() . ")";
     }
 
-    /**
-     * @param Person $owner
-     * @param Permission $permission
-     * @return void
-     */
     private function sendInvitationEmail(Person $owner, Permission $permission): void
     {
         $input = (new InvitationMailInput())
@@ -230,11 +191,6 @@ class PermissionService
         $this->mailService->sendInvitationMail($permission->getEmail(), $input);
     }
 
-    /**
-     * @param Person $owner
-     * @param Permission $permission
-     * @return void
-     */
     private function sendRenewalEmail(Person $owner, Permission $permission): void
     {
         $input = (new InvitationMailInput())

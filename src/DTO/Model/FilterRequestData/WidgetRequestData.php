@@ -7,17 +7,17 @@ class WidgetRequestData extends FilterRequestData
     /**
      * @var array|string[]
      */
-    private $groupTypes;
+    private ?array $groupTypes = null;
 
     /**
      * @var array|string[]
      */
-    private $peopleTypes;
+    private ?array $peopleTypes = null;
 
     /**
      * @return array|string[]
      */
-    public function getGroupTypes()
+    public function getGroupTypes(): ?array
     {
         return $this->groupTypes;
     }
@@ -33,7 +33,7 @@ class WidgetRequestData extends FilterRequestData
     /**
      * @return array|string[]
      */
-    public function getPeopleTypes()
+    public function getPeopleTypes(): ?array
     {
         return $this->peopleTypes;
     }

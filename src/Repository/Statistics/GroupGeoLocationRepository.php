@@ -30,7 +30,7 @@ class GroupGeoLocationRepository extends ServiceEntityRepository
         }
     }
 
-    public function deleteAll()
+    public function deleteAll(): void
     {
         $this->getEntityManager()->createQueryBuilder()
             ->delete(GroupGeoLocation::class, 'g')
@@ -49,7 +49,7 @@ class GroupGeoLocationRepository extends ServiceEntityRepository
         }
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->getEntityManager()->flush();
     }

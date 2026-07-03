@@ -41,7 +41,10 @@ class CensusDataProvider extends WidgetDataProvider
         );
     }
 
-    public function getPreviewData(Group $group)
+    /**
+     * @return array<string, array<string, int|float>>
+     */
+    public function getPreviewData(Group $group): array
     {
         $flattenedGroups = $this->getRelevantGroups($group);
         $return = [
@@ -100,8 +103,9 @@ class CensusDataProvider extends WidgetDataProvider
      *
      * @param int[] $groups
      * @return StatisticGroup[]
+     * @param int[] $groupIds
      */
-    public function flattenGroupTree(array $groupIds)
+    public function flattenGroupTree(array $groupIds): array
     {
         $groups = [];
         foreach ($groupIds as $groupId) {
@@ -117,11 +121,7 @@ class CensusDataProvider extends WidgetDataProvider
         return $flattenedGroups;
     }
 
-    /**
-     * @param StatisticGroup $baseGroup
-     * @return StatisticGroup|null
-     */
-    public function getNewGroupWithRelevantParent(StatisticGroup $baseGroup)
+    public function getNewGroupWithRelevantParent(StatisticGroup $baseGroup): ?StatisticGroup
     {
         if ($baseGroup->getGroupType()->getGroupType() === GroupType::DEPARTMENT) {
             $clonedGroup = clone $baseGroup;
@@ -163,18 +163,18 @@ class CensusDataProvider extends WidgetDataProvider
      * @param StatisticGroup[] $groups
      * @return StatisticGroup[]
      */
-    public function sortGroups(array $groups)
+    public function sortGroups(array $groups): array
     {
-        $regions = array_filter($groups, function ($group) {
+        $regions = array_filter($groups, function (StatisticGroup $group): bool {
             return $group->getGroupType()->getGroupType() === GroupType::REGION;
         });
-        $departments = array_filter($groups, function ($group) {
+        $departments = array_filter($groups, function (StatisticGroup $group): bool {
             return $group->getGroupType()->getGroupType() === GroupType::DEPARTMENT;
         });
-        usort($regions, function (StatisticGroup $a, StatisticGroup $b) {
+        usort($regions, function (StatisticGroup $a, StatisticGroup $b): int {
             return strcmp($a->getName(), $b->getName());
         });
-        usort($departments, function (StatisticGroup $a, StatisticGroup $b) {
+        usort($departments, function (StatisticGroup $a, StatisticGroup $b): int {
             return strcmp($a->getName(), $b->getName());
         });
 
@@ -196,16 +196,19 @@ class CensusDataProvider extends WidgetDataProvider
         return $return;
     }
 
-    public function getRelevantGroups(Group $group)
+    public function getRelevantGroups(Group $group): array
     {
-        $groupIds = array_filter($this->statisticGroupRepository->findAllRelevantChildGroups($group->getId()), function ($id) use ($group) {
+        $groupIds = array_filter($this->statisticGroupRepository->findAllRelevantChildGroups($group->getId()), function (int $id) use ($group): bool {
  // We need to filter because the function also returns the group itself
             return !($id === $group->getId());
         });
         return $this->flattenGroupTree($groupIds);
     }
 
-    public function getTableData(Group $group, CensusRequestData $censusRequestData)
+    /**
+     * @return array<string, mixed[]>
+     */
+    public function getTableData(Group $group, CensusRequestData $censusRequestData): array
     {
         $flattenedGroups = $this->getRelevantGroups($group);
         $flattenedGroups = $this->sortGroups($flattenedGroups);
@@ -220,7 +223,7 @@ class CensusDataProvider extends WidgetDataProvider
         ];
     }
 
-    public function getDevelopmentData(Group $group, CensusRequestData $censusRequestData)
+    public function getDevelopmentData(Group $group, CensusRequestData $censusRequestData): DevelopmentWidgetDTO
     {
         $relevantGroups = $this->getRelevantGroups($group);
         $relevantGroups = $this->filterGroups($relevantGroups, $censusRequestData);
@@ -244,6 +247,9 @@ class CensusDataProvider extends WidgetDataProvider
         return $return;
     }
 
+    /**
+     * @return array<string, int|MembersWidgetDTO[]|mixed[]>
+     */
     public function getMembersData(Group $group, CensusRequestData $censusRequestData): array
     {
         $relevantGroups = $this->getRelevantGroups($group);
@@ -280,7 +286,10 @@ class CensusDataProvider extends WidgetDataProvider
         return ['data' => $return, 'year' => $this->censusDateProvider->getLatestYear()];
     }
 
-    public function getTreemapData(Group $group, CensusRequestData $censusRequestData)
+    /**
+     * @return array<string, int|list<TreemapWidgetDTO>>
+     */
+    public function getTreemapData(Group $group, CensusRequestData $censusRequestData): array
     {
         $relevantGroups = $this->getRelevantGroups($group);
         $relevantGroups = $this->filterGroups($relevantGroups, $censusRequestData);
@@ -304,18 +313,16 @@ class CensusDataProvider extends WidgetDataProvider
 
     /**
      * Filter out groups based on the Frontend Table filter
-     * @param array $statisticGroups
-     * @param CensusRequestData $censusRequestData
-     * @return array
+     * @param StatisticGroup[] $statisticGroups
      */
-    private function filterGroups(array $statisticGroups, CensusRequestData $censusRequestData)
+    private function filterGroups(array $statisticGroups, CensusRequestData $censusRequestData): array
     {
         // For faster lookups we swap array index with value so that array goes from [1 => 23, 2 => 352] to [23 => null, 352 => null]
         if (is_null($censusRequestData->getGroups())) {
             return $statisticGroups;
         }
         $groupIdsToFilterOut = array_flip($censusRequestData->getGroups());
-        $filteredGroups = array_filter($statisticGroups, function (StatisticGroup $group) use ($groupIdsToFilterOut) {
+        $filteredGroups = array_filter($statisticGroups, function (StatisticGroup $group) use ($groupIdsToFilterOut): bool {
             return !isset($groupIdsToFilterOut[$group->getId()]);
         });
         // Ensure that they are sequential.

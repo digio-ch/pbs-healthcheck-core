@@ -36,66 +36,42 @@ class AggregatedLeaderOverviewLeader
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private $birthday;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param AggregatedLeaderOverview $leaderOverview
-     */
-    public function setLeaderOverview(AggregatedLeaderOverview $leaderOverview)
+    public function setLeaderOverview(AggregatedLeaderOverview $leaderOverview): void
     {
         $this->leaderOverview = $leaderOverview;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLeaderOverview()
+    public function getLeaderOverview(): ?AggregatedLeaderOverview
     {
         return $this->leaderOverview;
     }
 
-    /**
-     * @param string $gender
-     */
-    public function setGender(string $gender)
+    public function setGender(string $gender): void
     {
         $this->gender = $gender;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGender()
+    public function getGender(): ?string
     {
         return $this->gender;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }

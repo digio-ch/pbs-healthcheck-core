@@ -21,9 +21,6 @@ class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param AggregatedDemographicCamp $camp
-     * @param int $mainGroupId
-     * @param string $groupType
      * @return array|false|mixed
      * @throws Exception
      */
@@ -43,9 +40,6 @@ class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param AggregatedDemographicCamp $camp
-     * @param int $mainGroupId
-     * @param string $groupType
      * @return array|false|mixed
      * @throws Exception
      */
@@ -65,9 +59,6 @@ class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param AggregatedDemographicCamp $camp
-     * @param int $mainGroupId
-     * @param array $groupTypes
      * @return array|false|mixed
      * @throws Exception
      */

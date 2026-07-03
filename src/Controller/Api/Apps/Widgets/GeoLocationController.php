@@ -18,9 +18,6 @@ class GeoLocationController extends AbstractController
     }
     /**
      * @param GeoLocationDateDataProvider $dataProvider
-     * @param DateRequestData $dateRequestData
-     * @param WidgetRequestData $widgetRequestData
-     * @return JsonResponse
      * @throws Exception
      */
     public function getGeoLocations(
@@ -45,9 +42,6 @@ class GeoLocationController extends AbstractController
 
     /**
      * @param GeoLocationDateDataProvider $dataProvider
-     * @param DateRequestData $dateRequestData
-     * @param WidgetOfDepartmentRequestData $widgetRequestData
-     * @return JsonResponse
      * @throws Exception
      */
     public function getGeoLocationsOfDepartment(

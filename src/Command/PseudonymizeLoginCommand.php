@@ -31,7 +31,7 @@ class PseudonymizeLoginCommand extends StatisticsCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $start = microtime(true);
-        $pseudonymizedLogins = $this->loginRepository->pseudonymizeAllOlderThan18Months(function ($personId) {
+        $pseudonymizedLogins = $this->loginRepository->pseudonymizeAllOlderThan18Months(function ($personId): string {
             // sha256 is mostly collision free and currently irreversible, sufficient for our purposes.
             return hash('sha256', $personId);
         });

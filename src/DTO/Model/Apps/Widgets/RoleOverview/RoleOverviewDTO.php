@@ -7,7 +7,7 @@ class RoleOverviewDTO
     /**
      * @var ?string[]
      */
-    private $filter;
+    private ?array $filter;
 
     /**
      * @var RoleOccupationWrapper[]
@@ -41,16 +41,13 @@ class RoleOverviewDTO
 
 
     /**
-     * @return array
+     * @return RoleOccupationWrapper[]
      */
     public function getData(): array
     {
         return $this->data;
     }
 
-    /**
-     * @param array $data
-     */
     public function setData(array $data): void
     {
         $this->data = $data;

@@ -13,7 +13,6 @@ class EventDateRepository extends ServiceEntityRepository
 {
     /**
      * EventDateRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {

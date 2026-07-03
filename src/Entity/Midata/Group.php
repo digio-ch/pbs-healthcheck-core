@@ -46,10 +46,10 @@ class Group
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private $createdAt;
+    private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private $deletedAt;
+    private ?DateTimeImmutable $deletedAt = null;
 
     #[ORM\JoinColumn(name: 'group_type_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: GroupType::class)]
@@ -74,135 +74,87 @@ class Group
         $this->gamificationQuapEvents = new ArrayCollection();
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param null|string $name
-     */
-    public function setName(?string $name)
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $createdAt
-     */
-    public function setCreatedAt(?DateTimeImmutable $createdAt)
+    public function setCreatedAt(?DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getDeletedAt(): ?DateTimeImmutable
     {
         return $this->deletedAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $deletedAt
-     */
-    public function setDeletedAt(?DateTimeImmutable $deletedAt)
+    public function setDeletedAt(?DateTimeImmutable $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
     }
 
-    /**
-     * @return Group|null
-     */
     public function getParentGroup(): ?Group
     {
         return $this->parentGroup;
     }
 
-    /**
-     * @param Group|null $group
-     */
-    public function setParentGroup(?Group $group)
+    public function setParentGroup(?Group $group): void
     {
         $this->parentGroup = $group;
     }
 
-    /**
-     * @return int|null
-     */
     public function getCantonId(): ?int
     {
         return $this->cantonId;
     }
 
-    /**
-     * @param int|null $cantonId
-     */
-    public function setCantonId(?int $cantonId)
+    public function setCantonId(?int $cantonId): void
     {
         $this->cantonId = $cantonId;
     }
 
-    /**
-     * @return null|string
-     */
     public function getCantonName(): ?string
     {
         return $this->cantonName;
     }
 
-    /**
-     * @param null|string $cantonName
-     */
-    public function setCantonName(?string $cantonName)
+    public function setCantonName(?string $cantonName): void
     {
         $this->cantonName = $cantonName;
     }
 
-    /**
-     * @return GroupType|null
-     */
     public function getGroupType(): ?GroupType
     {
         return $this->groupType;
     }
 
-    /**
-     * @param GroupType|null $groupType
-     */
-    public function setGroupType(?GroupType $groupType)
+    public function setGroupType(?GroupType $groupType): void
     {
         $this->groupType = $groupType;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->id;
     }

@@ -27,23 +27,23 @@ class PermissionRepository extends ServiceEntityRepository
         parent::__construct($registry, Permission::class);
     }
 
-    public function save(Permission $invite)
+    public function save(Permission $invite): void
     {
         $this->getEntityManager()->persist($invite);
         $this->getEntityManager()->flush();
     }
 
-    public function persist(Permission $permission)
+    public function persist(Permission $permission): void
     {
         $this->getEntityManager()->persist($permission);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->getEntityManager()->flush();
     }
 
-    public function remove(Permission $invite)
+    public function remove(Permission $invite): void
     {
         $this->getEntityManager()->remove($invite);
         $this->getEntityManager()->flush();
@@ -89,8 +89,6 @@ class PermissionRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $id
-     * @param string $email
      * @return int|mixed|string
      */
     public function findAllValidByIdOrEmail(int $id, string $email)
@@ -138,10 +136,6 @@ class PermissionRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Group $group
-     * @param int $id
-     * @param string $email
-     * @return Permission|null
      * @throws NonUniqueResultException
      */
     public function findHighestByIdOrEmail(Group $group, int $id, string $email): ?Permission
@@ -169,10 +163,7 @@ class PermissionRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Group $group
-     * @param int $id
      * @param string $email
-     * @return Permission|null
      * @throws NonUniqueResultException
      */
     public function findHighestById(Group $group, int $id): ?Permission
@@ -231,8 +222,6 @@ class PermissionRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $groupId
-     * @param int $personId
      * @return Permission[]
      */
     public function findActiveOwnerPermissions(int $groupId, int $personId): array

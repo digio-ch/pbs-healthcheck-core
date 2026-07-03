@@ -22,9 +22,6 @@ class AggregatedQuap extends AggregatedEntity
     public const ANSWER_MOSTLY_FULFILLED = 2;
     public const ANSWER_FULFILLED = 1;
 
-    /**
-     * @var Questionnaire $questionnaire
-     */
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: Questionnaire::class, inversedBy: 'widgetQuap')]
     private ?Questionnaire $questionnaire = null;
@@ -38,23 +35,14 @@ class AggregatedQuap extends AggregatedEntity
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     protected $dataPointDate;
 
-    /**
-     * @var bool $allowAccess
-     */
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private bool $allowAccess = false;
 
-    /**
-     * @return Questionnaire
-     */
     public function getQuestionnaire(): Questionnaire
     {
         return $this->questionnaire;
     }
 
-    /**
-     * @param Questionnaire $questionnaire
-     */
     public function setQuestionnaire(Questionnaire $questionnaire): void
     {
         $this->questionnaire = $questionnaire;
@@ -92,17 +80,11 @@ class AggregatedQuap extends AggregatedEntity
         $this->computedAnswers = $computedAnswers;
     }
 
-    /**
-     * @return bool
-     */
     public function getAllowAccess(): bool
     {
         return $this->allowAccess;
     }
 
-    /**
-     * @param bool $allowAccess
-     */
     public function setAllowAccess(bool $allowAccess): void
     {
         $this->allowAccess = $allowAccess;

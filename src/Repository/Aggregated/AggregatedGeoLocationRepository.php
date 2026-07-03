@@ -17,10 +17,6 @@ class AggregatedGeoLocationRepository extends AggregatedEntityRepository
     }
 
     /**
-     * @param string $date
-     * @param string $groupType
-     * @param int $groupId
-     * @return array
      * @throws Exception
      */
     public function findAllForDateAndGroupType(string $date, string $groupType, int $groupId, array $peopleTypes): array
@@ -48,7 +44,7 @@ class AggregatedGeoLocationRepository extends AggregatedEntityRepository
         return $statement->fetchAllAssociative();
     }
 
-    public function findAllMeetingPointsForDate(string $date, int $groupId)
+    public function findAllMeetingPointsForDate(string $date, int $groupId): array
     {
         $connection = $this->getEntityManager()->getConnection();
         $statement = $connection->executeQuery(

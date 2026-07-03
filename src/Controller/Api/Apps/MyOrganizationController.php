@@ -28,10 +28,7 @@ class MyOrganizationController extends AbstractController
     {
     }
     /**
-     * @param Request $request
-     * @param Group $group
      * @param FilterDataProvider $filterDataProvider
-     * @return JsonResponse
      */
     public function getFilter(
         Request $request,
@@ -51,10 +48,7 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param DateAndDateRangeRequestData $datesRequestData
-     * @param WidgetRequestData $widgetRequestData
      * @param GenderStatsDataProvider $genderStatsProvider
-     * @return JsonResponse
      */
     public function getGenderStats(
         DateAndDateRangeRequestData $datesRequestData,
@@ -81,10 +75,7 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param DateAndDateRangeRequestData $datesRequestData
-     * @param WidgetRequestData $widgetRequestData
      * @param StageStatsDataProvider $statsDataProvider
-     * @return JsonResponse
      */
     public function getStageStats(
         DateAndDateRangeRequestData $datesRequestData,
@@ -111,10 +102,7 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param DateRequestData $dateRequestData
-     * @param WidgetRequestData $widgetRequestData
      * @param DemographicStatsDataProvider $demographicStatsProvider
-     * @return JsonResponse
      */
     public function getDemographicStats(
         DateRequestData $dateRequestData,
@@ -139,10 +127,7 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param DateRequestData $dateRequestData
-     * @param Group $group
      * @param DepartmentNamesDataProvider $departmentNamesProvider
-     * @return JsonResponse
      */
     public function getDepartmentNames(
         DateRequestData $dateRequestData,
@@ -162,9 +147,7 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param Group $group
      * @param PreviewDataProvider $previewProvider
-     * @return JsonResponse
      * @throws Exception
      */
     public function getPreview(

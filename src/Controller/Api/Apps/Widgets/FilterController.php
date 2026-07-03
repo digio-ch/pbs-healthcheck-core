@@ -18,10 +18,7 @@ class FilterController extends AbstractController
     {
     }
     /**
-     * @param Request $request
-     * @param Group $group
      * @param FilterDataProvider $filterDataProvider
-     * @return JsonResponse
      */
     public function getFilterData(
         Request $request,
@@ -35,11 +32,7 @@ class FilterController extends AbstractController
     }
 
     /**
-     * @param Request $request
-     * @param Group $group
-     * @param Group $department
      * @param FilterDataProvider $filterDataProvider
-     * @return JsonResponse
      */
     public function getFilterDataOfDepartment(
         Request $request,
@@ -58,10 +51,7 @@ class FilterController extends AbstractController
     }
 
     /**
-     * @param Request $request
-     * @param Group $group
      * @param FilterDataProvider $filterDataProvider
-     * @return JsonResponse
      */
     public function getGroupTypes(
         Request $request,

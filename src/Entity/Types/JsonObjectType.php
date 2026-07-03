@@ -41,8 +41,6 @@ class JsonObjectType extends Type
 
     /**
      * @param mixed $value
-     * @param AbstractPlatform $platform
-     * @return array
      * @throws ConversionException
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): array

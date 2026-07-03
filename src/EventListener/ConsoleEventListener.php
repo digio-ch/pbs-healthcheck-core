@@ -3,7 +3,6 @@
 namespace App\EventListener;
 
 use App\Command\StatisticsCommand;
-use App\Model\CommandStatistics;
 use App\Model\LogMessage\StatisticsCommandMessage;
 use App\Service\Logger\AppLogger;
 use App\Service\Logger\Messages\CommandStartLogMessage;
@@ -17,16 +16,12 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 class ConsoleEventListener
 {
-    /** @var AppLogger */
-    private $logger;
+    private AppLogger $logger;
 
-    /** @var Stopwatch */
-    private $stopwatch;
+    private Stopwatch $stopwatch;
 
     /**
      * ConsoleEventListener constructor.
-     * @param AppLogger $logger
-     * @param Stopwatch $stopwatch
      */
     public function __construct(AppLogger $logger, Stopwatch $stopwatch)
     {
@@ -35,7 +30,7 @@ class ConsoleEventListener
     }
 
     #[AsEventListener(event: ConsoleEvents::COMMAND)]
-    public function onConsoleCommand(ConsoleCommandEvent $event)
+    public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
         $logMessage = new CommandStartLogMessage(
             $event->getCommand()->getName(),
@@ -46,7 +41,7 @@ class ConsoleEventListener
     }
 
     #[AsEventListener(event: ConsoleEvents::TERMINATE)]
-    public function onConsoleTerminate(ConsoleTerminateEvent $event)
+    public function onConsoleTerminate(ConsoleTerminateEvent $event): void
     {
         $stopwatchEvent = $this->stopwatch->stop($event->getCommand()->getName());
 
@@ -54,7 +49,6 @@ class ConsoleEventListener
             return;
         }
 
-        /** @var CommandStatistics $commandStats */
         $commandStats = $event->getCommand()->getStats();
         $commandStats->setPeakMemoryUsage(round($stopwatchEvent->getMemory() / 1000000, 2));
 
@@ -69,7 +63,7 @@ class ConsoleEventListener
     }
 
     #[AsEventListener(event: ConsoleEvents::ERROR)]
-    public function onConsoleError(ConsoleErrorEvent $event)
+    public function onConsoleError(ConsoleErrorEvent $event): void
     {
         $this->stopwatch->stop($event->getCommand()->getName());
         $this->stopwatch->reset();

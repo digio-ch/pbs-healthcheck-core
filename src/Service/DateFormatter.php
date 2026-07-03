@@ -18,8 +18,6 @@ class DateFormatter
 
     /**
      * Formats a date to "2. January 2006" where the month is translated
-     * @param DateTimeInterface $date
-     * @return string
      */
     public function formatLong(DateTimeInterface $date): string
     {

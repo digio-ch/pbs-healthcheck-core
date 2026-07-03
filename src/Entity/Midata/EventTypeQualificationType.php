@@ -26,73 +26,49 @@ class EventTypeQualificationType
     /***
      * @ORM\Column(type="string", length="255", nullable=true)
      */
-    private $category;
+    private ?string $category = null;
 
     /***
      * @ORM\Column(type="string", length="255", nullable=true)
      */
-    private $role;
+    private ?string $role = null;
 
-    /**
-     * @return null|string
-     */
     public function getCategory(): ?string
     {
         return $this->category;
     }
 
-    /**
-     * @param null|string $category
-     */
-    public function setCategory(?string $category)
+    public function setCategory(?string $category): void
     {
         $this->category = $category;
     }
 
-    /**
-     * @return null|string
-     */
     public function getRole(): ?string
     {
         return $this->role;
     }
 
-    /**
-     * @param null|string $role
-     */
-    public function setRole(?string $role)
+    public function setRole(?string $role): void
     {
         $this->role = $role;
     }
 
-    /**
-     * @return EventType|null
-     */
     public function getEventType(): ?EventType
     {
         return $this->eventType;
     }
 
-    /**
-     * @param EventType|null $eventType
-     */
-    public function setEventType(?EventType $eventType)
+    public function setEventType(?EventType $eventType): void
     {
         $this->eventType = $eventType;
     }
 
-    /**
-     * @return QualificationType|null
-     */
     public function getQualificationType(): ?QualificationType
     {
         return $this->qualificationType;
     }
 
-    /**
-     * @param QualificationType|null $qualificationType
-     */
-    public function setQualificationType(?QualificationType $qualificationType)
+    public function setQualificationType(?QualificationType $qualificationType): void
     {
         $this->qualificationType = $qualificationType;
     }

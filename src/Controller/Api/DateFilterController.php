@@ -15,10 +15,6 @@ class DateFilterController extends AbstractController
     {
     }
 
-    /**
-     * @param Group $group
-     * @return JsonResponse
-     */
     public function getDateFilterData(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group

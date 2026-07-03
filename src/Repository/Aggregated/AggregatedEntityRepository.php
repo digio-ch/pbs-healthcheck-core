@@ -9,14 +9,11 @@ abstract class AggregatedEntityRepository extends ServiceEntityRepository
     /**
      * @param $entity
      */
-    public function remove($entity): void
+    public function remove(object $entity): void
     {
         $this->getEntityManager()->remove($entity);
     }
 
-    /**
-     * @return void
-     */
     public function flush(): void
     {
         $this->getEntityManager()->flush();

@@ -39,10 +39,7 @@ class MembersBirthyearController extends AbstractController
     }
 
     /**
-     * @param DateRequestData $dateRequestData
-     * @param WidgetOfDepartmentRequestData $widgetRequestData
      * @param DemographicStatsDataProvider $demographicStatsProvider
-     * @return JsonResponse
      * @throws Exception
      */
     public function getMembersBirthyearDataOfDepartment(

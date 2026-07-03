@@ -53,98 +53,62 @@ class AggregatedDemographicCampGroup
     #[ORM\ManyToOne(targetEntity: Group::class)]
     private ?Group $group = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $mCount
-     */
-    public function setMCount(int $mCount)
+    public function setMCount(int $mCount): void
     {
         $this->mCount = $mCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMCount()
+    public function getMCount(): ?int
     {
         return $this->mCount;
     }
 
-    /**
-     * @param int $fCount
-     */
-    public function setFCount(int $fCount)
+    public function setFCount(int $fCount): void
     {
         $this->fCount = $fCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFCount()
+    public function getFCount(): ?int
     {
         return $this->fCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUCount()
+    public function getUCount(): ?int
     {
         return $this->uCount;
     }
 
-    /**
-     * @param int $uCount
-     */
     public function setUCount(int $uCount): void
     {
         $this->uCount = $uCount;
     }
 
-    /**
-     * @param int $mCountLeader
-     */
-    public function setMCountLeader(int $mCountLeader)
+    public function setMCountLeader(int $mCountLeader): void
     {
         $this->mCountLeader = $mCountLeader;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMCountLeader()
+    public function getMCountLeader(): ?int
     {
         return $this->mCountLeader;
     }
 
-    /**
-     * @param int $fCountLeader
-     */
-    public function setFCountLeader(int $fCountLeader)
+    public function setFCountLeader(int $fCountLeader): void
     {
         $this->fCountLeader = $fCountLeader;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFCountLeader()
+    public function getFCountLeader(): ?int
     {
         return $this->fCountLeader;
     }
@@ -152,14 +116,11 @@ class AggregatedDemographicCampGroup
     /**
      * @return int
      */
-    public function getUCountLeader()
+    public function getUCountLeader(): ?int
     {
         return $this->uCountLeader;
     }
 
-    /**
-     * @param int $uCountLeader
-     */
     public function setUCountLeader(int $uCountLeader): void
     {
         $this->uCountLeader = $uCountLeader;
@@ -168,47 +129,32 @@ class AggregatedDemographicCampGroup
     /**
      * @return string
      */
-    public function getGroupType()
+    public function getGroupType(): ?string
     {
         return $this->groupType;
     }
 
-    /**
-     * @param string $groupType
-     */
     public function setGroupType(string $groupType): void
     {
         $this->groupType = $groupType;
     }
 
-    /**
-     * @param AggregatedDemographicCamp $demographicCamp
-     */
-    public function setDemographicCamp(AggregatedDemographicCamp $demographicCamp)
+    public function setDemographicCamp(AggregatedDemographicCamp $demographicCamp): void
     {
         $this->demographicCamp = $demographicCamp;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDemographicCamp()
+    public function getDemographicCamp(): ?AggregatedDemographicCamp
     {
         return $this->demographicCamp;
     }
 
-    /**
-     * @param Group|null $group
-     */
-    public function setGroup(?Group $group)
+    public function setGroup(?Group $group): void
     {
         $this->group = $group;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroup()
+    public function getGroup(): ?Group
     {
         return $this->group;
     }

@@ -20,7 +20,6 @@ class GamificationController extends AbstractController
      *
      * This value is injected by the environment variable GAMIFICATION_RESET_ENDPOINT_ENABLED.
      * If the variable is not present it fallbacks to false.
-     * @var bool $resetEndpointEnabled
      */
     private bool $resetEndpointEnabled;
 
@@ -30,10 +29,8 @@ class GamificationController extends AbstractController
     }
 
     /**
-     * @param Request $request
      * @param LoginService $loginService
      * @param GroupRepository $groupRepository
-     * @return Response
      */
     public function postGroupChange(
         Request $request
@@ -71,14 +68,14 @@ class GamificationController extends AbstractController
 
     public function getUserProfile(
         Request $request
-    ) {
+    ): JsonResponse {
         $dto = $this->personGamificationService->getPersonGamificationDTO($this->getUser(), $request->getLocale());
         return $this->json($dto);
     }
 
     public function checkLevel(
         Request $request
-    ) {
+    ): JsonResponse {
         $dto = $this->personGamificationService->getCheckLevelDTO($this->getUser(), $request->getLocale());
         return $this->json($dto);
     }
@@ -95,7 +92,7 @@ class GamificationController extends AbstractController
         return new Response('');
     }
 
-    public function requestBetaAccess()
+    public function requestBetaAccess(): Response
     {
         $user = $this->getUser();
         $result = $this->personGamificationService->getBetaAccess($user);

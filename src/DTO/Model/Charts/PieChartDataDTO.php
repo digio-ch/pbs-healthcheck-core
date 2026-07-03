@@ -13,10 +13,7 @@ class PieChartDataDTO
     /** @var string */
     protected $color;
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -29,10 +26,7 @@ class PieChartDataDTO
         return $this->name;
     }
 
-    /**
-     * @param string $value
-     */
-    public function setValue(string $value)
+    public function setValue(string $value): void
     {
         $this->value = $value;
     }
@@ -45,17 +39,11 @@ class PieChartDataDTO
         return $this->value;
     }
 
-    /**
-     * @return string
-     */
     public function getColor(): string
     {
         return $this->color;
     }
 
-    /**
-     * @param string $color
-     */
     public function setColor(string $color): void
     {
         $this->color = $color;

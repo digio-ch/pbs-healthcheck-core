@@ -30,28 +30,22 @@ class AggregatedDemographicCamp extends AggregatedEntity
         $this->demographicCampGroups = new ArrayCollection();
     }
 
-    public function setCampName(?string $campName)
+    public function setCampName(?string $campName): void
     {
         $this->campName = $campName;
     }
 
-    public function getCampName()
+    public function getCampName(): ?string
     {
         return $this->campName;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getStartDate(): ?DateTimeImmutable
     {
         return $this->startDate;
     }
 
-    /**
-     * @param DateTimeImmutable|null $startDate
-     */
-    public function setStartDate(?DateTimeImmutable $startDate)
+    public function setStartDate(?DateTimeImmutable $startDate): void
     {
         $this->startDate = $startDate;
     }
@@ -64,10 +58,7 @@ class AggregatedDemographicCamp extends AggregatedEntity
         return $this->demographicCampGroups;
     }
 
-    /**
-     * @param AggregatedDemographicCampGroup $demographicCampGroup
-     */
-    public function addDemographicCampGroup(AggregatedDemographicCampGroup $demographicCampGroup)
+    public function addDemographicCampGroup(AggregatedDemographicCampGroup $demographicCampGroup): void
     {
         if (!$this->hasDemographicCampGroup($demographicCampGroup)) {
             $demographicCampGroup->setDemographicCamp($this);
@@ -75,7 +66,7 @@ class AggregatedDemographicCamp extends AggregatedEntity
         }
     }
 
-    public function removeDemographicCampGroup(AggregatedDemographicCampGroup $demographicCampGroup)
+    public function removeDemographicCampGroup(AggregatedDemographicCampGroup $demographicCampGroup): void
     {
         if ($this->hasDemographicCampGroup($demographicCampGroup)) {
             $this->demographicCampGroups->removeElement($demographicCampGroup);
