@@ -45,9 +45,11 @@ class LoginService
         if (is_null($user)) {
             throw new Exception("user couldn't be found.");
         }
+
         if (count($userDTO->getRoles()) !== 1) {
-            throwException("Invalid amount of roles.");
+            throw new Exception("Invalid amount of roles.");
         }
+
         $role = $this->permissionRepository->findHighestById($activeGroup, $user->getId());
         $roleKey = 'ROLE_USER';
         if (!is_null($role)) {

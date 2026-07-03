@@ -98,7 +98,7 @@ class QuapController extends AbstractController
         Request $request,
         string $type
     ): JsonResponse {
-        $date = $request->get('date');
+        $date = $request->query->get('date');
         $date = $date
             ? DateTimeImmutable::createFromFormat('Y-m-d', $date)
             : new DateTimeImmutable('now');
@@ -156,7 +156,7 @@ class QuapController extends AbstractController
         Request $request
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
-        $date = $request->get('date');
+        $date = $request->query->get('date');
         $date = $date
             ? DateTimeImmutable::createFromFormat('Y-m-d', $date)
             : new DateTimeImmutable('now');

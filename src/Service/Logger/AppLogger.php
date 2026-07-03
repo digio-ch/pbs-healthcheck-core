@@ -2,6 +2,7 @@
 
 namespace App\Service\Logger;
 
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Service\Logger\Messages\ExceptionLogMessage;
 use App\Service\Logger\Messages\LogMessage;
 use Gelf\Message;
@@ -19,7 +20,7 @@ use Symfony\Component\Serializer\Serializer;
  */
 class AppLogger
 {
-    private ObjectNormalizer $normalizer;
+    private NormalizerInterface $normalizer;
 
     private Serializer $serializer;
 

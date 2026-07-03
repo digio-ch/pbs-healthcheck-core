@@ -231,6 +231,6 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
 
         $address = preg_replace('/[^a-z]/i', '', $address);
 
-        return utf8_encode($address);
+        return mb_convert_encoding($address, 'UTF-8', 'ISO-8859-1');
     }
 }

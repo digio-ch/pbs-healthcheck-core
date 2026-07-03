@@ -1,7 +1,4 @@
 {
-    "clue/stream-filter": {
-        "version": "v1.6.0"
-    },
     "composer/ca-bundle": {
         "version": "1.2.7"
     },
@@ -17,14 +14,8 @@
             "config/routes/annotations.yaml"
         ]
     },
-    "doctrine/cache": {
-        "version": "1.10.1"
-    },
     "doctrine/collections": {
         "version": "1.6.5"
-    },
-    "doctrine/common": {
-        "version": "2.13.3"
     },
     "doctrine/data-fixtures": {
         "version": "1.4.3"
@@ -117,9 +108,6 @@
     "halaxa/json-machine": {
         "version": "0.3.3"
     },
-    "http-interop/http-factory-guzzle": {
-        "version": "1.2.0"
-    },
     "jean85/pretty-package-versions": {
         "version": "1.6.0"
     },
@@ -155,33 +143,6 @@
     },
     "php": {
         "version": "7.4"
-    },
-    "php-http/client-common": {
-        "version": "2.7.0"
-    },
-    "php-http/discovery": {
-        "version": "1.20",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.18",
-            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
-        },
-        "files": [
-            "config/packages/http_discovery.yaml"
-        ]
-    },
-    "php-http/httplug": {
-        "version": "2.4.0"
-    },
-    "php-http/message": {
-        "version": "1.16.0"
-    },
-    "php-http/message-factory": {
-        "version": "1.1.0"
-    },
-    "php-http/promise": {
-        "version": "1.1.0"
     },
     "phpstan/phpstan": {
         "version": "2.2.2"
@@ -221,9 +182,6 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
-    },
-    "sentry/sdk": {
-        "version": "3.4.0"
     },
     "sentry/sentry": {
         "version": "3.19.1"
@@ -320,12 +278,6 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
-    },
-    "symfony/http-client": {
-        "version": "v5.4.24"
-    },
-    "symfony/http-client-contracts": {
-        "version": "v2.5.2"
     },
     "symfony/http-foundation": {
         "version": "v5.1.2"

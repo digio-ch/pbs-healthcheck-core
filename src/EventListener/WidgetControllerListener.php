@@ -113,9 +113,9 @@ class WidgetControllerListener
 
     private function validateDateAndDateRangeRequest(Group $group, Request $request): DateAndDateRangeRequestData
     {
-        $from = $request->get('from');
-        $to = $request->get('to');
-        $date = $request->get('date');
+        $from = $request->query->get('from');
+        $to = $request->query->get('to');
+        $date = $request->query->get('date');
 
         $this->checkDates($from, $to, $date, true, true);
         $data = new DateAndDateRangeRequestData();
@@ -129,9 +129,9 @@ class WidgetControllerListener
 
     private function validateDateRequest(Group $group, Request $request): DateRequestData
     {
-        $from = $request->get('from');
-        $to = $request->get('to');
-        $date = $request->get('date');
+        $from = $request->query->get('from');
+        $to = $request->query->get('to');
+        $date = $request->query->get('date');
 
         $this->checkDates($from, $to, $date, false, true);
         $data = new DateRequestData();
@@ -143,9 +143,9 @@ class WidgetControllerListener
 
     private function validateOptionalDateRequest(Group $group, Request $request): OptionalDateRequestData
     {
-        $from = $request->get('from');
-        $to = $request->get('to');
-        $date = $request->get('date');
+        $from = $request->query->get('from');
+        $to = $request->query->get('to');
+        $date = $request->query->get('date');
 
         $data = new OptionalDateRequestData();
         if (!is_null($date)) {
@@ -161,9 +161,9 @@ class WidgetControllerListener
 
     private function validateDateRangeRequest(Group $group, Request $request): DateRangeRequestData
     {
-        $from = $request->get('from');
-        $to = $request->get('to');
-        $date = $request->get('date');
+        $from = $request->query->get('from');
+        $to = $request->query->get('to');
+        $date = $request->query->get('date');
 
         $this->checkDates($from, $to, $date, true, false);
         $data = new DateRangeRequestData();
@@ -176,14 +176,14 @@ class WidgetControllerListener
 
     private function validateWidgetRequest(Group $group, Request $request): WidgetRequestData
     {
-        $groupTypes = $request->get('group-types');
+        $groupTypes = $request->query->all('group-types');
         $groupTypeChoice = new Choice(WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES);
         $groupTypeChoice->min = 1;
         $groupTypeChoice->max = count(WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES);
         $groupTypeChoice->multiple = true;
         $groupTypeErrors = $this->validator->validate($groupTypes, $groupTypeChoice);
 
-        $peopleTypes = $request->get('relevant-data');
+        $peopleTypes = $request->query->all('relevant-data');
         $peopleTypesChoice = new Choice(
             [WidgetDataProvider::PEOPLE_TYPE_MEMBERS, WidgetDataProvider::PEOPLE_TYPE_LEADERS]
         );
@@ -226,10 +226,10 @@ class WidgetControllerListener
 
     private function validateCensusRequest(Group $group, Request $request): CensusRequestData
     {
-        $m = $request->get('census-filter-males');
-        $f = $request->get('census-filter-females');
-        $groups = $request->get('census-filter-departments');
-        $roles = $request->get('census-filter-roles');
+        $m = $request->query->getBoolean('census-filter-males', true);
+        $f = $request->query->getBoolean('census-filter-females', true);
+        $groups = $request->query->all('census-filter-departments');
+        $roles = $request->query->all('census-filter-roles');
         $rolesChoice = new Choice(WidgetDataProvider::CENSUS_ROLES);
         $rolesChoice->multiple = true;
         $rolesChoice->max = count(WidgetDataProvider::CENSUS_ROLES);
@@ -244,8 +244,8 @@ class WidgetControllerListener
         $data->setGroup($group);
         $data->setGroups($groups);
         $data->setRoles($roles);
-        $data->setFilterMales(is_null($m) ? null : $m === 'true');
-        $data->setFilterFemales(is_null($f) ? null : $f === 'true');
+        $data->setFilterMales($m);
+        $data->setFilterFemales($f);
 
         return $data;
     }
@@ -285,7 +285,7 @@ class WidgetControllerListener
      */
     public function extractGroup(Request $request, string $key)
     {
-        $groupId = $request->get($key);
+        $groupId = $request->attributes->get($key);
         $group = $this->groupRepository->findOneByIdAndType($groupId, [
             'Group::Abteilung',
             'Group::Region',

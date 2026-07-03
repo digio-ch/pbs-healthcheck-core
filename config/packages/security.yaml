@@ -23,9 +23,6 @@ security:
     main:
       lazy: true
 
-  # note: use new authenticator system. Remove after upgrading to Symfony 6.2
-  enable_authenticator_manager: true
-
   # Define access control methods for different endpoints
   # oauth endpoint is publicly available
   # Note: Only the *first* access control that matches will be used

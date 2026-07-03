@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\Type;
  */
 class JsonObjectType extends Type
 {
-    public const NAME = 'json_object';
+    public const NAME = 'forced_json_object';
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {

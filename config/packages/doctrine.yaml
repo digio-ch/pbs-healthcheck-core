@@ -6,7 +6,7 @@ doctrine:
 
         # register custom doctrine type
         types:
-          json_object: App\Entity\Types\JsonObjectType
+          forced_json_object: App\Entity\Types\JsonObjectType
           hc_status_message_severity: App\Entity\Types\StatusMessageSeverityType
           array: App\Entity\Types\LegacyArrayType
 

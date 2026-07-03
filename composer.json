@@ -2,37 +2,37 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "doctrine/doctrine-bundle": "^2.15",
-        "doctrine/doctrine-migrations-bundle": "^3.2.5",
-        "doctrine/orm": "^2.8",
+        "doctrine/doctrine-bundle": "^2.18.3",
+        "doctrine/doctrine-migrations-bundle": "^3.7.0",
+        "doctrine/orm": "^3.6.7",
         "geoip2/geoip2": "^2.10",
-        "guzzlehttp/guzzle": "^6.5",
+        "guzzlehttp/guzzle": "^7.13.1",
         "halaxa/json-machine": "^0.3.3",
         "nelmio/cors-bundle": "^2.0",
         "nicmart/tree": "^0.4.0",
-        "sentry/sentry-symfony": "^4.8",
+        "sentry/sentry-symfony": "^5.10.0",
         "symfony/cache-contracts": "^2.5",
-        "symfony/console": "6.4.*",
-        "symfony/dotenv": "6.4.*",
+        "symfony/console": "7.4.*",
+        "symfony/dotenv": "7.4.*",
         "symfony/flex": "2.*.*",
-        "symfony/framework-bundle": "6.4.*",
-        "symfony/mailer": "6.4.*",
-        "symfony/monolog-bundle": "*",
-        "symfony/polyfill-intl-messageformatter": "^1.18",
-        "symfony/security-bundle": "6.4.*",
-        "symfony/serializer": "6.4.*",
-        "symfony/stopwatch": "6.4.*",
-        "symfony/translation": "6.4.*",
-        "symfony/validator": "6.4.*",
-        "symfony/yaml": "6.4.*",
-        "symfony/http-foundation": "6.4.*",
-        "symfony/twig-bridge": "6.4.*",
-        "symfony/security-http": "6.4.*",
-        "symfony/security-core": "6.4.*",
+        "symfony/framework-bundle": "7.4.*",
+        "symfony/mailer": "7.4.*",
+        "symfony/monolog-bundle": "4.0.*",
+        "symfony/polyfill-intl-messageformatter": "^1.38.0",
+        "symfony/security-bundle": "7.4.*",
+        "symfony/serializer": "7.4.*",
+        "symfony/stopwatch": "7.4.*",
+        "symfony/translation": "7.4.*",
+        "symfony/validator": "7.4.*",
+        "symfony/yaml": "7.4.*",
+        "symfony/http-foundation": "7.4.*",
+        "symfony/twig-bridge": "7.4.*",
+        "symfony/security-http": "7.4.*",
+        "symfony/security-core": "7.4.*",
         "ext-intl": "*",
         "graylog2/gelf-php": "2.0.2"
     },
@@ -42,8 +42,8 @@
         "squizlabs/php_codesniffer": "3.*",
         "symfony/maker-bundle": "^1.19",
         "symfony/phpunit-bridge": "^5.4",
-        "symfony/twig-bundle": "6.4.*",
-        "symfony/web-profiler-bundle": "6.4.*"
+        "symfony/twig-bundle": "7.4.*",
+        "symfony/web-profiler-bundle": "7.4.*"
     },
     "config": {
         "preferred-install": {
@@ -92,7 +92,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.4.*"
+            "require": "7.4.*"
         }
     }
 }

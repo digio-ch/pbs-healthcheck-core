@@ -9,7 +9,7 @@ COPY composer.* /app/
 WORKDIR /app
 RUN composer install --no-interaction --ignore-platform-reqs --no-scripts --prefer-dist
 
-FROM php:8.1.0-fpm
+FROM php:8.2.0-fpm
 ARG BUILD_DEBUG
 ARG BUILD_TEST
 ARG PHP_INI
@@ -28,7 +28,7 @@ RUN docker-php-ext-install pdo pdo_pgsql pgsql
 
 RUN if [ "$BUILD_DEBUG" -eq "1" ]; then \
         # install xdebug and enable remote debugging \
-        pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug \
+        pecl install xdebug-3.5.3 && docker-php-ext-enable xdebug \
                 && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
                 && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
                 && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \

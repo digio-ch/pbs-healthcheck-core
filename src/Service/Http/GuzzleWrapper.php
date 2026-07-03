@@ -2,7 +2,7 @@
 
 namespace App\Service\Http;
 
-use function GuzzleHttp\json_encode;
+use GuzzleHttp\Utils;
 
 use Closure;
 use GuzzleHttp\Client;
@@ -82,11 +82,11 @@ class GuzzleWrapper
         $response = $this->guzzle->post(
             $url,
             [
-                'body' => json_encode($payload),
+                'body' => Utils::jsonEncode($payload),
                 'headers' => array_merge(
                     [
                         'Content-Type' => 'application/json',
-                        'Content-Length' => strlen(json_encode($payload ?? ""))
+                        'Content-Length' => strlen(Utils::jsonEncode($payload ?? ""))
                     ],
                     $header ?? []
                 )
