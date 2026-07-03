@@ -10,7 +10,7 @@ use App\Entity\Security\PermissionType;
 use App\Service\Apps\Widgets\MembersGroupPreviewService;
 use App\Service\DataProvider\MembersGroupDateDataProvider;
 use App\Service\DataProvider\MembersGroupDateRangeDataProvider;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,16 +25,14 @@ class MembersGroupController extends AbstractController
      * @param MembersGroupDateDataProvider $membersGroupDateDataProvider
      * @param MembersGroupPreviewService $membersGroupPreviewService
      * @return Response
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function getPreview(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): Response {
+    ): Response
+    {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         $data = [];
-
         if ($date = $this->membersGroupPreviewService->getNewestDate()) {
             $data = $this->membersGroupDateDataProvider->getData(
                 $group,
@@ -43,7 +41,6 @@ class MembersGroupController extends AbstractController
                 ['members', 'leaders']
             );
         }
-
         return $this->json($data);
     }
 

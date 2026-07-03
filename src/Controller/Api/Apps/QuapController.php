@@ -18,7 +18,7 @@ use App\Service\Gamification\QuapGamificationService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 
 class QuapController extends AbstractController
@@ -34,19 +34,17 @@ class QuapController extends AbstractController
     /**
      * @param Group $group
      * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function getPreview(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         $data = $this->quapService->getAnswers(
             $group,
             null
         );
-
         return $this->json($data);
     }
 
@@ -54,13 +52,13 @@ class QuapController extends AbstractController
      * @param Group $group
      * @return JsonResponse
      * @throws ApiException
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function getDepartmentPreview(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
-
         try {
             $data = $this->quapService->getAnswersForSubDepartments(
                 $group,
@@ -137,24 +135,21 @@ class QuapController extends AbstractController
      * @param Group $group
      * @param Request $request
      * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function submitAnswers(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         Request $request
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR, $group);
-
         $answers = json_decode($request->getContent(), true);
         if (is_null($answers)) {
             throw new ApiException(400, "Invalid JSON");
         }
-
         // has to be before answers are saved!
         $this->quapGamificationService->processQuapEvent($answers, $group, $this->getUser());
         $savedWidgetQuap = $this->quapService->submitAnswers($group, $answers);
-
         // we want to reverse sort the aspects so that the JSON parser encodes them as object instead of array
         $newAnswers = AnswersMapper::reverseSortAspects($savedWidgetQuap->getAnswers());
         return $this->json($newAnswers);
@@ -164,23 +159,20 @@ class QuapController extends AbstractController
      * @param Group $group
      * @param Request $request
      * @return void
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function setAccess(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         Request $request
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
-
         $payload = json_decode($request->getContent(), true);
         if (!isset($payload['allow_access'])) {
             throw new ApiException(400, "Invalid request body");
         }
-
         $this->quapService->updateAllowAccess($group, $payload['allow_access']);
         $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_SHARE_EL);
-
         return $this->json([], JsonResponse::HTTP_NO_CONTENT);
     }
 
@@ -189,21 +181,18 @@ class QuapController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      * @throws ApiException
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function getAnswersForSubDepartments(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         Request $request
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
-
-
         $date = $request->get('date', null);
         $date = $date
             ? \DateTimeImmutable::createFromFormat('Y-m-d', $date)
             : new \DateTimeImmutable('now');
-
-
         try {
             $match = in_array($group->getGroupType()->getGroupType(), GroupType::DEPARTMENTS_ALLOWING_HIERARCHY);
             if ($match === false) {

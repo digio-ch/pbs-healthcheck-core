@@ -18,7 +18,7 @@ use App\Service\DataProvider\MyOrganization\PreviewDataProvider;
 use App\Service\DataProvider\MyOrganization\StageStatsDataProvider;
 use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -32,23 +32,21 @@ class MyOrganizationController extends AbstractController
      * @param Group $group
      * @param FilterDataProvider $filterDataProvider
      * @return JsonResponse
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function getFilter(
         Request $request,
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         if (!$this->isAssociation($group)) {
             throw new ApiException(400, "Only for regions and cantons");
         }
-
         $data = $this->filterDataProvider->getMyOrganizationData(
             $group,
             $request->getLocale()
         );
-
         return $this->json($data);
     }
 
@@ -145,23 +143,21 @@ class MyOrganizationController extends AbstractController
      * @param Group $group
      * @param DepartmentNamesDataProvider $departmentNamesProvider
      * @return JsonResponse
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function getDepartmentNames(
         DateRequestData $dateRequestData,
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         if (!$this->isAssociation($group)) {
             throw new ApiException(400, "Only for regions and cantons");
         }
-
         $names = $this->departmentNamesProvider->getDepartmentNames(
             $group,
             $dateRequestData->getDate()
         );
-
         return $this->json($names);
     }
 
@@ -169,22 +165,20 @@ class MyOrganizationController extends AbstractController
      * @param Group $group
      * @param PreviewDataProvider $previewProvider
      * @return JsonResponse
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      * @throws Exception
      */
     public function getPreview(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         if (!$this->isAssociation($group)) {
             throw new ApiException(400, "Only for regions and cantons");
         }
-
         $data = $this->previewProvider->getPreview(
             $group,
         );
-
         return $this->json($data);
     }
 

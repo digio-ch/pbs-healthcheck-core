@@ -7,7 +7,7 @@ use App\Entity\Security\PermissionType;
 use App\Repository\General\GroupSettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,12 +21,13 @@ class GroupSettingsController extends AbstractController
      * @param Group $group
      * @param GroupSettingsRepository $groupSettingsRepository
      * @return Response
-     * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
      */
     public function postRoleOverviewFilter(
         Request $request,
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ) {
+    )
+    {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $groupSettings = $group->getGroupSettings();
         $groupSettings->setRoleOverviewFilter(json_decode($request->getContent()));

@@ -11,8 +11,8 @@ use App\Exception\ApiException;
 use App\Service\DataProvider\CensusDataProvider;
 use App\Service\DataProvider\CensusFilterDataProvider;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -32,13 +32,13 @@ class CensusController extends AbstractController
     /**
      * @param Group $group
      * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
-    public function getPreview(Group $group): JsonResponse
+    public function getPreview(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         return $this->json($this->censusDataProvider->getPreviewData($group));
     }
 
@@ -46,14 +46,15 @@ class CensusController extends AbstractController
      * @param Group $group
      * @param CensusRequestData $censusRequestData
      * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
-    public function getTableData(Group $group, CensusRequestData $censusRequestData): JsonResponse
+    public function getTableData(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group,
+        CensusRequestData $censusRequestData
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getTableData($group, $censusRequestData);
-
         return $this->json($data);
     }
 
@@ -61,14 +62,15 @@ class CensusController extends AbstractController
      * @param Group $group
      * @param CensusRequestData $censusRequestData
      * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
-    public function getDevelopmentData(Group $group, CensusRequestData $censusRequestData): JsonResponse
+    public function getDevelopmentData(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group,
+        CensusRequestData $censusRequestData
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getDevelopmentData($group, $censusRequestData);
-
         return $this->json($data);
     }
 
@@ -77,14 +79,15 @@ class CensusController extends AbstractController
      * @param Group $group
      * @param CensusRequestData $censusRequestData
      * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
-    public function getMembersData(Group $group, CensusRequestData $censusRequestData): JsonResponse
+    public function getMembersData(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group,
+        CensusRequestData $censusRequestData
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getMembersData($group, $censusRequestData);
-
         return $this->json($data);
     }
 
@@ -92,14 +95,15 @@ class CensusController extends AbstractController
      * @param Group $group
      * @param CensusRequestData $censusRequestData
      * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
-    public function getTreemapData(Group $group, CensusRequestData $censusRequestData): JsonResponse
+    public function getTreemapData(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group,
+        CensusRequestData $censusRequestData
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getTreemapData($group, $censusRequestData);
-
         return $this->json($data);
     }
 
@@ -107,20 +111,19 @@ class CensusController extends AbstractController
      * @param Group $group
      * @return JsonResponse
      *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      * @throws NonUniqueResultException
      */
-    public function getFilterData(Group $group): JsonResponse
+    public function getFilterData(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(403, "Only for regions and cantons");
         }
-
         /** @var PbsUserDTO|UserInterface|null|object $user */
         $user = $this->getUser();
-
         return $this->json($this->censusFilterDataProvider->getFilterData($group, $user->getId()));
     }
 
@@ -129,20 +132,20 @@ class CensusController extends AbstractController
      * @param CensusRequestData $censusRequestData
      * @return JsonResponse
      *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      * @throws NonUniqueResultException
      */
-    public function postFilterData(Group $group, CensusRequestData $censusRequestData): JsonResponse
+    public function postFilterData(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group,
+        CensusRequestData $censusRequestData
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(403, "Only for regions and cantons");
         }
-
         /** @var PbsUserDTO|UserInterface|null|object $user */
         $user = $this->getUser();
-
         return $this->json($this->censusFilterDataProvider->setFilterData($group, $user->getId(), $censusRequestData));
     }
 

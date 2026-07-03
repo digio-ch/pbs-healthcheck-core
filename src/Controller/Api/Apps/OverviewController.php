@@ -10,7 +10,7 @@ use App\Exception\ApiException;
 use App\Service\Apps\Overview\OverviewSharedService;
 use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -27,19 +27,17 @@ class OverviewController extends AbstractController
     /**
      * @param Group $group
      * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
-    public function getOverviewSharing(Group $group): JsonResponse
+    public function getOverviewSharing(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         if (!$this->isDepartment($group)) {
             throw new ApiException(400, "Only for departments");
         }
-
         $isShared = $this->overviewSharedService->isShared($group->getId());
-
         return $this->json(new OverviewSharingDTO($isShared));
     }
 
@@ -47,30 +45,26 @@ class OverviewController extends AbstractController
      * @param Request $request
      * @param Group $group
      * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
-    public function shareOverview(Request $request, Group $group): JsonResponse
+    public function shareOverview(
+        Request $request,
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
-
         if (!$this->isDepartment($group)) {
             throw new ApiException(400, "Only for departments");
         }
-
         $json = json_decode($request->getContent(), true);
         if (is_null($json)) {
             throw new ApiException(400, "Invalid JSON");
         }
-
         $share = $json['share'];
-
         if (!is_bool($share)) {
             throw new ApiException(400, "Invalid JSON");
         }
-
         $this->overviewSharedService->shareOverview($group->getId(), $share);
-
         return $this->json(new OverviewSharingDTO($share));
     }
 
@@ -78,19 +72,18 @@ class OverviewController extends AbstractController
      * @param Group $group
      * @return JsonResponse
      *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      * @throws Exception
      */
-    public function getOverviewOfDepartmentsPreview(Group $group): JsonResponse
+    public function getOverviewOfDepartmentsPreview(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
-
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(400, "Only for regions and cantons");
         }
-
         $preview = $this->overviewSharedService->getDepartmentsPreview($group);
-
         return $this->json($preview);
     }
 
@@ -98,19 +91,18 @@ class OverviewController extends AbstractController
      * @param Group $group
      * @return JsonResponse
      *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      * @throws Exception
      */
-    public function getOverviewOfDepartments(Group $group): JsonResponse
+    public function getOverviewOfDepartments(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
-
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(400, "Only for regions and cantons");
         }
-
         $data = $this->overviewSharedService->getDepartments($group);
-
         return $this->json($data);
     }
 
