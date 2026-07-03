@@ -29,7 +29,7 @@ class JsonObjectType extends Type
 
         if ($json === false) {
             throw new ConversionException(
-              'cannot convert "' . $value . '" to db type ' . self::NAME . ": " . json_last_error_msg(),
+                'cannot convert "' . $value . '" to db type ' . self::NAME . ": " . json_last_error_msg(),
             );
         }
 

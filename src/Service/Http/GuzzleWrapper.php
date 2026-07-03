@@ -3,7 +3,6 @@
 namespace App\Service\Http;
 
 use GuzzleHttp\Utils;
-
 use Closure;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;

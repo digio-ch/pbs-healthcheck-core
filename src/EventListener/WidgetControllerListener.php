@@ -70,7 +70,7 @@ class WidgetControllerListener
         $actionReflection = (new ReflectionClass($controller[0]))->getMethod($controller[1]);
 
         foreach ($actionReflection->getParameters() as $argument) {
-            if(is_null($argument->getType())) {
+            if (is_null($argument->getType())) {
                 continue;
             }
             if (!is_a($argument->getType()->getName(), FilterRequestData::class, true) && !is_a($argument->getType()->getName(), CensusRequestData::class, true)) {

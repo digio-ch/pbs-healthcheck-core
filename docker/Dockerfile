@@ -9,7 +9,7 @@ COPY composer.* /app/
 WORKDIR /app
 RUN composer install --no-interaction --ignore-platform-reqs --no-scripts --prefer-dist
 
-FROM php:8.2.0-fpm
+FROM php:8.3.32-fpm
 ARG BUILD_DEBUG
 ARG BUILD_TEST
 ARG PHP_INI
