@@ -19,7 +19,7 @@ class AggregatedLeaderOverviewLeaderRepository extends ServiceEntityRepository
         parent::__construct($registry, AggregatedLeaderOverviewLeader::class);
     }
 
-    public function findAllByGroupTypeAndDate(int $mainGroupId, string $groupType, string $date)
+    public function findAllByGroupTypeAndDate(int $mainGroupId, string $groupType, string $date): mixed
     {
         return $this->createQueryBuilder('lol')
             ->innerJoin('lol.leaderOverview', 'lo')

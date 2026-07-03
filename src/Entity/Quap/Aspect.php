@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Aspect
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
@@ -31,7 +31,7 @@ class Aspect
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name_it = null;
 
-    #[ORM\OneToMany(mappedBy: 'aspect', targetEntity: Question::class, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'aspect', cascade: ['persist'])]
     private $questions;
 
     #[ORM\ManyToOne(targetEntity: Questionnaire::class, inversedBy: 'aspects')]

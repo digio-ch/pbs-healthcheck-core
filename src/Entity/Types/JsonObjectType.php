@@ -2,7 +2,6 @@
 
 namespace App\Entity\Types;
 
-use RuntimeException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
@@ -12,7 +11,7 @@ use Doctrine\DBAL\Types\Type;
  */
 class JsonObjectType extends Type
 {
-    const ANNOTATION = 'json_object';
+    public const NAME = 'json_object';
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
@@ -20,7 +19,7 @@ class JsonObjectType extends Type
         // return the SQL used to create your column type. To create a portable column type, use the $platform.
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         if ($value === null) {
             return null;
@@ -29,10 +28,8 @@ class JsonObjectType extends Type
         $json = json_encode($value, JSON_FORCE_OBJECT);
 
         if ($json === false) {
-            throw ConversionException::conversionFailedSerialization(
-                $value,
-                'json',
-                new RuntimeException(json_last_error_msg()),
+            throw new ConversionException(
+              'cannot convert "' . $value . '" to db type ' . self::NAME . ": " . json_last_error_msg(),
             );
         }
 
@@ -52,14 +49,9 @@ class JsonObjectType extends Type
         $decoded = json_decode($value, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw ConversionException::conversionFailed($value, self::ANNOTATION);
+            throw new ConversionException('cannot convert "' . $value . '" to doctrine cust type ' . self::NAME);
         }
 
         return $decoded;
-    }
-
-    public function getName(): string
-    {
-        return self::ANNOTATION;
     }
 }

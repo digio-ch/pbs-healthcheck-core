@@ -21,7 +21,7 @@ class AspectRepository extends ServiceEntityRepository
         parent::__construct($registry, Aspect::class);
     }
 
-    public function getExisting(int $questionnaireId, string $dateTime)
+    public function getExisting(int $questionnaireId, string $dateTime): mixed
     {
         $rsm = new ResultSetMapping();
         $rsm->addEntityResult(Aspect::class, 'a');

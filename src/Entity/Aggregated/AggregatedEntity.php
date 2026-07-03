@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AggregatedEntity
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     protected ?int $id = null;
 

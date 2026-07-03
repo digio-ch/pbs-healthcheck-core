@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class StatisticGroup
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
@@ -21,7 +21,7 @@ class StatisticGroup
     #[ORM\ManyToOne(targetEntity: StatisticGroup::class, inversedBy: 'children')]
     private ?StatisticGroup $parent_group = null;
 
-    #[ORM\OneToMany(mappedBy: 'parent_group', targetEntity: StatisticGroup::class)]
+    #[ORM\OneToMany(targetEntity: StatisticGroup::class, mappedBy: 'parent_group')]
     private $children;
 
     #[ORM\JoinColumn(nullable: false)]
@@ -35,7 +35,7 @@ class StatisticGroup
     private ?StatisticGroup $canton = null;
 
 
-    #[ORM\OneToMany(mappedBy: 'group', targetEntity: GroupGeoLocation::class)]
+    #[ORM\OneToMany(targetEntity: GroupGeoLocation::class, mappedBy: 'group')]
     private $geoLocations;
 
 

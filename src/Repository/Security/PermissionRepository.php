@@ -58,7 +58,7 @@ class PermissionRepository extends ServiceEntityRepository
         ]);
     }
 
-    public function findAllByGroupIdAndEmail(string $email, int $groupId)
+    public function findAllByGroupIdAndEmail(string $email, int $groupId): mixed
     {
         return $this->createQueryBuilder('permission')
             ->join('permission.group', 'g')
@@ -72,7 +72,7 @@ class PermissionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findByGroupId(int $groupId)
+    public function findByGroupId(int $groupId): mixed
     {
         $query = $this->createQueryBuilder('permission');
         return $query
@@ -91,7 +91,7 @@ class PermissionRepository extends ServiceEntityRepository
     /**
      * @return int|mixed|string
      */
-    public function findAllValidByIdOrEmail(int $id, string $email)
+    public function findAllValidByIdOrEmail(int $id, string $email): mixed
     {
         $query = $this->createQueryBuilder('permission');
         return $query

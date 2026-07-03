@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AggregatedLeaderOverviewLeader
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
@@ -24,7 +24,7 @@ class AggregatedLeaderOverviewLeader
     #[ORM\ManyToOne(targetEntity: AggregatedLeaderOverview::class, cascade: ['persist'], inversedBy: 'leaders')]
     private ?AggregatedLeaderOverview $leaderOverview = null;
 
-    #[ORM\OneToMany(mappedBy: 'leaderOverviewLeader', targetEntity: AggregatedLeaderOverviewQualification::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: AggregatedLeaderOverviewQualification::class, mappedBy: 'leaderOverviewLeader', cascade: ['persist', 'remove'])]
     private $qualifications;
 
     #[ORM\Column(type: Types::STRING, length: 1, nullable: true)]

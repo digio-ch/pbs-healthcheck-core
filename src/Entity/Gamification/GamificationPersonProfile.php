@@ -12,12 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
 class GamificationPersonProfile
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     #[ORM\JoinColumn(nullable: false)]
-    #[ORM\OneToOne(inversedBy: 'gamification', targetEntity: Person::class)]
+    #[ORM\OneToOne(targetEntity: Person::class, inversedBy: 'gamification')]
     private ?Person $person = null;
 
     #[ORM\JoinColumn(nullable: false)]

@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class GamificationQuapEvent
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 

@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EventType
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
@@ -27,7 +27,7 @@ class EventType
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $frLabel = null;
 
-    #[ORM\OneToMany(mappedBy: 'eventType', targetEntity: EventTypeQualificationType::class)]
+    #[ORM\OneToMany(targetEntity: EventTypeQualificationType::class, mappedBy: 'eventType')]
     private $eventTypeQualificationTypes;
 
     /**

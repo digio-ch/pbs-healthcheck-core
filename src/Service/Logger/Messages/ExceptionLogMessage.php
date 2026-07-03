@@ -69,7 +69,7 @@ class ExceptionLogMessage extends LogMessage
         return $serialized;
     }
 
-    private function serializeValue(mixed $value): array|string|null|object
+    private function serializeValue(mixed $value): array|string|null
     {
         if (is_array($value)) {
             return array_map(function (object $item): array|object|string|null {

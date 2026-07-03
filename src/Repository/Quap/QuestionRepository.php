@@ -36,7 +36,7 @@ class QuestionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getExisting(int $aspectId, string $dateTime)
+    public function getExisting(int $aspectId, string $dateTime): mixed
     {
         $rsm = new ResultSetMapping();
         $rsm->addEntityResult(Question::class, 'q');

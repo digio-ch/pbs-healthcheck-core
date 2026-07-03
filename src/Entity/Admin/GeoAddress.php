@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 class GeoAddress
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
@@ -39,7 +39,7 @@ class GeoAddress
     #[ORM\Column(type: Types::FLOAT)]
     private ?float $latitude = null;
 
-    #[ORM\OneToMany(mappedBy: 'geoAddress', targetEntity: Person::class)]
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'geoAddress')]
     private $people;
 
     public function __construct()

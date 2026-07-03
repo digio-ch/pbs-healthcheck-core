@@ -20,7 +20,7 @@ class PersonRoleRepository extends ServiceEntityRepository
         parent::__construct($registry, PersonRole::class);
     }
 
-    public function findRolesForPersonInGroup(int $groupId, int $personId)
+    public function findRolesForPersonInGroup(int $groupId, int $personId): mixed
     {
         return $this->createQueryBuilder('personRole')
             ->innerJoin('personRole.group', 'g')

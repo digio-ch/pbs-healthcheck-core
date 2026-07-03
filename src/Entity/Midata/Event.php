@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class Event
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
@@ -24,13 +24,13 @@ abstract class Event
     private ?string $name = '';
 
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    #[ORM\OneToMany(mappedBy: 'event', targetEntity: EventGroup::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: EventGroup::class, mappedBy: 'event', cascade: ['persist', 'remove'])]
     private $groups;
 
-    #[ORM\OneToMany(mappedBy: 'event', targetEntity: PersonEvent::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: PersonEvent::class, mappedBy: 'event', cascade: ['persist', 'remove'])]
     private $persons;
 
-    #[ORM\OneToMany(mappedBy: 'event', targetEntity: EventDate::class)]
+    #[ORM\OneToMany(targetEntity: EventDate::class, mappedBy: 'event')]
     private Collection $eventDates;
 
     /**

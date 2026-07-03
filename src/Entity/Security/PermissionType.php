@@ -21,7 +21,7 @@ class PermissionType
     public const EDITOR_PLUS_ID = 4;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private int $id;
 

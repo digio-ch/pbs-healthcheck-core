@@ -19,7 +19,7 @@ class AggregatedDemographicCampRepository extends AggregatedEntityRepository
     /**
      * @return int|mixed|string
      */
-    public function getAllForPeriodAndMainGroup(string $from, string $to, Group $mainGroup)
+    public function getAllForPeriodAndMainGroup(string $from, string $to, Group $mainGroup): mixed
     {
         return $this->createQueryBuilder('dc')
             ->innerJoin('dc.demographicCampGroups', 'cg')

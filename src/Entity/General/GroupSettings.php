@@ -2,6 +2,7 @@
 
 namespace App\Entity\General;
 
+use App\Entity\Types\LegacyArrayType;
 use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Role;
@@ -20,14 +21,14 @@ class GroupSettings
     public const DEFAULT_CANTONAL_ROLES = [Role::CANTONAL_LEADER, Role::CANTONAL_COACH, Role::CANTONAL_FINANCIER,
         Role::CANTONAL_PRESIDENT];
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'groupSettings', targetEntity: Group::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Group::class, inversedBy: 'groupSettings', cascade: ['persist', 'remove'])]
     private ?Group $group = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: LegacyArrayType::NAME, nullable: true)]
     private $roleOverviewFilter = [];
 
     public function getId(): ?int

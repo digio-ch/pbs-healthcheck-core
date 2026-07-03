@@ -20,7 +20,7 @@ class GroupRepository extends ServiceEntityRepository
         parent::__construct($registry, Group::class);
     }
 
-    public function findParentGroupById(int $groupId)
+    public function findParentGroupById(int $groupId): mixed
     {
         return $this->createQueryBuilder('g')
             ->join('g.groupType', 'groupType')
@@ -32,7 +32,7 @@ class GroupRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllParentGroups()
+    public function findAllParentGroups(): mixed
     {
         return $this->createQueryBuilder('g')
             ->join('g.groupType', 'groupType')
@@ -47,7 +47,7 @@ class GroupRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllDepartmentalAndRegionalAndCantonalGroups()
+    public function findAllDepartmentalAndRegionalAndCantonalGroups(): mixed
     {
         return $this->createQueryBuilder('g')
             ->join('g.groupType', 'groupType')
@@ -61,7 +61,7 @@ class GroupRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findOneByIdAndType(int $groupId, array $types)
+    public function findOneByIdAndType(int $groupId, array $types): mixed
     {
         return $this->createQueryBuilder('g')
             ->join('g.groupType', 'groupType')

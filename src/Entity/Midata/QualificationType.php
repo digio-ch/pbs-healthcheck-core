@@ -23,7 +23,7 @@ class QualificationType
     public const JS_LEITER_KINDERSPORT = 24;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 

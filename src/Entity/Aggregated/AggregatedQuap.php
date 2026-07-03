@@ -2,6 +2,7 @@
 
 namespace App\Entity\Aggregated;
 
+use App\Entity\Types\JsonObjectType;
 use Doctrine\DBAL\Types\Types;
 use App\Entity\Quap\Questionnaire;
 use App\Repository\Aggregated\AggregatedQuapRepository;
@@ -26,7 +27,7 @@ class AggregatedQuap extends AggregatedEntity
     #[ORM\ManyToOne(targetEntity: Questionnaire::class, inversedBy: 'widgetQuap')]
     private ?Questionnaire $questionnaire = null;
 
-    #[ORM\Column(type: 'json_object')]
+    #[ORM\Column(type: JsonObjectType::NAME)]
     private $answers;
 
     #[ORM\Column(type: Types::JSON)]

@@ -24,7 +24,7 @@ class Goal
     public const TYPE_SHARE_THREE = "SHARE_THREE";
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 

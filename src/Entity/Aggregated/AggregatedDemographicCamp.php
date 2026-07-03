@@ -10,8 +10,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'hc_aggregated_demographic_camp')]
-#[ORM\Index(columns: ['data_point_date'], name: 'data_point_date_idx')]
-#[ORM\Index(columns: ['start_date'], name: 'start_date_idx')]
+#[ORM\Index(name: 'data_point_date_idx', columns: ['data_point_date'])]
+#[ORM\Index(name: 'start_date_idx', columns: ['start_date'])]
 #[ORM\Entity(repositoryClass: AggregatedDemographicCampRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicCamp extends AggregatedEntity
@@ -22,7 +22,7 @@ class AggregatedDemographicCamp extends AggregatedEntity
     #[ORM\Column(type: Types::STRING, length: 255)]
     protected ?string $campName = null;
 
-    #[ORM\OneToMany(mappedBy: 'demographicCamp', targetEntity: AggregatedDemographicCampGroup::class, cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: AggregatedDemographicCampGroup::class, mappedBy: 'demographicCamp', cascade: ['remove'])]
     protected $demographicCampGroups;
 
     public function __construct()

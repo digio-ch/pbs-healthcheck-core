@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Help
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
@@ -35,7 +35,7 @@ class Help
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $severity = null;
 
-    #[ORM\ManyToOne(targetEntity: \Question::class, inversedBy: 'help')]
+    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'help')]
     private Question $question;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
@@ -44,18 +44,17 @@ class Help
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $deletedAt;
 
-    #[ORM\OneToMany(mappedBy: 'helpDe', targetEntity: Link::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'helpDe', cascade: ['persist'], orphanRemoval: true)]
     private ArrayCollection|Collection $linksDe;
 
-    #[ORM\OneToMany(mappedBy: 'helpFr', targetEntity: Link::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'helpFr', cascade: ['persist'], orphanRemoval: true)]
     private ArrayCollection|Collection $linksFr;
 
-    #[ORM\OneToMany(mappedBy: 'helpIt', targetEntity: Link::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'helpIt', cascade: ['persist'], orphanRemoval: true)]
     private ArrayCollection|Collection $linksIt;
 
     public function __construct()
     {
-        $this->question = new ArrayCollection();
         $this->linksDe = new ArrayCollection();
         $this->linksFr = new ArrayCollection();
         $this->linksIt = new ArrayCollection();

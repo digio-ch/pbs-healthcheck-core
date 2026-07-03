@@ -26,7 +26,7 @@ class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
      * @return array|false|mixed
      * @throws Exception
      */
-    public function getMembersCountByCampAndGroupType(AggregatedDemographicCamp $camp, int $mainGroupId, string $groupType)
+    public function getMembersCountByCampAndGroupType(AggregatedDemographicCamp $camp, int $mainGroupId, string $groupType): mixed
     {
         $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
@@ -45,7 +45,7 @@ class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
      * @return array|false|mixed
      * @throws Exception
      */
-    public function getLeadersCountByCampAndGroupType(AggregatedDemographicCamp $camp, int $mainGroupId, string $groupType)
+    public function getLeadersCountByCampAndGroupType(AggregatedDemographicCamp $camp, int $mainGroupId, string $groupType): mixed
     {
         $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
@@ -68,7 +68,7 @@ class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
         AggregatedDemographicCamp $camp,
         int $mainGroupId,
         array $groupTypes
-    ) {
+    ): array|false {
         $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT SUM(m_count_leader + f_count_leader + u_count_leader) 

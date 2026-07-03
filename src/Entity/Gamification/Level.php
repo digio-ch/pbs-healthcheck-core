@@ -15,7 +15,7 @@ class Level
     public const USER = 0;
     public const GROUP = 1;
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
@@ -35,7 +35,7 @@ class Level
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $it_title = null;
 
-    #[ORM\OneToMany(mappedBy: 'level', targetEntity: Goal::class)]
+    #[ORM\OneToMany(targetEntity: Goal::class, mappedBy: 'level')]
     #[ORM\OrderBy(['id' => 'DESC'])]
     private $goals;
 

@@ -17,17 +17,17 @@ class Questionnaire
     public const TYPE_CANTON = 'Questionnaire::Group::Canton';
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     private ?string $type = null;
 
-    #[ORM\OneToMany(mappedBy: 'questionnaire', targetEntity: AggregatedQuap::class)]
+    #[ORM\OneToMany(targetEntity: AggregatedQuap::class, mappedBy: 'questionnaire')]
     private $widgetQuap;
 
-    #[ORM\OneToMany(mappedBy: 'questionnaire', targetEntity: Aspect::class, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Aspect::class, mappedBy: 'questionnaire', cascade: ['persist'])]
     private ?Collection $aspects = null;
 
     public function __construct()

@@ -30,7 +30,7 @@ class AggregatedLeaderOverview extends AggregatedEntity
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $groupType = null;
 
-    #[ORM\OneToMany(mappedBy: 'leaderOverview', targetEntity: AggregatedLeaderOverviewLeader::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: AggregatedLeaderOverviewLeader::class, mappedBy: 'leaderOverview', cascade: ['persist', 'remove'])]
     private $leaders;
 
     /**

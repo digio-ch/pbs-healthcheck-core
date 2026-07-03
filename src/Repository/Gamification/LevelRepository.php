@@ -39,7 +39,7 @@ class LevelRepository extends ServiceEntityRepository
         }
     }
 
-    public function findNextLevel(Level $level)
+    public function findNextLevel(Level $level): mixed
     {
         return $this->createQueryBuilder('l')
             ->where('l.key = :key')

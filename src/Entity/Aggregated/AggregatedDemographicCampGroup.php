@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AggregatedDemographicCampGroup
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 

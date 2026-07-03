@@ -24,7 +24,7 @@ class AggregatedLeaderOverviewRepository extends AggregatedEntityRepository
      * @return array|bool|mixed
      * @throws Exception
      */
-    public function findMaleFemaleMembersCountForGroupTypeAndDate(int $mainGroupId, array $groupTypes, string $date)
+    public function findMaleFemaleMembersCountForGroupTypeAndDate(int $mainGroupId, array $groupTypes, string $date): array|false
     {
         $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(

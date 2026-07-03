@@ -26,7 +26,7 @@ class AggregatedPersonRoleRepository extends ServiceEntityRepository
      * @param $end
      * @return AggregatedPersonRole[]|null
      */
-    public function findByGroupInTimeframe(Group $group, $start, $end)
+    public function findByGroupInTimeframe(Group $group, $start, $end): mixed
     {
         return $this->createQueryBuilder('a')
             ->where('a.group = :group_id')

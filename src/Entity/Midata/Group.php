@@ -21,11 +21,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Group
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'parentGroup', targetEntity: Group::class)]
+    #[ORM\OneToMany(targetEntity: Group::class, mappedBy: 'parentGroup')]
     private $children;
 
     #[ORM\JoinColumn(name: 'parent_group_id', referencedColumnName: 'id')]
@@ -33,7 +33,7 @@ class Group
     private ?Group $parentGroup = null;
 
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    #[ORM\OneToMany(mappedBy: 'group', targetEntity: EventGroup::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: EventGroup::class, mappedBy: 'group', cascade: ['persist', 'remove'])]
     private $events;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
@@ -55,16 +55,16 @@ class Group
     #[ORM\ManyToOne(targetEntity: GroupType::class)]
     private ?GroupType $groupType = null;
 
-    #[ORM\OneToMany(mappedBy: 'group', targetEntity: PersonRole::class)]
+    #[ORM\OneToMany(targetEntity: PersonRole::class, mappedBy: 'group')]
     private $personRoles;
 
-    #[ORM\OneToOne(mappedBy: 'group', targetEntity: GroupSettings::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: GroupSettings::class, mappedBy: 'group', cascade: ['persist', 'remove'])]
     private ?GroupSettings $groupSettings = null;
 
-    #[ORM\OneToMany(mappedBy: 'group', targetEntity: Login::class)]
+    #[ORM\OneToMany(targetEntity: Login::class, mappedBy: 'group')]
     private $logins;
 
-    #[ORM\OneToMany(mappedBy: 'group', targetEntity: GamificationQuapEvent::class)]
+    #[ORM\OneToMany(targetEntity: GamificationQuapEvent::class, mappedBy: 'group')]
     private $gamificationQuapEvents;
 
     public function __construct()

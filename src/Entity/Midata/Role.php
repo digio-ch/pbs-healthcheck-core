@@ -137,7 +137,7 @@ class Role
     public const PARENTS_COUNCIL_PRESIDENT = 'Group::Elternrat::Praesidium';
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 

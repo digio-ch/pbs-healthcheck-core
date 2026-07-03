@@ -30,7 +30,7 @@ class Person
     public const GENDER_U = '';
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
@@ -68,26 +68,26 @@ class Person
     #[ORM\ManyToOne(targetEntity: Group::class)]
     private ?Group $group = null;
 
-    #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonEvent::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: PersonEvent::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
     private $events;
 
-    #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonQualification::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: PersonQualification::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
     private $qualifications;
 
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     #[ORM\ManyToOne(targetEntity: GeoAddress::class, inversedBy: 'people')]
     private ?GeoAddress $geoAddress = null;
 
-    #[ORM\OneToMany(mappedBy: 'person', targetEntity: Login::class)]
+    #[ORM\OneToMany(targetEntity: Login::class, mappedBy: 'person')]
     private $logins;
 
-    #[ORM\OneToOne(mappedBy: 'person', targetEntity: GamificationPersonProfile::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: GamificationPersonProfile::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
     private ?GamificationPersonProfile $gamification = null;
 
-    #[ORM\OneToMany(mappedBy: 'person', targetEntity: LevelUpLog::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: LevelUpLog::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
     private $levelUps;
 
-    #[ORM\OneToMany(mappedBy: 'person', targetEntity: GamificationQuapEvent::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: GamificationQuapEvent::class, mappedBy: 'person', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $gamificationQuapEvents;
 
     public function __construct()

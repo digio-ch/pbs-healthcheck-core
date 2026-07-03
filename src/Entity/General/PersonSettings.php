@@ -2,6 +2,7 @@
 
 namespace App\Entity\General;
 
+use App\Entity\Types\LegacyArrayType;
 use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Person;
@@ -13,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class PersonSettings
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private int $id;
 
@@ -25,10 +26,10 @@ class PersonSettings
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'events')]
     private Person $person;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: LegacyArrayType::NAME, nullable: true)]
     private ?array $censusFilterRoles;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: LegacyArrayType::NAME, nullable: true)]
     private ?array $censusFilterGroups;
 
     #[ORM\Column(type: Types::BOOLEAN, nullable: true)]

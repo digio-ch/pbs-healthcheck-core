@@ -31,7 +31,7 @@ class Question
     const ANSWER_NOT_RELEVANT = 5;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
@@ -53,7 +53,7 @@ class Question
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $evaluation_function = null;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Help::class, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Help::class, mappedBy: 'question', cascade: ['persist'])]
     private $help;
 
     #[ORM\ManyToOne(targetEntity: Aspect::class, inversedBy: 'questions')]

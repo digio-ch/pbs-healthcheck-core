@@ -21,7 +21,7 @@ class HelpRepository extends ServiceEntityRepository
         parent::__construct($registry, Help::class);
     }
 
-    public function getExisting(int $questionId, string $dateTime)
+    public function getExisting(int $questionId, string $dateTime): mixed
     {
         $rsm = new ResultSetMapping();
         $rsm->addEntityResult(Help::class, 'a');

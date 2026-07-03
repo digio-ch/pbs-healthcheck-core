@@ -40,7 +40,7 @@ class GamificationQuapEventRepository extends ServiceEntityRepository
         }
     }
 
-    public function getUniqueIds(Person $person)
+    public function getUniqueIds(Person $person): mixed
     {
         return $this->createQueryBuilder('e')
             ->join('e.questionnaire', 'q')
