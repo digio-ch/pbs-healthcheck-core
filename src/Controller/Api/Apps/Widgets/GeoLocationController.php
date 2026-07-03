@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Apps\Widgets;
 
+use Doctrine\DBAL\Exception;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GeoLocationController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\DataProvider\GeoLocationDateDataProvider $dataProvider)
+    public function __construct(private readonly GeoLocationDateDataProvider $dataProvider)
     {
     }
     /**
@@ -20,7 +21,7 @@ class GeoLocationController extends AbstractController
      * @param DateRequestData $dateRequestData
      * @param WidgetRequestData $widgetRequestData
      * @return JsonResponse
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function getGeoLocations(
         DateRequestData $dateRequestData,
@@ -47,7 +48,7 @@ class GeoLocationController extends AbstractController
      * @param DateRequestData $dateRequestData
      * @param WidgetOfDepartmentRequestData $widgetRequestData
      * @return JsonResponse
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function getGeoLocationsOfDepartment(
         DateRequestData $dateRequestData,

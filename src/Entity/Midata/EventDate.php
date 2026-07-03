@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Midata\EventDateRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,17 +16,17 @@ class EventDate
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'eventDates')]
-    private $event;
+    private ?Event $event = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private $startAt;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private $endAt;
 
     /**

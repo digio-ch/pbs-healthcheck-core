@@ -2,6 +2,7 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedLeaderOverviewLeaderRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,23 +17,23 @@ class AggregatedLeaderOverviewLeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(name: 'widget_leader_overview_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    #[ORM\ManyToOne(targetEntity: AggregatedLeaderOverview::class, inversedBy: 'leaders', cascade: ['persist'])]
-    private $leaderOverview;
+    #[ORM\ManyToOne(targetEntity: AggregatedLeaderOverview::class, cascade: ['persist'], inversedBy: 'leaders')]
+    private ?AggregatedLeaderOverview $leaderOverview = null;
 
-    #[ORM\OneToMany(targetEntity: AggregatedLeaderOverviewQualification::class, mappedBy: 'leaderOverviewLeader', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'leaderOverviewLeader', targetEntity: AggregatedLeaderOverviewQualification::class, cascade: ['persist', 'remove'])]
     private $qualifications;
 
-    #[ORM\Column(type: 'string', length: 1, nullable: true)]
-    private $gender;
+    #[ORM\Column(type: Types::STRING, length: 1, nullable: true)]
+    private ?string $gender = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name = null;
 
-    #[ORM\Column(type: 'date_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private $birthday;
 
     /**
@@ -116,7 +117,7 @@ class AggregatedLeaderOverviewLeader
     }
 
     /**
-     * @return Collection|AggregatedLeaderOverviewQualification[]
+     * @return Collection<int, AggregatedLeaderOverviewQualification>
      */
     public function getQualifications(): Collection
     {

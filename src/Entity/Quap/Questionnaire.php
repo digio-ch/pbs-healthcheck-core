@@ -2,6 +2,7 @@
 
 namespace App\Entity\Quap;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Aggregated\AggregatedQuap;
 use App\Repository\Quap\QuestionnaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,16 +21,16 @@ class Questionnaire
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     /**
      * @var string $type
      */
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
-    private $type;
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
+    private ?string $type = null;
 
-    #[ORM\OneToMany(targetEntity: AggregatedQuap::class, mappedBy: 'questionnaire')]
+    #[ORM\OneToMany(mappedBy: 'questionnaire', targetEntity: AggregatedQuap::class)]
     private $widgetQuap;
 
     #[ORM\OneToMany(mappedBy: 'questionnaire', targetEntity: Aspect::class, cascade: ['persist'])]
@@ -74,7 +75,7 @@ class Questionnaire
     }
 
     /**
-     * @return Collection|null
+     * @return Collection<int, Aspect>
      */
     public function getAspects(): ?Collection
     {

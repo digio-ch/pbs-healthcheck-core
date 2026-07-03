@@ -2,6 +2,10 @@
 
 namespace App\Repository\Security;
 
+use DateTime;
+use DateTimeImmutable;
+use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 use App\Entity\Midata\Group;
 use App\Entity\Security\Permission;
 use App\Entity\Security\PermissionType;
@@ -14,6 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Permission|null findOneBy(array $criteria, array $orderBy = null)
  * @method Permission[]    findAll()
  * @method Permission[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Permission>
  */
 class PermissionRepository extends ServiceEntityRepository
 {
@@ -62,7 +67,7 @@ class PermissionRepository extends ServiceEntityRepository
             ->andWhere('permission.expirationDate > :now')
             ->setParameter('email', $email)
             ->setParameter('groupId', $groupId)
-            ->setParameter('now', new \DateTime())
+            ->setParameter('now', new DateTime())
             ->getQuery()
             ->getResult();
     }
@@ -78,7 +83,7 @@ class PermissionRepository extends ServiceEntityRepository
                 $query->expr()->isNull('permission.expirationDate')
             ))
             ->setParameter('groupId', $groupId)
-            ->setParameter('now', new \DateTime())
+            ->setParameter('now', new DateTime())
             ->getQuery()
             ->getResult();
     }
@@ -102,12 +107,12 @@ class PermissionRepository extends ServiceEntityRepository
             ))
             ->setParameter('person', $id)
             ->setParameter('email', $email)
-            ->setParameter('now', new \DateTime())
+            ->setParameter('now', new DateTime())
             ->getQuery()
             ->getResult();
     }
 
-    public function insertPermission(int $groupId, int $permissionTypeId, ?\DateTimeImmutable $expirationDate, ?int $personId, ?string $email): void
+    public function insertPermission(int $groupId, int $permissionTypeId, ?DateTimeImmutable $expirationDate, ?int $personId, ?string $email): void
     {
         $conn = $this->getEntityManager()->getConnection();
         $conn->executeStatement(
@@ -137,7 +142,7 @@ class PermissionRepository extends ServiceEntityRepository
      * @param int $id
      * @param string $email
      * @return Permission|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findHighestByIdOrEmail(Group $group, int $id, string $email): ?Permission
     {
@@ -158,7 +163,7 @@ class PermissionRepository extends ServiceEntityRepository
             ->setParameter('group', $group->getId())
             ->setParameter('person', $id)
             ->setParameter('email', $email)
-            ->setParameter('now', new \DateTime())
+            ->setParameter('now', new DateTime())
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -168,7 +173,7 @@ class PermissionRepository extends ServiceEntityRepository
      * @param int $id
      * @param string $email
      * @return Permission|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findHighestById(Group $group, int $id): ?Permission
     {
@@ -185,14 +190,14 @@ class PermissionRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->setParameter('group', $group->getId())
             ->setParameter('person', $id)
-            ->setParameter('now', new \DateTime())
+            ->setParameter('now', new DateTime())
             ->getQuery()
             ->getOneOrNullResult();
     }
 
     public function endAllOpenPermissions(): void
     {
-        $now = new \DateTimeImmutable();
+        $now = new DateTimeImmutable();
 
         $conn = $this->getEntityManager()->getConnection();
         $conn->executeStatement(
@@ -210,7 +215,7 @@ class PermissionRepository extends ServiceEntityRepository
 
     /**
      * @return Permission[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function findAllExpiringPermissionsToNotify(): array
     {
@@ -219,8 +224,8 @@ class PermissionRepository extends ServiceEntityRepository
         return $query
             ->where('permission.expirationDate BETWEEN :now AND :inOneMonth')
             ->andWhere('permission.preExpiryNotified = false')
-            ->setParameter('now', new \DateTimeImmutable())
-            ->setParameter('inOneMonth', new \DateTimeImmutable('+1 month'))
+            ->setParameter('now', new DateTimeImmutable())
+            ->setParameter('inOneMonth', new DateTimeImmutable('+1 month'))
             ->getQuery()
             ->getResult();
     }

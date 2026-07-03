@@ -11,7 +11,7 @@ class Course extends Event
 {
     #[ORM\JoinColumn(name: 'event_type_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: EventType::class)]
-    private $eventType;
+    private ?EventType $eventType = null;
 
     /**
      * @param EventType|null $eventType

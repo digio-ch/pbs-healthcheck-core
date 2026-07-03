@@ -25,8 +25,8 @@ class DateFormatter
     {
         $formatter = new IntlDateFormatter(
             $this->translator->getLocale(),
-            \IntlDateFormatter::NONE,
-            \IntlDateFormatter::NONE,
+            IntlDateFormatter::NONE,
+            IntlDateFormatter::NONE,
             null,
             null,
             'd. MMMM yyyy'

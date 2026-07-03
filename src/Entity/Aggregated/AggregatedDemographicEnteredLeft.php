@@ -2,6 +2,7 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedDemographicEnteredLeftRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,44 +25,44 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicEnteredLeft extends AggregatedEntity
 {
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $newCountM = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountM = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $newCountLeaderM = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountLeaderM = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $exitCountM = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountM = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $exitCountLeaderM = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountLeaderM = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $newCountF = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountF = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $newCountLeaderF = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountLeaderF = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $exitCountLeaderF = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountLeaderF = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $exitCountF = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountF = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $newCountU = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountU = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $newCountLeaderU = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountLeaderU = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $exitCountU = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountU = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $exitCountLeaderU = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountLeaderU = 0;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $groupType;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $groupType = null;
 
     /**
      * @param int $newCountM

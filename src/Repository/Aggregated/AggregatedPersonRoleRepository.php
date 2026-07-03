@@ -12,6 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method AggregatedPersonRole|null findOneBy(array $criteria, array $orderBy = null)
  * @method AggregatedPersonRole[]    findAll()
  * @method AggregatedPersonRole[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<AggregatedPersonRole>
  */
 class AggregatedPersonRoleRepository extends ServiceEntityRepository
 {

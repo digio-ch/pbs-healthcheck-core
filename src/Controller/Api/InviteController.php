@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use Exception;
 use App\DTO\Model\InviteDTO;
 use App\DTO\Model\PbsUserDTO;
 use App\Entity\Gamification\Goal;
@@ -39,7 +40,7 @@ class InviteController extends AbstractController
      * @param PermissionService $inviteService
      * @param TranslatorInterface $translator
      */
-    public function __construct(PermissionService $inviteService, TranslatorInterface $translator, private readonly \Symfony\Component\Serializer\SerializerInterface $serializer, private readonly \Symfony\Component\Validator\Validator\ValidatorInterface $validator, private readonly \App\Service\Gamification\PersonGamificationService $personGamificationService)
+    public function __construct(PermissionService $inviteService, TranslatorInterface $translator, private readonly SerializerInterface $serializer, private readonly ValidatorInterface $validator, private readonly PersonGamificationService $personGamificationService)
     {
         $this->inviteService = $inviteService;
         $this->translator = $translator;
@@ -64,7 +65,7 @@ class InviteController extends AbstractController
             $inviteDTO = $this->serializer->deserialize($request->getContent(), InviteDTO::class, 'json', [
                 AbstractNormalizer::IGNORED_ATTRIBUTES => ['id', 'group', 'expirationDate']
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw new ApiException(
                 Response::HTTP_NOT_ACCEPTABLE,
                 $this->translator->trans('api.error.invalidRequest')

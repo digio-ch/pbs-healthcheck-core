@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Admin\GeoAddress;
 use App\Entity\Gamification\GamificationQuapEvent;
 use App\Entity\Gamification\LevelUpLog;
@@ -30,63 +31,63 @@ class Person
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $nickname;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $nickname = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $pbsNumber;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $pbsNumber = null;
 
-    #[ORM\Column(type: 'string', length: 1, nullable: true)]
-    private $gender;
+    #[ORM\Column(type: Types::STRING, length: 1, nullable: true)]
+    private ?string $gender = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $birthday;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $address;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $address = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $country;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $country = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $town;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $town = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $zip;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $zip = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $entryDate;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $leavingDate;
 
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\ManyToOne(targetEntity: Group::class)]
-    private $group;
+    private ?Group $group = null;
 
-    #[ORM\OneToMany(targetEntity: PersonEvent::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonEvent::class, cascade: ['persist', 'remove'])]
     private $events;
 
-    #[ORM\OneToMany(targetEntity: PersonQualification::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonQualification::class, cascade: ['persist', 'remove'])]
     private $qualifications;
 
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     #[ORM\ManyToOne(targetEntity: GeoAddress::class, inversedBy: 'people')]
-    private $geoAddress;
+    private ?GeoAddress $geoAddress = null;
 
-    #[ORM\OneToMany(targetEntity: Login::class, mappedBy: 'person')]
+    #[ORM\OneToMany(mappedBy: 'person', targetEntity: Login::class)]
     private $logins;
 
-    #[ORM\OneToOne(targetEntity: GamificationPersonProfile::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
-    private $gamification;
+    #[ORM\OneToOne(mappedBy: 'person', targetEntity: GamificationPersonProfile::class, cascade: ['persist', 'remove'])]
+    private ?GamificationPersonProfile $gamification = null;
 
-    #[ORM\OneToMany(targetEntity: LevelUpLog::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'person', targetEntity: LevelUpLog::class, cascade: ['persist', 'remove'])]
     private $levelUps;
 
-    #[ORM\OneToMany(targetEntity: GamificationQuapEvent::class, mappedBy: 'person', orphanRemoval: true, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'person', targetEntity: GamificationQuapEvent::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $gamificationQuapEvents;
 
     public function __construct()

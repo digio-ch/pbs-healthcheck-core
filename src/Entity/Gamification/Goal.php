@@ -2,6 +2,7 @@
 
 namespace App\Entity\Gamification;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Gamification\GoalRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,45 +25,45 @@ class Goal
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: Level::class, inversedBy: 'goals')]
-    private $level;
+    private ?Level $level = null;
 
-    #[ORM\Column(type: 'boolean')]
-    private $required;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $required = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $de_title;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $de_title = null;
 
-    #[ORM\Column(type: 'text')]
-    private $de_information;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $de_information = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $de_help;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $de_help = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $fr_title;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $fr_title = null;
 
-    #[ORM\Column(type: 'text')]
-    private $fr_information;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $fr_information = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $fr_help;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $fr_help = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $it_title;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $it_title = null;
 
-    #[ORM\Column(type: 'text')]
-    private $it_information;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $it_information = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $it_help;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $it_help = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $key;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $key = null;
 
 
 

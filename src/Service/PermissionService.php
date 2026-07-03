@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use DateTimeImmutable;
+use DateInterval;
 use App\DTO\Mapper\InviteMapper;
 use App\DTO\Model\InviteDTO;
 use App\DTO\Model\PbsUserDTO;
@@ -84,7 +86,7 @@ class PermissionService
     public function createInvite(Group $group, PbsUserDTO $executor, InviteDTO $inviteDTO): InviteDTO
     {
         $permission = new Permission();
-        $expirationDate = new \DateTimeImmutable('+1 year');
+        $expirationDate = new DateTimeImmutable('+1 year');
 
         $permissionType = $this->permissionTypeRepository->findOneBy(['key' => $inviteDTO->getPermissionType()]);
         if (is_null($permissionType)) {
@@ -155,13 +157,13 @@ class PermissionService
         }
 
         // permission is already expired
-        if ($permission->getExpirationDate() <= new \DateTimeImmutable('now')) {
+        if ($permission->getExpirationDate() <= new DateTimeImmutable('now')) {
             $message = $this->translator->trans('api.error.invalidEntries');
             throw new ApiException(Response::HTTP_BAD_REQUEST, $message);
         }
 
         // permission is not expiring in the next 3 month
-        if ($permission->getExpirationDate() > new \DateTimeImmutable('+3 months')) {
+        if ($permission->getExpirationDate() > new DateTimeImmutable('+3 months')) {
             $message = $this->translator->trans('api.error.invalidEntries');
             throw new ApiException(Response::HTTP_BAD_REQUEST, $message);
         }
@@ -169,7 +171,7 @@ class PermissionService
         /** @var Person $owner */
         $owner = $this->personRepository->findOneBy(['id' => $executor->getId()]);
 
-        $permission->setExpirationDate($permission->getExpirationDate()->add(new \DateInterval('P12M')));
+        $permission->setExpirationDate($permission->getExpirationDate()->add(new DateInterval('P12M')));
         $permission->setPreExpiryNotified(false);
         $permission->setOwner($owner);
         $permission->setOwnerEmail($executor->getEmail());

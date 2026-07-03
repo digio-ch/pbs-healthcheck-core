@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Apps\Widgets;
 
+use Exception;
 use App\DTO\Model\FilterRequestData\DateAndDateRangeRequestData;
 use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MembersGroupController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\DataProvider\MembersGroupDateDataProvider $membersGroupDateDataProvider, private readonly \App\Service\Apps\Widgets\MembersGroupPreviewService $membersGroupPreviewService, private readonly \App\Service\DataProvider\MembersGroupDateRangeDataProvider $membersGroupDateRangeDataProvider)
+    public function __construct(private readonly MembersGroupDateDataProvider $membersGroupDateDataProvider, private readonly MembersGroupPreviewService $membersGroupPreviewService, private readonly MembersGroupDateRangeDataProvider $membersGroupDateRangeDataProvider)
     {
     }
     /**
@@ -88,7 +89,7 @@ class MembersGroupController extends AbstractController
      * @param DateAndDateRangeRequestData $dateAndDateRangeRequestData
      * @param WidgetOfDepartmentRequestData $widgetRequestData
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function getGroupMembersDataOfDepartment(
         DateAndDateRangeRequestData $dateAndDateRangeRequestData,

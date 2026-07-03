@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use Exception;
+use Throwable;
 use App\Entity\Aggregated\AggregatedQuap;
 use Tree\Node\Node;
 
@@ -31,7 +33,7 @@ class QuapNode extends Node
             $otherGroupTypeID = $other->getQuap()->getGroup()->getGroupType()->getId();
 
             return $groupTypeID === $otherGroupTypeID;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }
@@ -42,7 +44,7 @@ class QuapNode extends Node
             $parentGroupID = $child->getQuap()->getGroup()->getParentGroup()->getId();
 
             return $parentGroupID === $this->getQuap()->getGroup()->getId();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

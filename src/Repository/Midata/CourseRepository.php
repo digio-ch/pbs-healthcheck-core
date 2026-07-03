@@ -6,6 +6,9 @@ use App\Entity\Midata\Course;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Course>
+ */
 class CourseRepository extends ServiceEntityRepository
 {
     /**

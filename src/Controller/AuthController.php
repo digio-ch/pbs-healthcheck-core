@@ -25,7 +25,7 @@ class AuthController extends AbstractController
      * AuthController constructor.
      * @param AppLogger $logger
      */
-    public function __construct(AppLogger $logger, LoginService $loginService, private readonly \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage)
+    public function __construct(AppLogger $logger, LoginService $loginService, private readonly TokenStorageInterface $tokenStorage)
     {
         $this->logger = $logger;
         $this->loginService = $loginService;

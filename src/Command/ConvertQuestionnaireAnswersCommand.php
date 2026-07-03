@@ -2,13 +2,14 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Model\CommandStatistics;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:convert-quap-answers")]
+#[AsCommand(name: "app:convert-quap-answers")]
 class ConvertQuestionnaireAnswersCommand extends StatisticsCommand
 {
     /** @var EntityManagerInterface $em */

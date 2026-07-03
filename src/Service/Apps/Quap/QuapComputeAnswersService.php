@@ -2,6 +2,8 @@
 
 namespace App\Service\Apps\Quap;
 
+use DateTime;
+use DateInterval;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
 use App\Entity\Midata\QualificationType;
@@ -435,14 +437,14 @@ class QuapComputeAnswersService
         // 05. 05. 2021 // example start date
         // 06. 05. 2006 // 14 yo, 15 tomorrow // today - 15y + 1d
         // 05. 05. 2008 // 13 yo, 13 today    // today - 13y
-        $now = new \DateTime('now');
+        $now = new DateTime('now');
 
-        $minDuration = new \DateInterval('P15Y');
+        $minDuration = new DateInterval('P15Y');
         $minDuration->invert = 1;
-        $oneDay = new \DateInterval('P1D');
+        $oneDay = new DateInterval('P1D');
         $minDate = $now->add($minDuration)->add($oneDay);
 
-        $maxDuration = new \DateInterval('P13Y');
+        $maxDuration = new DateInterval('P13Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 
@@ -599,9 +601,9 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        $now = new \DateTime('now');
+        $now = new DateTime('now');
 
-        $maxDuration = new \DateInterval('P17Y');
+        $maxDuration = new DateInterval('P17Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 
@@ -615,9 +617,9 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        $now = new \DateTime('now');
+        $now = new DateTime('now');
 
-        $maxDuration = new \DateInterval('P19Y');
+        $maxDuration = new DateInterval('P19Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 
@@ -628,9 +630,9 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        $now = new \DateTime('now');
+        $now = new DateTime('now');
 
-        $maxDuration = new \DateInterval('P20Y');
+        $maxDuration = new DateInterval('P20Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 

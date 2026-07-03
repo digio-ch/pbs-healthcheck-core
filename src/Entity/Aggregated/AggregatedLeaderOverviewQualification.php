@@ -2,6 +2,7 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\QualificationType;
 use App\Repository\Aggregated\AggregatedLeaderOverviewQualificationRepository;
 use DateTimeImmutable;
@@ -15,25 +16,25 @@ class AggregatedLeaderOverviewQualification
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(name: 'leader_overview_leader_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\ManyToOne(targetEntity: AggregatedLeaderOverviewLeader::class, inversedBy: 'qualifications')]
-    private $leaderOverviewLeader;
+    private ?AggregatedLeaderOverviewLeader $leaderOverviewLeader = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $state;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $state = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $expiresAt;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $eventOrigin;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $eventOrigin = null;
 
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\ManyToOne(targetEntity: QualificationType::class)]
-    private $qualificationType;
+    private ?QualificationType $qualificationType = null;
 
     /**
      * @param int $id

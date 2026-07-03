@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DateFilterController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\DateFilterService $dateFilterService)
+    public function __construct(private readonly DateFilterService $dateFilterService)
     {
     }
 

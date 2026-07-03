@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Midata\PersonEventTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,20 +13,20 @@ class PersonEventType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $type;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $type = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $deLabel;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $deLabel = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $itLabel;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $itLabel = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $frLabel;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $frLabel = null;
 
     /**
      * @param int $id

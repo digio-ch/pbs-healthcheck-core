@@ -2,6 +2,7 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicCampGroupRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,37 +21,37 @@ class AggregatedDemographicCampGroup
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: AggregatedDemographicCamp::class, inversedBy: 'demographicCampGroups')]
-    private $demographicCamp;
+    private ?AggregatedDemographicCamp $demographicCamp = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $mCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $mCount = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $fCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $fCount = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $uCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $uCount = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $mCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $mCountLeader = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $fCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $fCountLeader = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $uCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $uCountLeader = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $groupType;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $groupType = null;
 
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: Group::class)]
-    private $group;
+    private ?Group $group = null;
 
     /**
      * @param int $id

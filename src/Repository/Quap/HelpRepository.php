@@ -12,6 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Help|null findOneBy(array $criteria, array $orderBy = null)
  * @method Help[]    findAll()
  * @method Help[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Help>
  */
 class HelpRepository extends ServiceEntityRepository
 {

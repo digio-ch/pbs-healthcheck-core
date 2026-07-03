@@ -2,6 +2,7 @@
 
 namespace App\DTO\Mapper;
 
+use DateTime;
 use App\DTO\Model\Apps\Widgets\RoleOverview\RoleOccupation;
 use App\DTO\Model\Apps\Widgets\RoleOverview\RoleOccupationWrapper;
 use App\DTO\Model\Apps\Widgets\RoleOverview\RoleOverviewDTO;
@@ -63,8 +64,8 @@ class RoleOverviewMapper
 
     public static function createRoleOccupation(AggregatedPersonRole $aggregatedPersonRole, string $from, string $to): RoleOccupation
     {
-        $start = new \DateTime($from) < $aggregatedPersonRole->getStartAt() ? $aggregatedPersonRole->getStartAt()->format('Y-m-d') : $from;
-        $end = is_null($aggregatedPersonRole->getEndAt()) || new \DateTime($to) <= $aggregatedPersonRole->getEndAt() ? $to : $aggregatedPersonRole->getEndAt()->format('Y-m-d');
+        $start = new DateTime($from) < $aggregatedPersonRole->getStartAt() ? $aggregatedPersonRole->getStartAt()->format('Y-m-d') : $from;
+        $end = is_null($aggregatedPersonRole->getEndAt()) || new DateTime($to) <= $aggregatedPersonRole->getEndAt() ? $to : $aggregatedPersonRole->getEndAt()->format('Y-m-d');
         return new RoleOccupation($aggregatedPersonRole->getNickname(), $start, $end);
     }
 }

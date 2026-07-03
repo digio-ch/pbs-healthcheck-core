@@ -2,6 +2,7 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,26 +19,26 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicGroup extends AggregatedEntity
 {
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $mCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $mCount = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $fCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $fCount = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $uCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $uCount = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $mCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $mCountLeader = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $fCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $fCountLeader = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $uCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $uCountLeader = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $groupType;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $groupType = null;
 
     /**
      * AggregatedDemographicGroup constructor.

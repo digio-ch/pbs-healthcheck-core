@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Entity\Admin\GeoAddress;
 use App\Model\CommandStatistics;
 use App\Repository\Admin\GeoAddressRepository;
@@ -12,7 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:import-geo-addresses")]
+#[AsCommand(name: "app:import-geo-addresses")]
 class FetchGeoAddressesCommand extends StatisticsCommand
 {
     private const COORDINATION_EASTERN = 8;

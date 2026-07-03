@@ -2,6 +2,8 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\Midata\PersonEventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,16 +15,16 @@ class PersonEvent
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'persons')]
-    private $event;
+    private ?Event $event = null;
 
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'events')]
-    private $person;
+    private ?Person $person = null;
 
     /***
      * @ORM\Column(type="boolean", nullable=true)
@@ -108,7 +110,7 @@ class PersonEvent
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection<int, PersonEventType>
      */
     public function getPersonEventTypes(): ArrayCollection
     {

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Gamification\GamificationQuapEvent;
 use App\Entity\Gamification\Login;
 use App\Entity\General\GroupSettings;
@@ -21,49 +22,49 @@ class Group
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\OneToMany(targetEntity: Group::class, mappedBy: 'parentGroup')]
+    #[ORM\OneToMany(mappedBy: 'parentGroup', targetEntity: Group::class)]
     private $children;
 
     #[ORM\JoinColumn(name: 'parent_group_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'children')]
-    private $parentGroup;
+    private ?Group $parentGroup = null;
 
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    #[ORM\OneToMany(targetEntity: EventGroup::class, mappedBy: 'group', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'group', targetEntity: EventGroup::class, cascade: ['persist', 'remove'])]
     private $events;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $cantonId;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $cantonId = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $cantonName;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $cantonName = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $name;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $name = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $deletedAt;
 
     #[ORM\JoinColumn(name: 'group_type_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: GroupType::class)]
-    private $groupType;
+    private ?GroupType $groupType = null;
 
-    #[ORM\OneToMany(targetEntity: PersonRole::class, mappedBy: 'group')]
+    #[ORM\OneToMany(mappedBy: 'group', targetEntity: PersonRole::class)]
     private $personRoles;
 
-    #[ORM\OneToOne(targetEntity: GroupSettings::class, mappedBy: 'group', cascade: ['persist', 'remove'])]
-    private $groupSettings;
+    #[ORM\OneToOne(mappedBy: 'group', targetEntity: GroupSettings::class, cascade: ['persist', 'remove'])]
+    private ?GroupSettings $groupSettings = null;
 
-    #[ORM\OneToMany(targetEntity: Login::class, mappedBy: 'group')]
+    #[ORM\OneToMany(mappedBy: 'group', targetEntity: Login::class)]
     private $logins;
 
-    #[ORM\OneToMany(targetEntity: GamificationQuapEvent::class, mappedBy: 'group')]
+    #[ORM\OneToMany(mappedBy: 'group', targetEntity: GamificationQuapEvent::class)]
     private $gamificationQuapEvents;
 
     public function __construct()

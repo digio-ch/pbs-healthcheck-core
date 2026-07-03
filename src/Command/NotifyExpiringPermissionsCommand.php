@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Entity\Security\Permission;
 use App\Model\CommandStatistics;
 use App\Repository\Security\PermissionRepository;
@@ -10,7 +11,7 @@ use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: self::NAME)]
+#[AsCommand(name: self::NAME)]
 class NotifyExpiringPermissionsCommand extends StatisticsCommand
 {
     private const NAME = 'app:notify-expiring-permissions';

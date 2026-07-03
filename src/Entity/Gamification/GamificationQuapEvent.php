@@ -2,6 +2,8 @@
 
 namespace App\Entity\Gamification;
 
+use Doctrine\DBAL\Types\Types;
+use DateTimeImmutable;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Person;
 use App\Entity\Quap\Questionnaire;
@@ -14,26 +16,26 @@ class GamificationQuapEvent
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'gamificationQuapEvents')]
-    private $person;
+    private ?Person $person = null;
 
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'gamificationQuapEvents')]
-    private $group;
+    private ?Group $group = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private $date;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private int $aspect_local_id;
 
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: Questionnaire::class)]
-    private $questionnaire;
+    private ?Questionnaire $questionnaire = null;
 
     public function getId(): ?int
     {
@@ -64,12 +66,12 @@ class GamificationQuapEvent
         return $this;
     }
 
-    public function getDate(): ?\DateTimeImmutable
+    public function getDate(): ?DateTimeImmutable
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeImmutable $date): self
+    public function setDate(DateTimeImmutable $date): self
     {
         $this->date = $date;
 

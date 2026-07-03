@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Midata\CensusGroupRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,52 +11,52 @@ class CensusGroup
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: GroupType::class)]
-    private $group_type;
-     #[ORM\Column(type: 'integer')]
-     private $total_count;
-      #[ORM\Column(type: 'integer')]
-      private $total_m_count;
-      #[ORM\Column(type: 'integer')]
-      private $total_f_count;
-      #[ORM\Column(type: 'integer')]
-      private $leiter_m_count;
-      #[ORM\Column(type: 'integer')]
-      private $leiter_f_count;
-      #[ORM\Column(type: 'integer')]
-      private $biber_m_count;
-      #[ORM\Column(type: 'integer')]
-      private $biber_f_count;
-      #[ORM\Column(type: 'integer')]
-      private $woelfe_m_count;
-      #[ORM\Column(type: 'integer')]
-      private $woelfe_f_count;
-      #[ORM\Column(type: 'integer')]
-      private $pfadis_m_count;
-      #[ORM\Column(type: 'integer')]
-      private $pfadis_f_count;
-      #[ORM\Column(type: 'integer')]
-      private $pios_m_count;
-      #[ORM\Column(type: 'integer')]
-      private $pios_f_count;
-      #[ORM\Column(type: 'integer')]
-      private $rover_m_count;
-      #[ORM\Column(type: 'integer')]
-      private $rover_f_count;
-      #[ORM\Column(type: 'integer')]
-      private $pta_m_count;
-      #[ORM\Column(type: 'integer')]
-      private $pta_f_count;
-      #[ORM\Column(type: 'string', length: 255)]
-      private $name;
-      #[ORM\Column(type: 'integer')]
-      private $group_id;
-      #[ORM\Column(type: 'string', length: 255)]
-    private $year;
+    private ?GroupType $group_type = null;
+     #[ORM\Column(type: Types::INTEGER)]
+     private ?int $total_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $total_m_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $total_f_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $leiter_m_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $leiter_f_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $biber_m_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $biber_f_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $woelfe_m_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $woelfe_f_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $pfadis_m_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $pfadis_f_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $pios_m_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $pios_f_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $rover_m_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $rover_f_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $pta_m_count = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $pta_f_count = null;
+      #[ORM\Column(type: Types::STRING, length: 255)]
+      private ?string $name = null;
+      #[ORM\Column(type: Types::INTEGER)]
+      private ?int $group_id = null;
+      #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $year = null;
     public function getId(): ?int
     {
         return $this->id;

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MembersGenderController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\DataProvider\MembersGenderDateDataProvider $membersGenderDateDataProvider, private readonly \App\Service\DataProvider\MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider)
+    public function __construct(private readonly MembersGenderDateDataProvider $membersGenderDateDataProvider, private readonly MembersGenderDateRangeDataProvider $membersGenderDateRangeDataProvider)
     {
     }
     /**

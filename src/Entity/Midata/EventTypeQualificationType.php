@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'midata_event_type_qualification_type')]
@@ -11,16 +12,16 @@ class EventTypeQualificationType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(name: 'event_type_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: EventType::class, inversedBy: "eventTypeQualificationTypes")]
-    private $eventType;
+    private ?EventType $eventType = null;
 
     #[ORM\JoinColumn(name: 'qualification_type_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: QualificationType::class)]
-    private $qualificationType;
+    private ?QualificationType $qualificationType = null;
 
     /***
      * @ORM\Column(type="string", length="255", nullable=true)

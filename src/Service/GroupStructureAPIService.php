@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Service\Http\CurlResponse;
 use App\Service\Http\GuzzleWrapper;
 
 class GroupStructureAPIService
@@ -33,7 +34,7 @@ class GroupStructureAPIService
      * @param int $groupId
      * @return Http\CurlResponse
      */
-    public function getGroup(int $groupId): Http\CurlResponse
+    public function getGroup(int $groupId): CurlResponse
     {
         $endpoint = $this->url . '/de/groups/' . $groupId . '.json?token=' . $this->apiToken;
         return $this->guzzleWrapper->getJson($endpoint, null, []);

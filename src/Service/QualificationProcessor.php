@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use DateTimeImmutable;
 use App\DTO\Model\Apps\Widgets\LeaderDTO;
 use App\DTO\Model\Apps\Widgets\QualificationDTO;
 use App\Entity\Aggregated\AggregatedLeaderOverviewQualification;
@@ -91,7 +92,7 @@ class QualificationProcessor
             $qualificationDTO->setState($qualification->getState());
             $qualificationDTO->setEventOrigin($qualification->getEventOrigin());
             $qualificationDTO->setExpiresAt(
-                $qualification->getExpiresAt() instanceof \DateTimeImmutable ?
+                $qualification->getExpiresAt() instanceof DateTimeImmutable ?
                     $qualification->getExpiresAt()->format('Y-m-d')
                     : 'No expiration date'
             );

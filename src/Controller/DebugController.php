@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
+use App\Service\Logger\AppLogger;
 use App\Service\Logger\Messages\ExceptionLogMessage;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DebugController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\Logger\AppLogger $logger)
+    public function __construct(private readonly AppLogger $logger)
     {
     }
 

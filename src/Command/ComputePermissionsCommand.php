@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Entity\Midata\GroupType;
 use App\Entity\Security\PermissionType;
 use App\Model\CommandStatistics;
@@ -10,7 +11,7 @@ use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:compute-permissions")]
+#[AsCommand(name: "app:compute-permissions")]
 class ComputePermissionsCommand extends StatisticsCommand
 {
     /** @var PersonRoleRepository $personRoleRepository */

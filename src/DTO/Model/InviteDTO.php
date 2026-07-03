@@ -10,10 +10,10 @@ class InviteDTO
     private int $id;
 
     /**
-     * @Assert\NotBlank(message="Email can't be empty")
-     * @Assert\Email(message="Invalid email address")
      * @var string
      */
+    #[Assert\NotBlank(message: "Email can't be empty")]
+    #[Assert\Email(message: 'Invalid email address')]
     private string $email;
 
     /** @var ?string $expirationDate */

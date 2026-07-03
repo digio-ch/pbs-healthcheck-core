@@ -2,6 +2,7 @@
 
 namespace App\Service\Apps\Overview;
 
+use DateTimeImmutable;
 use App\DTO\Model\Apps\Overview\OverviewDepartmentDTO;
 use App\DTO\Model\Apps\Overview\OverviewDepartmentsPreviewDTO;
 use App\DTO\Model\Apps\Overview\OverviewRegionDTO;
@@ -109,7 +110,7 @@ class OverviewSharedService
         if ($share && is_null($entry)) {
             $entry = new OverviewShared();
             $entry->setGroupId($groupId);
-            $entry->setCreatedAt(new \DateTimeImmutable('now'));
+            $entry->setCreatedAt(new DateTimeImmutable('now'));
 
             $this->sharedOverviewRepository->save($entry);
         }
@@ -118,7 +119,7 @@ class OverviewSharedService
     /**
      * @param Group $group
      * @return OverviewDepartmentsPreviewDTO
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function getDepartmentsPreview(Group $group): OverviewDepartmentsPreviewDTO
     {
@@ -258,7 +259,7 @@ class OverviewSharedService
     /**
      * @param Group $group
      * @return array
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function getSharedDepartments(Group $group): array
     {

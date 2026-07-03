@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class LeaderOverviewController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\DataProvider\LeaderOverviewDatePointDataProvider $dataProvider)
+    public function __construct(private readonly LeaderOverviewDatePointDataProvider $dataProvider)
     {
     }
     /**

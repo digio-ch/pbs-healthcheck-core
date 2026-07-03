@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method PermissionType|null findOneBy(array $criteria, array $orderBy = null)
  * @method PermissionType[]    findAll()
  * @method PermissionType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<PermissionType>
  */
 class PermissionTypeRepository extends ServiceEntityRepository
 {

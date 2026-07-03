@@ -2,6 +2,7 @@
 
 namespace App\Entity\Quap;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Quap\HelpRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,32 +23,32 @@ class Help
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     /**
      * @var string $help_de
      */
-    #[ORM\Column(type: 'text')]
-    private $help_de;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $help_de = null;
 
     /**
      * @var string $help_fr
      */
-    #[ORM\Column(type: 'text')]
-    private $help_fr;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $help_fr = null;
 
     /**
      * @var string $help_it
      */
-    #[ORM\Column(type: 'text')]
-    private $help_it;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $help_it = null;
 
     /**
      * @var int $severity
      */
-    #[ORM\Column(type: 'integer')]
-    private $severity;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $severity = null;
 
     /**
      * @var Question $question
@@ -55,19 +56,19 @@ class Help
     #[ORM\ManyToOne(targetEntity: \Question::class, inversedBy: 'help')]
     private $question;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $deletedAt;
 
-    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'helpDe', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'helpDe', targetEntity: Link::class, cascade: ['persist'], orphanRemoval: true)]
     private $linksDe;
 
-    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'helpFr', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'helpFr', targetEntity: Link::class, cascade: ['persist'], orphanRemoval: true)]
     private $linksFr;
 
-    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'helpIt', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'helpIt', targetEntity: Link::class, cascade: ['persist'], orphanRemoval: true)]
     private $linksIt;
 
     public function __construct()
@@ -207,7 +208,7 @@ class Help
     }
 
     /**
-     * @return Collection|Link[]
+     * @return Collection<int, Link>
      */
     public function getLinksDe(): Collection
     {
@@ -245,7 +246,7 @@ class Help
     }
 
     /**
-     * @return Collection|Link[]
+     * @return Collection<int, Link>
      */
     public function getLinksFr(): Collection
     {
@@ -283,7 +284,7 @@ class Help
     }
 
     /**
-     * @return Collection|Link[]
+     * @return Collection<int, Link>
      */
     public function getLinksIt(): Collection
     {

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Quap;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Quap\AspectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,53 +19,53 @@ class Aspect
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'integer')]
-    private $local_id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $local_id = null;
 
     /**
      * @var string $name_de
      */
-    #[ORM\Column(type: 'string', length: 255)]
-    private $name_de;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name_de = null;
 
     /**
      * @var string $name_fr
      */
-    #[ORM\Column(type: 'string', length: 255)]
-    private $name_fr;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name_fr = null;
 
     /**
      * @var string $name_it
      */
-    #[ORM\Column(type: 'string', length: 255)]
-    private $name_it;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name_it = null;
 
-    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'aspect', cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'aspect', targetEntity: Question::class, cascade: ['persist'])]
     private $questions;
 
     /**
      * @var Questionnaire $questionnaire
      */
     #[ORM\ManyToOne(targetEntity: Questionnaire::class, inversedBy: 'aspects')]
-    private $questionnaire;
+    private ?Questionnaire $questionnaire = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $deletedAt;
 
-    #[ORM\Column(type: 'text')]
-    private $descriptionDe;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $descriptionDe = null;
 
-    #[ORM\Column(type: 'text')]
-    private $descriptionFr;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $descriptionFr = null;
 
-    #[ORM\Column(type: 'text')]
-    private $descriptionIt;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $descriptionIt = null;
 
     public function __construct()
     {
@@ -203,7 +204,7 @@ class Aspect
     }
 
     /**
-     * @return Collection|null
+     * @return Collection<int, Question>
      */
     public function getQuestions(): ?Collection
     {

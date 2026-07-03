@@ -12,6 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Aspect|null findOneBy(array $criteria, array $orderBy = null)
  * @method Aspect[]    findAll()
  * @method Aspect[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Aspect>
  */
 class AspectRepository extends ServiceEntityRepository
 {

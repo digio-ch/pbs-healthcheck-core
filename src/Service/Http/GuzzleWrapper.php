@@ -2,6 +2,7 @@
 
 namespace App\Service\Http;
 
+use function GuzzleHttp\json_encode;
 use Closure;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
@@ -87,11 +88,11 @@ class GuzzleWrapper
         $response = $this->guzzle->post(
             $url,
             [
-                'body' => \GuzzleHttp\json_encode($payload),
+                'body' => json_encode($payload),
                 'headers' => array_merge(
                     [
                         'Content-Type' => 'application/json',
-                        'Content-Length' => strlen(\GuzzleHttp\json_encode($payload ?? ""))
+                        'Content-Length' => strlen(json_encode($payload ?? ""))
                     ],
                     $header ?? []
                 )

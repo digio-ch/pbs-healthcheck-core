@@ -2,6 +2,7 @@
 
 namespace App\Repository\Aggregated;
 
+use Doctrine\DBAL\Exception;
 use App\Entity\Aggregated\AggregatedGeoLocation;
 use Doctrine\DBAL\ArrayParameterType;
 
@@ -20,7 +21,7 @@ class AggregatedGeoLocationRepository extends AggregatedEntityRepository
      * @param string $groupType
      * @param int $groupId
      * @return array
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function findAllForDateAndGroupType(string $date, string $groupType, int $groupId, array $peopleTypes): array
     {

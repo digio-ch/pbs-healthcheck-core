@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Midata\CampStateRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,20 +13,20 @@ class CampState
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $state;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $state = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $deLabel;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $deLabel = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $itLabel;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $itLabel = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $frLabel;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $frLabel = null;
 
     /**
      * @param int $id

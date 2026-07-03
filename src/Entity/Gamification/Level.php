@@ -2,6 +2,7 @@
 
 namespace App\Entity\Gamification;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Gamification\LevelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,40 +16,40 @@ class Level
     public const GROUP = 1;
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     /**
      * @var LevelAccess | null $access
      */
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\ManyToOne(targetEntity: LevelAccess::class)]
-    private $access;
+    private ?LevelAccess $access = null;
 
-    #[ORM\Column(type: 'integer')]
-    private $type;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $type = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $de_title;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $de_title = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $fr_title;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $fr_title = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $it_title;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $it_title = null;
 
-    #[ORM\OneToMany(targetEntity: Goal::class, mappedBy: 'level')]
+    #[ORM\OneToMany(mappedBy: 'level', targetEntity: Goal::class)]
     #[ORM\OrderBy(['id' => 'DESC'])]
     private $goals;
 
-    #[ORM\Column(type: 'integer')]
-    private $key;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $key = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $next_key;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $next_key = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $required;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $required = null;
 
     /**
      * @return mixed

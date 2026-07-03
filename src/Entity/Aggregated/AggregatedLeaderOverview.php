@@ -2,6 +2,7 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedLeaderOverviewRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,19 +18,19 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class AggregatedLeaderOverview extends AggregatedEntity
 {
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $mCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $mCount = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $fCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $fCount = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $uCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $uCount = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $groupType;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $groupType = null;
 
-    #[ORM\OneToMany(targetEntity: AggregatedLeaderOverviewLeader::class, mappedBy: 'leaderOverview', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'leaderOverview', targetEntity: AggregatedLeaderOverviewLeader::class, cascade: ['persist', 'remove'])]
     private $leaders;
 
     /**
@@ -106,7 +107,7 @@ class AggregatedLeaderOverview extends AggregatedEntity
     }
 
     /**
-     * @return Collection|AggregatedLeaderOverviewLeader[]
+     * @return Collection<int, AggregatedLeaderOverviewLeader>
      */
     public function getLeaders(): Collection
     {

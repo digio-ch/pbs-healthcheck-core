@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
+use DateTime;
 use App\Entity\Security\Permission;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Security\PermissionRepository;
@@ -14,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: self::NAME)]
+#[AsCommand(name: self::NAME)]
 class InviteCommand extends Command
 {
     private const NAME = 'app:invite';
@@ -84,7 +86,7 @@ class InviteCommand extends Command
             $io->error("Invite must be valid between 1 and 30 days");
             return Command::SUCCESS;
         }
-        $expirationDate = new \DateTime();
+        $expirationDate = new DateTime();
         $expirationDate->modify("+ $days days");
 
         $invite = new Permission();

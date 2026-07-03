@@ -6,6 +6,9 @@ use App\Entity\Midata\CampState;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<CampState>
+ */
 class CampStateRepository extends ServiceEntityRepository
 {
     /**

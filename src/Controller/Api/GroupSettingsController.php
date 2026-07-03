@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GroupSettingsController extends AbstractController
 {
-    public function __construct(private readonly \Doctrine\ORM\EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
     /**
@@ -33,6 +33,6 @@ class GroupSettingsController extends AbstractController
         $groupSettings->setRoleOverviewFilter(json_decode($request->getContent()));
         $this->entityManager->persist($groupSettings);
         $this->entityManager->flush();
-        return new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_NO_CONTENT);
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }

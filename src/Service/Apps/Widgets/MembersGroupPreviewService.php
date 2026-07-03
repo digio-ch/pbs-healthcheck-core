@@ -2,6 +2,7 @@
 
 namespace App\Service\Apps\Widgets;
 
+use DateTimeImmutable;
 use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use App\Repository\Midata\GroupRepository;
 
@@ -21,7 +22,7 @@ class MembersGroupPreviewService
         $this->groupRepository = $groupRepository;
     }
 
-    public function getNewestDate(): ?\DateTimeImmutable
+    public function getNewestDate(): ?DateTimeImmutable
     {
         $aggregatedData = $this->aggregatedDemographicGroupRepository->findBy([], ['dataPointDate' => 'DESC'], 1);
         if (sizeof($aggregatedData) === 0) {

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Midata\PersonRoleRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,30 +16,30 @@ class PersonRole
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'personRoles')]
-    private $group;
+    private ?Group $group = null;
 
     #[ORM\JoinColumn(name: 'person_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: Person::class)]
-    private $person;
+    private ?Person $person = null;
 
     #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: Role::class)]
-    private $role;
+    private ?Role $role = null;
 
     /***
      * @ORM\Column(type="string", length="255", nullable=true)
      */
     private $name;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $deletedAt;
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Entity\Gamification;
 
+use Doctrine\DBAL\Types\Types;
+use DateTimeInterface;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Person;
 use App\Repository\Gamification\LoginRepository;
@@ -13,28 +15,28 @@ class Login
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'datetime')]
-    private $date;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?DateTimeInterface $date = null;
 
-    #[ORM\Column(type: 'boolean')]
-    private $is_group_change;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $is_group_change = null;
 
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'logins')]
-    private $person;
+    private ?Person $person = null;
 
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'logins')]
-    private $group;
+    private ?Group $group = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $hashed_person_id;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $hashed_person_id = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: false)]
-    private $role;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
+    private string $role;
 
 
     public function getId(): ?int
@@ -43,12 +45,12 @@ class Login
     }
 
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
 

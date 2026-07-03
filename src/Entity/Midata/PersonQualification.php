@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Midata\PersonQualificationRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,24 +16,24 @@ class PersonQualification
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(name: 'qualification_type_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: QualificationType::class)]
-    private $qualificationType;
+    private ?QualificationType $qualificationType = null;
 
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'qualifications')]
-    private $person;
+    private ?Person $person = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $eventOrigin;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $eventOrigin = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $startAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $endAt;
 
     /**

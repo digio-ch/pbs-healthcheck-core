@@ -6,6 +6,9 @@ use App\Entity\Midata\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Event>
+ */
 class EventRepository extends ServiceEntityRepository
 {
     /**

@@ -2,13 +2,14 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Model\CommandStatistics;
 use App\Repository\Gamification\LoginRepository;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:pseudonymize-login")]
+#[AsCommand(name: "app:pseudonymize-login")]
 class PseudonymizeLoginCommand extends StatisticsCommand
 {
     private LoginRepository $loginRepository;

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Statistics;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\GroupType;
 use App\Repository\Statistics\StatisticGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,28 +14,28 @@ class StatisticGroup
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\ManyToOne(targetEntity: StatisticGroup::class, inversedBy: 'children')]
-    private $parent_group;
+    private ?StatisticGroup $parent_group = null;
 
-    #[ORM\OneToMany(targetEntity: StatisticGroup::class, mappedBy: 'parent_group')]
+    #[ORM\OneToMany(mappedBy: 'parent_group', targetEntity: StatisticGroup::class)]
     private $children;
 
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: GroupType::class)]
-    private $group_type;
+    private ?GroupType $group_type = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: StatisticGroup::class)]
-    private $canton;
+    private ?StatisticGroup $canton = null;
 
 
-    #[ORM\OneToMany(targetEntity: GroupGeoLocation::class, mappedBy: 'group')]
+    #[ORM\OneToMany(mappedBy: 'group', targetEntity: GroupGeoLocation::class)]
     private $geoLocations;
 
 

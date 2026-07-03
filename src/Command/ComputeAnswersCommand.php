@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
+use Exception;
 use App\Entity\Midata\Group;
 use App\Entity\Quap\Question;
 use App\Helper\QuapAnswerStackHelper;
@@ -14,7 +16,7 @@ use App\Service\Apps\Quap\QuapComputeAnswersService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:quap:compute-answers")]
+#[AsCommand(name: "app:quap:compute-answers")]
 class ComputeAnswersCommand extends StatisticsCommand
 {
     /** @var GroupRepository $groupRepository */
@@ -76,7 +78,7 @@ class ComputeAnswersCommand extends StatisticsCommand
                 $widgetQuap->setComputedAnswers($helper->getAnswerStack());
                 $widgetQuap->setQuestionnaire($questionnaire);
                 $this->quapRepository->save($widgetQuap);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $output->writeln(['An Error occurred', $group, $e]);
             }
         }

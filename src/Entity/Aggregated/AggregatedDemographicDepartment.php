@@ -2,6 +2,7 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedDemographicDepartmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,29 +20,29 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicDepartment extends AggregatedEntity
 {
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $birthyear;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $birthyear = null;
 
-    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
-    private $mCount = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true, options: ['default' => 0])]
+    private ?int $mCount = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
-    private $fCount = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true, options: ['default' => 0])]
+    private ?int $fCount = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
-    private $uCount = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true, options: ['default' => 0])]
+    private ?int $uCount = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
-    private $mCountLeader = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true, options: ['default' => 0])]
+    private ?int $mCountLeader = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
-    private $fCountLeader = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true, options: ['default' => 0])]
+    private ?int $fCountLeader = 0;
 
-    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 0])]
-    private $uCountLeader = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true, options: ['default' => 0])]
+    private ?int $uCountLeader = 0;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $groupType;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $groupType = null;
 
     /**
      * @param int $mCount

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Apps;
 
+use DateTimeImmutable;
 use App\DTO\Mapper\AnswersMapper;
 use App\DTO\Mapper\QuestionnaireMapper;
 use App\DTO\Model\FilterRequestData\DateRequestData;
@@ -26,7 +27,7 @@ class QuapController extends AbstractController
     /** @var QuapService $quapService */
     private QuapService $quapService;
 
-    public function __construct(QuapService $quapService, private readonly \App\Service\DataProvider\QuapSubdepartmentDateDataProvider $dataProvider, private readonly \App\Service\Gamification\QuapGamificationService $quapGamificationService, private readonly \App\Service\Gamification\PersonGamificationService $personGamificationService)
+    public function __construct(QuapService $quapService, private readonly QuapSubdepartmentDateDataProvider $dataProvider, private readonly QuapGamificationService $quapGamificationService, private readonly PersonGamificationService $personGamificationService)
     {
         $this->quapService = $quapService;
     }
@@ -82,7 +83,7 @@ class QuapController extends AbstractController
 
         $data = $this->quapService->getAnswers(
             $dateRequestData->getGroup(),
-            is_null($dateRequestData->getDate()) ? null : \DateTimeImmutable::createFromMutable($dateRequestData->getDate())
+            is_null($dateRequestData->getDate()) ? null : DateTimeImmutable::createFromMutable($dateRequestData->getDate())
         );
 
         return $this->json($data);
@@ -117,8 +118,8 @@ class QuapController extends AbstractController
     ): JsonResponse {
         $date = $request->get('date', null);
         $date = $date
-            ? \DateTimeImmutable::createFromFormat('Y-m-d', $date)
-            : new \DateTimeImmutable('now');
+            ? DateTimeImmutable::createFromFormat('Y-m-d', $date)
+            : new DateTimeImmutable('now');
 
         $questionnaire = $this->quapService->getQuestionnaireByType(
             $type,
@@ -191,8 +192,8 @@ class QuapController extends AbstractController
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
         $date = $request->get('date', null);
         $date = $date
-            ? \DateTimeImmutable::createFromFormat('Y-m-d', $date)
-            : new \DateTimeImmutable('now');
+            ? DateTimeImmutable::createFromFormat('Y-m-d', $date)
+            : new DateTimeImmutable('now');
         try {
             $match = in_array($group->getGroupType()->getGroupType(), GroupType::DEPARTMENTS_ALLOWING_HIERARCHY);
             if ($match === false) {

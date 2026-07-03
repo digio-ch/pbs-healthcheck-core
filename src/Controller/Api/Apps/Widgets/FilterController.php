@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class FilterController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\DataProvider\FilterDataProvider $filterDataProvider, private readonly \App\Service\Apps\Overview\OverviewSharedService $overviewSharedService)
+    public function __construct(private readonly FilterDataProvider $filterDataProvider, private readonly OverviewSharedService $overviewSharedService)
     {
     }
     /**

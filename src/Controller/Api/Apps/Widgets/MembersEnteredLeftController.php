@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MembersEnteredLeftController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\DataProvider\MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider)
+    public function __construct(private readonly MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider)
     {
     }
     /**

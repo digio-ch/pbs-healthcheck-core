@@ -4,7 +4,6 @@ namespace App\EventListener;
 
 use App\Exception\ApiException;
 use App\Model\ApiError;
-use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;

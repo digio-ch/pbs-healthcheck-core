@@ -10,6 +10,9 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<AggregatedDemographicCampGroup>
+ */
 class AggregatedDemographicCampGroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

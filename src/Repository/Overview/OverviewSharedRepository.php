@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method OverviewShared|null findOneBy(array $criteria, array $orderBy = null)
  * @method OverviewShared[]    findAll()
  * @method OverviewShared[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<OverviewShared>
  */
 class OverviewSharedRepository extends ServiceEntityRepository
 {

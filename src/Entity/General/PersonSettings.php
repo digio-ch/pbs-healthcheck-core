@@ -2,6 +2,7 @@
 
 namespace App\Entity\General;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Person;
 use App\Repository\General\PersonSettingsRepository;
@@ -13,7 +14,7 @@ class PersonSettings
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private int $id;
 
     #[ORM\JoinColumn(nullable: true)]
@@ -24,16 +25,16 @@ class PersonSettings
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'events')]
     private Person $person;
 
-    #[ORM\Column(type: 'array', nullable: true)]
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $censusFilterRoles;
 
-    #[ORM\Column(type: 'array', nullable: true)]
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $censusFilterGroups;
 
-    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $censusFilterMales;
 
-    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $censusFilterFemales;
 
     /**

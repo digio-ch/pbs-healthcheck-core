@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RoleOverviewController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\DataProvider\RoleOverviewDateRangeDataProvider $roleOverviewDateRangeDataProvider)
+    public function __construct(private readonly RoleOverviewDateRangeDataProvider $roleOverviewDateRangeDataProvider)
     {
     }
 

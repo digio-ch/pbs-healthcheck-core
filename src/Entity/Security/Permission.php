@@ -2,6 +2,8 @@
 
 namespace App\Entity\Security;
 
+use Doctrine\DBAL\Types\Types;
+use DateTimeImmutable;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Person;
 use App\Repository\Security\PermissionRepository;
@@ -14,14 +16,14 @@ class Permission
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private int $id;
 
     #[ORM\JoinColumn(name: 'person_id', referencedColumnName: 'id', nullable: true)]
     #[ORM\ManyToOne(targetEntity: Person::class)]
     private ?Person $person = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true, options: ['default' => null])]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true, options: ['default' => null])]
     private ?string $email = null;
 
     #[ORM\JoinColumn(name: 'permission_type_id', referencedColumnName: 'id')]
@@ -32,17 +34,17 @@ class Permission
     #[ORM\ManyToOne(targetEntity: Group::class)]
     private Group $group;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private ?\DateTimeImmutable $expirationDate;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $expirationDate;
 
     #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id', nullable: true)]
     #[ORM\ManyToOne(targetEntity: Person::class)]
     private ?Person $owner = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true, options: ['default' => null])]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true, options: ['default' => null])]
     private ?string $ownerEmail = null;
 
-    #[ORM\Column(type: 'boolean', nullable: true, options: ['default' => null])]
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true, options: ['default' => null])]
     private ?bool $preExpiryNotified = null;
 
     public function getId(): ?int
@@ -110,12 +112,12 @@ class Permission
         $this->group = $group;
     }
 
-    public function getExpirationDate(): ?\DateTimeImmutable
+    public function getExpirationDate(): ?DateTimeImmutable
     {
         return $this->expirationDate;
     }
 
-    public function setExpirationDate(?\DateTimeImmutable $expirationDate): self
+    public function setExpirationDate(?DateTimeImmutable $expirationDate): self
     {
         $this->expirationDate = $expirationDate;
 

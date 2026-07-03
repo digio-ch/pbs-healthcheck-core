@@ -24,7 +24,7 @@ class GamificationController extends AbstractController
      */
     private bool $resetEndpointEnabled;
 
-    public function __construct(bool $resetEndpointEnabled, private readonly \App\Service\Gamification\LoginService $loginService, private readonly \App\Repository\Midata\GroupRepository $groupRepository, private readonly \App\Service\Gamification\PersonGamificationService $personGamificationService)
+    public function __construct(bool $resetEndpointEnabled, private readonly LoginService $loginService, private readonly GroupRepository $groupRepository, private readonly PersonGamificationService $personGamificationService)
     {
         $this->resetEndpointEnabled = $resetEndpointEnabled;
     }
@@ -48,25 +48,25 @@ class GamificationController extends AbstractController
         }
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $this->loginService->logByPersonAndGroup($this->getUser(), $group);
-        return new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_CREATED);
+        return new Response('', Response::HTTP_CREATED);
     }
 
     public function usedCardLayer()
     {
         $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_CARD_LAYERS);
-        return new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+        return new Response('', Response::HTTP_OK);
     }
 
     public function usedDataFilter()
     {
         $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_DATA_FILTER);
-        return new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+        return new Response('', Response::HTTP_OK);
     }
 
     public function usedTimeFilter()
     {
         $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_TIME_FILTER);
-        return new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+        return new Response('', Response::HTTP_OK);
     }
 
     public function getUserProfile(
@@ -89,7 +89,7 @@ class GamificationController extends AbstractController
             return new JsonResponse([
                 "code" => 404,
                 "error" => "reset endpoint is disabled"
-            ], \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_FOUND);
         }
         $this->personGamificationService->reset($this->getUser());
         return new Response('');
@@ -99,6 +99,6 @@ class GamificationController extends AbstractController
     {
         $user = $this->getUser();
         $result = $this->personGamificationService->getBetaAccess($user);
-        return $result ? new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_OK) : new Response('', \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+        return $result ? new Response('', Response::HTTP_OK) : new Response('', Response::HTTP_FORBIDDEN);
     }
 }

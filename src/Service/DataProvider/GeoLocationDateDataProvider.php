@@ -2,6 +2,7 @@
 
 namespace App\Service\DataProvider;
 
+use Doctrine\DBAL\Exception;
 use App\DTO\Model\Apps\Widgets\GeoLocationDTO;
 use App\DTO\Model\Apps\Widgets\GeoLocationTypeDTO;
 use App\Entity\Midata\Group;
@@ -32,7 +33,7 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
      * @param array $subGroupTypes
      * @param array $peopleTypes
      * @return array|GeoLocationDTO[]
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes): array
     {

@@ -2,6 +2,7 @@
 
 namespace App\Service\Logger\Messages;
 
+use Throwable;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ExceptionLogMessage extends LogMessage
@@ -13,7 +14,7 @@ class ExceptionLogMessage extends LogMessage
 
     private $stackTrace;
 
-    public function __construct(\Throwable $thrown, ?EntityManagerInterface $em = null)
+    public function __construct(Throwable $thrown, ?EntityManagerInterface $em = null)
     {
         parent::__construct(sprintf('%s: %s', get_class($thrown), $thrown->getMessage()), 'exception');
         $this->em = $em;
@@ -38,7 +39,7 @@ class ExceptionLogMessage extends LogMessage
         return $this->stackTrace;
     }
 
-    private function serializeStackTrace(\Throwable $thrown): string
+    private function serializeStackTrace(Throwable $thrown): string
     {
         $serialized = [
             ['location' => sprintf('%s:%d', $thrown->getFile(), $thrown->getLine())]

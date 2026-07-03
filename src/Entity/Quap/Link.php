@@ -2,6 +2,7 @@
 
 namespace App\Entity\Quap;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Quap\LinkRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,26 +12,26 @@ class Link
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $url;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $url = null;
 
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\ManyToOne(targetEntity: Help::class, inversedBy: 'linksDe')]
-    private $helpDe;
+    private ?Help $helpDe = null;
 
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\ManyToOne(targetEntity: Help::class, inversedBy: 'linksFr')]
-    private $helpFr;
+    private ?Help $helpFr = null;
 
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\ManyToOne(targetEntity: Help::class, inversedBy: 'linksIt')]
-    private $helpIt;
+    private ?Help $helpIt = null;
 
     public function getId(): ?int
     {

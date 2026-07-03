@@ -2,6 +2,7 @@
 
 namespace App\Entity\Security;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Security\PermissionTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,19 +22,19 @@ class PermissionType
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private int $id;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     private string $key;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $nameDe;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $nameFr;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $nameIt;
 
     /**

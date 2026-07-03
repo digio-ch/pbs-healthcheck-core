@@ -2,6 +2,7 @@
 
 namespace App\Entity\General;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Role;
 use App\Repository\General\PersonSettingsRepository;
@@ -20,13 +21,13 @@ class GroupSettings
         Role::CANTONAL_PRESIDENT];
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\OneToOne(targetEntity: Group::class, inversedBy: 'groupSettings', cascade: ['persist', 'remove'])]
-    private $group;
+    #[ORM\OneToOne(inversedBy: 'groupSettings', targetEntity: Group::class, cascade: ['persist', 'remove'])]
+    private ?Group $group = null;
 
-    #[ORM\Column(type: 'array', nullable: true)]
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private $roleOverviewFilter = [];
 
     public function getId(): ?int

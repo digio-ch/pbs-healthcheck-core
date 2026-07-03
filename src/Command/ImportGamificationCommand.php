@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Entity\Gamification\Goal;
 use App\Entity\Gamification\Level;
 use App\Entity\Gamification\LevelAccess;
@@ -13,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'app:import-gamification')]
+#[AsCommand(name: 'app:import-gamification')]
 class ImportGamificationCommand extends StatisticsCommand
 {
     /** @var EntityManagerInterface $em */

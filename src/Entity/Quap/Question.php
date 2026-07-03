@@ -2,6 +2,7 @@
 
 namespace App\Entity\Quap;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Quap\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -34,55 +35,55 @@ class Question
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'integer')]
-    private $local_id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $local_id = null;
 
     /**
      * @var string $question_de
      */
-    #[ORM\Column(type: 'text')]
-    private $question_de;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $question_de = null;
 
     /**
      * @var string $question_fr
      */
-    #[ORM\Column(type: 'text')]
-    private $question_fr;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $question_fr = null;
 
     /**
      * @var string $question_it
      */
-    #[ORM\Column(type: 'text')]
-    private $question_it;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $question_it = null;
 
     /**
      * @var string $answer_options
      */
-    #[ORM\Column(type: 'string', length: 255)]
-    private $answer_options;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $answer_options = null;
 
     /**
      * @var string|null $evaluation_function
      */
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $evaluation_function;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $evaluation_function = null;
 
-    #[ORM\OneToMany(targetEntity: Help::class, mappedBy: 'question', cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Help::class, cascade: ['persist'])]
     private $help;
 
     /**
      * @var Aspect $aspect
      */
     #[ORM\ManyToOne(targetEntity: Aspect::class, inversedBy: 'questions')]
-    private $aspect;
+    private ?Aspect $aspect = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $deletedAt;
 
     public function __construct()
@@ -254,7 +255,7 @@ class Question
     }
 
     /**
-     * @return Collection|null
+     * @return Collection<int, Help>
      */
     public function getHelp(): ?Collection
     {

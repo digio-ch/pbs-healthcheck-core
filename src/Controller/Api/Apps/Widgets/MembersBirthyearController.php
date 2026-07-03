@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MembersBirthyearController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\DataProvider\DemographicStatsDataProvider $demographicStatsProvider)
+    public function __construct(private readonly DemographicStatsDataProvider $demographicStatsProvider)
     {
     }
     /***

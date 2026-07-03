@@ -2,6 +2,7 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedGeoLocationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,23 +18,23 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class AggregatedGeoLocation extends AggregatedEntity
 {
-    #[ORM\Column(type: 'float', nullable: true)]
-    private $longitude;
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
+    private ?float $longitude = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private $latitude;
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
+    private ?float $latitude = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private $label;
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $label = null;
 
-    #[ORM\Column(type: 'string')]
-    private $shape = 'circle';
+    #[ORM\Column(type: Types::STRING)]
+    private ?string $shape = 'circle';
 
-    #[ORM\Column(type: 'string')]
-    private $groupType;
+    #[ORM\Column(type: Types::STRING)]
+    private ?string $groupType = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private $personType;
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $personType = null;
 
     /**
      * @return float|null

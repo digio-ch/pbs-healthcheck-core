@@ -2,13 +2,14 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Model\CommandStatistics;
 use App\Repository\Gamification\LevelUpLogRepository;
 use App\Service\MailService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: "app:send-levelup-report")]
+#[AsCommand(name: "app:send-levelup-report")]
 class GamificationLevelUpReportCommand extends StatisticsCommand
 {
     private LevelUpLogRepository $levelUpLogRepository;

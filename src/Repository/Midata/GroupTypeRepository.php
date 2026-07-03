@@ -9,6 +9,9 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<GroupType>
+ */
 class GroupTypeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
+use DateTimeImmutable;
 use App\Entity\Quap\Aspect;
 use App\Entity\Quap\Help;
 use App\Entity\Quap\Link;
@@ -17,7 +19,7 @@ use JsonMachine\JsonMachine;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'app:quap:import-questionnaire')]
+#[AsCommand(name: 'app:quap:import-questionnaire')]
 class ImportQuestionnairesCommand extends StatisticsCommand
 {
     /** @var EntityManagerInterface $em */
@@ -116,12 +118,12 @@ class ImportQuestionnairesCommand extends StatisticsCommand
 
         if (!$dbAspect) {
             $dbAspect = new Aspect();
-            $dbAspect->setCreatedAt(new \DateTimeImmutable('now'));
+            $dbAspect->setCreatedAt(new DateTimeImmutable('now'));
             $dbAspect->setLocalId($aspect['id']);
         }
 
         if ($isDeprecated) {
-            $dbAspect->setDeletedAt(new \DateTimeImmutable('now'));
+            $dbAspect->setDeletedAt(new DateTimeImmutable('now'));
             $this->em->persist($dbAspect);
             return;
         }
@@ -158,13 +160,13 @@ class ImportQuestionnairesCommand extends StatisticsCommand
 
         if (!$dbQuestion) {
             $dbQuestion = new Question();
-            $dbQuestion->setCreatedAt(new \DateTimeImmutable('now'));
+            $dbQuestion->setCreatedAt(new DateTimeImmutable('now'));
             $dbQuestion->setAnswerOptions($question['answer_options']);
             $dbQuestion->setLocalId($question['id']);
         }
 
         if ($isDeprecated) {
-            $dbQuestion->setDeletedAt(new \DateTimeImmutable('now'));
+            $dbQuestion->setDeletedAt(new DateTimeImmutable('now'));
             $this->em->persist($dbQuestion);
             return;
         }
@@ -229,7 +231,7 @@ class ImportQuestionnairesCommand extends StatisticsCommand
 
         if (!$dbHelp) {
             $dbHelp = new Help();
-            $dbHelp->setCreatedAt(new \DateTimeImmutable('now'));
+            $dbHelp->setCreatedAt(new DateTimeImmutable('now'));
             if (array_key_exists('severity', $helpItem)) {
                 $dbHelp->setSeverity($helpItem['severity']);
             } else {
@@ -238,7 +240,7 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         }
 
         if ($isDeprecated) {
-            $dbHelp->setDeletedAt(new \DateTimeImmutable('now'));
+            $dbHelp->setDeletedAt(new DateTimeImmutable('now'));
             $this->em->persist($dbHelp);
             return;
         }

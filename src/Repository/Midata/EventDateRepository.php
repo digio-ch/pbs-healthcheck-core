@@ -6,6 +6,9 @@ use App\Entity\Midata\EventDate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<EventDate>
+ */
 class EventDateRepository extends ServiceEntityRepository
 {
     /**

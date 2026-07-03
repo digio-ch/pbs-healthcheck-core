@@ -2,6 +2,7 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedDemographicCampRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,19 +10,19 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'hc_aggregated_demographic_camp')]
-#[ORM\Index(name: 'data_point_date_idx', columns: ['data_point_date'])]
-#[ORM\Index(name: 'start_date_idx', columns: ['start_date'])]
+#[ORM\Index(columns: ['data_point_date'], name: 'data_point_date_idx')]
+#[ORM\Index(columns: ['start_date'], name: 'start_date_idx')]
 #[ORM\Entity(repositoryClass: AggregatedDemographicCampRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicCamp extends AggregatedEntity
 {
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     protected $startDate;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    protected $campName;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    protected ?string $campName = null;
 
-    #[ORM\OneToMany(targetEntity: AggregatedDemographicCampGroup::class, mappedBy: 'demographicCamp', cascade: ['remove'])]
+    #[ORM\OneToMany(mappedBy: 'demographicCamp', targetEntity: AggregatedDemographicCampGroup::class, cascade: ['remove'])]
     protected $demographicCampGroups;
 
     public function __construct()
@@ -55,6 +56,9 @@ class AggregatedDemographicCamp extends AggregatedEntity
         $this->startDate = $startDate;
     }
 
+    /**
+     * @return Collection<int, AggregatedDemographicCampGroup>
+     */
     public function getDemographicCampGroups(): Collection
     {
         return $this->demographicCampGroups;

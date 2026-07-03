@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MyOrganizationController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\DataProvider\FilterDataProvider $filterDataProvider, private readonly \App\Service\DataProvider\MyOrganization\GenderStatsDataProvider $genderStatsProvider, private readonly \App\Service\DataProvider\MyOrganization\StageStatsDataProvider $statsDataProvider, private readonly \App\Service\DataProvider\DemographicStatsDataProvider $demographicStatsProvider, private readonly \App\Service\DataProvider\MyOrganization\DepartmentNamesDataProvider $departmentNamesProvider, private readonly \App\Service\DataProvider\MyOrganization\PreviewDataProvider $previewProvider)
+    public function __construct(private readonly FilterDataProvider $filterDataProvider, private readonly GenderStatsDataProvider $genderStatsProvider, private readonly StageStatsDataProvider $statsDataProvider, private readonly DemographicStatsDataProvider $demographicStatsProvider, private readonly DepartmentNamesDataProvider $departmentNamesProvider, private readonly PreviewDataProvider $previewProvider)
     {
     }
     /**

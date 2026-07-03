@@ -2,6 +2,8 @@
 
 namespace App\Service\Gamification;
 
+use Exception;
+use DateTimeImmutable;
 use App\DTO\Mapper\GamificationGoalMapper;
 use App\DTO\Mapper\GamificationLevelMapper;
 use App\DTO\Mapper\GamificationPersonProfileMapper;
@@ -102,7 +104,7 @@ class PersonGamificationService
      * The progress is sometimes ignored if the goal is in a level that is more than 1 level ahead.
      * @param PbsUserDTO $pbsUserDTO
      * @param string $type of the goal
-     * @throws \Exception
+     * @throws Exception
      */
     public function genericGoalProgress(PbsUserDTO $pbsUserDTO, string $type)
     {
@@ -148,7 +150,7 @@ class PersonGamificationService
                 }
                 break;
             default:
-                throw new \Exception('typo in type');
+                throw new Exception('typo in type');
         }
 
         $this->checkLevelUp($pgp);
@@ -200,7 +202,7 @@ class PersonGamificationService
             $log = new LevelUpLog();
             $log->setPerson($person->getPerson());
             $log->setLevel($nextLevel);
-            $log->setDate(new \DateTimeImmutable());
+            $log->setDate(new DateTimeImmutable());
             $log->setDisplayed(false);
             $this->levelUpLogRepository->add($log);
         }
@@ -226,7 +228,7 @@ class PersonGamificationService
         $personGamificationDTO = GamificationPersonProfileMapper::createFromEntity($personGamification, $locale);
 
         if (count($levels) === 0) {
-            throw new \Exception('no levels found?!');
+            throw new Exception('no levels found?!');
         }
         $levelDtos = [];
         foreach ($levels as $level) {
@@ -278,7 +280,7 @@ class PersonGamificationService
                         $goalDTOs[] = GamificationGoalMapper::createFromEntity($goal, $locale, $completed, $personGamification->getAccessGrantedCount());
                         break;
                     default:
-                        throw new \Exception('Couldnt find goal');
+                        throw new Exception('Couldnt find goal');
                 }
             }
             if (count($goalDTOs) !== 0) {
@@ -355,7 +357,7 @@ class PersonGamificationService
      * that exist in the hc_aggregated_quap table.
      * @param Person $person
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     private function isElFilledOut(Person $person): bool
     {
@@ -389,7 +391,7 @@ class PersonGamificationService
             foreach ($changedAspectLocalIds as $aspectLocalId) {
                 $eventLog = new GamificationQuapEvent();
                 $eventLog->setQuestionnaire($aggregatedQuap->getQuestionnaire());
-                $eventLog->setDate(new \DateTimeImmutable());
+                $eventLog->setDate(new DateTimeImmutable());
                 $eventLog->setGroup($aggregatedQuap->getGroup());
                 $eventLog->setPerson($this->personRepository->find($pbsUserDTO->getId()));
                 $eventLog->setAspectLocalId($aspectLocalId);

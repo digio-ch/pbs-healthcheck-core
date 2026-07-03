@@ -2,6 +2,7 @@
 
 namespace App\Entity\General;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\General\StatusMessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,19 +12,19 @@ class StatusMessage
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private int $id;
 
     #[ORM\Column(type: 'hc_status_message_severity')]
     private StatusMessageSeverity $severity;
 
-    #[ORM\Column(type: 'string', length: 500)]
+    #[ORM\Column(type: Types::STRING, length: 500)]
     private string $deMessage;
 
-    #[ORM\Column(type: 'string', length: 500)]
+    #[ORM\Column(type: Types::STRING, length: 500)]
     private string $itMessage;
 
-    #[ORM\Column(type: 'string', length: 500)]
+    #[ORM\Column(type: Types::STRING, length: 500)]
     private string $frMessage;
 
 

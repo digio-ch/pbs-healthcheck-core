@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CampController extends AbstractController
 {
-    public function __construct(private readonly \App\Service\DataProvider\DemographicCampDataProvider $demographicCampDataProvider)
+    public function __construct(private readonly DemographicCampDataProvider $demographicCampDataProvider)
     {
     }
 

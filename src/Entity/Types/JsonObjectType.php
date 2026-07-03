@@ -2,6 +2,7 @@
 
 namespace App\Entity\Types;
 
+use RuntimeException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
@@ -31,7 +32,7 @@ class JsonObjectType extends Type
             throw ConversionException::conversionFailedSerialization(
                 $value,
                 'json',
-                new \RuntimeException(json_last_error_msg()),
+                new RuntimeException(json_last_error_msg()),
             );
         }
 

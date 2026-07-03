@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,11 +17,11 @@ abstract class Event
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $name = '';
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name = '';
 
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: EventGroup::class, cascade: ['persist', 'remove'])]

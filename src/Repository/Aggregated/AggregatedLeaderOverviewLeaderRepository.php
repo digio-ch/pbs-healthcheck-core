@@ -6,6 +6,9 @@ use App\Entity\Aggregated\AggregatedLeaderOverviewLeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<AggregatedLeaderOverviewLeader>
+ */
 class AggregatedLeaderOverviewLeaderRepository extends ServiceEntityRepository
 {
     /**

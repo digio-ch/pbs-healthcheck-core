@@ -2,6 +2,7 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Quap\Questionnaire;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,21 +27,21 @@ class AggregatedQuap extends AggregatedEntity
      */
     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: Questionnaire::class, inversedBy: 'widgetQuap')]
-    private $questionnaire;
+    private ?Questionnaire $questionnaire = null;
 
     #[ORM\Column(type: 'json_object')]
     private $answers;
 
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: Types::JSON)]
     private $computedAnswers;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     protected $dataPointDate;
 
     /**
      * @var bool $allowAccess
      */
-    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private bool $allowAccess = false;
 
     /**

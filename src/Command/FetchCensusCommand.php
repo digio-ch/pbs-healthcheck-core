@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Entity\Midata\CensusGroup;
 use App\Model\CommandStatistics;
 use App\Repository\Midata\CensusGroupRepository;
@@ -12,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'app:fetch-census', description: 'Fetch and aggregate census data')]
+#[AsCommand(name: 'app:fetch-census', description: 'Fetch and aggregate census data')]
 class FetchCensusCommand extends StatisticsCommand
 {
     protected CensusAPIService $apiService;

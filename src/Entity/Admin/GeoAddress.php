@@ -2,6 +2,7 @@
 
 namespace App\Entity\Admin;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\Person;
 use App\Repository\Admin\GeoAddressRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,28 +18,28 @@ class GeoAddress
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'integer')]
-    private $zip;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $zip = null;
 
-    #[ORM\Column(type: 'string')]
-    private $town;
+    #[ORM\Column(type: Types::STRING)]
+    private ?string $town = null;
 
-    #[ORM\Column(type: 'string')]
-    private $address;
+    #[ORM\Column(type: Types::STRING)]
+    private ?string $address = null;
 
-    #[ORM\Column(type: 'string')]
-    private $house;
+    #[ORM\Column(type: Types::STRING)]
+    private ?string $house = null;
 
-    #[ORM\Column(type: 'float')]
-    private $longitude;
+    #[ORM\Column(type: Types::FLOAT)]
+    private ?float $longitude = null;
 
-    #[ORM\Column(type: 'float')]
-    private $latitude;
+    #[ORM\Column(type: Types::FLOAT)]
+    private ?float $latitude = null;
 
-    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'geoAddress')]
+    #[ORM\OneToMany(mappedBy: 'geoAddress', targetEntity: Person::class)]
     private $people;
 
     public function __construct()
