@@ -22,10 +22,10 @@ class CensusMapper
         $dto->setName($statisticGroup->getName());
         $dto->setType($statisticGroup->getGroupType()->getGroupType());
         $parent = $statisticGroup->getParentGroup();
-        $parentId = !is_null($parent) ? $parent->getId() : null;
+        $parentId = is_null($parent) ? null : $parent->getId();
         $dto->setParentId($parentId);
 
-        if (sizeof($censusGroups) < 1) {
+        if (count($censusGroups) < 1) {
             $dto->setMissing(true);
             return $dto;
         }

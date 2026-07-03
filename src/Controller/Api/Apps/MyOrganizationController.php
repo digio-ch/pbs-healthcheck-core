@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Apps;
 
+use DateTime;
 use App\DTO\Model\FilterRequestData\DateAndDateRangeRequestData;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
@@ -34,8 +35,7 @@ class MyOrganizationController extends AbstractController
         Request $request,
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         if (!$this->isAssociation($group)) {
             throw new ApiException(400, "Only for regions and cantons");
@@ -133,8 +133,7 @@ class MyOrganizationController extends AbstractController
         DateRequestData $dateRequestData,
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         if (!$this->isAssociation($group)) {
             throw new ApiException(400, "Only for regions and cantons");
@@ -153,8 +152,7 @@ class MyOrganizationController extends AbstractController
     public function getPreview(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         if (!$this->isAssociation($group)) {
             throw new ApiException(400, "Only for regions and cantons");
@@ -173,7 +171,7 @@ class MyOrganizationController extends AbstractController
 
     private function requestToTimeFrame(DateAndDateRangeRequestData $req): TimeFrame
     {
-        if ($req->getDate()) {
+        if ($req->getDate() instanceof DateTime) {
             return TimeFrame::fromDate($req->getDate());
         }
 

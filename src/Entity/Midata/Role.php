@@ -174,9 +174,9 @@ class Role
         return $this->layerType;
     }
 
-    public function setLayerType(?string $type): void
+    public function setLayerType(?string $layerType): void
     {
-        $this->type = $type;
+        $this->layerType = $layerType;
     }
 
     public function getRoleType(): ?string

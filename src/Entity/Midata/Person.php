@@ -247,11 +247,9 @@ class Person
 
     public function removeLogin(Login $login): self
     {
-        if ($this->logins->removeElement($login)) {
-            // set the owning side to null (unless already changed)
-            if ($login->getPerson() === $this) {
-                $login->setPerson(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->logins->removeElement($login) && $login->getPerson() === $this) {
+            $login->setPerson(null);
         }
 
         return $this;
@@ -294,11 +292,9 @@ class Person
 
     public function removeLevelUp(LevelUpLog $displayed): self
     {
-        if ($this->levelUps->removeElement($displayed)) {
-            // set the owning side to null (unless already changed)
-            if ($displayed->getPerson() === $this) {
-                $displayed->setPerson(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->levelUps->removeElement($displayed) && $displayed->getPerson() === $this) {
+            $displayed->setPerson(null);
         }
 
         return $this;
@@ -324,11 +320,9 @@ class Person
 
     public function removeGamificationQuapEvent(GamificationQuapEvent $gamificationQuapEvent): self
     {
-        if ($this->gamificationQuapEvents->removeElement($gamificationQuapEvent)) {
-            // set the owning side to null (unless already changed)
-            if ($gamificationQuapEvent->getPerson() === $this) {
-                $gamificationQuapEvent->setPerson(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->gamificationQuapEvents->removeElement($gamificationQuapEvent) && $gamificationQuapEvent->getPerson() === $this) {
+            $gamificationQuapEvent->setPerson(null);
         }
 
         return $this;

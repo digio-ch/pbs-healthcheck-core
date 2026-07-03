@@ -167,16 +167,16 @@ class Group
     public function setGroupSettings(?GroupSettings $groupSettings): self
     {
         // unset the owning side of the relation if necessary
-        if ($groupSettings === null && $this->groupSettings !== null) {
+        if (!$groupSettings instanceof GroupSettings && $this->groupSettings instanceof GroupSettings) {
             $this->groupSettings->setGroup(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($groupSettings !== null && $groupSettings->getGroup() !== $this) {
+        if ($groupSettings instanceof GroupSettings && $groupSettings->getGroup() !== $this) {
             $groupSettings->setGroup($this);
         }
 
-        $this->roleOverviewFilter = $groupSettings;
+        $this->groupSettings = $groupSettings;
 
         return $this;
     }
@@ -201,11 +201,9 @@ class Group
 
     public function removeLogin(Login $login): self
     {
-        if ($this->logins->removeElement($login)) {
-            // set the owning side to null (unless already changed)
-            if ($login->getGgroup() === $this) {
-                $login->setGgroup(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->logins->removeElement($login) && $login->getGgroup() === $this) {
+            $login->setGgroup(null);
         }
 
         return $this;
@@ -231,11 +229,9 @@ class Group
 
     public function removeGamificationQuapEvent(GamificationQuapEvent $gamificationQuapEvent): self
     {
-        if ($this->gamificationQuapEvents->removeElement($gamificationQuapEvent)) {
-            // set the owning side to null (unless already changed)
-            if ($gamificationQuapEvent->getGroup() === $this) {
-                $gamificationQuapEvent->setGroup(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->gamificationQuapEvents->removeElement($gamificationQuapEvent) && $gamificationQuapEvent->getGroup() === $this) {
+            $gamificationQuapEvent->setGroup(null);
         }
 
         return $this;

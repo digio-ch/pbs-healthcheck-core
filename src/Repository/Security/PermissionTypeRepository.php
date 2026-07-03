@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository\Security;
 
 use App\Entity\Security\PermissionType;

@@ -43,7 +43,7 @@ class PseudonymizeLoginCommand extends StatisticsCommand
             foreach ($pseudonymizedLogins as $login) {
                 $output->writeln('id: ' . $login->getId());
             }
-            $output->writeln('Total of ' . sizeof($pseudonymizedLogins) . ' logins have been pseudonymized.');
+            $output->writeln('Total of ' . count($pseudonymizedLogins) . ' logins have been pseudonymized.');
         }
         $this->duration = microtime(true) - $start;
         return 0;

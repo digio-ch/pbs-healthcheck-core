@@ -39,11 +39,7 @@ class RedactorProcessor implements ProcessorInterface
         foreach ($value as $key => $val) {
             $needle = is_string($key) ? strtolower($key) : $key;
 
-            if (is_string($needle) && in_array($needle, self::FORBIDDEN, true)) {
-                $result[$key] = '[REDACTED]';
-            } else {
-                $result[$key] = self::redact($val);
-            }
+            $result[$key] = is_string($needle) && in_array($needle, self::FORBIDDEN, true) ? '[REDACTED]' : self::redact($val);
         }
 
         return $result;

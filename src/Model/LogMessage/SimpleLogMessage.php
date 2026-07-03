@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model\LogMessage;
 
 use App\Service\Logger\Messages\LogMessage;

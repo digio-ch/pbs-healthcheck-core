@@ -3,6 +3,7 @@
 namespace App\Service\Http;
 
 use function GuzzleHttp\json_encode;
+
 use Closure;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
@@ -43,15 +44,8 @@ class GuzzleWrapper
             if ($exception instanceof ConnectException) {
                 return true;
             }
-
-            if ($response) {
-                // Retry on server errors
-                if ($response->getStatusCode() >= 500 || $response->getStatusCode() === 404) {
-                    return true;
-                }
-            }
-
-            return false;
+            // Retry on server errors
+            return $response instanceof Response && ($response->getStatusCode() >= 500 || $response->getStatusCode() === 404);
         };
     }
 

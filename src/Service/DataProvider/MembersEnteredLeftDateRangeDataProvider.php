@@ -62,7 +62,7 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
             $leadersOnly = true;
         }
 
-        if (!$data) {
+        if ($data === []) {
             return $result;
         }
 
@@ -172,7 +172,7 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
     {
         $result = [];
 
-        if (!$data) {
+        if ($data === []) {
             return $result;
         }
 

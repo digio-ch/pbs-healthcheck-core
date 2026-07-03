@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Api;
 
 use App\Entity\Midata\Group;
@@ -18,8 +20,7 @@ class DateFilterController extends AbstractController
     public function getDateFilterData(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->dateFilterService->getAvailableDates($group);
         return $this->json($data);

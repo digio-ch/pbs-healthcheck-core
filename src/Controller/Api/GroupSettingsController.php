@@ -24,8 +24,7 @@ class GroupSettingsController extends AbstractController
         Request $request,
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    )
-    {
+    ) {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $groupSettings = $group->getGroupSettings();
         $groupSettings->setRoleOverviewFilter(json_decode($request->getContent()));

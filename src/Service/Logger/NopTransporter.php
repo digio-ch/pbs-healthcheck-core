@@ -13,5 +13,4 @@ class NopTransporter implements TransportInterface
     {
         return 0;
     }
-
 }

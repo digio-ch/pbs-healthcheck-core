@@ -32,8 +32,7 @@ class CensusController extends AbstractController
     public function getPreview(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         return $this->json($this->censusDataProvider->getPreviewData($group));
     }
@@ -42,8 +41,7 @@ class CensusController extends AbstractController
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         CensusRequestData $censusRequestData
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getTableData($group, $censusRequestData);
         return $this->json($data);
@@ -53,8 +51,7 @@ class CensusController extends AbstractController
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         CensusRequestData $censusRequestData
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getDevelopmentData($group, $censusRequestData);
         return $this->json($data);
@@ -65,8 +62,7 @@ class CensusController extends AbstractController
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         CensusRequestData $censusRequestData
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getMembersData($group, $censusRequestData);
         return $this->json($data);
@@ -76,8 +72,7 @@ class CensusController extends AbstractController
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         CensusRequestData $censusRequestData
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->censusDataProvider->getTreemapData($group, $censusRequestData);
         return $this->json($data);
@@ -90,8 +85,7 @@ class CensusController extends AbstractController
     public function getFilterData(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(403, "Only for regions and cantons");
@@ -109,8 +103,7 @@ class CensusController extends AbstractController
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         CensusRequestData $censusRequestData
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(403, "Only for regions and cantons");

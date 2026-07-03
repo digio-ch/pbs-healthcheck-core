@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\FilterRequestData;
 
 use App\Entity\Midata\Group;
@@ -65,7 +67,7 @@ class CensusRequestData
      */
     public function isFilterMales(): bool
     {
-        return !!$this->filterMales;
+        return (bool) $this->filterMales;
     }
 
     /**
@@ -89,7 +91,7 @@ class CensusRequestData
      */
     public function isFilterFemales(): bool
     {
-        return !!$this->filterFemales;
+        return (bool) $this->filterFemales;
     }
 
     /**
@@ -111,10 +113,6 @@ class CensusRequestData
         if (!is_null($this->filterMales)) {
             return false;
         }
-        if (!is_null($this->filterFemales)) {
-            return false;
-        }
-
-        return true;
+        return is_null($this->filterFemales);
     }
 }

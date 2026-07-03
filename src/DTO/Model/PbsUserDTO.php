@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model;
 
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,9 +21,9 @@ class PbsUserDTO implements UserInterface
     private string $correspondenceLanguage;
     private string $gender;
     /** @var array|PbsRoleDTO[] */
-    private array $roles;
+    private array $roles = [];
     /** @var array|GroupDTO[] */
-    private array $groups;
+    private array $groups = [];
 
     /**
      * PbsUserDTO constructor.
@@ -33,8 +35,6 @@ class PbsUserDTO implements UserInterface
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->nickName = $nickName;
-        $this->roles = [];
-        $this->groups = [];
     }
 
     public function setId(int $id): void

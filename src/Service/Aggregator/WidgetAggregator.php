@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Service\Aggregator;
+declare(strict_types=1);
 
+namespace App\Service\Aggregator;
 
 /**
  * This class was part of the legacy aggregators and is retained

@@ -46,8 +46,7 @@ class InviteController extends AbstractController
         Request $request,
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
         try {
             /** @var InviteDTO $inviteDTO */
@@ -95,8 +94,7 @@ class InviteController extends AbstractController
     public function getInvites(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
         return $this->json($this->inviteService->getAllInvites($group));
     }
@@ -106,8 +104,7 @@ class InviteController extends AbstractController
         Group $group,
         #[MapEntity(mapping: ['inviteId' => 'id'])]
         Permission $permission
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
         $result = $this->inviteService->renewInvite($group, $this->getUser(), $permission);
         return $this->json($result, Response::HTTP_OK);
@@ -118,8 +115,7 @@ class InviteController extends AbstractController
         Group $group,
         #[MapEntity(mapping: ['inviteId' => 'id'])]
         Permission $invite
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
         $this->inviteService->deleteInvite($invite, $group);
         $action = $this->translator->trans('api.action.deleted');

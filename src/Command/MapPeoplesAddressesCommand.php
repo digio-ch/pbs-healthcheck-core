@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Admin\GeoAddress;
 use Symfony\Component\Console\Attribute\AsCommand;
 use App\DTO\Model\AddressMappingDTO;
 use App\Entity\Midata\Person;
@@ -104,7 +105,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         if (
             is_null($person->getAddress()) || $person->getAddress() === '' ||
             (
-                is_null($person->getZip()) || $person->getZip() == 0 &&
+                is_null($person->getZip()) || $person->getZip() === 0 &&
                 is_null($person->getTown()) || $person->getTown() === ''
             )
         ) {
@@ -126,7 +127,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $matches = array();
         preg_match('/(\d+[a-z]?)/i', $address, $matches);
 
-        if (sizeof($matches) < 1) {
+        if (count($matches) < 1) {
             $addressMappingDTO->setCode(AddressMappingDTO::ERROR_INVALID_ADDRESS);
             $this->writeData($outputFile, $addressMappingDTO);
             return false;
@@ -139,7 +140,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $street = preg_replace('/(\d+[a-z]?)/i', '', $address);
         $addressMappingDTO->setStreetWithoutNumber($street);
 
-        if ($street == '' || $houseNumber == '') {
+        if ($street == '' || $houseNumber === '') {
             $addressMappingDTO->setCode(AddressMappingDTO::ERROR_INVALID_ADDRESS);
             $this->writeData($outputFile, $addressMappingDTO);
             $profiler->endTimer();
@@ -149,7 +150,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $street = $this->mapStreet($street, $addressMappingDTO);
 
         // check if there is even a street remaining
-        if (strlen($street) == 0) {
+        if ($street === '') {
             $addressMappingDTO->setCode(AddressMappingDTO::ERROR_NORMALIZING_ERROR);
             $this->writeData($outputFile, $addressMappingDTO);
             $profiler->endTimer();
@@ -163,7 +164,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $profiler->endTimer();
 
         // couldn't find a geo location for this persons address
-        if (!$geoLocation) {
+        if (!$geoLocation instanceof GeoAddress) {
             $addressMappingDTO->setCode(AddressMappingDTO::ERROR_NO_GEO_LOCATION);
             $this->writeData($outputFile, $addressMappingDTO);
             return false;

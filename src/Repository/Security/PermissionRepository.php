@@ -123,7 +123,7 @@ class PermissionRepository extends ServiceEntityRepository
                 $permissionTypeId,
                 $groupId,
                 $email,
-                $expirationDate ? $expirationDate->format('Y-m-d') : null,
+                $expirationDate instanceof DateTimeImmutable ? $expirationDate->format('Y-m-d') : null,
             ],
             [
                 ParameterType::INTEGER,

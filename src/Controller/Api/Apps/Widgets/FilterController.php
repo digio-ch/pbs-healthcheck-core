@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Api\Apps\Widgets;
 
 use App\Entity\Midata\Group;
@@ -24,8 +26,7 @@ class FilterController extends AbstractController
         Request $request,
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->filterDataProvider->getData($group, $request->getLocale());
         return $this->json($data);
@@ -40,8 +41,7 @@ class FilterController extends AbstractController
         Group $group,
         #[MapEntity(mapping: ['departmentId' => 'id'])]
         Group $department
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
         if (!$this->overviewSharedService->validateOverviewAccess($group, $department)) {
             throw new ApiException(400, "Department has to be shared and a child of the parent group");
@@ -57,8 +57,7 @@ class FilterController extends AbstractController
         Request $request,
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->filterDataProvider->getGroupTypes($group, $request->getLocale());
         return $this->json($data);

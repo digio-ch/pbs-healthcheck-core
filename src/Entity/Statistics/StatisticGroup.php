@@ -89,11 +89,9 @@ class StatisticGroup
 
     public function removeChild(self $child): self
     {
-        if ($this->children->removeElement($child)) {
-            // set the owning side to null (unless already changed)
-            if ($child->getParentGroup() === $this) {
-                $child->setParentGroup(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->children->removeElement($child) && $child->getParentGroup() === $this) {
+            $child->setParentGroup(null);
         }
 
         return $this;
@@ -156,11 +154,9 @@ class StatisticGroup
 
     public function removeGeoLocation(GroupGeoLocation $geoLocation): self
     {
-        if ($this->geoLocations->removeElement($geoLocation)) {
-            // set the owning side to null (unless already changed)
-            if ($geoLocation->getGroups() === $this) {
-                $geoLocation->setGroups(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->geoLocations->removeElement($geoLocation) && $geoLocation->getGroups() === $this) {
+            $geoLocation->setGroups(null);
         }
 
         return $this;

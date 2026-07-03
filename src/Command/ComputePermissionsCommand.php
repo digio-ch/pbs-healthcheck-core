@@ -106,7 +106,7 @@ class ComputePermissionsCommand extends StatisticsCommand
 
             $assigned[$permissionGroupId][$personId] = true;
 
-            if ($key > 0 && $key % 500 == 0) {
+            if ($key > 0 && $key % 500 === 0) {
                 $this->permissionRepository->flush();
             }
         }
@@ -283,9 +283,6 @@ class ComputePermissionsCommand extends StatisticsCommand
 
     private function isSubGroup(string $groupType): bool
     {
-        if (in_array($groupType, self::SUB_DEPARTMENTS, true)) {
-            return true;
-        }
-        return false;
+        return in_array($groupType, self::SUB_DEPARTMENTS, true);
     }
 }

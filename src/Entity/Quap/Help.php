@@ -178,11 +178,9 @@ class Help
 
     public function removeLinksDe(Link $linksDe): self
     {
-        if ($this->linksDe->removeElement($linksDe)) {
-            // set the owning side to null (unless already changed)
-            if ($linksDe->getHelpDe() === $this) {
-                $linksDe->setHelpDe(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->linksDe->removeElement($linksDe) && $linksDe->getHelpDe() === $this) {
+            $linksDe->setHelpDe(null);
         }
 
         return $this;
@@ -213,11 +211,9 @@ class Help
 
     public function removeLinksFr(Link $linksFr): self
     {
-        if ($this->linksFr->removeElement($linksFr)) {
-            // set the owning side to null (unless already changed)
-            if ($linksFr->getHelpFr() === $this) {
-                $linksFr->setHelpFr(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->linksFr->removeElement($linksFr) && $linksFr->getHelpFr() === $this) {
+            $linksFr->setHelpFr(null);
         }
 
         return $this;
@@ -248,11 +244,9 @@ class Help
 
     public function removeLinksIt(Link $linksIt): self
     {
-        if ($this->linksIt->removeElement($linksIt)) {
-            // set the owning side to null (unless already changed)
-            if ($linksIt->getHelpIt() === $this) {
-                $linksIt->setHelpIt(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->linksIt->removeElement($linksIt) && $linksIt->getHelpIt() === $this) {
+            $linksIt->setHelpIt(null);
         }
 
         return $this;

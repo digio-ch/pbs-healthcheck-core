@@ -321,7 +321,7 @@ class DemographicStatsDataProvider extends WidgetDataProvider
          */
         $missingYears = [];
 
-        foreach ($barsPerYear as $year => $_) {
+        foreach (array_keys($barsPerYear) as $year) {
             if ($lastYear === null) {
                 $lastYear = $year;
                 continue;

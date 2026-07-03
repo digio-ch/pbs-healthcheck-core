@@ -34,8 +34,7 @@ class QuapController extends AbstractController
     public function getPreview(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         $data = $this->quapService->getAnswers(
             $group,
@@ -50,8 +49,7 @@ class QuapController extends AbstractController
     public function getDepartmentPreview(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
         try {
             $data = $this->quapService->getAnswersForSubDepartments(
@@ -120,8 +118,7 @@ class QuapController extends AbstractController
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         Request $request
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR, $group);
         $answers = json_decode($request->getContent(), true);
         if (is_null($answers)) {
@@ -139,8 +136,7 @@ class QuapController extends AbstractController
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         Request $request
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
         $payload = json_decode($request->getContent(), true);
         if (!isset($payload['allow_access'])) {
@@ -158,8 +154,7 @@ class QuapController extends AbstractController
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         Request $request
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
         $date = $request->get('date');
         $date = $date

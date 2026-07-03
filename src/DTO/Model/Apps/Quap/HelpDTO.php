@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Apps\Quap;
 
 class HelpDTO
@@ -11,12 +13,7 @@ class HelpDTO
     /**
      * @var LinkDTO[] $links
      */
-    private array $links;
-
-    public function __construct()
-    {
-        $this->links = [];
-    }
+    private array $links = [];
 
     public function getHelp(): string
     {

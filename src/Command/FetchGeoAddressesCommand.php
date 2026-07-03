@@ -27,7 +27,7 @@ class FetchGeoAddressesCommand extends StatisticsCommand
 
     private GeoAddressRepository $geoLocationRepository;
 
-    private int $stats;
+    private int $stats = 0;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -37,8 +37,6 @@ class FetchGeoAddressesCommand extends StatisticsCommand
 
         $this->em = $em;
         $this->geoLocationRepository = $geoLocationRepository;
-
-        $this->stats = 0;
     }
 
     protected function configure()
@@ -129,13 +127,13 @@ class FetchGeoAddressesCommand extends StatisticsCommand
                 $index++;
 
                 // flush data every 1000 entries
-                if ($index % 1000 == 0) {
+                if ($index % 1000 === 0) {
                     $this->em->flush();
                     $this->em->clear();
                 }
 
                 // log process every 500k entries
-                if ($index % 500000 == 0) {
+                if ($index % 500000 === 0) {
                     $rowTime = microtime(true) - $rowStart;
                     $output->writeln(['Imported 500 thousand (additional) geo locations in: ' . number_format($rowTime, 2) . 's']);
                     $rowStart = microtime(true);

@@ -23,7 +23,7 @@ class MembersGroupPreviewService
     public function getNewestDate(): ?DateTimeImmutable
     {
         $aggregatedData = $this->aggregatedDemographicGroupRepository->findBy([], ['dataPointDate' => 'DESC'], 1);
-        if (sizeof($aggregatedData) === 0) {
+        if (count($aggregatedData) === 0) {
             return null;
         }
 

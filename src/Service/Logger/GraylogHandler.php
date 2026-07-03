@@ -24,8 +24,7 @@ class GraylogHandler extends GelfHandler
         string|null $clientKey,
         int|Level|string $level = Level::Debug,
         bool $bubble = true
-    )
-    {
+    ) {
         $transport = $this->getTransporter($host, $port, $clientCert, $clientKey);
 
         $publisher = new Publisher($transport);
@@ -45,8 +44,7 @@ class GraylogHandler extends GelfHandler
         string|null $port,
         string|null $clientCert,
         string|null $clientKey,
-    ): TransportInterface
-    {
+    ): TransportInterface {
         $config = [$host, $port, $clientCert, $clientKey];
 
         if (array_any($config, fn($c): bool => empty($c))) {
@@ -62,6 +60,5 @@ class GraylogHandler extends GelfHandler
         $intPort = intval($port);
 
         return new TcpTransport($host, $intPort, $sslOptions);
-
     }
 }

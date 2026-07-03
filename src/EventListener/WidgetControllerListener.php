@@ -73,7 +73,7 @@ class WidgetControllerListener
             if (is_null($argument->getClass())) {
                 continue;
             }
-            if (!(is_a($argument->getClass()->getName(), FilterRequestData::class, true) || is_a($argument->getClass()->getName(), CensusRequestData::class, true))) {
+            if (!is_a($argument->getClass()->getName(), FilterRequestData::class, true) && !is_a($argument->getClass()->getName(), CensusRequestData::class, true)) {
                 continue;
             }
             $data = $this->validateRequest($request, $argument);
@@ -258,10 +258,8 @@ class WidgetControllerListener
     private function checkDates($from, $to, $date, bool $isRange, bool $isDate): void
     {
         $message = $this->translator->trans('api.error.invalidRequest');
-        if ($isDate && !$isRange) {
-            if (!DateTime::createFromFormat('Y-m-d', $date)) {
-                throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
-            }
+        if ($isDate && !$isRange && !DateTime::createFromFormat('Y-m-d', $date)) {
+            throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
         }
 
         if ($isRange && !$isDate) {

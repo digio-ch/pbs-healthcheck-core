@@ -102,7 +102,7 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
                 $groupType
             );
 
-            if (!$qualifications) {
+            if ($qualifications === []) {
                 $leaderOverviewDTO->addLeader($leaderDTO);
                 continue;
             }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Security;
 
 use App\DTO\Model\PbsUserDTO;
@@ -43,12 +45,7 @@ class PermissionVoter extends Voter
         if (!in_array($attribute, [PermissionType::VIEWER, PermissionType::EDITOR, PermissionType::EDITOR_PLUS, PermissionType::OWNER])) {
             return false;
         }
-
-        if (!$subject instanceof Group) {
-            return false;
-        }
-
-        return true;
+        return $subject instanceof Group;
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool

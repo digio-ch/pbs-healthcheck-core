@@ -10,9 +10,9 @@ use Exception;
  */
 class TimeFrame
 {
-  private ?DateTimeInterface $date;
-  private ?DateTimeInterface $from;
-  private ?DateTimeInterface $to;
+    private ?DateTimeInterface $date;
+    private ?DateTimeInterface $from;
+    private ?DateTimeInterface $to;
 
     private function __construct(
         ?DateTimeInterface $date,

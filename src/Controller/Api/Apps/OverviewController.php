@@ -27,8 +27,7 @@ class OverviewController extends AbstractController
     public function getOverviewSharing(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
         if (!$this->isDepartment($group)) {
             throw new ApiException(400, "Only for departments");
@@ -41,8 +40,7 @@ class OverviewController extends AbstractController
         Request $request,
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
         if (!$this->isDepartment($group)) {
             throw new ApiException(400, "Only for departments");
@@ -66,8 +64,7 @@ class OverviewController extends AbstractController
     public function getOverviewOfDepartmentsPreview(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(400, "Only for regions and cantons");
@@ -83,8 +80,7 @@ class OverviewController extends AbstractController
     public function getOverviewOfDepartments(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
         if (!$this->isRegionOrCanton($group)) {
             throw new ApiException(400, "Only for regions and cantons");

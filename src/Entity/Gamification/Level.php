@@ -163,11 +163,9 @@ class Level
 
     public function removeGoal(Goal $goal): self
     {
-        if ($this->goals->removeElement($goal)) {
-            // set the owning side to null (unless already changed)
-            if ($goal->getLevel() === $this) {
-                $goal->setLevel(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->goals->removeElement($goal) && $goal->getLevel() === $this) {
+            $goal->setLevel(null);
         }
 
         return $this;

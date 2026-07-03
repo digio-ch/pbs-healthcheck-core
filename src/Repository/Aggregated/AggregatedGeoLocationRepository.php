@@ -5,7 +5,6 @@ namespace App\Repository\Aggregated;
 use Doctrine\DBAL\Exception;
 use App\Entity\Aggregated\AggregatedGeoLocation;
 use Doctrine\DBAL\ArrayParameterType;
-
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 

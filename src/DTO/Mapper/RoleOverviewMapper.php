@@ -27,7 +27,7 @@ class RoleOverviewMapper
     {
         $groupSettings = $group->getGroupSettings();
         $filter = $groupSettings->getRoleOverviewFilter();
-        if (!$filter || !sizeof($filter)) {
+        if (!$filter || !count($filter)) {
             if ($group->getGroupType()->getGroupType() === GroupType::DEPARTMENT) {
                 $filter = GroupSettings::DEFAULT_DEPARMENT_ROLES;
             } elseif ($group->getGroupType()->getGroupType() === GroupType::REGION) {

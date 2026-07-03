@@ -52,7 +52,7 @@ class AnswersMapper
      */
     public static function reverseSortAspects(array $aspects): array
     {
-        foreach ($aspects as $questionId => $_) {
+        foreach (array_keys($aspects) as $questionId) {
             krsort($aspects[$questionId]);
         }
 

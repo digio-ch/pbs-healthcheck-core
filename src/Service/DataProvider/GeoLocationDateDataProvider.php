@@ -76,7 +76,7 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
         } else {
             $color = self::GROUP_TYPE_COLORS[$geoLocation['group_type']];
         }
-        if ($color) {
+        if (!empty($color)) {
             $dtoType->setColor($color);
         }
 

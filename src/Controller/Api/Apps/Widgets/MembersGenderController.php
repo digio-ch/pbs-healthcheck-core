@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Apps\Widgets;
 
+use DateTime;
 use App\DTO\Model\FilterRequestData\DateAndDateRangeRequestData;
 use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
@@ -30,7 +31,7 @@ class MembersGenderController extends AbstractController
 
         $data = [];
 
-        if ($dateAndDateRangeRequestData->getDate()) {
+        if ($dateAndDateRangeRequestData->getDate() instanceof DateTime) {
             $data = $this->membersGenderDateDataProvider->getData(
                 $widgetRequestData->getGroup(),
                 $dateAndDateRangeRequestData->getDate()->format('Y-m-d'),
@@ -64,7 +65,7 @@ class MembersGenderController extends AbstractController
 
         $data = [];
 
-        if ($dateAndDateRangeRequestData->getDate()) {
+        if ($dateAndDateRangeRequestData->getDate() instanceof DateTime) {
             $data = $this->membersGenderDateDataProvider->getData(
                 $widgetRequestData->getDepartment(),
                 $dateAndDateRangeRequestData->getDate()->format('Y-m-d'),

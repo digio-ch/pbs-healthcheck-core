@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Apps\Quap;
 
 class QuestionDTO
@@ -13,12 +15,7 @@ class QuestionDTO
     /**
      * @var HelpDTO[] $help
      */
-    private array $help;
-
-    public function __construct()
-    {
-        $this->help = [];
-    }
+    private array $help = [];
 
     public function getId(): int
     {

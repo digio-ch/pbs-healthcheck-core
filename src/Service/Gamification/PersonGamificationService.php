@@ -167,10 +167,8 @@ class PersonGamificationService
         }
         $nextLevel = $nextLevel[0];
         $levelUp = false;
-        if ($currentLevel->getKey() === 0) {
-            if ($person->getHasUsedDatafilter() && ($person->getHasUsedCardLayer() || $person->getHasUsedTimefilter() || $person->getHasSharedEl())) {
-                $levelUp = true;
-            }
+        if ($currentLevel->getKey() === 0 && ($person->getHasUsedDatafilter() && ($person->getHasUsedCardLayer() || $person->getHasUsedTimefilter() || $person->getHasSharedEl()))) {
+            $levelUp = true;
         }
         if ($currentLevel->getKey() === 1) {
             $completedCounter = 0;
@@ -189,10 +187,8 @@ class PersonGamificationService
                 }
             }
         }
-        if ($currentLevel->getKey() === 2) {
-            if ($person->getElImproved() && ($this->checkLoginGoal($person) || $person->getAccessGrantedCount() >= 3)) {
-                $levelUp = true;
-            }
+        if ($currentLevel->getKey() === 2 && ($person->getElImproved() && ($this->checkLoginGoal($person) || $person->getAccessGrantedCount() >= 3))) {
+            $levelUp = true;
         }
 
         if ($levelUp) {

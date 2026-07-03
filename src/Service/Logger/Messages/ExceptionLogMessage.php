@@ -69,21 +69,20 @@ class ExceptionLogMessage extends LogMessage
         return $serialized;
     }
 
-    private function serializeValue(object $value)
+    private function serializeValue(mixed $value): array|string|null|object
     {
-        switch (true) {
-            case is_array($value):
-                return array_map(function ($item) {
-                    return $this->serializeValue($item);
-                }, $value);
-            case is_object($value):
-                return $this->getDoctrineIdentifier($value);
-            default:
-                return $value;
+        if (is_array($value)) {
+            return array_map(function (object $item): array|object|string|null {
+                return $this->serializeValue($item);
+            }, $value);
         }
+        if (is_object($value)) {
+            return $this->getDoctrineIdentifier($value);
+        }
+        return $value;
     }
 
-    private function getDoctrineIdentifier(object $obj): ?string
+    private function getDoctrineIdentifier(mixed $obj): ?string
     {
         if ($obj === null) {
             return null;
@@ -91,7 +90,7 @@ class ExceptionLogMessage extends LogMessage
 
         $class = get_class($obj);
 
-        if ($this->em === null || $this->em->getMetadataFactory()->isTransient($class)) {
+        if (!$this->em instanceof EntityManagerInterface || $this->em->getMetadataFactory()->isTransient($class)) {
             return $class;
         }
 
@@ -103,6 +102,6 @@ class ExceptionLogMessage extends LogMessage
             $serialized[] = sprintf('%s: { %s }', $key, $this->serializeValue($value));
         }
 
-        return sprintf('%s: { %s }', $class, join(', ', $serialized));
+        return sprintf('%s: { %s }', $class, implode(', ', $serialized));
     }
 }

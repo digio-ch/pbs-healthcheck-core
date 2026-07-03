@@ -2,6 +2,7 @@
 
 namespace App\DTO\Mapper;
 
+use Doctrine\Common\Collections\Collection;
 use App\DTO\Model\Apps\Quap\QuestionDTO;
 use App\Entity\Quap\Question;
 
@@ -27,7 +28,7 @@ class QuestionMapper
                 break;
         }
 
-        if ($question->getHelp()) {
+        if ($question->getHelp() instanceof Collection) {
             foreach ($question->getHelp() as $help) {
                 $dto->addHelp(HelpMapper::createHelpFromEntity($help, $locale));
             }

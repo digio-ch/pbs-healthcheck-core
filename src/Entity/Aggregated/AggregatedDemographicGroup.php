@@ -20,38 +20,25 @@ use Doctrine\ORM\Mapping as ORM;
 class AggregatedDemographicGroup extends AggregatedEntity
 {
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    private ?int $mCount = null;
+    private ?int $mCount = 0;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    private ?int $fCount = null;
+    private ?int $fCount = 0;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    private ?int $uCount = null;
+    private ?int $uCount = 0;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    private ?int $mCountLeader = null;
+    private ?int $mCountLeader = 0;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    private ?int $fCountLeader = null;
+    private ?int $fCountLeader = 0;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    private ?int $uCountLeader = null;
+    private ?int $uCountLeader = 0;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $groupType = null;
-
-    /**
-     * AggregatedDemographicGroup constructor.
-     */
-    public function __construct()
-    {
-        $this->mCount = 0;
-        $this->mCountLeader = 0;
-        $this->fCount = 0;
-        $this->fCountLeader = 0;
-        $this->uCount = 0;
-        $this->uCountLeader = 0;
-    }
 
 
     public function setMCount(int $mCount): void

@@ -148,7 +148,7 @@ class QuapService
     public function getAnswers(Group $group, ?DateTimeImmutable $dateTime): AnswersDTO
     {
         $widgetQuap = $this->quapRepository->findOneBy([
-            "dataPointDate" => $dateTime !== null ? $dateTime->setTime(0, 0) : null,
+            "dataPointDate" => $dateTime instanceof DateTimeImmutable ? $dateTime->setTime(0, 0) : null,
             "group" => $group->getId()
         ]);
 
@@ -162,7 +162,7 @@ class QuapService
     public function getAnswersForSubDepartments(Group $group, ?DateTimeImmutable $date): array
     {
         $ids = $this->getDepartmentIdsFromGroup($group);
-        $dateString = $date !== null ? $date->format('Y-m-d') : null;
+        $dateString = $date instanceof DateTimeImmutable ? $date->format('Y-m-d') : null;
         $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
 
         return array_map(
@@ -181,7 +181,7 @@ class QuapService
 
         $ids = $this->getDepartmentIdsFromGroup($group);
 
-        $dateString = $date !== null ? $date->format('Y-m-d') : null;
+        $dateString = $date instanceof DateTimeImmutable ? $date->format('Y-m-d') : null;
         $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
 
         if ($groupType->getGroupType() === GroupType::REGION) {
@@ -272,7 +272,7 @@ class QuapService
 
         foreach ($root->getChildren() as $node) {
             $match = $this->findParentQuapNode($node, $child);
-            if ($match !== null) {
+            if ($match instanceof QuapNode) {
                 return $match;
             }
         }
@@ -303,7 +303,7 @@ class QuapService
             $node = new QuapNode($element);
 
             $parent = $this->findParentQuapNode($root, $node);
-            if ($parent === null) {
+            if (!$parent instanceof QuapNode) {
                 $quaps[] = $element;
                 continue;
             }

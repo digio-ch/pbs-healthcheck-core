@@ -100,7 +100,7 @@ class WidgetDataProvider
         array $subGroupTypes = WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES
     ): array {
         $subGroups = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($parentGroupId, $subGroupTypes);
-        if (!$subGroups) {
+        if ($subGroups === []) {
             throw new NotFoundHttpException('No subgroups for group with id ' . $parentGroupId . ' found');
         }
         $ids = [];
@@ -119,7 +119,7 @@ class WidgetDataProvider
         array $subGroupTypes = WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES
     ): array {
         $subGroups = $this->groupRepository->findAllRelevantSubGroupsByParentGroupId($parentGroupId, $subGroupTypes);
-        if (!$subGroups) {
+        if ($subGroups === []) {
             throw new NotFoundHttpException('No subgroups for group with id ' . $parentGroupId . ' found');
         }
 

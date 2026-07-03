@@ -56,19 +56,19 @@ class MembersGenderDateDataProvider extends WidgetDataProvider
 
         $pieChartDataDto = new PieChartDataDTO();
         $pieChartDataDto->setName($this->translator->trans('gender.female'));
-        $pieChartDataDto->setValue(!$queryData ? 0 : $queryData[0]['f']);
+        $pieChartDataDto->setValue($queryData === [] ? 0 : $queryData[0]['f']);
         $pieChartDataDto->setColor('');
         $result[] = $pieChartDataDto;
 
         $pieChartDataDto = new PieChartDataDTO();
         $pieChartDataDto->setName($this->translator->trans('gender.unknown'));
-        $pieChartDataDto->setValue(!$queryData ? 0 : $queryData[0]['u']);
+        $pieChartDataDto->setValue($queryData === [] ? 0 : $queryData[0]['u']);
         $pieChartDataDto->setColor('');
         $result[] = $pieChartDataDto;
 
         $pieChartDataDto = new PieChartDataDTO();
         $pieChartDataDto->setName($this->translator->trans('gender.male'));
-        $pieChartDataDto->setValue(!$queryData ? 0 : $queryData[0]['m']);
+        $pieChartDataDto->setValue($queryData === [] ? 0 : $queryData[0]['m']);
         $pieChartDataDto->setColor('');
         $result[] = $pieChartDataDto;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Apps\Quap;
 
 class QuestionnaireDTO
@@ -11,12 +13,7 @@ class QuestionnaireDTO
     /**
      * @var AspectDTO[] $aspects
      */
-    private array $aspects;
-
-    public function __construct()
-    {
-        $this->aspects = [];
-    }
+    private array $aspects = [];
 
     public function getId(): int
     {

@@ -129,15 +129,11 @@ class CensusDataProvider extends WidgetDataProvider
             $clonedGroup->setParentGroup($relevantParent);
             return $clonedGroup;
         }
-        if ($baseGroup->getGroupType()->getGroupType() === GroupType::REGION) {
-            if ($baseGroup->getParentGroup()->getGroupType()->getGroupType() === GroupType::REGION) {
-                return null;
-            }
+        if ($baseGroup->getGroupType()->getGroupType() === GroupType::REGION && $baseGroup->getParentGroup()->getGroupType()->getGroupType() === GroupType::REGION) {
+            return null;
         }
-        if ($baseGroup->getGroupType()->getGroupType() === GroupType::CANTON) {
-            if ($baseGroup->getParentGroup()->getGroupType()->getGroupType() === GroupType::CANTON) {
-                return null;
-            }
+        if ($baseGroup->getGroupType()->getGroupType() === GroupType::CANTON && $baseGroup->getParentGroup()->getGroupType()->getGroupType() === GroupType::CANTON) {
+            return null;
         }
         return $baseGroup;
     }
@@ -198,10 +194,13 @@ class CensusDataProvider extends WidgetDataProvider
 
     public function getRelevantGroups(Group $group): array
     {
-        $groupIds = array_filter($this->statisticGroupRepository->findAllRelevantChildGroups($group->getId()), function (int $id) use ($group): bool {
- // We need to filter because the function also returns the group itself
-            return !($id === $group->getId());
-        });
+        $groupIds = array_filter(
+            $this->statisticGroupRepository->findAllRelevantChildGroups($group->getId()),
+            function (int $id) use ($group): bool {
+                // We need to filter because the function also returns the group itself
+                return $id !== $group->getId();
+            }
+        );
         return $this->flattenGroupTree($groupIds);
     }
 
@@ -234,7 +233,7 @@ class CensusDataProvider extends WidgetDataProvider
         $relevantYears = $this->censusDateProvider->getRelevantDateRange();
         foreach ($relevantGroups as $relevantGroup) {
             $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId()]);
-            if (!sizeof($data) == 0) {
+            if (!count($data) == 0) {
                 $dto = CensusMapper::mapToLineChart($relevantGroup, $data, $relevantYears, $censusRequestData);
                 $absolute[] = $dto->getAbsolute()[0];
                 $relative[] = $dto->getRelative()[0];
@@ -259,7 +258,7 @@ class CensusDataProvider extends WidgetDataProvider
         $rawResults = [];
         foreach ($relevantGroups as $relevantGroup) {
             $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId(), 'year' => $this->censusDateProvider->getLatestYear()]);
-            if (!sizeof($data) == 0) {
+            if (!count($data) == 0) {
                 CensusMapper::filterCensusGroup($data[0], $censusRequestData);
                 $biber = $data[0]->getBiberMCount() + $data[0]->getBiberFCount();
                 $woelfe = $data[0]->getWoelfeMCount() + $data[0]->getWoelfeFCount();
@@ -297,7 +296,7 @@ class CensusDataProvider extends WidgetDataProvider
         $return = [];
         foreach ($relevantGroups as $relevantGroup) {
             $data = $this->censusGroupRepository->findBy(['group_id' => $relevantGroup->getId(), 'year' => $this->censusDateProvider->getLatestYear()]);
-            if (!sizeof($data) == 0) {
+            if (!count($data) == 0) {
                 CensusMapper::filterCensusGroup($data[0], $censusRequestData);
                 $dto = new TreemapWidgetDTO();
                 $dto->setName($relevantGroup->getName());
