@@ -2,47 +2,35 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedLeaderOverviewRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_leader_overview", indexes={
- *     @ORM\Index(columns={"m_count"}),
- *     @ORM\Index(columns={"f_count"}),
- *     @ORM\Index(columns={"u_count"}),
- *     @ORM\Index(columns={"group_type"}),
- *     @ORM\Index(columns={"data_point_date"}),
- * })
- * @ORM\Entity(repositoryClass=AggregatedLeaderOverviewRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_leader_overview')]
+#[ORM\Index(columns: ['m_count'])]
+#[ORM\Index(columns: ['f_count'])]
+#[ORM\Index(columns: ['u_count'])]
+#[ORM\Index(columns: ['group_type'])]
+#[ORM\Index(columns: ['data_point_date'])]
+#[ORM\Entity(repositoryClass: AggregatedLeaderOverviewRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedLeaderOverview extends AggregatedEntity
 {
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $mCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $mCount = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $fCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $fCount = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $uCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $uCount = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $groupType;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $groupType = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=AggregatedLeaderOverviewLeader::class, mappedBy="leaderOverview", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: AggregatedLeaderOverviewLeader::class, mappedBy: 'leaderOverview', cascade: ['persist', 'remove'])]
     private $leaders;
 
     /**
@@ -54,42 +42,27 @@ class AggregatedLeaderOverview extends AggregatedEntity
     }
 
 
-    /**
-     * @param int $mCount
-     */
-    public function setMCount(int $mCount)
+    public function setMCount(int $mCount): void
     {
         $this->mCount = $mCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMCount()
+    public function getMCount(): ?int
     {
         return $this->mCount;
     }
 
-    /**
-     * @param int $fCount
-     */
-    public function setFCount(int $fCount)
+    public function setFCount(int $fCount): void
     {
         $this->fCount = $fCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFCount()
+    public function getFCount(): ?int
     {
         return $this->fCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUCount()
+    public function getUCount(): ?int
     {
         return $this->uCount;
     }
@@ -97,29 +70,23 @@ class AggregatedLeaderOverview extends AggregatedEntity
     /**
      * @param mixed $uCount
      */
-    public function setUCount($uCount): void
+    public function setUCount(?int $uCount): void
     {
         $this->uCount = $uCount;
     }
 
-    /**
-     * @param string $groupType
-     */
-    public function setGroupType(string $groupType)
+    public function setGroupType(string $groupType): void
     {
         $this->groupType = $groupType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroupType()
+    public function getGroupType(): ?string
     {
         return $this->groupType;
     }
 
     /**
-     * @return Collection|AggregatedLeaderOverviewLeader[]
+     * @return Collection<int, AggregatedLeaderOverviewLeader>
      */
     public function getLeaders(): Collection
     {

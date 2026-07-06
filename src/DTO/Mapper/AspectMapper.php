@@ -2,6 +2,7 @@
 
 namespace App\DTO\Mapper;
 
+use Doctrine\Common\Collections\Collection;
 use App\DTO\Model\Apps\Quap\AspectDTO;
 use App\Entity\Quap\Aspect;
 
@@ -28,7 +29,7 @@ class AspectMapper
                 break;
         }
 
-        if ($aspect->getQuestions()) {
+        if ($aspect->getQuestions() instanceof Collection) {
             foreach ($aspect->getQuestions() as $question) {
                 $dto->addQuestion(QuestionMapper::createQuestionFromEntity($question, $locale));
             }

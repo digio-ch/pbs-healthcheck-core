@@ -1,69 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\FilterRequestData;
 
 use DateTime;
 
 class DateAndDateRangeRequestData extends FilterRequestData
 {
-    /**
-     * @var DateTime|null
-     */
-    private $from;
+    private ?DateTime $from = null;
 
-    /**
-     * @var DateTime|null
-     */
-    private $to;
+    private ?DateTime $to = null;
 
-    /**
-     * @var DateTime|null
-     */
-    private $date;
+    private ?DateTime $date = null;
 
-    /**
-     * @return DateTime|null
-     */
     public function getFrom(): ?DateTime
     {
         return $this->from;
     }
 
-    /**
-     * @param DateTime|null $from
-     */
     public function setFrom(?DateTime $from): void
     {
         $this->from = $from;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getTo(): ?DateTime
     {
         return $this->to;
     }
 
-    /**
-     * @param DateTime|null $to
-     */
     public function setTo(?DateTime $to): void
     {
         $this->to = $to;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getDate(): ?DateTime
     {
         return $this->date;
     }
 
-    /**
-     * @param DateTime|null $date
-     */
     public function setDate(?DateTime $date): void
     {
         $this->date = $date;

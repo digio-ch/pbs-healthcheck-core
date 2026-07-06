@@ -36,57 +36,42 @@ services:
     # please note that last definitions always *replace* previous ones
 
 
-    # Logger
-    App\Service\Logger\Handlers\TcpTransportHandler:
-        arguments:
-            $host: '%env(GRAYLOG_HOST)%' # host of the graylog server to connect to
-            $port: '%env(GRAYLOG_PORT)%' # port of the input of the graylog server
-            $clientCert: '%env(GRAYLOG_CLIENT_CERT)%' # path to the certificate of this client
-            $clientKey: '%env(GRAYLOG_CLIENT_KEY)%' # path of the private key of this client
-            $ignoreError: true # whether errors in the logging library should be ignored or not
+    # Logging
+    App\Service\Logger\AppLogger: ~
 
-    App\Service\Logger\Handlers\ConsoleLoggerHandler:
-        arguments:
-            $level: '%env(LOG_LEVEL)%'
+    Monolog\Processor\IntrospectionProcessor: ~
+    App\Service\Logger\RedactorProcessor: ~
 
-    App\Service\Logger\GelfLogger:
-        arguments:
-            $handlers:
-              - '@App\Service\Logger\Handlers\TcpTransportHandler'
-              - '@App\Service\Logger\Handlers\ConsoleLoggerHandler'
-            $source: '%env(APP_HOST)%' # the name of the application (to filter the streams on graylog e.g. dev-api.flow.swiss)
-            $environment: '%kernel.environment%' # the kernel environment of the application
+    App\Service\Logger\AppProcessor:
+      arguments:
+        $source: '%env(APP_HOST)%' # the name of the application (to filter the streams on graylog e.g. dev-api.flow.swiss)
+        $environment: '%kernel.environment%' # the kernel environment of the application
 
+    App\Service\Logger\GraylogHandler:
+      arguments:
+        $processors:
+          - '@App\Service\Logger\AppProcessor'
+          - '@Monolog\Processor\IntrospectionProcessor'
+          - '@App\Service\Logger\RedactorProcessor'
+        $host: '%env(GRAYLOG_HOST)%' # host of the graylog server to connect to
+        $port: '%env(GRAYLOG_PORT)%' # port of the input of the graylog server
+        $clientCert: '%env(GRAYLOG_CLIENT_CERT)%' # path to the certificate of this client
+        $clientKey: '%env(GRAYLOG_CLIENT_KEY)%' # path of the private key of this client
+        $level: '%env(LOG_LEVEL)%'
 
     App\Service\Sentry:
         arguments:
             $sentryDSN: '%env(SENTRY_DSN)%'
 
   # Listeners
-    App\EventListener\ConsoleEventListener:
-        tags:
-            - { name: kernel.event_listener, event: console.command }
-            - { name: kernel.event_listener, event: console.terminate }
-            - { name: kernel.event_listener, event: console.error }
+    App\EventListener\WidgetControllerListener: ~
+    App\EventListener\ExceptionListener: ~
+    App\EventListener\LocaleListener: ~
 
-    App\EventListener\RequestListener:
+    App\EventListener\IpRestrictionRequestListener:
         arguments:
             $environment: '%kernel.environment%'
             $projectDir: '%kernel.project_dir%'
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }
-
-    App\EventListener\WidgetControllerListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller }
-
-    App\EventListener\ExceptionListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
-
-    App\EventListener\LocaleListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 1024 }
 
     # PBS Services
     App\Service\Pbs\PbsApiService:

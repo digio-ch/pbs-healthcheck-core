@@ -2,55 +2,40 @@
 
 namespace App\Entity\Statistics;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\GroupType;
 use App\Repository\Statistics\StatisticGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=StatisticGroupRepository::class)
- */
+#[ORM\Entity(repositoryClass: StatisticGroupRepository::class)]
 class StatisticGroup
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=StatisticGroup::class, inversedBy="children")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $parent_group;
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: StatisticGroup::class, inversedBy: 'children')]
+    private ?StatisticGroup $parent_group = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=StatisticGroup::class, mappedBy="parent_group")
-     */
+    #[ORM\OneToMany(targetEntity: StatisticGroup::class, mappedBy: 'parent_group')]
     private $children;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=GroupType::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $group_type;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: GroupType::class)]
+    private ?GroupType $group_type = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=StatisticGroup::class)
-     */
-    private $canton;
+    #[ORM\ManyToOne(targetEntity: StatisticGroup::class)]
+    private ?StatisticGroup $canton = null;
 
 
-    /**
-     * @ORM\OneToMany(targetEntity=GroupGeoLocation::class, mappedBy="group")
-     */
+    #[ORM\OneToMany(targetEntity: GroupGeoLocation::class, mappedBy: 'group')]
     private $geoLocations;
 
 
@@ -104,11 +89,9 @@ class StatisticGroup
 
     public function removeChild(self $child): self
     {
-        if ($this->children->removeElement($child)) {
-            // set the owning side to null (unless already changed)
-            if ($child->getParentGroup() === $this) {
-                $child->setParentGroup(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->children->removeElement($child) && $child->getParentGroup() === $this) {
+            $child->setParentGroup(null);
         }
 
         return $this;
@@ -171,11 +154,9 @@ class StatisticGroup
 
     public function removeGeoLocation(GroupGeoLocation $geoLocation): self
     {
-        if ($this->geoLocations->removeElement($geoLocation)) {
-            // set the owning side to null (unless already changed)
-            if ($geoLocation->getGroups() === $this) {
-                $geoLocation->setGroups(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->geoLocations->removeElement($geoLocation) && $geoLocation->getGroups() === $this) {
+            $geoLocation->setGroups(null);
         }
 
         return $this;

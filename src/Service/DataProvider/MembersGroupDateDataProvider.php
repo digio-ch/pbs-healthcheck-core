@@ -7,22 +7,15 @@ use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MembersGroupDateDataProvider extends WidgetDataProvider
 {
-    /**
-     * @var AggregatedDemographicGroupRepository
-     */
-    protected $widgetDemographicGroupRepository;
+    protected AggregatedDemographicGroupRepository $widgetDemographicGroupRepository;
 
     /**
      * GroupMembersDataProvider constructor.
-     * @param GroupRepository $groupRepository
-     * @param GroupTypeRepository $groupTypeRepository
-     * @param TranslatorInterface $translator
-     * @param AggregatedDemographicGroupRepository $widgetDemographicGroupRepository
      */
     public function __construct(
         GroupRepository $groupRepository,
@@ -40,14 +33,10 @@ class MembersGroupDateDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param Group $group
-     * @param string $date
      * @param array|string[] $subGroupTypes
      * @param array|string[] $peopleTypes
-     * @return array
-     * @throws DBALException
      */
-    public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes)
+    public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes): array
     {
         $result = [];
         $leadersOnly = false;
@@ -69,7 +58,7 @@ class MembersGroupDateDataProvider extends WidgetDataProvider
                 return $result;
         }
 
-        usort($result, function (PieChartDataDTO $a, PieChartDataDTO $b) {
+        usort($result, function (PieChartDataDTO $a, PieChartDataDTO $b): int {
             return $this->sortByGroupTypes($a->getName(), $b->getName());
         });
 
@@ -81,12 +70,11 @@ class MembersGroupDateDataProvider extends WidgetDataProvider
     /**
      * This will sum f_count and m_count for each sub group-type
      * @param $date
-     * @param int $mainGroupId
-     * @param array $subGroupTypes
+     * @param string[] $subGroupTypes
      * @return array|PieChartDataDTO[]
-     * @throws DBALException
+     * @throws Exception
      */
-    private function getMemberData($date, int $mainGroupId, array $subGroupTypes): array
+    private function getMemberData(string $date, int $mainGroupId, array $subGroupTypes): array
     {
         $items = [];
         foreach ($subGroupTypes as $type) {
@@ -103,12 +91,10 @@ class MembersGroupDateDataProvider extends WidgetDataProvider
     /**
      * This will sum f_count_leader and m_count_leader of every sub-group into a single PieChartDataDTO
      * @param $date
-     * @param int $mainGroupId
-     * @param array $groupTypes
-     * @return PieChartDataDTO
-     * @throws DBALException
+     * @param string[] $groupTypes
+     * @throws Exception
      */
-    private function getSummedLeaderData($date, int $mainGroupId, array $groupTypes): PieChartDataDTO
+    private function getSummedLeaderData(string $date, int $mainGroupId, array $groupTypes): PieChartDataDTO
     {
         $leaderData = $this->widgetDemographicGroupRepository->findTotalLeadersCountForDate($date, $mainGroupId, $groupTypes);
         $pieChartDataDTO = new PieChartDataDTO();
@@ -121,12 +107,11 @@ class MembersGroupDateDataProvider extends WidgetDataProvider
     /**
      * This will sum f_count_leader and m_count_leader for each sub group-type
      * @param $date
-     * @param array $subGroupsTypes
-     * @param int $mainGroupId
+     * @param string[] $subGroupsTypes
      * @return array|PieChartDataDTO[]
-     * @throws DBALException
+     * @throws Exception
      */
-    private function getLeaderDataForSubGroups($date, array $subGroupsTypes, int $mainGroupId): array
+    private function getLeaderDataForSubGroups(string $date, array $subGroupsTypes, int $mainGroupId): array
     {
         $items = [];
         foreach ($subGroupsTypes as $type) {

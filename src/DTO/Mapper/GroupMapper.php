@@ -2,6 +2,7 @@
 
 namespace App\DTO\Mapper;
 
+use DateTimeImmutable;
 use App\DTO\Model\GroupDTO;
 use App\Entity\Midata\Group;
 
@@ -14,7 +15,7 @@ class GroupMapper
         $groupDTO->setName($group->getName());
         $groupDTO->setCantonName($group->getCantonName());
         $groupDTO->setCreatedAt($group->getCreatedAt()->format('Y-m-d'));
-        $groupDTO->setDeletedAt($group->getDeletedAt() ? $group->getDeletedAt()->format('Y-m-d') : null);
+        $groupDTO->setDeletedAt($group->getDeletedAt() instanceof DateTimeImmutable ? $group->getDeletedAt()->format('Y-m-d') : null);
         $groupDTO->setGroupType(GroupTypeMapper::createGroupTypeFromEntity($group->getGroupType(), $locale));
         $groupDTO->setPermissionType($permissionType);
         return $groupDTO;

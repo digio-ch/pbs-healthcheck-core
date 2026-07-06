@@ -2,40 +2,29 @@
 
 namespace App\Entity\Gamification;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Gamification\LevelAccessRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_gamification_level_access")
- * @ORM\Entity(repositoryClass=LevelAccessRepository::class)
- */
+#[ORM\Table(name: 'hc_gamification_level_access')]
+#[ORM\Entity(repositoryClass: LevelAccessRepository::class)]
 class LevelAccess
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
     private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $key;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $de_description;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $fr_description;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $it_description;
 
     public function getId(): int

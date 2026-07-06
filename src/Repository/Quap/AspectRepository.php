@@ -12,6 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Aspect|null findOneBy(array $criteria, array $orderBy = null)
  * @method Aspect[]    findAll()
  * @method Aspect[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Aspect>
  */
 class AspectRepository extends ServiceEntityRepository
 {
@@ -20,7 +21,7 @@ class AspectRepository extends ServiceEntityRepository
         parent::__construct($registry, Aspect::class);
     }
 
-    public function getExisting(int $questionnaireId, string $dateTime)
+    public function getExisting(int $questionnaireId, string $dateTime): mixed
     {
         $rsm = new ResultSetMapping();
         $rsm->addEntityResult(Aspect::class, 'a');
@@ -35,7 +36,7 @@ class AspectRepository extends ServiceEntityRepository
         $rsm->addFieldResult('a', 'description_de', 'descriptionDe');
         $rsm->addFieldResult('a', 'description_fr', 'descriptionFr');
         $rsm->addFieldResult('a', 'description_it', 'descriptionIt');
-        $query = $this->_em->createNativeQuery(
+        $query = $this->getEntityManager()->createNativeQuery(
             "SELECT
                     *
                 FROM

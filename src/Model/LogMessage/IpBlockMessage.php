@@ -28,25 +28,16 @@ class IpBlockMessage extends LogMessage
         parent::__construct($message, 'request');
     }
 
-    /**
-     * @return string
-     */
     public function getIsoCountryCode(): string
     {
         return $this->isoCountryCode;
     }
 
-    /**
-     * @return string
-     */
     public function getClientIp(): string
     {
         return $this->clientIp;
     }
 
-    /**
-     * @return bool
-     */
     public function isFoundByGeoIp(): bool
     {
         return $this->foundByGeoIp;

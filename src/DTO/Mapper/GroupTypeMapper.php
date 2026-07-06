@@ -20,6 +20,9 @@ class GroupTypeMapper
         return $groupTypeDTO;
     }
 
+    /**
+     * @param array<string, mixed> $result
+     */
     public static function createGroupTypeFromQueryResult(array $result, string $locale): GroupTypeDTO
     {
         $groupTypeDTO = new GroupTypeDTO();
@@ -30,7 +33,10 @@ class GroupTypeMapper
         return $groupTypeDTO;
     }
 
-    private static function setLabelForLocaleFromQueryResult(GroupTypeDTO $groupTypeDTO, array $result, string $locale)
+    /**
+     * @param array<string, mixed> $result
+     */
+    private static function setLabelForLocaleFromQueryResult(GroupTypeDTO $groupTypeDTO, array $result, string $locale): void
     {
         switch ($locale) {
             case str_contains($locale, 'it'):
@@ -44,7 +50,7 @@ class GroupTypeMapper
         }
     }
 
-    private static function setLabelForLocale(GroupTypeDTO $groupTypeDTO, GroupType $groupType, string $locale)
+    private static function setLabelForLocale(GroupTypeDTO $groupTypeDTO, GroupType $groupType, string $locale): void
     {
         switch ($locale) {
             case str_contains($locale, 'it'):

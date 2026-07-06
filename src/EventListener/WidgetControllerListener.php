@@ -19,41 +19,27 @@ use DateTime;
 use ReflectionClass;
 use ReflectionParameter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WidgetControllerListener
 {
-    /**
-     * @var GroupRepository
-     */
     private GroupRepository $groupRepository;
 
-    /**
-     * @var TranslatorInterface
-     */
     private TranslatorInterface $translator;
 
-    /**
-     * @var ValidatorInterface
-     */
     private ValidatorInterface $validator;
 
-    /**
-     * @var OverviewSharedService
-     */
     private OverviewSharedService $overviewSharedService;
 
     /**
      * WidgetControllerListener constructor.
-     * @param GroupRepository $groupRepository
-     * @param TranslatorInterface $translator
-     * @param ValidatorInterface $validator
-     * @param OverviewSharedService $overviewSharedService
      */
     public function __construct(
         GroupRepository $groupRepository,
@@ -68,7 +54,8 @@ class WidgetControllerListener
     }
 
 
-    public function onKernelController(ControllerEvent $event)
+    #[AsEventListener(event: KernelEvents::CONTROLLER)]
+    public function onKernelController(ControllerEvent $event): void
     {
         $controller = $event->getController();
         if (!is_array($controller) || !($controller[0]) instanceof AbstractController) {
@@ -78,15 +65,15 @@ class WidgetControllerListener
         $this->bindData($controller, $event->getRequest());
     }
 
-    private function bindData(callable $controller, Request $request)
+    private function bindData(callable $controller, Request $request): void
     {
         $actionReflection = (new ReflectionClass($controller[0]))->getMethod($controller[1]);
 
         foreach ($actionReflection->getParameters() as $argument) {
-            if (is_null($argument->getClass())) {
+            if (is_null($argument->getType())) {
                 continue;
             }
-            if (!(is_a($argument->getClass()->getName(), FilterRequestData::class, true) || is_a($argument->getClass()->getName(), CensusRequestData::class, true))) {
+            if (!is_a($argument->getType()->getName(), FilterRequestData::class, true) && !is_a($argument->getType()->getName(), CensusRequestData::class, true)) {
                 continue;
             }
             $data = $this->validateRequest($request, $argument);
@@ -98,15 +85,13 @@ class WidgetControllerListener
     }
 
     /**
-     * @param Request $request
-     * @param ReflectionParameter $parameter
      * @return FilterRequestData|null|CensusRequestData
      */
-    private function validateRequest(Request $request, ReflectionParameter $parameter)
+    private function validateRequest(Request $request, ReflectionParameter $parameter): DateAndDateRangeRequestData|DateRequestData|OptionalDateRequestData|DateRangeRequestData|WidgetRequestData|WidgetOfDepartmentRequestData|CensusRequestData|null
     {
         $group = $this->extractGroup($request, 'groupId');
 
-        switch ($parameter->getClass()->getName()) {
+        switch ($parameter->getType()->getName()) {
             case DateAndDateRangeRequestData::class:
                 return $this->validateDateAndDateRangeRequest($group, $request);
             case DateRequestData::class:
@@ -128,9 +113,9 @@ class WidgetControllerListener
 
     private function validateDateAndDateRangeRequest(Group $group, Request $request): DateAndDateRangeRequestData
     {
-        $from = $request->get('from', null);
-        $to = $request->get('to', null);
-        $date = $request->get('date', null);
+        $from = $request->query->get('from');
+        $to = $request->query->get('to');
+        $date = $request->query->get('date');
 
         $this->checkDates($from, $to, $date, true, true);
         $data = new DateAndDateRangeRequestData();
@@ -144,9 +129,9 @@ class WidgetControllerListener
 
     private function validateDateRequest(Group $group, Request $request): DateRequestData
     {
-        $from = $request->get('from', null);
-        $to = $request->get('to', null);
-        $date = $request->get('date', null);
+        $from = $request->query->get('from');
+        $to = $request->query->get('to');
+        $date = $request->query->get('date');
 
         $this->checkDates($from, $to, $date, false, true);
         $data = new DateRequestData();
@@ -158,9 +143,9 @@ class WidgetControllerListener
 
     private function validateOptionalDateRequest(Group $group, Request $request): OptionalDateRequestData
     {
-        $from = $request->get('from', null);
-        $to = $request->get('to', null);
-        $date = $request->get('date', null);
+        $from = $request->query->get('from');
+        $to = $request->query->get('to');
+        $date = $request->query->get('date');
 
         $data = new OptionalDateRequestData();
         if (!is_null($date)) {
@@ -176,9 +161,9 @@ class WidgetControllerListener
 
     private function validateDateRangeRequest(Group $group, Request $request): DateRangeRequestData
     {
-        $from = $request->get('from', null);
-        $to = $request->get('to', null);
-        $date = $request->get('date', null);
+        $from = $request->query->get('from');
+        $to = $request->query->get('to');
+        $date = $request->query->get('date');
 
         $this->checkDates($from, $to, $date, true, false);
         $data = new DateRangeRequestData();
@@ -191,14 +176,14 @@ class WidgetControllerListener
 
     private function validateWidgetRequest(Group $group, Request $request): WidgetRequestData
     {
-        $groupTypes = $request->get('group-types');
+        $groupTypes = $request->query->all('group-types');
         $groupTypeChoice = new Choice(WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES);
         $groupTypeChoice->min = 1;
         $groupTypeChoice->max = count(WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES);
         $groupTypeChoice->multiple = true;
         $groupTypeErrors = $this->validator->validate($groupTypes, $groupTypeChoice);
 
-        $peopleTypes = $request->get('relevant-data');
+        $peopleTypes = $request->query->all('relevant-data');
         $peopleTypesChoice = new Choice(
             [WidgetDataProvider::PEOPLE_TYPE_MEMBERS, WidgetDataProvider::PEOPLE_TYPE_LEADERS]
         );
@@ -241,10 +226,10 @@ class WidgetControllerListener
 
     private function validateCensusRequest(Group $group, Request $request): CensusRequestData
     {
-        $m = $request->get('census-filter-males');
-        $f = $request->get('census-filter-females');
-        $groups = $request->get('census-filter-departments');
-        $roles = $request->get('census-filter-roles');
+        $m = $request->query->getBoolean('census-filter-males', true);
+        $f = $request->query->getBoolean('census-filter-females', true);
+        $groups = $request->query->all('census-filter-departments');
+        $roles = $request->query->all('census-filter-roles');
         $rolesChoice = new Choice(WidgetDataProvider::CENSUS_ROLES);
         $rolesChoice->multiple = true;
         $rolesChoice->max = count(WidgetDataProvider::CENSUS_ROLES);
@@ -259,8 +244,8 @@ class WidgetControllerListener
         $data->setGroup($group);
         $data->setGroups($groups);
         $data->setRoles($roles);
-        $data->setFilterMales(is_null($m) ? null : $m === 'true');
-        $data->setFilterFemales(is_null($f) ? null : $f === 'true');
+        $data->setFilterMales($m);
+        $data->setFilterFemales($f);
 
         return $data;
     }
@@ -269,16 +254,12 @@ class WidgetControllerListener
      * @param $from
      * @param $to
      * @param $date
-     * @param bool $isRange
-     * @param bool $isDate
      */
     private function checkDates($from, $to, $date, bool $isRange, bool $isDate): void
     {
         $message = $this->translator->trans('api.error.invalidRequest');
-        if ($isDate && !$isRange) {
-            if (!DateTime::createFromFormat('Y-m-d', $date)) {
-                throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
-            }
+        if ($isDate && !$isRange && !DateTime::createFromFormat('Y-m-d', $date)) {
+            throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
         }
 
         if ($isRange && !$isDate) {
@@ -300,12 +281,11 @@ class WidgetControllerListener
     }
 
     /**
-     * @param Request $request
      * @return float|int|mixed|string
      */
     public function extractGroup(Request $request, string $key)
     {
-        $groupId = $request->get($key);
+        $groupId = $request->attributes->get($key);
         $group = $this->groupRepository->findOneByIdAndType($groupId, [
             'Group::Abteilung',
             'Group::Region',

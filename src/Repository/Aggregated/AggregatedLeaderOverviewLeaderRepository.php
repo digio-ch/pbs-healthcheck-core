@@ -6,18 +6,20 @@ use App\Entity\Aggregated\AggregatedLeaderOverviewLeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<AggregatedLeaderOverviewLeader>
+ */
 class AggregatedLeaderOverviewLeaderRepository extends ServiceEntityRepository
 {
     /**
      * AggregatedLeaderOverviewLeaderRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AggregatedLeaderOverviewLeader::class);
     }
 
-    public function findAllByGroupTypeAndDate(int $mainGroupId, string $groupType, string $date)
+    public function findAllByGroupTypeAndDate(int $mainGroupId, string $groupType, string $date): mixed
     {
         return $this->createQueryBuilder('lol')
             ->innerJoin('lol.leaderOverview', 'lo')

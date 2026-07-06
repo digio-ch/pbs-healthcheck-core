@@ -1,13 +1,8 @@
 <?php
 
-namespace App\Service\Aggregator;
+declare(strict_types=1);
 
-use App\Entity\Midata\PersonRole;
-use App\Repository\Aggregated\AggregatedEntityRepository;
-use App\Repository\Midata\GroupRepository;
-use DateTime;
-use Doctrine\DBAL\DBALException;
-use Doctrine\ORM\ORMException;
+namespace App\Service\Aggregator;
 
 /**
  * This class was part of the legacy aggregators and is retained
@@ -17,6 +12,9 @@ use Doctrine\ORM\ORMException;
  */
 abstract class WidgetAggregator
 {
+    /**
+     * @var string[]
+     */
     public static array $memberRoleTypes = [
         'Group::Pta::Mitglied',
         'Group::AbteilungsRover::Rover',
@@ -28,6 +26,9 @@ abstract class WidgetAggregator
         'Group::Biber::Biber'
     ];
 
+    /**
+     * @var array<string, string[]>
+     */
     public static array $leaderRoleTypesByGroupType = [
         'Group::Abteilung' => [
             'Group::Abteilung::Abteilungsleitung',
@@ -65,6 +66,9 @@ abstract class WidgetAggregator
         ],
     ];
 
+    /**
+     * @var string[]
+     */
     public static array $leadersRoleTypes = [
         'Group::Abteilung::StufenleitungPta',
         'Group::Abteilung::StufenleitungRover',
@@ -86,6 +90,9 @@ abstract class WidgetAggregator
         'Group::Biber::Mitleitung',
     ];
 
+    /**
+     * @var string[]
+     */
     public static array $mainGroupRoleTypes = [
         'Group::Abteilung::Abteilungsleitung',
         'Group::Abteilung::AbteilungsleitungStv',

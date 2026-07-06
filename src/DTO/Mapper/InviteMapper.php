@@ -2,15 +2,12 @@
 
 namespace App\DTO\Mapper;
 
+use DateTimeImmutable;
 use App\DTO\Model\InviteDTO;
 use App\Entity\Security\Permission;
 
 class InviteMapper
 {
-    /**
-     * @param Permission $permission
-     * @return InviteDTO
-     */
     public static function createFromEntity(Permission $permission): InviteDTO
     {
         $email = $permission->getEmail();
@@ -21,7 +18,7 @@ class InviteMapper
         $inviteDTO = new InviteDTO();
         $inviteDTO->setId($permission->getId());
         $inviteDTO->setEmail($email);
-        $inviteDTO->setExpirationDate($permission->getExpirationDate() ? $permission->getExpirationDate()->format('Y-m-d') : null);
+        $inviteDTO->setExpirationDate($permission->getExpirationDate() instanceof DateTimeImmutable ? $permission->getExpirationDate()->format('Y-m-d') : null);
         $inviteDTO->setPermissionType($permission->getPermissionType()->getKey());
 
         return $inviteDTO;

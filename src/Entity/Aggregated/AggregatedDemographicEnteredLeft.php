@@ -2,300 +2,194 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedDemographicEnteredLeftRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_demographic_entered_left", indexes={
- *     @ORM\Index(columns={"new_count_m"}),
- *     @ORM\Index(columns={"new_count_leader_m"}),
- *     @ORM\Index(columns={"exit_count_m"}),
- *     @ORM\Index(columns={"exit_count_leader_m"}),
- *     @ORM\Index(columns={"new_count_f"}),
- *     @ORM\Index(columns={"new_count_leader_f"}),
- *     @ORM\Index(columns={"exit_count_leader_f"}),
- *     @ORM\Index(columns={"exit_count_f"}),
- *     @ORM\Index(columns={"new_count_u"}),
- *     @ORM\Index(columns={"new_count_leader_u"}),
- *     @ORM\Index(columns={"exit_count_u"}),
- *     @ORM\Index(columns={"exit_count_leader_u"}),
- *     @ORM\Index(columns={"group_type"}),
- *     @ORM\Index(columns={"data_point_date"}),
- * })
- * @ORM\Entity(repositoryClass=AggregatedDemographicEnteredLeftRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_demographic_entered_left')]
+#[ORM\Index(columns: ['new_count_m'])]
+#[ORM\Index(columns: ['new_count_leader_m'])]
+#[ORM\Index(columns: ['exit_count_m'])]
+#[ORM\Index(columns: ['exit_count_leader_m'])]
+#[ORM\Index(columns: ['new_count_f'])]
+#[ORM\Index(columns: ['new_count_leader_f'])]
+#[ORM\Index(columns: ['exit_count_leader_f'])]
+#[ORM\Index(columns: ['exit_count_f'])]
+#[ORM\Index(columns: ['new_count_u'])]
+#[ORM\Index(columns: ['new_count_leader_u'])]
+#[ORM\Index(columns: ['exit_count_u'])]
+#[ORM\Index(columns: ['exit_count_leader_u'])]
+#[ORM\Index(columns: ['group_type'])]
+#[ORM\Index(columns: ['data_point_date'])]
+#[ORM\Entity(repositoryClass: AggregatedDemographicEnteredLeftRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicEnteredLeft extends AggregatedEntity
 {
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $newCountM = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountM = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $newCountLeaderM = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountLeaderM = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $exitCountM = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountM = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $exitCountLeaderM = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountLeaderM = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $newCountF = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountF = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $newCountLeaderF = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountLeaderF = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $exitCountLeaderF = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountLeaderF = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $exitCountF = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountF = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $newCountU = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountU = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $newCountLeaderU = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $newCountLeaderU = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $exitCountU = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountU = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $exitCountLeaderU = 0;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $exitCountLeaderU = 0;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $groupType;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $groupType = null;
 
-    /**
-     * @param int $newCountM
-     */
     public function setNewCountM(int $newCountM): void
     {
         $this->newCountM = $newCountM;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountM()
+    public function getNewCountM(): ?int
     {
         return $this->newCountM;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountLeaderM()
+    public function getNewCountLeaderM(): ?int
     {
         return $this->newCountLeaderM;
     }
 
-    /**
-     * @param int $newCountLeaderM
-     */
     public function setNewCountLeaderM(int $newCountLeaderM): void
     {
         $this->newCountLeaderM = $newCountLeaderM;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountM()
+    public function getExitCountM(): ?int
     {
         return $this->exitCountM;
     }
 
-    /**
-     * @param int $exitCountM
-     */
     public function setExitCountM(int $exitCountM): void
     {
         $this->exitCountM = $exitCountM;
     }
 
-    /**
-     * @param int $exitCountLeaderM
-     */
     public function setExitCountLeaderM(int $exitCountLeaderM): void
     {
         $this->exitCountLeaderM = $exitCountLeaderM;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountLeaderM()
+    public function getExitCountLeaderM(): ?int
     {
         return $this->exitCountLeaderM;
     }
 
-    /**
-     * @param int $newCountF
-     */
-    public function setNewCountF(int $newCountF)
+    public function setNewCountF(int $newCountF): void
     {
         $this->newCountF = $newCountF;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountF()
+    public function getNewCountF(): ?int
     {
         return $this->newCountF;
     }
 
-    /**
-     * @param int $newCountLeaderF
-     */
-    public function setNewCountLeaderF(int $newCountLeaderF)
+    public function setNewCountLeaderF(int $newCountLeaderF): void
     {
         $this->newCountLeaderF = $newCountLeaderF;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountLeaderF()
+    public function getNewCountLeaderF(): ?int
     {
         return $this->newCountLeaderF;
     }
 
-    /**
-     * @param int $exitCountLeaderF
-     */
-    public function setExitCountLeaderF(int $exitCountLeaderF)
+    public function setExitCountLeaderF(int $exitCountLeaderF): void
     {
         $this->exitCountLeaderF = $exitCountLeaderF;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountLeaderF()
+    public function getExitCountLeaderF(): ?int
     {
         return $this->exitCountLeaderF;
     }
 
-    /**
-     * @param int $exitCountF
-     */
-    public function setExitCountF(int $exitCountF)
+    public function setExitCountF(int $exitCountF): void
     {
         $this->exitCountF = $exitCountF;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountF()
+    public function getExitCountF(): ?int
     {
         return $this->exitCountF;
     }
 
-    /**
-     * @param int $newCountU
-     */
-    public function setNewCountU(int $newCountU)
+    public function setNewCountU(int $newCountU): void
     {
         $this->newCountU = $newCountU;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountU()
+    public function getNewCountU(): ?int
     {
         return $this->newCountU;
     }
 
-    /**
-     * @param int $newCountLeaderU
-     */
-    public function setNewCountLeaderU(int $newCountLeaderU)
+    public function setNewCountLeaderU(int $newCountLeaderU): void
     {
         $this->newCountLeaderU = $newCountLeaderU;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNewCountLeaderU()
+    public function getNewCountLeaderU(): ?int
     {
         return $this->newCountLeaderU;
     }
 
-    /**
-     * @param int $exitCountU
-     */
-    public function setExitCountU(int $exitCountU)
+    public function setExitCountU(int $exitCountU): void
     {
         $this->exitCountU = $exitCountU;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountU()
+    public function getExitCountU(): ?int
     {
         return $this->exitCountU;
     }
 
-    /**
-     * @param int $exitCountLeaderU
-     */
-    public function setExitCountLeaderU(int $exitCountLeaderU)
+    public function setExitCountLeaderU(int $exitCountLeaderU): void
     {
         $this->exitCountLeaderU = $exitCountLeaderU;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExitCountLeaderU()
+    public function getExitCountLeaderU(): ?int
     {
         return $this->exitCountLeaderU;
     }
 
-    /**
-     * @param string $groupType
-     */
-    public function setGroupType(string $groupType)
+    public function setGroupType(string $groupType): void
     {
         $this->groupType = $groupType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroupType()
+    public function getGroupType(): ?string
     {
         return $this->groupType;
     }

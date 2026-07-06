@@ -2,53 +2,40 @@
 
 namespace App\Entity\Gamification;
 
+use Doctrine\DBAL\Types\Types;
+use DateTimeImmutable;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Person;
-use App\Entity\Quap\Aspect;
 use App\Entity\Quap\Questionnaire;
 use App\Repository\Gamification\GamificationQuapEventRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_gamification_quap_event")
- * @ORM\Entity(repositoryClass=GamificationQuapEventRepository::class)
- */
+#[ORM\Table(name: 'hc_gamification_quap_event')]
+#[ORM\Entity(repositoryClass: GamificationQuapEventRepository::class)]
 class GamificationQuapEvent
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="gamificationQuapEvents")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $person;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'gamificationQuapEvents')]
+    private ?Person $person = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="gamificationQuapEvents")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $group;
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'gamificationQuapEvents')]
+    private ?Group $group = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private $date;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: Types::INTEGER)]
     private int $aspect_local_id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Questionnaire::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $questionnaire;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Questionnaire::class)]
+    private ?Questionnaire $questionnaire = null;
 
     public function getId(): ?int
     {
@@ -79,12 +66,12 @@ class GamificationQuapEvent
         return $this;
     }
 
-    public function getDate(): ?\DateTimeImmutable
+    public function getDate(): ?DateTimeImmutable
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeImmutable $date): self
+    public function setDate(DateTimeImmutable $date): self
     {
         $this->date = $date;
 

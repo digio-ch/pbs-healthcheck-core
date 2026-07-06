@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\DTO\Model\PbsUserDTO;
 use App\Model\LogMessage\SimpleLogMessage;
 use App\Service\Gamification\LoginService;
-use App\Service\Logger\GelfLogger;
+use App\Service\Logger\AppLogger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,23 +15,19 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class AuthController extends AbstractController
 {
-    /**
-     * @var GelfLogger
-     */
-    private $logger;
+    private AppLogger $logger;
     private LoginService $loginService;
 
     /**
      * AuthController constructor.
-     * @param GelfLogger $logger
      */
-    public function __construct(GelfLogger $logger, LoginService $loginService)
+    public function __construct(AppLogger $logger, LoginService $loginService, private readonly TokenStorageInterface $tokenStorage)
     {
         $this->logger = $logger;
         $this->loginService = $loginService;
     }
 
-    public function login()
+    public function login(): JsonResponse
     {
         /** @var PbsUserDTO|UserInterface|null|object $user */
         $user = $this->getUser();
@@ -39,7 +35,7 @@ class AuthController extends AbstractController
             $this->logger->info(new SimpleLogMessage(md5($user->getNickname()) . ' logged in.'));
             $this->loginService->logByUserDTOForLogin($user);
         } else {
-            $this->logger->info('Non User was logged in.');
+            $this->logger->info(new SimpleLogMessage('Non User was logged in.'));
         }
 
         return $this->json($user, JsonResponse::HTTP_OK, [], [
@@ -47,7 +43,7 @@ class AuthController extends AbstractController
         ]);
     }
 
-    public function logout(Request $request, TokenStorageInterface $tokenStorage)
+    public function logout(Request $request): JsonResponse
     {
         /** @var PbsUserDTO|UserInterface|null|object $user */
         $user = $this->getUser();
@@ -56,13 +52,13 @@ class AuthController extends AbstractController
             return $this->json('logged out');
         }
 
-        $tokenStorage->setToken(null);
+        $this->tokenStorage->setToken(null);
         $request->getSession()->invalidate();
 
         if ($user instanceof PbsUserDTO) {
             $this->logger->info(new SimpleLogMessage(md5($user->getNickName()) . ' logged out.'));
         } else {
-            $this->logger->info(new SimpleLogMessage(md5($user->getUsername()) . ' logged out.'));
+            $this->logger->info(new SimpleLogMessage(md5($user->getUserIdentifier()) . ' logged out.'));
         }
 
         return $this->json('logout successful');

@@ -2,10 +2,12 @@
 
 namespace App\Service\Gamification;
 
+use Exception;
+use DateTime;
+use DateTimeZone;
 use App\DTO\Model\PbsUserDTO;
 use App\Entity\Gamification\Login;
 use App\Entity\Midata\Group;
-use App\Entity\Midata\Person;
 use App\Repository\Gamification\LoginRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\PersonRepository;
@@ -41,11 +43,13 @@ class LoginService
         $activeGroup = $this->groupRepository->find($activeGroupDTO->getId());
         $user = $this->personRepository->find($userDTO->getId());
         if (is_null($user)) {
-            new \Exception("user couldn't be found.");
+            throw new Exception("user couldn't be found.");
         }
-        if (sizeof($userDTO->getRoles()) !== 1) {
-            throwException("Invalid amount of roles.");
+
+        if (count($userDTO->getRoles()) !== 1) {
+            throw new Exception("Invalid amount of roles.");
         }
+
         $role = $this->permissionRepository->findHighestById($activeGroup, $user->getId());
         $roleKey = 'ROLE_USER';
         if (!is_null($role)) {
@@ -54,7 +58,7 @@ class LoginService
 
         $login->setPerson($user);
         $login->setGroup($activeGroup);
-        $login->setDate(new \DateTime('now', new \DateTimeZone('Europe/Zurich')));
+        $login->setDate(new DateTime('now', new DateTimeZone('Europe/Zurich')));
         $login->setIsGroupChange(false);
         $login->setRole($roleKey);
 
@@ -63,7 +67,7 @@ class LoginService
         return $login;
     }
 
-    public function logByPersonAndGroup(PbsUserDTO $userDTO, Group $group)
+    public function logByPersonAndGroup(PbsUserDTO $userDTO, Group $group): Login
     {
         $login = new Login();
         $person = $this->personRepository->find($userDTO->getId());
@@ -75,7 +79,7 @@ class LoginService
 
         $login->setPerson($person);
         $login->setGroup($group);
-        $login->setDate(new \DateTime('now', new \DateTimeZone('Europe/Zurich')));
+        $login->setDate(new DateTime('now', new DateTimeZone('Europe/Zurich')));
         $login->setIsGroupChange(true);
         $login->setRole($roleKey);
 

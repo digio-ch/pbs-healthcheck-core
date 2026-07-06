@@ -2,114 +2,76 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedLeaderOverviewLeaderRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_leader_overview_leader", indexes={
- *     @ORM\Index(columns={"gender"}),
- *     @ORM\Index(columns={"name"}),
- *     @ORM\Index(columns={"birthday"})
- * })
- * @ORM\Entity(repositoryClass=AggregatedLeaderOverviewLeaderRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_leader_overview_leader')]
+#[ORM\Index(columns: ['gender'])]
+#[ORM\Index(columns: ['name'])]
+#[ORM\Index(columns: ['birthday'])]
+#[ORM\Entity(repositoryClass: AggregatedLeaderOverviewLeaderRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedLeaderOverviewLeader
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=AggregatedLeaderOverview::class, inversedBy="leaders", cascade={"persist"}))
-     * @ORM\JoinColumn(name="widget_leader_overview_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $leaderOverview;
+    #[ORM\JoinColumn(name: 'widget_leader_overview_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: AggregatedLeaderOverview::class, cascade: ['persist'], inversedBy: 'leaders')]
+    private ?AggregatedLeaderOverview $leaderOverview = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=AggregatedLeaderOverviewQualification::class, mappedBy="leaderOverviewLeader", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: AggregatedLeaderOverviewQualification::class, mappedBy: 'leaderOverviewLeader', cascade: ['persist', 'remove'])]
     private $qualifications;
 
-    /**
-     * @ORM\Column(type="string", length=1, nullable=true)
-     */
-    private $gender;
+    #[ORM\Column(type: Types::STRING, length: 1, nullable: true)]
+    private ?string $gender = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name = null;
 
-    /**
-     * @ORM\Column(type="date_immutable", nullable=true)
-     */
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private $birthday;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param AggregatedLeaderOverview $leaderOverview
-     */
-    public function setLeaderOverview(AggregatedLeaderOverview $leaderOverview)
+    public function setLeaderOverview(AggregatedLeaderOverview $leaderOverview): void
     {
         $this->leaderOverview = $leaderOverview;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLeaderOverview()
+    public function getLeaderOverview(): ?AggregatedLeaderOverview
     {
         return $this->leaderOverview;
     }
 
-    /**
-     * @param string $gender
-     */
-    public function setGender(string $gender)
+    public function setGender(string $gender): void
     {
         $this->gender = $gender;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGender()
+    public function getGender(): ?string
     {
         return $this->gender;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -131,7 +93,7 @@ class AggregatedLeaderOverviewLeader
     }
 
     /**
-     * @return Collection|AggregatedLeaderOverviewQualification[]
+     * @return Collection<int, AggregatedLeaderOverviewQualification>
      */
     public function getQualifications(): Collection
     {

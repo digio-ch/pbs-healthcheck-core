@@ -1,15 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Apps\Overview;
 
 class OverviewSharingDTO
 {
-    /** @var bool $sharing */
     private bool $sharing;
 
-    /**
-     * @param bool $sharing
-     */
     public function __construct(bool $sharing)
     {
         $this->sharing = $sharing;

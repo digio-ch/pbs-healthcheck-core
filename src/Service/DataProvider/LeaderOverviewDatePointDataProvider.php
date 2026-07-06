@@ -16,35 +16,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
 {
-    /**
-     * @var AggregatedLeaderOverviewRepository
-     */
-    protected $widgetLeaderOverviewRepository;
+    protected AggregatedLeaderOverviewRepository $widgetLeaderOverviewRepository;
 
-    /**
-     * @var AggregatedLeaderOverviewLeaderRepository
-     */
-    protected $leaderOverviewLeaderRepository;
+    protected AggregatedLeaderOverviewLeaderRepository $leaderOverviewLeaderRepository;
 
-    /**
-     * @var AggregatedLeaderOverviewQualificationRepository
-     */
-    protected $leaderOverviewQualificationRepository;
+    protected AggregatedLeaderOverviewQualificationRepository $leaderOverviewQualificationRepository;
 
-    /**
-     * @var QualificationProcessor
-     */
-    private $qualificationProcessor;
+    private QualificationProcessor $qualificationProcessor;
 
     /**
      * LeaderOverviewDatePointDataProvider constructor.
-     * @param GroupRepository $groupRepository
-     * @param GroupTypeRepository $groupTypeRepository
-     * @param TranslatorInterface $translator
-     * @param AggregatedLeaderOverviewRepository $widgetLeaderOverviewRepository
-     * @param AggregatedLeaderOverviewLeaderRepository $leaderOverviewLeaderRepository
-     * @param AggregatedLeaderOverviewQualificationRepository $leaderOverviewQualificationRepository
-     * @param QualificationProcessor $qualificationProcessor
      */
     public function __construct(
         GroupRepository $groupRepository,
@@ -67,14 +48,7 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
         );
     }
 
-    /**
-     * @param Group $group
-     * @param string $date
-     * @param array $subGroupTypes
-     * @param array $peopleTypes
-     * @return array
-     */
-    public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes)
+    public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes): array
     {
         $result = [];
 
@@ -91,7 +65,7 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
         return $result;
     }
 
-    private function mapToLeaderOverview(string $date, int $mainGroupId, string $groupType)
+    private function mapToLeaderOverview(string $date, int $mainGroupId, string $groupType): LeaderOverviewDTO
     {
         $leaderOverviewData = $this->widgetLeaderOverviewRepository->findMaleFemaleMembersCountForGroupTypeAndDate($mainGroupId, [$groupType], $date);
         $memberTypeTranslation = 'group.labels.leaderOverview.memberType.' . ($groupType === 'Group::Abteilung' ? 'leaders' : 'members');
@@ -114,7 +88,7 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
         int $mainGroupId,
         string $groupType,
         LeaderOverviewDTO $leaderOverviewDTO
-    ) {
+    ): void {
         $leaders = $this->leaderOverviewLeaderRepository->findAllByGroupTypeAndDate($mainGroupId, $groupType, $date);
         /** @var AggregatedLeaderOverviewLeader $leader */
         foreach ($leaders as $leader) {
@@ -128,7 +102,7 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
                 $groupType
             );
 
-            if (!$qualifications) {
+            if ($qualifications === []) {
                 $leaderOverviewDTO->addLeader($leaderDTO);
                 continue;
             }
@@ -137,9 +111,12 @@ class LeaderOverviewDatePointDataProvider extends WidgetDataProvider
         }
     }
 
+    /**
+     * @param LeaderOverviewDTO[] $leaderOverviewDTOs
+     */
     private function sortLeaderDataByType(array &$leaderOverviewDTOs): void
     {
-        usort($leaderOverviewDTOs, function (LeaderOverviewDTO $a, LeaderOverviewDTO $b) {
+        usort($leaderOverviewDTOs, function (LeaderOverviewDTO $a, LeaderOverviewDTO $b): int {
             return $this->sortByGroupTypes($a->getName(), $b->getName());
         });
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Security;
 
 use App\DTO\Model\PbsUserDTO;
@@ -24,7 +26,6 @@ class PermissionVoter extends Voter
         PermissionType::VIEWER => PermissionVoter::ORDER_VIEWER,
     ];
 
-    /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
 
     /** @var array|string[] $specialAccess */
@@ -39,20 +40,15 @@ class PermissionVoter extends Voter
         $this->specialAccessEmails = explode(',', $specialAccessEmails);
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         if (!in_array($attribute, [PermissionType::VIEWER, PermissionType::EDITOR, PermissionType::EDITOR_PLUS, PermissionType::OWNER])) {
             return false;
         }
-
-        if (!$subject instanceof Group) {
-            return false;
-        }
-
-        return true;
+        return $subject instanceof Group;
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         assert($user instanceof PbsUserDTO);

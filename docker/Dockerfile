@@ -9,17 +9,12 @@ COPY composer.* /app/
 WORKDIR /app
 RUN composer install --no-interaction --ignore-platform-reqs --no-scripts --prefer-dist
 
-FROM php:7.4.14-fpm
+FROM php:8.3.32-fpm
 ARG BUILD_DEBUG
 ARG BUILD_TEST
 ARG PHP_INI
 ENV COMPOSER_HOME=var/composer
 
-# Point apt to Debians archive server because the packages needed aren't on the main mirror servers anymore
-# This is because the image we are using is based on Debian 10 which is EOL
-RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list && \
-    sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list && \
-    sed -i '/^deb.*buster-updates/d' /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get install -y libzip-dev libpq-dev zip unzip zlib1g-dev libicu-dev g++
 
@@ -32,17 +27,15 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 RUN docker-php-ext-install pdo pdo_pgsql pgsql
 
 RUN if [ "$BUILD_DEBUG" -eq "1" ]; then \
-        # install xdebug and enable remote debugging
-        pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug \
+        # install xdebug and enable remote debugging \
+        pecl install xdebug-3.5.3 && docker-php-ext-enable xdebug \
                 && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
                 && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
                 && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     ; fi
 
 RUN if [ "$BUILD_TEST" -eq "1" ] || [ "$BUILD_DEBUG" -eq "1" ]; then \
-        # add git to allow cloning of logger
-        apt-get install -y git && \
-        # install composer
+        # install composer \
         curl -sS https://getcomposer.org/installer | php -- --version=2.8.12 --install-dir=/usr/local/bin --filename=composer \
     ; fi
 

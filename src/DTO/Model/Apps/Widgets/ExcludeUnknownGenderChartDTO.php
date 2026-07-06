@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Apps\Widgets;
 
 use App\DTO\Model\Charts\BarChartDataDTO;
@@ -8,27 +10,18 @@ use App\DTO\Model\Charts\PieChartDataDTO;
 
 class ExcludeUnknownGenderChartDTO
 {
-    /**
-     * @var int
-     */
-    private $unknownGenderCount;
+    private int $unknownGenderCount = 0;
 
     /**
      * @var PieChartDataDTO|BarChartDataDTO|LineChartDataDTO|array
      */
     private $data;
 
-    /**
-     * @return int
-     */
     public function getUnknownGenderCount(): int
     {
         return $this->unknownGenderCount;
     }
 
-    /**
-     * @param int $unknownGenderCount
-     */
     public function setUnknownGenderCount(int $unknownGenderCount): void
     {
         $this->unknownGenderCount = $unknownGenderCount;

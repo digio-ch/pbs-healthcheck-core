@@ -1,43 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Apps\Widgets;
 
 class QualificationDTO
 {
-    /**
-     * @var string
-     */
-    private $state;
+    private ?string $state = null;
 
-    /**
-     * @var string
-     */
-    private $shortName;
+    private ?string $shortName = null;
 
-    /**
-     * @var string
-     */
-    private $fullName;
+    private ?string $fullName = null;
 
-    /**
-     * @var string
-     */
-    private $eventOrigin;
+    private string $eventOrigin;
 
-    /**
-     * @var string
-     */
-    private $expiresAt;
+    private string $expiresAt;
 
-    /**
-     * @var string
-     */
-    private $color;
+    private string $color;
 
     /**
      * @param string $state
      */
-    public function setState(?string $state)
+    public function setState(?string $state): void
     {
         $this->state = $state;
     }
@@ -45,7 +29,7 @@ class QualificationDTO
     /**
      * @return string
      */
-    public function getState()
+    public function getState(): ?string
     {
         return $this->state;
     }
@@ -53,7 +37,7 @@ class QualificationDTO
     /**
      * @param string $shortName
      */
-    public function setShortName(?string $shortName)
+    public function setShortName(?string $shortName): void
     {
         $this->shortName = $shortName;
     }
@@ -61,15 +45,12 @@ class QualificationDTO
     /**
      * @return string
      */
-    public function getShortName()
+    public function getShortName(): ?string
     {
         return $this->shortName;
     }
 
-    /**
-     * @param string $fullName
-     */
-    public function setFullName(string $fullName)
+    public function setFullName(string $fullName): void
     {
         $this->fullName = $fullName;
     }
@@ -77,53 +58,35 @@ class QualificationDTO
     /**
      * @return string
      */
-    public function getFullName()
+    public function getFullName(): ?string
     {
         return $this->fullName;
     }
-    /**
-     * @return string
-     */
     public function getEventOrigin(): string
     {
         return $this->eventOrigin;
     }
 
-    /**
-     * @param string $eventOrigin
-     */
     public function setEventOrigin(string $eventOrigin): void
     {
         $this->eventOrigin = $eventOrigin;
     }
 
-    /**
-     * @return string
-     */
     public function getExpiresAt(): string
     {
         return $this->expiresAt;
     }
 
-    /**
-     * @param string $expiresAt
-     */
     public function setExpiresAt(string $expiresAt): void
     {
         $this->expiresAt = $expiresAt;
     }
 
-    /**
-     * @return string
-     */
     public function getColor(): string
     {
         return $this->color;
     }
 
-    /**
-     * @param string $color
-     */
     public function setColor(string $color): void
     {
         $this->color = $color;

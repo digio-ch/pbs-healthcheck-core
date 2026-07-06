@@ -19,10 +19,7 @@ class LineChartDataDTO
      */
     protected $series = [];
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -35,17 +32,11 @@ class LineChartDataDTO
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getColor(): string
     {
         return $this->color;
     }
 
-    /**
-     * @param string $color
-     */
     public function setColor(string $color): void
     {
         $this->color = $color;
@@ -59,10 +50,7 @@ class LineChartDataDTO
         return $this->series;
     }
 
-    /**
-     * @param LineChartDataPointDTO ...$series
-     */
-    public function addSeries(LineChartDataPointDTO ...$series)
+    public function addSeries(LineChartDataPointDTO ...$series): void
     {
         array_push($this->series, ...$series);
     }

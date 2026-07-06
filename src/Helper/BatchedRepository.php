@@ -13,9 +13,7 @@ class BatchedRepository
     private int $batchSize;
 
     /**
-     * @param ServiceEntityRepository $repository
      * @param int $batchCount
-     * @param int $batchSize
      */
     public function __construct(ServiceEntityRepository $repository, int $batchSize = 500)
     {
@@ -23,7 +21,7 @@ class BatchedRepository
         $this->batchSize = $batchSize;
     }
 
-    public function add($entity)
+    public function add($entity): void
     {
         $this->batchCount++;
         $this->repository->add($entity, false);
@@ -33,7 +31,7 @@ class BatchedRepository
         }
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->repository->flush();
     }

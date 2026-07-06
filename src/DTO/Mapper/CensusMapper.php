@@ -8,27 +8,24 @@ use App\DTO\Model\Apps\Census\TableDTO;
 use App\DTO\Model\FilterRequestData\CensusRequestData;
 use App\Entity\Midata\CensusGroup;
 use App\Entity\Statistics\StatisticGroup;
-use Symfony\Component\Validator\Constraints\Date;
 
 class CensusMapper
 {
     /**
-     * @param StatisticGroup $statisticGroup
      * @param CensusGroup[] $censusGroups
      * @param int[] $relevantYears
-     * @return TableDTO
      */
-    public static function mapToCensusTable(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears, CensusRequestData $censusRequestData)
+    public static function mapToCensusTable(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears, CensusRequestData $censusRequestData): TableDTO
     {
         $dto = new TableDTO();
         $dto->setId($statisticGroup->getId());
         $dto->setName($statisticGroup->getName());
         $dto->setType($statisticGroup->getGroupType()->getGroupType());
         $parent = $statisticGroup->getParentGroup();
-        $parentId = !is_null($parent) ? $parent->getId() : null;
+        $parentId = is_null($parent) ? null : $parent->getId();
         $dto->setParentId($parentId);
 
-        if (sizeof($censusGroups) < 1) {
+        if (count($censusGroups) < 1) {
             $dto->setMissing(true);
             return $dto;
         }
@@ -75,11 +72,10 @@ class CensusMapper
     }
 
     /**
-     * @param StatisticGroup $statisticGroup
      * @param CensusGroup[] $censusGroups
      * @param int[] $relevantYears
      */
-    public static function mapToLineChart(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears, CensusRequestData $censusRequestData)
+    public static function mapToLineChart(StatisticGroup $statisticGroup, array $censusGroups, array $relevantYears, CensusRequestData $censusRequestData): DevelopmentWidgetDTO
     {
         $absolute = [];
         $relative = [];
@@ -120,7 +116,7 @@ class CensusMapper
         return $return;
     }
 
-    public static function filterCensusGroup(CensusGroup $group, CensusRequestData $censusRequestData)
+    public static function filterCensusGroup(CensusGroup $group, CensusRequestData $censusRequestData): void
     {
         if (self::isFiltered('biber', $censusRequestData->getRoles()) || !$censusRequestData->isFilterMales()) {
             $group->setBiberMCount(0);
@@ -166,7 +162,7 @@ class CensusMapper
         }
     }
 
-    public static function isFiltered($needle, $haystack)
+    public static function isFiltered($needle, $haystack): bool
     {
         return stripos(json_encode($haystack ?? []), $needle) !== false;
     }
@@ -178,8 +174,6 @@ class CensusMapper
 
     /**
      * Retuns a hex color string where each color (R,G,B) is withing 100-230, so that text is always readable on this color.
-     * @param int $id
-     * @return string
      */
     public static function getLightColorForId(int $id): string
     {

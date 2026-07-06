@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use DateTimeImmutable;
 use App\DTO\Model\Apps\Widgets\LeaderDTO;
 use App\DTO\Model\Apps\Widgets\QualificationDTO;
 use App\Entity\Aggregated\AggregatedLeaderOverviewQualification;
@@ -39,20 +40,12 @@ class QualificationProcessor
         27 => '#52a8a1',
     ];
 
-    /**
-     * @var string
-     */
-    private $currentLocale;
+    private string $currentLocale;
 
-    /**
-     * @var QualificationTypeRepository
-     */
-    private $qualificationTypeRepository;
+    private QualificationTypeRepository $qualificationTypeRepository;
 
     /**
      * QualificationProcessor constructor.
-     * @param RequestStack $requestStack
-     * @param QualificationTypeRepository $qualificationTypeRepository
      */
     public function __construct(RequestStack $requestStack, QualificationTypeRepository $qualificationTypeRepository)
     {
@@ -62,8 +55,6 @@ class QualificationProcessor
 
     /**
      * @param array|AggregatedLeaderOverviewQualification[] $leaderOverviewQualifications
-     * @param string $groupName
-     * @return array
      */
     public function process(array $leaderOverviewQualifications, string $groupName): array
     {
@@ -78,11 +69,9 @@ class QualificationProcessor
     }
 
     /**
-     * @param array $leaderOverviewQualifications
-     * @param LeaderDTO $leaderDTO
-     * @return array
+     * @return array{}
      */
-    public function translateAndAddToLeaderDTOs(array $leaderOverviewQualifications, LeaderDTO $leaderDTO)
+    public function translateAndAddToLeaderDTOs(array $leaderOverviewQualifications, LeaderDTO $leaderDTO): array
     {
         $result = [];
         /** @var AggregatedLeaderOverviewQualification $qualification */
@@ -91,7 +80,7 @@ class QualificationProcessor
             $qualificationDTO->setState($qualification->getState());
             $qualificationDTO->setEventOrigin($qualification->getEventOrigin());
             $qualificationDTO->setExpiresAt(
-                $qualification->getExpiresAt() instanceof \DateTimeImmutable ?
+                $qualification->getExpiresAt() instanceof DateTimeImmutable ?
                     $qualification->getExpiresAt()->format('Y-m-d')
                     : 'No expiration date'
             );
@@ -114,10 +103,6 @@ class QualificationProcessor
         return $result;
     }
 
-    /**
-     * @param array $leaderOverviewQualifications
-     * @return array
-     */
     private function processEntryCourses(array $leaderOverviewQualifications): array
     {
         $result = [];
@@ -137,10 +122,6 @@ class QualificationProcessor
         return $result;
     }
 
-    /**
-     * @param array $leaderOverviewQualifications
-     * @return array
-     */
     private function processAdvancedCourses(array $leaderOverviewQualifications): array
     {
         $result = [];
@@ -151,10 +132,6 @@ class QualificationProcessor
         return $result;
     }
 
-    /**
-     * @param array $leaderOverviewQualifications
-     * @return array
-     */
     private function processOtherQualifications(array $leaderOverviewQualifications): array
     {
         $result = [];
@@ -166,15 +143,13 @@ class QualificationProcessor
     }
 
     /**
-     * @param string $groupName
-     * @param array $leaderOverviewQualifications
-     * @param array $qualifications
+     * @param AggregatedLeaderOverviewQualification[] $leaderOverviewQualifications
      */
     private function processGroupSpecificQualifications(
         string $groupName,
         array $leaderOverviewQualifications,
         array &$qualifications
-    ) {
+    ): void {
         if (!array_key_exists($groupName, self::GROUP_SPECIFIC_QUALIFICATION_TYPE_IDS)) {
             return;
         }
@@ -187,16 +162,14 @@ class QualificationProcessor
 
     /**
      * Remove qualifications which do not need to be shown in front-end
-     * @param array $qualifications
-     * @return array
+     * @param AggregatedLeaderOverviewQualification[] $qualifications
      */
     private function removeUnneeded(array $qualifications): array
     {
-        /** @var AggregatedLeaderOverviewQualification[] $unique */
         $temp = [];
         // Sort Qualifications by expiration date descending, and null goes first.
         // This is so the newest qualification is sent to the frontend and old ones get filtered out.
-        usort($qualifications, function (AggregatedLeaderOverviewQualification $a, AggregatedLeaderOverviewQualification $b) {
+        usort($qualifications, function (AggregatedLeaderOverviewQualification $a, AggregatedLeaderOverviewQualification $b): int {
             if (is_null($a->getExpiresAt())) {
                 return -1;
             }
@@ -232,10 +205,8 @@ class QualificationProcessor
      * Add qualification to the specified array if it has the supplied id
      * and return a boolean indicating whether it was added to the array or not
      *
-     * @param int $qualificationTypeId
-     * @param array $qualifications
-     * @param array $relevantQualifications
-     * @return bool
+     * @param AggregatedLeaderOverviewQualification[] $qualifications
+     * @param AggregatedLeaderOverviewQualification[] $relevantQualifications
      */
     private function addQualificationConditionally(
         int $qualificationTypeId,

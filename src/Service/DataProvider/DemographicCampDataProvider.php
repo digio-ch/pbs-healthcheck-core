@@ -10,28 +10,17 @@ use App\Repository\Aggregated\AggregatedDemographicCampGroupRepository;
 use App\Repository\Aggregated\AggregatedDemographicCampRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DemographicCampDataProvider extends WidgetDataProvider
 {
-    /**
-     * @var AggregatedDemographicCampRepository
-     */
-    protected $widgetDemographicCampRepository;
+    protected AggregatedDemographicCampRepository $widgetDemographicCampRepository;
 
-    /**
-     * @var AggregatedDemographicCampGroupRepository
-     */
-    protected $demographicCampGroupRepository;
+    protected AggregatedDemographicCampGroupRepository $demographicCampGroupRepository;
 
     /**
      * DemographicCampDataProvider constructor.
-     * @param GroupRepository $groupRepository
-     * @param GroupTypeRepository $groupTypeRepository
-     * @param TranslatorInterface $translator
-     * @param AggregatedDemographicCampRepository $widgetDemographicCampRepository
-     * @param AggregatedDemographicCampGroupRepository $demographicCampGroupRepository
      */
     public function __construct(
         GroupRepository $groupRepository,
@@ -50,16 +39,7 @@ class DemographicCampDataProvider extends WidgetDataProvider
         );
     }
 
-    /**
-     * @param Group $group
-     * @param string $from
-     * @param string $to
-     * @param array $subGroupTypes
-     * @param array $peopleTypes
-     * @return array
-     * @throws DBALException
-     */
-    public function getData(Group $group, string $from, string $to, array $subGroupTypes, array $peopleTypes)
+    public function getData(Group $group, string $from, string $to, array $subGroupTypes, array $peopleTypes): array
     {
         $result = [];
 
@@ -103,26 +83,18 @@ class DemographicCampDataProvider extends WidgetDataProvider
                 $this->getAdditionalLeadersData($barChart, $event, $group->getId(), $subGroupTypes);
                 $this->addCampToChart($result, $barChart);
                 $this->translateGroupNames($barChart->getSeries());
-                continue;
             }
         }
 
         return $result;
     }
 
-    /**
-     * @param BarChartDataDTO $barChart
-     * @param AggregatedDemographicCamp $event
-     * @param int $mainGroupId
-     * @param array $groupTypes
-     * @throws DBALException
-     */
     private function getMembersData(
         BarChartDataDTO $barChart,
         AggregatedDemographicCamp $event,
         int $mainGroupId,
         array $groupTypes
-    ) {
+    ): void {
         foreach ($groupTypes as $type) {
             $sum = $this->demographicCampGroupRepository->getMembersCountByCampAndGroupType(
                 $event,
@@ -140,19 +112,12 @@ class DemographicCampDataProvider extends WidgetDataProvider
         }
     }
 
-    /**
-     * @param BarChartDataDTO $barChart
-     * @param AggregatedDemographicCamp $event
-     * @param int $mainGroupId
-     * @param array $groupTypes
-     * @throws DBALException
-     */
     private function getLeadersData(
         BarChartDataDTO $barChart,
         AggregatedDemographicCamp $event,
         int $mainGroupId,
         array $groupTypes
-    ) {
+    ): void {
         foreach ($groupTypes as $type) {
             $sum = $this->demographicCampGroupRepository->getLeadersCountByCampAndGroupType(
                 $event,
@@ -171,18 +136,14 @@ class DemographicCampDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param BarChartDataDTO $barChart
-     * @param AggregatedDemographicCamp $event
-     * @param int $mainGroupId
-     * @param array $groupTypes
-     * @throws DBALException
+     * @throws Exception
      */
     private function getAdditionalLeadersData(
         BarChartDataDTO $barChart,
         AggregatedDemographicCamp $event,
         int $mainGroupId,
         array $groupTypes
-    ) {
+    ): void {
         $leaders = $this->demographicCampGroupRepository->getAdditionalLeadersCountByCampAndGroupTypes(
             $event,
             $mainGroupId,
@@ -198,7 +159,10 @@ class DemographicCampDataProvider extends WidgetDataProvider
         $barChart->addSeries($barChartBarDataDTO);
     }
 
-    private function addCampToChart(array &$results, BarChartDataDTO $barChartDataDTO)
+    /**
+     * @param BarChartDataDTO[] $results
+     */
+    private function addCampToChart(array &$results, BarChartDataDTO $barChartDataDTO): void
     {
         if (count($barChartDataDTO->getSeries()) === 0) {
             return;

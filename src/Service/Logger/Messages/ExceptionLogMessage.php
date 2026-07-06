@@ -2,18 +2,18 @@
 
 namespace App\Service\Logger\Messages;
 
+use Throwable;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ExceptionLogMessage extends LogMessage
 {
-    /** @var EntityManagerInterface|null $em */
-    private $em;
+    private ?EntityManagerInterface $em;
 
-    private $exception;
+    private string $exception;
 
-    private $stackTrace;
+    private string $stackTrace;
 
-    public function __construct(\Throwable $thrown, ?EntityManagerInterface $em = null)
+    public function __construct(Throwable $thrown, ?EntityManagerInterface $em = null)
     {
         parent::__construct(sprintf('%s: %s', get_class($thrown), $thrown->getMessage()), 'exception');
         $this->em = $em;
@@ -22,23 +22,17 @@ class ExceptionLogMessage extends LogMessage
         $this->stackTrace = $this->serializeStackTrace($thrown);
     }
 
-    /**
-     * @return string
-     */
     public function getException(): string
     {
         return $this->exception;
     }
 
-    /**
-     * @return string
-     */
     public function getStackTrace(): string
     {
         return $this->stackTrace;
     }
 
-    private function serializeStackTrace(\Throwable $thrown): string
+    private function serializeStackTrace(Throwable $thrown): string
     {
         $serialized = [
             ['location' => sprintf('%s:%d', $thrown->getFile(), $thrown->getLine())]
@@ -75,21 +69,20 @@ class ExceptionLogMessage extends LogMessage
         return $serialized;
     }
 
-    private function serializeValue($value)
+    private function serializeValue(mixed $value): array|string|null
     {
-        switch (true) {
-            case is_array($value):
-                return array_map(function ($item) {
-                    return $this->serializeValue($item);
-                }, $value);
-            case is_object($value):
-                return $this->getDoctrineIdentifier($value);
-            default:
-                return $value;
+        if (is_array($value)) {
+            return array_map(function (object $item): array|object|string|null {
+                return $this->serializeValue($item);
+            }, $value);
         }
+        if (is_object($value)) {
+            return $this->getDoctrineIdentifier($value);
+        }
+        return $value;
     }
 
-    private function getDoctrineIdentifier($obj): ?string
+    private function getDoctrineIdentifier(mixed $obj): ?string
     {
         if ($obj === null) {
             return null;
@@ -97,7 +90,7 @@ class ExceptionLogMessage extends LogMessage
 
         $class = get_class($obj);
 
-        if ($this->em === null || $this->em->getMetadataFactory()->isTransient($class)) {
+        if (!$this->em instanceof EntityManagerInterface || $this->em->getMetadataFactory()->isTransient($class)) {
             return $class;
         }
 
@@ -109,6 +102,6 @@ class ExceptionLogMessage extends LogMessage
             $serialized[] = sprintf('%s: { %s }', $key, $this->serializeValue($value));
         }
 
-        return sprintf('%s: { %s }', $class, join(', ', $serialized));
+        return sprintf('%s: { %s }', $class, implode(', ', $serialized));
     }
 }

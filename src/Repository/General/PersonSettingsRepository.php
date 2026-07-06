@@ -40,7 +40,7 @@ class PersonSettingsRepository extends ServiceEntityRepository
         }
 
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
 
         return $filter;
@@ -48,17 +48,17 @@ class PersonSettingsRepository extends ServiceEntityRepository
 
     public function add(PersonSettings $entity, bool $flush = true): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
     public function remove(PersonSettings $entity, bool $flush = true): void
     {
-        $this->_em->remove($entity);
+        $this->getEntityManager()->remove($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 

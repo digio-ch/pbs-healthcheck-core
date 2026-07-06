@@ -2,42 +2,42 @@
 preview:
   path: /preview
   methods: GET
-  controller: App\Controller\Api\Apps\Widgets\MembersGroupController:getPreview
+  controller: App\Controller\Api\Apps\Widgets\MembersGroupController::getPreview
 
 filter:
   path: /filter
   methods: GET
-  controller: App\Controller\Api\Apps\Widgets\FilterController:getFilterData
+  controller: App\Controller\Api\Apps\Widgets\FilterController::getFilterData
 
 members_gender:
   path: /members-gender
   methods: GET
-  controller: App\Controller\Api\Apps\Widgets\MembersGenderController:getDemographicGroupData
+  controller: App\Controller\Api\Apps\Widgets\MembersGenderController::getDemographicGroupData
 
 members_group:
   path: /members-group
   methods: GET
-  controller: App\Controller\Api\Apps\Widgets\MembersGroupController:getGroupMembersData
+  controller: App\Controller\Api\Apps\Widgets\MembersGroupController::getGroupMembersData
 
 demographic_camp:
   path: /camps
   methods: GET
-  controller: App\Controller\Api\Apps\Widgets\CampController:getDemographicCampData
+  controller: App\Controller\Api\Apps\Widgets\CampController::getDemographicCampData
 
 leader_overview:
   path: /leader-overview
   methods: GET
-  controller: App\Controller\Api\Apps\Widgets\LeaderOverviewController:getLeaderOverviewData
+  controller: App\Controller\Api\Apps\Widgets\LeaderOverviewController::getLeaderOverviewData
 
 members_birthyear:
   path: /age-group-demographic
   methods: GET
-  controller: App\Controller\Api\Apps\Widgets\MembersBirthyearController:getMembersBirthyearData
+  controller: App\Controller\Api\Apps\Widgets\MembersBirthyearController::getMembersBirthyearData
 
 members_entered_left:
   path: /entered-left
   methods: GET
-  controller: App\Controller\Api\Apps\Widgets\MembersEnteredLeftController:getEnteredLeftMembersData
+  controller: App\Controller\Api\Apps\Widgets\MembersEnteredLeftController::getEnteredLeftMembersData
 
 geo_location:
   path: /geo-location
@@ -47,7 +47,7 @@ geo_location:
 role_overview:
   path: /role-overview
   methods: GET
-  controller: App\Controller\Api\Apps\Widgets\RoleOverviewController:getRoleOverview
+  controller: App\Controller\Api\Apps\Widgets\RoleOverviewController::getRoleOverview
 
 census_table:
   path: /census-table

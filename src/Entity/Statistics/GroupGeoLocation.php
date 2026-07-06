@@ -2,35 +2,26 @@
 
 namespace App\Entity\Statistics;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Statistics\GroupGeoLocationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=GroupGeoLocationRepository::class)
- */
+#[ORM\Entity(repositoryClass: GroupGeoLocationRepository::class)]
 class GroupGeoLocation
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=StatisticGroup::class, inversedBy="geoLocations")
-     */
-    private $group;
+    #[ORM\ManyToOne(targetEntity: StatisticGroup::class, inversedBy: 'geoLocations')]
+    private ?StatisticGroup $group = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $lat;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $lat = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $long;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $long = null;
 
     public function getId(): ?int
     {

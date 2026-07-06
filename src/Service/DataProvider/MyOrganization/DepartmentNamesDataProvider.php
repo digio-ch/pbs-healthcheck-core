@@ -9,14 +9,8 @@ use Doctrine\DBAL\Exception;
 
 class DepartmentNamesDataProvider
 {
-    /**
-     * @var StatisticGroupRepository $statisticGroupRepository
-     */
     private StatisticGroupRepository $statisticGroupRepository;
 
-    /**
-     * @param StatisticGroupRepository $statisticGroupRepository
-     */
     public function __construct(StatisticGroupRepository $statisticGroupRepository)
     {
         $this->statisticGroupRepository = $statisticGroupRepository;
@@ -24,8 +18,6 @@ class DepartmentNamesDataProvider
 
 
     /**
-     * @param Group $association
-     * @param DateTimeInterface $date
      * @return string[]
      * @throws Exception
      */

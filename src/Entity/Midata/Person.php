@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Admin\GeoAddress;
 use App\Entity\Gamification\GamificationQuapEvent;
 use App\Entity\Gamification\LevelUpLog;
@@ -14,120 +15,79 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_person", indexes={
- *     @ORM\Index(columns={"nickname"}),
- *     @ORM\Index(columns={"gender"}),
- *     @ORM\Index(columns={"birthday"}),
- *     @ORM\Index(columns={"entry_date"}),
- *     @ORM\Index(columns={"leaving_date"})
- * })
- * @ORM\Entity(repositoryClass=PersonRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_person')]
+#[ORM\Index(columns: ['nickname'])]
+#[ORM\Index(columns: ['gender'])]
+#[ORM\Index(columns: ['birthday'])]
+#[ORM\Index(columns: ['entry_date'])]
+#[ORM\Index(columns: ['leaving_date'])]
+#[ORM\Entity(repositoryClass: PersonRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Person
 {
     public const GENDER_M = 'm';
     public const GENDER_F = 'w';
     public const GENDER_U = '';
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $nickname;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $nickname = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $pbsNumber;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $pbsNumber = null;
 
-    /**
-     * @ORM\Column(type="string", length=1, nullable=true)
-     */
-    private $gender;
+    #[ORM\Column(type: Types::STRING, length: 1, nullable: true)]
+    private ?string $gender = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $birthday;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeInterface $birthday = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $address;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $address = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $country;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $country = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $town;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $town = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $zip;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $zip = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $entryDate;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private DateTimeInterface|null|DateTimeImmutable $entryDate = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $leavingDate;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private DateTimeInterface|null|DateTimeImmutable $leavingDate = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class)
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $group;
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Group::class)]
+    private ?Group $group = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=PersonEvent::class, mappedBy="person", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: PersonEvent::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
     private $events;
 
-    /**
-     * @ORM\OneToMany(targetEntity=PersonQualification::class, mappedBy="person", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: PersonQualification::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
     private $qualifications;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=GeoAddress::class, inversedBy="people")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     */
-    private $geoAddress;
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    #[ORM\ManyToOne(targetEntity: GeoAddress::class, inversedBy: 'people')]
+    private ?GeoAddress $geoAddress = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Login::class, mappedBy="person")
-     */
+    #[ORM\OneToMany(targetEntity: Login::class, mappedBy: 'person')]
     private $logins;
 
-    /**
-     * @ORM\OneToOne(targetEntity=GamificationPersonProfile::class, mappedBy="person", cascade={"persist", "remove"})
-     */
-    private $gamification;
+    #[ORM\OneToOne(targetEntity: GamificationPersonProfile::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
+    private ?GamificationPersonProfile $gamification = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=LevelUpLog::class, mappedBy="person", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: LevelUpLog::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
     private $levelUps;
 
-    /**
-     * @ORM\OneToMany(targetEntity=GamificationQuapEvent::class, mappedBy="person", orphanRemoval=true, cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: GamificationQuapEvent::class, mappedBy: 'person', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $gamificationQuapEvents;
 
     public function __construct()
@@ -137,209 +97,131 @@ class Person
         $this->gamificationQuapEvents = new ArrayCollection();
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getNickname(): ?string
     {
         return $this->nickname;
     }
 
-    /**
-     * @param null|string $nickname
-     */
-    public function setNickname(?string $nickname)
+    public function setNickname(?string $nickname): void
     {
         $this->nickname = $nickname;
     }
 
-    /**
-     * @return null|string
-     */
     public function getPbsNumber(): ?string
     {
         return $this->pbsNumber;
     }
 
-    /**
-     * @param null|string $pbsNumber
-     */
-    public function setPbsNumber(?string $pbsNumber)
+    public function setPbsNumber(?string $pbsNumber): void
     {
         $this->pbsNumber = $pbsNumber;
     }
 
-    /**
-     * @return null|string
-     */
     public function getGender(): ?string
     {
         return $this->gender;
     }
 
-    /**
-     * @param null|string $gender
-     */
-    public function setGender(?string $gender)
+    public function setGender(?string $gender): void
     {
         $this->gender = $gender;
     }
 
-    /**
-     * @return DateTimeInterface|null
-     */
     public function getBirthday(): ?DateTimeInterface
     {
         return $this->birthday;
     }
 
-    /**
-     * @param DateTimeInterface|null $birthday
-     */
-    public function setBirthday(?DateTimeInterface $birthday)
+    public function setBirthday(?DateTimeInterface $birthday): void
     {
         $this->birthday = $birthday;
     }
 
-    /**
-     * @return null|string
-     */
     public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    /**
-     * @param null|string $address
-     */
-    public function setAddress(?string $address)
+    public function setAddress(?string $address): void
     {
         $this->address = $address;
     }
 
-    /**
-     * @return null|string
-     */
     public function getCountry(): ?string
     {
         return $this->country;
     }
 
-    /**
-     * @param null|string $country
-     */
-    public function setCountry(?string $country)
+    public function setCountry(?string $country): void
     {
         $this->country = $country;
     }
 
-    /**
-     * @return null|string
-     */
     public function getTown(): ?string
     {
         return $this->town;
     }
 
-    /**
-     * @param null|string $town
-     */
-    public function setTown(?string $town)
+    public function setTown(?string $town): void
     {
         $this->town = $town;
     }
 
-    /**
-     * @return int|null
-     */
     public function getZip(): ?int
     {
         return $this->zip;
     }
 
-    /**
-     * @param int|null $zip
-     */
-    public function setZip(?int $zip)
+    public function setZip(?int $zip): void
     {
         $this->zip = $zip;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getEntryDate(): ?DateTimeImmutable
     {
         return $this->entryDate;
     }
 
-    /**
-     * @param DateTimeInterface|null $entryDate
-     */
-    public function setEntryDate(?DateTimeInterface $entryDate)
+    public function setEntryDate(?DateTimeInterface $entryDate): void
     {
         $this->entryDate = $entryDate;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getLeavingDate(): ?DateTimeImmutable
     {
         return $this->leavingDate;
     }
 
-    /**
-     * @param DateTimeInterface|null $leavingDate
-     */
-    public function setLeavingDate(?DateTimeInterface $leavingDate)
+    public function setLeavingDate(?DateTimeInterface $leavingDate): void
     {
         $this->leavingDate = $leavingDate;
     }
 
-    /**
-     * @return Group|null
-     */
     public function getGroup(): ?Group
     {
         return $this->group;
     }
 
-    /**
-     * @param Group|null $group
-     */
-    public function setGroup(?Group $group)
+    public function setGroup(?Group $group): void
     {
         $this->group = $group;
     }
 
-    /**
-     * @return GeoAddress|null
-     */
     public function getGeoAddress(): ?GeoAddress
     {
         return $this->geoAddress;
     }
 
-    /**
-     * @param GeoAddress $geoAddress
-     */
     public function setGeoAddress(GeoAddress $geoAddress): void
     {
         $this->geoAddress = $geoAddress;
@@ -365,11 +247,9 @@ class Person
 
     public function removeLogin(Login $login): self
     {
-        if ($this->logins->removeElement($login)) {
-            // set the owning side to null (unless already changed)
-            if ($login->getPerson() === $this) {
-                $login->setPerson(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->logins->removeElement($login) && $login->getPerson() === $this) {
+            $login->setPerson(null);
         }
 
         return $this;
@@ -412,11 +292,9 @@ class Person
 
     public function removeLevelUp(LevelUpLog $displayed): self
     {
-        if ($this->levelUps->removeElement($displayed)) {
-            // set the owning side to null (unless already changed)
-            if ($displayed->getPerson() === $this) {
-                $displayed->setPerson(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->levelUps->removeElement($displayed) && $displayed->getPerson() === $this) {
+            $displayed->setPerson(null);
         }
 
         return $this;
@@ -442,11 +320,9 @@ class Person
 
     public function removeGamificationQuapEvent(GamificationQuapEvent $gamificationQuapEvent): self
     {
-        if ($this->gamificationQuapEvents->removeElement($gamificationQuapEvent)) {
-            // set the owning side to null (unless already changed)
-            if ($gamificationQuapEvent->getPerson() === $this) {
-                $gamificationQuapEvent->setPerson(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->gamificationQuapEvents->removeElement($gamificationQuapEvent) && $gamificationQuapEvent->getPerson() === $this) {
+            $gamificationQuapEvent->setPerson(null);
         }
 
         return $this;

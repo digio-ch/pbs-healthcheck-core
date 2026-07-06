@@ -2,15 +2,18 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Entity\Admin\GeoAddress;
 use App\Model\CommandStatistics;
 use App\Repository\Admin\GeoAddressRepository;
-use App\Repository\Midata\PersonRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\Mapping\MappingException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: "app:import-geo-addresses")]
 class FetchGeoAddressesCommand extends StatisticsCommand
 {
     private const COORDINATION_EASTERN = 8;
@@ -20,46 +23,29 @@ class FetchGeoAddressesCommand extends StatisticsCommand
     private const ADDRESS_ZIP = 16;
     private const ADDRESS_TOWN = 18;
 
-    /** @var EntityManagerInterface $em */
-    private $em;
+    private EntityManagerInterface $em;
 
-    /** @var GeoAddressRepository $geoLocationRepository */
-    private $geoLocationRepository;
+    private GeoAddressRepository $geoLocationRepository;
 
-    /** @var PersonRepository $personRepository */
-    private $personRepository;
-
-    /** @var float */
-    private $stats;
+    private int $stats = 0;
 
     public function __construct(
         EntityManagerInterface $em,
-        GeoAddressRepository $geoLocationRepository,
-        PersonRepository $personRepository
+        GeoAddressRepository $geoLocationRepository
     ) {
         parent::__construct();
 
         $this->em = $em;
         $this->geoLocationRepository = $geoLocationRepository;
-        $this->personRepository = $personRepository;
-
-        $this->stats = 0;
     }
 
     protected function configure()
     {
-        $this
-            ->setName("app:import-geo-addresses")
-            ->addOption("overwrite", null, InputArgument::OPTIONAL, "", false);
+        $this->addOption("overwrite", null, InputArgument::OPTIONAL, "", false);
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\Persistence\Mapping\MappingException|\Doctrine\DBAL\Exception
+     * @throws MappingException|Exception
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -88,9 +74,6 @@ class FetchGeoAddressesCommand extends StatisticsCommand
         return 0;
     }
 
-    /**
-     * @param OutputInterface $output
-     */
     private function downloadCurrentZip(OutputInterface $output): void
     {
         $output->writeln(['Downloading the most recent geo data...']);
@@ -107,9 +90,6 @@ class FetchGeoAddressesCommand extends StatisticsCommand
         $output->writeln(['Downloaded geo data in: ' . number_format($time, 2) . ' seconds']);
     }
 
-    /**
-     * @param OutputInterface $output
-     */
     private function readDataContent(OutputInterface $output): void
     {
         $file = fopen("zip://data/geo-data.zip#CH.csv", "r");
@@ -118,9 +98,6 @@ class FetchGeoAddressesCommand extends StatisticsCommand
         $rowStart = microtime(true);
 
         $output->writeln(['Caching geo locations in the db...']);
-
-        $sqlLogger = $this->em->getConnection()->getConfiguration()->getSQLLogger();
-        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
 
         if ($file) {
             $index = 0;
@@ -150,13 +127,13 @@ class FetchGeoAddressesCommand extends StatisticsCommand
                 $index++;
 
                 // flush data every 1000 entries
-                if ($index % 1000 == 0) {
+                if ($index % 1000 === 0) {
                     $this->em->flush();
                     $this->em->clear();
                 }
 
                 // log process every 500k entries
-                if ($index % 500000 == 0) {
+                if ($index % 500000 === 0) {
                     $rowTime = microtime(true) - $rowStart;
                     $output->writeln(['Imported 500 thousand (additional) geo locations in: ' . number_format($rowTime, 2) . 's']);
                     $rowStart = microtime(true);
@@ -171,15 +148,10 @@ class FetchGeoAddressesCommand extends StatisticsCommand
 
             fclose($file);
         }
-
-        $this->em->getConnection()->getConfiguration()->setSQLLogger($sqlLogger);
     }
 
     /**
-     * @param float $east
-     * @param float $north
-     * @param float $height
-     * @return array
+     * @return array<int, float>
      */
     private function ch1903ToWgs84(float $east, float $north, float $height): array
     {

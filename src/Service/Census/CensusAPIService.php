@@ -1,24 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Census;
 
-use App\Service\Http;
+use App\Service\Http\CurlResponse;
 use App\Service\Http\GuzzleWrapper;
 
 class CensusAPIService
 {
-    /** @var GuzzleWrapper */
-    protected $guzzleWrapper;
-    /** @var string */
-    protected $url;
-    /** @var string */
-    protected $apiToken;
+    protected GuzzleWrapper $guzzleWrapper;
+    protected string $url;
+    protected string $apiToken;
 
     /**
-     * PbsApiService constructor.
-     * @param GuzzleWrapper $guzzleWrapper
-     * @param string $url
-     * @param string $apiKey
+     * CensusAPIService constructor.
      */
     public function __construct(GuzzleWrapper $guzzleWrapper, string $url, string $apiToken)
     {
@@ -28,15 +24,12 @@ class CensusAPIService
     }
 
 
-    public function getCensusData(int $year): Http\CurlResponse
+    public function getCensusData(int $year): CurlResponse
     {
         $endpoint = $this->url . '/group_health/census_evaluations.json?token=' . $this->apiToken . '&year=' . $year;
         return $this->guzzleWrapper->getJson($endpoint, null, []);
     }
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->url;

@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Entity\Security\Permission;
 use App\Model\CommandStatistics;
 use App\Repository\Security\PermissionRepository;
@@ -10,6 +11,7 @@ use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: self::NAME)]
 class NotifyExpiringPermissionsCommand extends StatisticsCommand
 {
     private const NAME = 'app:notify-expiring-permissions';
@@ -17,10 +19,8 @@ class NotifyExpiringPermissionsCommand extends StatisticsCommand
     private float $totalDuration;
     private int $preExpiringPermissionsToNotify;
 
-    /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
 
-    /** @var PermissionService $permissionService */
     private PermissionService $permissionService;
 
     public function __construct(
@@ -32,16 +32,7 @@ class NotifyExpiringPermissionsCommand extends StatisticsCommand
         parent::__construct();
     }
 
-    protected function configure()
-    {
-        $this->setName(self::NAME);
-    }
-
-
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -65,7 +56,7 @@ class NotifyExpiringPermissionsCommand extends StatisticsCommand
         return 0;
     }
 
-    private function notifyPreExpiry(Permission $permission)
+    private function notifyPreExpiry(Permission $permission): void
     {
         $owner = $permission->getOwner();
 
