@@ -150,3 +150,14 @@ Once you are up and running with the new env run:
 ```shell script
 docker exec healthcheck-core-local php bin/phpunit
 ```
+
+### Refactoring
+
+When upgrading the PHP or Symfony version we usually don't want to refactor the code manually. 
+Instead, we use [rector](https://github.com/rectorphp/rector) which does that automatically.
+
+To run rector execute:
+
+```shell
+make rector
+```

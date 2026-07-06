@@ -75,6 +75,10 @@ lint\:fix:
 	docker exec healthcheck-core-local php vendor/bin/phpcbf --standard=PSR12 --report=full --ignore=src/Migrations/ --runtime-set ignore_warnings_on_exit 1 src/
 	docker exec healthcheck-core-local php bin/console lint:twig templates
 
+.PHONY: rector
+rector:
+	docker exec -t healthcheck-core-local vendor/bin/rector
+
 .PHONY: logs
 logs:
 	tail -f -n 1 $(ERROR_LOG_FILE)
