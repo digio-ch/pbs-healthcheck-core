@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
 class InvitationMailInput
@@ -62,7 +64,6 @@ class InvitationMailInput
 
     /**
      * @param string[] $sections
-     * @return void
      */
     public function setSections(array $sections): InvitationMailInput
     {

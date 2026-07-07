@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Entity\Gamification\Goal;
 use App\Entity\Gamification\Level;
 use App\Entity\Gamification\LevelAccess;
@@ -13,9 +14,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'app:import-gamification')]
 class ImportGamificationCommand extends StatisticsCommand
 {
-    /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
     private LevelAccessRepository $levelAccessRepository;
@@ -41,18 +42,12 @@ class ImportGamificationCommand extends StatisticsCommand
         $this->goalRepository = $goalRepository;
     }
 
-    protected function configure()
-    {
-        $this
-            ->setName('app:import-gamification');
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $start = microtime(true);
         $json = json_decode(file_get_contents($this->pathToJson), true);
 
-        $result = $this->em->wrapInTransaction(function ($em) use ($json, $output): int {
+        $result = $this->em->wrapInTransaction(function (EntityManagerInterface $em) use ($json, $output): int {
             if (!array_key_exists('level_access', $json) || !is_array($json['level_access'])) {
                 $output->writeln('No level access entries found.');
                 return 1;
@@ -84,12 +79,7 @@ class ImportGamificationCommand extends StatisticsCommand
         return $result;
     }
 
-    /**
-     * @param EntityManagerInterface $em
-     * @param array $jsonLevelAccesses
-     * @param OutputInterface $output
-     */
-    private function importLevelAccess(EntityManagerInterface $em, array $jsonLevelAccesses, OutputInterface $output)
+    private function importLevelAccess(EntityManagerInterface $em, array $jsonLevelAccesses, OutputInterface $output): void
     {
         foreach ($jsonLevelAccesses as $jsonLevelAccess) {
             $key = intval($jsonLevelAccess['key']);
@@ -112,13 +102,7 @@ class ImportGamificationCommand extends StatisticsCommand
         $em->flush();
     }
 
-    /**
-     * @param EntityManagerInterface $em
-     * @param array $jsonLevels
-     * @param OutputInterface $output
-     * @return void
-     */
-    private function importLevels(EntityManagerInterface $em, array $jsonLevels, OutputInterface $output)
+    private function importLevels(EntityManagerInterface $em, array $jsonLevels, OutputInterface $output): void
     {
         foreach ($jsonLevels as $jsonLevel) {
             $key = intval($jsonLevel['key']);
@@ -154,7 +138,7 @@ class ImportGamificationCommand extends StatisticsCommand
         $em->flush();
     }
 
-    private function importGoals(EntityManagerInterface $em, array $jsonGoals, OutputInterface $output)
+    private function importGoals(EntityManagerInterface $em, array $jsonGoals, OutputInterface $output): void
     {
         foreach ($jsonGoals as $jsonGoal) {
             $key = $jsonGoal['key'];
@@ -191,13 +175,9 @@ class ImportGamificationCommand extends StatisticsCommand
     }
 
     /**
-     * @param OutputInterface $output
-     * @param string $id
-     * @param string $name
      * @param bool $updating whether the entity is being created or updated
-     * @return void
      */
-    private function logEntityChange(OutputInterface $output, string $id, string $name, bool $updating)
+    private function logEntityChange(OutputInterface $output, string $id, string $name, bool $updating): void
     {
         $action = $updating ? 'Updating' : 'Creating';
 

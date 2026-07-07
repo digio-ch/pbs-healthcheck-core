@@ -2,104 +2,73 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_event_type_qualification_type")
- * @ORM\HasLifecycleCallbacks()
- * @ORM\Entity()
- */
+#[ORM\Table(name: 'midata_event_type_qualification_type')]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 class EventTypeQualificationType
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=EventType::class)
-     * @ORM\JoinColumn(name="event_type_id", referencedColumnName="id")
-     */
-    private $eventType;
+    #[ORM\JoinColumn(name: 'event_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: EventType::class, inversedBy: "eventTypeQualificationTypes")]
+    private ?EventType $eventType = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=QualificationType::class)
-     * @ORM\JoinColumn(name="qualification_type_id", referencedColumnName="id")
-     */
-    private $qualificationType;
+    #[ORM\JoinColumn(name: 'qualification_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: QualificationType::class)]
+    private ?QualificationType $qualificationType = null;
 
     /***
      * @ORM\Column(type="string", length="255", nullable=true)
      */
-    private $category;
+    private ?string $category = null;
 
     /***
      * @ORM\Column(type="string", length="255", nullable=true)
      */
-    private $role;
+    private ?string $role = null;
 
-    /**
-     * @return null|string
-     */
     public function getCategory(): ?string
     {
         return $this->category;
     }
 
-    /**
-     * @param null|string $category
-     */
-    public function setCategory(?string $category)
+    public function setCategory(?string $category): void
     {
         $this->category = $category;
     }
 
-    /**
-     * @return null|string
-     */
     public function getRole(): ?string
     {
         return $this->role;
     }
 
-    /**
-     * @param null|string $role
-     */
-    public function setRole(?string $role)
+    public function setRole(?string $role): void
     {
         $this->role = $role;
     }
 
-    /**
-     * @return EventType|null
-     */
     public function getEventType(): ?EventType
     {
         return $this->eventType;
     }
 
-    /**
-     * @param EventType|null $eventType
-     */
-    public function setEventType(?EventType $eventType)
+    public function setEventType(?EventType $eventType): void
     {
         $this->eventType = $eventType;
     }
 
-    /**
-     * @return QualificationType|null
-     */
     public function getQualificationType(): ?QualificationType
     {
         return $this->qualificationType;
     }
 
-    /**
-     * @param QualificationType|null $qualificationType
-     */
-    public function setQualificationType(?QualificationType $qualificationType)
+    public function setQualificationType(?QualificationType $qualificationType): void
     {
         $this->qualificationType = $qualificationType;
     }

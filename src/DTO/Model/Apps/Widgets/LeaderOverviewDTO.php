@@ -1,140 +1,85 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Apps\Widgets;
 
 class LeaderOverviewDTO
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @var string
-     */
-    private $summaryMembersType;
+    private string $summaryMembersType;
 
-    /**
-     * @var string
-     */
-    private $summaryLeadersType;
+    private string $summaryLeadersType;
 
-    /**
-     * @var int
-     */
-    private $fCount;
+    private ?int $fCount = null;
 
-    /**
-     * @var int
-     */
-    private $mCount;
+    private ?int $mCount = null;
 
-    /**
-     * @var int
-     */
-    private $uCount;
+    private int $uCount = 0;
 
     /**
      * @var LeaderDTO[]
      */
-    private $leaders = [];
+    private array $leaders = [];
 
-    /**
-     * @var string
-     */
-    private $color;
+    private string $color;
 
-    /**
-     * @param int $mCount
-     */
-    public function setMCount(int $mCount)
+    public function setMCount(int $mCount): void
     {
         $this->mCount = $mCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMCount()
+    public function getMCount(): ?int
     {
         return $this->mCount;
     }
 
-    /**
-     * @param int $fCount
-     */
-    public function setFCount(int $fCount)
+    public function setFCount(int $fCount): void
     {
         $this->fCount = $fCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFCount()
+    public function getFCount(): ?int
     {
         return $this->fCount;
     }
 
-    /**
-     * @return int
-     */
     public function getUCount(): int
     {
         return $this->uCount;
     }
 
-    /**
-     * @param int $uCount
-     */
     public function setUCount(int $uCount): void
     {
         $this->uCount = $uCount;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getSummaryMembersType(): string
     {
         return $this->summaryMembersType;
     }
 
-    /**
-     * @param string $summaryMembersType
-     */
     public function setSummaryMembersType(string $summaryMembersType): void
     {
         $this->summaryMembersType = $summaryMembersType;
     }
 
-    /**
-     * @return string
-     */
     public function getSummaryLeadersType(): string
     {
         return $this->summaryLeadersType;
     }
 
-    /**
-     * @param string $summaryLeadersType
-     */
     public function setSummaryLeadersType(string $summaryLeadersType): void
     {
         $this->summaryLeadersType = $summaryLeadersType;
@@ -143,30 +88,21 @@ class LeaderOverviewDTO
     /**
      * @return LeaderDTO[]
      */
-    public function getLeaders()
+    public function getLeaders(): array
     {
         return $this->leaders;
     }
 
-    /**
-     * @param LeaderDTO $leader
-     */
-    public function addLeader(LeaderDTO $leader)
+    public function addLeader(LeaderDTO $leader): void
     {
         $this->leaders[] = $leader;
     }
 
-    /**
-     * @return string
-     */
     public function getColor(): string
     {
         return $this->color;
     }
 
-    /**
-     * @param string $color
-     */
     public function setColor(string $color): void
     {
         $this->color = $color;

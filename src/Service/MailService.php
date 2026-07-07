@@ -15,6 +15,9 @@ class MailService
 
     private string $inviteMailWhitelist;
 
+    /**
+     * @var mixed[]
+     */
     private array $pbsRecipients;
 
     private string $frontendBaseURL;
@@ -37,7 +40,7 @@ class MailService
         $this->mailer = $mailer;
     }
 
-    public function sendBetaAccessMail(Person $person)
+    public function sendBetaAccessMail(Person $person): void
     {
         $content = "Dear PBS Team
         
@@ -57,7 +60,7 @@ www.digio.swiss";
         $this->sendMailToPBSTeam($subject, $content);
     }
 
-    public function sendMailToPBSTeam(string $subject, string $content)
+    public function sendMailToPBSTeam(string $subject, string $content): void
     {
         $email = (new Email())
             ->from($this->sender)
@@ -68,7 +71,7 @@ www.digio.swiss";
         $this->mailer->send($email);
     }
 
-    public function sendInvitationMail(string $receiver, InvitationMailInput $input)
+    public function sendInvitationMail(string $receiver, InvitationMailInput $input): void
     {
         if (!$this->allowInviteEmailFor($receiver)) {
             return;

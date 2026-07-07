@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository\Gamification;
 
 use App\Entity\Gamification\LevelAccess;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,15 +23,11 @@ class LevelAccessRepository extends ServiceEntityRepository
         parent::__construct($registry, LevelAccess::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(LevelAccess $entity, bool $flush = true): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 }

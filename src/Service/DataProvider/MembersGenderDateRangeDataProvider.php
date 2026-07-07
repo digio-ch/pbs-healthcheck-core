@@ -9,22 +9,15 @@ use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use DateTime;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MembersGenderDateRangeDataProvider extends WidgetDataProvider
 {
-    /**
-     * @var AggregatedDemographicGroupRepository
-     */
-    protected $widgetDemographicGroupRepository;
+    protected AggregatedDemographicGroupRepository $widgetDemographicGroupRepository;
 
     /**
      * MembersGenderDateRangeDataProvider constructor.
-     * @param GroupRepository $groupRepository
-     * @param GroupTypeRepository $groupTypeRepository
-     * @param TranslatorInterface $translator
-     * @param AggregatedDemographicGroupRepository $widgetDemographicGroupRepository
      */
     public function __construct(
         GroupRepository $groupRepository,
@@ -42,15 +35,9 @@ class MembersGenderDateRangeDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param Group $group
-     * @param string $from
-     * @param string $to
-     * @param array $subGroupTypes
-     * @param array $peopleTypes
-     * @return array
-     * @throws DBALException
+     * @throws Exception
      */
-    public function getData(Group $group, string $from, string $to, array $subGroupTypes, array $peopleTypes)
+    public function getData(Group $group, string $from, string $to, array $subGroupTypes, array $peopleTypes): array
     {
         $result = [];
 

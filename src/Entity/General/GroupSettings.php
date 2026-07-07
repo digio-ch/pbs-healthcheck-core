@@ -2,15 +2,15 @@
 
 namespace App\Entity\General;
 
+use App\Entity\Types\LegacyArrayType;
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\Role;
-use App\Repository\General\GroupSettingsRepository;
+use App\Repository\General\PersonSettingsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_group_settings")
- * @ORM\Entity(repositoryClass=PersonSettingsRepository::class)
- */
+#[ORM\Table(name: 'hc_group_settings')]
+#[ORM\Entity(repositoryClass: PersonSettingsRepository::class)]
 class GroupSettings
 {
     public const DEFAULT_DEPARMENT_ROLES = [Role::DEPARTMENT_LEADER, Role::DEPARTMENT_COACH,
@@ -20,21 +20,15 @@ class GroupSettings
         Role::REGIONAL_PRESIDENT];
     public const DEFAULT_CANTONAL_ROLES = [Role::CANTONAL_LEADER, Role::CANTONAL_COACH, Role::CANTONAL_FINANCIER,
         Role::CANTONAL_PRESIDENT];
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Group::class, inversedBy="groupSettings", cascade={"persist", "remove"})
-     */
-    private $group;
+    #[ORM\OneToOne(targetEntity: Group::class, inversedBy: 'groupSettings', cascade: ['persist', 'remove'])]
+    private ?Group $group = null;
 
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
+    #[ORM\Column(type: LegacyArrayType::NAME, nullable: true)]
     private $roleOverviewFilter = [];
 
     public function getId(): ?int

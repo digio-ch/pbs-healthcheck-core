@@ -5,22 +5,17 @@ namespace App\Service\Http;
 class GuzzleResponse implements CurlResponse
 {
     /**
-     * @var array $headers
+     * @var mixed[]
      */
-    private $headers;
+    private array $headers;
     /**
      * @var mixed $content
      */
     private $content;
-    /**
-     * @var int $statusCode
-     */
-    private $statusCode;
+    private int $statusCode;
     /**
      * GuzzleResponse constructor.
-     * @param array $headers
      * @param array $content
-     * @param int $statusCode
      */
     public function __construct($content, array $headers, int $statusCode)
     {

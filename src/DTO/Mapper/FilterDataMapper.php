@@ -2,15 +2,13 @@
 
 namespace App\DTO\Mapper;
 
+use App\DTO\Model\GroupTypeDTO;
 use App\DTO\Model\Apps\Widgets\FilterDataDTO;
 
 class FilterDataMapper
 {
     /**
-     * @param array $groupTypes
      * @param string[] $dates
-     * @param string $locale
-     * @return FilterDataDTO
      */
     public static function createFromEntities(array $groupTypes, array $dates, string $locale): FilterDataDTO
     {
@@ -26,6 +24,9 @@ class FilterDataMapper
         return $filterData;
     }
 
+    /**
+     * @return GroupTypeDTO[]
+     */
     public static function createGroupTypes(array $groupTypes, string $locale): array
     {
         $groupTypeDTOs = [];

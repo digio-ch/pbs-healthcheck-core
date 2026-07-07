@@ -2,94 +2,71 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\QualificationType;
 use App\Repository\Aggregated\AggregatedLeaderOverviewQualificationRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_leader_overview_qualification", indexes={
- *     @ORM\Index(columns={"state"})
- * })
- * @ORM\Entity(repositoryClass=AggregatedLeaderOverviewQualificationRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_leader_overview_qualification')]
+#[ORM\Index(columns: ['state'])]
+#[ORM\Entity(repositoryClass: AggregatedLeaderOverviewQualificationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedLeaderOverviewQualification
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=AggregatedLeaderOverviewLeader::class, inversedBy="qualifications"))
-     * @ORM\JoinColumn(name="leader_overview_leader_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $leaderOverviewLeader;
+    #[ORM\JoinColumn(name: 'leader_overview_leader_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: AggregatedLeaderOverviewLeader::class, inversedBy: 'qualifications')]
+    private ?AggregatedLeaderOverviewLeader $leaderOverviewLeader = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $state;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $state = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $expiresAt;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $eventOrigin;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $eventOrigin = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=QualificationType::class)
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $qualificationType;
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: QualificationType::class)]
+    private ?QualificationType $qualificationType = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setLeaderOverviewLeader(AggregatedLeaderOverviewLeader $leaderOverviewLeader)
+    public function setLeaderOverviewLeader(AggregatedLeaderOverviewLeader $leaderOverviewLeader): void
     {
         $this->leaderOverviewLeader = $leaderOverviewLeader;
     }
 
-    public function getLeaderOverviewLeader()
+    public function getLeaderOverviewLeader(): ?AggregatedLeaderOverviewLeader
     {
         return $this->leaderOverviewLeader;
     }
 
-    public function setState(string $state)
+    public function setState(string $state): void
     {
         $this->state = $state;
     }
 
-    public function getState()
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEventOrigin()
+    public function getEventOrigin(): ?string
     {
         return $this->eventOrigin;
     }
@@ -97,7 +74,7 @@ class AggregatedLeaderOverviewQualification
     /**
      * @param mixed $eventOrigin
      */
-    public function setEventOrigin($eventOrigin): void
+    public function setEventOrigin(?string $eventOrigin): void
     {
         $this->eventOrigin = $eventOrigin;
     }
@@ -118,10 +95,7 @@ class AggregatedLeaderOverviewQualification
         $this->expiresAt = $expiresAt;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getQualificationType()
+    public function getQualificationType(): ?QualificationType
     {
         return $this->qualificationType;
     }
@@ -129,7 +103,7 @@ class AggregatedLeaderOverviewQualification
     /**
      * @param mixed $qualificationType
      */
-    public function setQualificationType($qualificationType): void
+    public function setQualificationType(?QualificationType $qualificationType): void
     {
         $this->qualificationType = $qualificationType;
     }

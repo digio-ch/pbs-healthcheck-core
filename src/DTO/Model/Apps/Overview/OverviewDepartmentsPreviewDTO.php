@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Apps\Overview;
 
 use App\DTO\Model\Charts\PieChartDataDTO;
 
 class OverviewDepartmentsPreviewDTO
 {
-    /**
-     * @var int $departments
-     */
     private int $departments;
 
     /**
@@ -17,7 +16,6 @@ class OverviewDepartmentsPreviewDTO
     private array $groupTypes;
 
     /**
-     * @param int $departments
      * @param PieChartDataDTO[] $groupTypes
      */
     public function __construct(int $departments = 0, array $groupTypes = [])
@@ -27,18 +25,11 @@ class OverviewDepartmentsPreviewDTO
     }
 
 
-    /**
-     * @return int
-     */
     public function getDepartments(): int
     {
         return $this->departments;
     }
 
-    /**
-     * @param int $departments
-     * @return void
-     */
     public function setDepartments(int $departments): void
     {
         $this->departments = $departments;
@@ -52,10 +43,6 @@ class OverviewDepartmentsPreviewDTO
         return $this->groupTypes;
     }
 
-    /**
-     * @param array $groupTypes
-     * @return void
-     */
     public function setGroupTypes(array $groupTypes): void
     {
         $this->groupTypes = $groupTypes;

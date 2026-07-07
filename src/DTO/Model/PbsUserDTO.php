@@ -1,47 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class PbsUserDTO implements UserInterface
 {
-    /** @var int */
-    private $id;
-    /** @var string */
-    private $email;
-    /** @var string */
-    private $firstName;
-    /** @var string */
-    private $lastName;
-    /** @var string */
-    private $nickName;
-    /** @var string */
-    private $birthday;
-    /** @var string */
-    private $address;
-    /** @var string */
-    private $zipCode;
-    /** @var string */
-    private $town;
-    /** @var string */
-    private $country;
-    /** @var string */
-    private $correspondenceLanguage;
-    /** @var string */
-    private $gender;
+    private int $id;
+    private string $email;
+    private string $firstName;
+    private string $lastName;
+    private string $nickName;
+    private string $birthday;
+    private string $address;
+    private string $zipCode;
+    private string $town;
+    private string $country;
+    private string $correspondenceLanguage;
+    private string $gender;
     /** @var array|PbsRoleDTO[] */
-    private $roles;
+    private array $roles = [];
     /** @var array|GroupDTO[] */
-    private $groups;
+    private array $groups = [];
 
     /**
      * PbsUserDTO constructor.
-     * @param int $id
-     * @param string $email
-     * @param string $firstName
-     * @param string $lastName
-     * @param string $nickName
      */
     public function __construct(int $id, string $email, string $firstName, string $lastName, string $nickName)
     {
@@ -50,109 +35,68 @@ class PbsUserDTO implements UserInterface
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->nickName = $nickName;
-        $this->roles = [];
-        $this->groups = [];
     }
 
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @return string
-     */
     public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    /**
-     * @return string
-     */
     public function getLastName(): string
     {
         return $this->lastName;
     }
 
-    /**
-     * @return string
-     */
     public function getNickName(): string
     {
         return $this->nickName;
     }
 
-    /**
-     * @return string
-     */
     public function getBirthday(): string
     {
         return $this->birthday;
     }
 
-    /**
-     * @return string
-     */
     public function getAddress(): string
     {
         return $this->address;
     }
 
-    /**
-     * @return string
-     */
     public function getZipCode(): string
     {
         return $this->zipCode;
     }
 
-    /**
-     * @return string
-     */
     public function getTown(): string
     {
         return $this->town;
     }
 
-    /**
-     * @return string
-     */
     public function getCountry(): string
     {
         return $this->country;
     }
 
-    /**
-     * @return string
-     */
     public function getCorrespondenceLanguage(): string
     {
         return $this->correspondenceLanguage;
     }
 
-    /**
-     * @return string
-     */
     public function getGender(): string
     {
         return $this->gender;
@@ -161,68 +105,47 @@ class PbsUserDTO implements UserInterface
     /**
      * @return PbsRoleDTO[]|array
      */
-    public function getPersonRoles()
+    public function getPersonRoles(): array
     {
         return $this->roles;
     }
 
-    /**
-     * @param string $birthday
-     */
     public function setBirthday(string $birthday): void
     {
         $this->birthday = $birthday;
     }
 
-    /**
-     * @param string $address
-     */
     public function setAddress(string $address): void
     {
         $this->address = $address;
     }
 
-    /**
-     * @param string $zipCode
-     */
     public function setZipCode(string $zipCode): void
     {
         $this->zipCode = $zipCode;
     }
 
-    /**
-     * @param string $town
-     */
     public function setTown(string $town): void
     {
         $this->town = $town;
     }
 
-    /**
-     * @param string $country
-     */
     public function setCountry(string $country): void
     {
         $this->country = $country;
     }
 
-    /**
-     * @param string $correspondence_language
-     */
     public function setCorrespondenceLanguage(string $correspondence_language): void
     {
         $this->correspondenceLanguage = $correspondence_language;
     }
 
-    /**
-     * @param string $gender
-     */
     public function setGender(string $gender): void
     {
         $this->gender = $gender;
     }
 
-    public function addPersonRole(PbsRoleDTO $role)
+    public function addPersonRole(PbsRoleDTO $role): void
     {
         $this->roles[] = $role;
     }
@@ -230,7 +153,7 @@ class PbsUserDTO implements UserInterface
     /**
      * @return GroupDTO[]|array
      */
-    public function getGroups()
+    public function getGroups(): array
     {
         return $this->groups;
     }
@@ -238,12 +161,12 @@ class PbsUserDTO implements UserInterface
     /**
      * @param GroupDTO[]|array $groups
      */
-    public function setGroups($groups): void
+    public function setGroups(array $groups): void
     {
         $this->groups = $groups;
     }
 
-    public function addGroup(GroupDTO $group)
+    public function addGroup(GroupDTO $group): void
     {
         $this->groups[] = $group;
     }
@@ -251,23 +174,31 @@ class PbsUserDTO implements UserInterface
     /**
      * @inheritDoc
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
-        // TODO: Implement getPassword() method.
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
-        // TODO: Implement getSalt() method.
+        return null;
     }
 
     /**
-     * @inheritDoc
+     * @deprecated
+     * since Symfony 5.3, use getUserIdentifier() instead.
+     * Implementation is still needed for conformance to interface.
+     * May be removed after upgrading to future version.
      */
-    public function getUsername()
+    public function getUsername(): string
+    {
+        return $this->email;
+    }
+
+    public function getUserIdentifier(): string
     {
         return $this->email;
     }
@@ -275,7 +206,7 @@ class PbsUserDTO implements UserInterface
     /**
      * @inheritDoc
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // TODO: Implement eraseCredentials() method.
     }
@@ -283,7 +214,7 @@ class PbsUserDTO implements UserInterface
     /**
      * @inheritDoc
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return ['ROLE_USER'];
     }

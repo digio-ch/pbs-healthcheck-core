@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\FilterRequestData;
 
 use App\Entity\Midata\Group;
 
 class WidgetOfDepartmentRequestData extends WidgetRequestData
 {
-    /**
-     * @var Group
-     */
     private Group $department;
 
     public function getDepartment(): Group

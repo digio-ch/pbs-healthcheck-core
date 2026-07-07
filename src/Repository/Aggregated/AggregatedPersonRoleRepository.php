@@ -12,6 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method AggregatedPersonRole|null findOneBy(array $criteria, array $orderBy = null)
  * @method AggregatedPersonRole[]    findAll()
  * @method AggregatedPersonRole[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<AggregatedPersonRole>
  */
 class AggregatedPersonRoleRepository extends ServiceEntityRepository
 {
@@ -21,31 +22,11 @@ class AggregatedPersonRoleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return AggregatedPersonRole[]
-     */
-    public function getUnfinished(): array
-    {
-        return $this->createQueryBuilder('a')
-            ->where('a.end_at IS NULL')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function getHighestAggregatedMidataIndex(): int
-    {
-        return $this->createQueryBuilder('a')
-            ->select('MAX(a.midata)')
-            ->getQuery()
-            ->getResult()[0][1] ?? 0;
-    }
-
-    /**
-     * @param Group $group
      * @param $start
      * @param $end
      * @return AggregatedPersonRole[]|null
      */
-    public function findByGroupInTimeframe(Group $group, $start, $end)
+    public function findByGroupInTimeframe(Group $group, $start, $end): mixed
     {
         return $this->createQueryBuilder('a')
             ->where('a.group = :group_id')

@@ -3,14 +3,11 @@
 namespace App\Controller\Api;
 
 use App\Entity\Gamification\Goal;
-use App\Entity\Midata\Group;
-use App\Entity\Security\Permission;
 use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Repository\Midata\GroupRepository;
 use App\Service\Gamification\LoginService;
 use App\Service\Gamification\PersonGamificationService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,96 +20,82 @@ class GamificationController extends AbstractController
      *
      * This value is injected by the environment variable GAMIFICATION_RESET_ENDPOINT_ENABLED.
      * If the variable is not present it fallbacks to false.
-     * @var bool $resetEndpointEnabled
      */
     private bool $resetEndpointEnabled;
 
-    public function __construct(bool $resetEndpointEnabled)
+    public function __construct(bool $resetEndpointEnabled, private readonly LoginService $loginService, private readonly GroupRepository $groupRepository, private readonly PersonGamificationService $personGamificationService)
     {
         $this->resetEndpointEnabled = $resetEndpointEnabled;
     }
 
     /**
-     * @param Request $request
      * @param LoginService $loginService
      * @param GroupRepository $groupRepository
-     * @return Response
      */
     public function postGroupChange(
-        Request $request,
-        LoginService $loginService,
-        GroupRepository $groupRepository
+        Request $request
     ): Response {
         $json = json_decode($request->getContent(), true);
         if (is_null($json) || is_null($json['group'])) {
             throw new ApiException(400, "Invalid JSON");
         }
-        $group = $groupRepository->find($json['group']);
+        $group = $this->groupRepository->find($json['group']);
         if (is_null($group)) {
             throw new ApiException(400, "Invalid Group");
         }
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-        $loginService->logByPersonAndGroup($this->getUser(), $group);
-        return new Response('', 201);
+        $this->loginService->logByPersonAndGroup($this->getUser(), $group);
+        return new Response('', Response::HTTP_CREATED);
     }
 
-    public function usedCardLayer(
-        Request $request,
-        PersonGamificationService $personGamificationService
-    ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_CARD_LAYERS);
-        return new Response('', 200);
+    public function usedCardLayer()
+    {
+        $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_CARD_LAYERS);
+        return new Response('', Response::HTTP_OK);
     }
 
-    public function usedDataFilter(
-        Request $request,
-        PersonGamificationService $personGamificationService
-    ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_DATA_FILTER);
-        return new Response('', 200);
+    public function usedDataFilter()
+    {
+        $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_DATA_FILTER);
+        return new Response('', Response::HTTP_OK);
     }
 
-    public function usedTimeFilter(
-        Request $request,
-        PersonGamificationService $personGamificationService
-    ) {
-        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_TIME_FILTER);
-        return new Response('', 200);
+    public function usedTimeFilter()
+    {
+        $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_TIME_FILTER);
+        return new Response('', Response::HTTP_OK);
     }
 
     public function getUserProfile(
-        Request $request,
-        PersonGamificationService $personGamificationService
-    ) {
-        $dto = $personGamificationService->getPersonGamificationDTO($this->getUser(), $request->getLocale());
+        Request $request
+    ): JsonResponse {
+        $dto = $this->personGamificationService->getPersonGamificationDTO($this->getUser(), $request->getLocale());
         return $this->json($dto);
     }
 
     public function checkLevel(
-        Request $request,
-        PersonGamificationService $personGamificationService
-    ) {
-        $dto = $personGamificationService->getCheckLevelDTO($this->getUser(), $request->getLocale());
+        Request $request
+    ): JsonResponse {
+        $dto = $this->personGamificationService->getCheckLevelDTO($this->getUser(), $request->getLocale());
         return $this->json($dto);
     }
 
-    public function resetGamification(Request $request, PersonGamificationService $personGamificationService): Response
+    public function resetGamification(): Response
     {
         if (!$this->resetEndpointEnabled) {
             return new JsonResponse([
                 "code" => 404,
                 "error" => "reset endpoint is disabled"
-            ], 404);
+            ], Response::HTTP_NOT_FOUND);
         }
-
-        $personGamificationService->reset($this->getUser());
+        $this->personGamificationService->reset($this->getUser());
         return new Response('');
     }
 
-    public function requestBetaAccess(Request $request, PersonGamificationService $personGamificationService)
+    public function requestBetaAccess(): Response
     {
         $user = $this->getUser();
-        $result = $personGamificationService->getBetaAccess($user);
-        return $result ? new Response('', 200) : new Response('', 403);
+        $result = $this->personGamificationService->getBetaAccess($user);
+        return $result ? new Response('', Response::HTTP_OK) : new Response('', Response::HTTP_FORBIDDEN);
     }
 }

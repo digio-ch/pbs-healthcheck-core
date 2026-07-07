@@ -2,32 +2,27 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedDemographicCampRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_demographic_camp", indexes={@ORM\Index(name="data_point_date_idx", columns={"data_point_date"}), @ORM\Index(name="start_date_idx", columns={"start_date"})})
- * @ORM\Entity(repositoryClass=AggregatedDemographicCampRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_demographic_camp')]
+#[ORM\Index(name: 'data_point_date_idx', columns: ['data_point_date'])]
+#[ORM\Index(name: 'start_date_idx', columns: ['start_date'])]
+#[ORM\Entity(repositoryClass: AggregatedDemographicCampRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicCamp extends AggregatedEntity
 {
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     protected $startDate;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    protected $campName;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    protected ?string $campName = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=AggregatedDemographicCampGroup::class, mappedBy="demographicCamp", cascade={"remove"})
-     */
+    #[ORM\OneToMany(targetEntity: AggregatedDemographicCampGroup::class, mappedBy: 'demographicCamp', cascade: ['remove'])]
     protected $demographicCampGroups;
 
     public function __construct()
@@ -35,41 +30,35 @@ class AggregatedDemographicCamp extends AggregatedEntity
         $this->demographicCampGroups = new ArrayCollection();
     }
 
-    public function setCampName(?string $campName)
+    public function setCampName(?string $campName): void
     {
         $this->campName = $campName;
     }
 
-    public function getCampName()
+    public function getCampName(): ?string
     {
         return $this->campName;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getStartDate(): ?DateTimeImmutable
     {
         return $this->startDate;
     }
 
-    /**
-     * @param DateTimeImmutable|null $startDate
-     */
-    public function setStartDate(?DateTimeImmutable $startDate)
+    public function setStartDate(?DateTimeImmutable $startDate): void
     {
         $this->startDate = $startDate;
     }
 
+    /**
+     * @return Collection<int, AggregatedDemographicCampGroup>
+     */
     public function getDemographicCampGroups(): Collection
     {
         return $this->demographicCampGroups;
     }
 
-    /**
-     * @param AggregatedDemographicCampGroup $demographicCampGroup
-     */
-    public function addDemographicCampGroup(AggregatedDemographicCampGroup $demographicCampGroup)
+    public function addDemographicCampGroup(AggregatedDemographicCampGroup $demographicCampGroup): void
     {
         if (!$this->hasDemographicCampGroup($demographicCampGroup)) {
             $demographicCampGroup->setDemographicCamp($this);
@@ -77,7 +66,7 @@ class AggregatedDemographicCamp extends AggregatedEntity
         }
     }
 
-    public function removeDemographicCampGroup(AggregatedDemographicCampGroup $demographicCampGroup)
+    public function removeDemographicCampGroup(AggregatedDemographicCampGroup $demographicCampGroup): void
     {
         if ($this->hasDemographicCampGroup($demographicCampGroup)) {
             $this->demographicCampGroups->removeElement($demographicCampGroup);

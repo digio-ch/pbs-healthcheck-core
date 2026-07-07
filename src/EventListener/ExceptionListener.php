@@ -4,32 +4,24 @@ namespace App\EventListener;
 
 use App\Exception\ApiException;
 use App\Model\ApiError;
-use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpFoundation\{
     JsonResponse, Request
 };
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExceptionListener
 {
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private SerializerInterface $serializer;
 
-    /**
-     * @var ParameterBagInterface
-     */
-    protected $params;
+    protected ParameterBagInterface $params;
 
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(
         SerializerInterface $serializer,
@@ -41,9 +33,7 @@ class ExceptionListener
         $this->translator = $translator;
     }
 
-    /**
-     * @param ExceptionEvent $event
-     */
+    #[AsEventListener(event: KernelEvents::EXCEPTION)]
     public function onKernelException(ExceptionEvent $event): void
     {
         if (!$this->isApiRequest($event->getRequest())) {
@@ -69,17 +59,8 @@ class ExceptionListener
         $event->setResponse($response);
     }
 
-    /**
-     * @param Exception $exception
-     * @return null|string
-     */
-    private function getTraceErrors(Exception $exception): ?string
-    {
-        return $this->isDebug ? (string)$exception : null;
-    }
-
     private function isApiRequest(Request $request): bool
     {
-        return strpos($request->getPathInfo(), $this->params->get('api_prefix')) === 0;
+        return str_starts_with($request->getPathInfo(), $this->params->get('api_prefix'));
     }
 }

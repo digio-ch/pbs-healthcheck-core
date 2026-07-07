@@ -2,94 +2,56 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_demographic_group", indexes={
- *     @ORM\Index(columns={"m_count"}),
- *     @ORM\Index(columns={"f_count"}),
- *     @ORM\Index(columns={"u_count"}),
- *     @ORM\Index(columns={"m_count_leader"}),
- *     @ORM\Index(columns={"f_count_leader"}),
- *     @ORM\Index(columns={"u_count_leader"}),
- *     @ORM\Index(columns={"group_type"}),
- *     @ORM\Index(columns={"data_point_date"}),
- * })
- * @ORM\Entity(repositoryClass=AggregatedDemographicGroupRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_demographic_group')]
+#[ORM\Index(columns: ['m_count'])]
+#[ORM\Index(columns: ['f_count'])]
+#[ORM\Index(columns: ['u_count'])]
+#[ORM\Index(columns: ['m_count_leader'])]
+#[ORM\Index(columns: ['f_count_leader'])]
+#[ORM\Index(columns: ['u_count_leader'])]
+#[ORM\Index(columns: ['group_type'])]
+#[ORM\Index(columns: ['data_point_date'])]
+#[ORM\Entity(repositoryClass: AggregatedDemographicGroupRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicGroup extends AggregatedEntity
 {
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $mCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $mCount = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $fCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $fCount = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $uCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $uCount = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $mCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $mCountLeader = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $fCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $fCountLeader = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $uCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $uCountLeader = 0;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $groupType;
-
-    /**
-     * AggregatedDemographicGroup constructor.
-     */
-    public function __construct()
-    {
-        $this->mCount = 0;
-        $this->mCountLeader = 0;
-        $this->fCount = 0;
-        $this->fCountLeader = 0;
-        $this->uCount = 0;
-        $this->uCountLeader = 0;
-    }
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $groupType = null;
 
 
-    /**
-     * @param int $mCount
-     */
-    public function setMCount(int $mCount)
+    public function setMCount(int $mCount): void
     {
         $this->mCount = $mCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMCount()
+    public function getMCount(): ?int
     {
         return $this->mCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUCount()
+    public function getUCount(): ?int
     {
         return $this->uCount;
     }
@@ -97,15 +59,12 @@ class AggregatedDemographicGroup extends AggregatedEntity
     /**
      * @param mixed $uCount
      */
-    public function setUCount($uCount): void
+    public function setUCount(?int $uCount): void
     {
         $this->uCount = $uCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUCountLeader()
+    public function getUCountLeader(): ?int
     {
         return $this->uCountLeader;
     }
@@ -113,71 +72,47 @@ class AggregatedDemographicGroup extends AggregatedEntity
     /**
      * @param mixed $uCountLeader
      */
-    public function setUCountLeader($uCountLeader): void
+    public function setUCountLeader(?int $uCountLeader): void
     {
         $this->uCountLeader = $uCountLeader;
     }
 
-    /**
-     * @param int $fCount
-     */
-    public function setFCount(int $fCount)
+    public function setFCount(int $fCount): void
     {
         $this->fCount = $fCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFCount()
+    public function getFCount(): ?int
     {
         return $this->fCount;
     }
 
-    /**
-     * @param int $mCountLeader
-     */
-    public function setMCountLeader(int $mCountLeader)
+    public function setMCountLeader(int $mCountLeader): void
     {
         $this->mCountLeader = $mCountLeader;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMCountLeader()
+    public function getMCountLeader(): ?int
     {
         return $this->mCountLeader;
     }
 
-    /**
-     * @param int $fCountLeader
-     */
-    public function setFCountLeader(int $fCountLeader)
+    public function setFCountLeader(int $fCountLeader): void
     {
         $this->fCountLeader = $fCountLeader;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFCountLeader()
+    public function getFCountLeader(): ?int
     {
         return $this->fCountLeader;
     }
 
-    /**
-     * @param string $groupType
-     */
-    public function setGroupType(string $groupType)
+    public function setGroupType(string $groupType): void
     {
         $this->groupType = $groupType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroupType()
+    public function getGroupType(): ?string
     {
         return $this->groupType;
     }

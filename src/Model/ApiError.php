@@ -1,23 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
 class ApiError
 {
-    /**
-     * @var int
-     */
-    private $code;
+    private ?int $code = null;
 
-    /**
-     * @var string
-     */
-    private $message;
+    private ?string $message = null;
 
-    /**
-     * @param int $code
-     */
-    public function setCode(int $code)
+    public function setCode(int $code): void
     {
         $this->code = $code;
     }
@@ -25,15 +18,12 @@ class ApiError
     /**
      * @return int
      */
-    public function getCode()
+    public function getCode(): ?int
     {
         return $this->code;
     }
 
-    /**
-     * @param string $message
-     */
-    public function setMessage(string $message)
+    public function setMessage(string $message): void
     {
         $this->message = $message;
     }
@@ -41,7 +31,7 @@ class ApiError
     /**
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): ?string
     {
         return $this->message;
     }

@@ -3,15 +3,16 @@
 namespace App\Repository\Midata;
 
 use App\Entity\Midata\Group;
-use App\Entity\Midata\GroupType;
-use App\Service\Aggregator\WidgetAggregator;
 use App\Service\DataProvider\WidgetDataProvider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Group>
+ */
 class GroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -19,7 +20,7 @@ class GroupRepository extends ServiceEntityRepository
         parent::__construct($registry, Group::class);
     }
 
-    public function findParentGroupById(int $groupId)
+    public function findParentGroupById(int $groupId): mixed
     {
         return $this->createQueryBuilder('g')
             ->join('g.groupType', 'groupType')
@@ -31,43 +32,7 @@ class GroupRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findParentGroupsForPerson(int $personId)
-    {
-        return $this->createQueryBuilder('g')
-            ->join('g.groupType', 'groupType')
-            ->join('g.personRoles', 'personRoles')
-            ->join('personRoles.person', 'person')
-            ->join('personRoles.role', 'role')
-            ->where('groupType.groupType IN (:names)')
-            ->andWhere('role.roleType IN (:roleTypes)')
-            ->andWhere('person.id = :personId')
-            ->andWhere('personRoles.deletedAt IS NULL')
-            ->setParameter('names', [
-                'Group::Abteilung',
-                'Group::Kantonalverband',
-                'Group::Bund',
-            ], Connection::PARAM_STR_ARRAY)
-            ->setParameter(
-                'roleTypes',
-                array_merge(WidgetAggregator::$mainGroupRoleTypes, ['Group::Abteilung::Coach']),
-                Connection::PARAM_STR_ARRAY
-            )
-            ->setParameter('personId', $personId, ParameterType::INTEGER)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findAllDepartmentalParentGroups()
-    {
-        return $this->createQueryBuilder('g')
-            ->join('g.groupType', 'groupType')
-            ->where('groupType.groupType = :name')
-            ->setParameter('name', 'Group::Abteilung')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findAllParentGroups()
+    public function findAllParentGroups(): mixed
     {
         return $this->createQueryBuilder('g')
             ->join('g.groupType', 'groupType')
@@ -82,7 +47,7 @@ class GroupRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllDepartmentalAndRegionalAndCantonalGroups()
+    public function findAllDepartmentalAndRegionalAndCantonalGroups(): mixed
     {
         return $this->createQueryBuilder('g')
             ->join('g.groupType', 'groupType')
@@ -96,35 +61,7 @@ class GroupRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findParentGroups(array $parents)
-    {
-        return $this->createQueryBuilder('g')
-            ->join('g.groupType', 'groupType')
-            ->where('groupType.groupType IN (:names)')
-            ->setParameter('names', $parents)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function getAllSubGroupsByGroupId(int $groupId)
-    {
-        // todo: only fetch relevant group_types
-        $conn = $this->_em->getConnection();
-        $query = "WITH RECURSIVE tree AS (
-              SELECT id
-              FROM midata_group WHERE parent_group_id = :groupId
-              UNION ALL             
-              SELECT midata_group.id
-              FROM midata_group, tree
-              WHERE midata_group.parent_group_id = tree.id
-            ) SELECT * FROM tree;
-        ";
-
-        return $conn->executeQuery($query, ['groupId' => $groupId])
-            ->fetchFirstColumn();
-    }
-
-    public function findOneByIdAndType(int $groupId, array $types)
+    public function findOneByIdAndType(int $groupId, array $types): mixed
     {
         return $this->createQueryBuilder('g')
             ->join('g.groupType', 'groupType')
@@ -136,9 +73,9 @@ class GroupRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findAllRelevantSubGroupIdsByParentGroupId(int $groupId)
+    public function findAllRelevantSubGroupIdsByParentGroupId(int $groupId): array
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $query = $conn->executeQuery(
             "
             WITH RECURSIVE tree AS (
@@ -156,14 +93,14 @@ class GroupRepository extends ServiceEntityRepository
                     g.parent_group_id = tree.id
             ) SELECT * FROM tree;",
             [$groupId, WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES, WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES],
-            [ParameterType::STRING, Connection::PARAM_STR_ARRAY, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ArrayParameterType::STRING, ArrayParameterType::STRING]
         );
         return $query->fetchFirstColumn();
     }
 
-    public function findAllSubGroupIdsByParentGroupId(int $groupId)
+    public function findAllSubGroupIdsByParentGroupId(int $groupId): array
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $query = $conn->executeQuery(
             "
             WITH RECURSIVE tree AS (
@@ -185,7 +122,6 @@ class GroupRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $parentGroupId
      * @param array|string[] $subGroupTypes
      * @return array|mixed[]
      * @throws Exception
@@ -193,8 +129,8 @@ class GroupRepository extends ServiceEntityRepository
     public function findAllRelevantSubGroupsByParentGroupId(
         string $parentGroupId,
         array $subGroupTypes = WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES
-    ) {
-        $conn = $this->_em->getConnection();
+    ): array {
+        $conn = $this->getEntityManager()->getConnection();
         $query = $conn->executeQuery(
             "
             WITH RECURSIVE tree AS (
@@ -212,25 +148,8 @@ class GroupRepository extends ServiceEntityRepository
                     g.parent_group_id = tree.id
             ) SELECT * FROM tree;",
             [$parentGroupId, $subGroupTypes, $subGroupTypes],
-            [ParameterType::STRING, Connection::PARAM_STR_ARRAY, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ArrayParameterType::STRING, ArrayParameterType::STRING]
         );
         return $query->fetchAllAssociative();
-    }
-
-    /**
-     * returns an array of arrays containing the attributes of AggregatedQuad
-     * @param int $cantonId
-     * @return array<array>
-     */
-    public function findAllDepartmentsFromCanton(int $cantonId): array
-    {
-        return $this->createQueryBuilder('g')
-            ->join('g.groupType', 'gt')
-            ->where('g.cantonId = :cantonId')
-            ->andWhere('gt.groupType IN (:groupType)')
-            ->setParameter('cantonId', $cantonId)
-            ->setParameter('groupType', [GroupType::DEPARTMENT, GroupType::REGION])
-            ->getQuery()
-            ->getArrayResult();
     }
 }

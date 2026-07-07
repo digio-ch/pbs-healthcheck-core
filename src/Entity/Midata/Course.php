@@ -5,30 +5,20 @@ namespace App\Entity\Midata;
 use App\Repository\Midata\CourseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=CourseRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Entity(repositoryClass: CourseRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Course extends Event
 {
-    /**
-     * @ORM\ManyToOne(targetEntity=EventType::class)
-     * @ORM\JoinColumn(name="event_type_id", referencedColumnName="id")
-     */
-    private $eventType;
+    #[ORM\JoinColumn(name: 'event_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: EventType::class)]
+    private ?EventType $eventType = null;
 
-    /**
-     * @param EventType|null $eventType
-     */
-    public function setEventType(?EventType $eventType)
+    public function setEventType(?EventType $eventType): void
     {
         $this->eventType = $eventType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEventType()
+    public function getEventType(): ?EventType
     {
         return $this->eventType;
     }

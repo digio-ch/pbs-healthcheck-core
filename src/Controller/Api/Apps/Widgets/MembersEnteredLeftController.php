@@ -7,27 +7,24 @@ use App\DTO\Model\FilterRequestData\WidgetOfDepartmentRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
 use App\Entity\Security\PermissionType;
 use App\Service\DataProvider\MembersEnteredLeftDateRangeDataProvider;
-use Doctrine\DBAL\DBALException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MembersEnteredLeftController extends AbstractController
 {
+    public function __construct(private readonly MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider)
+    {
+    }
     /**
-     * @param DateRangeRequestData $dateRangeRequestData
-     * @param WidgetRequestData $widgetRequestData
      * @param MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
-     * @return JsonResponse
-     * @throws DBALException
      */
     public function getEnteredLeftMembersData(
         DateRangeRequestData $dateRangeRequestData,
-        WidgetRequestData $widgetRequestData,
-        MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
+        WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $widgetRequestData->getGroup());
 
-        $data = $membersEnteredLeftDateRangeDataProvider->getData(
+        $data = $this->membersEnteredLeftDateRangeDataProvider->getData(
             $widgetRequestData->getGroup(),
             $dateRangeRequestData->getFrom()->format('Y-m-d'),
             $dateRangeRequestData->getTo()->format('Y-m-d'),
@@ -39,19 +36,15 @@ class MembersEnteredLeftController extends AbstractController
     }
 
     /**
-     * @param DateRangeRequestData $dateRangeRequestData
-     * @param WidgetOfDepartmentRequestData $widgetRequestData
      * @param MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
-     * @return JsonResponse
      */
     public function getEnteredLeftMembersDataOfDepartment(
         DateRangeRequestData $dateRangeRequestData,
-        WidgetOfDepartmentRequestData $widgetRequestData,
-        MembersEnteredLeftDateRangeDataProvider $membersEnteredLeftDateRangeDataProvider
+        WidgetOfDepartmentRequestData $widgetRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $widgetRequestData->getGroup());
 
-        $data = $membersEnteredLeftDateRangeDataProvider->getData(
+        $data = $this->membersEnteredLeftDateRangeDataProvider->getData(
             $widgetRequestData->getDepartment(),
             $dateRangeRequestData->getFrom()->format('Y-m-d'),
             $dateRangeRequestData->getTo()->format('Y-m-d'),

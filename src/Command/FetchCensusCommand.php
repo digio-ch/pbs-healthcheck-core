@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Entity\Midata\CensusGroup;
 use App\Model\CommandStatistics;
 use App\Repository\Midata\CensusGroupRepository;
@@ -12,14 +13,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'app:fetch-census', description: 'Fetch and aggregate census data')]
 class FetchCensusCommand extends StatisticsCommand
 {
     protected CensusAPIService $apiService;
     protected CensusGroupRepository $censusGroupRepository;
     protected GroupTypeRepository $groupTypeRepository;
 
-    private SymfonyStyle $io;
-    private $start;
+    private ?float $start = null;
 
     public function __construct(
         CensusAPIService $apiService,
@@ -32,23 +33,16 @@ class FetchCensusCommand extends StatisticsCommand
         parent::__construct();
     }
 
-
-    public function configure()
-    {
-        $this->setName('app:fetch-census')
-            ->setDescription('Fetch and aggregate census data');
-    }
-
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->start = microtime(true);
-        $this->io = new SymfonyStyle($input, $output);
+        $io = new SymfonyStyle($input, $output);
 
         $year = (int) date('Y');
         $minYear = $year - 6;
         // Fetch groups
         while ($year > $minYear) {
-            $this->io->writeln('year ' . $year);
+            $io->writeln('year ' . $year);
             $rawCensusData = $this->apiService->getCensusData($year);
             $rawCensusGroups = $rawCensusData->getContent()['census_evaluations']['groups'];
             foreach ($rawCensusGroups as $rawCensusGroup) {
@@ -62,7 +56,10 @@ class FetchCensusCommand extends StatisticsCommand
         return Command::SUCCESS;
     }
 
-    private function mapRawCensusGroupToCensusGroup(array $rawCensusGroup, int $year)
+    /**
+     * @param array<string, mixed> $rawCensusGroup
+     */
+    private function mapRawCensusGroupToCensusGroup(array $rawCensusGroup, int $year): void
     {
         $censusGroup = new CensusGroup();
         $censusGroup->setGroupId($this->sanitizeValue($rawCensusGroup['group_id']));

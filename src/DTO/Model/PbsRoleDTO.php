@@ -1,29 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model;
 
 class PbsRoleDTO
 {
-    /**
-     * @var int
-     */
-    private $groupId;
+    private int $groupId;
 
-    /**
-     * @var string
-     */
-    private $groupName;
+    private string $groupName;
 
-    /**
-     * @var string
-     */
-    private $roleType;
+    private string $roleType;
 
     /**
      * PbsRoleDTO constructor.
-     * @param int $groupId
-     * @param string $groupName
-     * @param string $roleType
      */
     public function __construct(int $groupId, string $groupName, string $roleType)
     {
@@ -32,25 +22,16 @@ class PbsRoleDTO
         $this->roleType = $roleType;
     }
 
-    /**
-     * @return int
-     */
     public function getGroupId(): int
     {
         return $this->groupId;
     }
 
-    /**
-     * @return string
-     */
     public function getGroupName(): string
     {
         return $this->groupName;
     }
 
-    /**
-     * @return string
-     */
     public function getRoleType(): string
     {
         return $this->roleType;

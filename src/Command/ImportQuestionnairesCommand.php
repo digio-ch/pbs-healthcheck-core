@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
+use DateTimeImmutable;
 use App\Entity\Quap\Aspect;
 use App\Entity\Quap\Help;
 use App\Entity\Quap\Link;
@@ -17,34 +19,22 @@ use JsonMachine\JsonMachine;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'app:quap:import-questionnaire')]
 class ImportQuestionnairesCommand extends StatisticsCommand
 {
-    /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
-    /** @var QuestionnaireRepository $questionnaireRepo */
     private QuestionnaireRepository $questionnaireRepo;
 
-    /** @var AspectRepository $aspectRepo */
     private AspectRepository $aspectRepo;
 
-    /** @var QuestionRepository $questionRepo */
     private QuestionRepository $questionRepo;
 
-    /** @var HelpRepository $helpRepo */
     private HelpRepository $helpRepo;
 
-    /** @var string $pathToJson */
     private string $pathToJson = 'imports/questionnaire_imports.json';
 
 
-    /**
-     * @param EntityManagerInterface $em
-     * @param QuestionnaireRepository $questionnaireRepo
-     * @param AspectRepository $aspectRepo
-     * @param QuestionRepository $questionRepo
-     * @param HelpRepository $helpRepo
-     */
     public function __construct(
         EntityManagerInterface $em,
         QuestionnaireRepository $questionnaireRepo,
@@ -59,12 +49,6 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         $this->aspectRepo = $aspectRepo;
         $this->questionRepo = $questionRepo;
         $this->helpRepo = $helpRepo;
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName('app:quap:import-questionnaire');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -90,8 +74,9 @@ class ImportQuestionnairesCommand extends StatisticsCommand
 
     /**
      * @param $questionnaire
+     * @param array<string, mixed> $questionnaire
      */
-    private function importQuestionnaire($questionnaire): void
+    private function importQuestionnaire(array $questionnaire): void
     {
         $db_questionnaire = $this->questionnaireRepo->findOneBy(['type' => $questionnaire['type']]);
 
@@ -112,7 +97,10 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         }
     }
 
-    private function importAspect($aspect, Questionnaire $questionnaire, $isDeprecated = false)
+    /**
+     * @param array<string, mixed> $aspect
+     */
+    private function importAspect(array $aspect, Questionnaire $questionnaire, $isDeprecated = false): void
     {
         $dbAspect = $this->aspectRepo->findOneBy([
             'questionnaire' => $questionnaire->getId(),
@@ -121,12 +109,12 @@ class ImportQuestionnairesCommand extends StatisticsCommand
 
         if (!$dbAspect) {
             $dbAspect = new Aspect();
-            $dbAspect->setCreatedAt(new \DateTimeImmutable('now'));
+            $dbAspect->setCreatedAt(new DateTimeImmutable('now'));
             $dbAspect->setLocalId($aspect['id']);
         }
 
         if ($isDeprecated) {
-            $dbAspect->setDeletedAt(new \DateTimeImmutable('now'));
+            $dbAspect->setDeletedAt(new DateTimeImmutable('now'));
             $this->em->persist($dbAspect);
             return;
         }
@@ -151,7 +139,10 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         $this->em->flush();
     }
 
-    private function importQuestion($question, Aspect $aspect, $isDeprecated)
+    /**
+     * @param array<string, mixed> $question
+     */
+    private function importQuestion(array $question, Aspect $aspect, $isDeprecated): void
     {
         $dbQuestion = null;
         if ($aspect->getId() !== null) {
@@ -163,13 +154,13 @@ class ImportQuestionnairesCommand extends StatisticsCommand
 
         if (!$dbQuestion) {
             $dbQuestion = new Question();
-            $dbQuestion->setCreatedAt(new \DateTimeImmutable('now'));
+            $dbQuestion->setCreatedAt(new DateTimeImmutable('now'));
             $dbQuestion->setAnswerOptions($question['answer_options']);
             $dbQuestion->setLocalId($question['id']);
         }
 
         if ($isDeprecated) {
-            $dbQuestion->setDeletedAt(new \DateTimeImmutable('now'));
+            $dbQuestion->setDeletedAt(new DateTimeImmutable('now'));
             $this->em->persist($dbQuestion);
             return;
         }
@@ -222,7 +213,10 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         }
     }
 
-    private function importHelp($helpItem, Question $question, $isDeprecated)
+    /**
+     * @param array<string, mixed> $helpItem
+     */
+    private function importHelp(array $helpItem, Question $question, $isDeprecated): void
     {
         $dbHelp = null;
         if ($question->getId() !== null) {
@@ -234,7 +228,7 @@ class ImportQuestionnairesCommand extends StatisticsCommand
 
         if (!$dbHelp) {
             $dbHelp = new Help();
-            $dbHelp->setCreatedAt(new \DateTimeImmutable('now'));
+            $dbHelp->setCreatedAt(new DateTimeImmutable('now'));
             if (array_key_exists('severity', $helpItem)) {
                 $dbHelp->setSeverity($helpItem['severity']);
             } else {
@@ -243,7 +237,7 @@ class ImportQuestionnairesCommand extends StatisticsCommand
         }
 
         if ($isDeprecated) {
-            $dbHelp->setDeletedAt(new \DateTimeImmutable('now'));
+            $dbHelp->setDeletedAt(new DateTimeImmutable('now'));
             $this->em->persist($dbHelp);
             return;
         }

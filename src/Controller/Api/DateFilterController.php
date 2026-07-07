@@ -1,33 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Api;
 
 use App\Entity\Midata\Group;
 use App\Entity\Security\PermissionType;
-use App\Service\DataProvider\FilterDataProvider;
 use App\Service\DateFilterService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class DateFilterController extends AbstractController
 {
-    /**
-     * @param Group $group
-     * @param DateFilterService $dateFilterService
-     * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
-     */
+    public function __construct(private readonly DateFilterService $dateFilterService)
+    {
+    }
+
     public function getDateFilterData(
-        Group $group,
-        DateFilterService $dateFilterService
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
-        $data = $dateFilterService->getAvailableDates($group);
-
+        $data = $this->dateFilterService->getAvailableDates($group);
         return $this->json($data);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Entity\Admin\GeoAddress;
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\DTO\Model\AddressMappingDTO;
 use App\Entity\Midata\Person;
 use App\Model\CommandStatistics;
@@ -13,19 +15,16 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: "app:map-peoples-addresses")]
 class MapPeoplesAddressesCommand extends StatisticsCommand
 {
-    /** @var EntityManagerInterface $em */
-    private $em;
+    private EntityManagerInterface $em;
 
-    /** @var PersonRepository $personRepository */
-    private $personRepository;
+    private PersonRepository $personRepository;
 
-    /** @var GeoAddressRepository $geoLocationRepository */
-    private $geoLocationRepository;
+    private GeoAddressRepository $geoLocationRepository;
 
-    /** @var float */
-    private $stats;
+    private float $stats;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -41,27 +40,14 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
 
     protected function configure()
     {
-        $this
-            ->setName("app:map-peoples-addresses")
-            ->addOption("log-level", null, InputArgument::OPTIONAL, "", 2);
+        $this->addOption("log-level", null, InputArgument::OPTIONAL, "", 2);
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $start = microtime(true);
 
         $output->writeln(['Mapping people to their geo location via their address...']);
-
-        $sqlLogger = $this->em->getConnection()->getConfiguration()->getSQLLogger();
-        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
 
         $mapped = 0;
         $total = 0;
@@ -96,8 +82,6 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
             }
         }
 
-        $this->em->getConnection()->getConfiguration()->setSQLLogger($sqlLogger);
-
         $this->stats = microtime(true) - $start;
 
         $output->writeln(['Mapped ' . $mapped . ' locations to a person and skipped ' . ($total - $mapped) . ' people due to invalid addresses in: ' . number_format($this->stats, 2) . 's']);
@@ -121,7 +105,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         if (
             is_null($person->getAddress()) || $person->getAddress() === '' ||
             (
-                is_null($person->getZip()) || $person->getZip() == 0 &&
+                is_null($person->getZip()) || $person->getZip() === 0 &&
                 is_null($person->getTown()) || $person->getTown() === ''
             )
         ) {
@@ -143,7 +127,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $matches = array();
         preg_match('/(\d+[a-z]?)/i', $address, $matches);
 
-        if (sizeof($matches) < 1) {
+        if (count($matches) < 1) {
             $addressMappingDTO->setCode(AddressMappingDTO::ERROR_INVALID_ADDRESS);
             $this->writeData($outputFile, $addressMappingDTO);
             return false;
@@ -156,7 +140,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $street = preg_replace('/(\d+[a-z]?)/i', '', $address);
         $addressMappingDTO->setStreetWithoutNumber($street);
 
-        if ($street == '' || $houseNumber == '') {
+        if ($street == '' || $houseNumber === '') {
             $addressMappingDTO->setCode(AddressMappingDTO::ERROR_INVALID_ADDRESS);
             $this->writeData($outputFile, $addressMappingDTO);
             $profiler->endTimer();
@@ -166,7 +150,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $street = $this->mapStreet($street, $addressMappingDTO);
 
         // check if there is even a street remaining
-        if (strlen($street) == 0) {
+        if ($street === '') {
             $addressMappingDTO->setCode(AddressMappingDTO::ERROR_NORMALIZING_ERROR);
             $this->writeData($outputFile, $addressMappingDTO);
             $profiler->endTimer();
@@ -180,7 +164,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         $profiler->endTimer();
 
         // couldn't find a geo location for this persons address
-        if (!$geoLocation) {
+        if (!$geoLocation instanceof GeoAddress) {
             $addressMappingDTO->setCode(AddressMappingDTO::ERROR_NO_GEO_LOCATION);
             $this->writeData($outputFile, $addressMappingDTO);
             return false;
@@ -214,7 +198,7 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
         return $street;
     }
 
-    private function writeData($file, AddressMappingDTO $addressMappingDTO)
+    private function writeData($file, AddressMappingDTO $addressMappingDTO): void
     {
         if (!$file) {
             return;
@@ -224,19 +208,19 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
             $file,
             sprintf(
                 '%s;%d;%s;%s;%s;%s;%s;%s;',
-                $addressMappingDTO->getMidataAddress() ? $addressMappingDTO->getMidataAddress() : '',
-                $addressMappingDTO->getMidataZip() ? $addressMappingDTO->getMidataZip() : '',
-                $addressMappingDTO->getMidataTown() ? $addressMappingDTO->getMidataTown() : '',
-                $addressMappingDTO->getStreetWithoutNumber() ? $addressMappingDTO->getStreetWithoutNumber() : '',
-                $addressMappingDTO->getHouseNumber() ? $addressMappingDTO->getHouseNumber() : '',
-                $addressMappingDTO->getCorrectedStreet() ? $addressMappingDTO->getCorrectedStreet() : '',
-                $addressMappingDTO->getNormalizedStreet() ? $addressMappingDTO->getNormalizedStreet() : '',
-                $addressMappingDTO->getCode() ? $addressMappingDTO->getCode() : ''
+                $addressMappingDTO->getMidataAddress() ?: '',
+                $addressMappingDTO->getMidataZip() ?: '',
+                $addressMappingDTO->getMidataTown() ?: '',
+                $addressMappingDTO->getStreetWithoutNumber() ?: '',
+                $addressMappingDTO->getHouseNumber() ?: '',
+                $addressMappingDTO->getCorrectedStreet() ?: '',
+                $addressMappingDTO->getNormalizedStreet() ?: '',
+                $addressMappingDTO->getCode() ?: ''
             ) . PHP_EOL
         );
     }
 
-    public static function normaliseAddress(string $address)
+    public static function normaliseAddress(string $address): string
     {
         $address = strtolower($address);
         $address = preg_replace('/[éèêë]+/i', 'e', $address);
@@ -247,6 +231,6 @@ class MapPeoplesAddressesCommand extends StatisticsCommand
 
         $address = preg_replace('/[^a-z]/i', '', $address);
 
-        return utf8_encode($address);
+        return mb_convert_encoding($address, 'UTF-8', 'ISO-8859-1');
     }
 }

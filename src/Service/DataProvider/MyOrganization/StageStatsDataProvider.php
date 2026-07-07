@@ -20,14 +20,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StageStatsDataProvider extends WidgetDataProvider
 {
-    /**
-    * @var StatisticGroupRepository $statisticGroupRepository
-    */
     private StatisticGroupRepository $statisticGroupRepository;
 
-    /**
-    * @var AggregatedDemographicGroupRepository $aggregatedGenderRepository
-    */
     private AggregatedDemographicGroupRepository $aggregatedGenderRepository;
 
 
@@ -48,10 +42,6 @@ class StageStatsDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param Group $association
-     * @param TimeFrame $timeframe
-     * @param array $peopleTypes
-     * @param array $groupTypes
      * @return array<PieChartDataDTO|LineChartDataDTO>
      * @throws Exception
      */
@@ -81,12 +71,11 @@ class StageStatsDataProvider extends WidgetDataProvider
     }
 
   /**
-   * @param int[] $departmentIds
-   * @param DateTimeInterface $date
-   * @param string[] $peopleTypes
-   * @param string[] $groupTypes
-   * @return PieChartDataDTO[]
-   */
+     * @param int[] $departmentIds
+     * @param string[] $peopleTypes
+     * @param string[] $groupTypes
+     * @return PieChartDataDTO[]
+     */
     private function getDataForDate(
         array $departmentIds,
         DateTimeInterface $date,
@@ -115,7 +104,7 @@ class StageStatsDataProvider extends WidgetDataProvider
             $result[] = $pieChartDataDTO;
         }
 
-        usort($result, function (PieChartDataDTO $a, PieChartDataDTO $b) {
+        usort($result, function (PieChartDataDTO $a, PieChartDataDTO $b): int {
             return $this->sortByGroupTypes($a->getName(), $b->getName());
         });
 
@@ -125,13 +114,11 @@ class StageStatsDataProvider extends WidgetDataProvider
     }
 
   /**
-   * @param int[] $departmentIds
-   * @param DateTimeInterface $from
-   * @param DateTimeInterface $to
-   * @param string[] $peopleTypes
-   * @param string[] $groupTypes
-   * @return PieChartDataDTO[]
-   */
+     * @param int[] $departmentIds
+     * @param string[] $peopleTypes
+     * @param string[] $groupTypes
+     * @return PieChartDataDTO[]
+     */
     public function getDataForPeriod(
         array $departmentIds,
         DateTimeInterface $from,
@@ -154,7 +141,7 @@ class StageStatsDataProvider extends WidgetDataProvider
             $lineCharts[] = $this->mapToLineChart($groupType, $series);
         }
 
-        usort($lineCharts, function (LineChartDataDTO $a, LineChartDataDTO $b) {
+        usort($lineCharts, function (LineChartDataDTO $a, LineChartDataDTO $b): int {
             return $this->sortByGroupTypes($a->getName(), $b->getName());
         });
 
@@ -166,11 +153,6 @@ class StageStatsDataProvider extends WidgetDataProvider
         return $lineCharts;
     }
 
-    /**
-     * @param string $groupType
-     * @param array $series
-     * @return LineChartDataDTO
-     */
     public function mapToLineChart(
         string $groupType,
         array $series
@@ -184,7 +166,7 @@ class StageStatsDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param array $rows
+     * @param array<mixed, array<string, string|int>> $rows
      * @param string[] $peopleTypes
      * @return array<string, int>
      */
@@ -235,9 +217,8 @@ class StageStatsDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param array $rows
+     * @param array<mixed, array<string, string|int>> $rows
      * @param string[] $peopleTypes
-     * @return array
      */
     public function buildChartPointsPerGroupType(array $rows, array $peopleTypes): array
     {
@@ -302,11 +283,8 @@ class StageStatsDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param DateTimeInterface $from
-     * @param DateTimeInterface $to
-     * @param array $departmentIds
-     * @param array $groupTypes
-     * @return LineChartDataDTO
+     * @param int[] $departmentIds
+     * @param string[] $groupTypes
      */
     private function getDepartmentLineChart(
         DateTimeInterface $from,
@@ -322,7 +300,7 @@ class StageStatsDataProvider extends WidgetDataProvider
         );
 
         $series = array_map(
-            fn($row) => $this->mapToChartPoint(
+            fn(array $row): LineChartDataPointDTO => $this->mapToChartPoint(
                 $row['data_point_date'],
                 $row['departments']
             ),

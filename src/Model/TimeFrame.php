@@ -10,17 +10,8 @@ use Exception;
  */
 class TimeFrame
 {
-  /**
-   * @var ?DateTimeInterface $date
-   */
     private ?DateTimeInterface $date;
-  /**
-   * @var ?DateTimeInterface $from
-   */
     private ?DateTimeInterface $from;
-  /**
-   * @var ?DateTimeInterface $to
-   */
     private ?DateTimeInterface $to;
 
     private function __construct(
@@ -49,7 +40,6 @@ class TimeFrame
     }
 
     /**
-     * @return DateTimeInterface
      * @throws Exception if the TimeFrame is a period
      */
     public function getDate(): DateTimeInterface
@@ -62,7 +52,6 @@ class TimeFrame
     }
 
     /**
-     * @return DateTimeInterface
      * @throws Exception if the TimeFrame is a date
      */
     public function getPeriodStart(): DateTimeInterface
@@ -75,7 +64,6 @@ class TimeFrame
     }
 
     /**
-     * @return DateTimeInterface
      * @throws Exception if the TimeFrame is a date
      */
     public function getPeriodEnd(): DateTimeInterface

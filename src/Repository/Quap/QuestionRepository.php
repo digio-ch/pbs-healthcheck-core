@@ -13,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Question|null findOneBy(array $criteria, array $orderBy = null)
  * @method Question[]    findAll()
  * @method Question[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Question>
  */
 class QuestionRepository extends ServiceEntityRepository
 {
@@ -21,16 +22,7 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
-    public function findEvaluable(): array
-    {
-        return $this->createQueryBuilder("q")
-            ->where("q.evaluation_function IS NOT NULL")
-            ->getQuery()
-            ->getResult();
-    }
-
     /**
-     * @param Questionnaire $questionnaire
      * @return Question[]
      */
     public function findEvaluableByQuestionnaire(Questionnaire $questionnaire): array
@@ -44,7 +36,7 @@ class QuestionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getExisting(int $aspectId, string $dateTime)
+    public function getExisting(int $aspectId, string $dateTime): mixed
     {
         $rsm = new ResultSetMapping();
         $rsm->addEntityResult(Question::class, 'q');
@@ -58,7 +50,7 @@ class QuestionRepository extends ServiceEntityRepository
         $rsm->addFieldResult('q', 'created_at', 'createdAt');
         $rsm->addFieldResult('q', 'deleted_at', 'deletedAt');
         $rsm->addFieldResult('q', 'evaluation_function', 'evaluation_function');
-        $query = $this->_em->createNativeQuery(
+        $query = $this->getEntityManager()->createNativeQuery(
             "SELECT
                     *
                 FROM

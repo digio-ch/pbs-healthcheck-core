@@ -31,7 +31,7 @@ class AggregatedDateRepository extends AggregatedEntityRepository
             ->getArrayResult();
 
         return array_map(
-            fn($column) => $column['dataPointDate']->format('Y-m-d'),
+            fn(array $column) => $column['dataPointDate']->format('Y-m-d'),
             $result
         );
     }

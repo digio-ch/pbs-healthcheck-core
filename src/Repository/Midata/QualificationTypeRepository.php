@@ -4,10 +4,12 @@ namespace App\Repository\Midata;
 
 use App\Entity\Midata\QualificationType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<QualificationType>
+ */
 class QualificationTypeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -15,7 +17,7 @@ class QualificationTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, QualificationType::class);
     }
 
-    public function findTranslation(string $locale, int $qualificationTypeId)
+    public function findTranslation(string $locale, int $qualificationTypeId): array
     {
         $fieldPrefix = '';
         switch ($locale) {
@@ -28,7 +30,7 @@ class QualificationTypeRepository extends ServiceEntityRepository
             default:
                 $fieldPrefix .= 'mqt.de_label';
         }
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $statement = $connection->executeQuery(
             "
             SELECT $fieldPrefix, mqt.id

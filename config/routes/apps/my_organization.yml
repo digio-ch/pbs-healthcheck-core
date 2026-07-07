@@ -1,29 +1,29 @@
 preview:
   path: /preview
   methods: GET
-  controller: App\Controller\Api\Apps\MyOrganizationController:getPreview
+  controller: App\Controller\Api\Apps\MyOrganizationController::getPreview
 
 filter:
   path: /filter
   methods: GET
-  controller: App\Controller\Api\Apps\MyOrganizationController:getFilter
+  controller: App\Controller\Api\Apps\MyOrganizationController::getFilter
 
 gender_stats:
   path: /gender-stats
   methods: GET
-  controller: App\Controller\Api\Apps\MyOrganizationController:getGenderStats
+  controller: App\Controller\Api\Apps\MyOrganizationController::getGenderStats
 
 stage_stats:
   path: /stage-stats
   methods: GET
-  controller: App\Controller\Api\Apps\MyOrganizationController:getStageStats
+  controller: App\Controller\Api\Apps\MyOrganizationController::getStageStats
 
 demographic_stats:
   path: /demographic-stats
   methods: GET
-  controller: App\Controller\Api\Apps\MyOrganizationController:getDemographicStats
+  controller: App\Controller\Api\Apps\MyOrganizationController::getDemographicStats
 
 department_names:
   path: /departments
   methods: GET
-  controller: App\Controller\Api\Apps\MyOrganizationController:getDepartmentNames
+  controller: App\Controller\Api\Apps\MyOrganizationController::getDepartmentNames

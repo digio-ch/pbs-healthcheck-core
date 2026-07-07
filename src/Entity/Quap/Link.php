@@ -2,49 +2,36 @@
 
 namespace App\Entity\Quap;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Quap\LinkRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=LinkRepository::class)
- * @ORM\Table(name="hc_quap_link")
- */
+#[ORM\Table(name: 'hc_quap_link')]
+#[ORM\Entity(repositoryClass: LinkRepository::class)]
 class Link
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $url;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $url = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Help::class, inversedBy="linksDe")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $helpDe;
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Help::class, inversedBy: 'linksDe')]
+    private ?Help $helpDe = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Help::class, inversedBy="linksFr")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $helpFr;
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Help::class, inversedBy: 'linksFr')]
+    private ?Help $helpFr = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Help::class, inversedBy="linksIt")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $helpIt;
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Help::class, inversedBy: 'linksIt')]
+    private ?Help $helpIt = null;
 
     public function getId(): ?int
     {

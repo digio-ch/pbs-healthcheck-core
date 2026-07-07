@@ -2,6 +2,7 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Gamification\GamificationQuapEvent;
 use App\Entity\Gamification\Login;
 use App\Entity\General\GroupSettings;
@@ -11,90 +12,59 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_group", indexes={
- *     @ORM\Index(columns={"name"}),
- *     @ORM\Index(columns={"created_at"}),
- *     @ORM\Index(columns={"deleted_at"})
- * })
- * @ORM\Entity(repositoryClass=GroupRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_group')]
+#[ORM\Index(columns: ['name'])]
+#[ORM\Index(columns: ['created_at'])]
+#[ORM\Index(columns: ['deleted_at'])]
+#[ORM\Entity(repositoryClass: GroupRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Group
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Group::class, mappedBy="parentGroup")
-     */
+    #[ORM\OneToMany(targetEntity: Group::class, mappedBy: 'parentGroup')]
     private $children;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="children")
-     * @ORM\JoinColumn(name="parent_group_id", referencedColumnName="id")
-     */
-    private $parentGroup;
+    #[ORM\JoinColumn(name: 'parent_group_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'children')]
+    private ?Group $parentGroup = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=EventGroup::class, mappedBy="group", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\OneToMany(targetEntity: EventGroup::class, mappedBy: 'group', cascade: ['persist', 'remove'])]
     private $events;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $cantonId;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $cantonId = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $cantonName;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $cantonName = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $name;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $name = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $createdAt;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $createdAt = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $deletedAt;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $deletedAt = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=GroupType::class)
-     * @ORM\JoinColumn(name="group_type_id", referencedColumnName="id")
-     */
-    private $groupType;
+    #[ORM\JoinColumn(name: 'group_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: GroupType::class)]
+    private ?GroupType $groupType = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=PersonRole::class, mappedBy="group")
-     */
+    #[ORM\OneToMany(targetEntity: PersonRole::class, mappedBy: 'group')]
     private $personRoles;
 
-    /**
-     * @ORM\OneToOne(targetEntity=GroupSettings::class, mappedBy="group", cascade={"persist", "remove"})
-     */
-    private $groupSettings;
+    #[ORM\OneToOne(targetEntity: GroupSettings::class, mappedBy: 'group', cascade: ['persist', 'remove'])]
+    private ?GroupSettings $groupSettings = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Login::class, mappedBy="group")
-     */
+    #[ORM\OneToMany(targetEntity: Login::class, mappedBy: 'group')]
     private $logins;
 
-    /**
-     * @ORM\OneToMany(targetEntity=GamificationQuapEvent::class, mappedBy="group")
-     */
+    #[ORM\OneToMany(targetEntity: GamificationQuapEvent::class, mappedBy: 'group')]
     private $gamificationQuapEvents;
 
     public function __construct()
@@ -104,135 +74,87 @@ class Group
         $this->gamificationQuapEvents = new ArrayCollection();
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param null|string $name
-     */
-    public function setName(?string $name)
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $createdAt
-     */
-    public function setCreatedAt(?DateTimeImmutable $createdAt)
+    public function setCreatedAt(?DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getDeletedAt(): ?DateTimeImmutable
     {
         return $this->deletedAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $deletedAt
-     */
-    public function setDeletedAt(?DateTimeImmutable $deletedAt)
+    public function setDeletedAt(?DateTimeImmutable $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
     }
 
-    /**
-     * @return Group|null
-     */
     public function getParentGroup(): ?Group
     {
         return $this->parentGroup;
     }
 
-    /**
-     * @param Group|null $group
-     */
-    public function setParentGroup(?Group $group)
+    public function setParentGroup(?Group $group): void
     {
         $this->parentGroup = $group;
     }
 
-    /**
-     * @return int|null
-     */
     public function getCantonId(): ?int
     {
         return $this->cantonId;
     }
 
-    /**
-     * @param int|null $cantonId
-     */
-    public function setCantonId(?int $cantonId)
+    public function setCantonId(?int $cantonId): void
     {
         $this->cantonId = $cantonId;
     }
 
-    /**
-     * @return null|string
-     */
     public function getCantonName(): ?string
     {
         return $this->cantonName;
     }
 
-    /**
-     * @param null|string $cantonName
-     */
-    public function setCantonName(?string $cantonName)
+    public function setCantonName(?string $cantonName): void
     {
         $this->cantonName = $cantonName;
     }
 
-    /**
-     * @return GroupType|null
-     */
     public function getGroupType(): ?GroupType
     {
         return $this->groupType;
     }
 
-    /**
-     * @param GroupType|null $groupType
-     */
-    public function setGroupType(?GroupType $groupType)
+    public function setGroupType(?GroupType $groupType): void
     {
         $this->groupType = $groupType;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->id;
     }
@@ -245,16 +167,16 @@ class Group
     public function setGroupSettings(?GroupSettings $groupSettings): self
     {
         // unset the owning side of the relation if necessary
-        if ($groupSettings === null && $this->groupSettings !== null) {
+        if (!$groupSettings instanceof GroupSettings && $this->groupSettings instanceof GroupSettings) {
             $this->groupSettings->setGroup(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($groupSettings !== null && $groupSettings->getGroup() !== $this) {
+        if ($groupSettings instanceof GroupSettings && $groupSettings->getGroup() !== $this) {
             $groupSettings->setGroup($this);
         }
 
-        $this->roleOverviewFilter = $groupSettings;
+        $this->groupSettings = $groupSettings;
 
         return $this;
     }
@@ -279,11 +201,9 @@ class Group
 
     public function removeLogin(Login $login): self
     {
-        if ($this->logins->removeElement($login)) {
-            // set the owning side to null (unless already changed)
-            if ($login->getGgroup() === $this) {
-                $login->setGgroup(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->logins->removeElement($login) && $login->getGgroup() === $this) {
+            $login->setGgroup(null);
         }
 
         return $this;
@@ -309,11 +229,9 @@ class Group
 
     public function removeGamificationQuapEvent(GamificationQuapEvent $gamificationQuapEvent): self
     {
-        if ($this->gamificationQuapEvents->removeElement($gamificationQuapEvent)) {
-            // set the owning side to null (unless already changed)
-            if ($gamificationQuapEvent->getGroup() === $this) {
-                $gamificationQuapEvent->setGroup(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->gamificationQuapEvents->removeElement($gamificationQuapEvent) && $gamificationQuapEvent->getGroup() === $this) {
+            $gamificationQuapEvent->setGroup(null);
         }
 
         return $this;

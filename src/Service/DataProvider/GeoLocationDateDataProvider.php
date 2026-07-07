@@ -2,6 +2,7 @@
 
 namespace App\Service\DataProvider;
 
+use Doctrine\DBAL\Exception;
 use App\DTO\Model\Apps\Widgets\GeoLocationDTO;
 use App\DTO\Model\Apps\Widgets\GeoLocationTypeDTO;
 use App\Entity\Midata\Group;
@@ -12,8 +13,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GeoLocationDateDataProvider extends WidgetDataProvider
 {
-    /** @var AggregatedGeoLocationRepository $geoLocationRepository */
-    private $geoLocationRepository;
+    private AggregatedGeoLocationRepository $geoLocationRepository;
 
     public function __construct(
         GroupRepository $groupRepository,
@@ -27,12 +27,8 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param Group $group
-     * @param string $date
-     * @param array $subGroupTypes
-     * @param array $peopleTypes
      * @return array|GeoLocationDTO[]
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function getData(Group $group, string $date, array $subGroupTypes, array $peopleTypes): array
     {
@@ -63,7 +59,10 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
         return $result;
     }
 
-    private function mapGeoLocation($geoLocation, bool $leaders): GeoLocationDTO
+    /**
+     * @param array<string, mixed> $geoLocation
+     */
+    private function mapGeoLocation(array $geoLocation, bool $leaders): GeoLocationDTO
     {
         $dto = new GeoLocationDTO();
         $dto->setLongitude($geoLocation['longitude']);
@@ -77,7 +76,7 @@ class GeoLocationDateDataProvider extends WidgetDataProvider
         } else {
             $color = self::GROUP_TYPE_COLORS[$geoLocation['group_type']];
         }
-        if ($color) {
+        if (!empty($color)) {
             $dtoType->setColor($color);
         }
 

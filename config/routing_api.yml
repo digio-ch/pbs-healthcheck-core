@@ -11,7 +11,7 @@ app_logout:
 get_status_message:
   path: /status-message
   methods: GET
-  controller: App\Controller\Api\StatusController:getStatusMessage
+  controller: App\Controller\Api\StatusController::getStatusMessage
 
 # Group routes
 group:

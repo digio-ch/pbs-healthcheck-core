@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Gamification;
 
 class PersonGamificationDTO
@@ -11,81 +13,54 @@ class PersonGamificationDTO
     private array $levels;
     private bool $betaRequested;
 
-    /**
-     * @return bool
-     */
     public function isBetaRequested(): bool
     {
         return $this->betaRequested;
     }
 
-    /**
-     * @param bool $betaRequested
-     */
     public function setBetaRequested(bool $betaRequested): void
     {
         $this->betaRequested = $betaRequested;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
     public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getLevelKey(): string
     {
         return $this->levelKey;
     }
 
-    /**
-     * @param string $levelKey
-     */
     public function setLevelKey(string $levelKey): void
     {
         $this->levelKey = $levelKey;
     }
 
     /**
-     * @return array
+     * @return LevelDTO[]
      */
     public function getLevels(): array
     {
         return $this->levels;
     }
 
-    /**
-     * @param array $levels
-     */
     public function setLevels(array $levels): void
     {
         $this->levels = $levels;

@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Entity\Midata\GroupType;
 use App\Entity\Security\PermissionType;
 use App\Model\CommandStatistics;
@@ -10,14 +11,11 @@ use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use function Sentry\continueTrace;
-
+#[AsCommand(name: "app:compute-permissions")]
 class ComputePermissionsCommand extends StatisticsCommand
 {
-    /** @var PersonRoleRepository $personRoleRepository */
     private PersonRoleRepository $personRoleRepository;
 
-    /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
 
     private float $totalDuration = 0;
@@ -39,12 +37,6 @@ class ComputePermissionsCommand extends StatisticsCommand
 
         $this->personRoleRepository = $personRoleRepository;
         $this->permissionRepository = $permissionRepository;
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName("app:compute-permissions");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -78,7 +70,7 @@ class ComputePermissionsCommand extends StatisticsCommand
     }
 
     // TODO: use PermissionType key instead of id because it is not guaranteed
-    private function assignPermissionToRoles(array $roles, int $permissionType, array &$assigned)
+    private function assignPermissionToRoles(array $roles, int $permissionType, array &$assigned): void
     {
         foreach ($roles as $key => $role) {
             $personId = $role['person_id'];
@@ -114,7 +106,7 @@ class ComputePermissionsCommand extends StatisticsCommand
 
             $assigned[$permissionGroupId][$personId] = true;
 
-            if ($key > 0 && $key % 500 == 0) {
+            if ($key > 0 && $key % 500 === 0) {
                 $this->permissionRepository->flush();
             }
         }
@@ -291,9 +283,6 @@ class ComputePermissionsCommand extends StatisticsCommand
 
     private function isSubGroup(string $groupType): bool
     {
-        if (in_array($groupType, self::SUB_DEPARTMENTS, true)) {
-            return true;
-        }
-        return false;
+        return in_array($groupType, self::SUB_DEPARTMENTS, true);
     }
 }

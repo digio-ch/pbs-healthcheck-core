@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository\Quap;
 
 use App\Entity\Quap\Link;
@@ -11,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Link|null findOneBy(array $criteria, array $orderBy = null)
  * @method Link[]    findAll()
  * @method Link[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Link>
  */
 class LinkRepository extends ServiceEntityRepository
 {

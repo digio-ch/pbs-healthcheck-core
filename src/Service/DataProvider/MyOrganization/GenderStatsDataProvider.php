@@ -20,14 +20,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GenderStatsDataProvider extends WidgetDataProvider
 {
-    /**
-    * @var StatisticGroupRepository $statisticGroupRepository
-    */
     private StatisticGroupRepository $statisticGroupRepository;
 
-    /**
-    * @var AggregatedDemographicGroupRepository $aggregatedGenderRepository
-    */
     private AggregatedDemographicGroupRepository $aggregatedGenderRepository;
 
     private const GENDER_MALE = 'male';
@@ -58,10 +52,6 @@ class GenderStatsDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param Group $association
-     * @param TimeFrame $timeframe
-     * @param array $peopleTypes
-     * @param array $groupTypes
      * @return array<PieChartDataDTO|LineChartDataDTO>
      * @throws Exception
      */
@@ -91,12 +81,11 @@ class GenderStatsDataProvider extends WidgetDataProvider
     }
 
   /**
-   * @param int[] $departmentIds
-   * @param DateTimeInterface $date
-   * @param string[] $peopleTypes
-   * @param string[] $groupTypes
-   * @return PieChartDataDTO[]
-   */
+     * @param int[] $departmentIds
+     * @param string[] $peopleTypes
+     * @param string[] $groupTypes
+     * @return PieChartDataDTO[]
+     */
     private function getDataForDate(array $departmentIds, DateTimeInterface $date, array $peopleTypes, array $groupTypes): array
     {
         $genderCount = $this->aggregatedGenderRepository->findGenderTotalCountForDateOfGroups(
@@ -118,8 +107,6 @@ class GenderStatsDataProvider extends WidgetDataProvider
 
     /**
      * @param int[] $departmentIds
-     * @param DateTimeInterface $from
-     * @param DateTimeInterface $to
      * @param string[] $peopleTypes
      * @param string[] $groupTypes
      * @return LineChartDataDTO[]
@@ -184,7 +171,7 @@ class GenderStatsDataProvider extends WidgetDataProvider
 
     /**
      * @param string[] $peopleTypes
-     * @param array $genderCount
+     * @param array<string, int>|array<string, string> $genderCount
      * @return array<string, int>
      */
     private function calculateGenderTotal(array $genderCount, array $peopleTypes): array
@@ -210,11 +197,6 @@ class GenderStatsDataProvider extends WidgetDataProvider
         return $total;
     }
 
-    /**
-     * @param string $gender
-     * @param int $total
-     * @return PieChartDataDTO
-     */
     private function mapToPieChart(string $gender, int $total): PieChartDataDTO
     {
         $pieChart = new PieChartDataDTO();

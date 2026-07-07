@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Questionnaire|null findOneBy(array $criteria, array $orderBy = null)
  * @method Questionnaire[]    findAll()
  * @method Questionnaire[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Questionnaire>
  */
 class QuestionnaireRepository extends ServiceEntityRepository
 {
@@ -48,7 +49,7 @@ class QuestionnaireRepository extends ServiceEntityRepository
      */
     public function getExistingAnswerableAspects(): array
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $query = $conn->executeQuery(
             'SELECT "type", JSON_AGG(local_aspect_id) as aspects FROM (
                     SELECT

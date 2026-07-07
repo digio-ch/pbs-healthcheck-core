@@ -6,9 +6,12 @@ use App\Entity\Midata\GroupType;
 use App\Service\DataProvider\WidgetDataProvider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<GroupType>
+ */
 class GroupTypeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -18,11 +21,11 @@ class GroupTypeRepository extends ServiceEntityRepository
 
     /**
      * @param int[] $groupIds
-     * @return array
+     * @throws Exception
      */
     public function findGroupTypesForParentGroups(array $groupIds): array
     {
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $statement = $connection->executeQuery(
             "
             SELECT DISTINCT gt.group_type, gt.id, gt.de_label, gt.fr_label, gt.it_label

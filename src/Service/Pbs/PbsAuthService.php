@@ -6,10 +6,8 @@ use App\DTO\Mapper\GroupMapper;
 use App\DTO\Mapper\PbsUserMapper;
 use App\DTO\Model\GroupDTO;
 use App\DTO\Model\PbsUserDTO;
-use App\Entity\Midata\Group;
 use App\Entity\Midata\PersonRole;
 use App\Entity\Security\Permission;
-use App\Entity\Security\PermissionType;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\PersonRoleRepository;
 use App\Repository\Security\PermissionRepository;
@@ -18,44 +16,27 @@ use App\Service\Http\GuzzleWrapper;
 
 class PbsAuthService
 {
-    /** @var GuzzleWrapper $guzzleWrapper */
     private GuzzleWrapper $guzzleWrapper;
 
-    /** @var PersonRoleRepository $personRoleRepository */
     private PersonRoleRepository $personRoleRepository;
 
-    /** @var PermissionRepository $permissionRepository */
     private PermissionRepository $permissionRepository;
 
-    /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
-    /** @var string $pbsUrl */
     private string $pbsUrl;
 
-    /** @var string $pbsClientId */
     private string $pbsClientId;
 
-    /** @var string $pbsClientSecret */
     private string $pbsClientSecret;
 
-    /** @var string $pbsCallbackUrl */
     private string $pbsCallbackUrl;
 
     /** @var string[] $specialAccessEmails */
-    private $specialAccessEmails;
+    private array $specialAccessEmails;
 
     /**
      * PbsAuthService constructor.
-     * @param GuzzleWrapper $guzzleWrapper
-     * @param PersonRoleRepository $personRoleRepository
-     * @param GroupRepository $groupRepository
-     * @param PermissionRepository $permissionRepository
-     * @param string $pbsUrl
-     * @param string $pbsClientId
-     * @param string $pbsClientSecret
-     * @param string $pbsCallbackUrl
-     * @param string $specialAccessEmails
      */
     public function __construct(
         GuzzleWrapper $guzzleWrapper,
@@ -79,11 +60,6 @@ class PbsAuthService
         $this->specialAccessEmails = explode(',', $specialAccessEmails);
     }
 
-    /**
-     * @param string $code
-     * @param string $locale
-     * @return PbsUserDTO
-     */
     public function getUser(string $code, string $locale): PbsUserDTO
     {
         $token = $this->getTokenUsingCode($code);
@@ -95,7 +71,7 @@ class PbsAuthService
         $this->assignGroups($pbsUser, $locale);
 
         $allGroups = $pbsUser->getGroups();
-        usort($allGroups, function (GroupDTO $a, GroupDTO $b) {
+        usort($allGroups, function (GroupDTO $a, GroupDTO $b): int {
             return strcmp($a->getName(), $b->getName());
         });
         $pbsUser->setGroups($allGroups);
@@ -103,10 +79,6 @@ class PbsAuthService
         return $pbsUser;
     }
 
-    /**
-     * @param string $code
-     * @return string
-     */
     private function getTokenUsingCode(string $code): string
     {
         $body = [
@@ -120,10 +92,6 @@ class PbsAuthService
         return $response->getContent()['access_token'];
     }
 
-    /**
-     * @param string $token
-     * @return array
-     */
     private function getUserWithToken(string $token): array
     {
         $headers = [
@@ -137,9 +105,9 @@ class PbsAuthService
     /**
      * Assigns the roles from the database if the user has no special access.
      * Else the leader roles of all groups are assigned.
-     * @param array $user
+     * @param array<string, mixed> $user
      */
-    private function assignRoles(array &$user)
+    private function assignRoles(array &$user): void
     {
         if (in_array($user['email'], $this->specialAccessEmails)) {
             $this->assignLeaderRoleOfAllGroups($user);
@@ -152,9 +120,9 @@ class PbsAuthService
     /**
      * This will assign a main-group leader role to every existing main group to the user.
      * We do this so we can select any main-group in the front-end.
-     * @param array $user
+     * @param array<string, mixed> $user
      */
-    private function assignLeaderRoleOfAllGroups(array &$user)
+    private function assignLeaderRoleOfAllGroups(array &$user): void
     {
         $groups = $this->groupRepository->findAllParentGroups();
         $user['roles'] = [];
@@ -168,11 +136,11 @@ class PbsAuthService
     }
 
     /**
-     * @param array $user
+     * @param array<string, mixed> $user
      */
-    private function assignOwnRoles(array &$user)
+    private function assignOwnRoles(array &$user): void
     {
-        $groupIds = array_unique(array_map(function ($role) {
+        $groupIds = array_unique(array_map(function (array $role) {
             return $role['group_id'];
         }, $user['roles']));
         $user['roles'] = [];
@@ -198,10 +166,8 @@ class PbsAuthService
     /**
      * If the user email is in the special access array,
      * we add all main-groups to the user object so that we can select all of them in the front-end.
-     * @param PbsUserDTO $pbsUser
-     * @param string $locale
      */
-    private function assignGroups(PbsUserDTO $pbsUser, string $locale)
+    private function assignGroups(PbsUserDTO $pbsUser, string $locale): void
     {
         if (in_array($pbsUser->getEmail(), $this->specialAccessEmails)) {
             $this->assignOwnerAccessOfAllGroups($pbsUser, $locale);
@@ -214,10 +180,8 @@ class PbsAuthService
     /**
      * This will add all groups to the user object where the user has a main-group leader role.
      * Additionally, we get all groups to where the user was invited to and them to the user object as well.
-     * @param PbsUserDTO $pbsUser
-     * @param string $locale
      */
-    private function assignGroupsBasedOnPermissions(PbsUserDTO $pbsUser, string $locale)
+    private function assignGroupsBasedOnPermissions(PbsUserDTO $pbsUser, string $locale): void
     {
         $groupMapping = [];
 
@@ -230,7 +194,6 @@ class PbsAuthService
                 $index = $group->getId();
 
                 if (isset($groupMapping[$index])) {
-                    /** @var PermissionType $currentPermissionType */
                     $currentPermissionType = $groupMapping[$index]['permissionType'];
 
                     if ($currentPermissionType->getId() < $permission->getId()) {
@@ -246,9 +209,7 @@ class PbsAuthService
         }
 
         foreach ($groupMapping as $mapping) {
-            /** @var Group $group */
             $group = $mapping['group'];
-            /** @var PermissionType $permissionType */
             $permissionType = $mapping['permissionType'];
 
             $pbsUser->addGroup(GroupMapper::createFromEntity($group, $locale, $permissionType->getKey()));
@@ -257,11 +218,8 @@ class PbsAuthService
 
     /**
      * Assigns groups to the user he has permissions for.
-     * @param PbsUserDTO $pbsUser
-     * @param string $locale
-     * @return void
      */
-    private function assignOwnerAccessOfAllGroups(PbsUserDTO $pbsUser, string $locale)
+    private function assignOwnerAccessOfAllGroups(PbsUserDTO $pbsUser, string $locale): void
     {
         $groups = $this->groupRepository->findAllParentGroups();
 

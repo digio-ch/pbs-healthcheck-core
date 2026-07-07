@@ -12,6 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Help|null findOneBy(array $criteria, array $orderBy = null)
  * @method Help[]    findAll()
  * @method Help[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Help>
  */
 class HelpRepository extends ServiceEntityRepository
 {
@@ -20,7 +21,7 @@ class HelpRepository extends ServiceEntityRepository
         parent::__construct($registry, Help::class);
     }
 
-    public function getExisting(int $questionId, string $dateTime)
+    public function getExisting(int $questionId, string $dateTime): mixed
     {
         $rsm = new ResultSetMapping();
         $rsm->addEntityResult(Help::class, 'a');
@@ -32,7 +33,7 @@ class HelpRepository extends ServiceEntityRepository
         $rsm->addFieldResult('a', 'severity', 'severity');
         $rsm->addFieldResult('a', 'created_at', 'createdAt');
         $rsm->addFieldResult('a', 'deleted_at', 'deletedAt');
-        $query = $this->_em->createNativeQuery(
+        $query = $this->getEntityManager()->createNativeQuery(
             "SELECT
                     *
                 FROM
