@@ -28,6 +28,12 @@ use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/*
+ * TODO: Refactor
+ *
+ * Move validation to the endpoints and use symfony validator
+ */
+
 class WidgetControllerListener
 {
     private GroupRepository $groupRepository;
@@ -85,7 +91,9 @@ class WidgetControllerListener
     }
 
     /**
-     * @return FilterRequestData|null|CensusRequestData
+     * @param Request $request
+     * @param ReflectionParameter $parameter
+     * @return DateAndDateRangeRequestData|DateRequestData|OptionalDateRequestData|DateRangeRequestData|WidgetRequestData|WidgetOfDepartmentRequestData|CensusRequestData|null
      */
     private function validateRequest(Request $request, ReflectionParameter $parameter): DateAndDateRangeRequestData|DateRequestData|OptionalDateRequestData|DateRangeRequestData|WidgetRequestData|WidgetOfDepartmentRequestData|CensusRequestData|null
     {
@@ -177,19 +185,21 @@ class WidgetControllerListener
     private function validateWidgetRequest(Group $group, Request $request): WidgetRequestData
     {
         $groupTypes = $request->query->all('group-types');
-        $groupTypeChoice = new Choice(WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES);
-        $groupTypeChoice->min = 1;
-        $groupTypeChoice->max = count(WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES);
-        $groupTypeChoice->multiple = true;
+        $groupTypeChoice = new Choice(
+            choices: WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES,
+            multiple: true,
+            min: 1,
+            max: count(WidgetDataProvider::RELEVANT_SUB_GROUP_TYPES),
+        );
         $groupTypeErrors = $this->validator->validate($groupTypes, $groupTypeChoice);
 
         $peopleTypes = $request->query->all('relevant-data');
         $peopleTypesChoice = new Choice(
-            [WidgetDataProvider::PEOPLE_TYPE_MEMBERS, WidgetDataProvider::PEOPLE_TYPE_LEADERS]
+            choices: [WidgetDataProvider::PEOPLE_TYPE_MEMBERS, WidgetDataProvider::PEOPLE_TYPE_LEADERS],
+            multiple: true,
+            min: 1,
+            max: 2,
         );
-        $peopleTypesChoice->min = 1;
-        $peopleTypesChoice->max = 2;
-        $peopleTypesChoice->multiple = true;
         $peopleTypesErrors = $this->validator->validate($peopleTypes, $peopleTypesChoice);
 
         if (count($peopleTypesErrors) > 0 || count($groupTypeErrors) > 0) {
@@ -230,9 +240,11 @@ class WidgetControllerListener
         $f = $request->query->getBoolean('census-filter-females', true);
         $groups = $request->query->all('census-filter-departments');
         $roles = $request->query->all('census-filter-roles');
-        $rolesChoice = new Choice(WidgetDataProvider::CENSUS_ROLES);
-        $rolesChoice->multiple = true;
-        $rolesChoice->max = count(WidgetDataProvider::CENSUS_ROLES);
+        $rolesChoice = new Choice(
+            choices:WidgetDataProvider::CENSUS_ROLES,
+            multiple: true,
+            max: count(WidgetDataProvider::CENSUS_ROLES),
+        );
         $rolesErrors = $this->validator->validate($roles, $rolesChoice);
 
         if (count($rolesErrors) > 0) {
@@ -250,34 +262,23 @@ class WidgetControllerListener
         return $data;
     }
 
-    /**
-     * @param $from
-     * @param $to
-     * @param $date
-     */
-    private function checkDates($from, $to, $date, bool $isRange, bool $isDate): void
+    private function checkDates(?string $from, ?string $to, ?string $date, bool $isRange, bool $isDate): void
     {
-        $message = $this->translator->trans('api.error.invalidRequest');
-        if ($isDate && !$isRange && !DateTime::createFromFormat('Y-m-d', $date)) {
-            throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
-        }
-
-        if ($isRange && !$isDate) {
-            if (!DateTime::createFromFormat('Y-m-d', $from)) {
-                throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
-            }
-            if (!DateTime::createFromFormat('Y-m-d', $to)) {
-                throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
-            }
-        }
-
-        $d = DateTime::createFromFormat('Y-m-d', $date);
-        $f = DateTime::createFromFormat('Y-m-d', $from);
-        $t = DateTime::createFromFormat('Y-m-d', $to);
-        if ($d !== false || ($f !== false && $t !== false)) {
+        if ($isDate && $this->isValidDate($date)) {
             return;
         }
+
+        if ($isRange && $this->isValidDate($from) && $this->isValidDate($to)) {
+            return;
+        }
+
+        $message = $this->translator->trans('api.error.invalidRequest');
         throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
+    }
+
+    private function isValidDate(?string $date): bool
+    {
+        return !is_null($date) && DateTime::createFromFormat('Y-m-d', $date);
     }
 
     /**
