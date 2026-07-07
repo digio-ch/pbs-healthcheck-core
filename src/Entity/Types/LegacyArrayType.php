@@ -36,4 +36,9 @@ class LegacyArrayType extends Type
 
         return unserialize($value);
     }
+
+    public function getName(): string
+    {
+        return self::NAME;
+    }
 }

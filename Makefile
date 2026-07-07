@@ -81,4 +81,4 @@ rector:
 
 .PHONY: logs
 logs:
-	tail -f -n 1 $(ERROR_LOG_FILE)
+	docker logs -f -n 1 healthcheck-core-local

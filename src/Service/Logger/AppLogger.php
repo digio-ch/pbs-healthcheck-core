@@ -2,11 +2,10 @@
 
 namespace App\Service\Logger;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Service\Logger\Messages\ExceptionLogMessage;
 use App\Service\Logger\Messages\LogMessage;
-use Gelf\Message;
-use Monolog\Logger;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
@@ -24,12 +23,8 @@ class AppLogger
 
     private Serializer $serializer;
 
-    private Logger $logger;
-
-    public function __construct()
+    public function __construct(private readonly LoggerInterface $logger)
     {
-        $this->logger = new Logger('app');
-
         $this->normalizer = new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter());
         $this->serializer = new Serializer([$this->normalizer], ['json' => new JsonEncoder()]);
     }
@@ -56,8 +51,6 @@ class AppLogger
 
     private function send(string $level, LogMessage $message): void
     {
-        $msg = new Message();
-
         try {
             $data = $this->normalizer->normalize($message);
         } catch (ExceptionInterface $e) {
@@ -65,9 +58,12 @@ class AppLogger
             return;
         }
 
+        $msg = '';
+        $context = [];
+
         foreach ($data as $key => $value) {
             if ($key === 'message') {
-                $msg->setShortMessage($value);
+                $msg = $value;
                 continue;
             }
 
@@ -78,9 +74,9 @@ class AppLogger
                 $serialized = strval($value);
             }
 
-            $msg->setAdditional($key, $serialized);
+            $context[$key] = $serialized;
         }
 
-        $this->logger->log($level, $msg->getShortMessage(), $msg->getAllAdditionals());
+        $this->logger->log($level, $msg, $context);
     }
 }
