@@ -25,12 +25,16 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MyOrganizationController extends AbstractController
 {
-    public function __construct(private readonly FilterDataProvider $filterDataProvider, private readonly GenderStatsDataProvider $genderStatsProvider, private readonly StageStatsDataProvider $statsDataProvider, private readonly DemographicStatsDataProvider $demographicStatsProvider, private readonly DepartmentNamesDataProvider $departmentNamesProvider, private readonly PreviewDataProvider $previewProvider)
-    {
+    public function __construct(
+        private readonly FilterDataProvider $filterDataProvider,
+        private readonly GenderStatsDataProvider $genderStatsProvider,
+        private readonly StageStatsDataProvider $statsDataProvider,
+        private readonly DemographicStatsDataProvider $demographicStatsProvider,
+        private readonly DepartmentNamesDataProvider $departmentNamesProvider,
+        private readonly PreviewDataProvider $previewProvider
+    ) {
     }
-    /**
-     * @param FilterDataProvider $filterDataProvider
-     */
+
     public function getFilter(
         Request $request,
         #[MapEntity(mapping: ['groupId' => 'id'])]
@@ -48,7 +52,7 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param GenderStatsDataProvider $genderStatsProvider
+     * @throws Exception
      */
     public function getGenderStats(
         DateAndDateRangeRequestData $datesRequestData,
@@ -75,7 +79,7 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param StageStatsDataProvider $statsDataProvider
+     * @throws Exception
      */
     public function getStageStats(
         DateAndDateRangeRequestData $datesRequestData,
@@ -102,7 +106,7 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param DemographicStatsDataProvider $demographicStatsProvider
+     * @throws Exception
      */
     public function getDemographicStats(
         DateRequestData $dateRequestData,
@@ -127,7 +131,7 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param DepartmentNamesDataProvider $departmentNamesProvider
+     * @throws Exception
      */
     public function getDepartmentNames(
         DateRequestData $dateRequestData,
@@ -146,7 +150,6 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param PreviewDataProvider $previewProvider
      * @throws Exception
      */
     public function getPreview(
@@ -166,7 +169,7 @@ class MyOrganizationController extends AbstractController
     private function isAssociation(Group $group): bool
     {
         $groupType = $group->getGroupType()->getGroupType();
-        return $groupType === GroupType::CANTON || $groupType === GroupType::REGION;
+        return in_array($groupType, [GroupType::REGION, GroupType::CANTON, GroupType::FEDERATION]);
     }
 
     private function requestToTimeFrame(DateAndDateRangeRequestData $req): TimeFrame
