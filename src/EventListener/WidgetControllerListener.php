@@ -262,7 +262,7 @@ class WidgetControllerListener
         return $data;
     }
 
-    private function checkDates(?string $from,?string $to,?string $date, bool $isRange, bool $isDate): void
+    private function checkDates(?string $from, ?string $to, ?string $date, bool $isRange, bool $isDate): void
     {
         if ($isDate && $this->isValidDate($date)) {
             return;
