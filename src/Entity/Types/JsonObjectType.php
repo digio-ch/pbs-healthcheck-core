@@ -54,4 +54,9 @@ class JsonObjectType extends Type
 
         return $decoded;
     }
+
+    public function getName(): string
+    {
+        return self::NAME;
+    }
 }

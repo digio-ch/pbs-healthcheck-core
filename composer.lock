@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b981cd846e54dcf0a3c8eb9126db5da9",
+    "content-hash": "11c530909633bdaa50f343507eb53a4d",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -166,40 +166,48 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "4.4.3",
+            "version": "3.10.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "61e730f1658814821a85f2402c945f3883407dec"
+                "reference": "95d84866bf3c04b2ddca1df7c049714660959aef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/61e730f1658814821a85f2402c945f3883407dec",
-                "reference": "61e730f1658814821a85f2402c945f3883407dec",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/95d84866bf3c04b2ddca1df7c049714660959aef",
+                "reference": "95d84866bf3c04b2ddca1df7c049714660959aef",
                 "shasum": ""
             },
             "require": {
-                "doctrine/deprecations": "^1.1.5",
-                "php": "^8.2",
+                "composer-runtime-api": "^2",
+                "doctrine/deprecations": "^0.5.3|^1",
+                "doctrine/event-manager": "^1|^2",
+                "php": "^7.4 || ^8.0",
                 "psr/cache": "^1|^2|^3",
                 "psr/log": "^1|^2|^3"
             },
+            "conflict": {
+                "doctrine/cache": "< 1.11"
+            },
             "require-dev": {
+                "doctrine/cache": "^1.11|^2.0",
                 "doctrine/coding-standard": "14.0.0",
                 "fig/log-test": "^1",
-                "jetbrains/phpstorm-stubs": "2023.2",
+                "jetbrains/phpstorm-stubs": "2023.1",
                 "phpstan/phpstan": "2.1.30",
-                "phpstan/phpstan-phpunit": "2.0.7",
                 "phpstan/phpstan-strict-rules": "^2",
-                "phpunit/phpunit": "11.5.50",
+                "phpunit/phpunit": "9.6.34",
                 "slevomat/coding-standard": "8.27.1",
                 "squizlabs/php_codesniffer": "4.0.1",
-                "symfony/cache": "^6.3.8|^7.0|^8.0",
-                "symfony/console": "^5.4|^6.3|^7.0|^8.0"
+                "symfony/cache": "^5.4|^6.0|^7.0|^8.0",
+                "symfony/console": "^4.4|^5.4|^6.0|^7.0|^8.0"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
             },
+            "bin": [
+                "bin/doctrine-dbal"
+            ],
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -252,7 +260,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/4.4.3"
+                "source": "https://github.com/doctrine/dbal/tree/3.10.5"
             },
             "funding": [
                 {
@@ -268,7 +276,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-20T08:52:12+00:00"
+            "time": "2026-02-24T08:03:57+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1317,62 +1325,6 @@
                 "source": "https://github.com/maxmind/GeoIP2-php/tree/v2.13.0"
             },
             "time": "2022-08-05T20:32:58+00:00"
-        },
-        {
-            "name": "graylog2/gelf-php",
-            "version": "2.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bzikarsky/gelf-php.git",
-                "reference": "d592ca54e81f1d678470e100788e87e319bd923b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bzikarsky/gelf-php/zipball/d592ca54e81f1d678470e100788e87e319bd923b",
-                "reference": "d592ca54e81f1d678470e100788e87e319bd923b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.0",
-                "psr/log": "^1|^2|^3"
-            },
-            "conflict": {
-                "monolog/monolog": "^1"
-            },
-            "provide": {
-                "psr/log-implementation": "3.0.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.6|^10.1",
-                "squizlabs/php_codesniffer": "^3.6",
-                "vimeo/psalm": "^5.11"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Gelf\\": "src/Gelf"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Benjamin Zikarsky",
-                    "email": "benjamin@familie-zikarsky.de"
-                },
-                {
-                    "name": "gelf-php contributors",
-                    "homepage": "https://github.com/bzikarsky/gelf-php/contributors"
-                }
-            ],
-            "description": "A php implementation to send log-messages to a GELF compatible backend like Graylog2.",
-            "support": {
-                "issues": "https://github.com/bzikarsky/gelf-php/issues",
-                "source": "https://github.com/bzikarsky/gelf-php/tree/2.0.2"
-            },
-            "time": "2025-01-20T15:05:32+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -8366,8 +8318,8 @@
         "php": "^8.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "ext-json": "*",
-        "ext-intl": "*"
+        "ext-intl": "*",
+        "ext-json": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
