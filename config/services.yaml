@@ -7,6 +7,10 @@ parameters:
     api_prefix: "/api/v1"
     api_regex: "^/api/v1"
 
+    # logging
+    default_log_level: info
+    default_log_format: json
+
     # pbs
     import_data_dir: '%kernel.project_dir%/%env(IMPORT_TARGET_DIR)%'
     test_data_dir: '%kernel.project_dir%/tests/data'
@@ -41,7 +45,7 @@ services:
 
     App\Service\Logger\Formatter:
       arguments:
-        $logFormat: '%env(LOG_FORMAT)%'
+        $logFormat: '%env(default:default_log_format:LOG_FORMAT)%'
 
     Monolog\Processor\IntrospectionProcessor: ~
     Monolog\Processor\UidProcessor: ~

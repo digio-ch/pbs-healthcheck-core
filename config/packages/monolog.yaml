@@ -5,7 +5,7 @@ monolog:
         main:
             type: stream
             path: php://stdout
-            level: '%env(LOG_LEVEL)%'
+            level: '%env(default:default_log_level:LOG_LEVEL)%'
             formatter: App\Service\Logger\Formatter
             channels: [ "!event", "!request", "!doctrine", "!console" ]
         console:
