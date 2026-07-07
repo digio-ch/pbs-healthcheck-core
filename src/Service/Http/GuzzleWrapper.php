@@ -76,19 +76,15 @@ class GuzzleWrapper
         );
     }
 
-    public function post(string $url, ?array $payload = null, array $header = null): CurlResponse
+    public function post(string $url, ?array $payload = null, array $header = []): CurlResponse
     {
+        $header['Content-Type'] = 'application/json';
+
         $response = $this->guzzle->post(
             $url,
             [
                 'body' => Utils::jsonEncode($payload),
-                'headers' => array_merge(
-                    [
-                        'Content-Type' => 'application/json',
-                        'Content-Length' => strlen(Utils::jsonEncode($payload ?? ""))
-                    ],
-                    $header ?? []
-                )
+                'headers' => $header,
             ]
         );
         return new GuzzleResponse(
@@ -136,16 +132,15 @@ class GuzzleWrapper
         return $this->get($url, json_decode($jsonPayload, true), $header);
     }
 
-    public function postJson(string $url, ?string $jsonPayload = null, array $header = null): CurlResponse
+    public function postJson(string $url, ?string $jsonPayload = null, array $header = []): CurlResponse
     {
+        $header['Content-Type'] = 'application/json';
+
         $response = $this->guzzle->post(
             $url,
             [
                 'body' => $jsonPayload,
-                'headers' => array_merge(
-                    ['Content-Type' => 'application/json', 'Content-Length' => strlen($jsonPayload ?? "")],
-                    $header ?? []
-                )
+                'headers' => $header
             ]
         );
         return new GuzzleResponse(
@@ -175,44 +170,4 @@ class GuzzleWrapper
             $response->getStatusCode()
         );
     }
-
-//    private function logRequestMiddleware()
-//    {
-//        return function (callable $handler) {
-//            return function (RequestInterface $request, array $options) use ($handler) {
-//                $payload = $request->getBody()->getContents();
-//                $json = json_decode($payload, true);
-//                if ($json !== false) {
-//                    $payload = $json;
-//                }
-//                $host = $request->getUri()->getScheme() . '://' . $request->getUri()->getHost();
-//                $this->logger->debug(new ThirdPartyRequestLogMessage(
-//                    $host,
-//                    $request->getMethod(),
-//                    $request->getUri()->getPath(),
-//                    $request->getUri()->getQuery(),
-//                    $request->getHeaders(),
-//                    $payload
-//                ));
-//                /** @var Promise $promise */
-//                $promise = $handler($request, $options);
-//                return $promise->then(function (ResponseInterface $response) use ($request, $host) {
-//                    $body = $response->getBody()->getContents();
-//                    $json = json_decode($body, true);
-//                    if ($json !== false) {
-//                        $body = $json;
-//                    }
-//                    $this->logger->info(new ThirdPartyResponseLogMessage(
-//                        $host,
-//                        $request->getMethod(),
-//                        $request->getUri()->getPath(),
-//                        $response->getStatusCode(),
-//                        $response->getHeaders(),
-//                        $body
-//                    ));
-//                    return $response;
-//                });
-//            };
-//        };
-//    }
 }
