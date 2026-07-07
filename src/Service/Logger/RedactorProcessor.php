@@ -9,7 +9,7 @@ use Monolog\Processor\ProcessorInterface;
 
 class RedactorProcessor implements ProcessorInterface
 {
-    private const FORBIDDEN = [
+    private const array FORBIDDEN = [
         'x-auth-token',
         'x-subject-token',
         'password',

@@ -44,4 +44,6 @@ RUN chown -R www-data /srv
 
 COPY ./ ./
 COPY ./docker/$PHP_INI /usr/local/etc/php/conf.d/custom-php.ini
+# Disable request logging by php
+RUN echo "access.log = /dev/null" >> /usr/local/etc/php-fpm.d/www.conf
 COPY --from=dependencies /app/vendor ./vendor

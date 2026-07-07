@@ -59,6 +59,8 @@ Usually we don't import the data using the Go importer locally. Instead, restore
 
 ## Development
 
+If you are new to the technology you should definitely check out symfony's [demo project](https://github.com/symfony/demo/tree/main).
+
 ### Update dependencies
 
 If you find yourself updating the `composer.json` make sure to update the dependencies. This can be done by running:

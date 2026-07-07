@@ -39,25 +39,23 @@ services:
     # Logging
     App\Service\Logger\AppLogger: ~
 
+    App\Service\Logger\Formatter:
+      arguments:
+        $logFormat: '%env(LOG_FORMAT)%'
+
     Monolog\Processor\IntrospectionProcessor: ~
-    App\Service\Logger\RedactorProcessor: ~
+    Monolog\Processor\UidProcessor: ~
+
+    App\Service\Logger\RedactorProcessor:
+      tags:
+        - { name: monolog.processor }
 
     App\Service\Logger\AppProcessor:
       arguments:
-        $source: '%env(APP_HOST)%' # the name of the application (to filter the streams on graylog e.g. dev-api.flow.swiss)
+        $source: '%env(APP_HOST)%' # the name of the application (to filter the streams on e.g. dev-api.flow.swiss)
         $environment: '%kernel.environment%' # the kernel environment of the application
-
-    App\Service\Logger\GraylogHandler:
-      arguments:
-        $processors:
-          - '@App\Service\Logger\AppProcessor'
-          - '@Monolog\Processor\IntrospectionProcessor'
-          - '@App\Service\Logger\RedactorProcessor'
-        $host: '%env(GRAYLOG_HOST)%' # host of the graylog server to connect to
-        $port: '%env(GRAYLOG_PORT)%' # port of the input of the graylog server
-        $clientCert: '%env(GRAYLOG_CLIENT_CERT)%' # path to the certificate of this client
-        $clientKey: '%env(GRAYLOG_CLIENT_KEY)%' # path of the private key of this client
-        $level: '%env(LOG_LEVEL)%'
+      tags:
+        - { name: monolog.processor }
 
     App\Service\Sentry:
         arguments:
