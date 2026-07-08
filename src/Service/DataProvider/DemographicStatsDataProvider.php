@@ -11,6 +11,7 @@ use App\Repository\Aggregated\AggregatedDemographicDepartmentRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use App\Repository\Statistics\StatisticGroupRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\DBAL\Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -139,8 +140,15 @@ class DemographicStatsDataProvider extends WidgetDataProvider
             $rowCountKeyPostFix = '_leader';
         }
 
+        $currentYear = intval((new DateTime())->format('Y'));
+
         foreach ($rows as $row) {
             $birthYear = $row['birthyear'];
+
+            // ignore invalid data
+            if ($birthYear > $currentYear) {
+                continue;
+            }
 
             if (!array_key_exists($birthYear, $groupTypeAndGenderPerYear)) {
                 $groupTypeAndGenderPerYear[$birthYear] = [];
