@@ -2,6 +2,12 @@
 
 namespace App\Controller\Api\Apps;
 
+use App\DTO\Model\Apps\CsvFile;
+use App\DTO\Model\OptionalDateDTO;
+use App\Service\Apps\Quap\DownloadService;
+use App\Service\Apps\Quap\Exception\GroupTypeHasNoQuestionnaireException;
+use App\Service\Apps\Quap\Exception\NoAnswersException;
+use App\Service\Apps\Quap\Exception\NoQuestionsException;
 use DateTimeImmutable;
 use App\DTO\Mapper\AnswersMapper;
 use App\DTO\Mapper\QuestionnaireMapper;
@@ -18,19 +24,28 @@ use App\Service\Gamification\PersonGamificationService;
 use App\Service\Gamification\QuapGamificationService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
+use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/quap', name: 'quap_')]
 class QuapController extends AbstractController
 {
-    private QuapService $quapService;
-
-    public function __construct(QuapService $quapService, private readonly QuapSubdepartmentDateDataProvider $dataProvider, private readonly QuapGamificationService $quapGamificationService, private readonly PersonGamificationService $personGamificationService)
-    {
-        $this->quapService = $quapService;
+    public function __construct(
+        private readonly QuapService $quapService,
+        private readonly DownloadService $downloadService,
+        private readonly QuapSubdepartmentDateDataProvider $dataProvider,
+        private readonly QuapGamificationService $quapGamificationService,
+        private readonly PersonGamificationService $personGamificationService
+    ) {
     }
 
+    #[Route('/preview', name: 'preview', methods: 'GET')]
     public function getPreview(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
@@ -46,6 +61,7 @@ class QuapController extends AbstractController
     /**
      * @throws ApiException
      */
+    #[Route('/subdepartments/preview', name: 'department_preview', methods: 'GET')]
     public function getDepartmentPreview(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
@@ -65,6 +81,7 @@ class QuapController extends AbstractController
     /**
      * @throws Exception
      */
+    #[Route('/questionnaire', name: 'answers', methods: 'GET')]
     public function getAnswers(
         OptionalDateRequestData $dateRequestData
     ): JsonResponse {
@@ -78,9 +95,7 @@ class QuapController extends AbstractController
         return $this->json($data);
     }
 
-    /**
-     * @param QuapSubdepartmentDateDataProvider $dataProvider
-     */
+    #[Route('/overview', name: 'overview', methods: 'GET')]
     public function getDepartmentsOverview(
         DateRequestData $dateRequestData
     ): JsonResponse {
@@ -94,14 +109,27 @@ class QuapController extends AbstractController
         return $this->json($data);
     }
 
+    /**
+     * Endpoint is configured in routing_api.yaml because strictly it shouldn't be in this class
+     *
+     * TODO: Refactoring
+     * - Move to it's own class
+     * - Use attribute routing
+     * - Add validation for the type
+     *
+     * @param Request $request
+     * @param string $type
+     * @return JsonResponse
+     */
     public function getQuestionnaireData(
         Request $request,
         string $type
     ): JsonResponse {
-        $date = $request->query->get('date');
-        $date = $date
-            ? DateTimeImmutable::createFromFormat('Y-m-d', $date)
-            : new DateTimeImmutable('now');
+        $date = DateTimeImmutable::createFromFormat('Y-m-d', $request->query->getString('date'));
+
+        if (!$date) {
+            $date = new DateTimeImmutable('now');
+        }
 
         $questionnaire = $this->quapService->getQuestionnaireByType(
             $type,
@@ -114,6 +142,7 @@ class QuapController extends AbstractController
         return $this->json($questionnaireDTO);
     }
 
+    #[Route('/questionnaire', name: 'submit_answers', methods: 'POST')]
     public function submitAnswers(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -132,6 +161,7 @@ class QuapController extends AbstractController
         return $this->json($newAnswers);
     }
 
+    #[Route('/questionnaire', name: 'change_access', methods: 'PATCH')]
     public function setAccess(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -150,6 +180,7 @@ class QuapController extends AbstractController
     /**
      * @throws ApiException
      */
+    #[Route('/subdepartments', name: 'get_answers_for_subdepartments', methods: 'GET')]
     public function getAnswersForSubDepartments(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -172,5 +203,44 @@ class QuapController extends AbstractController
         } catch (Exception $exception) {
             throw new ApiException(400, "Invalid input");
         }
+    }
+
+    #[Route('/download', name: 'download', methods: 'GET')]
+    public function download(
+        #[MapEntity(mapping: ['groupId' => 'id'])] Group $group,
+        #[MapQueryString] OptionalDateDTO $query,
+    ): Response {
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
+
+        try {
+            $file = $this->downloadService->download($group, $query->getDate());
+
+            return new StreamedResponse(
+                callbackOrChunks: fn() => $this->streamCsvFile($file),
+                headers: [
+                    "Content-Type" => "text/csv",
+                    "Content-Disposition" => HeaderUtils::makeDisposition(
+                        disposition: HeaderUtils::DISPOSITION_ATTACHMENT,
+                        filename: $file->getName(),
+                        filenameFallback: $file->getFallbackName(),
+                    )
+                ],
+            );
+        } catch (GroupTypeHasNoQuestionnaireException $_) {
+            throw new ApiException(400, "Only for departments, regions and cantons");
+        } catch (NoAnswersException | NoQuestionsException $_) {
+            throw new ApiException(404, "No data found for the given date");
+        }
+    }
+
+    private function streamCsvFile(CsvFile $file): void
+    {
+        $stream = fopen('php://output', 'w');
+
+        foreach ($file->getRows() as $row) {
+            fputcsv($stream, $row, ";");
+        }
+
+        fclose($stream);
     }
 }
