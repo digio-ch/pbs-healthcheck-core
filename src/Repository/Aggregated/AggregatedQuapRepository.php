@@ -3,6 +3,7 @@
 namespace App\Repository\Aggregated;
 
 use App\Entity\Aggregated\AggregatedQuap;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,6 +40,20 @@ class AggregatedQuapRepository extends AggregatedEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findSharedOfGroup(int $groupId, ?\DateTimeInterface $date): ?AggregatedQuap
+    {
+        $query = $this->createQueryBuilder('quap')
+            ->andWhere('quap.group = :groupId')
+            ->andWhere('quap.allowAccess = TRUE')
+            ->setParameter('groupId', $groupId);
+
+        $query = $this->filterByDate($query, $date);
+
+        return $query
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     /**
      * @return AggregatedQuap[]
      */
@@ -67,5 +82,16 @@ class AggregatedQuapRepository extends AggregatedEntityRepository
     {
         $this->getEntityManager()->persist($widgetQuap);
         $this->getEntityManager()->flush();
+    }
+
+    private function filterByDate(QueryBuilder $query, ?\DateTimeInterface $date): QueryBuilder
+    {
+        if (is_null($date)) {
+            return $query->andWhere('quap.dataPointDate IS NULL');
+        }
+
+        return $query
+            ->andWhere('quap.dataPointDate = :date')
+            ->setParameter('date', $date->format('Y-m-d'));
     }
 }

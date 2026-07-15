@@ -11,50 +11,106 @@ use App\Entity\Midata\GroupType;
 use App\Entity\Quap\Aspect;
 use App\Entity\Quap\Question;
 use App\Entity\Quap\Questionnaire;
+use App\Repository\Aggregated\AggregatedDateRepository;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use App\Repository\Quap\AspectRepository;
 use App\Repository\Quap\QuestionnaireRepository;
 use App\Repository\Quap\QuestionRepository;
-use App\Service\Apps\Quap\Exception\GroupTypeHasNoQuestionnaireException;
-use App\Service\Apps\Quap\Exception\NoAnswersException;
-use App\Service\Apps\Quap\Exception\NoQuestionsException;
+use App\Service\Apps\Quap\Exception\InvalidGroupTypeException;
+use App\Service\Apps\Quap\Exception\InvalidParentGroupTypeException;
+use App\Service\Apps\Quap\Exception\InvalidSubordinateGroupTypeException;
+use App\Service\Apps\Quap\Exception\NoDataException;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Generator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-readonly class DownloadService
+readonly class DownloadService extends AccessService
 {
     public function __construct(
         private QuestionnaireRepository $questionnaireRepository,
         private AspectRepository $aspectRepository,
         private QuestionRepository $questionRepository,
         private AggregatedQuapRepository $quapRepository,
+        private AggregatedDateRepository $dateRepository,
         private TranslatorInterface $translator,
     ) {
     }
 
     /**
-     * @throws GroupTypeHasNoQuestionnaireException
-     * @throws NoQuestionsException
-     * @throws NoAnswersException
+     * @throws NoDataException
+     * @throws InvalidGroupTypeException
      */
     public function download(Group $group, ?DateTimeInterface $date): CsvFile
+    {
+        $this->validateQuapAccess($group);
+
+        $widgetQuap = $this->quapRepository->findOneBy([
+            "group" => $group->getId(),
+            "dataPointDate" => $date->format('Y-m-d')
+        ]);
+
+        if (is_null($widgetQuap)) {
+            throw new NoDataException("No answers exist for the given date: " . $date?->format('Y-m-d') ?? 'null');
+        }
+
+        return $this->createCsvFile($group, $widgetQuap, $date);
+    }
+
+    /**
+     * @throws NoDataException
+     * @throws InvalidParentGroupTypeException
+     * @throws InvalidSubordinateGroupTypeException
+     */
+    public function downloadShared(Group $group, Group $subordinateGroup, ?DateTimeInterface $date): CsvFile
+    {
+        if (!$this->isValidGroupAccess($group, $subordinateGroup)) {
+            throw new InvalidSubordinateGroupTypeException(
+                sprintf(
+                    "subordinate group type %s (%s) cannot be accessed by group type %s (%s)",
+                    $subordinateGroup->getGroupType()->getGroupType(),
+                    $subordinateGroup->getId(),
+                    $group->getGroupType()->getGroupType(),
+                    $group->getId(),
+                )
+            );
+        }
+
+        $quap = $this->quapRepository->findSharedOfGroup($subordinateGroup->getId(), $date);
+
+        if ($quap === null) {
+            throw new NoDataException(
+                sprintf(
+                    "No shared answers of group %s exist for the given date %s",
+                    $subordinateGroup->getId(),
+                    $date?->format('Y-m-d') ?? 'null'
+                )
+            );
+        }
+
+        return $this->createCsvFile($subordinateGroup, $quap, $date);
+    }
+
+    /**
+     * @throws NoDataException
+     */
+    private function createCsvFile(Group $group, AggregatedQuap $quap, ?DateTimeInterface $date): CsvFile
     {
         $aspects = $this->getAspects($group, $date);
 
         if (empty($aspects)) {
-            throw new NoQuestionsException("No questions exist for the given date: " . $date?->format('Y-m-d') ?? 'null');
+            throw new NoDataException(
+                sprintf(
+                    "No questions exist for the given date %s",
+                    $date?->format('Y-m-d') ?? 'null'
+                )
+            );
         }
 
-        $widgetQuap = $this->quapRepository->findOneBy([
-            "group" => $group->getId(),
-            "dataPointDate" => $date
-        ]);
-
-        if (is_null($widgetQuap)) {
-            throw new NoAnswersException("No answers exist for the given date: " . $date?->format('Y-m-d') ?? 'null');
+        if (is_null($date)) {
+            // we cannot use today's date because the aggregation might not run every day
+            $date = $this->getLatestAggregationDate($group);
         }
 
         [$fileName, $fallback] = $this->generateFilenameWithFallback($group, $date);
@@ -62,15 +118,46 @@ readonly class DownloadService
         return new CsvFile(
             name: $fileName,
             fallbackName: $fallback,
-            rows: $this->generateRows($group, $aspects, $widgetQuap),
+            rows: $this->generateRows($group, $aspects, $quap),
         );
+    }
+
+    /**
+     * Queries the latest aggregation date that exists
+     *
+     * @throws NoDataException
+     */
+    private function getLatestAggregationDate(Group $group): DateTimeInterface
+    {
+        $date = $this->dateRepository->findLatestDataPointDateByGroupId($group->getId());
+
+        if (is_null($date)) {
+            throw new NoDataException(
+                sprintf("no aggregation date for group %s", $group->getId())
+            );
+        }
+
+        return $date;
+    }
+
+    /**
+     * @return bool whether the group has access to the subordinate group
+     * @throws InvalidParentGroupTypeException
+     */
+    private function isValidGroupAccess(Group $group, Group $subordinateGroup): bool
+    {
+        $allowedSubordinateGroupTypes = $this->getSubordinateGroupTypes($group);
+
+        $subordinateGroupType = $subordinateGroup->getGroupType()->getGroupType();
+
+        return in_array($subordinateGroupType, $allowedSubordinateGroupTypes, true);
     }
 
     /**
      * Generates a UTF8 filename. Additionally, it generates an ASCII fallback
      * @return array<string, string> [$filename, $fallback]
      */
-    private function generateFilenameWithFallback(Group $group, ?DateTimeInterface $date): array
+    private function generateFilenameWithFallback(Group $group, DateTimeInterface $date): array
     {
         /** @noinspection PhpComposerExtensionStubsInspection mb_strcut already provided in symfony/polyfill-mbstring */
         $groupName = mb_strcut($group->getName(), 0, 150, 'UTF-8');
@@ -79,7 +166,7 @@ readonly class DownloadService
             "%s-%s-%s.csv",
             $this->translator->trans('quap.export.name'),
             str_replace(" ", "_", $groupName),
-            ($date ?? new DateTimeImmutable())->format('dmY')
+            $date->format('dmY')
         );
 
         // convert ü => u, è => e, etc.
@@ -172,14 +259,12 @@ readonly class DownloadService
     {
         return match ($answerOption) {
             Question::ANSWER_OPTION_RANGE, Question::ANSWER_OPTION_MIDATA_RANGE => match ($answer) {
-                AggregatedQuap::NO_ANSWER => "no-answer",
                 AggregatedQuap::ANSWER_NOT_IMPLEMENTED => "not-implemented",
                 AggregatedQuap::ANSWER_PARTIALLY_FULFILLED => "partially-fulfilled",
                 AggregatedQuap::ANSWER_MOSTLY_FULFILLED => "mostly-fulfilled",
                 AggregatedQuap::ANSWER_FULFILLED => "fulfilled",
             },
             Question::ANSWER_OPTION_BINARY, Question::ANSWER_OPTION_MIDATA_BINARY => match ($answer) {
-                AggregatedQuap::NO_ANSWER => "no-answer",
                 AggregatedQuap::ANSWER_NOT_IMPLEMENTED => "no",
                 AggregatedQuap::ANSWER_FULFILLED => "yes",
             }
@@ -190,7 +275,6 @@ readonly class DownloadService
      * @param Group $group
      * @param DateTimeInterface|null $date
      * @return Aspect[]
-     * @throws GroupTypeHasNoQuestionnaireException
      */
     private function getAspects(Group $group, ?DateTimeInterface $date): array
     {
@@ -215,9 +299,6 @@ readonly class DownloadService
         return $aspects;
     }
 
-    /**
-     * @throws GroupTypeHasNoQuestionnaireException
-     */
     private function getQuestionnaireType(Group $group): string
     {
         $groupType = $group->getGroupType()->getGroupType();
@@ -225,7 +306,6 @@ readonly class DownloadService
         return match ($groupType) {
             GroupType::DEPARTMENT => Questionnaire::TYPE_DEPARTMENT,
             GroupType::REGION, GroupType::CANTON => Questionnaire::TYPE_CANTON,
-            default => throw new GroupTypeHasNoQuestionnaireException('invalid group type: ' . $groupType)
         };
     }
 }

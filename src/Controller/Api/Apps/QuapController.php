@@ -5,9 +5,10 @@ namespace App\Controller\Api\Apps;
 use App\DTO\Model\Apps\CsvFile;
 use App\DTO\Model\OptionalDateDTO;
 use App\Service\Apps\Quap\DownloadService;
-use App\Service\Apps\Quap\Exception\GroupTypeHasNoQuestionnaireException;
-use App\Service\Apps\Quap\Exception\NoAnswersException;
-use App\Service\Apps\Quap\Exception\NoQuestionsException;
+use App\Service\Apps\Quap\Exception\InvalidGroupTypeException;
+use App\Service\Apps\Quap\Exception\InvalidParentGroupTypeException;
+use App\Service\Apps\Quap\Exception\InvalidSubordinateGroupTypeException;
+use App\Service\Apps\Quap\Exception\NoDataException;
 use DateTimeImmutable;
 use App\DTO\Mapper\AnswersMapper;
 use App\DTO\Mapper\QuestionnaireMapper;
@@ -214,33 +215,61 @@ class QuapController extends AbstractController
 
         try {
             $file = $this->downloadService->download($group, $query->getDate());
-
-            return new StreamedResponse(
-                callbackOrChunks: fn() => $this->streamCsvFile($file),
-                headers: [
-                    "Content-Type" => "text/csv",
-                    "Content-Disposition" => HeaderUtils::makeDisposition(
-                        disposition: HeaderUtils::DISPOSITION_ATTACHMENT,
-                        filename: $file->getName(),
-                        filenameFallback: $file->getFallbackName(),
-                    )
-                ],
-            );
-        } catch (GroupTypeHasNoQuestionnaireException $_) {
-            throw new ApiException(400, "Only for departments, regions and cantons");
-        } catch (NoAnswersException | NoQuestionsException $_) {
-            throw new ApiException(404, "No data found for the given date");
+        } catch (Exception $e) {
+            throw $this->toApiException($e);
         }
+
+        return $this->streamCsvFile($file);
     }
 
-    private function streamCsvFile(CsvFile $file): void
-    {
-        $stream = fopen('php://output', 'w');
+    #[Route('/groups/{subordinateGroupId}/download', name: 'download_shared', methods: 'GET')]
+    public function downloadShared(
+        #[MapEntity(mapping: ['groupId' => 'id'])] Group $group,
+        #[MapEntity(mapping: ['subordinateGroupId' => 'id'])] Group $subordinateGroup,
+        #[MapQueryString] OptionalDateDTO $query,
+    ): Response {
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
 
-        foreach ($file->getRows() as $row) {
-            fputcsv($stream, $row, ";");
+        try {
+            $file = $this->downloadService->downloadShared($group, $subordinateGroup, $query->getDate());
+        } catch (Exception $e) {
+            throw $this->toApiException($e);
         }
 
-        fclose($stream);
+        return $this->streamCsvFile($file);
+    }
+
+    private function streamCsvFile(CsvFile $file): StreamedResponse
+    {
+        return new StreamedResponse(
+            callbackOrChunks: function () use ($file) {
+                $stream = fopen('php://output', 'w');
+
+                foreach ($file->getRows() as $row) {
+                    fputcsv($stream, $row, ";");
+                }
+
+                fclose($stream);
+            },
+            headers: [
+                "Content-Type" => "text/csv",
+                "Content-Disposition" => HeaderUtils::makeDisposition(
+                    disposition: HeaderUtils::DISPOSITION_ATTACHMENT,
+                    filename: $file->getName(),
+                    filenameFallback: $file->getFallbackName(),
+                )
+            ],
+        );
+    }
+
+    private function toApiException(Exception $e): Exception
+    {
+        return match (true) {
+            $e instanceof InvalidGroupTypeException => new ApiException(400, "Only for departments, regions and cantons", $e),
+            $e instanceof InvalidParentGroupTypeException => new ApiException(400, "Only for federations, cantons and regions", $e),
+            $e instanceof InvalidSubordinateGroupTypeException,
+            $e instanceof NoDataException => new ApiException(404, "No data found for the given group or date", $e),
+            default => $e,
+        };
     }
 }
