@@ -12,7 +12,6 @@ use App\Service\Apps\Quap\Exception\NoDataException;
 use DateTimeImmutable;
 use App\DTO\Mapper\AnswersMapper;
 use App\DTO\Mapper\QuestionnaireMapper;
-use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\OptionalDateRequestData;
 use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
@@ -20,7 +19,6 @@ use App\Entity\Midata\GroupType;
 use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Service\Apps\Quap\QuapService;
-use App\Service\DataProvider\QuapSubdepartmentDateDataProvider;
 use App\Service\Gamification\PersonGamificationService;
 use App\Service\Gamification\QuapGamificationService;
 use Exception;
@@ -40,7 +38,6 @@ class QuapController extends AbstractController
     public function __construct(
         private readonly QuapService $quapService,
         private readonly DownloadService $downloadService,
-        private readonly QuapSubdepartmentDateDataProvider $dataProvider,
         private readonly QuapGamificationService $quapGamificationService,
         private readonly PersonGamificationService $personGamificationService
     ) {
@@ -60,22 +57,19 @@ class QuapController extends AbstractController
     }
 
     /**
-     * @throws ApiException
+     * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/subdepartments/preview', name: 'department_preview', methods: 'GET')]
-    public function getDepartmentPreview(
+    #[Route('/groups/preview', name: 'preview_of_shared', methods: 'GET')]
+    public function getPreviewOfShared(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
         try {
-            $data = $this->quapService->getAnswersForSubDepartments(
-                $group,
-                null
-            );
+            $data = $this->quapService->getAnswersForSubDepartments($group, null);
             return $this->json($data);
-        } catch (Exception $exception) {
-            throw new ApiException(400, "Invalid input");
+        } catch (InvalidParentGroupTypeException $_) {
+            throw new ApiException(400, "Only for federations, regions and cantons");
         }
     }
 
@@ -91,20 +85,6 @@ class QuapController extends AbstractController
         $data = $this->quapService->getAnswers(
             $dateRequestData->getGroup(),
             is_null($dateRequestData->getDate()) ? null : DateTimeImmutable::createFromMutable($dateRequestData->getDate())
-        );
-
-        return $this->json($data);
-    }
-
-    #[Route('/overview', name: 'overview', methods: 'GET')]
-    public function getDepartmentsOverview(
-        DateRequestData $dateRequestData
-    ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $dateRequestData->getGroup());
-
-        $data = $this->dataProvider->getData(
-            $dateRequestData->getGroup(),
-            $dateRequestData->getDate()->format('Y-m-d')
         );
 
         return $this->json($data);
@@ -162,7 +142,7 @@ class QuapController extends AbstractController
         return $this->json($newAnswers);
     }
 
-    #[Route('/questionnaire', name: 'change_access', methods: 'PATCH')]
+    #[Route('/share', name: 'change_access', methods: 'PATCH')]
     public function setAccess(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -181,8 +161,8 @@ class QuapController extends AbstractController
     /**
      * @throws ApiException
      */
-    #[Route('/subdepartments', name: 'get_answers_for_subdepartments', methods: 'GET')]
-    public function getAnswersForSubDepartments(
+    #[Route('/groups', name: 'answers_of_shared', methods: 'GET')]
+    public function getAnswersOfShared(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         Request $request
@@ -201,11 +181,16 @@ class QuapController extends AbstractController
 
             $response = $this->quapService->getHierarchicalAnswersFromSubDepartments($group, $date);
             return $this->json($response);
+        } catch (InvalidParentGroupTypeException $_) {
+            throw new ApiException(400, "Only for federations, regions and cantons");
         } catch (Exception $exception) {
             throw new ApiException(400, "Invalid input");
         }
     }
 
+    /**
+     * @throws Exception
+     */
     #[Route('/download', name: 'download', methods: 'GET')]
     public function download(
         #[MapEntity(mapping: ['groupId' => 'id'])] Group $group,
@@ -222,6 +207,9 @@ class QuapController extends AbstractController
         return $this->streamCsvFile($file);
     }
 
+    /**
+     * @throws Exception
+     */
     #[Route('/groups/{subordinateGroupId}/download', name: 'download_shared', methods: 'GET')]
     public function downloadShared(
         #[MapEntity(mapping: ['groupId' => 'id'])] Group $group,
