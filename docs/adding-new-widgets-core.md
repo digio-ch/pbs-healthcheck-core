@@ -5,7 +5,7 @@ If you want to add your widget to the front-end, refer to [this](adding-new-widg
 
 ## Before You Begin
 Make sure you read the previous documentation before starting, also get a good understanding
-of how PBS specific entities relate to each other. You can generate a ERM inside the `pg-admin` service container.  
+of how PBS specific entities relate to each other.  
 
 ## Content
 - [Entities](#entities)
@@ -16,7 +16,7 @@ of how PBS specific entities relate to each other. You can generate a ERM inside
 - [API Controller](#api-controller)
     - [Adding The Route Configuration](#adding-the-route-configuration)
 
-## Entities 
+## Entities
 
 Each Widget has at least one table in the database. This table(s) is used to store the aggregated data.
 Make sure you know what kind of data is needed to visualize your widget or chart in the front-end before you

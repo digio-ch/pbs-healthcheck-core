@@ -1,8 +1,7 @@
 # pbs-healthcheck-core
 
 `pbs-healthcheck-core` is the back-end of the HealthCheck Application. 
-It consists of a postgres database, pg-admin for easy database exploration, a php-fpm container 
-and an additional caddy reverse proxy.
+It consists of a postgres database, a symphony backend and a caddy reverse proxy.
 
 ## Links
 
