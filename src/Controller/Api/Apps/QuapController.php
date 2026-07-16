@@ -66,7 +66,7 @@ class QuapController extends AbstractController
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
         try {
-            $data = $this->quapService->getAnswersForSubDepartments($group, null);
+            $data = $this->quapService->getSharedAnswers($group, null);
             return $this->json($data);
         } catch (InvalidParentGroupTypeException $_) {
             throw new ApiException(400, "Only for federations, regions and cantons");
@@ -179,7 +179,7 @@ class QuapController extends AbstractController
             }
 
 
-            $response = $this->quapService->getHierarchicalAnswersFromSubDepartments($group, $date);
+            $response = $this->quapService->getSharedAnswersHierarchy($group, $date);
             return $this->json($response);
         } catch (InvalidParentGroupTypeException $_) {
             throw new ApiException(400, "Only for federations, regions and cantons");

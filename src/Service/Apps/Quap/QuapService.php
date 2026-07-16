@@ -137,7 +137,7 @@ readonly class QuapService extends AccessService
      * @throws Exception
      * @throws InvalidParentGroupTypeException
      */
-    public function getAnswersForSubDepartments(Group $group, ?DateTimeImmutable $date): array
+    public function getSharedAnswers(Group $group, ?DateTimeImmutable $date): array
     {
         $ids = $this->getSubordinateGroupIds($group);
         $quaps = $this->quapRepository->findSharedOfGroups($ids, $date);
@@ -153,7 +153,7 @@ readonly class QuapService extends AccessService
      * @throws Exception
      * @throws InvalidParentGroupTypeException
      */
-    public function getHierarchicalAnswersFromSubDepartments(Group $group, ?DateTimeImmutable $date): array
+    public function getSharedAnswersHierarchy(Group $group, ?DateTimeImmutable $date): array
     {
         $ids = $this->getSubordinateGroupIds($group);
         $quaps = $this->quapRepository->findSharedOfGroups($ids, $date);
@@ -164,7 +164,7 @@ readonly class QuapService extends AccessService
                 $quaps
             );
 
-            // group all departments
+            // group all subordinate groups
             return array(new NestedExtendedAnswersDTO(null, $dtos));
         }
 
