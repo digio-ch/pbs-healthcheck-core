@@ -227,6 +227,25 @@ class QuapController extends AbstractController
         return $this->streamCsvFile($file);
     }
 
+    /**
+     * @throws Exception
+     */
+    #[Route('/groups/download', name: 'download_all_shared', methods: 'GET')]
+    public function downloadAllShared(
+        #[MapEntity(mapping: ['groupId' => 'id'])] Group $group,
+        #[MapQueryString] OptionalDateDTO $query,
+    ): Response {
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
+
+        try {
+            $file = $this->downloadService->downloadAllShared($group, $query->getDate());
+        } catch (Exception $e) {
+            throw $this->toApiException($e);
+        }
+
+        return $this->streamCsvFile($file);
+    }
+
     private function streamCsvFile(CsvFile $file): StreamedResponse
     {
         return new StreamedResponse(

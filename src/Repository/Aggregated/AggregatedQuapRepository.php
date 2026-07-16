@@ -3,6 +3,7 @@
 namespace App\Repository\Aggregated;
 
 use App\Entity\Aggregated\AggregatedQuap;
+use DateTimeInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,7 +41,7 @@ class AggregatedQuapRepository extends AggregatedEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findSharedOfGroup(int $groupId, ?\DateTimeInterface $date): ?AggregatedQuap
+    public function findSharedOfGroup(int $groupId, ?DateTimeInterface $date): ?AggregatedQuap
     {
         $query = $this->createQueryBuilder('quap')
             ->andWhere('quap.group = :groupId')
@@ -55,25 +56,20 @@ class AggregatedQuapRepository extends AggregatedEntityRepository
     }
 
     /**
+     * @param int[] $groupIds
+     * @param DateTimeInterface|null $date
      * @return AggregatedQuap[]
      */
-    public function findAllAnswers(array $groupIds, ?string $date): array
+    public function findSharedOfGroups(array $groupIds, ?DateTimeInterface $date): array
     {
         $query = $this->createQueryBuilder('quap')
             ->andWhere('quap.group IN (:groupIds)')
-            ->andWhere('quap.allowAccess = TRUE');
+            ->andWhere('quap.allowAccess = TRUE')
+            ->setParameter('groupIds', $groupIds);
 
-        if (is_null($date)) {
-            $query = $query
-                ->andWhere('quap.dataPointDate IS NULL');
-        } else {
-            $query = $query
-                ->andWhere('quap.dataPointDate = :date')
-                ->setParameter('date', $date);
-        }
+        $query = $this->filterByDate($query, $date);
 
         return $query
-            ->setParameter('groupIds', $groupIds)
             ->getQuery()
             ->getResult();
     }
@@ -84,7 +80,7 @@ class AggregatedQuapRepository extends AggregatedEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    private function filterByDate(QueryBuilder $query, ?\DateTimeInterface $date): QueryBuilder
+    private function filterByDate(QueryBuilder $query, ?DateTimeInterface $date): QueryBuilder
     {
         if (is_null($date)) {
             return $query->andWhere('quap.dataPointDate IS NULL');

@@ -13,9 +13,11 @@ use App\Entity\Quap\Question;
 use App\Entity\Quap\Questionnaire;
 use App\Repository\Aggregated\AggregatedDateRepository;
 use App\Repository\Aggregated\AggregatedQuapRepository;
+use App\Repository\Midata\GroupRepository;
 use App\Repository\Quap\AspectRepository;
 use App\Repository\Quap\QuestionnaireRepository;
 use App\Repository\Quap\QuestionRepository;
+use App\Repository\Statistics\StatisticGroupRepository;
 use App\Service\Apps\Quap\Exception\InvalidGroupTypeException;
 use App\Service\Apps\Quap\Exception\InvalidParentGroupTypeException;
 use App\Service\Apps\Quap\Exception\InvalidSubordinateGroupTypeException;
@@ -23,6 +25,7 @@ use App\Service\Apps\Quap\Exception\NoDataException;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Exception;
 use Generator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -34,6 +37,8 @@ readonly class DownloadService extends AccessService
         private QuestionRepository $questionRepository,
         private AggregatedQuapRepository $quapRepository,
         private AggregatedDateRepository $dateRepository,
+        private StatisticGroupRepository $statisticGroupRepository,
+        private GroupRepository $groupRepository,
         private TranslatorInterface $translator,
     ) {
     }
@@ -52,7 +57,12 @@ readonly class DownloadService extends AccessService
         ]);
 
         if (is_null($widgetQuap)) {
-            throw new NoDataException("No answers exist for the given date: " . $date?->format('Y-m-d') ?? 'null');
+            throw new NoDataException(
+                sprintf(
+                    "No answers exist for the given date %s",
+                    $date?->format('Y-m-d') ?? 'null'
+                )
+            );
         }
 
         return $this->createCsvFile($group, $widgetQuap, $date);
@@ -93,6 +103,38 @@ readonly class DownloadService extends AccessService
     }
 
     /**
+     * @throws InvalidParentGroupTypeException
+     * @throws NoDataException
+     * @throws Exception
+     */
+    public function downloadAllShared(Group $group, ?DateTimeInterface $date): CsvFile
+    {
+        $subordinateGroupTypes =  $this->getSubordinateGroupTypes($group);
+
+        $subordinateIds = $this->statisticGroupRepository->findAllRelevantChildGroups(
+            $group->getId(),
+            $subordinateGroupTypes,
+        );
+
+        $quaps = $this->quapRepository->findSharedOfGroups($subordinateIds, $date);
+
+        if (empty($quaps)) {
+            throw new NoDataException(
+                sprintf(
+                    "No answers exist for the given date %s",
+                    $date?->format('Y-m-d') ?? 'null'
+                )
+            );
+        }
+        // only keep the groups that have shared answers on the given date
+        $subordinateIds = array_map(fn(AggregatedQuap $quap) => $quap->getGroup()->getId(), $quaps);
+
+        $subordinateGroups = $this->groupRepository->findByGroupIds($subordinateIds);
+
+        return $this->createCsvFileOfShared($group, $subordinateGroups, $quaps, $date);
+    }
+
+    /**
      * @throws NoDataException
      */
     private function createCsvFile(Group $group, AggregatedQuap $quap, ?DateTimeInterface $date): CsvFile
@@ -118,7 +160,32 @@ readonly class DownloadService extends AccessService
         return new CsvFile(
             name: $fileName,
             fallbackName: $fallback,
-            rows: $this->generateRows($group, $aspects, $quap),
+            rows: $this->generateRowsOfGroup($group, $aspects, $quap),
+        );
+    }
+
+    /**
+     * @throws NoDataException
+     */
+    private function createCsvFileOfShared(
+        Group $group,
+        array $subordinateGroups,
+        array $quaps,
+        ?DateTimeInterface $date
+    ): CsvFile {
+        $aspectsPerGroupType = $this->getAspectsPerGroupType($subordinateGroups, $date);
+
+        if (is_null($date)) {
+            // we cannot use today's date because the aggregation might not run every day
+            $date = $this->getLatestAggregationDate($group);
+        }
+
+        [$fileName, $fallback] = $this->generateFilenameWithFallback($group, $date, shared: true);
+
+        return new CsvFile(
+            name: $fileName,
+            fallbackName: $fallback,
+            rows: $this->generateRowsOfGroups($subordinateGroups, $aspectsPerGroupType, $quaps),
         );
     }
 
@@ -155,16 +222,19 @@ readonly class DownloadService extends AccessService
 
     /**
      * Generates a UTF8 filename. Additionally, it generates an ASCII fallback
+     * @param bool $shared whether the prefix should be something like 'quap' or 'shared_quaps'
      * @return array<string, string> [$filename, $fallback]
      */
-    private function generateFilenameWithFallback(Group $group, DateTimeInterface $date): array
+    private function generateFilenameWithFallback(Group $group, DateTimeInterface $date, bool $shared = false): array
     {
         /** @noinspection PhpComposerExtensionStubsInspection mb_strcut already provided in symfony/polyfill-mbstring */
         $groupName = mb_strcut($group->getName(), 0, 150, 'UTF-8');
 
+        $key = $shared ? 'quap.export.shared_name' : 'quap.export.name';
+
         $filename = sprintf(
             "%s-%s-%s.csv",
-            $this->translator->trans('quap.export.name'),
+            $this->translator->trans($key),
             str_replace(" ", "_", $groupName),
             $date->format('dmY')
         );
@@ -185,9 +255,43 @@ readonly class DownloadService extends AccessService
      * @param AggregatedQuap $quap
      * @return Generator
      */
-    private function generateRows(Group $group, array $aspects, AggregatedQuap $quap): Generator
+    private function generateRowsOfGroup(Group $group, array $aspects, AggregatedQuap $quap): Generator
     {
-        yield [
+        yield $this->generateHeaderRow();
+
+        yield from $this->generateBodyRows($group, $aspects, $quap);
+    }
+
+    /**
+     * @param Group[] $groups
+     * @param array<string, Aspect[]> $aspectsPerGroupType
+     * @param AggregatedQuap[] $quaps
+     * @return Generator
+     */
+    private function generateRowsOfGroups(array $groups, array $aspectsPerGroupType, array $quaps): Generator
+    {
+        yield $this->generateHeaderRow();
+
+        $quapByGroupId = [];
+
+        foreach ($quaps as $quap) {
+            $quapByGroupId[$quap->getGroup()->getId()] = $quap;
+        }
+
+        foreach ($groups as $group) {
+            $quap = $quapByGroupId[$group->getId()];
+            $aspects = $aspectsPerGroupType[$group->getGroupType()->getGroupType()];
+
+            yield from $this->generateBodyRows($group, $aspects, $quap);
+        }
+    }
+
+    /**
+     * @return string[]
+     */
+    private function generateHeaderRow(): array
+    {
+        return [
             'group',
             'group_id',
             'group_type',
@@ -203,7 +307,16 @@ readonly class DownloadService extends AccessService
             'answer',
             'not_relevant'
         ];
+    }
 
+    /**
+     * @param Group $group
+     * @param Aspect[] $aspects
+     * @param AggregatedQuap $quap
+     * @return Generator
+     */
+    private function generateBodyRows(Group $group, array $aspects, AggregatedQuap $quap): Generator
+    {
         $answers = $quap->getAnswers();
         $computedAnswers = $quap->getComputedAnswers();
 
@@ -220,12 +333,12 @@ readonly class DownloadService extends AccessService
                     $aspect->getNameDe(),
                     $aspect->getNameFr(),
                     $aspect->getNameIt(),
-                    strval($aspect->getLocalId()),
+                    $aspect->getId(),
 
                     $question->getQuestionDe(),
                     $question->getQuestionFr(),
                     $question->getQuestionIt(),
-                    strval($question->getLocalId()),
+                    $question->getId(),
 
                     $question->getAnswerOptions(),
                     $this->getHumanReadableAnswer($answer, $computedAnswer, $question->getAnswerOptions()),
@@ -307,5 +420,40 @@ readonly class DownloadService extends AccessService
             GroupType::DEPARTMENT => Questionnaire::TYPE_DEPARTMENT,
             GroupType::REGION, GroupType::CANTON => Questionnaire::TYPE_CANTON,
         };
+    }
+
+    /**
+     * @param Group[] $groups
+     * @param DateTimeInterface|null $date
+     * @return array<string, Aspect[]>
+     * @throws NoDataException
+     */
+    public function getAspectsPerGroupType(array $groups, ?DateTimeInterface $date): array
+    {
+        $aspectsByGroupType = [];
+
+        foreach ($groups as $group) {
+            $groupType = $group->getGroupType()->getGroupType();
+
+            if (array_key_exists($groupType, $aspectsByGroupType)) {
+                continue;
+            }
+
+            $aspects = $this->getAspects($group, $date);
+
+            if (empty($aspects)) {
+                throw new NoDataException(
+                    sprintf(
+                        "No questions exist for the given date %s and group type %s",
+                        $date?->format('Y-m-d') ?? 'null',
+                        $groupType,
+                    )
+                );
+            }
+
+            $aspectsByGroupType[$groupType] = $aspects;
+        }
+
+        return $aspectsByGroupType;
     }
 }

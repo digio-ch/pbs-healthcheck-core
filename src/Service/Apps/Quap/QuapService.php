@@ -139,9 +139,8 @@ readonly class QuapService extends AccessService
      */
     public function getAnswersForSubDepartments(Group $group, ?DateTimeImmutable $date): array
     {
-        $ids = $this->getDepartmentIdsFromGroup($group);
-        $dateString = $date instanceof DateTimeImmutable ? $date->format('Y-m-d') : null;
-        $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
+        $ids = $this->getSubordinateGroupIds($group);
+        $quaps = $this->quapRepository->findSharedOfGroups($ids, $date);
 
         return array_map(
             fn(AggregatedQuap $aggregatedQuap): ExtendedAnswersDTO => AnswersMapper::mapExtendedAnswers($aggregatedQuap),
@@ -156,14 +155,10 @@ readonly class QuapService extends AccessService
      */
     public function getHierarchicalAnswersFromSubDepartments(Group $group, ?DateTimeImmutable $date): array
     {
-        $groupType = $group->getGroupType();
+        $ids = $this->getSubordinateGroupIds($group);
+        $quaps = $this->quapRepository->findSharedOfGroups($ids, $date);
 
-        $ids = $this->getDepartmentIdsFromGroup($group);
-
-        $dateString = $date instanceof DateTimeImmutable ? $date->format('Y-m-d') : null;
-        $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
-
-        if ($groupType->getGroupType() === GroupType::REGION) {
+        if ($group->getGroupType()->getGroupType() === GroupType::REGION) {
             $dtos = array_map(
                 fn(AggregatedQuap $aggregatedQuap): NestedExtendedAnswersDTO => AnswersMapper::mapNestedExtendedAnswers($aggregatedQuap),
                 $quaps
@@ -213,13 +208,13 @@ readonly class QuapService extends AccessService
      * @throws InvalidParentGroupTypeException
      * @throws Exception
      */
-    private function getDepartmentIdsFromGroup(Group $group): array
+    private function getSubordinateGroupIds(Group $group): array
     {
-        $children = $this->getSubordinateGroupTypes($group);
+        $subordinateGroupTypes = $this->getSubordinateGroupTypes($group);
 
         return $this->statisticGroupRepository->findAllRelevantChildGroups(
             $group->getId(),
-            $children,
+            $subordinateGroupTypes,
         );
     }
 

@@ -54,6 +54,12 @@ readonly class AccessService
             return;
         };
 
-        throw new InvalidGroupTypeException();
+        throw new InvalidGroupTypeException(
+            sprintf(
+                "group type %s (%s) has no access to questionnaires",
+                $groupType,
+                $group->getId(),
+            ),
+        );
     }
 }
