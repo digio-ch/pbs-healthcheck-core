@@ -41,6 +41,19 @@ class AggregatedQuapRepository extends AggregatedEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findOfGroup(int $groupId, ?DateTimeInterface $date): ?AggregatedQuap
+    {
+        $query = $this->createQueryBuilder('quap')
+            ->andWhere('quap.group = :groupId')
+            ->setParameter('groupId', $groupId);
+
+        $query = $this->filterByDate($query, $date);
+
+        return $query
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function findSharedOfGroup(int $groupId, ?DateTimeInterface $date): ?AggregatedQuap
     {
         $query = $this->createQueryBuilder('quap')

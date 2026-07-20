@@ -31,6 +31,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 readonly class DownloadService extends AccessService
 {
+    const array GROUP_TYPE_ORDER = [
+        GroupType::CANTON,
+        GroupType::REGION,
+        GroupType::DEPARTMENT,
+    ];
+
     public function __construct(
         private QuestionnaireRepository $questionnaireRepository,
         private AspectRepository $aspectRepository,
@@ -51,10 +57,7 @@ readonly class DownloadService extends AccessService
     {
         $this->validateQuapAccess($group);
 
-        $widgetQuap = $this->quapRepository->findOneBy([
-            "group" => $group->getId(),
-            "dataPointDate" => $date->format('Y-m-d')
-        ]);
+        $widgetQuap = $this->quapRepository->findOfGroup($group->getId(), $date);
 
         if (is_null($widgetQuap)) {
             throw new NoDataException(
@@ -130,6 +133,8 @@ readonly class DownloadService extends AccessService
         $subordinateIds = array_map(fn(AggregatedQuap $quap) => $quap->getGroup()->getId(), $quaps);
 
         $subordinateGroups = $this->groupRepository->findByGroupIds($subordinateIds);
+
+        usort($subordinateGroups, $this->sortByGroupTypesThenName(...));
 
         return $this->createCsvFileOfShared($group, $subordinateGroups, $quaps, $date);
     }
@@ -455,5 +460,23 @@ readonly class DownloadService extends AccessService
         }
 
         return $aspectsByGroupType;
+    }
+
+    /**
+     * Orders group types by {@see self::GROUP_TYPE_ORDER} then by name
+     */
+    private function sortByGroupTypesThenName(Group $a, Group $b): int
+    {
+        $groupTypeA = $a->getGroupType()->getGroupType();
+        $groupTypeB = $b->getGroupType()->getGroupType();
+
+        if ($groupTypeA === $groupTypeB) {
+            return $a->getName() <=> $b->getName();
+        }
+
+        $indexA = array_search($groupTypeA, self::GROUP_TYPE_ORDER);
+        $indexB = array_search($groupTypeB, self::GROUP_TYPE_ORDER);
+
+        return $indexA <=> $indexB;
     }
 }
