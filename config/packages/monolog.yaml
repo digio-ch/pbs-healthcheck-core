@@ -22,8 +22,3 @@ when@dev:
                 level: warning
                 formatter: App\Service\Logger\Formatter
                 channels: [ "doctrine" ]
-            deprecation:
-                type: stream
-                path: php://stderr
-                formatter: App\Service\Logger\Formatter
-                channels: [ deprecation ]

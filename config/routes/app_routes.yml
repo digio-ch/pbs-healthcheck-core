@@ -12,9 +12,8 @@ overview:
 
 # QUAP routes
 quap:
-  resource: "apps/quap.yml"
-  prefix: /quap
-  name_prefix: quap_
+  resource: ../../src/Controller/Api/Apps/QuapController.php
+  type: attribute
 
 # General routes
 general:

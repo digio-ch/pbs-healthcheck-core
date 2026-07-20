@@ -31,6 +31,11 @@ group:
       Group::AbteilungsRover: 'Rover'
       Group::Pta: 'PTA'
 
+quap:
+  export:
+    name: 'Gesundheitskompass'
+    shared_name: 'Freigegebene_Gesundheitskompasse'
+
 gender:
   female: 'Weiblich'
   male: 'Männlich'

@@ -6,18 +6,25 @@ namespace App\Model;
 
 class ApiError
 {
-    private ?int $code = null;
+    private int $code;
 
-    private ?string $message = null;
+    private string $message;
+
+    /**
+     * @param int $code
+     * @param string $message
+     */
+    public function __construct(int $code, string $message)
+    {
+        $this->code = $code;
+        $this->message = $message;
+    }
 
     public function setCode(int $code): void
     {
         $this->code = $code;
     }
 
-    /**
-     * @return int
-     */
     public function getCode(): ?int
     {
         return $this->code;
@@ -28,9 +35,6 @@ class ApiError
         $this->message = $message;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): ?string
     {
         return $this->message;

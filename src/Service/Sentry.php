@@ -47,13 +47,21 @@ class Sentry
                 $event->setUser($userBag);
             }
 
-
+            // TODO: create a global exception logger
 
             if ($this->rerouteToFile) {
-                $this->logger->error($hint->exception->getMessage(), [
+                $context = [
                     "file" => $hint->exception->getFile(),
                     "line" => $hint->exception->getLine(),
-                ]);
+                ];
+
+                if ($hint->exception->getPrevious()) {
+                    $context["error"] = $hint->exception->getPrevious()->getMessage();
+                    $context["file"] = $hint->exception->getPrevious()->getFile();
+                    $context["line"] = $hint->exception->getPrevious()->getLine();
+                }
+
+                $this->logger->error($hint->exception->getMessage(), $context);
 
                 return null;
             }
