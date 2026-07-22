@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository\Aggregated;
 
 use App\Entity\Aggregated\AggregatedDemographicEnteredLeft;

@@ -23,6 +23,7 @@ use App\Repository\Quap\LinkRepository;
 use App\Repository\Quap\QuestionnaireRepository;
 use App\Repository\Quap\QuestionRepository;
 use App\Repository\Statistics\StatisticGroupRepository;
+use App\Service\Apps\Quap\Exception\InvalidParentGroupTypeException;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception;
@@ -30,42 +31,18 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use function str_contains;
 
-class QuapService
+readonly class QuapService extends AccessService
 {
-    private QuestionnaireRepository $questionnaireRepository;
-
-    private AspectRepository $aspectRepository;
-
-    private QuestionRepository $questionRepository;
-
-    private HelpRepository $helpRepository;
-
-    private LinkRepository $linkRepository;
-
-    private AggregatedQuapRepository $quapRepository;
-
-    private EntityManagerInterface $em;
-
-    private StatisticGroupRepository $statisticGroupRepository;
-
     public function __construct(
-        QuestionnaireRepository $questionnaireRepository,
-        AspectRepository $aspectRepository,
-        QuestionRepository $questionRepository,
-        HelpRepository $helpRepository,
-        LinkRepository $linkRepository,
-        AggregatedQuapRepository $quapRepository,
-        StatisticGroupRepository $statisticGroupRepository,
-        EntityManagerInterface $em
+        private QuestionnaireRepository $questionnaireRepository,
+        private AspectRepository $aspectRepository,
+        private QuestionRepository $questionRepository,
+        private HelpRepository $helpRepository,
+        private LinkRepository $linkRepository,
+        private AggregatedQuapRepository $quapRepository,
+        private StatisticGroupRepository $statisticGroupRepository,
+        private EntityManagerInterface $em
     ) {
-        $this->questionnaireRepository = $questionnaireRepository;
-        $this->aspectRepository = $aspectRepository;
-        $this->questionRepository = $questionRepository;
-        $this->helpRepository = $helpRepository;
-        $this->linkRepository = $linkRepository;
-        $this->quapRepository = $quapRepository;
-        $this->statisticGroupRepository = $statisticGroupRepository;
-        $this->em = $em;
     }
 
     public function getQuestionnaireByType(string $type, string $locale, string $dateTime): ?Questionnaire
@@ -158,12 +135,12 @@ class QuapService
     /**
      * @return ExtendedAnswersDTO[]
      * @throws Exception
+     * @throws InvalidParentGroupTypeException
      */
-    public function getAnswersForSubDepartments(Group $group, ?DateTimeImmutable $date): array
+    public function getSharedAnswers(Group $group, ?DateTimeImmutable $date): array
     {
-        $ids = $this->getDepartmentIdsFromGroup($group);
-        $dateString = $date instanceof DateTimeImmutable ? $date->format('Y-m-d') : null;
-        $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
+        $ids = $this->getSubordinateGroupIds($group);
+        $quaps = $this->quapRepository->findSharedOfGroups($ids, $date);
 
         return array_map(
             fn(AggregatedQuap $aggregatedQuap): ExtendedAnswersDTO => AnswersMapper::mapExtendedAnswers($aggregatedQuap),
@@ -174,23 +151,20 @@ class QuapService
     /**
      * @return NestedExtendedAnswersDTO[]
      * @throws Exception
+     * @throws InvalidParentGroupTypeException
      */
-    public function getHierarchicalAnswersFromSubDepartments(Group $group, ?DateTimeImmutable $date): array
+    public function getSharedAnswersHierarchy(Group $group, ?DateTimeImmutable $date): array
     {
-        $groupType = $group->getGroupType();
+        $ids = $this->getSubordinateGroupIds($group);
+        $quaps = $this->quapRepository->findSharedOfGroups($ids, $date);
 
-        $ids = $this->getDepartmentIdsFromGroup($group);
-
-        $dateString = $date instanceof DateTimeImmutable ? $date->format('Y-m-d') : null;
-        $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
-
-        if ($groupType->getGroupType() === GroupType::REGION) {
+        if ($group->getGroupType()->getGroupType() === GroupType::REGION) {
             $dtos = array_map(
                 fn(AggregatedQuap $aggregatedQuap): NestedExtendedAnswersDTO => AnswersMapper::mapNestedExtendedAnswers($aggregatedQuap),
                 $quaps
             );
 
-            // group all departments
+            // group all subordinate groups
             return array(new NestedExtendedAnswersDTO(null, $dtos));
         }
 
@@ -231,27 +205,16 @@ class QuapService
 
     /**
      * @return int[]
+     * @throws InvalidParentGroupTypeException
      * @throws Exception
      */
-    private function getDepartmentIdsFromGroup(Group $group): array
+    private function getSubordinateGroupIds(Group $group): array
     {
-        switch ($group->getGroupType()->getGroupType()) {
-            case GroupType::FEDERATION:
-                $children = [GroupType::CANTON, GroupType::REGION];
-                break;
-            case GroupType::CANTON:
-                $children = [GroupType::REGION, GroupType::DEPARTMENT];
-                break;
-            case GroupType::REGION:
-                $children = [GroupType::DEPARTMENT];
-                break;
-            default:
-                throw new Exception("can't get departments of a department");
-        }
+        $subordinateGroupTypes = $this->getSubordinateGroupTypes($group);
 
         return $this->statisticGroupRepository->findAllRelevantChildGroups(
             $group->getId(),
-            $children,
+            $subordinateGroupTypes,
         );
     }
 

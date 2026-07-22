@@ -46,19 +46,6 @@ services:
       healthcheck-dev:
         ipv4_address: 172.20.0.4
 
-  pg-admin:
-    container_name: healthcheck-pgadmin-local
-    image: zhajor/docker-phppgadmin
-    environment:
-      - DB_HOST=healthcheck-postgresql
-      - DB_PORT=5432
-    restart: unless-stopped
-    ports:
-      - "5441:80"
-    networks:
-      healthcheck-dev:
-        ipv4_address: 172.20.0.5
-
   ###> symfony/mailer ###
   mailer:
     image: axllent/mailpit

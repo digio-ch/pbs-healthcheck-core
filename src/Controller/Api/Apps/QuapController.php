@@ -2,10 +2,16 @@
 
 namespace App\Controller\Api\Apps;
 
+use App\DTO\Model\Apps\CsvFile;
+use App\DTO\Model\OptionalDateDTO;
+use App\Service\Apps\Quap\DownloadService;
+use App\Service\Apps\Quap\Exception\InvalidGroupTypeException;
+use App\Service\Apps\Quap\Exception\InvalidParentGroupTypeException;
+use App\Service\Apps\Quap\Exception\InvalidSubordinateGroupTypeException;
+use App\Service\Apps\Quap\Exception\NoDataException;
 use DateTimeImmutable;
 use App\DTO\Mapper\AnswersMapper;
 use App\DTO\Mapper\QuestionnaireMapper;
-use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\OptionalDateRequestData;
 use App\Entity\Gamification\Goal;
 use App\Entity\Midata\Group;
@@ -13,24 +19,31 @@ use App\Entity\Midata\GroupType;
 use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Service\Apps\Quap\QuapService;
-use App\Service\DataProvider\QuapSubdepartmentDateDataProvider;
 use App\Service\Gamification\PersonGamificationService;
 use App\Service\Gamification\QuapGamificationService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
+use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/quap', name: 'quap_')]
 class QuapController extends AbstractController
 {
-    private QuapService $quapService;
-
-    public function __construct(QuapService $quapService, private readonly QuapSubdepartmentDateDataProvider $dataProvider, private readonly QuapGamificationService $quapGamificationService, private readonly PersonGamificationService $personGamificationService)
-    {
-        $this->quapService = $quapService;
+    public function __construct(
+        private readonly QuapService $quapService,
+        private readonly DownloadService $downloadService,
+        private readonly QuapGamificationService $quapGamificationService,
+        private readonly PersonGamificationService $personGamificationService
+    ) {
     }
 
+    #[Route('/preview', name: 'preview', methods: 'GET')]
     public function getPreview(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
@@ -44,27 +57,26 @@ class QuapController extends AbstractController
     }
 
     /**
-     * @throws ApiException
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function getDepartmentPreview(
+    #[Route('/groups/preview', name: 'preview_of_shared', methods: 'GET')]
+    public function getPreviewOfShared(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
         try {
-            $data = $this->quapService->getAnswersForSubDepartments(
-                $group,
-                null
-            );
+            $data = $this->quapService->getSharedAnswers($group, null);
             return $this->json($data);
-        } catch (Exception $exception) {
-            throw new ApiException(400, "Invalid input");
+        } catch (InvalidParentGroupTypeException $_) {
+            throw new ApiException(400, "Only for federations, regions and cantons");
         }
     }
 
     /**
      * @throws Exception
      */
+    #[Route('/questionnaire', name: 'answers', methods: 'GET')]
     public function getAnswers(
         OptionalDateRequestData $dateRequestData
     ): JsonResponse {
@@ -79,29 +91,26 @@ class QuapController extends AbstractController
     }
 
     /**
-     * @param QuapSubdepartmentDateDataProvider $dataProvider
+     * Endpoint is configured in routing_api.yaml because strictly it shouldn't be in this class
+     *
+     * TODO: Refactoring
+     * - Move to it's own class
+     * - Use attribute routing
+     * - Add validation for the type
+     *
+     * @param Request $request
+     * @param string $type
+     * @return JsonResponse
      */
-    public function getDepartmentsOverview(
-        DateRequestData $dateRequestData
-    ): JsonResponse {
-        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $dateRequestData->getGroup());
-
-        $data = $this->dataProvider->getData(
-            $dateRequestData->getGroup(),
-            $dateRequestData->getDate()->format('Y-m-d')
-        );
-
-        return $this->json($data);
-    }
-
     public function getQuestionnaireData(
         Request $request,
         string $type
     ): JsonResponse {
-        $date = $request->query->get('date');
-        $date = $date
-            ? DateTimeImmutable::createFromFormat('Y-m-d', $date)
-            : new DateTimeImmutable('now');
+        $date = DateTimeImmutable::createFromFormat('Y-m-d', $request->query->getString('date'));
+
+        if (!$date) {
+            $date = new DateTimeImmutable('now');
+        }
 
         $questionnaire = $this->quapService->getQuestionnaireByType(
             $type,
@@ -114,6 +123,7 @@ class QuapController extends AbstractController
         return $this->json($questionnaireDTO);
     }
 
+    #[Route('/questionnaire', name: 'submit_answers', methods: 'POST')]
     public function submitAnswers(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -132,6 +142,7 @@ class QuapController extends AbstractController
         return $this->json($newAnswers);
     }
 
+    #[Route('/share', name: 'change_access', methods: 'PATCH')]
     public function setAccess(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
@@ -150,7 +161,8 @@ class QuapController extends AbstractController
     /**
      * @throws ApiException
      */
-    public function getAnswersForSubDepartments(
+    #[Route('/groups', name: 'answers_of_shared', methods: 'GET')]
+    public function getAnswersOfShared(
         #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         Request $request
@@ -167,10 +179,104 @@ class QuapController extends AbstractController
             }
 
 
-            $response = $this->quapService->getHierarchicalAnswersFromSubDepartments($group, $date);
+            $response = $this->quapService->getSharedAnswersHierarchy($group, $date);
             return $this->json($response);
+        } catch (InvalidParentGroupTypeException $_) {
+            throw new ApiException(400, "Only for federations, regions and cantons");
         } catch (Exception $exception) {
             throw new ApiException(400, "Invalid input");
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route('/download', name: 'download', methods: 'GET')]
+    public function download(
+        #[MapEntity(mapping: ['groupId' => 'id'])] Group $group,
+        #[MapQueryString] OptionalDateDTO $query,
+    ): Response {
+        $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
+
+        try {
+            $file = $this->downloadService->download($group, $query->getDate());
+        } catch (Exception $e) {
+            throw $this->toApiException($e);
+        }
+
+        return $this->streamCsvFile($file);
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route('/groups/{subordinateGroupId}/download', name: 'download_shared', methods: 'GET')]
+    public function downloadShared(
+        #[MapEntity(mapping: ['groupId' => 'id'])] Group $group,
+        #[MapEntity(mapping: ['subordinateGroupId' => 'id'])] Group $subordinateGroup,
+        #[MapQueryString] OptionalDateDTO $query,
+    ): Response {
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
+
+        try {
+            $file = $this->downloadService->downloadShared($group, $subordinateGroup, $query->getDate());
+        } catch (Exception $e) {
+            throw $this->toApiException($e);
+        }
+
+        return $this->streamCsvFile($file);
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route('/groups/download', name: 'download_all_shared', methods: 'GET')]
+    public function downloadAllShared(
+        #[MapEntity(mapping: ['groupId' => 'id'])] Group $group,
+        #[MapQueryString] OptionalDateDTO $query,
+    ): Response {
+        $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
+
+        try {
+            $file = $this->downloadService->downloadAllShared($group, $query->getDate());
+        } catch (Exception $e) {
+            throw $this->toApiException($e);
+        }
+
+        return $this->streamCsvFile($file);
+    }
+
+    private function streamCsvFile(CsvFile $file): StreamedResponse
+    {
+        return new StreamedResponse(
+            callbackOrChunks: function () use ($file) {
+                $stream = fopen('php://output', 'w');
+
+                foreach ($file->getRows() as $row) {
+                    fputcsv($stream, $row, ";");
+                }
+
+                fclose($stream);
+            },
+            headers: [
+                "Content-Type" => "text/csv",
+                "Content-Disposition" => HeaderUtils::makeDisposition(
+                    disposition: HeaderUtils::DISPOSITION_ATTACHMENT,
+                    filename: $file->getName(),
+                    filenameFallback: $file->getFallbackName(),
+                )
+            ],
+        );
+    }
+
+    private function toApiException(Exception $e): Exception
+    {
+        return match (true) {
+            $e instanceof InvalidGroupTypeException => new ApiException(400, "Only for departments, regions and cantons", $e),
+            $e instanceof InvalidParentGroupTypeException => new ApiException(400, "Only for federations, cantons and regions", $e),
+            $e instanceof InvalidSubordinateGroupTypeException,
+            $e instanceof NoDataException => new ApiException(404, "No data found for the given group or date", $e),
+            default => $e,
+        };
     }
 }
