@@ -3,8 +3,8 @@
 namespace App\Repository\Aggregated;
 
 use App\Entity\Aggregated\AggregatedDemographicEnteredLeft;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -12,7 +12,6 @@ class AggregatedDemographicEnteredLeftRepository extends AggregatedEntityReposit
 {
     /**
      * AggregatedDemographicEnteredLeftRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -20,16 +19,12 @@ class AggregatedDemographicEnteredLeftRepository extends AggregatedEntityReposit
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     * @param int $mainGroupId
-     * @param string $groupType
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
-    public function findNewExitMembersCount(string $from, string $to, int $mainGroupId, string $groupType)
+    public function findNewExitMembersCount(string $from, string $to, int $mainGroupId, string $groupType): array
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT data_point_date, (SUM(new_count_m) + SUM(new_count_f)) as new_sum, (SUM(exit_count_m) + SUM(exit_count_f)) as exit_sum
                   FROM hc_aggregated_demographic_entered_left
@@ -44,16 +39,12 @@ class AggregatedDemographicEnteredLeftRepository extends AggregatedEntityReposit
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     * @param int $mainGroupId
-     * @param array $groupTypes
      * @return array|mixed[]
-     * @throws DBALException
+     * @throws Exception
      */
-    public function findNewExitLeadersCount(string $from, string $to, int $mainGroupId, array $groupTypes)
+    public function findNewExitLeadersCount(string $from, string $to, int $mainGroupId, array $groupTypes): array
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT data_point_date, (SUM(new_count_leader_m) + SUM(new_count_leader_f)) as new_sum, (SUM(exit_count_leader_m) + SUM(exit_count_leader_f)) as exit_sum
                   FROM hc_aggregated_demographic_entered_left
@@ -62,7 +53,7 @@ class AggregatedDemographicEnteredLeftRepository extends AggregatedEntityReposit
                         hc_aggregated_demographic_entered_left.group_type IN (?)
                   GROUP BY data_point_date ORDER BY data_point_date ASC;",
             [$from, $to, $mainGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
+            [ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER, ArrayParameterType::STRING]
         );
         return $statement->fetchAllAssociative();
     }

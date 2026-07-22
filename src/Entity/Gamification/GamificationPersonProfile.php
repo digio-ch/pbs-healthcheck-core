@@ -2,84 +2,57 @@
 
 namespace App\Entity\Gamification;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\Person;
 use App\Repository\Gamification\GamificationPersonProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_gamification_person_profile")
- * @ORM\Entity(repositoryClass=GamificationPersonProfileRepository::class)
- */
+#[ORM\Table(name: 'hc_gamification_person_profile')]
+#[ORM\Entity(repositoryClass: GamificationPersonProfileRepository::class)]
 class GamificationPersonProfile
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Person::class, inversedBy="gamification")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $person;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(targetEntity: Person::class, inversedBy: 'gamification')]
+    private ?Person $person = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Level::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $level;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Level::class)]
+    private ?Level $level = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $has_used_card_layer;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $has_used_card_layer = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $has_used_datafilter;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $has_used_datafilter = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $has_used_timefilter;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $has_used_timefilter = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $has_shared_el;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $has_shared_el = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $access_granted_count;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $access_granted_count = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $el_filled_out;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $el_filled_out = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $el_revised;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $el_revised = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $el_irrelevant;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $el_irrelevant = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $el_improved;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $el_improved = null;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    private $beta_status;
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private ?bool $beta_status = null;
 
 
     public function getId(): ?int

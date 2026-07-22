@@ -1,48 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\FilterRequestData;
 
 use DateTime;
 
 class DateRangeRequestData extends FilterRequestData
 {
-    /**
-     * @var DateTime
-     */
-    private $from;
+    private DateTime $from;
 
-    /**
-     * @var DateTime
-     */
-    private $to;
+    private DateTime $to;
 
-    /**
-     * @return DateTime
-     */
     public function getFrom(): DateTime
     {
         return $this->from;
     }
 
-    /**
-     * @param DateTime $from
-     */
     public function setFrom(DateTime $from): void
     {
         $this->from = $from;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getTo(): DateTime
     {
         return $this->to;
     }
 
-    /**
-     * @param DateTime $to
-     */
     public function setTo(DateTime $to): void
     {
         $this->to = $to;

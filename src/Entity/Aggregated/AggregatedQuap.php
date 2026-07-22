@@ -2,6 +2,8 @@
 
 namespace App\Entity\Aggregated;
 
+use App\Entity\Types\JsonObjectType;
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Quap\Questionnaire;
 use App\Repository\Aggregated\AggregatedQuapRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,9 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class AggregatedQuap
  * @package App\Entity
- * @ORM\Entity(repositoryClass=AggregatedQuapRepository::class)
- * @ORM\Table(name = "hc_aggregated_quap")
  */
+#[ORM\Table(name: 'hc_aggregated_quap')]
+#[ORM\Entity(repositoryClass: AggregatedQuapRepository::class)]
 class AggregatedQuap extends AggregatedEntity
 {
     public const NO_ANSWER = 0;
@@ -21,45 +23,27 @@ class AggregatedQuap extends AggregatedEntity
     public const ANSWER_MOSTLY_FULFILLED = 2;
     public const ANSWER_FULFILLED = 1;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Questionnaire::class, inversedBy = "widgetQuap")
-     * @ORM\JoinColumn(nullable=false)
-     * @var Questionnaire $questionnaire
-     */
-    private $questionnaire;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Questionnaire::class, inversedBy: 'widgetQuap')]
+    private ?Questionnaire $questionnaire = null;
 
-    /**
-     * @ORM\Column(type="json_object")
-     */
+    #[ORM\Column(type: JsonObjectType::NAME)]
     private $answers;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: Types::JSON)]
     private $computedAnswers;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     protected $dataPointDate;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     * @var bool $allowAccess
-     */
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private bool $allowAccess = false;
 
-    /**
-     * @return Questionnaire
-     */
     public function getQuestionnaire(): Questionnaire
     {
         return $this->questionnaire;
     }
 
-    /**
-     * @param Questionnaire $questionnaire
-     */
     public function setQuestionnaire(Questionnaire $questionnaire): void
     {
         $this->questionnaire = $questionnaire;
@@ -97,17 +81,11 @@ class AggregatedQuap extends AggregatedEntity
         $this->computedAnswers = $computedAnswers;
     }
 
-    /**
-     * @return bool
-     */
     public function getAllowAccess(): bool
     {
         return $this->allowAccess;
     }
 
-    /**
-     * @param bool $allowAccess
-     */
     public function setAllowAccess(bool $allowAccess): void
     {
         $this->allowAccess = $allowAccess;

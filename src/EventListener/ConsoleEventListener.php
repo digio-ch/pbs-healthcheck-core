@@ -3,36 +3,34 @@
 namespace App\EventListener;
 
 use App\Command\StatisticsCommand;
-use App\Model\CommandStatistics;
 use App\Model\LogMessage\StatisticsCommandMessage;
-use App\Service\Logger\GelfLogger;
+use App\Service\Logger\AppLogger;
 use App\Service\Logger\Messages\CommandStartLogMessage;
 use App\Service\Logger\Messages\ExceptionLogMessage;
+use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class ConsoleEventListener
 {
-    /** @var GelfLogger */
-    private $logger;
+    private AppLogger $logger;
 
-    /** @var Stopwatch */
-    private $stopwatch;
+    private Stopwatch $stopwatch;
 
     /**
      * ConsoleEventListener constructor.
-     * @param GelfLogger $logger
-     * @param Stopwatch $stopwatch
      */
-    public function __construct(GelfLogger $logger, Stopwatch $stopwatch)
+    public function __construct(AppLogger $logger, Stopwatch $stopwatch)
     {
         $this->logger = $logger;
         $this->stopwatch = $stopwatch;
     }
 
-    public function onConsoleCommand(ConsoleCommandEvent $event)
+    #[AsEventListener(event: ConsoleEvents::COMMAND)]
+    public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
         $logMessage = new CommandStartLogMessage(
             $event->getCommand()->getName(),
@@ -42,7 +40,8 @@ class ConsoleEventListener
         $this->stopwatch->start($event->getCommand()->getName());
     }
 
-    public function onConsoleTerminate(ConsoleTerminateEvent $event)
+    #[AsEventListener(event: ConsoleEvents::TERMINATE)]
+    public function onConsoleTerminate(ConsoleTerminateEvent $event): void
     {
         $stopwatchEvent = $this->stopwatch->stop($event->getCommand()->getName());
 
@@ -50,7 +49,6 @@ class ConsoleEventListener
             return;
         }
 
-        /** @var CommandStatistics $commandStats */
         $commandStats = $event->getCommand()->getStats();
         $commandStats->setPeakMemoryUsage(round($stopwatchEvent->getMemory() / 1000000, 2));
 
@@ -64,7 +62,8 @@ class ConsoleEventListener
         $this->logger->info($logMessage);
     }
 
-    public function onConsoleError(ConsoleErrorEvent $event)
+    #[AsEventListener(event: ConsoleEvents::ERROR)]
+    public function onConsoleError(ConsoleErrorEvent $event): void
     {
         $this->stopwatch->stop($event->getCommand()->getName());
         $this->stopwatch->reset();

@@ -2,119 +2,78 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Midata\CampStateRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_camp_state")
- * @ORM\Entity(repositoryClass=CampStateRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_camp_state')]
+#[ORM\Entity(repositoryClass: CampStateRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class CampState
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $state;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $state = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $deLabel;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $deLabel = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $itLabel;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $itLabel = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $frLabel;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $frLabel = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @param null|string $state
-     */
-    public function setState(?string $state)
+    public function setState(?string $state): void
     {
         $this->state = $state;
     }
 
-    /**
-     * @return null|string
-     */
     public function getDeLabel(): ?string
     {
         return $this->deLabel;
     }
 
-    /**
-     * @param null|string $label
-     */
-    public function setDeLabel(?string $label)
+    public function setDeLabel(?string $label): void
     {
         $this->deLabel = $label;
     }
 
-    /**
-     * @return null|string
-     */
     public function getItLabel(): ?string
     {
         return $this->itLabel;
     }
 
-    /**
-     * @param null|string $label
-     */
-    public function setItLabel(?string $label)
+    public function setItLabel(?string $label): void
     {
         $this->itLabel = $label;
     }
 
-    /**
-     * @return null|string
-     */
     public function getFrLabel(): ?string
     {
         return $this->frLabel;
     }
 
-    /**
-     * @param null|string $label
-     */
-    public function setFrLabel(?string $label)
+    public function setFrLabel(?string $label): void
     {
         $this->frLabel = $label;
     }

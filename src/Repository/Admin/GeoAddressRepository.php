@@ -2,6 +2,9 @@
 
 namespace App\Repository\Admin;
 
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\Mapping\MappingException;
 use App\Entity\Admin\GeoAddress;
 use App\Repository\Aggregated\AggregatedEntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
@@ -11,7 +14,6 @@ class GeoAddressRepository extends AggregatedEntityRepository
 {
     /**
      * GeoAddressRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -19,14 +21,9 @@ class GeoAddressRepository extends AggregatedEntityRepository
     }
 
     /**
-     * @param int $zip
-     * @param string $town
-     * @param string $street
-     * @param string $house
-     * @return GeoAddress|null
-     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Exception
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findIdByAddress(int $zip, string $town, string $street, string $house): ?GeoAddress
     {
@@ -55,7 +52,7 @@ class GeoAddressRepository extends AggregatedEntityRepository
     }
 
     /**
-     * @throws \Doctrine\Persistence\Mapping\MappingException|\Doctrine\DBAL\Exception
+     * @throws MappingException|\Doctrine\DBAL\Exception
      */
     public function wipe(): void
     {

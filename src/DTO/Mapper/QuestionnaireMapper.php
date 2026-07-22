@@ -2,6 +2,7 @@
 
 namespace App\DTO\Mapper;
 
+use Doctrine\Common\Collections\Collection;
 use App\DTO\Model\Apps\Quap\QuestionnaireDTO;
 use App\Entity\Quap\Questionnaire;
 
@@ -14,7 +15,7 @@ class QuestionnaireMapper
         $questionnaireDTO->setId($questionnaire->getId());
         $questionnaireDTO->setType($questionnaire->getType());
 
-        if ($questionnaire->getAspects()) {
+        if ($questionnaire->getAspects() instanceof Collection) {
             foreach ($questionnaire->getAspects() as $aspect) {
                 $questionnaireDTO->addAspect(AspectMapper::createAspectFromEntity($aspect, $locale));
             }

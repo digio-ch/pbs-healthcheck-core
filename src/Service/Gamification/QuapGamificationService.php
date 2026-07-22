@@ -22,11 +22,8 @@ class QuapGamificationService
 
     /**
      * processQuapEvent evaluates the changes made to the questionnaire and updates the gamification goal process.
-     * @param array $newAnswers
-     * @param Group $group
-     * @param PbsUserDTO $pbsUserDTO
      */
-    public function processQuapEvent(array $newAnswers, Group $group, PbsUserDTO $pbsUserDTO)
+    public function processQuapEvent(array $newAnswers, Group $group, PbsUserDTO $pbsUserDTO): void
     {
         // we can assume that there already exists an aggregatedQuap because the aggregator creates one every day
         $aggregatedQuap = $this->aggregatedQuapRepository->findCurrentForGroup($group->getId());
@@ -110,7 +107,6 @@ class QuapGamificationService
      * Returns true if all the questions are NO_ANSWER
      *
      * @param int[] $aspect
-     * @return bool
      */
     private function isAspectUnanswered(array $aspect): bool
     {

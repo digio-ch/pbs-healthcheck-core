@@ -1,56 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Apps\Quap;
 
 class QuestionnaireDTO
 {
-    /**
-     * @var int $id
-     */
-    private $id;
+    private int $id = 0;
 
-    /**
-     * @var string $type
-     */
-    private $type;
+    private string $type;
 
     /**
      * @var AspectDTO[] $aspects
      */
-    private $aspects;
+    private array $aspects = [];
 
-    public function __construct()
-    {
-        $this->aspects = [];
-    }
-
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     */
     public function setType(string $type): void
     {
         $this->type = $type;
@@ -74,6 +53,6 @@ class QuestionnaireDTO
 
     public function addAspect(AspectDTO $aspect): void
     {
-        array_push($this->aspects, $aspect);
+        $this->aspects[] = $aspect;
     }
 }

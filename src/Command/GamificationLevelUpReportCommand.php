@@ -2,12 +2,14 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Model\CommandStatistics;
 use App\Repository\Gamification\LevelUpLogRepository;
 use App\Service\MailService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: "app:send-levelup-report")]
 class GamificationLevelUpReportCommand extends StatisticsCommand
 {
     private LevelUpLogRepository $levelUpLogRepository;
@@ -23,12 +25,6 @@ class GamificationLevelUpReportCommand extends StatisticsCommand
         parent::__construct();
         $this->levelUpLogRepository = $levelUpLogRepository;
         $this->mailService = $mailService;
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName("app:send-levelup-report");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

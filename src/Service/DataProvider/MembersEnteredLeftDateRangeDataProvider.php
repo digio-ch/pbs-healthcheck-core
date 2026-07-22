@@ -9,22 +9,15 @@ use App\Repository\Aggregated\AggregatedDemographicEnteredLeftRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use DateTime;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
 {
-    /**
-     * @var AggregatedDemographicEnteredLeftRepository
-     */
-    protected $widgetDemographicEnteredLeftRepository;
+    protected AggregatedDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository;
 
     /**
      * MembersEnteredLeftDateRangeDataProvider constructor.
-     * @param GroupRepository $groupRepository
-     * @param GroupTypeRepository $groupTypeRepository
-     * @param TranslatorInterface $translator
-     * @param AggregatedDemographicEnteredLeftRepository $widgetDemographicEnteredLeftRepository
      */
     public function __construct(
         GroupRepository $groupRepository,
@@ -41,16 +34,7 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
         );
     }
 
-    /**
-     * @param Group $group
-     * @param string $from
-     * @param string $to
-     * @param array $subGroupTypes
-     * @param array $peopleTypes
-     * @return array
-     * @throws DBALException
-     */
-    public function getData(Group $group, string $from, string $to, array $subGroupTypes, array $peopleTypes)
+    public function getData(Group $group, string $from, string $to, array $subGroupTypes, array $peopleTypes): array
     {
         $result = $data = [];
         $leadersOnly = false;
@@ -78,7 +62,7 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
             $leadersOnly = true;
         }
 
-        if (!$data) {
+        if ($data === []) {
             return $result;
         }
 
@@ -109,12 +93,7 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     * @param int $parentGroupId
-     * @param array $subGroupTypes
-     * @return array
-     * @throws DBALException
+     * @throws Exception
      */
     private function prepareMembersData(string $from, string $to, int $parentGroupId, array $subGroupTypes): array
     {
@@ -133,14 +112,9 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     * @param int $parentGroupId
-     * @param array $subGroupTypes
-     * @return array
-     * @throws DBALException
+     * @throws Exception
      */
-    private function prepareLeadersData(string $from, string $to, int $parentGroupId, array $subGroupTypes)
+    private function prepareLeadersData(string $from, string $to, int $parentGroupId, array $subGroupTypes): array
     {
         $data = [];
 
@@ -157,14 +131,9 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     * @param int $parentGroupId
-     * @param array $subGroupTypes
-     * @return array
-     * @throws DBALException
+     * @throws Exception
      */
-    private function prepareAdditionalLeadersData(string $from, string $to, int $parentGroupId, array $subGroupTypes)
+    private function prepareAdditionalLeadersData(string $from, string $to, int $parentGroupId, array $subGroupTypes): array
     {
         $data = $this->widgetDemographicEnteredLeftRepository->findNewExitLeadersCount(
             $from,
@@ -197,14 +166,13 @@ class MembersEnteredLeftDateRangeDataProvider extends WidgetDataProvider
      *          "group_type (-)" => -X
      *      ], ...
      *  ]
-     * @param array $data
-     * @return array
+     * @param mixed[][]|array<string, mixed[]> $data
      */
     private function transformQueryResultData(array $data): array
     {
         $result = [];
 
-        if (!$data) {
+        if ($data === []) {
             return $result;
         }
 

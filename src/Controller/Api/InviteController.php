@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use Exception;
 use App\DTO\Model\InviteDTO;
 use App\DTO\Model\PbsUserDTO;
 use App\Entity\Gamification\Goal;
@@ -12,7 +13,7 @@ use App\Entity\Security\PermissionType;
 use App\Exception\ApiException;
 use App\Service\Gamification\PersonGamificationService;
 use App\Service\PermissionService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,68 +25,50 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class InviteController extends AbstractController
 {
-    /**
-     * @var PermissionService
-     */
-    private $inviteService;
+    private PermissionService $inviteService;
 
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private TranslatorInterface $translator;
 
     /**
      * InviteController constructor.
-     * @param PermissionService $inviteService
-     * @param TranslatorInterface $translator
      */
-    public function __construct(PermissionService $inviteService, TranslatorInterface $translator)
+    public function __construct(PermissionService $inviteService, TranslatorInterface $translator, private readonly SerializerInterface $serializer, private readonly ValidatorInterface $validator, private readonly PersonGamificationService $personGamificationService)
     {
         $this->inviteService = $inviteService;
         $this->translator = $translator;
     }
 
     /**
-     * @param Request $request
-     * @param Group $group
      * @param SerializerInterface $serializer
      * @param ValidatorInterface $validator
-     * @return JsonResponse
-     * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
      */
     public function createInvite(
         Request $request,
-        Group $group,
-        SerializerInterface $serializer,
-        ValidatorInterface $validator,
-        PersonGamificationService $personGamificationService
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
-
         try {
             /** @var InviteDTO $inviteDTO */
-            $inviteDTO = $serializer->deserialize($request->getContent(), InviteDTO::class, 'json', [
+            $inviteDTO = $this->serializer->deserialize($request->getContent(), InviteDTO::class, 'json', [
                 AbstractNormalizer::IGNORED_ATTRIBUTES => ['id', 'group', 'expirationDate']
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw new ApiException(
                 Response::HTTP_NOT_ACCEPTABLE,
                 $this->translator->trans('api.error.invalidRequest')
             );
         }
-
-        $errors = $validator->validate($inviteDTO);
+        $errors = $this->validator->validate($inviteDTO);
         if (count($errors) > 0) {
             throw new ApiException(
                 Response::HTTP_UNPROCESSABLE_ENTITY,
                 $this->translator->trans('api.error.invalidEntries')
             );
         }
-
         if ($inviteDTO->getPermissionType() === PermissionType::OWNER) {
             throw new ApiException(Response::HTTP_FORBIDDEN, 'You may not add group Owners.');
         }
-
         // invited persons should not receive the editor plus role if they are in a department, since they do not get any benefits of it.
         if (
             $inviteDTO->getPermissionType() === PermissionType::EDITOR_PLUS
@@ -96,61 +79,44 @@ class InviteController extends AbstractController
                 $this->translator->trans('api.error.invalidRequest')
             );
         }
-
         if ($this->inviteService->inviteExists($group, $inviteDTO->getEmail())) {
             $invite = $this->translator->trans('api.entity.invite');
             $message = $this->translator->trans('api.error.exists', ['entityName' => $invite]);
             throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
         }
-
         /** @var PbsUserDTO $user */
         $user = $this->getUser();
-
         $createdInviteDTO = $this->inviteService->createInvite($group, $user, $inviteDTO);
-        $personGamificationService->genericGoalProgress($user, Goal::TYPE_SHARE_ONE);
-
+        $this->personGamificationService->genericGoalProgress($user, Goal::TYPE_SHARE_ONE);
         return $this->json($createdInviteDTO, Response::HTTP_CREATED);
     }
 
-    /**
-     * @param Group $group
-     * @return JsonResponse
-     * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
-     */
-    public function getInvites(Group $group): JsonResponse
-    {
+    public function getInvites(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
-
         return $this->json($this->inviteService->getAllInvites($group));
     }
 
-    /**
-     * @param Group $group
-     * @param Permission $permission
-     * @return JsonResponse
-     * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
-     * @ParamConverter(name="permission", options={"mapping":{"inviteId":"id"}})
-     */
-    public function renewInvite(Group $group, Permission $permission): JsonResponse
-    {
+    public function renewInvite(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group,
+        #[MapEntity(mapping: ['inviteId' => 'id'])]
+        Permission $permission
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
-
         $result = $this->inviteService->renewInvite($group, $this->getUser(), $permission);
-
         return $this->json($result, Response::HTTP_OK);
     }
 
-    /**
-     * @param Group $group
-     * @param Permission $invite
-     * @return JsonResponse
-     * @ParamConverter(name="group", options={"mapping":{"groupId":"id"}})
-     * @ParamConverter(name="invite", options={"mapping":{"inviteId":"id"}})
-     */
-    public function deleteInvite(Group $group, Permission $invite): JsonResponse
-    {
+    public function deleteInvite(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group,
+        #[MapEntity(mapping: ['inviteId' => 'id'])]
+        Permission $invite
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
-
         $this->inviteService->deleteInvite($invite, $group);
         $action = $this->translator->trans('api.action.deleted');
         $entity = $this->translator->trans('api.entity.invite');

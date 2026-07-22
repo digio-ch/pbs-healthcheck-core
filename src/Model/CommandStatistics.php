@@ -1,24 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
 class CommandStatistics
 {
-    /** @var float */
-    private $duration;
-    /** @var int */
-    private $items;
-    /** @var string */
-    private $details;
-    /** @var int */
-    private $peakMemoryUsage;
+    private float $duration;
+    private int $items;
+    private string $details;
+    private int $peakMemoryUsage;
 
     /**
      * CommandStatistics constructor.
-     * @param float $duration
-     * @param int $items
-     * @param string $details
-     * @param int $peakMemoryUsage
      */
     public function __construct(float $duration, string $details, int $items = 0, int $peakMemoryUsage = 0)
     {
@@ -28,65 +22,41 @@ class CommandStatistics
         $this->peakMemoryUsage = $peakMemoryUsage;
     }
 
-    /**
-     * @return float
-     */
     public function getDuration(): float
     {
         return $this->duration;
     }
 
-    /**
-     * @param float $duration
-     */
     public function setDuration(float $duration): void
     {
         $this->duration = $duration;
     }
 
-    /**
-     * @return int
-     */
     public function getItems(): int
     {
         return $this->items;
     }
 
-    /**
-     * @param int $items
-     */
     public function setItems(int $items): void
     {
         $this->items = $items;
     }
 
-    /**
-     * @return string
-     */
-    public function getDetails()
+    public function getDetails(): string
     {
         return $this->details;
     }
 
-    /**
-     * @param string $details
-     */
-    public function setDetails($details): void
+    public function setDetails(string $details): void
     {
         $this->details = $details;
     }
 
-    /**
-     * @return int
-     */
     public function getPeakMemoryUsage(): int
     {
         return $this->peakMemoryUsage;
     }
 
-    /**
-     * @param int $peakMemoryUsage
-     */
     public function setPeakMemoryUsage(int $peakMemoryUsage): void
     {
         $this->peakMemoryUsage = $peakMemoryUsage;

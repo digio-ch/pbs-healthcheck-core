@@ -7,6 +7,10 @@ parameters:
     api_prefix: "/api/v1"
     api_regex: "^/api/v1"
 
+    # logging
+    default_log_level: info
+    default_log_format: json
+
     # pbs
     import_data_dir: '%kernel.project_dir%/%env(IMPORT_TARGET_DIR)%'
     test_data_dir: '%kernel.project_dir%/tests/data'
@@ -36,57 +40,40 @@ services:
     # please note that last definitions always *replace* previous ones
 
 
-    # Logger
-    App\Service\Logger\Handlers\TcpTransportHandler:
-        arguments:
-            $host: '%env(GRAYLOG_HOST)%' # host of the graylog server to connect to
-            $port: '%env(GRAYLOG_PORT)%' # port of the input of the graylog server
-            $clientCert: '%env(GRAYLOG_CLIENT_CERT)%' # path to the certificate of this client
-            $clientKey: '%env(GRAYLOG_CLIENT_KEY)%' # path of the private key of this client
-            $ignoreError: true # whether errors in the logging library should be ignored or not
+    # Logging
+    App\Service\Logger\AppLogger: ~
 
-    App\Service\Logger\Handlers\ConsoleLoggerHandler:
-        arguments:
-            $level: '%env(LOG_LEVEL)%'
+    App\Service\Logger\Formatter:
+      arguments:
+        $logFormat: '%env(default:default_log_format:LOG_FORMAT)%'
 
-    App\Service\Logger\GelfLogger:
-        arguments:
-            $handlers:
-              - '@App\Service\Logger\Handlers\TcpTransportHandler'
-              - '@App\Service\Logger\Handlers\ConsoleLoggerHandler'
-            $source: '%env(APP_HOST)%' # the name of the application (to filter the streams on graylog e.g. dev-api.flow.swiss)
-            $environment: '%kernel.environment%' # the kernel environment of the application
+    Monolog\Processor\IntrospectionProcessor: ~
+    Monolog\Processor\UidProcessor: ~
 
+    App\Service\Logger\RedactorProcessor:
+      tags:
+        - { name: monolog.processor }
+
+    App\Service\Logger\AppProcessor:
+      arguments:
+        $source: '%env(APP_HOST)%' # the name of the application (to filter the streams on e.g. dev-api.flow.swiss)
+        $environment: '%kernel.environment%' # the kernel environment of the application
+      tags:
+        - { name: monolog.processor }
 
     App\Service\Sentry:
         arguments:
             $sentryDSN: '%env(SENTRY_DSN)%'
 
   # Listeners
-    App\EventListener\ConsoleEventListener:
-        tags:
-            - { name: kernel.event_listener, event: console.command }
-            - { name: kernel.event_listener, event: console.terminate }
-            - { name: kernel.event_listener, event: console.error }
+    App\EventListener\WidgetControllerListener: ~
+    App\EventListener\ExceptionListener: ~
+    App\EventListener\LocaleListener: ~
 
-    App\EventListener\RequestListener:
+    App\EventListener\IpRestrictionRequestListener:
         arguments:
             $environment: '%kernel.environment%'
             $projectDir: '%kernel.project_dir%'
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }
-
-    App\EventListener\WidgetControllerListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller }
-
-    App\EventListener\ExceptionListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
-
-    App\EventListener\LocaleListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 1024 }
 
     # PBS Services
     App\Service\Pbs\PbsApiService:

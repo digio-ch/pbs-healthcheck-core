@@ -2,22 +2,22 @@
 
 namespace App\Service\Apps\Quap;
 
+use DateTime;
+use DateInterval;
 use App\Entity\Midata\Group;
 use App\Entity\Midata\GroupType;
 use App\Entity\Midata\QualificationType;
 use App\Entity\Midata\Role;
 use App\Entity\Quap\Question;
 use App\Repository\Midata\GroupRepository;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 
 class QuapComputeAnswersService
 {
-    /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
-    /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
     public function __construct(
@@ -184,6 +184,10 @@ class QuapComputeAnswersService
         );
     }
 
+    /**
+     * @param string[] $leaderRoles
+     * @param int[] $qualificationIds
+     */
     private function hasPercentage(array $groupIds, array $leaderRoles, array $qualificationIds): int
     {
         $result = $this->em->getConnection()->executeQuery(
@@ -215,17 +219,22 @@ class QuapComputeAnswersService
                 $qualificationIds
             ],
             [
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER
             ]
         )->fetchOne();
 
         return $result ? Question::ANSWER_FULLY_APPLIES : Question::ANSWER_DONT_APPLIES;
     }
 
+    /**
+     * @param string[] $leaderRoles
+     * @param int[] $mainQualificationIds
+     * @param int[] $additionalQualificationIds
+     */
     private function hasPercentageComplex(
         array $groupIds,
         array $leaderRoles,
@@ -274,14 +283,14 @@ class QuapComputeAnswersService
                 $additionalQualificationIds
             ],
             [
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER
             ]
         )->fetchOne();
 
@@ -318,10 +327,10 @@ class QuapComputeAnswersService
                 QualificationType::JS_LAGERLEITER,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
                 ParameterType::INTEGER,
             ]
         )->fetchOne();
@@ -370,13 +379,13 @@ class QuapComputeAnswersService
                 QualificationType::ABSOLVENT_PANORAMAKURS,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
                 ParameterType::INTEGER,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
                 ParameterType::INTEGER,
             ]
         )->fetchOne();
@@ -418,9 +427,9 @@ class QuapComputeAnswersService
                 Role::PARENTS_COUNCIL_PRESIDENT,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
             ]
         )->fetchOne();
@@ -435,14 +444,14 @@ class QuapComputeAnswersService
         // 05. 05. 2021 // example start date
         // 06. 05. 2006 // 14 yo, 15 tomorrow // today - 15y + 1d
         // 05. 05. 2008 // 13 yo, 13 today    // today - 13y
-        $now = new \DateTime('now');
+        $now = new DateTime('now');
 
-        $minDuration = new \DateInterval('P15Y');
+        $minDuration = new DateInterval('P15Y');
         $minDuration->invert = 1;
-        $oneDay = new \DateInterval('P1D');
+        $oneDay = new DateInterval('P1D');
         $minDate = $now->add($minDuration)->add($oneDay);
 
-        $maxDuration = new \DateInterval('P13Y');
+        $maxDuration = new DateInterval('P13Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 
@@ -473,9 +482,9 @@ class QuapComputeAnswersService
                 $maxDate->format('Y-m-d'),
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
                 ParameterType::STRING,
                 ParameterType::STRING,
@@ -539,7 +548,7 @@ class QuapComputeAnswersService
                 $groupType,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
             ]
         )->fetchOne();
@@ -583,11 +592,11 @@ class QuapComputeAnswersService
                 GroupType::ROVER,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::INTEGER,
             ]
         )->fetchOne();
@@ -599,9 +608,9 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        $now = new \DateTime('now');
+        $now = new DateTime('now');
 
-        $maxDuration = new \DateInterval('P17Y');
+        $maxDuration = new DateInterval('P17Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 
@@ -615,9 +624,9 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        $now = new \DateTime('now');
+        $now = new DateTime('now');
 
-        $maxDuration = new \DateInterval('P19Y');
+        $maxDuration = new DateInterval('P19Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 
@@ -628,15 +637,18 @@ class QuapComputeAnswersService
     {
         $groupIds = $this->getGroupIds($group);
 
-        $now = new \DateTime('now');
+        $now = new DateTime('now');
 
-        $maxDuration = new \DateInterval('P20Y');
+        $maxDuration = new DateInterval('P20Y');
         $maxDuration->invert = 1;
         $maxDate = $now->add($maxDuration);
 
         return $this->leaderAge($groupIds, Role::LEADER_ROLES_BIBER, $maxDate->format('Y-m-d'));
     }
 
+    /**
+     * @param string[] $leaderRoles
+     */
     private function leaderAge(array $groupIds, array $leaderRoles, string $date): int
     {
         $result = $this->em->getConnection()->executeQuery(
@@ -657,8 +669,8 @@ class QuapComputeAnswersService
             ],
             [
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
             ]
         )->fetchOne();
 
@@ -730,17 +742,17 @@ class QuapComputeAnswersService
                 Role::DEPARTMENT_LEADER_PTA,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
             ]
         )->fetchOne();
@@ -806,12 +818,6 @@ class QuapComputeAnswersService
         return $this->hasNumRole($groupIds, Role::REGIONAL_LEADER, 2);
     }
 
-    private function hasRoleWrapper(Group $group, string $role): int
-    {
-        $groupIds = $this->getGroupIds($group);
-        return $this->hasRole($groupIds, $role);
-    }
-
     private function hasAnyRole(Group $group, string $cantonalRole, string $regionalRole): int
     {
         $groupIds = $this->getGroupIds($group);
@@ -836,7 +842,7 @@ class QuapComputeAnswersService
                 $role,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
             ]
         )->fetchOne();
@@ -859,7 +865,7 @@ class QuapComputeAnswersService
                 $role,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
             ]
         )->fetchOne();
@@ -894,10 +900,10 @@ class QuapComputeAnswersService
                 Role::LEADER_ROLES,
             ],
             [
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ParameterType::STRING,
-                Connection::PARAM_INT_ARRAY,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::INTEGER,
+                ArrayParameterType::STRING,
             ]
         )->fetchOne();
 

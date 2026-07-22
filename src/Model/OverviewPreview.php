@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
 use App\Entity\Midata\Group;
 
 class OverviewPreview
 {
-    /**
-     * @var Group $group
-     */
     private Group $group;
     /**
      * @var array<string, int> $groupTypes
@@ -16,7 +15,6 @@ class OverviewPreview
     private array $groupTypes;
 
     /**
-     * @param Group $group
      * @param array<string, int> $groupTypes
      */
     public function __construct(Group $group, array $groupTypes = [])
@@ -35,6 +33,9 @@ class OverviewPreview
         $this->group = $group;
     }
 
+    /**
+     * @return array<string, int>
+     */
     public function getGroupTypes(): array
     {
         return $this->groupTypes;

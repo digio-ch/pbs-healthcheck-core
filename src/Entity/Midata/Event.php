@@ -2,48 +2,36 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="midata_event", indexes={
- *     @ORM\Index(columns={"name"})
- * })
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"course" = "Course", "camp" = "Camp"})
- */
+#[ORM\Table(name: 'midata_event')]
+#[ORM\Index(columns: ['name'])]
+#[ORM\Entity]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
+#[ORM\DiscriminatorMap(['course' => 'Course', 'camp' => 'Camp'])]
 abstract class Event
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name = '';
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name = '';
 
-    /**
-     * @ORM\OneToMany(targetEntity=EventGroup::class, mappedBy="event", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\OneToMany(targetEntity: EventGroup::class, mappedBy: 'event', cascade: ['persist', 'remove'])]
     private $groups;
 
-    /**
-     * @ORM\OneToMany(targetEntity=PersonEvent::class, mappedBy="event", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: PersonEvent::class, mappedBy: 'event', cascade: ['persist', 'remove'])]
     private $persons;
 
-    /**
-     * @ORM\OneToMany(targetEntity=EventDate::class, mappedBy="event")
-     */
-    private $eventDates;
+    #[ORM\OneToMany(targetEntity: EventDate::class, mappedBy: 'event')]
+    private Collection $eventDates;
 
     /**
      * Event constructor.
@@ -54,10 +42,7 @@ abstract class Event
         $this->eventDates = new ArrayCollection();
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -70,61 +55,40 @@ abstract class Event
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param null|string $name
-     */
-    public function setName(?string $name)
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return Collection
-     */
     public function getGroups(): Collection
     {
         return $this->groups;
     }
 
-    /**
-     * @param EventGroup $group
-     */
-    public function addGroup(EventGroup $group)
+    public function addGroup(EventGroup $group): void
     {
         if (!$this->groups->contains($group)) {
             $this->groups[] = $group;
         }
     }
 
-    /**
-     * @param EventGroup $group
-     */
-    public function removeGroup(EventGroup $group)
+    public function removeGroup(EventGroup $group): void
     {
         if ($this->groups->contains($group)) {
             $this->groups->removeElement($group);
         }
     }
 
-    /**
-     * @return Collection
-     */
     public function getEventDates(): Collection
     {
         return $this->eventDates;
     }
 
-    /**
-     * @param Collection $eventDates
-     */
     public function setEventDates(Collection $eventDates): void
     {
         $this->eventDates = $eventDates;

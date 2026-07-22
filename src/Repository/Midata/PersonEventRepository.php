@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository\Midata;
 
 use App\Entity\Midata\PersonEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<PersonEvent>
+ */
 class PersonEventRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

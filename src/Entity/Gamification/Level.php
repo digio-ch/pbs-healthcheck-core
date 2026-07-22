@@ -2,77 +2,52 @@
 
 namespace App\Entity\Gamification;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Gamification\LevelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_gamification_level")
- * @ORM\Entity(repositoryClass=LevelRepository::class)
- */
+#[ORM\Table(name: 'hc_gamification_level')]
+#[ORM\Entity(repositoryClass: LevelRepository::class)]
 class Level
 {
     public const USER = 0;
     public const GROUP = 1;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=LevelAccess::class)
-     * @ORM\JoinColumn(nullable=true)
-     * @var LevelAccess | null $access
-     */
-    private $access;
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: LevelAccess::class)]
+    private ?LevelAccess $access = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $type;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $type = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $de_title;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $de_title = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $fr_title;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $fr_title = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $it_title;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $it_title = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Goal::class, mappedBy="level")
-     * @ORM\OrderBy({"id" = "DESC"})
-     */
+    #[ORM\OneToMany(targetEntity: Goal::class, mappedBy: 'level')]
+    #[ORM\OrderBy(['id' => 'DESC'])]
     private $goals;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $key;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $key = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $next_key;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $next_key = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $required;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $required = null;
 
-    /**
-     * @return mixed
-     */
     public function getRequired(): int
     {
         return $this->required;
@@ -81,15 +56,12 @@ class Level
     /**
      * @param int $required
      */
-    public function setRequired($required): void
+    public function setRequired(?int $required): void
     {
         $this->required = $required;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNextKey()
+    public function getNextKey(): ?int
     {
         return $this->next_key;
     }
@@ -97,7 +69,7 @@ class Level
     /**
      * @param mixed $next_key
      */
-    public function setNextKey($next_key): void
+    public function setNextKey(?int $next_key): void
     {
         $this->next_key = $next_key;
     }
@@ -191,20 +163,15 @@ class Level
 
     public function removeGoal(Goal $goal): self
     {
-        if ($this->goals->removeElement($goal)) {
-            // set the owning side to null (unless already changed)
-            if ($goal->getLevel() === $this) {
-                $goal->setLevel(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->goals->removeElement($goal) && $goal->getLevel() === $this) {
+            $goal->setLevel(null);
         }
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getKey()
+    public function getKey(): ?int
     {
         return $this->key;
     }
@@ -212,7 +179,7 @@ class Level
     /**
      * @param mixed $key
      */
-    public function setKey($key): void
+    public function setKey(?int $key): void
     {
         $this->key = $key;
     }

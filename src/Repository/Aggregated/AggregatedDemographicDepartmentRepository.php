@@ -4,7 +4,6 @@ namespace App\Repository\Aggregated;
 
 use App\Entity\Aggregated\AggregatedDemographicDepartment;
 use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -13,7 +12,6 @@ class AggregatedDemographicDepartmentRepository extends AggregatedEntityReposito
 {
     /**
      * AggregatedDemographicDepartmentRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -21,85 +19,7 @@ class AggregatedDemographicDepartmentRepository extends AggregatedEntityReposito
     }
 
     /**
-     * @param string $date
-     * @param int $mainGroupId
-     * @param array $groupTypes
-     * @return array|mixed[]
-     * @throws \Doctrine\DBAL\DBALException
-     */
-    public function findMembersCountForDateAndGroupType(string $date, int $mainGroupId, array $groupTypes)
-    {
-        $conn = $this->_em->getConnection();
-        $statement = $conn->executeQuery(
-            "SELECT birthyear, SUM(m_count) as m, SUM(f_count) as f
-                    FROM hc_aggregated_demographic_department
-                    WHERE hc_aggregated_demographic_department.data_point_date = ? AND 
-                        hc_aggregated_demographic_department.group_id = ? AND
-                        hc_aggregated_demographic_department.group_type IN (?)    
-                    GROUP BY birthyear;",
-            [$date, $mainGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
-        );
-        return $statement->fetchAllAssociative();
-    }
-
-    /**
-     * @param string $date
-     * @param int $mainGroupId
-     * @param array $groupTypes
-     * @return array|mixed[]
-     * @throws \Doctrine\DBAL\DBALException
-     */
-    public function findLeadersCountForDateAndGroupType(string $date, int $mainGroupId, array $groupTypes)
-    {
-        $conn = $this->_em->getConnection();
-        $statement = $conn->executeQuery(
-            "SELECT birthyear, SUM(m_count_leader) as m, SUM(f_count_leader) as f
-                    FROM hc_aggregated_demographic_department
-                    WHERE hc_aggregated_demographic_department.data_point_date = ? AND 
-                        hc_aggregated_demographic_department.group_id = ? AND
-                        hc_aggregated_demographic_department.group_type IN (?)    
-                    GROUP BY birthyear;",
-            [$date, $mainGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
-        );
-        return $statement->fetchAllAssociative();
-    }
-
-    public function findUnknownGenderMemberCount(string $date, int $mainGroupId, array $groupTypes)
-    {
-        $conn = $this->_em->getConnection();
-        $statement = $conn->executeQuery(
-            "SELECT SUM(u_count) as u
-                    FROM hc_aggregated_demographic_department
-                    WHERE hc_aggregated_demographic_department.data_point_date = ? AND 
-                        hc_aggregated_demographic_department.group_id = ? AND
-                        hc_aggregated_demographic_department.group_type IN (?);",
-            [$date, $mainGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
-        );
-        return $statement->fetchAllAssociative();
-    }
-
-    public function findUnknownGenderLeaderCount(string $date, int $mainGroupId, array $groupTypes)
-    {
-        $conn = $this->_em->getConnection();
-        $statement = $conn->executeQuery(
-            "SELECT SUM(u_count_leader) as u
-                    FROM hc_aggregated_demographic_department
-                    WHERE hc_aggregated_demographic_department.data_point_date = ? AND 
-                        hc_aggregated_demographic_department.group_id = ? AND
-                        hc_aggregated_demographic_department.group_type IN (?);",
-            [$date, $mainGroupId, $groupTypes],
-            [ParameterType::STRING, ParameterType::INTEGER, Connection::PARAM_STR_ARRAY]
-        );
-        return $statement->fetchAllAssociative();
-    }
-
-    /**
-     * @param string $date
      * @param int[] $groupIds
-     * @param array $groupTypes
      * @return array<array{
      *     'birthyear': int,
      *     'group_type': string,
@@ -110,7 +30,7 @@ class AggregatedDemographicDepartmentRepository extends AggregatedEntityReposito
      */
     public function findCountForDateAndGroupType(string $date, array $groupIds, array $groupTypes): array
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT 
             	birthyear, 
@@ -136,15 +56,13 @@ class AggregatedDemographicDepartmentRepository extends AggregatedEntityReposito
      * ```
      * list($members, $leaders) = findUnknownGenderCount(...);
      * ```
-     * @param string $date
      * @param int[] $groupIds
-     * @param array $groupTypes
      * @return array{0: int, 1: int}
      * @throws Exception
      */
     public function findUnknownGenderCount(string $date, array $groupIds, array $groupTypes): array
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $statement = $conn->executeQuery(
             "SELECT 
             	SUM(u_count) as members,

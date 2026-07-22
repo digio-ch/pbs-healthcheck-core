@@ -2,48 +2,39 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\Midata\PersonEventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_person_event")
- * @ORM\Entity(repositoryClass=PersonEventRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_person_event')]
+#[ORM\Entity(repositoryClass: PersonEventRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class PersonEvent
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="persons")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $event;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'persons')]
+    private ?Event $event = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="events")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $person;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'events')]
+    private ?Person $person = null;
 
     /***
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $qualified;
+    private ?string $qualified = null;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=PersonEventType::class)
-     * @ORM\JoinTable(name="midata_person_event_person_event_type",
-     *      joinColumns={@ORM\JoinColumn(name="person_event_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="person_event_type_id", referencedColumnName="id")}
-     *      )
-     */
+    #[ORM\JoinTable(name: 'midata_person_event_person_event_type')]
+    #[ORM\JoinColumn(name: 'person_event_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'person_event_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: PersonEventType::class)]
     private $personEventTypes;
 
     /**
@@ -54,34 +45,22 @@ class PersonEvent
         $this->personEventTypes = new ArrayCollection();
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param Person|null $person
-     */
-    public function setPerson(?Person $person)
+    public function setPerson(?Person $person): void
     {
         $this->person = $person;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPerson()
+    public function getPerson(): ?Person
     {
         return $this->person;
     }
@@ -89,57 +68,42 @@ class PersonEvent
     /**
      * @param Event|null $event
      */
-    public function setEvent(?Event $event)
+    public function setEvent(?Event $event): void
     {
         $this->event = $event;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEvent()
+    public function getEvent(): ?Event
     {
         return $this->event;
     }
 
-    /**
-     * @param null|string $qualified
-     */
-    public function setQualified(?string $qualified)
+    public function setQualified(?string $qualified): void
     {
         $this->qualified = $qualified;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getQualified()
+    public function getQualified(): ?string
     {
         return $this->qualified;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection<int, PersonEventType>
      */
     public function getPersonEventTypes(): ArrayCollection
     {
         return $this->personEventTypes;
     }
 
-    /**
-     * @param PersonEventType $personEventType
-     */
-    public function addPersonEventType(PersonEventType $personEventType)
+    public function addPersonEventType(PersonEventType $personEventType): void
     {
         if (!$this->personEventTypes->contains($personEventType)) {
             $this->personEventTypes[] = $personEventType;
         }
     }
 
-    /**
-     * @param PersonEventType $personEventType
-     */
-    public function removePersonEventType(PersonEventType $personEventType)
+    public function removePersonEventType(PersonEventType $personEventType): void
     {
         if ($this->personEventTypes->contains($personEventType)) {
             $this->personEventTypes->removeElement($personEventType);

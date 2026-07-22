@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Apps;
 
+use DateTimeImmutable;
 use App\DTO\Mapper\AnswersMapper;
 use App\DTO\Mapper\QuestionnaireMapper;
 use App\DTO\Model\FilterRequestData\DateRequestData;
@@ -18,49 +19,38 @@ use App\Service\Gamification\QuapGamificationService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 
 class QuapController extends AbstractController
 {
-    /** @var QuapService $quapService */
     private QuapService $quapService;
 
-    public function __construct(QuapService $quapService)
+    public function __construct(QuapService $quapService, private readonly QuapSubdepartmentDateDataProvider $dataProvider, private readonly QuapGamificationService $quapGamificationService, private readonly PersonGamificationService $personGamificationService)
     {
         $this->quapService = $quapService;
     }
 
-    /**
-     * @param Group $group
-     * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
-     */
     public function getPreview(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         $data = $this->quapService->getAnswers(
             $group,
             null
         );
-
         return $this->json($data);
     }
 
     /**
-     * @param Group $group
-     * @return JsonResponse
      * @throws ApiException
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function getDepartmentPreview(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
-
         try {
             $data = $this->quapService->getAnswersForSubDepartments(
                 $group,
@@ -73,8 +63,6 @@ class QuapController extends AbstractController
     }
 
     /**
-     * @param OptionalDateRequestData $dateRequestData
-     * @return JsonResponse
      * @throws Exception
      */
     public function getAnswers(
@@ -84,7 +72,7 @@ class QuapController extends AbstractController
 
         $data = $this->quapService->getAnswers(
             $dateRequestData->getGroup(),
-            is_null($dateRequestData->getDate()) ? null : \DateTimeImmutable::createFromMutable($dateRequestData->getDate())
+            is_null($dateRequestData->getDate()) ? null : DateTimeImmutable::createFromMutable($dateRequestData->getDate())
         );
 
         return $this->json($data);
@@ -92,16 +80,13 @@ class QuapController extends AbstractController
 
     /**
      * @param QuapSubdepartmentDateDataProvider $dataProvider
-     * @param DateRequestData $dateRequestData
-     * @return JsonResponse
      */
     public function getDepartmentsOverview(
-        QuapSubdepartmentDateDataProvider $dataProvider,
         DateRequestData $dateRequestData
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $dateRequestData->getGroup());
 
-        $data = $dataProvider->getData(
+        $data = $this->dataProvider->getData(
             $dateRequestData->getGroup(),
             $dateRequestData->getDate()->format('Y-m-d')
         );
@@ -109,19 +94,14 @@ class QuapController extends AbstractController
         return $this->json($data);
     }
 
-    /**
-     * @param Request $request
-     * @param string $type
-     * @return JsonResponse
-     */
     public function getQuestionnaireData(
         Request $request,
         string $type
     ): JsonResponse {
-        $date = $request->get('date', null);
+        $date = $request->query->get('date');
         $date = $date
-            ? \DateTimeImmutable::createFromFormat('Y-m-d', $date)
-            : new \DateTimeImmutable('now');
+            ? DateTimeImmutable::createFromFormat('Y-m-d', $date)
+            : new DateTimeImmutable('now');
 
         $questionnaire = $this->quapService->getQuestionnaireByType(
             $type,
@@ -134,79 +114,52 @@ class QuapController extends AbstractController
         return $this->json($questionnaireDTO);
     }
 
-    /**
-     * @param Group $group
-     * @param Request $request
-     * @return JsonResponse
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
-     */
     public function submitAnswers(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
-        Request $request,
-        QuapGamificationService $quapGamificationService
+        Request $request
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR, $group);
-
         $answers = json_decode($request->getContent(), true);
         if (is_null($answers)) {
             throw new ApiException(400, "Invalid JSON");
         }
-
         // has to be before answers are saved!
-        $quapGamificationService->processQuapEvent($answers, $group, $this->getUser());
+        $this->quapGamificationService->processQuapEvent($answers, $group, $this->getUser());
         $savedWidgetQuap = $this->quapService->submitAnswers($group, $answers);
-
         // we want to reverse sort the aspects so that the JSON parser encodes them as object instead of array
         $newAnswers = AnswersMapper::reverseSortAspects($savedWidgetQuap->getAnswers());
         return $this->json($newAnswers);
     }
 
-    /**
-     * @param Group $group
-     * @param Request $request
-     * @return void
-     *
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
-     */
     public function setAccess(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
-        Request $request,
-        PersonGamificationService $personGamificationService
+        Request $request
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::OWNER, $group);
-
         $payload = json_decode($request->getContent(), true);
         if (!isset($payload['allow_access'])) {
             throw new ApiException(400, "Invalid request body");
         }
-
         $this->quapService->updateAllowAccess($group, $payload['allow_access']);
-        $personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_SHARE_EL);
-
+        $this->personGamificationService->genericGoalProgress($this->getUser(), Goal::TYPE_SHARE_EL);
         return $this->json([], JsonResponse::HTTP_NO_CONTENT);
     }
 
     /**
-     * @param Group $group
-     * @param Request $request
-     * @return JsonResponse
      * @throws ApiException
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      */
     public function getAnswersForSubDepartments(
+        #[MapEntity(mapping: ['groupId' => 'id'])]
         Group $group,
         Request $request
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::EDITOR_PLUS, $group);
-
-
-        $date = $request->get('date', null);
+        $date = $request->query->get('date');
         $date = $date
-            ? \DateTimeImmutable::createFromFormat('Y-m-d', $date)
-            : new \DateTimeImmutable('now');
-
-
+            ? DateTimeImmutable::createFromFormat('Y-m-d', $date)
+            : new DateTimeImmutable('now');
         try {
             $match = in_array($group->getGroupType()->getGroupType(), GroupType::DEPARTMENTS_ALLOWING_HIERARCHY);
             if ($match === false) {

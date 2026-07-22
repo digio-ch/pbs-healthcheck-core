@@ -2,6 +2,7 @@
 
 namespace App\Entity\Quap;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Quap\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,17 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Question
  * @package App\Entity
- * @ORM\Entity(repositoryClass=QuestionRepository::class)
- * @ORM\Table(name="hc_quap_question", uniqueConstraints={
- *     @ORM\UniqueConstraint(
- *          name="question_local_id",
- *          columns={
- *              "local_id", "aspect_id"
- *          }
- *     )
- * })
- * @ORM\HasLifecycleCallbacks()
  */
+#[ORM\Table(name: 'hc_quap_question')]
+#[ORM\UniqueConstraint(name: 'question_local_id', columns: ['local_id', 'aspect_id'])]
+#[ORM\Entity(repositoryClass: QuestionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Question
 {
     const ANSWER_OPTION_BINARY = 'binary';
@@ -35,68 +30,39 @@ class Question
     const ANSWER_DONT_APPLIES = 4;
     const ANSWER_NOT_RELEVANT = 5;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     * @var int $id
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $local_id;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $local_id = null;
 
-    /**
-     * @ORM\Column(type="text")
-     * @var string $question_de
-     */
-    private $question_de;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $question_de = null;
 
-    /**
-     * @ORM\Column(type="text")
-     * @var string $question_fr
-     */
-    private $question_fr;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $question_fr = null;
 
-    /**
-     * @ORM\Column(type="text")
-     * @var string $question_it
-     */
-    private $question_it;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $question_it = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @var string $answer_options
-     */
-    private $answer_options;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $answer_options = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @var string|null $evaluation_function
-     */
-    private $evaluation_function;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $evaluation_function = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Help::class, mappedBy="question", cascade={"persist"})
-     */
+    #[ORM\OneToMany(targetEntity: Help::class, mappedBy: 'question', cascade: ['persist'])]
     private $help;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Aspect::class, inversedBy="question")
-     * @var Aspect $aspect
-     */
-    private $aspect;
+    #[ORM\ManyToOne(targetEntity: Aspect::class, inversedBy: 'questions')]
+    private ?Aspect $aspect = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $deletedAt;
 
     public function __construct()
@@ -104,128 +70,82 @@ class Question
         $this->help = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
     public function getQuestionDe(): string
     {
         return $this->question_de;
     }
 
-    /**
-     * @param string $question_de
-     */
     public function setQuestionDe(string $question_de): void
     {
         $this->question_de = $question_de;
     }
 
-    /**
-     * @return string
-     */
     public function getQuestionFr(): string
     {
         return $this->question_fr;
     }
 
-    /**
-     * @param string $question_fr
-     */
     public function setQuestionFr(string $question_fr): void
     {
         $this->question_fr = $question_fr;
     }
 
-    /**
-     * @return string
-     */
     public function getQuestionIt(): string
     {
         return $this->question_it;
     }
 
-    /**
-     * @param string $question_it
-     */
     public function setQuestionIt(string $question_it): void
     {
         $this->question_it = $question_it;
     }
 
-    /**
-     * @return string
-     */
     public function getAnswerOptions(): string
     {
         return $this->answer_options;
     }
 
-    /**
-     * @param string $answer_options
-     */
     public function setAnswerOptions(string $answer_options): void
     {
         $this->answer_options = $answer_options;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEvaluationFunction(): ?string
     {
         return $this->evaluation_function;
     }
 
-    /**
-     * @param string|null $evaluation_function
-     */
     public function setEvaluationFunction(?string $evaluation_function): void
     {
         $this->evaluation_function = $evaluation_function;
     }
 
-    /**
-     * @return Aspect
-     */
     public function getAspect(): Aspect
     {
         return $this->aspect;
     }
 
-    /**
-     * @param Aspect $aspect
-     */
     public function setAspect(Aspect $aspect): void
     {
         $this->aspect = $aspect;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLocalId(): ?int
     {
         return $this->local_id;
     }
 
     /**
-     * @param int $local_id
      * @return $this
      */
     public function setLocalId(int $local_id): self
@@ -268,16 +188,13 @@ class Question
     }
 
     /**
-     * @return Collection|null
+     * @return Collection<int, Help>
      */
     public function getHelp(): ?Collection
     {
         return $this->help;
     }
 
-    /**
-     * @param Collection $help
-     */
     public function setHelp(Collection $help): void
     {
         $this->help = $help;

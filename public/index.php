@@ -30,7 +30,12 @@ $_SERVER['SCRIPT_NAME'] = str_replace('/api', '', $_SERVER['SCRIPT_NAME']);
 $_SERVER['PHP_SELF'] = str_replace('/api', '', $_SERVER['PHP_SELF']);
 
 if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
-    Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
+    Request::setTrustedProxies(
+            explode(',', $trustedProxies),
+        Request::HEADER_X_FORWARDED_FOR |
+        Request::HEADER_X_FORWARDED_PORT |
+        Request::HEADER_X_FORWARDED_PROTO
+    );
 }
 
 if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false) {

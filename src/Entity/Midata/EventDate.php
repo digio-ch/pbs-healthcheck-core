@@ -2,87 +2,59 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Midata\EventDateRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_event_date", indexes={
- *     @ORM\Index(columns={"start_at"}),
- *     @ORM\Index(columns={"end_at"})
- * })
- * @ORM\Entity(repositoryClass=EventDateRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_event_date')]
+#[ORM\Index(columns: ['start_at'])]
+#[ORM\Index(columns: ['end_at'])]
+#[ORM\Entity(repositoryClass: EventDateRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class EventDate
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Event::class)
-     * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
-     */
-    private $event;
+    #[ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'eventDates')]
+    private ?Event $event = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private $startAt;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?DateTimeImmutable $startAt = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private $endAt;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?DateTimeImmutable $endAt = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getStartAt(): ?DateTimeImmutable
     {
         return $this->startAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $startAt
-     */
-    public function setStartAt(?DateTimeImmutable $startAt)
+    public function setStartAt(?DateTimeImmutable $startAt): void
     {
         $this->startAt = $startAt;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getEndAt(): ?DateTimeImmutable
     {
         return $this->endAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $endAt
-     */
-    public function setEndAt(?DateTimeImmutable $endAt)
+    public function setEndAt(?DateTimeImmutable $endAt): void
     {
         $this->endAt = $endAt;
     }
@@ -90,7 +62,7 @@ class EventDate
     /**
      * @param Event|null $event
      */
-    public function setEvent(?Event $event)
+    public function setEvent(?Event $event): void
     {
         $this->event = $event;
     }
@@ -98,7 +70,7 @@ class EventDate
     /**
      * @return Event
      */
-    public function getEvent()
+    public function getEvent(): ?Event
     {
         return $this->event;
     }

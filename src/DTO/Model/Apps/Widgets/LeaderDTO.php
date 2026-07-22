@@ -1,41 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Apps\Widgets;
 
 class LeaderDTO
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @var string
-     */
-    private $birthday;
+    private string $birthday;
 
-    /**
-     * @var string
-     */
-    private $gender;
+    private ?string $gender = null;
 
     /**
      * @var QualificationDTO[]
      */
-    private $qualifications = [];
+    private array $qualifications = [];
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @param string|null $gender
-     */
-    public function setGender(?string $gender)
+    public function setGender(?string $gender): void
     {
         $this->gender = $gender;
     }
@@ -43,22 +30,16 @@ class LeaderDTO
     /**
      * @return string
      */
-    public function getGender()
+    public function getGender(): ?string
     {
         return $this->gender;
     }
 
-    /**
-     * @return string
-     */
     public function getBirthday(): string
     {
         return $this->birthday;
     }
 
-    /**
-     * @param string $birthday
-     */
     public function setBirthday(string $birthday): void
     {
         $this->birthday = $birthday;
@@ -67,7 +48,7 @@ class LeaderDTO
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -75,12 +56,12 @@ class LeaderDTO
     /**
      * @return QualificationDTO[]
      */
-    public function getQualifications()
+    public function getQualifications(): array
     {
         return $this->qualifications;
     }
 
-    public function addQualification(QualificationDTO $qualification)
+    public function addQualification(QualificationDTO $qualification): void
     {
         $this->qualifications[] = $qualification;
     }

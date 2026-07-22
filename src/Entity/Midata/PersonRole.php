@@ -2,144 +2,97 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Midata\PersonRoleRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_person_role", indexes={
- *     @ORM\Index(columns={"created_at"}),
- *     @ORM\Index(columns={"deleted_at"})
- * })
- * @ORM\Entity(repositoryClass=PersonRoleRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_person_role')]
+#[ORM\Index(columns: ['created_at'])]
+#[ORM\Index(columns: ['deleted_at'])]
+#[ORM\Entity(repositoryClass: PersonRoleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class PersonRole
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="personRoles")
-     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
-     */
-    private $group;
+    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'personRoles')]
+    private ?Group $group = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class)
-     * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
-     */
-    private $person;
+    #[ORM\JoinColumn(name: 'person_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Person::class)]
+    private ?Person $person = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Role::class)
-     * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
-     */
-    private $role;
+    #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Role::class)]
+    private ?Role $role = null;
 
     /***
      * @ORM\Column(type="string", length="255", nullable=true)
      */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $createdAt;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $createdAt = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $deletedAt;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $deletedAt = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param null|string $name
-     */
-    public function setName(?string $name)
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $createdAt
-     */
-    public function setCreatedAt(?DateTimeImmutable $createdAt)
+    public function setCreatedAt(?DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getDeletedAt(): ?DateTimeImmutable
     {
         return $this->deletedAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $deletedAt
-     */
-    public function setDeletedAt(?DateTimeImmutable $deletedAt)
+    public function setDeletedAt(?DateTimeImmutable $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
     }
 
-    /**
-     * @param Person|null $person
-     */
-    public function setPerson(?Person $person)
+    public function setPerson(?Person $person): void
     {
         $this->person = $person;
     }
 
-    /**
-     * @return Person
-     */
     public function getPerson(): Person
     {
         return $this->person;
     }
 
-    /**
-     * @param Group|null $group
-     */
-    public function setGroup(?Group $group)
+    public function setGroup(?Group $group): void
     {
         $this->group = $group;
     }
@@ -147,7 +100,7 @@ class PersonRole
     /**
      * @return Group
      */
-    public function getGroup()
+    public function getGroup(): ?Group
     {
         return $this->group;
     }
@@ -155,14 +108,11 @@ class PersonRole
     /**
      * @param Role|null $role
      */
-    public function setRole(Role $role)
+    public function setRole(Role $role): void
     {
         $this->role = $role;
     }
 
-    /**
-     * @return Role|null
-     */
     public function getRole(): ?Role
     {
         return $this->role;

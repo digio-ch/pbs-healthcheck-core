@@ -2,11 +2,14 @@
 
 namespace App\EventListener;
 
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class LocaleListener
 {
-    public function onKernelRequest(RequestEvent $event)
+    #[AsEventListener(event: KernelEvents::REQUEST, priority: 1024)]
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->getRequest()->headers->has('X-Locale')) {
             return;

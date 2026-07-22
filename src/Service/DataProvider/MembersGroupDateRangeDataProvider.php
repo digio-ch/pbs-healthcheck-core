@@ -9,23 +9,15 @@ use App\Repository\Aggregated\AggregatedDemographicGroupRepository;
 use App\Repository\Midata\GroupRepository;
 use App\Repository\Midata\GroupTypeRepository;
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MembersGroupDateRangeDataProvider extends WidgetDataProvider
 {
-    /**
-     * @var AggregatedDemographicGroupRepository
-     */
-    protected $widgetDemographicGroupRepository;
+    protected AggregatedDemographicGroupRepository $widgetDemographicGroupRepository;
 
     /**
      * GroupMembersDataProvider constructor.
-     * @param GroupRepository $groupRepository
-     * @param GroupTypeRepository $groupTypeRepository
-     * @param TranslatorInterface $translator
-     * @param AggregatedDemographicGroupRepository $widgetDemographicGroupRepository
      */
     public function __construct(
         GroupRepository $groupRepository,
@@ -43,16 +35,9 @@ class MembersGroupDateRangeDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param Group $group
-     * @param string $from
-     * @param string $to
-     * @param array $subGroupTypes
-     * @param array $peopleTypes
-     * @return array
-     * @throws DBALException
      * @throws Exception
      */
-    public function getData(Group $group, string $from, string $to, array $subGroupTypes, array $peopleTypes)
+    public function getData(Group $group, string $from, string $to, array $subGroupTypes, array $peopleTypes): array
     {
         $result = [];
         $leadersOnly = false;
@@ -82,8 +67,6 @@ class MembersGroupDateRangeDataProvider extends WidgetDataProvider
     /**
      * @param $from
      * @param $to
-     * @param array $subGroupTypes
-     * @param int $mainGroupId
      * @return array|LineChartDataDTO[]
      * @throws Exception
      */
@@ -94,7 +77,7 @@ class MembersGroupDateRangeDataProvider extends WidgetDataProvider
             $data = $this->widgetDemographicGroupRepository
                 ->findMembersCountForDateRangeAndGroupType($from, $to, $mainGroupId, $groupType);
 
-            if ($data === null || count($data) === 0) {
+            if (count($data) === 0) {
                 continue;
             }
 
@@ -106,10 +89,6 @@ class MembersGroupDateRangeDataProvider extends WidgetDataProvider
     /**
      * @param $from
      * @param $to
-     * @param array $subGroupTypes
-     * @param int $mainGroupId
-     * @return LineChartDataDTO
-     * @throws DBALException
      * @throws Exception
      */
     private function getSummedLeaderData(
@@ -138,10 +117,6 @@ class MembersGroupDateRangeDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     * @param array $subGroupTypes
-     * @param int $mainGroupId
      * @return array|LineChartDataDTO[]
      * @throws Exception
      */
@@ -152,7 +127,7 @@ class MembersGroupDateRangeDataProvider extends WidgetDataProvider
             $data = $this->widgetDemographicGroupRepository
                 ->findLeadersCountForDateRangeAndGroupTypes($from, $to, $mainGroupId, [$groupType]);
 
-            if ($data === null || count($data) === 0) {
+            if (count($data) === 0) {
                 continue;
             }
 
@@ -162,9 +137,6 @@ class MembersGroupDateRangeDataProvider extends WidgetDataProvider
     }
 
     /**
-     * @param array $queryResult
-     * @param string $groupType
-     * @return LineChartDataDTO
      * @throws Exception
      */
     private function createLineChartDataDTOFromQueryResult(array $queryResult, string $groupType): LineChartDataDTO

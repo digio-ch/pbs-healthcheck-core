@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use App\Entity\Midata\GroupType;
 use App\Entity\Security\PermissionType;
 use App\Model\CommandStatistics;
@@ -10,19 +11,12 @@ use App\Repository\Security\PermissionRepository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use function Sentry\continueTrace;
-
+#[AsCommand(name: "app:compute-permissions")]
 class ComputePermissionsCommand extends StatisticsCommand
 {
-    /** @var PersonRoleRepository $personRoleRepository */
-    private PersonRoleRepository $personRoleRepository;
-
-    /** @var PermissionRepository $permissionRepository */
-    private PermissionRepository $permissionRepository;
-
     private float $totalDuration = 0;
 
-    private const SUB_DEPARTMENTS = [
+    private const array SUB_DEPARTMENTS = [
         GroupType::BIBER,
         GroupType::WOELFE,
         GroupType::PFADI,
@@ -32,19 +26,10 @@ class ComputePermissionsCommand extends StatisticsCommand
     ];
 
     public function __construct(
-        PersonRoleRepository $personRoleRepository,
-        PermissionRepository $permissionRepository
+        private readonly PersonRoleRepository $personRoleRepository,
+        private readonly PermissionRepository $permissionRepository
     ) {
         parent::__construct();
-
-        $this->personRoleRepository = $personRoleRepository;
-        $this->permissionRepository = $permissionRepository;
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName("app:compute-permissions");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -78,7 +63,7 @@ class ComputePermissionsCommand extends StatisticsCommand
     }
 
     // TODO: use PermissionType key instead of id because it is not guaranteed
-    private function assignPermissionToRoles(array $roles, int $permissionType, array &$assigned)
+    private function assignPermissionToRoles(array $roles, int $permissionType, array &$assigned): void
     {
         foreach ($roles as $key => $role) {
             $personId = $role['person_id'];
@@ -114,7 +99,7 @@ class ComputePermissionsCommand extends StatisticsCommand
 
             $assigned[$permissionGroupId][$personId] = true;
 
-            if ($key > 0 && $key % 500 == 0) {
+            if ($key > 0 && $key % 500 === 0) {
                 $this->permissionRepository->flush();
             }
         }
@@ -142,7 +127,15 @@ class ComputePermissionsCommand extends StatisticsCommand
             GroupType::ABTEILUNGS_ROVER,
             GroupType::PTA,
         ], [
+            'Group::Bund::Kassier',
             'Group::Bund::Coach',
+            'Group::Bund::GrossanlassCoach',
+            'Group::Bund::Leitungskursbetreuung',
+            'Group::Bund::ItSupport',
+            'Group::Bund::Sekretariat',
+            'Group::Bund::Mitarbeiter',
+            'Group::Bund::Adressverwaltung',
+            'Group::Bund::AssistenzAusbildung',
 
             'Group::Kantonalverband::Sekretariat',
             'Group::Kantonalverband::Adressverwaltung',
@@ -252,9 +245,31 @@ class ComputePermissionsCommand extends StatisticsCommand
     private function getEditorsPlus(): array
     {
         return $this->personRoleRepository->findAllPersonInGroupByRole([
+            GroupType::FEDERATION,
             GroupType::CANTON,
             GroupType::REGION,
         ], [
+            'Group::Bund::VerantwortungRoverstufe',
+            'Group::Bund::VerantwortungPfadiTrotzAllem',
+            'Group::Bund::VerantwortungPiostufe',
+            'Group::Bund::VerantwortungPfadistufe',
+            'Group::Bund::VerantwortungWolfstufe',
+            'Group::Bund::VerantwortungBiberstufe',
+            'Group::Bund::VerantwortungIntegration',
+            'Group::Bund::VerantwortungIT',
+            'Group::Bund::VerantwortungLagermeldung',
+            'Group::Bund::VerantwortungPr',
+            'Group::Bund::VerantwortungPraeventionSexuellerAusbeutung',
+            'Group::Bund::VerantwortungKrisenteam',
+            'Group::Bund::Mediensprecher',
+            'Group::Bund::MitgliedKrisenteam',
+            'Group::Bund::Geschaeftsleitung',
+            'Group::Bund::LeitungKernaufgabeAusbildung',
+            'Group::Bund::LeitungKernaufgabeKommunikation',
+            'Group::Bund::LeitungKernaufgabeProgramm',
+            'Group::Bund::LeitungKernaufgabeSupport',
+            'Group::Bund::MitarbeiterGs',
+
             'Group::Kantonalverband::Praesidium',
             'Group::Kantonalverband::VizePraesidium',
             'Group::Kantonalverband::VerantwortungAusbildung',
@@ -277,6 +292,10 @@ class ComputePermissionsCommand extends StatisticsCommand
             GroupType::REGION,
             GroupType::DEPARTMENT,
         ], [
+            'Group::Bund::Praesidium',
+            'Group::Bund::VizePraesidium',
+            'Group::Bund::PowerUser',
+
             'Group::Kantonalverband::Kantonsleitung',
             'Group::Kantonalverband::PowerUser',
 
@@ -291,9 +310,6 @@ class ComputePermissionsCommand extends StatisticsCommand
 
     private function isSubGroup(string $groupType): bool
     {
-        if (in_array($groupType, self::SUB_DEPARTMENTS, true)) {
-            return true;
-        }
-        return false;
+        return in_array($groupType, self::SUB_DEPARTMENTS, true);
     }
 }

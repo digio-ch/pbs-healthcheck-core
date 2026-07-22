@@ -2,119 +2,78 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Midata\PersonEventTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_person_event_type")
- * @ORM\Entity(repositoryClass=PersonEventTypeRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_person_event_type')]
+#[ORM\Entity(repositoryClass: PersonEventTypeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class PersonEventType
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $type = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $deLabel;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $deLabel = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $itLabel;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $itLabel = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $frLabel;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $frLabel = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getType(): ?string
     {
         return $this->type;
     }
 
-    /**
-     * @param null|string $type
-     */
-    public function setType(?string $type)
+    public function setType(?string $type): void
     {
         $this->type = $type;
     }
 
-    /**
-     * @return null|string
-     */
     public function getDeLabel(): ?string
     {
         return $this->deLabel;
     }
 
-    /**
-     * @param null|string $label
-     */
-    public function setDeLabel(?string $label)
+    public function setDeLabel(?string $label): void
     {
         $this->deLabel = $label;
     }
 
-    /**
-     * @return null|string
-     */
     public function getItLabel(): ?string
     {
         return $this->itLabel;
     }
 
-    /**
-     * @param null|string $label
-     */
-    public function setItLabel(?string $label)
+    public function setItLabel(?string $label): void
     {
         $this->itLabel = $label;
     }
 
-    /**
-     * @return null|string
-     */
     public function getFrLabel(): ?string
     {
         return $this->frLabel;
     }
 
-    /**
-     * @param null|string $label
-     */
-    public function setFrLabel(?string $label)
+    public function setFrLabel(?string $label): void
     {
         $this->frLabel = $label;
     }

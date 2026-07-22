@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Apps;
 
+use DateTime;
 use App\DTO\Model\FilterRequestData\DateAndDateRangeRequestData;
 use App\DTO\Model\FilterRequestData\DateRequestData;
 use App\DTO\Model\FilterRequestData\WidgetRequestData;
@@ -18,48 +19,44 @@ use App\Service\DataProvider\MyOrganization\PreviewDataProvider;
 use App\Service\DataProvider\MyOrganization\StageStatsDataProvider;
 use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class MyOrganizationController extends AbstractController
 {
-    /**
-     * @param Request $request
-     * @param Group $group
-     * @param FilterDataProvider $filterDataProvider
-     * @return JsonResponse
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
-     */
+    public function __construct(
+        private readonly FilterDataProvider $filterDataProvider,
+        private readonly GenderStatsDataProvider $genderStatsProvider,
+        private readonly StageStatsDataProvider $statsDataProvider,
+        private readonly DemographicStatsDataProvider $demographicStatsProvider,
+        private readonly DepartmentNamesDataProvider $departmentNamesProvider,
+        private readonly PreviewDataProvider $previewProvider
+    ) {
+    }
+
     public function getFilter(
         Request $request,
-        Group $group,
-        FilterDataProvider $filterDataProvider
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         if (!$this->isAssociation($group)) {
             throw new ApiException(400, "Only for regions and cantons");
         }
-
-        $data = $filterDataProvider->getMyOrganizationData(
+        $data = $this->filterDataProvider->getMyOrganizationData(
             $group,
             $request->getLocale()
         );
-
         return $this->json($data);
     }
 
     /**
-     * @param DateAndDateRangeRequestData $datesRequestData
-     * @param WidgetRequestData $widgetRequestData
-     * @param GenderStatsDataProvider $genderStatsProvider
-     * @return JsonResponse
+     * @throws Exception
      */
     public function getGenderStats(
         DateAndDateRangeRequestData $datesRequestData,
-        WidgetRequestData $widgetRequestData,
-        GenderStatsDataProvider $genderStatsProvider
+        WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $group = $widgetRequestData->getGroup();
 
@@ -71,7 +68,7 @@ class MyOrganizationController extends AbstractController
 
         $timeframe = $this->requestToTimeFrame($datesRequestData);
 
-        $data = $genderStatsProvider->getData(
+        $data = $this->genderStatsProvider->getData(
             $group,
             $timeframe,
             $widgetRequestData->getPeopleTypes(),
@@ -82,15 +79,11 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param DateAndDateRangeRequestData $datesRequestData
-     * @param WidgetRequestData $widgetRequestData
-     * @param StageStatsDataProvider $statsDataProvider
-     * @return JsonResponse
+     * @throws Exception
      */
     public function getStageStats(
         DateAndDateRangeRequestData $datesRequestData,
-        WidgetRequestData $widgetRequestData,
-        StageStatsDataProvider $statsDataProvider
+        WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $group = $widgetRequestData->getGroup();
 
@@ -102,7 +95,7 @@ class MyOrganizationController extends AbstractController
 
         $timeframe = $this->requestToTimeFrame($datesRequestData);
 
-        $data = $statsDataProvider->getData(
+        $data = $this->statsDataProvider->getData(
             $group,
             $timeframe,
             $widgetRequestData->getPeopleTypes(),
@@ -113,15 +106,11 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param DateRequestData $dateRequestData
-     * @param WidgetRequestData $widgetRequestData
-     * @param DemographicStatsDataProvider $demographicStatsProvider
-     * @return JsonResponse
+     * @throws Exception
      */
     public function getDemographicStats(
         DateRequestData $dateRequestData,
-        WidgetRequestData $widgetRequestData,
-        DemographicStatsDataProvider $demographicStatsProvider
+        WidgetRequestData $widgetRequestData
     ): JsonResponse {
         $group = $widgetRequestData->getGroup();
 
@@ -131,7 +120,7 @@ class MyOrganizationController extends AbstractController
             throw new ApiException(400, "Only for regions and cantons");
         }
 
-        $data = $demographicStatsProvider->getDataForAssociation(
+        $data = $this->demographicStatsProvider->getDataForAssociation(
             $group,
             $dateRequestData->getDate(),
             $widgetRequestData->getPeopleTypes(),
@@ -142,64 +131,50 @@ class MyOrganizationController extends AbstractController
     }
 
     /**
-     * @param DateRequestData $dateRequestData
-     * @param Group $group
-     * @param DepartmentNamesDataProvider $departmentNamesProvider
-     * @return JsonResponse
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
+     * @throws Exception
      */
     public function getDepartmentNames(
         DateRequestData $dateRequestData,
-        Group $group,
-        DepartmentNamesDataProvider $departmentNamesProvider
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         if (!$this->isAssociation($group)) {
             throw new ApiException(400, "Only for regions and cantons");
         }
-
-        $names = $departmentNamesProvider->getDepartmentNames(
+        $names = $this->departmentNamesProvider->getDepartmentNames(
             $group,
             $dateRequestData->getDate()
         );
-
         return $this->json($names);
     }
 
     /**
-     * @param Group $group
-     * @param PreviewDataProvider $previewProvider
-     * @return JsonResponse
-     * @ParamConverter("group", options={"mapping": {"groupId": "id"}})
      * @throws Exception
      */
     public function getPreview(
-        Group $group,
-        PreviewDataProvider $previewProvider
+        #[MapEntity(mapping: ['groupId' => 'id'])]
+        Group $group
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PermissionType::VIEWER, $group);
-
         if (!$this->isAssociation($group)) {
             throw new ApiException(400, "Only for regions and cantons");
         }
-
-        $data = $previewProvider->getPreview(
+        $data = $this->previewProvider->getPreview(
             $group,
         );
-
         return $this->json($data);
     }
 
     private function isAssociation(Group $group): bool
     {
         $groupType = $group->getGroupType()->getGroupType();
-        return $groupType === GroupType::CANTON || $groupType === GroupType::REGION;
+        return in_array($groupType, [GroupType::REGION, GroupType::CANTON, GroupType::FEDERATION]);
     }
 
     private function requestToTimeFrame(DateAndDateRangeRequestData $req): TimeFrame
     {
-        if ($req->getDate()) {
+        if ($req->getDate() instanceof DateTime) {
             return TimeFrame::fromDate($req->getDate());
         }
 

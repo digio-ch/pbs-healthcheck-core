@@ -2,10 +2,8 @@
 
 namespace App\DTO\Mapper;
 
-use App\DTO\Model\Gamification\LevelDTO;
 use App\DTO\Model\Gamification\PersonGamificationDTO;
 use App\Entity\Gamification\GamificationPersonProfile;
-use App\Entity\Gamification\Level;
 
 class GamificationPersonProfileMapper
 {

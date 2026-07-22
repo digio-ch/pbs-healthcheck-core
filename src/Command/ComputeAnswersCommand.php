@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
+use Exception;
 use App\Entity\Midata\Group;
 use App\Entity\Quap\Question;
 use App\Helper\QuapAnswerStackHelper;
@@ -14,21 +16,17 @@ use App\Service\Apps\Quap\QuapComputeAnswersService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: "app:quap:compute-answers")]
 class ComputeAnswersCommand extends StatisticsCommand
 {
-    /** @var GroupRepository $groupRepository */
     private GroupRepository $groupRepository;
 
-    /** @var AggregatedQuapRepository $quapRepository */
     private AggregatedQuapRepository $quapRepository;
 
-    /** @var QuestionRepository $questionRepository */
     private QuestionRepository $questionRepository;
 
-    /** @var QuapComputeAnswersService $quapComputeAnswersService */
     private QuapComputeAnswersService $quapComputeAnswersService;
 
-    /** @var QuestionnaireRepository $questionnaireRepository */
     private QuestionnaireRepository $questionnaireRepository;
 
     private float $totalDuration = 0;
@@ -47,12 +45,6 @@ class ComputeAnswersCommand extends StatisticsCommand
         $this->questionRepository = $questionRepository;
         $this->quapComputeAnswersService = $quapComputeAnswersService;
         $this->questionnaireRepository = $questionnaireRepository;
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName("app:quap:compute-answers");
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -81,7 +73,7 @@ class ComputeAnswersCommand extends StatisticsCommand
                 $widgetQuap->setComputedAnswers($helper->getAnswerStack());
                 $widgetQuap->setQuestionnaire($questionnaire);
                 $this->quapRepository->save($widgetQuap);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $output->writeln(['An Error occurred', $group, $e]);
             }
         }

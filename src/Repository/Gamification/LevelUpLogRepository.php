@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository\Gamification;
 
+use DateTimeImmutable;
 use App\Entity\Gamification\LevelUpLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,38 +24,30 @@ class LevelUpLogRepository extends ServiceEntityRepository
         parent::__construct($registry, LevelUpLog::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(LevelUpLog $entity, bool $flush = true): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(LevelUpLog $entity, bool $flush = true): void
     {
-        $this->_em->remove($entity);
+        $this->getEntityManager()->remove($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
-    public function flush()
+    public function flush(): void
     {
-        $this->_em->flush();
+        $this->getEntityManager()->flush();
     }
 
-    public function retrieveLastMonth()
+    public function retrieveLastMonth(): mixed
     {
-        $cutoffDate = (new \DateTimeImmutable('first day of last month'))->setTime(0, 0);
+        $cutoffDate = (new DateTimeImmutable('first day of last month'))->setTime(0, 0);
         return $this->createQueryBuilder('l')
             ->where('l.date >= :date')
             ->orderBy('l.person')
@@ -63,33 +56,4 @@ class LevelUpLogRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-    // /**
-    //  * @return LevelUpLog[] Returns an array of LevelUpLog objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?LevelUpLog
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

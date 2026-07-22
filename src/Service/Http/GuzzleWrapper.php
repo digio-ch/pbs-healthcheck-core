@@ -2,6 +2,7 @@
 
 namespace App\Service\Http;
 
+use GuzzleHttp\Utils;
 use Closure;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
@@ -13,7 +14,7 @@ use GuzzleHttp\Psr7\Response;
 
 class GuzzleWrapper
 {
-    private $guzzle;
+    private Client $guzzle;
 
     /**
      * GuzzleWrapper constructor.
@@ -32,7 +33,7 @@ class GuzzleWrapper
             Request $request,
             Response $response = null,
             RequestException $exception = null
-        ) {
+        ): bool {
             // Limit the number of retries to 5
             if ($retries >= 5) {
                 return false;
@@ -42,15 +43,8 @@ class GuzzleWrapper
             if ($exception instanceof ConnectException) {
                 return true;
             }
-
-            if ($response) {
-                // Retry on server errors
-                if ($response->getStatusCode() >= 500 || $response->getStatusCode() === 404) {
-                    return true;
-                }
-            }
-
-            return false;
+            // Retry on server errors
+            return $response instanceof Response && ($response->getStatusCode() >= 500 || $response->getStatusCode() === 404);
         };
     }
 
@@ -61,7 +55,7 @@ class GuzzleWrapper
      */
     public function retryDelay()
     {
-        return function ($numberOfRetries) {
+        return function ($numberOfRetries): int|float {
             return 1000 * $numberOfRetries;
         };
     }
@@ -82,19 +76,15 @@ class GuzzleWrapper
         );
     }
 
-    public function post(string $url, ?array $payload = null, array $header = null): CurlResponse
+    public function post(string $url, ?array $payload = null, array $header = []): CurlResponse
     {
+        $header['Content-Type'] = 'application/json';
+
         $response = $this->guzzle->post(
             $url,
             [
-                'body' => \GuzzleHttp\json_encode($payload),
-                'headers' => array_merge(
-                    [
-                        'Content-Type' => 'application/json',
-                        'Content-Length' => strlen(\GuzzleHttp\json_encode($payload ?? ""))
-                    ],
-                    $header ?? []
-                )
+                'body' => Utils::jsonEncode($payload),
+                'headers' => $header,
             ]
         );
         return new GuzzleResponse(
@@ -142,16 +132,15 @@ class GuzzleWrapper
         return $this->get($url, json_decode($jsonPayload, true), $header);
     }
 
-    public function postJson(string $url, ?string $jsonPayload = null, array $header = null): CurlResponse
+    public function postJson(string $url, ?string $jsonPayload = null, array $header = []): CurlResponse
     {
+        $header['Content-Type'] = 'application/json';
+
         $response = $this->guzzle->post(
             $url,
             [
                 'body' => $jsonPayload,
-                'headers' => array_merge(
-                    ['Content-Type' => 'application/json', 'Content-Length' => strlen($jsonPayload ?? "")],
-                    $header ?? []
-                )
+                'headers' => $header
             ]
         );
         return new GuzzleResponse(
@@ -181,44 +170,4 @@ class GuzzleWrapper
             $response->getStatusCode()
         );
     }
-
-//    private function logRequestMiddleware()
-//    {
-//        return function (callable $handler) {
-//            return function (RequestInterface $request, array $options) use ($handler) {
-//                $payload = $request->getBody()->getContents();
-//                $json = json_decode($payload, true);
-//                if ($json !== false) {
-//                    $payload = $json;
-//                }
-//                $host = $request->getUri()->getScheme() . '://' . $request->getUri()->getHost();
-//                $this->logger->debug(new ThirdPartyRequestLogMessage(
-//                    $host,
-//                    $request->getMethod(),
-//                    $request->getUri()->getPath(),
-//                    $request->getUri()->getQuery(),
-//                    $request->getHeaders(),
-//                    $payload
-//                ));
-//                /** @var Promise $promise */
-//                $promise = $handler($request, $options);
-//                return $promise->then(function (ResponseInterface $response) use ($request, $host) {
-//                    $body = $response->getBody()->getContents();
-//                    $json = json_decode($body, true);
-//                    if ($json !== false) {
-//                        $body = $json;
-//                    }
-//                    $this->logger->info(new ThirdPartyResponseLogMessage(
-//                        $host,
-//                        $request->getMethod(),
-//                        $request->getUri()->getPath(),
-//                        $response->getStatusCode(),
-//                        $response->getHeaders(),
-//                        $body
-//                    ));
-//                    return $response;
-//                });
-//            };
-//        };
-//    }
 }

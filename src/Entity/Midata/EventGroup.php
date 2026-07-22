@@ -2,35 +2,28 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_event_group")
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_event_group')]
+#[ORM\Entity]
+#[ORM\HasLifecycleCallbacks]
 class EventGroup
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="groups")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $event;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'groups')]
+    private ?Event $event = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="events")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $group;
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'events')]
+    private ?Group $group = null;
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -40,12 +33,12 @@ class EventGroup
         return $this->event;
     }
 
-    public function setEvent(?Event $event)
+    public function setEvent(?Event $event): void
     {
         $this->event = $event;
     }
 
-    public function setGroup(?Group $group)
+    public function setGroup(?Group $group): void
     {
         $this->group = $group;
     }

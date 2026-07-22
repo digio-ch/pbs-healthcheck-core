@@ -7,8 +7,7 @@ use App\DTO\Model\PbsRoleDTO;
 class PbsRoleMapper
 {
     /**
-     * @param array $role
-     * @return PbsRoleDTO
+     * @param array<string, mixed> $role
      */
     public static function createFromArray(array $role): PbsRoleDTO
     {

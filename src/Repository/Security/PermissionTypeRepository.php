@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository\Security;
 
 use App\Entity\Security\PermissionType;
@@ -11,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method PermissionType|null findOneBy(array $criteria, array $orderBy = null)
  * @method PermissionType[]    findAll()
  * @method PermissionType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<PermissionType>
  */
 class PermissionTypeRepository extends ServiceEntityRepository
 {

@@ -39,10 +39,6 @@ class AnswersMapper
         return $dto;
     }
 
-    /**
-     * @param AggregatedQuap $quap
-     * @return NestedExtendedAnswersDTO
-     */
     public static function mapNestedExtendedAnswers(AggregatedQuap $quap): NestedExtendedAnswersDTO
     {
         $extendedAnswer = self::mapExtendedAnswers($quap);
@@ -56,7 +52,7 @@ class AnswersMapper
      */
     public static function reverseSortAspects(array $aspects): array
     {
-        foreach ($aspects as $questionId => $_) {
+        foreach (array_keys($aspects) as $questionId) {
             krsort($aspects[$questionId]);
         }
 

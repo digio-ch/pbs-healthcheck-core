@@ -17,7 +17,6 @@ use App\Entity\Quap\Questionnaire;
 use App\Exception\ApiException;
 use App\Model\QuapNode;
 use App\Repository\Aggregated\AggregatedQuapRepository;
-use App\Repository\Midata\GroupRepository;
 use App\Repository\Quap\AspectRepository;
 use App\Repository\Quap\HelpRepository;
 use App\Repository\Quap\LinkRepository;
@@ -33,39 +32,22 @@ use function str_contains;
 
 class QuapService
 {
-    /** @var QuestionnaireRepository $questionnaireRepository */
     private QuestionnaireRepository $questionnaireRepository;
 
-    /** @var AspectRepository $aspectRepository */
     private AspectRepository $aspectRepository;
 
-    /** @var QuestionRepository $questionRepository */
     private QuestionRepository $questionRepository;
 
-    /** @var HelpRepository $helpRepository */
     private HelpRepository $helpRepository;
 
-    /** @var LinkRepository $linkRepository */
     private LinkRepository $linkRepository;
 
-    /** @var AggregatedQuapRepository $quapRepository */
     private AggregatedQuapRepository $quapRepository;
 
-    /** @var EntityManagerInterface $em */
     private EntityManagerInterface $em;
 
     private StatisticGroupRepository $statisticGroupRepository;
 
-    /**
-     * @param QuestionnaireRepository $questionnaireRepository
-     * @param AspectRepository $aspectRepository
-     * @param QuestionRepository $questionRepository
-     * @param HelpRepository $helpRepository
-     * @param LinkRepository $linkRepository
-     * @param AggregatedQuapRepository $quapRepository
-     * @param StatisticGroupRepository $statisticGroupRepository
-     * @param EntityManagerInterface $em
-     */
     public function __construct(
         QuestionnaireRepository $questionnaireRepository,
         AspectRepository $aspectRepository,
@@ -86,12 +68,6 @@ class QuapService
         $this->em = $em;
     }
 
-    /**
-     * @param string $type
-     * @param string $locale
-     * @param string $dateTime
-     * @return Questionnaire|null
-     */
     public function getQuestionnaireByType(string $type, string $locale, string $dateTime): ?Questionnaire
     {
         $questionnaire = $this->questionnaireRepository->findOneBy(["type" => $type]);
@@ -169,15 +145,10 @@ class QuapService
         return $widgetQuap;
     }
 
-    /**
-     * @param Group $group
-     * @param DateTimeImmutable|null $dateTime
-     * @return AnswersDTO
-     */
     public function getAnswers(Group $group, ?DateTimeImmutable $dateTime): AnswersDTO
     {
         $widgetQuap = $this->quapRepository->findOneBy([
-            "dataPointDate" => $dateTime !== null ? $dateTime->setTime(0, 0) : null,
+            "dataPointDate" => $dateTime instanceof DateTimeImmutable ? $dateTime->setTime(0, 0) : null,
             "group" => $group->getId()
         ]);
 
@@ -185,26 +156,22 @@ class QuapService
     }
 
     /**
-     * @param Group $group
-     * @param DateTimeImmutable|null $date
      * @return ExtendedAnswersDTO[]
      * @throws Exception
      */
     public function getAnswersForSubDepartments(Group $group, ?DateTimeImmutable $date): array
     {
         $ids = $this->getDepartmentIdsFromGroup($group);
-        $dateString = $date !== null ? $date->format('Y-m-d') : null;
+        $dateString = $date instanceof DateTimeImmutable ? $date->format('Y-m-d') : null;
         $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
 
         return array_map(
-            fn($aggregatedQuap) => AnswersMapper::mapExtendedAnswers($aggregatedQuap),
+            fn(AggregatedQuap $aggregatedQuap): ExtendedAnswersDTO => AnswersMapper::mapExtendedAnswers($aggregatedQuap),
             $quaps
         );
     }
 
     /**
-     * @param Group $group
-     * @param DateTimeImmutable|null $date
      * @return NestedExtendedAnswersDTO[]
      * @throws Exception
      */
@@ -214,12 +181,12 @@ class QuapService
 
         $ids = $this->getDepartmentIdsFromGroup($group);
 
-        $dateString = $date !== null ? $date->format('Y-m-d') : null;
+        $dateString = $date instanceof DateTimeImmutable ? $date->format('Y-m-d') : null;
         $quaps = $this->quapRepository->findAllAnswers($ids, $dateString);
 
         if ($groupType->getGroupType() === GroupType::REGION) {
             $dtos = array_map(
-                fn($aggregatedQuap) => AnswersMapper::mapNestedExtendedAnswers($aggregatedQuap),
+                fn(AggregatedQuap $aggregatedQuap): NestedExtendedAnswersDTO => AnswersMapper::mapNestedExtendedAnswers($aggregatedQuap),
                 $quaps
             );
 
@@ -237,7 +204,7 @@ class QuapService
             $trees[] = $tree;
         }
 
-        $dtos = array_map(fn($tree) => QuapNodeMapper::map($tree), $trees);
+        $dtos = array_map(fn(QuapNode $tree): NestedExtendedAnswersDTO => QuapNodeMapper::map($tree), $trees);
 
         // if only departments are shown it makes more sense to group them
         if ($this->onlyDepartmentAnswers($dtos)) {
@@ -249,7 +216,6 @@ class QuapService
 
     /**
      * @param NestedExtendedAnswersDTO[] $answers
-     * @return bool
      */
     private function onlyDepartmentAnswers(array $answers): bool
     {
@@ -264,7 +230,6 @@ class QuapService
     }
 
     /**
-     * @param Group $group
      * @return int[]
      * @throws Exception
      */
@@ -290,11 +255,6 @@ class QuapService
         );
     }
 
-    /**
-     * @param AggregatedQuap $a
-     * @param AggregatedQuap $b
-     * @return int
-     */
     private function sortByGroupType(AggregatedQuap $a, AggregatedQuap $b): int
     {
         return $a->getGroup()->getGroupType()->getId() - $b->getGroup()->getGroupType()->getId();
@@ -312,7 +272,7 @@ class QuapService
 
         foreach ($root->getChildren() as $node) {
             $match = $this->findParentQuapNode($node, $child);
-            if ($match !== null) {
+            if ($match instanceof QuapNode) {
                 return $match;
             }
         }
@@ -327,7 +287,7 @@ class QuapService
      */
     private function createQuapTree(array $quaps): array
     {
-        usort($quaps, fn($a, $b) => $this->sortByGroupType($a, $b));
+        usort($quaps, fn(AggregatedQuap $a, AggregatedQuap $b): int => $this->sortByGroupType($a, $b));
 
         /**
          * @var AggregatedQuap $rootQuap
@@ -343,7 +303,7 @@ class QuapService
             $node = new QuapNode($element);
 
             $parent = $this->findParentQuapNode($root, $node);
-            if ($parent === null) {
+            if (!$parent instanceof QuapNode) {
                 $quaps[] = $element;
                 continue;
             }

@@ -4,7 +4,7 @@ namespace App\Helper;
 
 class QuapAnswerStackHelper
 {
-    /** @var array $answerStack */
+    /** @var mixed[] $answerStack */
     private array $answerStack;
 
     public function __construct(array $answerStack)
@@ -22,6 +22,9 @@ class QuapAnswerStackHelper
         $this->answerStack[$aspectId][$questionId] = $answer;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getAnswerStack(): array
     {
         return $this->answerStack;

@@ -2,171 +2,113 @@
 
 namespace App\Entity\Aggregated;
 
+use Doctrine\DBAL\Types\Types;
 use App\Entity\Midata\Group;
 use App\Repository\Aggregated\AggregatedDemographicCampGroupRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_aggregated_demographic_camp_group", indexes={
- *     @ORM\Index(columns={"m_count"}),
- *     @ORM\Index(columns={"f_count"}),
- *     @ORM\Index(columns={"u_count"}),
- *     @ORM\Index(columns={"f_count_leader"}),
- *     @ORM\Index(columns={"m_count_leader"}),
- *     @ORM\Index(columns={"u_count_leader"}),
- *     @ORM\Index(columns={"group_type"})
- * })
- * @ORM\Entity(repositoryClass=AggregatedDemographicCampGroupRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'hc_aggregated_demographic_camp_group')]
+#[ORM\Index(columns: ['m_count'])]
+#[ORM\Index(columns: ['f_count'])]
+#[ORM\Index(columns: ['u_count'])]
+#[ORM\Index(columns: ['f_count_leader'])]
+#[ORM\Index(columns: ['m_count_leader'])]
+#[ORM\Index(columns: ['u_count_leader'])]
+#[ORM\Index(columns: ['group_type'])]
+#[ORM\Entity(repositoryClass: AggregatedDemographicCampGroupRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class AggregatedDemographicCampGroup
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=AggregatedDemographicCamp::class, inversedBy="demographicCampGroups")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $demographicCamp;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: AggregatedDemographicCamp::class, inversedBy: 'demographicCampGroups')]
+    private ?AggregatedDemographicCamp $demographicCamp = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $mCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $mCount = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $fCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $fCount = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $uCount;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $uCount = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $mCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $mCountLeader = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $fCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $fCountLeader = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $uCountLeader;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $uCountLeader = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $groupType;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $groupType = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Group::class)
-     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
-     */
-    private $group;
+    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Group::class)]
+    private ?Group $group = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $mCount
-     */
-    public function setMCount(int $mCount)
+    public function setMCount(int $mCount): void
     {
         $this->mCount = $mCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMCount()
+    public function getMCount(): ?int
     {
         return $this->mCount;
     }
 
-    /**
-     * @param int $fCount
-     */
-    public function setFCount(int $fCount)
+    public function setFCount(int $fCount): void
     {
         $this->fCount = $fCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFCount()
+    public function getFCount(): ?int
     {
         return $this->fCount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUCount()
+    public function getUCount(): ?int
     {
         return $this->uCount;
     }
 
-    /**
-     * @param int $uCount
-     */
     public function setUCount(int $uCount): void
     {
         $this->uCount = $uCount;
     }
 
-    /**
-     * @param int $mCountLeader
-     */
-    public function setMCountLeader(int $mCountLeader)
+    public function setMCountLeader(int $mCountLeader): void
     {
         $this->mCountLeader = $mCountLeader;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMCountLeader()
+    public function getMCountLeader(): ?int
     {
         return $this->mCountLeader;
     }
 
-    /**
-     * @param int $fCountLeader
-     */
-    public function setFCountLeader(int $fCountLeader)
+    public function setFCountLeader(int $fCountLeader): void
     {
         $this->fCountLeader = $fCountLeader;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFCountLeader()
+    public function getFCountLeader(): ?int
     {
         return $this->fCountLeader;
     }
@@ -174,14 +116,11 @@ class AggregatedDemographicCampGroup
     /**
      * @return int
      */
-    public function getUCountLeader()
+    public function getUCountLeader(): ?int
     {
         return $this->uCountLeader;
     }
 
-    /**
-     * @param int $uCountLeader
-     */
     public function setUCountLeader(int $uCountLeader): void
     {
         $this->uCountLeader = $uCountLeader;
@@ -190,47 +129,32 @@ class AggregatedDemographicCampGroup
     /**
      * @return string
      */
-    public function getGroupType()
+    public function getGroupType(): ?string
     {
         return $this->groupType;
     }
 
-    /**
-     * @param string $groupType
-     */
     public function setGroupType(string $groupType): void
     {
         $this->groupType = $groupType;
     }
 
-    /**
-     * @param AggregatedDemographicCamp $demographicCamp
-     */
-    public function setDemographicCamp(AggregatedDemographicCamp $demographicCamp)
+    public function setDemographicCamp(AggregatedDemographicCamp $demographicCamp): void
     {
         $this->demographicCamp = $demographicCamp;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDemographicCamp()
+    public function getDemographicCamp(): ?AggregatedDemographicCamp
     {
         return $this->demographicCamp;
     }
 
-    /**
-     * @param Group|null $group
-     */
-    public function setGroup(?Group $group)
+    public function setGroup(?Group $group): void
     {
         $this->group = $group;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroup()
+    public function getGroup(): ?Group
     {
         return $this->group;
     }

@@ -19,10 +19,7 @@ class BarChartBarDataDTO
      */
     protected $color = '';
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -35,10 +32,7 @@ class BarChartBarDataDTO
         return $this->name;
     }
 
-    /**
-     * @param int $value
-     */
-    public function setValue(int $value)
+    public function setValue(int $value): void
     {
         $this->value = $value;
     }
@@ -51,17 +45,11 @@ class BarChartBarDataDTO
         return $this->value;
     }
 
-    /**
-     * @return string
-     */
     public function getColor(): string
     {
         return $this->color;
     }
 
-    /**
-     * @param string $color
-     */
     public function setColor(string $color): void
     {
         $this->color = $color;

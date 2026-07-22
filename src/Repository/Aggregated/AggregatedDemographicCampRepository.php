@@ -10,7 +10,6 @@ class AggregatedDemographicCampRepository extends AggregatedEntityRepository
 {
     /**
      * AggregatedDemographicCampRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -18,12 +17,9 @@ class AggregatedDemographicCampRepository extends AggregatedEntityRepository
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     * @param Group $mainGroup
      * @return int|mixed|string
      */
-    public function getAllForPeriodAndMainGroup(string $from, string $to, Group $mainGroup)
+    public function getAllForPeriodAndMainGroup(string $from, string $to, Group $mainGroup): mixed
     {
         return $this->createQueryBuilder('dc')
             ->innerJoin('dc.demographicCampGroups', 'cg')

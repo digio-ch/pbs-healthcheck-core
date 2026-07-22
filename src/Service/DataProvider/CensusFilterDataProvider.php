@@ -59,12 +59,14 @@ class CensusFilterDataProvider
             $filterData->setGroups([]);
             $filterData->setFilterFemales(true);
             $filterData->setFilterMales(true);
-        } else {
-            $filterData->setRoles($filter->getCensusFilterRoles() ?? []);
-            $filterData->setGroups($filter->getCensusFilterGroups() ?? []);
-            $filterData->setFilterFemales(is_null($filter->getCensusFilterFemales()) ? true : $filter->getCensusFilterFemales());
-            $filterData->setFilterMales(is_null($filter->getCensusFilterMales()) ? true : $filter->getCensusFilterMales());
+
+            return $filterData;
         }
+
+        $filterData->setRoles($filter->getCensusFilterRoles() ?? []);
+        $filterData->setGroups($filter->getCensusFilterGroups() ?? []);
+        $filterData->setFilterFemales($filter->getCensusFilterFemales() ?? true);
+        $filterData->setFilterMales($filter->getCensusFilterMales() ?? true);
 
         return $filterData;
     }

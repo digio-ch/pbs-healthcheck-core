@@ -2,146 +2,96 @@
 
 namespace App\Entity\Midata;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\Midata\PersonQualificationRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="midata_person_qualification", indexes={
- *     @ORM\Index(columns={"start_at"}),
- *     @ORM\Index(columns={"end_at"})
- * })
- * @ORM\Entity(repositoryClass=PersonQualificationRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'midata_person_qualification')]
+#[ORM\Index(columns: ['start_at'])]
+#[ORM\Index(columns: ['end_at'])]
+#[ORM\Entity(repositoryClass: PersonQualificationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class PersonQualification
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=QualificationType::class)
-     * @ORM\JoinColumn(name="qualification_type_id", referencedColumnName="id")
-     */
-    private $qualificationType;
+    #[ORM\JoinColumn(name: 'qualification_type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: QualificationType::class)]
+    private ?QualificationType $qualificationType = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="qualifications")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $person;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'qualifications')]
+    private ?Person $person = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     **/
-    private $eventOrigin;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $eventOrigin = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $startAt;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $startAt = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $endAt;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $endAt = null;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getEventOrigin(): ?string
     {
         return $this->eventOrigin;
     }
 
-    /**
-     * @param null|string $eventOrigin
-     */
-    public function setEventOrigin(?string $eventOrigin)
+    public function setEventOrigin(?string $eventOrigin): void
     {
         $this->eventOrigin = $eventOrigin;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getStartAt(): ?DateTimeImmutable
     {
         return $this->startAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $startAt
-     */
-    public function setStartAt(?DateTimeImmutable $startAt)
+    public function setStartAt(?DateTimeImmutable $startAt): void
     {
         $this->startAt = $startAt;
     }
 
-    /**
-     * @return DateTimeImmutable|null
-     */
     public function getEndAt(): ?DateTimeImmutable
     {
         return $this->endAt;
     }
 
-    /**
-     * @param DateTimeImmutable|null $endAt
-     */
-    public function setEndAt(?DateTimeImmutable $endAt)
+    public function setEndAt(?DateTimeImmutable $endAt): void
     {
         $this->endAt = $endAt;
     }
 
-    /**
-     * @param Person|null $person
-     */
-    public function setPerson(?Person $person)
+    public function setPerson(?Person $person): void
     {
         $this->person = $person;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPerson()
+    public function getPerson(): ?Person
     {
         return $this->person;
     }
 
-    /**
-     * @param QualificationType|null $qualificationType
-     */
-    public function setQualificationType(?QualificationType $qualificationType)
+    public function setQualificationType(?QualificationType $qualificationType): void
     {
         $this->qualificationType = $qualificationType;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getQualificationType()
+    public function getQualificationType(): ?QualificationType
     {
         return $this->qualificationType;
     }

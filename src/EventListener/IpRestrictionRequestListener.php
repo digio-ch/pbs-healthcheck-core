@@ -3,22 +3,21 @@
 namespace App\EventListener;
 
 use App\Model\LogMessage\IpBlockMessage;
-use App\Service\Logger\GelfLogger;
+use App\Service\Logger\AppLogger;
 use App\Service\Logger\Messages\ExceptionLogMessage;
 use Exception;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-class RequestListener
+class IpRestrictionRequestListener
 {
-    /** @var string */
-    private $environment;
-    /** @var string */
-    private $projectDir;
-    /** @var GelfLogger */
-    private $logger;
+    private string $environment;
+    private string $projectDir;
+    private AppLogger $logger;
 
     /** @var string[] */
     private const ALLOWED = ['CH', 'IT', 'FR', 'DE', 'AT'];
@@ -27,20 +26,18 @@ class RequestListener
 
     /**
      * RequestListener constructor.
-     * @param string $environment
-     * @param string $projectDir
-     * @param GelfLogger $logger
      */
-    public function __construct(string $environment, string $projectDir, GelfLogger $logger)
+    public function __construct(string $environment, string $projectDir, AppLogger $logger)
     {
         $this->environment = $environment;
         $this->projectDir = $projectDir;
         $this->logger = $logger;
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    #[AsEventListener(event: KernelEvents::REQUEST)]
+    public function onKernelRequest(RequestEvent $event): void
     {
-        if (!$event->isMasterRequest() || !in_array($this->environment, self::ACTIVE_ENVS)) {
+        if (!$event->isMainRequest() || !in_array($this->environment, self::ACTIVE_ENVS)) {
             return;
         }
 

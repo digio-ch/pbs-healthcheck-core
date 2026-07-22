@@ -7,8 +7,7 @@ use App\DTO\Model\PbsUserDTO;
 class PbsUserMapper
 {
     /**
-     * @param array $user
-     * @return PbsUserDTO
+     * @param array<string, mixed> $user
      */
     public static function createFromArray(array $user): PbsUserDTO
     {

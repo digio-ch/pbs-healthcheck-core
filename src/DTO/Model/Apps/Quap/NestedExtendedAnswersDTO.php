@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Model\Apps\Quap;
 
 class NestedExtendedAnswersDTO
 {
-    /**
-     * @var ?ExtendedAnswersDTO $value
-     */
     private ?ExtendedAnswersDTO $value;
 
     /**
@@ -15,7 +14,6 @@ class NestedExtendedAnswersDTO
     private array $children;
 
     /**
-     * @param ExtendedAnswersDTO|null $value
      * @param NestedExtendedAnswersDTO[] $children
      */
     public function __construct(?ExtendedAnswersDTO $value = null, array $children = [])
@@ -25,27 +23,16 @@ class NestedExtendedAnswersDTO
     }
 
 
-    /**
-     * @param NestedExtendedAnswersDTO $child
-     * @return void
-     */
     public function addChild(NestedExtendedAnswersDTO $child): void
     {
         $this->children[] = $child;
     }
 
-    /**
-     * @return ExtendedAnswersDTO|null
-     */
     public function getValue(): ?ExtendedAnswersDTO
     {
         return $this->value;
     }
 
-    /**
-     * @param ExtendedAnswersDTO|null $value
-     * @return void
-     */
     public function setValue(?ExtendedAnswersDTO $value): void
     {
         $this->value = $value;
@@ -59,10 +46,6 @@ class NestedExtendedAnswersDTO
         return $this->children;
     }
 
-    /**
-     * @param array $children
-     * @return void
-     */
     public function setChildren(array $children): void
     {
         $this->children = $children;

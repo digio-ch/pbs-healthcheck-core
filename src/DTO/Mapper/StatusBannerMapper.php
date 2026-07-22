@@ -12,6 +12,6 @@ class StatusBannerMapper
         $raw = $entity->getMessage($lang);
         $decoded = json_decode($raw);
 
-        return new StatusBannerDTO($entity->getSeverity(), $decoded);
+        return new StatusBannerDTO($entity->getSeverity()->value, $decoded);
     }
 }

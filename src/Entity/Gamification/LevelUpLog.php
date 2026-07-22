@@ -2,44 +2,34 @@
 
 namespace App\Entity\Gamification;
 
+use Doctrine\DBAL\Types\Types;
+use DateTimeInterface;
 use App\Entity\Midata\Person;
 use App\Repository\Gamification\LevelUpLogRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="hc_gamification_level_up_log")
- * @ORM\Entity(repositoryClass=LevelUpLogRepository::class)
- */
+#[ORM\Table(name: 'hc_gamification_level_up_log')]
+#[ORM\Entity(repositoryClass: LevelUpLogRepository::class)]
 class LevelUpLog
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="displayed")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $person;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'levelUps')]
+    private ?Person $person = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Level::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $level;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Level::class)]
+    private ?Level $level = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private $date;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true, options={"default": false})
-     */
-    private $displayed;
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true, options: ['default' => false])]
+    private ?bool $displayed = null;
 
     public function getId(): ?int
     {
@@ -70,12 +60,12 @@ class LevelUpLog
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
 

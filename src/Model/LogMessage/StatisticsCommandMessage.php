@@ -9,10 +9,8 @@ class StatisticsCommandMessage extends LogMessage
 {
     /** @var string */
     private $details;
-    /** @var int  */
-    private $executionTime;
-    /** @var string  */
-    private $peakMemoryUsage;
+    private float $executionTime;
+    private string $peakMemoryUsage;
 
     public function __construct(string $name, int $code, CommandStatistics $stats)
     {
@@ -49,17 +47,11 @@ class StatisticsCommandMessage extends LogMessage
         return $this->details;
     }
 
-    /**
-     * @return int
-     */
     public function getExecutionTime(): int
     {
         return $this->executionTime;
     }
 
-    /**
-     * @return string
-     */
     public function getPeakMemoryUsage(): string
     {
         return $this->peakMemoryUsage;

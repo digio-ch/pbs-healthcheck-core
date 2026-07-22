@@ -7,9 +7,9 @@ use App\DTO\Model\GroupTypeDTO;
 class FilterDataDTO
 {
     /** @var string[] */
-    private $dates;
+    private ?array $dates = null;
     /** @var GroupTypeDTO[] */
-    private $groupTypes;
+    private ?array $groupTypes = null;
 
     /**
      * @return string[]
