@@ -31,6 +31,11 @@ group:
       Group::AbteilungsRover: 'Rover'
       Group::Pta: 'EOC'
 
+quap:
+  export:
+    name: 'Bussola_di_salute'
+    shared_name: 'Bussole_di_salute_Condivise'
+
 gender:
   female: 'Femminile'
   male: 'Maschile'

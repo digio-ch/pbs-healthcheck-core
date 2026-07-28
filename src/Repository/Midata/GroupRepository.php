@@ -20,6 +20,19 @@ class GroupRepository extends ServiceEntityRepository
         parent::__construct($registry, Group::class);
     }
 
+    /**
+     * @param int[] $groupIds
+     * @return Group[]
+     */
+    public function findByGroupIds(array $groupIds): array
+    {
+        return $this->createQueryBuilder('g')
+            ->where('g.id IN (:groupIds)')
+            ->setParameter('groupIds', $groupIds)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findParentGroupById(int $groupId): mixed
     {
         return $this->createQueryBuilder('g')
