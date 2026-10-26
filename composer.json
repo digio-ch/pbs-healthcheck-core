@@ -12,7 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.7.0",
         "doctrine/orm": "^3.6.7",
         "geoip2/geoip2": "^2.10",
-        "guzzlehttp/guzzle": "^7.13.1",
+        "guzzlehttp/guzzle": "^7.15.2",
         "halaxa/json-machine": "^0.3.3",
         "nelmio/cors-bundle": "^2.0",
         "nicmart/tree": "^0.4.0",
@@ -40,7 +40,7 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "rector/rector": "^2",
-        "squizlabs/php_codesniffer": "3.*",
+        "squizlabs/php_codesniffer": " ^3.13.6",
         "symfony/maker-bundle": "^1.19",
         "symfony/phpunit-bridge": "^5.4",
         "symfony/twig-bundle": "7.4.*",
