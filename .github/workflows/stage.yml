@@ -6,25 +6,40 @@ on:
       - "[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+"
 
 env:
-  DOCKER_REGISTRY_URL: https://docker.pkg.github.com
-  DOCKER_REGISTRY_PATH: docker.pkg.github.com/digio-ch/pbs-healthcheck-core/healthcheck-core
+  DOCKER_REGISTRY_PATH: ghcr.io/digio-ch/pbs-healthcheck-core/healthcheck-core
 
 jobs:
   build-stage:
     runs-on: ubuntu-24.04
+
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Login to github docker packages registry
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u ${{ github.actor }} $DOCKER_REGISTRY_URL --password-stdin
-      - name: Build, tag and push stage/rc image
-        run: |
-          docker build -f docker/Dockerfile -t $DOCKER_REGISTRY_PATH:${GITHUB_REF#refs/*/} .
-          docker push $DOCKER_REGISTRY_PATH:${GITHUB_REF#refs/*/}
-          docker tag $DOCKER_REGISTRY_PATH:${GITHUB_REF#refs/*/} $DOCKER_REGISTRY_PATH:stage
-          docker push $DOCKER_REGISTRY_PATH:stage
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push the stage/rc image
+        id: push
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          file: docker/Dockerfile
+          tags: |
+            ${{ env.DOCKER_REGISTRY_PATH }}:${GITHUB_REF#refs/*/}
+            ${{ env.DOCKER_REGISTRY_PATH }}:stage
 
   dispatch_deploy:
-    needs: [build-stage]
+    needs: [ build-stage ]
     runs-on: ubuntu-24.04
     steps:
       - name: Trigger Deployment
